@@ -1,0 +1,290 @@
+/* Custom CSS */
+
+.dashBoardContainer .dashBoardTabContents ul li {
+	border: 1px solid #E2E2E4 !important;
+}
+
+.badge{
+	color:#e7e7e7 !important;
+	padding: 5px 8px;
+	text-transform: uppercase;
+
+}
+
+.badge:hover {
+color:#fff !important;
+	}
+
+
+	.detailViewContainer .recordImage, .overlayDetailHeader .recordImage, .quickPreviewModuleHeader .recordImage {
+	border-radius: 6px;
+}
+
+.accountname{
+	text-transform: capitalize;
+}
+
+/*.listViewPageDiv{
+	transition: 0.3s;
+}*/
+
+.listview-table tbody td{
+
+font-size: 14px !important;
+}
+
+
+.table-container{
+	/*border:none !important;*/
+}
+
+
+#listview-table tbody tr td{
+
+
+	padding-top:8px !important; 
+	padding-bottom:8px !important; 
+}
+
+.floatThead-table{
+
+	border:none !important;
+}
+
+
+.vtiger-bg-section{
+	background: #FBFBFB !important;
+}
+.table > thead > tr > th {
+	border-bottom: 1px solid #ddd !important;
+	text-transform: uppercase;
+}
+
+/*button box shadow remove css*/
+
+.bootstrap-switch.bootstrap-switch-focused
+{
+
+box-shadow:none !important;
+border-color:#dddddd !important;
+}
+
+.module-designer-bg{
+background:#fff !important;
+border-top-left-radius: 5px !important;
+border-top-right-radius: 5px !important;
+}
+
+.module-designer-tab{
+	border-bottom:none !important;
+}
+
+/*document side bar css start */
+
+.docs-submenu{
+   display:none;
+   width:230px;
+   height:423px;
+   background-color:#2c3b49;
+   height: 100vh;
+   overflow-x: hidden;
+   position: fixed;
+   left:42px;
+   top:12%;
+}
+
+.modules-menu ul li a:hover + .docs-marketing-submenu, .docs-marketing-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-sales-submenu, .docs-sales-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-inventory-submenu, .docs-inventory-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-support-submenu, .docs-support-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-project-submenu, .docs-project-submenu:hover{
+   display:block !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-text{
+   display:inline !important;
+   font-size:1.2em;
+    color: #dddddd;
+    text-shadow: 0 0 1px #000;
+    text-transform: capitalize; 
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-text{
+   color:#fff; 
+}
+
+.modules-menu .docs-submenu ul li a > span{
+   display:inline !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-icon{
+   font-size: 1.2em !important;
+   opacity: 0.2;
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-icon{
+   color:#fff;
+   opacity: 1;
+}
+
+canvas{
+   height:100% !important;
+   width:100% !important;
+}
+
+.sidebar-table .floatThead-floatContainer{
+    z-index:0 !important;
+}
+
+
+ul.dropdown-menu.profile-dropdown li a{
+
+  padding: 5px !important;
+}
+
+ul.dropdown-menu.profile-dropdown{
+
+  padding: 5px 10px !important;
+}
+
+.dropdown-menu li, .dropdown-menu-nav li {
+  text-align: left;
+  list-style: none;
+  padding: 0 10px;
+}
+
+ul.dropdown-menu.profile-dropdown li{
+
+  padding: 0px !important;
+}
+
+.user-image {
+  float: left;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+  background-color:#8E44AD;
+  color:#fff;
+  border:none;
+  font-weight:bold;
+
+}
+
+.profile-dropdown h4,.profile-dropdown h5,.profile-dropdown p,.profile-dropdown li a{
+  /*padding-left: 10px;*/
+  font-size: 14px;
+  white-space: nowrap;
+  color:#333;
+}
+
+.profile-dropdown h4{
+
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.btn-primary {
+  color: #fff;
+  text-shadow: 0 1px rgba(0,0,0,.1);
+  background: #8E44AD;
+  border: 1px solid #8E44AD;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background: #7f3d9b;
+  border: 1px solid #7f3d9b;
+}
+
+.related-tabs .nav-tabs > li.active, .related-tabs .nav-tabs > li:hover, .related-tabs .nav-tabs > li.active:focus, .dashBoardContainer .nav-tabs > li.active, .dashBoardContainer .nav-tabs > li:hover, .dashBoardContainer .nav-tabs > li.active:focus, .contents.tabbable .nav-tabs > li.active, .contents.tabbable .nav-tabs > li:hover, .contents.tabbable .nav-tabs > li.active:focus {
+  border: none;
+  border-bottom: 2px solid #7f3d9b !important;
+}
+
+
+/*.main-container .sidebar-essentials {
+  
+  width: 200px !important;
+  left: 82px !important;
+}
+
+.main-container .module-nav {
+  width: 82px !important;
+  
+}
+
+.modules-menu ul li a i {
+  float: none !important; 
+  text-align: center !important;
+  clear:both !important;
+}
+
+.modules-menu ul li a {
+  
+  height: auto !important;
+  text-align: center !important;
+  
+}
+.modules-menu ul li.active a {
+  border-left: none  !important;  
+}
+
+.modules-menu ul li a > span {
+  margin-left: 0px !important;
+  font-size: 11px !important;
+  display: inline !important;
+  padding: 4px 0;
+  width: 80%;
+  
+}
+*/
+/*.main-container .editViewModNavigator.module-nav, .editViewModNavigator .mod-switcher-container, .editViewModNavigator .modules-menu {
+  width: 82px !important;
+}*/
+
+
+.inputElement:focus {
+  border: 1px solid #8E44AD ;
+}
+
+.select2-results .select2-highlighted{
+ background-color: #8E44AD !important; 
+}
+.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices{
+  box-shadow: #8E44AD !important;
+}
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
+  border-color:#8E44AD !important;
+}
+.select2-drop-active{
+  border-color: #8E44AD !important;
+}
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices 
+{ 
+   border-color: #8E44AD !important;
+   -webkit-box-shadow: none !important; 
+   box-shadow: none !important;
+   -webkit-transition: none !important;
+}
+
+textarea{
+  padding: 3px 8px !important;
+}
+
+ul.dropdown-menu.profile-dropdown {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.recordImage {
+  background:#8E44AD !important;
+}

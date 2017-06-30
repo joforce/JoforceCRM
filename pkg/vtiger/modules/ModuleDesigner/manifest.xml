@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<module>
+<exporttime>2015-01-14 22:17:00</exporttime>
+<name>ModuleDesigner</name>
+<label>Module Designer</label>
+<parent></parent>
+<type>extension</type>
+<version>1.0RC</version>
+<dependencies>
+<vtiger_version>6.1.0</vtiger_version>
+</dependencies>
+<tables>
+</tables>
+<crons>
+</crons>
+</module>

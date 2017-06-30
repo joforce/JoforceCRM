@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<module>
+        <type>extension</type>
+        <name>VTPDFMaker</name>
+        <label>PDF Maker</label>
+        <parent>Tools</parent>
+        <version>0.1</version>
+        <dependencies>
+                <vtiger_version>6.0.0</vtiger_version>
+                <vtiger_max_version>6.*</vtiger_max_version>
+        </dependencies>
+<tables>
+<table>
+<name>vtiger_vtpdfmaker</name>
+<sql><![CDATA[CREATE TABLE `vtiger_vtpdfmaker`(
+   `vtpdfmakerid` int(11) NOT NULL,
+   `name` varchar(255) NOT NULL,
+   `module` varchar(255) NOT NULL,
+   `description` text DEFAULT NULL,
+   `body` longblob DEFAULT NULL,
+   `status` int(2) DEFAULT NULL,
+   `settings` text DEFAULT NULL,
+   `header` longblob,
+   `footer` longblob,
+  PRIMARY KEY (`vtpdfmakerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+</table>
+<table>
+<name>vtiger_vtpdfmaker_seq</name>
+<sql><![CDATA[CREATE TABLE `vtiger_vtpdfmaker_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+</table>
+</tables>
+</module>
+
