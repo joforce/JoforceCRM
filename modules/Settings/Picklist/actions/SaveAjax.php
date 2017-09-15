@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Picklist_SaveAjax_Action extends Settings_Head_Basic_Action {
     
     function __construct() {
         $this->exposeMethod('add');
@@ -21,7 +21,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $this->exposeMethod('edit');
     }
 
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         $mode = $request->get('mode');
         $this->invokeExposedMethod($mode, $request);
     }
@@ -35,7 +35,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
                 $defaultFieldName = 'defaultactivitytype';
             else
                 $defaultFieldName = 'defaulteventstatus';
-            $queryToGetId = 'SELECT id FROM vtiger_users WHERE '.$defaultFieldName.' IN (';
+            $queryToGetId = 'SELECT id FROM jo_users WHERE '.$defaultFieldName.' IN (';
              if(is_array($oldValue)) {
                  for($i=0;$i<count($oldValue);$i++) {
                      $queryToGetId .= '"'.$oldValue[$i].'"';
@@ -53,14 +53,14 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
             for($i=0; $i<$rowCount; $i++) {
                 $recordId = $db->query_result_rowdata($result, $i);
                 $recordId = $recordId['id'];
-                $record = Vtiger_Record_Model::getInstanceById($recordId, 'Users');
+                $record = Head_Record_Model::getInstanceById($recordId, 'Users');
                 $record->set('mode','edit');
                 $record->set($defaultFieldName,$newValue);
                 $record->save();
             }
     }
     
-    public function add(Vtiger_Request $request) {
+    public function add(Head_Request $request) {
         $newValues = $request->getRaw('newValue');
         $pickListName = $request->get('picklistName');
         $moduleName = $request->get('source_module');
@@ -80,7 +80,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
                 $rolesSelected = $userSelectedRoles;
             }
         }
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
 			$newValuesArray = explode(',', $newValues);
 			$result = array();
@@ -96,7 +96,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
     
-    public function rename(Vtiger_Request $request) {
+    public function rename(Head_Request $request) {
         $moduleName = $request->get('source_module');
         
         $newValue = $request->getRaw('newValue');
@@ -113,7 +113,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
              $this->updateDefaultPicklistValues($pickListFieldName,$oldValue,$newValue);
         }   
         $moduleModel = new Settings_Picklist_Module_Model();
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $status = $moduleModel->renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id, $rolesList, $color);
             $moduleModel->handleLabels($moduleName,$newValue,$oldValue,'rename');
@@ -124,7 +124,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
     
-    public function remove(Vtiger_Request $request) {
+    public function remove(Head_Request $request) {
         $moduleName = $request->get('source_module');
         $valueToDelete = $request->getRaw('delete_value');
         $replaceValue = $request->getRaw('replace_value');
@@ -134,12 +134,12 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
 
 		if($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'eventstatus')) {
 			$db = PearDatabase::getInstance();
-			$primaryKey = Vtiger_Util_Helper::getPickListId($pickListFieldName);
+			$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
 			$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM ".$moduleModel->getPickListTableName($pickListFieldName)." WHERE $primaryKey IN (".generateQuestionMarks($replaceValue).")",array($replaceValue));
 			$actualReplaceValue = decode_html($db->query_result($replaceValueQuery,0,$pickListFieldName));
 			$this->updateDefaultPicklistValues($pickListFieldName,$pickListDeleteValue,$actualReplaceValue);
         } 
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $status = $moduleModel->remove($pickListFieldName, $valueToDelete, $replaceValue, $moduleName);
             $moduleModel->handleLabels($moduleName,array(),$pickListDeleteValue,'delete');
@@ -152,9 +152,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
 
     /**
      * Function which will assign existing values to the roles
-     * @param Vtiger_Request $request
+     * @param Head_Request $request
      */
-    public function assignValueToRole(Vtiger_Request $request) {
+    public function assignValueToRole(Head_Request $request) {
         $pickListFieldName = $request->get('picklistName');
         $valueToAssign = $request->getRaw('assign_values');
         $userSelectedRoles = $request->get('rolesSelected');
@@ -172,7 +172,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         
         $moduleModel = new Settings_Picklist_Module_Model();
         
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $moduleModel->enableOrDisableValuesForRole($pickListFieldName, $valueToAssign, array(),$roleIdList);
             $response->setResult(array('success',true));
@@ -182,7 +182,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
     
-    public function saveOrder(Vtiger_Request $request) {
+    public function saveOrder(Head_Request $request) {
         $pickListFieldName = $request->get('picklistName');
         
         // we should clear cache to update with latest values
@@ -191,7 +191,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $picklistValues = $request->getRaw('picklistValues');
         
         $moduleModel = new Settings_Picklist_Module_Model();
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $moduleModel->updateSequence($pickListFieldName, $picklistValues, $rolesList);
             $response->setResult(array('success',true));
@@ -201,14 +201,14 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
     
-    public function enableOrDisable(Vtiger_Request $request) {
+    public function enableOrDisable(Head_Request $request) {
         $pickListFieldName = $request->get('picklistName');
         $enabledValues = $request->getRaw('enabled_values',array());
         $disabledValues = $request->getRaw('disabled_values',array());
         $roleSelected = $request->get('rolesSelected');
         
         $moduleModel = new Settings_Picklist_Module_Model();
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
         try{
             $moduleModel->enableOrDisableValuesForRole($pickListFieldName, $enabledValues, $disabledValues,array($roleSelected));
             $response->setResult(array('success',true));
@@ -218,11 +218,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
             
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
     
-    public function edit(Vtiger_Request $request) {
+    public function edit(Head_Request $request) {
         $moduleName = $request->get('source_module');
         
         $newValue = $request->getRaw('newValue');
@@ -241,7 +241,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action {
         }
         
         $moduleModel = new Settings_Picklist_Module_Model();
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         if($oldValue != $newValue && empty($nonEditablePicklistValues[$id])) {
             try{
                 $status = $moduleModel->renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id, $rolesList, $color);

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<module>
+	<type>language</type>
+	<name>Turkce</name>
+	<label>Turkce Dil Paketi</label>
+	<prefix>tr_tr</prefix>
+	<version>5.1.0</version>
+	<encoding>UTF-8</encoding>
+	<creationDate>2009-10-19 20:15:24</creationDate>
+	<author>zeitin</author>
+	<license>MPL1.1</license>
+	<dependencies>
+		<jo_version>6.0.0rc</jo_version>
+		<jo_max_version>7.*</jo_max_version>
+	</dependencies>
+</module>
+

@@ -22,7 +22,7 @@
 require_once('include/utils/utils.php');
 require("modules/Emails/mail.php");
 require_once('include/logging.php');
-require("config.php");
+require("config/config.php");
 
 
 global $adb;
@@ -36,7 +36,7 @@ $app_strings = return_application_language($current_language);
 
 
 //To send email notification before a week
-$query="select vtiger_contactdetails.contactid,vtiger_contactdetails.email,vtiger_contactdetails.firstname,vtiger_contactdetails.lastname,contactid  from vtiger_customerdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_customerdetails.customerid inner join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_customerdetails.customerid  where vtiger_crmentity.deleted=0 and support_end_date=DATE_ADD(now(), INTERVAL 1 WEEK)";
+$query="select jo_contactdetails.contactid,jo_contactdetails.email,jo_contactdetails.firstname,jo_contactdetails.lastname,contactid  from jo_customerdetails inner join jo_crmentity on jo_crmentity.crmid=jo_customerdetails.customerid inner join jo_contactdetails on jo_contactdetails.contactid=jo_customerdetails.customerid  where jo_crmentity.deleted=0 and support_end_date=DATE_ADD(now(), INTERVAL 1 WEEK)";
 $result = $adb->pquery($query, array());
 
 
@@ -61,7 +61,7 @@ if($adb->num_rows($result) >= 1)
 $log->debug(" Send Support Notification Before a week - Status: ".$status);
 
 //To send email notification before a month
-$query="select vtiger_contactdetails.contactid,vtiger_contactdetails.email,vtiger_contactdetails.firstname,vtiger_contactdetails.lastname,contactid  from vtiger_customerdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_customerdetails.customerid inner join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_customerdetails.customerid  where vtiger_crmentity.deleted=0 and support_end_date=DATE_ADD(now(), INTERVAL 1 MONTH)";
+$query="select jo_contactdetails.contactid,jo_contactdetails.email,jo_contactdetails.firstname,jo_contactdetails.lastname,contactid  from jo_customerdetails inner join jo_crmentity on jo_crmentity.crmid=jo_customerdetails.customerid inner join jo_contactdetails on jo_contactdetails.contactid=jo_customerdetails.customerid  where jo_crmentity.deleted=0 and support_end_date=DATE_ADD(now(), INTERVAL 1 MONTH)";
 $result = $adb->pquery($query, array());
 
 
@@ -101,7 +101,7 @@ function showstatus($status)
 function getcontent_month($id)
 {
 	global $adb;
-	$query='select vtiger_emailtemplates.subject,vtiger_emailtemplates.body from vtiger_notificationscheduler inner join vtiger_emailtemplates on vtiger_emailtemplates.templateid=vtiger_notificationscheduler.notificationbody where schedulednotificationid=7';
+	$query='select jo_emailtemplates.subject,jo_emailtemplates.body from jo_notificationscheduler inner join jo_emailtemplates on jo_emailtemplates.templateid=jo_notificationscheduler.notificationbody where schedulednotificationid=7';
 	$result = $adb->pquery($query, array());
 	$body=$adb->query_result($result,0,'body');
 	$body=getMergedDescription($body,$id,"Contacts");
@@ -116,7 +116,7 @@ function getcontent_month($id)
 function getcontent_week($id)
 {
 	global $adb;
-	$query='select vtiger_emailtemplates.subject,vtiger_emailtemplates.body from vtiger_notificationscheduler inner join vtiger_emailtemplates on vtiger_emailtemplates.templateid=vtiger_notificationscheduler.notificationbody where schedulednotificationid=6';
+	$query='select jo_emailtemplates.subject,jo_emailtemplates.body from jo_notificationscheduler inner join jo_emailtemplates on jo_emailtemplates.templateid=jo_notificationscheduler.notificationbody where schedulednotificationid=6';
 	$result = $adb->pquery($query, array());
 	$body=$adb->query_result($result,0,'body');
 	$body=getMergedDescription($body,$id,"Contacts");

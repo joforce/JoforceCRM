@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_Record_Model extends Vtiger_Record_Model {
+class Products_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function to get Taxes Url
@@ -29,10 +29,10 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	function getTaxes() {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT vtiger_producttaxrel.*, vtiger_inventorytaxinfo.taxname, vtiger_inventorytaxinfo.taxlabel, vtiger_inventorytaxinfo.compoundon FROM vtiger_producttaxrel
-								INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
-								INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
-								WHERE vtiger_producttaxrel.productid = ? AND vtiger_inventorytaxinfo.deleted = 0', array($this->getId()));
+		$result = $db->pquery('SELECT jo_producttaxrel.*, jo_inventorytaxinfo.taxname, jo_inventorytaxinfo.taxlabel, jo_inventorytaxinfo.compoundon FROM jo_producttaxrel
+								INNER JOIN jo_inventorytaxinfo ON jo_inventorytaxinfo.taxid = jo_producttaxrel.taxid
+								INNER JOIN jo_crmentity ON jo_producttaxrel.productid = jo_crmentity.crmid AND jo_crmentity.deleted = 0
+								WHERE jo_producttaxrel.productid = ? AND jo_inventorytaxinfo.deleted = 0', array($this->getId()));
 		$taxes = array();
 		while ($rowData = $db->fetch_array($result)) {
 			$rowData['regions']			= Zend_Json::decode(html_entity_decode($rowData['regions']));
@@ -50,7 +50,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 					}
 				}
 			}
-			$taxes[$taxName]['regionsList'] = Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($regionsInfo));
+			$taxes[$taxName]['regionsList'] = Head_Util_Helper::toSafeHTML(Zend_Json::encode($regionsInfo));
 		}
 		return $taxes;
 	}
@@ -61,7 +61,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	static function getListPriceValues($id) {
 		$db = PearDatabase::getInstance();
-		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid	= ?', array($id)); 
+		$listPrice = $db->pquery('SELECT * FROM jo_productcurrencyrel WHERE productid	= ?', array($id)); 
 		$listpriceValues = array();
 		for($i=0; $i<$db->num_rows($listPrice); $i++) {
 			$listpriceValues[$db->query_result($listPrice, $i, 'currencyid')] = $db->query_result($listPrice, $i, 'actual_price');
@@ -76,22 +76,22 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	function getSubProducts($active = false) {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT vtiger_products.productid, quantity FROM vtiger_products
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-					LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype = ?
-					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-					WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ?';
+		$query = 'SELECT jo_products.productid, quantity FROM jo_products
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_products.productid
+					LEFT JOIN jo_seproductsrel ON jo_seproductsrel.crmid = jo_products.productid AND jo_seproductsrel.setype = ?
+					LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+					LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid
+					WHERE jo_crmentity.deleted = 0 AND jo_seproductsrel.productid = ?';
 
 		if ($active) {
-			$query .= ' AND vtiger_products.discontinued = 1';
+			$query .= ' AND jo_products.discontinued = 1';
 		}
 		$result = $db->pquery($query, array('Products', $this->getId()));
 
 		$subProductList = array();
 		while($rowData = $db->fetch_array($result)) {
 			$subProductId = $rowData['productid'];
-			$subProductModel = Vtiger_Record_Model::getInstanceById($subProductId, 'Products');
+			$subProductModel = Head_Record_Model::getInstanceById($subProductId, 'Products');
 			$subProductList[$subProductId] = $subProductModel->set('quantityInBundle', $rowData['quantity']);
 		}
 
@@ -104,7 +104,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateQuoteUrl() {
         global $site_URL;
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
+		$quotesModuleModel = Head_Module_Model::getInstance('Quotes');
 
 		return $site_URL."index.php?module=".$quotesModuleModel->getName()."&view=".$quotesModuleModel->getEditViewName()."&product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
@@ -116,7 +116,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateInvoiceUrl() {
         global $site_URL;
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
+		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 
 		return $site_URL."index.php?module=".$invoiceModuleModel->getName()."&view=".$invoiceModuleModel->getEditViewName()."&product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
@@ -128,7 +128,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreatePurchaseOrderUrl() {
         global $site_URL;
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 
 		return $site_URL."index.php?module=".$purchaseOrderModuleModel->getName()."&view=".$purchaseOrderModuleModel->getEditViewName()."&product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true&vendor_id=".$this->get('vendor_id');
@@ -140,7 +140,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateSalesOrderUrl() {
         global $site_URL;
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
 
 		return $site_URL."index.php?module=".$salesOrderModuleModel->getName()."&view=".$salesOrderModuleModel->getEditViewName()."&product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
@@ -167,7 +167,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 		$productDetails[1]['totalAfterDiscount1'] = number_format($totalAfterDiscount, $currentUserModel->get('no_of_currency_decimals'), '.', '');
 
 		//updating cost price details
-		$currencyInfo = Vtiger_Util_Helper::getUserCurrencyInfo();
+		$currencyInfo = Head_Util_Helper::getUserCurrencyInfo();
 		$purchaseCost = (float)$currencyInfo['conversion_rate'] * (float)$productDetails[1]['purchaseCost1'];
 		$productDetails[1]['purchaseCost1'] = number_format((float)$purchaseCost, $currentUser->get('no_of_currency_decimals'), '.', '');
 
@@ -352,10 +352,10 @@ class Products_Record_Model extends Vtiger_Record_Model {
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
+			$sql = "SELECT jo_attachments.*, jo_crmentity.setype FROM jo_attachments
+						INNER JOIN jo_seattachmentsrel ON jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_attachments.attachmentsid
+						WHERE jo_crmentity.setype = 'Products Image' AND jo_seattachmentsrel.crmid = ?";
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
@@ -396,10 +396,10 @@ class Products_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$imageDetails = $imageIdsList = $imagePathList = $imageNamesList = $imageOriginalNamesList = array();
 		if ($recordIdsList) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype, vtiger_seattachmentsrel.crmid AS productid FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid IN (".generateQuestionMarks($recordIdsList).")";
+			$sql = "SELECT jo_attachments.*, jo_crmentity.setype, jo_seattachmentsrel.crmid AS productid FROM jo_attachments
+						INNER JOIN jo_seattachmentsrel ON jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_attachments.attachmentsid
+						WHERE jo_crmentity.setype = 'Products Image' AND jo_seattachmentsrel.crmid IN (".generateQuestionMarks($recordIdsList).")";
 
 			$result = $db->pquery($sql, $recordIdsList);
 			$count = $db->num_rows($result);
@@ -439,24 +439,24 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param <String> $searchKey
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
+	 * @return <Array> - List of Head_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module=false) {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT label, crmid, setype, createdtime FROM vtiger_crmentity WHERE label LIKE ? AND vtiger_crmentity.deleted = 0';
+		$query = 'SELECT label, crmid, setype, createdtime FROM jo_crmentity WHERE label LIKE ? AND jo_crmentity.deleted = 0';
 		$params = array("%$searchKey%");
 
 		if($module !== false) {
 			$query .= ' AND setype = ?';
 			if($module == 'Products'){
-				$query = 'SELECT label, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_products ON 
-							vtiger_products.productid = vtiger_crmentity.crmid WHERE label LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_products.discontinued = 1 AND setype = ?';
+				$query = 'SELECT label, crmid, setype, createdtime FROM jo_crmentity INNER JOIN jo_products ON 
+							jo_products.productid = jo_crmentity.crmid WHERE label LIKE ? AND jo_crmentity.deleted = 0 
+							AND jo_products.discontinued = 1 AND setype = ?';
 			}else if($module == 'Services'){
-				$query = 'SELECT label, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_service ON 
-							vtiger_service.serviceid = vtiger_crmentity.crmid WHERE label LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_service.discontinued = 1 AND setype = ?';
+				$query = 'SELECT label, crmid, setype, createdtime FROM jo_crmentity INNER JOIN jo_service ON 
+							jo_service.serviceid = jo_crmentity.crmid WHERE label LIKE ? AND jo_crmentity.deleted = 0 
+							AND jo_service.discontinued = 1 AND setype = ?';
 			}
 			$params[] = $module;
 		}
@@ -484,10 +484,10 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$row['id'] = $row['crmid'];
 				$moduleName = $row['setype'];
 				if(!array_key_exists($moduleName, $moduleModels)) {
-					$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
+					$moduleModels[$moduleName] = Head_Module_Model::getInstance($moduleName);
 				}
 				$moduleModel = $moduleModels[$moduleName];
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+				$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', $moduleName);
 				$recordInstance = new $modelClassName();
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 				$recordsCount++;
@@ -506,7 +506,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 		}
 		$recordId = $this->getId();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT discontinued FROM vtiger_products WHERE productid = ?',array($recordId));
+		$result = $db->pquery('SELECT discontinued FROM jo_products WHERE productid = ?',array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;
 	}
@@ -520,13 +520,13 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	function updateListPrice($relatedRecordId, $price, $currencyId) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? AND productid = ?',
+		$result = $db->pquery('SELECT * FROM jo_pricebookproductrel WHERE pricebookid = ? AND productid = ?',
 				array($relatedRecordId, $this->getId()));
 		if($db->num_rows($result)) {
-			 $db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? AND productid = ?',
+			 $db->pquery('UPDATE jo_pricebookproductrel SET listprice = ? WHERE pricebookid = ? AND productid = ?',
 					 array($price, $relatedRecordId, $this->getId()));
 		} else {
-			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)',
+			$db->pquery('INSERT INTO jo_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)',
 					array($relatedRecordId, $this->getId(), $price, $currencyId));
 			$focus = CRMEntity::getInstance($this->getModuleName());
 			$focus->trackLinkedInfo($this->getModuleName(), $this->getId(), "PriceBooks", $relatedRecordId);
@@ -540,9 +540,9 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	public function isBundle() {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT 1 FROM vtiger_seproductsrel INNER JOIN vtiger_crmentity 
-					ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.setype=? 
-					WHERE vtiger_seproductsrel.productid = ?';
+		$query = 'SELECT 1 FROM jo_seproductsrel INNER JOIN jo_crmentity 
+					ON jo_seproductsrel.crmid = jo_crmentity.crmid AND jo_crmentity.deleted = 0 AND jo_seproductsrel.setype=? 
+					WHERE jo_seproductsrel.productid = ?';
 		$result = $db->pquery($query, array($this->getModuleName(), $this->getId()));
 		return ($db->num_rows($result) > 0) ? true : false;
 	}
@@ -554,7 +554,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	public function updateShowBundlesOption($value) {
 		$db = PearDatabase::getInstance();
 
-		$query = 'UPDATE vtiger_products SET is_subproducts_viewable = ? WHERE productid = ?';
+		$query = 'UPDATE jo_products SET is_subproducts_viewable = ? WHERE productid = ?';
 		$result = $db->pquery($query, array($value, $this->getId()));
 	}
 
@@ -564,7 +564,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function isBundleViewable() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT is_subproducts_viewable FROM vtiger_products WHERE productid = ?', array($this->getId()));
+		$result = $db->pquery('SELECT is_subproducts_viewable FROM jo_products WHERE productid = ?', array($this->getId()));
 
 		if ($db->num_rows($result)) {
 			return $db->query_result($result, 0, 'is_subproducts_viewable');
@@ -583,7 +583,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 			$quantity = 1;
 		}
 
-		$query = 'UPDATE vtiger_seproductsrel SET quantity = ? WHERE productid = ? AND crmid = ? AND setype = ?';
+		$query = 'UPDATE jo_seproductsrel SET quantity = ? WHERE productid = ? AND crmid = ? AND setype = ?';
 		$result = $db->pquery($query, array($quantity, $this->getId(), $subProductId, $this->getModuleName()));
 	}
 

@@ -15,7 +15,7 @@ class VTEntityType{
 	function __construct($adb, $setype){
 		$this->moduleName=$setype;
 		require_once("modules/".$setype."/".$setype.".php"); 
-		$result = $adb->pquery("select tabid from vtiger_tab where name=?", 
+		$result = $adb->pquery("select tabid from jo_tab where name=?", 
 			array($setype));
 		$tabId = $adb->query_result($result,0,"tabid");
 		$this->tabId = $tabId;
@@ -33,7 +33,7 @@ class VTEntityType{
 	function getFieldNames(){
 		$adb = $this->adb;
 		$arr = array();
-		$result = $adb->pquery("select fieldname from vtiger_field where tabid=? and vtiger_field.presence in (0,2)", 
+		$result = $adb->pquery("select fieldname from jo_field where tabid=? and jo_field.presence in (0,2)", 
 			array($this->getTabId()));
 		$it = new SQLResultIterator($adb, $result);
 		foreach($it as $row){
@@ -44,7 +44,7 @@ class VTEntityType{
 	
 	function getFieldType($fieldName){
 		$adb = $this->adb;
-		$result = $adb->pquery("select * from vtiger_field where fieldname=? and tabid=? and vtiger_field.presence in (0,2)", 
+		$result = $adb->pquery("select * from jo_field where fieldname=? and tabid=? and jo_field.presence in (0,2)", 
 			array($fieldName, $this->tabId));
 		$uitype = $adb->query_result($result,0,"uitype");
 		$fieldType = new VTFieldType();

@@ -14,26 +14,26 @@ vimport('modules.Calendar.iCal.iCalendar_components');
 vimport('modules.Calendar.iCal.iCalendar_properties');
 vimport('modules.Calendar.iCal.iCalendar_parameters');
 
-class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
+class Calendar_ExportData_Action extends Head_ExportData_Action {
 
 	/**
 	 * Function that generates Export Query based on the mode
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return <String> export query
 	 */
-	public function getExportQueryForIcal(Vtiger_Request $request) {
+	public function getExportQueryForIcal(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		return $moduleModel->getExportQuery('');
 	}
 
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return <String>
 	 */
-	public function getExportContentType(Vtiger_Request $request) {
+	public function getExportContentType(Head_Request $request) {
 		if ($request->get('type') == 'csv') {
 			return parent::getExportContentType($request);
 		}
@@ -42,16 +42,16 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 
 	/**
 	 * Function exports the data based on the mode
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	public function ExportData(Vtiger_Request $request) {
+	public function ExportData(Head_Request $request) {
 		if ($request->get('type') == 'csv') {
 			parent::ExportData($request);
 			return;
 		}
 
 		$db = PearDatabase::getInstance();
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
+		$moduleModel = Head_Module_Model::getInstance($request->getModule());
 		$moduleModel->getFields();
 
 		$moduleModel->setEventFieldsForExport();
@@ -65,9 +65,9 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 
 	/**
 	 * Function that create the exported file
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @param <Array> $result
-	 * @param Vtiger_Module_Model $moduleModel
+	 * @param Head_Module_Model $moduleModel
 	 */
 	public function outputIcal($request, $result, $moduleModel) {
 		$fileName = $request->getModule();
@@ -155,16 +155,16 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 		echo $myiCal->serialize();
 	}
 
-	public function getExportQuery(Vtiger_Request $request) {
+	public function getExportQuery(Head_Request $request) {
 		$query = parent::getExportQuery($request);
 
 		$queryComponents = spliti(' FROM ', $query);
 		if (count($queryComponents) == 2) {
-			$exportQuery = "$queryComponents[0], vtiger_activity.activityid FROM $queryComponents[1]";
+			$exportQuery = "$queryComponents[0], jo_activity.activityid FROM $queryComponents[1]";
 		}
 
 		$queryComponents = spliti(' WHERE ', $exportQuery);
-		$exportQuery = "$queryComponents[0] WHERE vtiger_activity.activitytype != 'Emails' AND $queryComponents[1]";
+		$exportQuery = "$queryComponents[0] WHERE jo_activity.activitytype != 'Emails' AND $queryComponents[1]";
 
 		$orderByComponents = spliti(' ORDER BY ', $exportQuery);
 		if (count($orderByComponents) == 1) {
@@ -185,10 +185,10 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 	public function moduleFieldInstances($moduleName) {
 		$skippedFields = array('contact_id', 'duration_hours', 'duration_minutes', 'recurringtype', 'reminder_time');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$moduleFields = $moduleModel->getFields();
 
-		$eventsModuleModel = Vtiger_Module_Model::getInstance('Events');
+		$eventsModuleModel = Head_Module_Model::getInstance('Events');
 		$eventModuleFieldList = $eventsModuleModel->getFields();
 		$moduleFields = array_merge($moduleFields, $eventModuleFieldList);
 
@@ -215,19 +215,19 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 		$sanitizeValues['due_date']		= trim($dueDateParts[0].' '.$sanitizeValues['time_end']);
 		$sanitizeValues['activitytype'] = $arr['activitytype'];
 
-		$moduleModel = Vtiger_Module_Model::getInstance('Events');
-		$recordModel = Vtiger_Record_Model::getInstanceById($activityId, $moduleModel);
+		$moduleModel = Head_Module_Model::getInstance('Events');
+		$recordModel = Head_Record_Model::getInstanceById($activityId, $moduleModel);
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT label FROM vtiger_crmentity
-					INNER JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.contactid = vtiger_crmentity.crmid
-					WHERE vtiger_cntactivityrel.activityid = ?';
+		$query = 'SELECT label FROM jo_crmentity
+					INNER JOIN jo_cntactivityrel ON jo_cntactivityrel.contactid = jo_crmentity.crmid
+					WHERE jo_cntactivityrel.activityid = ?';
 		$result = $db->pquery($query, array($activityId));
 		$numOfRows = $db->num_rows($result);
 
 		$relatedContacts = array();
 		while ($rowData = $db->fetch_row($result)) {
-			$relatedContacts[] = 'Contacts::::'.decode_html(Vtiger_Util_Helper::toSafeHTML($rowData['label']));
+			$relatedContacts[] = 'Contacts::::'.decode_html(Head_Util_Helper::toSafeHTML($rowData['label']));
 		}
 		$contactInfo = implode(', ', $relatedContacts);
 		$sanitizeValues['contact_id'] = $contactInfo;
@@ -241,7 +241,7 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 
 	public function getHeaders() {
 		$translatedHeaders = array_unique(parent::getHeaders());
-		$moduleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$moduleModel = Head_Module_Model::getInstance('Calendar');
 
 		$fieldModel = $moduleModel->getField('contact_id');
 		$translatedHeaders[] = vtranslate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), 'Calendar');

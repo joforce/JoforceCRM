@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class HelpDesk_Record_Model extends Vtiger_Record_Model {
+class HelpDesk_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function to get the Display Name for the record
 	 * @return <String> - Entity Display Name for the record
 	 */
 	public function getDisplayName() {
-		return Vtiger_Util_Helper::getRecordName($this->getId());
+		return Head_Util_Helper::getRecordName($this->getId());
 	}
 
 	/**
@@ -35,7 +35,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$commentsList = array();
 
-		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));
+		$result = $db->pquery("SELECT commentcontent AS comments FROM jo_modcomments WHERE related_to = ?", array($this->getId()));
 		$numOfRows = $db->num_rows($result);
 
 		for ($i=0; $i<$numOfRows; $i++) {

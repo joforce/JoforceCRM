@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Record_Model extends Vtiger_Record_Model {
+class Documents_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function to get the Display Name for the record
 	 * @return <String> - Entity Display Name for the record
 	 */
 	function getDisplayName() {
-		return Vtiger_Util_Helper::getRecordName($this->getId());
+		return Head_Util_Helper::getRecordName($this->getId());
 	}
 
 	function getDownloadFileURL() {
@@ -57,8 +57,8 @@ class Documents_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$fileDetails = array();
 
-		$result = $db->pquery("SELECT * FROM vtiger_attachments
-							INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
+		$result = $db->pquery("SELECT * FROM jo_attachments
+							INNER JOIN jo_seattachmentsrel ON jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid
 							WHERE crmid = ?", array($this->get('id')));
 
 		if($db->num_rows($result)) {
@@ -103,17 +103,17 @@ class Documents_Record_Model extends Vtiger_Record_Model {
 	function updateFileStatus() {
 		$db = PearDatabase::getInstance();
 
-		$db->pquery("UPDATE vtiger_notes SET filestatus = 0 WHERE notesid= ?", array($this->get('id')));
+		$db->pquery("UPDATE jo_notes SET filestatus = 0 WHERE notesid= ?", array($this->get('id')));
 	}
 
 	function updateDownloadCount() {
 		$db = PearDatabase::getInstance();
 		$notesId = $this->get('id');
 
-		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
+		$result = $db->pquery("SELECT filedownloadcount FROM jo_notes WHERE notesid = ?", array($notesId));
 		$downloadCount = $db->query_result($result, 0, 'filedownloadcount') + 1;
 
-		$db->pquery("UPDATE vtiger_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
+		$db->pquery("UPDATE jo_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
 	}
 
 	function getDownloadCountUpdateUrl() {

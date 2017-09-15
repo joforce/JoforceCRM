@@ -10,9 +10,9 @@
  *************************************************************************************/
 
 /**
- * Vtiger ListView Model Class
+ * Head ListView Model Class
  */
-class Calendar_ListView_Model extends Vtiger_ListView_Model {
+class Calendar_ListView_Model extends Head_ListView_Model {
 
 	public function getBasicLinks() {
 		$basicLinks = array();
@@ -60,7 +60,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 			$advancedLinks[] = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_EXPORT',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("'.$moduleModel->getExportUrl().'")',
+					'linkurl' => 'javascript:Head_List_Js.triggerExportAction("'.$moduleModel->getExportUrl().'")',
 					'linkicon' => ''
 				);
 		}
@@ -84,14 +84,14 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  Head_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
 		$massActionLinks = array();
@@ -107,13 +107,13 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module='.$moduleModel->get('name').'&action=MassDelete");',
+				'linkurl' => 'javascript:Head_List_Js.massDeleteRecords("index.php?module='.$moduleModel->get('name').'&action=MassDelete");',
 				'linkicon' => ''
 			);
 		}
 
 		foreach($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = Head_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -121,7 +121,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
     
     /**
 	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
+	 * @return <Array> - List of Head_Field_Model instances
 	 */
 	public function getListViewHeaders() {
         $listViewContoller = $this->get('listview_controller');
@@ -140,8 +140,8 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 			preg_match('/(\w+) ; \((\w+)\) (\w+)/', $fieldName, $matches);
 			if(count($matches) > 0) {
 				list($full, $referenceParentField, $referenceModule, $referenceFieldName) = $matches;
-				$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModule);
-				$referenceFieldModel = Vtiger_Field_Model::getInstance($referenceFieldName, $referenceModuleModel);
+				$referenceModuleModel = Head_Module_Model::getInstance($referenceModule);
+				$referenceFieldModel = Head_Field_Model::getInstance($referenceFieldName, $referenceModuleModel);
                 // added tp use in list view to see the title, for reference field rawdata key is different than the actual field
                 // eg: in rawdata its account_idcf_2342 (raw column name used in querygenerator), actual field name (account_id ;(Accounts) cf_2342)
                 // When generating the title we use rawdata and from field model we have no way to find querygenrator raw column name.
@@ -152,11 +152,11 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 				$headerFieldModels[$fieldName] = $referenceFieldModel->set('name', $fieldName); // resetting the fieldname as we use it to fetch the value from that name
 				$matches=null;
 			} else {
-				$fieldInstance = Vtiger_Field_Model::getInstance($fieldName,$module);
+				$fieldInstance = Head_Field_Model::getInstance($fieldName,$module);
 				if(!$fieldInstance) {
 					if($moduleName == 'Calendar') {
-						$eventmodule = Vtiger_Module_Model::getInstance('Events');
-						$fieldInstance = Vtiger_Field_Model::getInstance($fieldName,$eventmodule);
+						$eventmodule = Head_Module_Model::getInstance('Events');
+						$fieldInstance = Head_Field_Model::getInstance($fieldName,$eventmodule);
 					}
 				}
                 $fieldInstance->set('listViewRawFieldName', $fieldInstance->get('column'));
@@ -168,15 +168,15 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
     
     /**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
 
 		$moduleName = $this->getModule()->get('name');
 		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		require('user_privileges/user_privileges_'.$currentUser->id.'.php');
 		require('user_privileges/sharing_privileges_'.$currentUser->id.'.php');
@@ -214,8 +214,8 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 			$queryGenerator = $this->get('query_generator');
 			$fieldModels = $queryGenerator->getModuleFields();
 			$orderByFieldModel = $fieldModels[$orderBy];
-           if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE ||
-					$orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::OWNER_TYPE)){
+           if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Head_Field_Model::REFERENCE_TYPE ||
+					$orderByFieldModel->getFieldDataType() == Head_Field_Model::OWNER_TYPE)){
                 $queryGenerator->addWhereField($orderBy);
             }
         }
@@ -270,7 +270,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 			$pagingModel->set('nextPageExists', false);
 		}
 		
-		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+		$groupsIds = Head_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		$index = 0;
 		$recordsToUnset = array();
 		foreach($listViewEntries as $recordId => $record) {

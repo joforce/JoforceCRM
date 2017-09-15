@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_Edit_View extends Vtiger_Edit_View {
+class PriceBooks_Edit_View extends Head_Edit_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);

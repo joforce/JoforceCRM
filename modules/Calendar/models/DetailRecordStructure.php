@@ -10,9 +10,9 @@
  *************************************************************************************/
 
 /**
- * Vtiger Detail View Record Structure Model
+ * Head Detail View Record Structure Model
  */
-class Calendar_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model {
+class Calendar_DetailRecordStructure_Model extends Head_DetailRecordStructure_Model {
     
     private $picklistValueMap = array();
     private $picklistRoleMap = array();

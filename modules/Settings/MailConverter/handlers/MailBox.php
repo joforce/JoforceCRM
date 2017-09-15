@@ -16,7 +16,7 @@ require_once('modules/Settings/MailConverter/handlers/MailRecord.php');
 /**
  * Class to work with server mailbox.
  */
-class Vtiger_MailBox {
+class Head_MailBox {
 	// Mailbox credential information
 	var $_scannerinfo = false;
 	// IMAP connection instance
@@ -199,7 +199,7 @@ class Vtiger_MailBox {
 	 * @param $fetchbody set to false to defer fetching the body, (default: true)
 	 */
 	function getMessage($messageid, $fetchbody=true) {
-		return new Vtiger_MailRecord($this->_imap, $messageid, $fetchbody);
+		return new Head_MailRecord($this->_imap, $messageid, $fetchbody);
 	}
 
 	/**

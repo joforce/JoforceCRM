@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_ChartReportWidget_Dashboard extends Vtiger_IndexAjax_View {
+class Reports_ChartReportWidget_Dashboard extends Head_IndexAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         $viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -21,7 +21,7 @@ class Reports_ChartReportWidget_Dashboard extends Vtiger_IndexAjax_View {
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
         $primaryModule = $reportModel->getPrimaryModule();
-        $moduleModel = Vtiger_Module_Model::getInstance($primaryModule);
+        $moduleModel = Head_Module_Model::getInstance($primaryModule);
         if(!$moduleModel->isPermitted('DetailView')){
 			$viewer->assign('MESSAGE', $primaryModule.' '.vtranslate('LBL_NOT_ACCESSIBLE'));
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
@@ -36,7 +36,7 @@ class Reports_ChartReportWidget_Dashboard extends Vtiger_IndexAjax_View {
         $data = json_encode($data, JSON_HEX_APOS);
 		$viewer->assign('DATA', $data);
         $currentUser = Users_Record_Model::getCurrentUserModel();
-        $widget = Vtiger_Widget_Model::getInstanceWithReportId($record, $currentUser->getId());
+        $widget = Head_Widget_Model::getInstanceWithReportId($record, $currentUser->getId());
         $widget->set('title',$reportModel->getName().' ('.vtranslate($primaryModule, $primaryModule).')');
 		$viewer->assign('WIDGET', $widget);
 
@@ -52,8 +52,8 @@ class Reports_ChartReportWidget_Dashboard extends Vtiger_IndexAjax_View {
 		foreach ($selectedDataFields as $dataField) {
 			list($tableName, $columnName, $moduleField, $fieldName, $single) = split(':', $dataField);
 			list($relModuleName, $fieldLabel) = split('_', $moduleField);
-			$relModuleModel = Vtiger_Module_Model::getInstance($relModuleName);
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $relModuleModel);
+			$relModuleModel = Head_Module_Model::getInstance($relModuleName);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $relModuleModel);
 			if ($fieldModel && $fieldModel->getFieldDataType() != 'currency') {
 				$isPercentExist = true;
 				break;

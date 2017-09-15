@@ -9,19 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_ListView_Model extends Vtiger_ListView_Model {
+class Campaigns_ListView_Model extends Head_ListView_Model {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of Head_Link_Model instances
 	 */
 	public function getListViewLinks($linkParams) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		$basicLinks = array();
 
@@ -36,20 +36,20 @@ class Campaigns_ListView_Model extends Vtiger_ListView_Model {
 		}
 
 		foreach($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicLink);
 		}
 
 		$advancedLinks = array();
 
 		foreach($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = Head_Link_Model::getInstanceFromValues($advancedLink);
 		}
         
         if($currentUserModel->isAdminUser()) {
 
 			$settingsLinks = $this->getSettingLinks();
 			foreach($settingsLinks as $settingsLink) {
-				$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
+				$links['LISTVIEWSETTING'][] = Head_Link_Model::getInstanceFromValues($settingsLink);
 			}
 		}
 

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Home_Module_Model extends Vtiger_Module_Model {
+class Home_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function returns the default view for the Home module
@@ -21,19 +21,19 @@ class Home_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function returns latest comments across CRM
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <Head_Paging_Model> $pagingModel
 	 * @return <Array>
 	 */
 	public function getComments($pagingModel, $user, $dateFilter='') {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT vtiger_modcomments.*,vtiger_crmentity.setype AS setype,vtiger_crmentity.createdtime AS createdtime, vtiger_crmentity.smownerid AS smownerid,
-				crmentity2.crmid AS parentId, crmentity2.setype AS parentModule FROM vtiger_modcomments
-				INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
-				AND vtiger_crmentity.deleted = 0
-				INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
+		$sql = 'SELECT jo_modcomments.*,jo_crmentity.setype AS setype,jo_crmentity.createdtime AS createdtime, jo_crmentity.smownerid AS smownerid,
+				crmentity2.crmid AS parentId, crmentity2.setype AS parentModule FROM jo_modcomments
+				INNER JOIN jo_crmentity ON jo_modcomments.modcommentsid = jo_crmentity.crmid
+				AND jo_crmentity.deleted = 0
+				INNER JOIN jo_crmentity crmentity2 ON jo_modcomments.related_to = crmentity2.crmid
 				AND crmentity2.deleted = 0 
-				INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid';
+				INNER JOIN jo_modtracker_basic ON jo_modtracker_basic.crmid = jo_crmentity.crmid';
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$params = array();
@@ -52,12 +52,12 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		}
 		//handling date filter for history widget in home page
 		if(!empty($dateFilter)) {
-			$sql .= ' AND vtiger_modtracker_basic.changedon BETWEEN ? AND ? ';
+			$sql .= ' AND jo_modtracker_basic.changedon BETWEEN ? AND ? ';
 			$params[] = $dateFilter['start'];
 			$params[] = $dateFilter['end'];
 		}
 
-		$sql .= ' ORDER BY vtiger_crmentity.crmid DESC LIMIT ?, ?';
+		$sql .= ' ORDER BY jo_crmentity.crmid DESC LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit();
 		$result = $db->pquery($sql,$params);
@@ -69,7 +69,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		for($i=0; $i<$noOfRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			if(Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['related_to'])){
-				$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
+				$commentModel = Head_Record_Model::getCleanInstance('ModComments');
 				$commentModel->setData($row);
                 $commentModel->set('commentcontent', $commentModel->getParsedContent());
 				$comments[] = $commentModel;
@@ -81,7 +81,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function returns comments and recent activities across CRM
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <Head_Paging_Model> $pagingModel
 	 * @param <String> $type - comments, updates or all
 	 * @return <Array>
 	 */
@@ -91,7 +91,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		//TODO: need to handle security
 		$comments = array();
 		if($type == 'all' || $type == 'comments') {
-			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments'); 
+			$modCommentsModel = Head_Module_Model::getInstance('ModComments'); 
 			if($modCommentsModel->isPermitted('DetailView')){
 				$comments = $this->getComments($pagingModel, $userId, $dateFilter);
 			}
@@ -101,9 +101,9 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		}
 		$db = PearDatabase::getInstance();
 		$params = array();
-		$sql = 'SELECT vtiger_modtracker_basic.*
-				FROM vtiger_modtracker_basic
-				INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
+		$sql = 'SELECT jo_modtracker_basic.*
+				FROM jo_modtracker_basic
+				INNER JOIN jo_crmentity ON jo_modtracker_basic.crmid = jo_crmentity.crmid
 				AND module NOT IN ("ModComments","Users") ';
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -119,11 +119,11 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		}
 		//handling date filter for history widget in home page
 		if(!empty($dateFilter)) {
-			$sql .= ' AND vtiger_modtracker_basic.changedon BETWEEN ? AND ? ';
+			$sql .= ' AND jo_modtracker_basic.changedon BETWEEN ? AND ? ';
 			$params[] = $dateFilter['start'];
 			$params[] = $dateFilter['end'];
 		}
-		$sql .= ' ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?';
+		$sql .= ' ORDER BY jo_modtracker_basic.id DESC LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit();
                 
@@ -171,7 +171,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 	/**
 	 * Function returns the Calendar Events for the module
 	 * @param <String> $mode - upcoming/overdue mode
-	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
+	 * @param <Head_Paging_Model> $pagingModel - $pagingModel
 	 * @param <String> $user - all/userid
 	 * @param <String> $recordId - record id
 	 * @return <Array>
@@ -184,31 +184,31 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$user = $currentUser->getId();
 		}
 
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
+		$nowInUserFormat = Head_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
+		$nowInDBFormat = Head_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 
-		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+		$query = "SELECT jo_crmentity.crmid, jo_crmentity.smownerid, jo_crmentity.setype, jo_activity.* FROM jo_activity
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_activity.activityid
+					LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid";
 
 		$query .= Users_Privileges_Model::getNonAdminAccessControlQuery('Calendar');
 
-		$query .= " WHERE vtiger_crmentity.deleted=0
-					AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred', 'Cancelled'))
-					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held', 'Cancelled'))";
+		$query .= " WHERE jo_crmentity.deleted=0
+					AND (jo_activity.activitytype NOT IN ('Emails'))
+					AND (jo_activity.status is NULL OR jo_activity.status NOT IN ('Completed', 'Deferred', 'Cancelled'))
+					AND (jo_activity.eventstatus is NULL OR jo_activity.eventstatus NOT IN ('Held', 'Cancelled'))";
 
 		if ($mode === 'upcoming') {
-			$query .= " AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END";
+			$query .= " AND CASE WHEN jo_activity.activitytype='Task' THEN due_date >= '$currentDate' ELSE CONCAT(due_date,' ',time_end) >= '$nowInDBFormat' END";
 		} elseif ($mode === 'overdue') {
-			$query .= " AND CASE WHEN vtiger_activity.activitytype='Task' THEN due_date < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END";
+			$query .= " AND CASE WHEN jo_activity.activitytype='Task' THEN due_date < '$currentDate' ELSE CONCAT(due_date,' ',time_end) < '$nowInDBFormat' END";
 		}
 
 		$params = array();
 		if($user != 'all' && $user != '') {
 			if($user === $currentUser->id) {
-				$query .= " AND vtiger_crmentity.smownerid = ?";
+				$query .= " AND jo_crmentity.smownerid = ?";
 				$params[] = $user;
 			}
 		}
@@ -220,12 +220,12 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$result = $db->pquery($query, $params);
 		$numOfRows = $db->num_rows($result);
 		
-		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+		$groupsIds = Head_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		$activities = array();
 		$recordsToUnset = array();
 		for($i=0; $i<$numOfRows; $i++) {
 			$newRow = $db->query_result_rowdata($result, $i);
-			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
+			$model = Head_Record_Model::getCleanInstance('Calendar');
 			$ownerId = $newRow['smownerid'];
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$visibleFields = array('activitytype','date_start','time_start','due_date','time_end','assigned_user_id','visibility','smownerid','crmid');
@@ -248,7 +248,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 				
                 $due_date = $newRow["due_date"];
                 $dayEndTime = "23:59:59";
-                $EndDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($due_date." ".$dayEndTime);
+                $EndDateTime = Head_Datetime_UIType::getDBDateTimeValue($due_date." ".$dayEndTime);
                 $dueDateTimeInDbFormat = explode(' ',$EndDateTime);
                 $dueTimeInDbFormat = $dueDateTimeInDbFormat[1];
                 $newRow['time_end'] = $dueTimeInDbFormat;

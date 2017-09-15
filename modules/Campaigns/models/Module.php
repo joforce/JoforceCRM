@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_Module_Model extends Vtiger_Module_Model {
+class Campaigns_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function to get Specific Relation Query for this Module
@@ -18,7 +18,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getSpecificRelationQuery($relatedModule) {
 		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
+			$specificQuery = 'AND jo_leaddetails.converted = 0';
 			return $specificQuery;
 		}
 		return parent::getSpecificRelationQuery($relatedModule);
@@ -43,12 +43,12 @@ class Campaigns_Module_Model extends Vtiger_Module_Model {
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		if (in_array($sourceModule, array('Leads', 'Accounts', 'Contacts'))) {
 			switch($sourceModule) {
-				case 'Leads'		: $tableName = 'vtiger_campaignleadrel';		$relatedFieldName = 'leadid';		break;
-				case 'Accounts'		: $tableName = 'vtiger_campaignaccountrel';		$relatedFieldName = 'accountid';	break;
-				case 'Contacts'		: $tableName = 'vtiger_campaigncontrel';		$relatedFieldName = 'contactid';	break;
+				case 'Leads'		: $tableName = 'jo_campaignleadrel';		$relatedFieldName = 'leadid';		break;
+				case 'Accounts'		: $tableName = 'jo_campaignaccountrel';		$relatedFieldName = 'accountid';	break;
+				case 'Contacts'		: $tableName = 'jo_campaigncontrel';		$relatedFieldName = 'contactid';	break;
 			}
 
-			$condition = " vtiger_campaign.campaignid NOT IN (SELECT campaignid FROM $tableName WHERE $relatedFieldName = '$record')";
+			$condition = " jo_campaign.campaignid NOT IN (SELECT campaignid FROM $tableName WHERE $relatedFieldName = '$record')";
 			$pos = stripos($listQuery, 'where');
 
 			if ($pos) {
@@ -67,15 +67,15 @@ class Campaigns_Module_Model extends Vtiger_Module_Model {
 	public function getQuickMenuModels() {
 		if ($this->isEntityModule()) {
 			$moduleName = $this->getName();
-			$listViewModel = Vtiger_ListView_Model::getCleanInstance($moduleName);
+			$listViewModel = Head_ListView_Model::getCleanInstance($moduleName);
 			$basicListViewLinks = $listViewModel->getBasicLinks();
 		}
 
 		if ($basicListViewLinks) {
 			foreach ($basicListViewLinks as $basicListViewLink) {
 				if (is_array($basicListViewLink)) {
-					$links[] = Vtiger_Link_Model::getInstanceFromValues($basicListViewLink);
-				} else if (is_a($basicListViewLink, 'Vtiger_Link_Model')) {
+					$links[] = Head_Link_Model::getInstanceFromValues($basicListViewLink);
+				} else if (is_a($basicListViewLink, 'Head_Link_Model')) {
 					$links[] = $basicListViewLink;
 				}
 			}

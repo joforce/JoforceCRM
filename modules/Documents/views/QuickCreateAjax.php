@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
+class Documents_QuickCreateAjax_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
@@ -19,9 +19,9 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$documentTypes = array('I' => array('tabName' => 'InternalDoc', 'label' => 'LBL_INTERNAL'));
@@ -29,7 +29,7 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 			$fields[$documentType] = $this->getFields($documentType);
 		}
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$recordStructure = $recordStructureInstance->getStructure();
 		foreach($fields as $docType => $specificFields){
 			foreach($specificFields as $specificFieldName){
@@ -40,7 +40,7 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 			unset($specificFieldModels);
 		}
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$relationOperation = $request->get('relationOperation');
 		$fieldList = $moduleModel->getFields();
@@ -61,7 +61,7 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		}
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Head_Functions::jsonEncode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('DOC_TYPES',$documentTypes);
@@ -83,8 +83,8 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 			}
 		}
 
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Vtiger_Util_Helper::getMaxUploadSizeInBytes());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Head_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Head_Util_Helper::getMaxUploadSizeInBytes());
 		echo $viewer->view('QuickCreate.tpl',$moduleName,true);
 	}
 
@@ -93,9 +93,9 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		switch ($documentType) {
 			case 'I' :
 			case 'E' :	$fields = array('filename', 'assigned_user_id', 'folderid');	break;
-			case 'W' :	$recordModel = Vtiger_Record_Model::getCleanInstance('Documents');
+			case 'W' :	$recordModel = Head_Record_Model::getCleanInstance('Documents');
 						$moduleModel = $recordModel->getModule();
-						$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+						$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 						$quickCreateFields = $recordStructureInstance->getStructure();
 						//make sure the note content is always at the bottom
 						$fields = array_diff(array_keys($quickCreateFields), array('notecontent'));
@@ -104,11 +104,11 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		return $fields;
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			"modules.$moduleName.resources.Edit",
-			"modules.Vtiger.resources.CkEditor"
+			"modules.Head.resources.CkEditor"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

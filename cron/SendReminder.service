@@ -25,7 +25,7 @@ require_once('include/utils/utils.php');
 require_once("modules/Emails/class.phpmailer.php");
 require_once("modules/Emails/mail.php");
 require_once('include/logging.php');
-require_once("config.php");
+require_once("config/config.php");
 
 $current_user = Users::getActiveAdminUser();
 // Set the default sender email id
@@ -50,32 +50,32 @@ if(empty($current_language))
 $app_strings = return_application_language($current_language);
 
 //modified query for recurring events -Jag
-$query="SELECT vtiger_crmentity.crmid, vtiger_crmentity.description, vtiger_crmentity.smownerid, vtiger_seactivityrel.crmid AS setype,vtiger_activity.*,vtiger_activity_reminder.reminder_time,
-		vtiger_activity_reminder.reminder_sent,vtiger_activity_reminder.recurringid FROM vtiger_activity 
-		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid 
-		INNER JOIN vtiger_activity_reminder ON vtiger_activity.activityid=vtiger_activity_reminder.activity_id 
-		LEFT OUTER JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid 
-		WHERE DATE_FORMAT(vtiger_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '".date('Y-m-d')."' AND vtiger_crmentity.crmid != 0 AND 
-		(vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held','Cancelled')) 
-		AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred', 'Cancelled'))
-		AND vtiger_activity_reminder.reminder_sent = 0 AND vtiger_activity_reminder.reminder_time != 0 
-		GROUP BY vtiger_activity.activityid";
+$query="SELECT jo_crmentity.crmid, jo_crmentity.description, jo_crmentity.smownerid, jo_seactivityrel.crmid AS setype,jo_activity.*,jo_activity_reminder.reminder_time,
+		jo_activity_reminder.reminder_sent,jo_activity_reminder.recurringid FROM jo_activity 
+		INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_activity.activityid 
+		INNER JOIN jo_activity_reminder ON jo_activity.activityid=jo_activity_reminder.activity_id 
+		LEFT OUTER JOIN jo_seactivityrel ON jo_seactivityrel.activityid = jo_activity.activityid 
+		WHERE DATE_FORMAT(jo_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '".date('Y-m-d')."' AND jo_crmentity.crmid != 0 AND 
+		(jo_activity.eventstatus is NULL OR jo_activity.eventstatus NOT IN ('Held','Cancelled')) 
+		AND (jo_activity.status is NULL OR jo_activity.status NOT IN ('Completed', 'Deferred', 'Cancelled'))
+		AND jo_activity_reminder.reminder_sent = 0 AND jo_activity_reminder.reminder_time != 0 
+		GROUP BY jo_activity.activityid";
 $result = $adb->pquery($query, array());
 
 if($adb->num_rows($result) >= 1)
 {
 	//To fetch reminder frequency from cron tasks
-	$reminderFrequencyQuery = 'SELECT frequency FROM vtiger_cron_task WHERE name = "SendReminder" AND handler_file = "cron/SendReminder.service"';
+	$reminderFrequencyQuery = 'SELECT frequency FROM jo_cron_task WHERE name = "SendReminder" AND handler_file = "cron/SendReminder.service"';
 	$reminderResult = $adb->pquery($reminderFrequencyQuery, array());
 	$reminderFrequency = $adb->query_result($reminderResult,0,'frequency');
 
 	// Retriving the reminder email content from emailtemplates table
-	$templateQuery='SELECT body FROM vtiger_emailtemplates WHERE subject=? AND systemtemplate=?';
+	$templateQuery='SELECT body FROM jo_emailtemplates WHERE subject=? AND systemtemplate=?';
 	$templateResult = $adb->pquery($templateQuery, array('Reminder', '1'));
 	$eventReminderBody=decode_html($adb->query_result($templateResult,0,'body'));
 
 	// Retriving the reminder email content from emailtemplates table
-	$templateQuery='SELECT body FROM vtiger_emailtemplates WHERE subject=? AND systemtemplate=?';
+	$templateQuery='SELECT body FROM jo_emailtemplates WHERE subject=? AND systemtemplate=?';
 	$templateResult = $adb->pquery($templateQuery, array('Activity Reminder', '1'));
 	$todoReminderBody=decode_html($adb->query_result($templateResult,0,'body'));
 
@@ -120,7 +120,7 @@ if($adb->num_rows($result) >= 1)
 		if (($differenceOfActivityTimeAndCurrentTime > 0) && (($differenceOfActivityTimeAndCurrentTime <= $reminder_time) || ($differenceOfActivityTimeAndCurrentTime <= $reminderFrequency)))
 		{
 			$log->debug(" InSide REMINDER");
-			$query_user="SELECT vtiger_users.email1,vtiger_salesmanactivityrel.smid FROM vtiger_salesmanactivityrel inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid WHERE vtiger_salesmanactivityrel.activityid =? AND vtiger_users.deleted=? AND vtiger_users.status=?";
+			$query_user="SELECT jo_users.email1,jo_salesmanactivityrel.smid FROM jo_salesmanactivityrel inner join jo_users on jo_users.id=jo_salesmanactivityrel.smid WHERE jo_salesmanactivityrel.activityid =? AND jo_users.deleted=? AND jo_users.status=?";
 			$user_result = $adb->pquery($query_user, array($activity_id, 0, 'Active'));
 			$invitedUsersList = array();
 			if($adb->num_rows($user_result)>=1)
@@ -150,7 +150,7 @@ if($adb->num_rows($result) >= 1)
 			$enddateTimeInOwnerFormat = $enddateTime->getDisplayDateTimeValue($ownerFocus);
 
 			//get related contact names
-			$cont_qry = "SELECT * FROM vtiger_cntactivityrel WHERE activityid=?";
+			$cont_qry = "SELECT * FROM jo_cntactivityrel WHERE activityid=?";
 			$cont_res = $adb->pquery($cont_qry, array($activity_id));
 			$noofrows = $adb->num_rows($cont_res);
 			$cont_id = array();
@@ -162,7 +162,7 @@ if($adb->num_rows($result) >= 1)
 			$cont_name = '';
 			foreach($cont_id as $key=>$id) {
 				if($id != '') {
-					$contact_name = Vtiger_Util_Helper::getRecordName($id);
+					$contact_name = Head_Util_Helper::getRecordName($id);
 					$cont_name .= $contact_name .', ';
 				}
 			}
@@ -190,13 +190,13 @@ if($adb->num_rows($result) >= 1)
 				$subject = vtranslate('Reminder', 'Calendar').': '.$result_set['subject'] . " @ $dateTimeInOwnerFormat";
 			}
 
-			$recordModel = Vtiger_Record_Model::getInstanceById($activity_id, 'Calendar');
+			$recordModel = Head_Record_Model::getInstanceById($activity_id, 'Calendar');
 			$recordDetailViewLink = $recordModel->getDetailViewUrl();
 			$contents = $contents."<br/> ".vtranslate('LBL_CLICK_HERE_TO_VIEW', 'Calendar')."&nbsp;<a href=$site_URL/$recordDetailViewLink>".vtranslate('LBL_RECORD', 'Calendar')."</a>";
 			if(count($to_addr) >=1)
 			{
 				send_email($to_addr,$from,$subject,$contents,$mail_server,$mail_server_username,$mail_server_password);
-				$upd_query = "UPDATE vtiger_activity_reminder SET reminder_sent = ?";
+				$upd_query = "UPDATE jo_activity_reminder SET reminder_sent = ?";
 				$upd_params = array(1);
 
 				if($recur_id!=0)
@@ -238,7 +238,7 @@ function send_email($to,$from,$subject,$contents,$mail_server,$mail_server_usern
 	$mail->Body		= nl2br($contents);//"This is the HTML message body <b>in bold!</b>";
 
 	$mail->IsSMTP();// set mailer to use SMTP
-	$mailserverresult=$adb->pquery("select * from vtiger_systems where server_type='email'", array());
+	$mailserverresult=$adb->pquery("select * from jo_systems where server_type='email'", array());
 	$mail_server = $adb->query_result($mailserverresult,0,'server');
 	$mail_server_username = $adb->query_result($mailserverresult,0,'server_username');
 	$mail_server_password = $adb->query_result($mailserverresult,0,'server_password');
@@ -292,7 +292,7 @@ function getParentInfo($value)
 	$parent_module = getSalesEntityType($value);
 	if($parent_module == "Leads")
 	{
-		$sql = "select * from vtiger_leaddetails where leadid=?";
+		$sql = "select * from jo_leaddetails where leadid=?";
 		$result = $adb->pquery($sql, array($value));
 		$first_name = $adb->query_result($result,0,"firstname");
 		$last_name = $adb->query_result($result,0,"lastname");
@@ -301,7 +301,7 @@ function getParentInfo($value)
 	}
 	elseif($parent_module == "Accounts")
 	{
-		$sql = "select * from vtiger_account where accountid=?";
+		$sql = "select * from jo_account where accountid=?";
 		$result = $adb->pquery($sql, array($value));
 		$account_name = $adb->query_result($result,0,"accountname");
 
@@ -309,7 +309,7 @@ function getParentInfo($value)
 	}
 	elseif($parent_module == "Potentials")
 	{
-		$sql = "select * from vtiger_potential where potentialid=?";
+		$sql = "select * from jo_potential where potentialid=?";
 		$result = $adb->pquery($sql, array($value));
 		$potentialname = $adb->query_result($result,0,"potentialname");
 

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Vtiger_Request {
+class Head_Request {
 
 	// Datastore
 	private $valuemap;
@@ -87,7 +87,7 @@ class Vtiger_Request {
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy=true) {
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return Head_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
 	}
 
 	/**
@@ -252,7 +252,7 @@ class Vtiger_Request {
 
 	/**
 	* Function sets the viewer with the return url parameters
-	* @param $viewer <Vtiger_Viewer> - template object 
+	* @param $viewer <Head_Viewer> - template object 
 	*/
 	function setViewerReturnValues($viewer) {
 		$viewer->assign('RETURN_MODULE', $this->get('returnmodule'));

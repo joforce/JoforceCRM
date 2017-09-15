@@ -2,8 +2,8 @@
 <schema>
 	<tables>
 		<table>
-			<name>vtiger_modcomments</name>
-			<sql><![CDATA[CREATE TABLE `vtiger_modcomments` (
+			<name>jo_modcomments</name>
+			<sql><![CDATA[CREATE TABLE `jo_modcomments` (
   `modcommentsid` int(11) DEFAULT NULL,
   `commentcontent` text,
   `related_to` varchar(100) NOT NULL,
@@ -11,8 +11,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
 		<table>
-			<name>vtiger_modcommentscf</name>
-			<sql><![CDATA[CREATE TABLE `vtiger_modcommentscf` (
+			<name>jo_modcommentscf</name>
+			<sql><![CDATA[CREATE TABLE `jo_modcommentscf` (
   `modcommentsid` int(11) NOT NULL,
   PRIMARY KEY (`modcommentsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>

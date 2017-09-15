@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_SaveAjax_Action extends Vtiger_SaveAjax_Action {
+class Products_SaveAjax_Action extends Head_SaveAjax_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		//the new values are added to $_REQUEST for Ajax Save, are removing the Tax details depend on the 'ajxaction' value
 		$_REQUEST['action'] = 'MassEditSave';
 		$request->set('action', 'MassEditSave');
@@ -33,7 +33,7 @@ class Products_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			if ($fieldModel->getFieldDataType() == 'picklist') {
 				$picklistColorMap[$recordFieldValue] = Settings_Picklist_Module_Model::getPicklistColorByValue($fieldName, $recordFieldValue);
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = Head_Util_Helper::toSafeHTML($recordFieldValue);
 			if ($fieldName !== 'unit_price' && $fieldModel->getFieldDataType() !== 'datetime'  && $fieldModel->getFieldDataType() !== 'double') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -50,20 +50,20 @@ class Products_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		// removed decode_html to eliminate XSS vulnerability
 		$result['_recordLabel'] = decode_html($recordModel->getName());
 		$result['_recordId'] = $recordModel->getId();
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @param Head_Request $request
+	 * @return Head_Record_Model or Module specific Record Model instance
 	 */
-	function getRecordModelFromRequest(Vtiger_Request $request) {
+	function getRecordModelFromRequest(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$recordModel = parent::getRecordModelFromRequest($request);
 		$fieldModelList = $moduleModel->getFields();

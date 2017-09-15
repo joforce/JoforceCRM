@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 require_once 'modules/Emails/mail.php';
-class Inventory_Save_Action extends Vtiger_Save_Action {
+class Inventory_Save_Action extends Head_Save_Action {
     
-    protected function getRecordModelFromRequest(Vtiger_Request $request) {
+    protected function getRecordModelFromRequest(Head_Request $request) {
 		return parent::getRecordModelFromRequest($request);
 		
 	}

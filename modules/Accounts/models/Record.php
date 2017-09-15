@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Accounts_Record_Model extends Vtiger_Record_Model {
+class Accounts_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function returns the details of Accounts Hierarchy
@@ -25,7 +25,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 				preg_match('/[.\s]+/', $accountInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i",$accountInfo[0], $name);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance('Accounts');
+				$recordModel = Head_Record_Model::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);
 				$hierarchy['entries'][$accountId][0] = $dashes[0]."<a href=".$recordModel->getDetailViewUrl().">".$name[2]."</a>";
 			}
@@ -38,7 +38,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateEventUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl().'/'.$this->getId();
 	}
 
@@ -47,7 +47,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 	 * @retun <String>
 	 */
 	function getCreateTaskUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl().'/'.$this->getId();
 	}
 
@@ -58,7 +58,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 	public function checkDuplicate() {
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT 1 FROM vtiger_crmentity WHERE setype = ? AND label = ? AND deleted = 0";
+		$query = "SELECT 1 FROM jo_crmentity WHERE setype = ? AND label = ? AND deleted = 0";
                 $params = array($this->getModule()->getName(), decode_html($this->getName())); 
 
 		$record = $this->getId();

@@ -71,7 +71,7 @@
 
 		static function getActiveEventInfos($adb, $name = false) {
 			$params = array();
-			$query = "SELECT * FROM vtiger_eventhandlers WHERE is_active=true";
+			$query = "SELECT * FROM jo_eventhandlers WHERE is_active=true";
 			if($name !== false) {
 				if(is_array($name)) {
 					$query .= " AND event_name IN (" . generateQuestionMarks($name) . ")";

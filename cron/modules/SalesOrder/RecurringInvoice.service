@@ -19,10 +19,10 @@ $log->debug("invoked RecurringInvoice");
 $currentDate = date('Y-m-d');
 $currentDateStrTime = strtotime($currentDate);
 
-$sql="SELECT vtiger_salesorder.salesorderid, recurring_frequency, start_period, end_period, last_recurring_date,
-		 payment_duration, invoice_status FROM vtiger_salesorder
-		 INNER JOIN vtiger_crmentity ON vtiger_salesorder.salesorderid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
-		 INNER JOIN vtiger_invoice_recurring_info ON vtiger_salesorder.salesorderid = vtiger_invoice_recurring_info.salesorderid
+$sql="SELECT jo_salesorder.salesorderid, recurring_frequency, start_period, end_period, last_recurring_date,
+		 payment_duration, invoice_status FROM jo_salesorder
+		 INNER JOIN jo_crmentity ON jo_salesorder.salesorderid = jo_crmentity.crmid AND jo_crmentity.deleted = 0
+		 INNER JOIN jo_invoice_recurring_info ON jo_salesorder.salesorderid = jo_invoice_recurring_info.salesorderid
 		 WHERE DATE_FORMAT(start_period,'%Y-%m-%d') <= '$currentDate' AND DATE_FORMAT(end_period,'%Y-%m-%d') >= '$currentDate'";
 $result = $adb->pquery($sql, array());
 $no_of_salesorder = $adb->num_rows($result);
@@ -58,7 +58,7 @@ for($i=0; $i<$no_of_salesorder;$i++) {
 			foreach ($recurringDatesList as $recurringDate) {
 				createInvoice($salesorder_id, $recurringDate);
 			}
-			$adb->pquery('UPDATE vtiger_invoice_recurring_info SET last_recurring_date = ? WHERE salesorderid = ?', array($validNextRecurringDate, $salesorder_id));
+			$adb->pquery('UPDATE jo_invoice_recurring_info SET last_recurring_date = ? WHERE salesorderid = ?', array($validNextRecurringDate, $salesorder_id));
 		}
 
 	} elseif($recurringDateStrTime == $currentDateStrTime && $recurringDateStrTime <= $endDateStrTime) {
@@ -66,7 +66,7 @@ for($i=0; $i<$no_of_salesorder;$i++) {
 
 		$nextRecurringDatesInfo = getRecurringDate($recurring_date, $recurringFrequency);
 		$nextRecurringDate = $nextRecurringDatesInfo['validDate'];
-		$adb->pquery('UPDATE vtiger_invoice_recurring_info SET last_recurring_date = ? WHERE salesorderid = ?', array($nextRecurringDate, $salesorder_id));
+		$adb->pquery('UPDATE jo_invoice_recurring_info SET last_recurring_date = ? WHERE salesorderid = ?', array($nextRecurringDate, $salesorder_id));
 	}
 }
 

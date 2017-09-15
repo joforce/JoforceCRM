@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Reports_EditFolder_View extends Vtiger_IndexAjax_View {
+class Reports_EditFolder_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -21,7 +21,7 @@ class Reports_EditFolder_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process (Vtiger_Request $request) {
+	public function process (Head_Request $request) {
 		
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

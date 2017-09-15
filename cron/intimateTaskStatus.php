@@ -10,15 +10,15 @@
 ini_set("include_path", "../");
 
 require('send_mail.php');
-require_once('config.php');
+require_once('config/config.php');
 require_once('include/utils/utils.php');
 
 // Email Setup
 global $adb;
-$emailresult = $adb->pquery("SELECT email1 from vtiger_users", array());
+$emailresult = $adb->pquery("SELECT email1 from jo_users", array());
 $emailid = $adb->fetch_array($emailresult);
 $emailaddress = $emailid[0];
-$mailserveresult = $adb->pquery("SELECT server,server_username,server_password,smtp_auth FROM vtiger_systems where server_type = ?", array('email'));
+$mailserveresult = $adb->pquery("SELECT server,server_username,server_password,smtp_auth FROM jo_systems where server_type = ?", array('email'));
 $mailrow = $adb->fetch_array($mailserveresult);
 $mailserver = $mailrow[0];
 $mailuname = $mailrow[1];
@@ -27,8 +27,8 @@ $smtp_auth = $mailrow[3];
 // End Email Setup
 
 
-//query the vtiger_notificationscheduler vtiger_table and get data for those notifications which are active
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=1";
+//query the jo_notificationscheduler jo_table and get data for those notifications which are active
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=1";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
@@ -39,7 +39,7 @@ if($activevalue[0] == 1)
 
 	//get all those activities where the status is not completed even after the passing of 24 hours
 	$today = date("Ymd"); 
-	$result = $adb->pquery("select vtiger_activity.status,vtiger_activity.activityid,subject,(vtiger_activity.date_start +1),vtiger_crmentity.smownerid from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid where vtiger_crmentity.deleted=0 and vtiger_activity.status <> 'Completed' and activitytype='Task' and ".$today." > (vtiger_activity.date_start+1)", array());
+	$result = $adb->pquery("select jo_activity.status,jo_activity.activityid,subject,(jo_activity.date_start +1),jo_crmentity.smownerid from jo_activity inner join jo_crmentity on jo_crmentity.crmid=jo_activity.activityid where jo_crmentity.deleted=0 and jo_activity.status <> 'Completed' and activitytype='Task' and ".$today." > (jo_activity.date_start+1)", array());
 
 	while ($myrow = $adb->fetch_array($result))
 	{
@@ -48,7 +48,7 @@ if($activevalue[0] == 1)
 		$user_id = $myrow[4];
 		if($user_id != '')
 		{
-			$user_res = $adb->pquery('select user_name from vtiger_users where id=?',array($user_id));
+			$user_res = $adb->pquery('select user_name from jo_users where id=?',array($user_id));
 			$assigned_user = $adb->query_result($user_res,0,'user_name');
 		}
 		$mail_body = getTranslatedString('Dear_Admin_tasks_not_been_completed')." ".getTranslatedString('LBL_SUBJECT').": ".$subject."<br> ".getTranslatedString('LBL_ASSIGNED_TO').": ".$assigned_user."<br><br>".getTranslatedString('Task_sign');
@@ -57,13 +57,13 @@ if($activevalue[0] == 1)
 }
 
 //Big Deal Alert
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=2";
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=2";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
 if($activevalue[0] == 1)
 {
-	$result = $adb->pquery("SELECT sales_stage,amount,potentialid,potentialname FROM vtiger_potential inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_potential.potentialid where vtiger_crmentity.deleted=0 and sales_stage='Closed Won' and amount > 10000",array());
+	$result = $adb->pquery("SELECT sales_stage,amount,potentialid,potentialname FROM jo_potential inner join jo_crmentity on jo_crmentity.crmid=jo_potential.potentialid where jo_crmentity.deleted=0 and sales_stage='Closed Won' and amount > 10000",array());
 	while ($myrow = $adb->fetch_array($result))
 	{
 		$pot_id = $myrow['potentialid'];
@@ -74,13 +74,13 @@ if($activevalue[0] == 1)
 	}
 }
 //Pending tickets
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=3";
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=3";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
 if($activevalue[0] == 1)
 {
-	$result = $adb->pquery("SELECT vtiger_troubletickets.status,ticketid FROM vtiger_troubletickets INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_troubletickets.ticketid WHERE vtiger_crmentity.deleted='0' AND vtiger_troubletickets.status <> 'Completed' AND vtiger_troubletickets.status <> 'Closed'", array());
+	$result = $adb->pquery("SELECT jo_troubletickets.status,ticketid FROM jo_troubletickets INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_troubletickets.ticketid WHERE jo_crmentity.deleted='0' AND jo_troubletickets.status <> 'Completed' AND jo_troubletickets.status <> 'Closed'", array());
 
 	while ($myrow = $adb->fetch_array($result))
 	{
@@ -89,14 +89,14 @@ if($activevalue[0] == 1)
 	}
 }
 
-//Too many tickets related to a particular vtiger_account/company causing concern
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=4";
+//Too many tickets related to a particular jo_account/company causing concern
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=4";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
 if($activevalue[0] == 1)
 {
-	$result = $adb->pquery("SELECT count(*) as count FROM vtiger_troubletickets INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_troubletickets.ticketid WHERE vtiger_crmentity.deleted='0' AND vtiger_troubletickets.status <> 'Completed' AND vtiger_troubletickets.status <> 'Closed'", array());
+	$result = $adb->pquery("SELECT count(*) as count FROM jo_troubletickets INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_troubletickets.ticketid WHERE jo_crmentity.deleted='0' AND jo_troubletickets.status <> 'Completed' AND jo_troubletickets.status <> 'Closed'", array());
 $count = $adb->query_result($result,0,'count');
 //changes made to get too many tickets notification only when tickets count is greater than or equal to 5
 	if($count >= 5)
@@ -106,13 +106,13 @@ $count = $adb->query_result($result,0,'count');
 }
 
 //Support Starting
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=5";
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=5";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
 if($activevalue[0] == 1)
 {
-	$result = $adb->pquery("SELECT vtiger_products.productname FROM vtiger_products inner join vtiger_crmentity on vtiger_products.productid = vtiger_crmentity.crmid where vtiger_crmentity.deleted=0 and start_date like ?", array(date('Y-m-d'). "%"));
+	$result = $adb->pquery("SELECT jo_products.productname FROM jo_products inner join jo_crmentity on jo_products.productid = jo_crmentity.crmid where jo_crmentity.deleted=0 and start_date like ?", array(date('Y-m-d'). "%"));
 	while ($myrow = $adb->fetch_array($result))
 	{
 		$productname=$myrow[0];
@@ -121,13 +121,13 @@ if($activevalue[0] == 1)
 }
 
 //Support ending
-$sql = "select active from vtiger_notificationscheduler where schedulednotificationid=6";
+$sql = "select active from jo_notificationscheduler where schedulednotificationid=6";
 $result = $adb->pquery($sql, array());
 
 $activevalue = $adb->fetch_array($result);
 if($activevalue[0] == 1)
 {
-	$result = $adb->pquery("SELECT vtiger_products.productname from vtiger_products inner join vtiger_crmentity on vtiger_products.productid = vtiger_crmentity.crmid where vtiger_crmentity.deleted=0 and expiry_date like ?", array(date('Y-m-d') ."%"));
+	$result = $adb->pquery("SELECT jo_products.productname from jo_products inner join jo_crmentity on jo_products.productid = jo_crmentity.crmid where jo_crmentity.deleted=0 and expiry_date like ?", array(date('Y-m-d') ."%"));
 	while ($myrow = $adb->fetch_array($result))
 	{
 		$productname=$myrow[0];

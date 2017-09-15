@@ -21,7 +21,7 @@ require_once ('modules/Accounts/Accounts.php');
 /**
  * Mail Scanner Action
  */
-class Vtiger_MailScannerAction {
+class Head_MailScannerAction {
 	// actionid for this instance
 	var $actionid	= false;
 	// scanner to which this action is associated
@@ -60,7 +60,7 @@ class Vtiger_MailScannerAction {
 	 */
 	function initialize($foractionid) {
 		global $adb;
-		$result = $adb->pquery("SELECT * FROM vtiger_mailscanner_actions WHERE actionid=? ORDER BY sequence", Array($foractionid));
+		$result = $adb->pquery("SELECT * FROM jo_mailscanner_actions WHERE actionid=? ORDER BY sequence", Array($foractionid));
 
 		if($adb->num_rows($result)) {
 			$this->actionid		= $adb->query_result($result, 0, 'actionid');
@@ -86,18 +86,18 @@ class Vtiger_MailScannerAction {
 		$this->actiontext = $actiontext;
 
 		if($this->actionid) {
-			$adb->pquery("UPDATE vtiger_mailscanner_actions SET scannerid=?, actiontype=?, module=?, lookup=? WHERE actionid=?",
+			$adb->pquery("UPDATE jo_mailscanner_actions SET scannerid=?, actiontype=?, module=?, lookup=? WHERE actionid=?",
 				Array($this->scannerid, $this->actiontype, $this->module, $this->lookup, $this->actionid));
 		} else {
 			$this->sequence = $this->__nextsequence();
-			$adb->pquery("INSERT INTO vtiger_mailscanner_actions(scannerid, actiontype, module, lookup, sequence) VALUES(?,?,?,?,?)",
+			$adb->pquery("INSERT INTO jo_mailscanner_actions(scannerid, actiontype, module, lookup, sequence) VALUES(?,?,?,?,?)",
 				Array($this->scannerid, $this->actiontype, $this->module, $this->lookup, $this->sequence));
 			$this->actionid = $adb->database->Insert_ID();
 		}
-		$checkmapping = $adb->pquery("SELECT COUNT(*) AS ruleaction_count FROM vtiger_mailscanner_ruleactions
+		$checkmapping = $adb->pquery("SELECT COUNT(*) AS ruleaction_count FROM jo_mailscanner_ruleactions
 			WHERE ruleid=? AND actionid=?", Array($ruleid, $this->actionid));
 		if($adb->num_rows($checkmapping) && !$adb->query_result($checkmapping, 0, 'ruleaction_count')) {
-			$adb->pquery("INSERT INTO vtiger_mailscanner_ruleactions(ruleid, actionid) VALUES(?,?)",
+			$adb->pquery("INSERT INTO jo_mailscanner_ruleactions(ruleid, actionid) VALUES(?,?)",
 				Array($ruleid, $this->actionid));
 		}
 	}
@@ -108,8 +108,8 @@ class Vtiger_MailScannerAction {
 	function delete() {
 		global $adb;
 		if($this->actionid) {
-			$adb->pquery("DELETE FROM vtiger_mailscanner_actions WHERE actionid=?", Array($this->actionid));
-			$adb->pquery("DELETE FROM vtiger_mailscanner_ruleactions WHERE actionid=?", Array($this->actionid));
+			$adb->pquery("DELETE FROM jo_mailscanner_actions WHERE actionid=?", Array($this->actionid));
+			$adb->pquery("DELETE FROM jo_mailscanner_ruleactions WHERE actionid=?", Array($this->actionid));
 		}
 	}
 
@@ -118,7 +118,7 @@ class Vtiger_MailScannerAction {
 	 */
 	function __nextsequence() {
 		global $adb;
-		$seqres = $adb->pquery("SELECT max(sequence) AS max_sequence FROM vtiger_mailscanner_actions", Array());
+		$seqres = $adb->pquery("SELECT max(sequence) AS max_sequence FROM jo_mailscanner_actions", Array());
 		$maxsequence = 0;
 		if($adb->num_rows($seqres)) {
 			$maxsequence = $adb->query_result($seqres, 0, 'max_sequence');
@@ -191,7 +191,7 @@ class Vtiger_MailScannerAction {
 				$commentFocus->saveentity('ModComments');
 
 				// Set the ticket status to Open if its Closed
-				$adb->pquery("UPDATE vtiger_troubletickets set status=? WHERE ticketid=? AND status='Closed'", Array('Open', $linkfocus->id));
+				$adb->pquery("UPDATE jo_troubletickets set status=? WHERE ticketid=? AND status='Closed'", Array('Open', $linkfocus->id));
 
 				$returnid = $this->__CreateNewEmail($mailrecord, $this->module, $linkfocus);
 
@@ -450,11 +450,11 @@ class Vtiger_MailScannerAction {
 		$date_var = $adb->formatDate(date('YmdHis'), true);
 
 		foreach($mailrecord->_attachments as $filename=>$filecontent) {
-			$attachid = $adb->getUniqueId('vtiger_crmentity');
+			$attachid = $adb->getUniqueId('jo_crmentity');
 			$description = $filename;
 			$usetime = $adb->formatDate($date_var, true);
 
-			$adb->pquery("INSERT INTO vtiger_crmentity(crmid, smcreatorid, smownerid,
+			$adb->pquery("INSERT INTO jo_crmentity(crmid, smcreatorid, smownerid,
 				modifiedby, setype, description, createdtime, modifiedtime, presence, deleted)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				Array($attachid, $userid, $userid, $userid, $setype, $description, $usetime, $usetime, 1, 0));
@@ -474,20 +474,20 @@ class Vtiger_MailScannerAction {
 				$document->save('Documents');
 
 				// Link file attached to document
-				$adb->pquery("INSERT INTO vtiger_seattachmentsrel(crmid, attachmentsid) VALUES(?,?)",
+				$adb->pquery("INSERT INTO jo_seattachmentsrel(crmid, attachmentsid) VALUES(?,?)",
 					Array($document->id, $attachid));
 
 				// Link document to base record
-				$adb->pquery("INSERT INTO vtiger_senotesrel(crmid, notesid) VALUES(?,?)",
+				$adb->pquery("INSERT INTO jo_senotesrel(crmid, notesid) VALUES(?,?)",
 					Array($basefocus->id, $document->id));
 
 				// Link document to Parent entity - Account/Contact/...
 				list($eid,$junk)=explode('@',$basefocus->column_fields['parent_id']);
-				$adb->pquery("INSERT INTO vtiger_senotesrel(crmid, notesid) VALUES(?,?)",
+				$adb->pquery("INSERT INTO jo_senotesrel(crmid, notesid) VALUES(?,?)",
 					Array($eid, $document->id));
 
 				// Link Attachement to the Email
-				$adb->pquery("INSERT INTO vtiger_seattachmentsrel(crmid, attachmentsid) VALUES(?,?)",
+				$adb->pquery("INSERT INTO jo_seattachmentsrel(crmid, attachmentsid) VALUES(?,?)",
 					Array($basefocus->id, $attachid));
 			}
 		}
@@ -516,16 +516,16 @@ class Vtiger_MailScannerAction {
 
 		$mimetype = MailAttachmentMIME::detect($saveasfile);
 
-		$adb->pquery("INSERT INTO vtiger_attachments SET attachmentsid=?, name=?, description=?, type=?, path=?",
+		$adb->pquery("INSERT INTO jo_attachments SET attachmentsid=?, name=?, description=?, type=?, path=?",
 			Array($attachid, $filename, $description, $mimetype, $dirname));
 
 		return true;
 	}
 
 	function setDefaultValue($module, $moduleObj) { 
-		$moduleInstance = Vtiger_Module_Model::getInstance($module);
+		$moduleInstance = Head_Module_Model::getInstance($module);
 
-		$fieldInstances = Vtiger_Field_Model::getAllForModule($moduleInstance);
+		$fieldInstances = Head_Field_Model::getAllForModule($moduleInstance);
 		foreach($fieldInstances as $blockInstance) {
 			foreach($blockInstance as $fieldInstance) {
 				$fieldName = $fieldInstance->getName();
@@ -534,7 +534,7 @@ class Vtiger_MailScannerAction {
 					$moduleObj->column_fields[$fieldName] = decode_html($defaultValue);
 				}
 				if($fieldInstance->isMandatory() && !$defaultValue) {
-					$moduleObj->column_fields[$fieldName] = Vtiger_Util_Helper::getDefaultMandatoryValue($fieldInstance->getFieldDataType());
+					$moduleObj->column_fields[$fieldName] = Head_Util_Helper::getDefaultMandatoryValue($fieldInstance->getFieldDataType());
 				}
 			}
 		}
@@ -542,7 +542,7 @@ class Vtiger_MailScannerAction {
 
 	/**
 	 * Function to get Mail Sender's Name
-	 * @param <Vtiger_MailRecord Object> $mailrecord
+	 * @param <Head_MailRecord Object> $mailrecord
 	 * @return <Array> containing First Name and Last Name
 	 */
 	function getName($mailrecord) {

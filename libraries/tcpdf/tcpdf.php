@@ -132,7 +132,7 @@
 /**
  * main configuration file
  */
-require_once(dirname(__FILE__).'/config/tcpdf_config.php');
+require_once(dirname(__FILE__).'/config/tcpdf_config/config.php');
 
 // includes some support files
 

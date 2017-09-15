@@ -12,7 +12,7 @@
 vimport('~~modules/Settings/MailConverter/handlers/MailScannerAction.php');
 vimport('~~modules/Settings/MailConverter/handlers/MailScannerRule.php');
 
-class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Model {
+class Settings_MailConverter_RuleRecord_Model extends Settings_Head_Record_Model {
 
 	var $assignedTo = false;
 	var $cc = false;
@@ -77,7 +77,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 
 	/**
 	 * Function to get record links
-	 * @return <Array> List of link models <Vtiger_Link_Model>
+	 * @return <Array> List of link models <Head_Link_Model>
 	 */
 	public function getRecordLinks() {
 		$qualifiedModuleName = 'Settings::MailConverter';
@@ -96,7 +96,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 				)
 		);
 		foreach($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -104,18 +104,18 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 
 	/**
 	 * Function to get Actions of this record
-	 * @return <Array> List of actions <Vtiger_MailScannerAction>
+	 * @return <Array> List of actions <Head_MailScannerAction>
 	 */
 	public function getActions() {
 		$ruleId = $this->getId();
 		if (!$this->actions && $ruleId) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT actionid FROM vtiger_mailscanner_ruleactions WHERE ruleid = ?", array($ruleId));
+			$result = $db->pquery("SELECT actionid FROM jo_mailscanner_ruleactions WHERE ruleid = ?", array($ruleId));
 			$numOfRows = $db->num_rows($result);
 
 			for($i=0; $i<$numOfRows; $i++) {
 				$actionId = $db->query_result($result, $i, 'actionid');
-				$this->actions[$actionId] = new Vtiger_MailScannerAction($actionId);
+				$this->actions[$actionId] = new Head_MailScannerAction($actionId);
 			}
 		}
 		return $this->actions;
@@ -125,7 +125,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 	 * Function to Delete this record
 	 */
 	public function delete() {
-		$rule = new Vtiger_MailScannerRule($this->getId());
+		$rule = new Head_MailScannerRule($this->getId());
 		$rule->delete();
 	}
 
@@ -134,7 +134,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 	 */
 	public function save() {
 		$recordId = $this->getId();
-		$ruleModel = new Vtiger_MailScannerRule($recordId);
+		$ruleModel = new Head_MailScannerRule($recordId);
 		$fieldsList = $this->getFields();
 		$ruleModel->scannerid = $this->get('scannerid');
 		$ruleModel->assigned_to = $this->assignedTo;
@@ -181,7 +181,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 	 */
 	public static function getInstanceById($recordId) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_mailscanner_rules WHERE ruleid = ?', array($recordId));
+		$result = $db->pquery('SELECT * FROM jo_mailscanner_rules WHERE ruleid = ?', array($recordId));
 		if ($db->num_rows($result)) {
 			$recordModel = new self();
 			$recordModel->setData($db->query_result_rowdata($result));
@@ -200,7 +200,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 		$db = PearDatabase::getInstance();
 		$ruleModelsList = array();
 
-		$result = $db->pquery("SELECT * FROM vtiger_mailscanner_rules WHERE scannerid = ? ORDER BY sequence", array($scannerId));
+		$result = $db->pquery("SELECT * FROM jo_mailscanner_rules WHERE scannerid = ? ORDER BY sequence", array($scannerId));
 		$numOfRows = $db->num_rows($result);
 		for($i=0; $i<$numOfRows; $i++) {
 			$rowData = $db->query_result_rowdata($result,$i);
@@ -223,7 +223,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 	public static function getRule($scannerId, $ruleId) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT * FROM vtiger_mailscanner_rules WHERE scannerid = ? AND ruleid = ?", array($scannerId, $ruleId));
+		$result = $db->pquery("SELECT * FROM jo_mailscanner_rules WHERE scannerid = ? AND ruleid = ?", array($scannerId, $ruleId));
 		if ($db->num_rows($result)) {
 			$rowData = $db->query_result_rowdata($result);
 			$ruleModel = new self();
@@ -254,7 +254,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 
 	public function getAssignedTo($scannerId, $ruleId) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT assigned_to FROM vtiger_mailscanner_rules WHERE scannerid = ? AND ruleid = ?", array($scannerId, $ruleId));
+		$result = $db->pquery("SELECT assigned_to FROM jo_mailscanner_rules WHERE scannerid = ? AND ruleid = ?", array($scannerId, $ruleId));
 		$id = $db->query_result($result, 0, 'assigned_to');
 		if (empty($id)) {
 			global $current_user;

@@ -27,7 +27,7 @@ class VTEntityData{
 		$obj = new VTEntityData();
 		$obj->entityId = $entityId;
 		if(empty($moduleName)) {
-			$result = $adb->pquery("select setype from vtiger_crmentity where crmid=?", array($entityId));
+			$result = $adb->pquery("select setype from jo_crmentity where crmid=?", array($entityId));
 			$setype =  $adb->query_result($result,0,"setype");
 
 			if($setype == 'Calendar') {
@@ -85,7 +85,7 @@ class VTEntityData{
 
 		// added to compute label needed in event handlers
 		//TODO : need to make sure entity fields are cached
-		$entityFields = Vtiger_Functions::getEntityModuleInfo($crmEntity->moduleName);
+		$entityFields = Head_Functions::getEntityModuleInfo($crmEntity->moduleName);
 		if (!empty($entityFields['fieldname'])) {
 			$entityFieldNames = explode(',', $entityFields['fieldname']);
 			$label = '';
@@ -181,7 +181,7 @@ class VTEntityData{
 			return $this->focus->column_fields['label'];
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT label FROM vtiger_crmentity WHERE crmid = ?', array($this->getId()));
+		$result = $db->pquery('SELECT label FROM jo_crmentity WHERE crmid = ?', array($this->getId()));
 		return $db->query_result($result, 0, 'label');
 	}
 

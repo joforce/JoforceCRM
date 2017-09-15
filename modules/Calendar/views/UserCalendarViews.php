@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_UserCalendarViews_View extends Vtiger_Index_View {
+class Calendar_UserCalendarViews_View extends Head_Index_View {
 
 	function __construct() {
 		$this->exposeMethod('editUserCalendar');
 		$this->exposeMethod('addUserCalendar');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,7 +24,7 @@ class Calendar_UserCalendarViews_View extends Vtiger_Index_View {
 		}
 	}
 
-	public function editUserCalendar(Vtiger_Request $request) {
+	public function editUserCalendar(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -41,7 +41,7 @@ class Calendar_UserCalendarViews_View extends Vtiger_Index_View {
 		$viewer->view('EditUserCalendar.tpl', $moduleName);
 	}
 
-	public function addUserCalendar(Vtiger_Request $request) {
+	public function addUserCalendar(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 

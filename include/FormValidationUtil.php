@@ -18,7 +18,7 @@
  * Get field validation information
  */
 function getDBValidationData($tablearray, $tabid='') {
-	return Vtiger_Deprecated::getModuleFieldTypeOfDataInfos($tablearray, $tabid);
+	return Head_Deprecated::getModuleFieldTypeOfDataInfos($tablearray, $tabid);
   }
 
 ?>

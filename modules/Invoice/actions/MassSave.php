@@ -11,7 +11,7 @@
 
 class Invoice_MassSave_Action extends Inventory_MassSave_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
@@ -24,26 +24,26 @@ class Invoice_MassSave_Action extends Inventory_MassSave_Action {
 			}
 		}
         vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', false);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @param Head_Request $request
+	 * @return Head_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelsFromRequest(Vtiger_Request $request) {
+	public function getRecordModelsFromRequest(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recordModels = array();
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach($recordIds as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleModel);
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 
@@ -52,7 +52,7 @@ class Invoice_MassSave_Action extends Inventory_MassSave_Action {
 				$fieldDataType = $fieldModel->getFieldDataType();
 
 				if($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = Head_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				} else if($fieldDataType === 'date') {
 					$fieldValue = $fieldModel->getUITypeModel()->getDBInsertValue($fieldValue);
 				}

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_Folder_Action extends Vtiger_Action_Controller {
+class Reports_Folder_Action extends Head_Action_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 		$this->exposeMethod('delete');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -27,7 +27,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -37,9 +37,9 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 
 	/**
 	 * Function that saves/updates the Folder
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function save(Vtiger_Request $request) {
+	function save(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$folderModel = Reports_Folder_Model::getInstance();
 		$folderId = $request->get('folderid');
@@ -59,16 +59,16 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 		$folderModel->save();
 		$result = array('success' => true, 'message' => vtranslate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray());
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
 	 * Function that deletes the Folder
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function delete(Vtiger_Request $request) {
+	function delete(Head_Request $request) {
 		$folderId = $request->get('folderid');
 		$moduleName = $request->getModule();
 		if ($folderId) {
@@ -87,13 +87,13 @@ class Reports_Folder_Action extends Vtiger_Action_Controller {
 			}
 			
 			$result = array('success' => $success, 'message' => $message);
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult($result);
 			$response->emit();
 		}
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         return true;
     }
 }

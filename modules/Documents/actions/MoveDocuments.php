@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_MoveDocuments_Action extends Vtiger_Mass_Action {
+class Documents_MoveDocuments_Action extends Head_Mass_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
@@ -19,14 +19,14 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$documentIdsList = $this->getRecordsListFromRequest($request);
 		$folderId = $request->get('folderid');
 
 		if (!empty ($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
-				$documentModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
+				$documentModel = Head_Record_Model::getInstanceById($documentId, $moduleName);
 				if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $documentId)) {
 					$documentModel->set('folderid', $folderId);
 					$documentModel->set('mode', 'edit');
@@ -42,7 +42,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action {
 			$result = array('success'=>false, 'message'=>vtranslate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST'=>$documentsMoveDenied);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

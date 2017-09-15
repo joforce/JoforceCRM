@@ -9,15 +9,15 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_CronTasks_UpdateSequence_Action extends Settings_Vtiger_Index_Action {
+class Settings_CronTasks_UpdateSequence_Action extends Settings_Head_Index_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$qualifiedModuleName = $request->getModule(false);
 		$sequencesList = $request->get('sequencesList');
 
 		$moduleModel = Settings_CronTasks_Module_Model::getInstance($qualifiedModuleName);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($sequencesList) {
 			$moduleModel->updateSequence($sequencesList);
 			$response->setResult(array(true));

@@ -12,9 +12,9 @@
 /*
  * Settings Module Model Class
  */
-class Settings_Roles_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_Roles_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_role';
+	var $baseTable = 'jo_role';
 	var $baseIndex = 'roleid';
 	var $listFields = array('roleid' => 'Role Id', 'rolename' => 'Name');
 	var $name = 'Roles';

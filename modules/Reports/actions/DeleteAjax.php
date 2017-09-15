@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action {
+class Reports_DeleteAjax_Action extends Head_DeleteAjax_Action {
     
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
@@ -21,10 +21,10 @@ class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 
 		$recordModel = Reports_Record_Model::getInstanceById($recordId, $moduleName);
 

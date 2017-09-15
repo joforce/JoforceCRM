@@ -14,13 +14,13 @@
  * use the common one.
  */
 // Let us create cache to improve performance
-if(!isset($__cache_vtiger_imagepath)) {
-	$__cache_vtiger_imagepath = Array();
+if(!isset($__cache_jo_imagepath)) {
+	$__cache_jo_imagepath = Array();
 }
-function vtiger_imageurl($imagename, $themename) {
-	global $__cache_vtiger_imagepath;
-	if($__cache_vtiger_imagepath[$imagename]) {
-		$imagepath = $__cache_vtiger_imagepath[$imagename];
+function jo_imageurl($imagename, $themename) {
+	global $__cache_jo_imagepath;
+	if($__cache_jo_imagepath[$imagename]) {
+		$imagepath = $__cache_jo_imagepath[$imagename];
 	} else {
 		$imagepath = false;
 		// Check in theme specific folder
@@ -33,7 +33,7 @@ function vtiger_imageurl($imagename, $themename) {
 			// Not found anywhere? Return whatever is sent
 			$imagepath = $imagename;
 		}
-		$__cache_vtiger_imagepath[$imagename] = $imagepath;
+		$__cache_jo_imagepath[$imagename] = $imagepath;
 	}
 	return $imagepath;
 }
@@ -43,7 +43,7 @@ function vtiger_imageurl($imagename, $themename) {
  */
 function vtlib_getModuleNameById($tabid) {
 	global $adb;
-	$sqlresult = $adb->pquery("SELECT name FROM vtiger_tab WHERE tabid = ?",array($tabid));
+	$sqlresult = $adb->pquery("SELECT name FROM jo_tab WHERE tabid = ?",array($tabid));
 	if($adb->num_rows($sqlresult)) return $adb->query_result($sqlresult, 0, 'name');
 	return null;
 }
@@ -77,7 +77,7 @@ function vtlib_prefetchModuleActiveInfo($force = true) {
 	// Initialize from DB if cache information is not available or force flag is set
 	if($tabrows === false || $force) {
 		global $adb;
-		$tabres = $adb->pquery("SELECT * FROM vtiger_tab", array());
+		$tabres = $adb->pquery("SELECT * FROM jo_tab", array());
 		$tabrows = array();
 		if($tabres) {
 			while($tabresrow = $adb->fetch_array($tabres)) {
@@ -123,7 +123,7 @@ function vtlib_isModuleActive($module) {
  */
 function vtlib_RecreateUserPrivilegeFiles() {
 	global $adb;
-	$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
+	$userres = $adb->query('SELECT id FROM jo_users WHERE deleted = 0');
 	if($userres && $adb->num_rows($userres)) {
 		while($userrow = $adb->fetch_array($userres)) {
 			createUserPrivilegesfile($userrow['id']);
@@ -137,7 +137,7 @@ function vtlib_RecreateUserPrivilegeFiles() {
 function vtlib_moduleAlwaysActive() {
 	$modules = Array (
 		'Administration', 'CustomView', 'Settings', 'Users', 'Migration',
-		'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
+		'Utilities', 'uploads', 'Import', 'System', 'com_jo_workflow', 'PickList'
 	);
 	return $modules;
 }
@@ -148,20 +148,20 @@ function vtlib_moduleAlwaysActive() {
 function vtlib_toggleModuleAccess($modules, $enable_disable) {
 	global $adb, $__cache_module_activeinfo;
 
-	include_once('vtlib/Vtiger/Module.php');
+	include_once('vtlib/Head/Module.php');
 
 	if(is_string($modules)) $modules = array($modules);
 	$event_type = false;
 
 	if($enable_disable === true) {
 		$enable_disable = 0;
-		$event_type = Vtiger_Module::EVENT_MODULE_ENABLED;
+		$event_type = Head_Module::EVENT_MODULE_ENABLED;
 	} else if($enable_disable === false) {
 		$enable_disable = 1;
-		$event_type = Vtiger_Module::EVENT_MODULE_DISABLED;
+		$event_type = Head_Module::EVENT_MODULE_DISABLED;
 	}
 
-	$checkResult = $adb->pquery('SELECT name FROM vtiger_tab WHERE name IN ('. generateQuestionMarks($modules) .')', array($modules));
+	$checkResult = $adb->pquery('SELECT name FROM jo_tab WHERE name IN ('. generateQuestionMarks($modules) .')', array($modules));
 	$rows = $adb->num_rows($checkResult);
 	for($i=0; $i<$rows; $i++) {
 		$existingModules[] = $adb->query_result($checkResult, $i, 'name');
@@ -169,10 +169,10 @@ function vtlib_toggleModuleAccess($modules, $enable_disable) {
 
 	foreach($modules as $module) {
 		if (in_array($module, $existingModules)) { // check if module exists then only update and trigger events
-			$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
+			$adb->pquery("UPDATE jo_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
 			$__cache_module_activeinfo[$module] = $enable_disable;
-			Vtiger_Module::fireEvent($module, $event_type);
-			Vtiger_Cache::flushModuleCache($module);
+			Head_Module::fireEvent($module, $event_type);
+			Head_Cache::flushModuleCache($module);
 		}
 	}
 
@@ -181,8 +181,8 @@ function vtlib_toggleModuleAccess($modules, $enable_disable) {
 
 	// UserPrivilege file needs to be regenerated if module state is changed from
 	// vtiger 5.1.0 onwards
-	global $vtiger_current_version;
-	if(version_compare($vtiger_current_version, '5.0.4', '>')) {
+	global $jo_current_version;
+	if(version_compare($jo_current_version, '5.0.4', '>')) {
 		vtlib_RecreateUserPrivilegeFiles();
 	}
 }
@@ -195,7 +195,7 @@ function vtlib_getToggleModuleInfo() {
 
 	$modinfo = Array();
 
-	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
+	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM jo_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
 	$num_rows  = $adb->num_rows($sqlresult);
 	for($idx = 0; $idx < $num_rows; ++$idx) {
 		$module = $adb->query_result($sqlresult, $idx, 'name');
@@ -220,7 +220,7 @@ function vtlib_getToggleLanguageInfo() {
 	$adb->dieOnError = false;
 
 	$langinfo = Array();
-	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
+	$sqlresult = $adb->query("SELECT * FROM jo_language");
 	if($sqlresult) {
 		for($idx = 0; $idx < $adb->num_rows($sqlresult); ++$idx) {
 			$row = $adb->fetch_array($sqlresult);
@@ -244,7 +244,7 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable) {
 	if($enable_disable === true) $enable_disable = 1;
 	else if($enable_disable === false) $enable_disable = 0;
 
-	$adb->pquery('UPDATE vtiger_language set active = ? WHERE prefix = ?', Array($enable_disable, $langprefix));
+	$adb->pquery('UPDATE jo_language set active = ? WHERE prefix = ?', Array($enable_disable, $langprefix));
 
 	$adb->dieOnError = $old_dieOnError;
 }
@@ -255,8 +255,8 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable) {
 function vtlib_getFieldHelpInfo($module) {
 	global $adb;
 	$fieldhelpinfo = Array();
-	if(in_array('helpinfo', $adb->getColumnNames('vtiger_field'))) {
-		$result = $adb->pquery('SELECT fieldname,helpinfo FROM vtiger_field WHERE tabid=?', Array(getTabid($module)));
+	if(in_array('helpinfo', $adb->getColumnNames('jo_field'))) {
+		$result = $adb->pquery('SELECT fieldname,helpinfo FROM jo_field WHERE tabid=?', Array(getTabid($module)));
 		if($result && $adb->num_rows($result)) {
 			while($fieldrow = $adb->fetch_array($result)) {
 				$helpinfo = decode_html($fieldrow['helpinfo']);
@@ -286,201 +286,201 @@ function __vtlib_get_modulevar_value($module, $varname) {
 			'Accounts' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name'  => 'vtiger_account',
+				'table_name'  => 'jo_account',
 				'table_index' => 'accountid',
 				// related_tables variable should define the association (relation) between dependent tables
 				// FORMAT: related_tablename => Array ( related_tablename_column[, base_tablename, base_tablename_column] )
 				// Here base_tablename_column should establish relation with related_tablename_column
 				// NOTE: If base_tablename and base_tablename_column are not specified, it will default to modules (table_name, related_tablename_column)
 				'related_tables' => Array(
-					'vtiger_accountbillads' => Array ('accountaddressid', 'vtiger_account', 'accountid'),
-					'vtiger_accountshipads' => Array ('accountaddressid', 'vtiger_account', 'accountid'),
-					'vtiger_accountscf' => Array ('accountid', 'vtiger_account', 'accountid'),
+					'jo_accountbillads' => Array ('accountaddressid', 'jo_account', 'accountid'),
+					'jo_accountshipads' => Array ('accountaddressid', 'jo_account', 'accountid'),
+					'jo_accountscf' => Array ('accountid', 'jo_account', 'accountid'),
 				),
 				'popup_fields' => Array('accountname'), // TODO: Add this initialization to all the standard module
 			),
 			'Contacts' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name'  => 'vtiger_contactdetails',
+				'table_name'  => 'jo_contactdetails',
 				'table_index' => 'contactid',
 				'related_tables'=> Array( 
-					'vtiger_account' => Array ('accountid' ),
+					'jo_account' => Array ('accountid' ),
 					//REVIEW: Added these tables for displaying the data into relatedlist (based on configurable fields)
-					'vtiger_contactaddress' => Array('contactaddressid', 'vtiger_contactdetails', 'contactid'),
-					'vtiger_contactsubdetails' => Array('contactsubscriptionid', 'vtiger_contactdetails', 'contactid'),
-					'vtiger_customerdetails' => Array('customerid', 'vtiger_contactdetails', 'contactid'),
-					'vtiger_contactscf' => Array('contactid', 'vtiger_contactdetails', 'contactid')
+					'jo_contactaddress' => Array('contactaddressid', 'jo_contactdetails', 'contactid'),
+					'jo_contactsubdetails' => Array('contactsubscriptionid', 'jo_contactdetails', 'contactid'),
+					'jo_customerdetails' => Array('customerid', 'jo_contactdetails', 'contactid'),
+					'jo_contactscf' => Array('contactid', 'jo_contactdetails', 'contactid')
 					),
 				'popup_fields' => Array ('lastname'),
 			),
 			'Leads' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name'  => 'vtiger_leaddetails',
+				'table_name'  => 'jo_leaddetails',
 				'table_index' => 'leadid',
 				'related_tables' => Array (
-					'vtiger_leadsubdetails' => Array ( 'leadsubscriptionid', 'vtiger_leaddetails', 'leadid' ),
-					'vtiger_leadaddress'    => Array ( 'leadaddressid', 'vtiger_leaddetails', 'leadid' ),
-					'vtiger_leadscf'    => Array ( 'leadid', 'vtiger_leaddetails', 'leadid' ),
+					'jo_leadsubdetails' => Array ( 'leadsubscriptionid', 'jo_leaddetails', 'leadid' ),
+					'jo_leadaddress'    => Array ( 'leadaddressid', 'jo_leaddetails', 'leadid' ),
+					'jo_leadscf'    => Array ( 'leadid', 'jo_leaddetails', 'leadid' ),
 				),
 				'popup_fields'=> Array ('lastname'),
 			),
 			'Campaigns' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name'  => 'vtiger_campaign',
+				'table_name'  => 'jo_campaign',
 				'table_index' => 'campaignid',
 				'popup_fields' => Array ('campaignname'),
 			),
 			'Potentials' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_potential',
+				'table_name' => 'jo_potential',
 				'table_index'=> 'potentialid',
 				// NOTE: UIType 10 is being used instead of direct relationship from 5.1.0
-				//'related_tables' => Array ('vtiger_account' => Array('accountid')),
+				//'related_tables' => Array ('jo_account' => Array('accountid')),
 				'popup_fields'=> Array('potentialname'),
 				'related_tables' => Array (
-					'vtiger_potentialscf'    => Array ( 'potentialid', 'vtiger_potential', 'potentialid' ),
+					'jo_potentialscf'    => Array ( 'potentialid', 'jo_potential', 'potentialid' ),
 				),
 			),
 			'Quotes' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_quotes',
+				'table_name' => 'jo_quotes',
 				'table_index'=> 'quoteid',
-				'related_tables' => Array ('vtiger_account' => Array('accountid')),
+				'related_tables' => Array ('jo_account' => Array('accountid')),
 				'popup_fields'=>Array('subject'),
 			),
 			'SalesOrder'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_salesorder',
+				'table_name' => 'jo_salesorder',
 				'table_index'=> 'salesorderid',
-				'related_tables'=> Array ('vtiger_account' => Array('accountid')),
+				'related_tables'=> Array ('jo_account' => Array('accountid')),
 				'popup_fields'=>Array('subject'),
 			),
 			'PurchaseOrder'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_purchaseorder',
+				'table_name' => 'jo_purchaseorder',
 				'table_index'=> 'purchaseorderid',
 				'related_tables'=> Array (
-					'vtiger_purchaseordercf' => Array('purchaseorderid','vtiger_purchaseorder','purchaseorderid'),
-					'vtiger_poshipads' => Array('poshipaddressid','vtiger_purchaseorder','purchaseorderid'),
-					'vtiger_pobillads' => Array('pobilladdressid','vtiger_purchaseorder','purchaseorderid'),
+					'jo_purchaseordercf' => Array('purchaseorderid','jo_purchaseorder','purchaseorderid'),
+					'jo_poshipads' => Array('poshipaddressid','jo_purchaseorder','purchaseorderid'),
+					'jo_pobillads' => Array('pobilladdressid','jo_purchaseorder','purchaseorderid'),
 				),
 				'popup_fields'=>Array('subject'),
 			),
 			'Invoice'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_invoice',
+				'table_name' => 'jo_invoice',
 				'table_index'=> 'invoiceid',
 				'popup_fields'=> Array('subject'),
 				'related_tables'=> Array( 
-					'vtiger_invoicecf' => Array('invoiceid', 'vtiger_invoice', 'invoiceid'),
-					'vtiger_invoiceshipads' => Array('invoiceshipaddressid','vtiger_invoice','invoiceid'),
-					'vtiger_invoicebillads' => Array('invoicebilladdressid','vtiger_invoice','invoiceid'),
+					'jo_invoicecf' => Array('invoiceid', 'jo_invoice', 'invoiceid'),
+					'jo_invoiceshipads' => Array('invoiceshipaddressid','jo_invoice','invoiceid'),
+					'jo_invoicebillads' => Array('invoicebilladdressid','jo_invoice','invoiceid'),
 					),
 			),
 			'HelpDesk'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_troubletickets',
+				'table_name' => 'jo_troubletickets',
 				'table_index'=> 'ticketid',
-				'related_tables'=> Array ('vtiger_ticketcf' => Array('ticketid')),
+				'related_tables'=> Array ('jo_ticketcf' => Array('ticketid')),
 				'popup_fields'=> Array('ticket_title')
 			),
 			'Faq'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_faq',
+				'table_name' => 'jo_faq',
 				'table_index'=> 'id',
-				'related_tables'=> Array ('vtiger_faqcf' => Array('faqid', 'vtiger_faq', 'id'))
+				'related_tables'=> Array ('jo_faqcf' => Array('faqid', 'jo_faq', 'id'))
 			),
 			'Documents'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_notes',
+				'table_name' => 'jo_notes',
 				'table_index'=> 'notesid',
 			),
 			'Products'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_products',
+				'table_name' => 'jo_products',
 				'table_index'=> 'productid',
 				'related_tables' => Array(
-					'vtiger_productcf' => Array('productid')
+					'jo_productcf' => Array('productid')
 				),
 				'popup_fields'=> Array('productname'),
 			),
 			'PriceBooks'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_pricebook',
+				'table_name' => 'jo_pricebook',
 				'table_index'=> 'pricebookid',
 			),
 			'Vendors'=>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_vendor',
+				'table_name' => 'jo_vendor',
 				'table_index'=> 'vendorid',
 				'popup_fields'=>Array('vendorname'),
 			),
 			'Project' => 
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_project',
+				'table_name' => 'jo_project',
 				'table_index'=> 'projectid',
 				'related_tables'=> Array( 
-					'vtiger_projectcf' => Array('projectid', 'vtiger_project', 'projectid')
+					'jo_projectcf' => Array('projectid', 'jo_project', 'projectid')
 					),
 			),
 			'ProjectMilestone' =>
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_projectmilestone',
+				'table_name' => 'jo_projectmilestone',
 				'table_index'=> 'projectmilestoneid',
 				'related_tables'=> Array( 
-					'vtiger_projectmilestonecf' => Array('projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid')
+					'jo_projectmilestonecf' => Array('projectmilestoneid', 'jo_projectmilestone', 'projectmilestoneid')
 					),
 			),
 			'ProjectTask' => 
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_projecttask',
+				'table_name' => 'jo_projecttask',
 				'table_index'=> 'projecttaskid',
 				'related_tables'=> Array( 
-					'vtiger_projecttaskcf' => Array('projecttaskid', 'vtiger_projecttask', 'projecttaskid')
+					'jo_projecttaskcf' => Array('projecttaskid', 'jo_projecttask', 'projecttaskid')
 					),
 			),
 			'Services' => 
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_service',
+				'table_name' => 'jo_service',
 				'table_index'=> 'serviceid',
 				'related_tables'=> Array( 
-					'vtiger_servicecf' => Array('serviceid')
+					'jo_servicecf' => Array('serviceid')
 					),
 			),
 			'ServiceContracts' => 
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_servicecontracts',
+				'table_name' => 'jo_servicecontracts',
 				'table_index'=> 'servicecontractsid',
 				'related_tables'=> Array( 
-					'vtiger_servicecontractscf' => Array('servicecontractsid')
+					'jo_servicecontractscf' => Array('servicecontractsid')
 					),
 			),
 			'Assets' => 
 			Array(
 				'IsCustomModule'=>false,
-				'table_name' => 'vtiger_assets',
+				'table_name' => 'jo_assets',
 				'table_index'=> 'assetsid',
 				'related_tables'=> Array( 
-					'vtiger_assetscf' => Array('assetsid')
+					'jo_assetscf' => Array('assetsid')
 					),
 			)
 	);
@@ -518,10 +518,10 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
 	global $adb;
 
 	$columnname =  $adb->sql_escape_string($field_columnname);
-	$tablename = "vtiger_$columnname";
+	$tablename = "jo_$columnname";
 
 	// Gather all the roles (except H1 which is organization role)
-	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
+	$roleres = $adb->query("SELECT roleid FROM jo_role WHERE roleid != 'H1'");
 	$roleresCount= $adb->num_rows($roleres);
 	$allroles = Array();
 	if($roleresCount) {
@@ -533,7 +533,7 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
 	// Get all the picklist values associated to roles (except H1 - organization role).
 	$picklistres = $adb->query(
 		"SELECT $columnname as pickvalue, roleid FROM $tablename
-		INNER JOIN vtiger_role2picklist ON $tablename.picklist_valueid=vtiger_role2picklist.picklistvalueid
+		INNER JOIN jo_role2picklist ON $tablename.picklist_valueid=jo_role2picklist.picklistvalueid
 		WHERE roleid != 'H1'");
 
 	$picklistresCount = $adb->num_rows($picklistres);
@@ -562,10 +562,10 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
  */
 function vtlib_getPicklistValues($field_columnname) {
 	global $adb;
-	$picklistvalues = Vtiger_Cache::get('PicklistValues', $field_columnname);
+	$picklistvalues = Head_Cache::get('PicklistValues', $field_columnname);
 	if (!$picklistvalues) {
 		$columnname =  $adb->sql_escape_string($field_columnname);
-		$tablename = "vtiger_$columnname";
+		$tablename = "jo_$columnname";
 
 		$picklistres = $adb->query("SELECT $columnname as pickvalue FROM $tablename");
 
@@ -729,7 +729,7 @@ function vtlib_purifyForSql($string, $skipEmpty=true) {
 
 /**
  * Process the UI Widget requested
- * @param Vtiger_Link $widgetLinkInfo
+ * @param Head_Link $widgetLinkInfo
  * @param Current Smarty Context $context
  * @return
  */
@@ -758,11 +758,11 @@ function vtlib_module_icon($modulename){
 	if(file_exists("modules/$modulename/$modulename.png")){
 		return "modules/$modulename/$modulename.png";
 	}
-	return "modules/Vtiger/JoForce.png";
+	return "modules/Head/JoForce.png";
 }
 
 function vtlib_mime_content_type($filename) {
-	return Vtiger_Functions::mime_content_type($filename);
+	return Head_Functions::mime_content_type($filename);
 }
 
 ?>

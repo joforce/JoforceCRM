@@ -9,5 +9,5 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Contacts_SaveAjax_Action extends Vtiger_SaveAjax_Action {
+class Contacts_SaveAjax_Action extends Head_SaveAjax_Action {
 }

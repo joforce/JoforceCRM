@@ -65,7 +65,7 @@
 		}
 		
 		private function fillOperationDetails($operationName){
-			$sql = "select * from vtiger_ws_operation where name=?";
+			$sql = "select * from jo_ws_operation where name=?";
 			$result = $this->pearDB->pquery($sql,array($operationName));
 			if($result){
 				$rowCount = $this->pearDB->num_rows($result);
@@ -85,7 +85,7 @@
 		}
 		
 		private function fillOperationParameters(){
-			$sql = "select * from vtiger_ws_operation_parameters where operationid=? order by sequence";
+			$sql = "select * from jo_ws_operation_parameters where operationid=? order by sequence";
 			$result = $this->pearDB->pquery($sql,array($this->operationId));
 			$this->operationParams = array();
 			if($result){
@@ -152,9 +152,9 @@
 					}else{
 						$this->sessionManager->set("authenticatedUserId", $userDetails->id);
 						global $adb;
-						$webserviceObject = VtigerWebserviceObject::fromName($adb,"Users");
+						$webserviceObject = HeadWebserviceObject::fromName($adb,"Users");
 						$userId = vtws_getId($webserviceObject->getEntityId(),$userDetails->id);
-						$vtigerVersion = vtws_getVtigerVersion();
+						$vtigerVersion = vtws_getHeadVersion();
 						$resp = array("sessionName"=>$this->sessionManager->getSessionId(),"userId"=>$userId,"version"=>$API_VERSION,"vtigerVersion"=>$vtigerVersion);
 						return $resp;
 					}

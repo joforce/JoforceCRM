@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_CheckMailBoxMaxLimit_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_CheckMailBoxMaxLimit_Action extends Settings_Head_Index_Action {
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordsCount = Settings_MailConverter_Record_Model::getCount();
 		$qualifiedModuleName = $request->getModule(false);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
         global $max_mailboxes;
         if ($recordsCount < $max_mailboxes) {
 			$result = array(true);

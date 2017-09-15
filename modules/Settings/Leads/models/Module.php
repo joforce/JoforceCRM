@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Leads_Module_Model extends Vtiger_Module_Model {
+class Settings_Leads_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function to get fields of this model
@@ -41,7 +41,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model {
 			$selectedGeneratedTypes = array(1, 2);
 
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT fieldid FROM vtiger_field
+			$query = 'SELECT fieldid FROM jo_field
 						WHERE tabid IN ('. generateQuestionMarks($selectedTabidsList) .')
 						AND uitype NOT IN ('. generateQuestionMarks($restrictedUitypes) .')
 						AND fieldname NOT IN ('. generateQuestionMarks($restrictedFieldNames) .')

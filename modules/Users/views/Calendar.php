@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-class Users_Calendar_View extends Vtiger_Detail_View {
+class Users_Calendar_View extends Head_Detail_View {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 	}
 	
 	
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 
@@ -33,17 +33,17 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 	 * @param <type> $request
 	 * @return <String>
 	 */
-	public function preProcessTplName(Vtiger_Request $request) {
+	public function preProcessTplName(Head_Request $request) {
 		return 'CalendarDetailViewPreProcess.tpl';
 	}
 
-	public function preProcess(Vtiger_Request $request, $display=true) {
+	public function preProcess(Head_Request $request, $display=true) {
 		if($this->checkPermission($request)) {
 			$qualifiedModuleName = $request->getModule(false);
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$recordId = $request->get('record');
 			$moduleName = $request->getModule();
-			$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$detailViewModel = Head_DetailView_Model::getInstance($moduleName, $recordId);
 			$recordModel = $detailViewModel->getRecord();
 
 			$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
@@ -66,16 +66,16 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 			$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
 			$viewer->assign('STYLES',$this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+			$viewer->assign('SEARCHABLE_MODULES', Head_Module_Model::getSearchableModules());
 
-			$menuModelsList = Vtiger_Menu_Model::getAll(true);
+			$menuModelsList = Head_Menu_Model::getAll(true);
 			$selectedModule = $request->getModule();
-			$menuStructure = Vtiger_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
+			$menuStructure = Head_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
 
 			// Order by pre-defined automation process for QuickCreate.
-			uksort($menuModelsList, array('Vtiger_MenuStructure_Model', 'sortMenuItemsByProcess'));
+			uksort($menuModelsList, array('Head_MenuStructure_Model', 'sortMenuItemsByProcess'));
 
-			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+			$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 			$companyLogo = $companyDetails->getLogo();
 
 			$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -83,31 +83,31 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
             $viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('MENUS', $menuModelsList);
-            $viewer->assign('QUICK_CREATE_MODULES', Vtiger_Menu_Model::getAllForQuickCreate());
+            $viewer->assign('QUICK_CREATE_MODULES', Head_Menu_Model::getAllForQuickCreate());
 			$viewer->assign('MENU_STRUCTURE', $menuStructure);
 			$viewer->assign('MENU_SELECTED_MODULENAME', $selectedModule);
 			$viewer->assign('MENU_TOPITEMS_LIMIT', $menuStructure->getLimit());
 			$viewer->assign('COMPANY_LOGO',$companyLogo);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
+			$homeModuleModel = Head_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
-			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+			$viewer->assign('SKIN_PATH', Head_Theme::getCurrentUserThemePath());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 			$viewer->assign('SELECTED_MENU_CATEGORY', 'MARKETING');
-			$settingsModel = Settings_Vtiger_Module_Model::getInstance();
+			$settingsModel = Settings_Head_Module_Model::getInstance();
 			$menuModels = $settingsModel->getMenus();
 
 			if(!empty($selectedMenuId)) {
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-			} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-				$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
+				$selectedMenu = Settings_Head_Menu_Model::getInstanceById($selectedMenuId);
+			} elseif(!empty($moduleName) && $moduleName != 'Head') {
+				$fieldItem = Settings_Head_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
 				if($fieldItem){
-					$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+					$selectedMenu = Settings_Head_Menu_Model::getInstanceById($fieldItem->get('blockid'));
 					$fieldId = $fieldItem->get('fieldid');
 				} else {
 					reset($menuModels);
@@ -129,20 +129,20 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 			}
 			$viewer->assign('SETTINGS_MENU_ITEMS', $settingsMenItems);
 
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 			$moduleFields = $moduleModel->getFields();
 			foreach($moduleFields as $fieldName => $fieldModel){
 				$fieldsInfo[$fieldName] = $fieldModel->getFieldInfo();
 			}
-			$eventsModuleModel = Vtiger_Module_Model::getInstance('Events');
+			$eventsModuleModel = Head_Module_Model::getInstance('Events');
 			$eventFields = array('defaulteventstatus' => 'eventstatus', 'defaultactivitytype' => 'activitytype');
 			foreach($eventFields as $userField => $eventField) {
 				$fieldsInfo[$userField]['picklistvalues'] = $eventsModuleModel->getField($eventField)->getPicklistValues();
 			}
 			$viewer->assign('FIELDS_INFO', json_encode($fieldsInfo));
 
-			$activeBLock = Settings_Vtiger_Module_Model::getActiveBlockName($request);
+			$activeBLock = Settings_Head_Module_Model::getActiveBlockName($request);
 			$viewer->assign('ACTIVE_BLOCK', $activeBLock);
 
 			if($display) {
@@ -151,12 +151,12 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 		}
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if($mode == 'Edit'){
 			$this->invokeExposedMethod('calendarSettingsEdit',$request);
@@ -165,12 +165,12 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 		}
 	}
 	
-	public function initializeView($viewer,Vtiger_Request $request){
+	public function initializeView($viewer,Head_Request $request){
 		$recordId = $request->get('record');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$module = $request->getModule();
-		$detailViewModel = Vtiger_DetailView_Model::getInstance('Users', $currentUserModel->id);
-		$userRecordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($detailViewModel->getRecord(), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$detailViewModel = Head_DetailView_Model::getInstance('Users', $currentUserModel->id);
+		$userRecordStructure = Head_RecordStructure_Model::getInstanceFromRecordModel($detailViewModel->getRecord(), Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $userRecordStructure->getStructure();
 //		$allUsers = Users_Record_Model::getAll(true);
 		$sharedUsers = Calendar_Module_Model::getCaledarSharedUsers($currentUserModel->id);
@@ -198,7 +198,7 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 	}
 	
 	
-	public function calendarSettingsEdit(Vtiger_Request $request){
+	public function calendarSettingsEdit(Head_Request $request){
 		$viewer = $this->getViewer($request);
 		$this->initializeView($viewer,$request);
 		$viewer->view('CalendarSettingsEditView.tpl', $request->getModule());
@@ -206,13 +206,13 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 	
 	
 	
-	public function calendarSettingsDetail(Vtiger_Request $request){
+	public function calendarSettingsDetail(Head_Request $request){
 		$viewer = $this->getViewer($request);
 		$this->initializeView($viewer,$request);
 		$viewer->view('CalendarSettingsDetailView.tpl', $request->getModule());
 	}
 
-    public function getHeaderScripts(Vtiger_Request $request) {
+    public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
         $moduleDetailFile = 'modules.'.$moduleName.'.resources.PreferenceDetail';
@@ -224,8 +224,8 @@ class Users_Calendar_View extends Vtiger_Detail_View {
             'modules.'.$moduleName.'.resources.PreferenceDetail',
 			'modules.'.$moduleName.'.resources.Calendar',
 			'modules.'.$moduleName.'.resources.PreferenceEdit',
-             'modules.Settings.Vtiger.resources.Index',
-			"~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js"
+             'modules.Settings.Head.resources.Index',
+			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -234,11 +234,11 @@ class Users_Calendar_View extends Vtiger_Detail_View {
 	}
 
 	/*
-	 * HTTP REFERER check was removed in Parent class Vtiger_Detail_View, because of 
+	 * HTTP REFERER check was removed in Parent class Head_Detail_View, because of 
 	 * CRM Detail View URL option in Workflow Send Mail task.
 	 * But here http referer check is required.
 	 */
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateReadAccess();
 	}
 

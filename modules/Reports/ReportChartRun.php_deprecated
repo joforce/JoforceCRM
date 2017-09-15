@@ -13,7 +13,7 @@ global $theme;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
 require_once('modules/CustomView/CustomView.php');
-require_once("config.php");
+require_once("config/config.php");
 require_once('modules/Reports/Reports.php');
 require_once('include/logging.php');
 require_once("modules/Reports/ReportRun.php");
@@ -25,7 +25,7 @@ global $adb,$mod_strings,$app_strings;
 $reportid = vtlib_purify($_REQUEST["record"]);
 $folderid = vtlib_purify($_REQUEST["folderid"]);
 
-$sql = "select * from vtiger_report where reportid=?";
+$sql = "select * from jo_report where reportid=?";
 $res = $adb->pquery($sql, array($reportid));
 
 $numOfRows = $adb->num_rows($res);

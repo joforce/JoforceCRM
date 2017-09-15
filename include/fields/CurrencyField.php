@@ -386,7 +386,7 @@ class CurrencyField {
 	public static function getDBCurrencyId() {
 		$adb = PearDatabase::getInstance();
 
-		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', array());
+		$result = $adb->pquery('SELECT id FROM jo_currency_info WHERE defaultid < 0', array());
 		$noOfRows = $adb->num_rows($result);
 		if($noOfRows > 0) {
 			return $adb->query_result($result, 0, 'id');
@@ -402,7 +402,7 @@ class CurrencyField {
 		$db = PearDatabase::getInstance();
 
 		$currencyInfo = array();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE currency_name=?', array(trim($currencyName)));
+		$result = $db->pquery('SELECT * FROM jo_currency_info WHERE currency_name=?', array(trim($currencyName)));
 		if ($db->num_rows($result) > 0) {
 			$currencyInfo = $db->fetch_array($result);
 		}

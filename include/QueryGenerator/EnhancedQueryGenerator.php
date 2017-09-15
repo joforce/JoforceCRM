@@ -89,7 +89,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		}
 		$customView = new CustomView($this->module);
 		$dateSpecificConditions = $customView->getStdFilterConditions();
-		$specialDateTimeConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
+		$specialDateTimeConditions = Head_Functions::getSpecialDateTimeCondtions();
 		foreach ($advFilterList as $groupindex => $groupcolumns) {
 			$filtercolumns = $groupcolumns['columns'];
 			if (count($filtercolumns) > 0) {
@@ -97,13 +97,13 @@ class EnhancedQueryGenerator extends QueryGenerator {
 				foreach ($filtercolumns as $index => $filter) {
 					//If comparator is "e" or "n" then do not escapeSqlString.
 					if (!in_array($filter['comparator'], array('e', 'n'))) {
-						$filter['value'] = Vtiger_Util_Helper::escapeSqlString($filter['value']);
+						$filter['value'] = Head_Util_Helper::escapeSqlString($filter['value']);
 					}
 					$nameComponents = explode(':', $filter['columnname']);
 					// For Events "End Date & Time" field datatype should be DT. But, db will give D for due_date field
 					if ($nameComponents[2] == 'due_date' && $nameComponents[3] == 'Events_End_Date_&_Time')
 						$nameComponents[4] = 'DT';
-					if (empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'vtiger_crmentity') {
+					if (empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'jo_crmentity') {
 						$name = $this->getSQLColumn('id');
 					} else {
 						$name = $nameComponents[2];
@@ -270,7 +270,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					$sql = $this->getSQLColumn($timeField);
 				} else if ($field == 'taskstatus' || $field == 'eventstatus') {
 					//In calendar list view, Status value = Planned is not displaying
-					$sql = "CASE WHEN (vtiger_activity.status not like '') THEN vtiger_activity.status ELSE vtiger_activity.eventstatus END AS ";
+					$sql = "CASE WHEN (jo_activity.status not like '') THEN jo_activity.status ELSE jo_activity.eventstatus END AS ";
 					if ($field == 'taskstatus') {
 						$sql .= "status";
 					} else {
@@ -322,17 +322,17 @@ class EnhancedQueryGenerator extends QueryGenerator {
 			if (empty($referenceParentFieldName)) {
 				// for normal base module fields
 				if ($fieldType == 'owner') {
-					$tableList['vtiger_users'] = 'vtiger_users';
-					$tableList['vtiger_groups'] = 'vtiger_groups';
-					$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-					$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+					$tableList['jo_users'] = 'jo_users';
+					$tableList['jo_groups'] = 'jo_groups';
+					$tableJoinMapping['jo_users'] = 'LEFT JOIN';
+					$tableJoinMapping['jo_groups'] = 'LEFT JOIN';
 				}
 				$tableList[$field->getTableName()] = $field->getTableName();
 				$tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
 
 				if ($fieldName == 'roleid' && $baseModule == 'Users') {
-					$tableJoinMapping['vtiger_role'] = 'INNER JOIN';
-					$tableList['vtiger_role'] = 'vtiger_role';
+					$tableJoinMapping['jo_role'] = 'INNER JOIN';
+					$tableList['jo_role'] = 'jo_role';
 				}
 			} else {
 				// handling reference fields joins
@@ -422,32 +422,32 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					$moduleList = $field->getReferenceList();
 					foreach ($moduleList as $module) {
 						if ($module == 'Users' && $baseModule != 'Users') {
-							$tableJoinMapping['vtiger_users'.$fieldName] = 'LEFT JOIN vtiger_users AS';
-							$tableJoinCondition[$fieldName]['vtiger_users'.$fieldName] = $fieldTable.'.'.$field->getColumnName().' = vtiger_users'.$fieldName.'.id';
+							$tableJoinMapping['jo_users'.$fieldName] = 'LEFT JOIN jo_users AS';
+							$tableJoinCondition[$fieldName]['jo_users'.$fieldName] = $fieldTable.'.'.$field->getColumnName().' = jo_users'.$fieldName.'.id';
 						} else if ($module == 'Currency') {
-							$tableJoinMapping['vtiger_currency_info'.$fieldName] = 'LEFT JOIN vtiger_currency_info AS';
-							$tableJoinCondition[$fieldName]['vtiger_currency_info'.$fieldName] = $fieldTable.'.'.$field->getColumnName().' = vtiger_currency_info'.$fieldName.'.id';
+							$tableJoinMapping['jo_currency_info'.$fieldName] = 'LEFT JOIN jo_currency_info AS';
+							$tableJoinCondition[$fieldName]['jo_currency_info'.$fieldName] = $fieldTable.'.'.$field->getColumnName().' = jo_currency_info'.$fieldName.'.id';
 						} else {
-							$tableJoinMapping['vtiger_crmentity'.$fieldName] = 'LEFT JOIN vtiger_crmentity AS';
-							$tableJoinCondition[$fieldName]['vtiger_crmentity'.$fieldName] = 'vtiger_crmentity'.$fieldName.'.crmid' .
+							$tableJoinMapping['jo_crmentity'.$fieldName] = 'LEFT JOIN jo_crmentity AS';
+							$tableJoinCondition[$fieldName]['jo_crmentity'.$fieldName] = 'jo_crmentity'.$fieldName.'.crmid' .
 									' = '.$fieldTable.'.'.$field->getColumnName();
 						}
 					}
 					if ($fieldName == 'roleid' && $baseModule == 'Users') {
-						$tableJoinMapping['vtiger_role'] = 'INNER JOIN';
-						$tableList['vtiger_role'] = 'vtiger_role';
+						$tableJoinMapping['jo_role'] = 'INNER JOIN';
+						$tableList['jo_role'] = 'jo_role';
 					}
 				} else if ($fieldType == 'owner') {
-					$tableList['vtiger_users'] = 'vtiger_users';
-					$tableList['vtiger_groups'] = 'vtiger_groups';
-					$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-					$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+					$tableList['jo_users'] = 'jo_users';
+					$tableList['jo_groups'] = 'jo_groups';
+					$tableJoinMapping['jo_users'] = 'LEFT JOIN';
+					$tableJoinMapping['jo_groups'] = 'LEFT JOIN';
 				}
 
 				// if the field name is tags then we need to join with specific table 
 				if ($fieldName == 'tags') {
-					$tableList['vtiger_freetagged_objects'] = 'vtiger_freetagged_objects';
-					$tableJoinMapping['vtiger_freetagged_objects'] = 'INNER JOIN';
+					$tableList['jo_freetagged_objects'] = 'jo_freetagged_objects';
+					$tableJoinMapping['jo_freetagged_objects'] = 'INNER JOIN';
 				}
 			} else {
 				$referenceParentFieldModel = $field->parentReferenceField;
@@ -456,18 +456,18 @@ class EnhancedQueryGenerator extends QueryGenerator {
 				$referenceParentFieldTable = $referenceParentFieldModel->getTableName();
 
 				if ($fieldType == 'owner') {
-					// Need to join with vtiger_crmentity table
+					// Need to join with jo_crmentity table
 					if (!array_key_exists($fieldTable.$referenceParentFieldName, $tableJoinMapping)) {
 						$tableJoinMapping[$fieldTable.$referenceParentFieldName] = 'LEFT JOIN '.$fieldTable.' AS ';
 						$tableJoinCondition[$referenceParentFieldName.$fieldName][$fieldTable.$referenceParentFieldName] = $fieldTable.$referenceParentFieldName.'.'.$referenceModuleColumnIndex[$fieldTable].' = ' .
 								$referenceParentFieldTable.'.'.$referenceParentFieldModel->getColumnName();
 					}
 
-					$tableJoinMapping['vtiger_users'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN vtiger_users AS ';
-					$tableJoinCondition[$referenceParentFieldName.$fieldName]['vtiger_users'.$referenceParentFieldName.$fieldName] = 'vtiger_users'.$referenceParentFieldName.$fieldName.'.id = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
+					$tableJoinMapping['jo_users'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN jo_users AS ';
+					$tableJoinCondition[$referenceParentFieldName.$fieldName]['jo_users'.$referenceParentFieldName.$fieldName] = 'jo_users'.$referenceParentFieldName.$fieldName.'.id = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
 
-					$tableJoinMapping['vtiger_groups'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN vtiger_groups AS ';
-					$tableJoinCondition[$referenceParentFieldName.$fieldName]['vtiger_groups'.$referenceParentFieldName.$fieldName] = 'vtiger_groups'.$referenceParentFieldName.$fieldName.'.groupid = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
+					$tableJoinMapping['jo_groups'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN jo_groups AS ';
+					$tableJoinCondition[$referenceParentFieldName.$fieldName]['jo_groups'.$referenceParentFieldName.$fieldName] = 'jo_groups'.$referenceParentFieldName.$fieldName.'.groupid = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
 				} else if ($fieldType == 'reference') {
 					$moduleList = $field->getReferenceList();
 					foreach ($moduleList as $module) {
@@ -477,21 +477,21 @@ class EnhancedQueryGenerator extends QueryGenerator {
 								$tableList[$referenceParentFieldTable] = $referenceParentFieldTable;
 								$tableJoinMapping[$referenceParentFieldTable] = $this->meta->getJoinClause($referenceParentFieldTable);
 							}
-							// Need to join with vtiger_crmentity table if its not joined earlier
+							// Need to join with jo_crmentity table if its not joined earlier
 							if (!array_key_exists($fieldTable.$referenceParentFieldName, $tableJoinMapping)) {
 								$tableJoinMapping[$fieldTable.$referenceParentFieldName] = 'LEFT JOIN '.$fieldTable.' AS ';
 								$tableJoinCondition[$referenceParentFieldName.$fieldName][$fieldTable.$referenceParentFieldName] = $fieldTable.$referenceParentFieldName.'.'.$referenceModuleColumnIndex[$fieldTable].' = '.$referenceParentFieldTable.'.'.$referenceParentFieldModel->getColumnName();
 							}
-							$tableJoinMapping['vtiger_users'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN vtiger_users AS ';
-							$tableJoinCondition[$referenceParentFieldName.$fieldName]['vtiger_users'.$referenceParentFieldName.$fieldName] = 'vtiger_users'.$referenceParentFieldName.$fieldName.'.id = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
+							$tableJoinMapping['jo_users'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN jo_users AS ';
+							$tableJoinCondition[$referenceParentFieldName.$fieldName]['jo_users'.$referenceParentFieldName.$fieldName] = 'jo_users'.$referenceParentFieldName.$fieldName.'.id = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
 						} else if ($module == 'Currency') {
 							if (!array_key_exists($fieldTable.$referenceParentFieldName, $tableJoinMapping)) {
 								$tableJoinMapping[$fieldTable.$referenceParentFieldName] = 'LEFT JOIN '.$fieldTable.' AS ';
 								$tableJoinCondition[$referenceParentFieldName.$fieldName][$fieldTable.$referenceParentFieldName] = $fieldTable.$referenceParentFieldName.'.'.$referenceModuleColumnIndex[$fieldTable].' = '.$referenceParentFieldTable.'.'.$referenceParentFieldModel->getColumnName();
 							}
 
-							$tableJoinMapping['vtiger_currency_info'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN vtiger_currency_info AS';
-							$tableJoinCondition[$fieldName]['vtiger_currency_info'.$referenceParentFieldName.$fieldName] = $fieldTable.$referenceParentFieldName.'.'.$field->getColumnName().' = vtiger_currency_info'.$referenceParentFieldName.$fieldName.'.id';
+							$tableJoinMapping['jo_currency_info'.$referenceParentFieldName.$fieldName] = 'LEFT JOIN jo_currency_info AS';
+							$tableJoinCondition[$fieldName]['jo_currency_info'.$referenceParentFieldName.$fieldName] = $fieldTable.$referenceParentFieldName.'.'.$field->getColumnName().' = jo_currency_info'.$referenceParentFieldName.$fieldName.'.id';
 						} else {
 							if (!array_key_exists($fieldTable.$referenceParentFieldName, $tableJoinMapping)) {
 								$tableJoinMapping[$fieldTable.$referenceParentFieldName] = 'LEFT JOIN '.$fieldTable.' AS ';
@@ -499,9 +499,9 @@ class EnhancedQueryGenerator extends QueryGenerator {
 										$referenceParentFieldTable.'.'.$referenceParentFieldModel->getColumnName();
 							}
 
-							$tableAlias = 'vtiger_crmentity'.$referenceParentFieldName.$fieldName;
+							$tableAlias = 'jo_crmentity'.$referenceParentFieldName.$fieldName;
 							if (!array_key_exists($tableAlias, $tableJoinMapping)) {
-								$tableJoinMapping[$tableAlias] = 'LEFT JOIN vtiger_crmentity AS ';
+								$tableJoinMapping[$tableAlias] = 'LEFT JOIN jo_crmentity AS ';
 								$tableJoinCondition[$referenceParentFieldName.$fieldName][$tableAlias] = $tableAlias.'.crmid = '.$fieldTable.$referenceParentFieldName.'.'.$field->getColumnName();
 							}
 						}
@@ -546,22 +546,22 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		}
 
 		foreach ($tableList as $tableName) {
-			if ($tableName == 'vtiger_users') {
+			if ($tableName == 'jo_users') {
 				$field = $moduleFields[$ownerField];
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON ".$field->getTableName()."." .
 						$field->getColumnName()." = $tableName.id";
-			} elseif ($tableName == 'vtiger_groups') {
+			} elseif ($tableName == 'jo_groups') {
 				$field = $moduleFields[$ownerField];
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON ".$field->getTableName()."." .
 						$field->getColumnName()." = $tableName.groupid";
-			} elseif ($tableName == 'vtiger_freetagged_objects') {
+			} elseif ($tableName == 'jo_freetagged_objects') {
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.$baseTableIndex = $tableName.object_id " .
-						"INNER JOIN vtiger_freetags ON $tableName.tag_id = vtiger_freetags.id ";
-			} elseif ($tableName == 'vtiger_role') {
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON vtiger_role.roleid = vtiger_user2role.roleid";
+						"INNER JOIN jo_freetags ON $tableName.tag_id = jo_freetags.id ";
+			} elseif ($tableName == 'jo_role') {
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON jo_role.roleid = jo_user2role.roleid";
 			} else {
 				$tableCondition = $tableName.'.'.$moduleTableIndexList[$tableName];
-				if (Vtiger_Functions::isUserSpecificFieldTable($tableName, $this->getModule())) {
+				if (Head_Functions::isUserSpecificFieldTable($tableName, $this->getModule())) {
 					$tableCondition.= ' AND '.$tableName.'.userid='.$this->user->id;
 				}
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable." .
@@ -572,9 +572,9 @@ class EnhancedQueryGenerator extends QueryGenerator {
 
 		if ($this->meta->getTabName() == 'Documents') {
 			$tableJoinCondition['folderid'] = array(
-				'vtiger_attachmentsfolderfolderid' => "$baseTable.folderid = vtiger_attachmentsfolderfolderid.folderid"
+				'jo_attachmentsfolderfolderid' => "$baseTable.folderid = jo_attachmentsfolderfolderid.folderid"
 			);
-			$tableJoinMapping['vtiger_attachmentsfolderfolderid'] = 'INNER JOIN vtiger_attachmentsfolder';
+			$tableJoinMapping['jo_attachmentsfolderfolderid'] = 'INNER JOIN jo_attachmentsfolder';
 		}
 
 		foreach ($tableJoinCondition as $fieldName => $conditionInfo) {
@@ -675,17 +675,17 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					} else {
 						$moduleList = $this->referenceFieldInfoList[$baseFieldName];
 						if (in_array('Users', $moduleList)) {
-							$columnSqlTable = 'vtiger_users'.$parentReferenceField.$fieldName;
+							$columnSqlTable = 'jo_users'.$parentReferenceField.$fieldName;
 							$columnSql = getSqlForNameInDisplayFormat(array('first_name' => $columnSqlTable.'.first_name',
 								'last_name' => $columnSqlTable.'.last_name'), 'Users');
 						} else if (in_array('DocumentFolders', $moduleList)) {
-							$columnSql = "vtiger_attachmentsfolder".$fieldName.".foldername";
+							$columnSql = "jo_attachmentsfolder".$fieldName.".foldername";
 						} else if (in_array('Currency', $moduleList)) {
-							$columnSql = "vtiger_currency_info$parentReferenceField$fieldName.currency_name";
+							$columnSql = "jo_currency_info$parentReferenceField$fieldName.currency_name";
 						} else if ($baseFieldName == 'roleid') {
-							$columnSql = 'vtiger_role.rolename';
+							$columnSql = 'jo_role.rolename';
 						} else {
-							$columnSql = 'vtiger_crmentity'.$parentReferenceField.$fieldName.'.label';
+							$columnSql = 'jo_crmentity'.$parentReferenceField.$fieldName.'.label';
 						}
 						$fieldSql .= "$fieldGlue trim($columnSql) $valueSql";
 						$fieldGlue = ' OR';
@@ -695,22 +695,22 @@ class EnhancedQueryGenerator extends QueryGenerator {
 						$ownerTableName = $parentReferenceField.$fieldName;
 					else
 						$ownerTableName = '';
-					$concatSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users'.$ownerTableName.'.first_name',
-						'last_name' => 'vtiger_users'.$ownerTableName.'.last_name'), 'Users');
+					$concatSql = getSqlForNameInDisplayFormat(array('first_name' => 'jo_users'.$ownerTableName.'.first_name',
+						'last_name' => 'jo_users'.$ownerTableName.'.last_name'), 'Users');
 					if ($conditionInfo['operator'] == 'y') {
 						//if both user name and group name empty, then only should list in isempty condition
-						$fieldSql .= "$fieldGlue ((trim($concatSql) $valueSql) AND (vtiger_groups$ownerTableName.groupname $valueSql))";
+						$fieldSql .= "$fieldGlue ((trim($concatSql) $valueSql) AND (jo_groups$ownerTableName.groupname $valueSql))";
 					} else {
-						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or vtiger_groups$ownerTableName.groupname $valueSql)";
+						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or jo_groups$ownerTableName.groupname $valueSql)";
 					}
 				} elseif ($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					if ($fieldName == 'date_start') {
-						$dateFieldColumnName = 'vtiger_activity.date_start';
-						$timeFieldColumnName = 'vtiger_activity.time_start';
+						$dateFieldColumnName = 'jo_activity.date_start';
+						$timeFieldColumnName = 'jo_activity.time_start';
 					} else {
-						$dateFieldColumnName = 'vtiger_activity.due_date';
-						$timeFieldColumnName = 'vtiger_activity.time_end';
+						$dateFieldColumnName = 'jo_activity.due_date';
+						$timeFieldColumnName = 'jo_activity.time_end';
 					}
 					if ($operator == 'bw') {
 						$values = explode(',', $value);
@@ -784,13 +784,13 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					} else {
 						$fieldSql .= ')';
 					}
-				}else if (Vtiger_Functions::isUserSpecificFieldTable($field->getTableName(), getTabModuleName($field->getTabId())) && $fieldName == "starred" && $conditionInfo['value'] != 1) {
+				}else if (Head_Functions::isUserSpecificFieldTable($field->getTableName(), getTabModuleName($field->getTabId())) && $fieldName == "starred" && $conditionInfo['value'] != 1) {
 					// since not for all records you will have entry in starred field table. So for disabled (value 0) we need to check both 0 and null
 					$fieldSql .= "$fieldGlue (".$field->getTableName().'.'.$field->getColumnName().' '.$valueSql.' OR ';
 					$fieldSql .= $field->getTableName().'.'.$field->getColumnName().' IS NULL)';
 				} else if ($fieldName == "tags") {
-					$fieldSql .= " $fieldGlue ( vtiger_freetags.id ".$valueSql.' AND ' .
-							'( vtiger_freetagged_objects.tagger_id = '.$this->user->id.' OR vtiger_freetags.visibility = "public")) ';
+					$fieldSql .= " $fieldGlue ( jo_freetags.id ".$valueSql.' AND ' .
+							'( jo_freetagged_objects.tagger_id = '.$this->user->id.' OR jo_freetags.visibility = "public")) ';
 				} else {
 					if ($fieldName == 'birthday' && !$this->isRelativeSearchOperators($conditionInfo['operator'])) {
 						$fieldSql .= "$fieldGlue DATE_FORMAT(".$tableName.'.' .
@@ -813,7 +813,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					$fieldGlue = ' OR';
 				}
 			}
-			$tmpTableName = 'vtiger_crmentity'.$parentReferenceField;
+			$tmpTableName = 'jo_crmentity'.$parentReferenceField;
 			if ($tmpTableName == $tableName && $referenceModule) {
 				$fieldSql .= " and ".$tmpTableName.".setype = '".$referenceModule."'";
 			}
@@ -860,27 +860,27 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == 'reference') {
 			$referenceModules = $orderByFieldModel->getReferenceList();
 			if (in_array('DocumentFolders', $referenceModules)) {
-				$orderByColumn = "vtiger_attachmentsfolder".$orderByFieldModel->getFieldName().".foldername";
+				$orderByColumn = "jo_attachmentsfolder".$orderByFieldModel->getFieldName().".foldername";
 			} else if (in_array('Currency', $referenceModules)) {
 				if ($parentReferenceField) {
-					$orderByColumn = 'vtiger_currency_info'.$parentReferenceField.$orderByFieldModel->getFieldName().'.currency_name';
+					$orderByColumn = 'jo_currency_info'.$parentReferenceField.$orderByFieldModel->getFieldName().'.currency_name';
 				} else {
-					$orderByColumn = 'vtiger_currency_info'.$fieldName.'.currency_name';
+					$orderByColumn = 'jo_currency_info'.$fieldName.'.currency_name';
 				}
 			} else if (in_array('Users', $referenceModules)) {
-				$columnSqlTable = 'vtiger_users'.$parentReferenceField.$fieldName;
+				$columnSqlTable = 'jo_users'.$parentReferenceField.$fieldName;
 				$orderByColumn = getSqlForNameInDisplayFormat(array('first_name' => $columnSqlTable.'.first_name',
 					'last_name' => $columnSqlTable.'.last_name'), 'Users');
 			} else {
-				$orderByColumn = 'vtiger_crmentity'.$parentReferenceField.$orderByFieldModel->getFieldName().'.label'; //.$fieldModel->get('column');
+				$orderByColumn = 'jo_crmentity'.$parentReferenceField.$orderByFieldModel->getFieldName().'.label'; //.$fieldModel->get('column');
 			}
 		} else if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == 'owner') {
 			if ($parentReferenceField) {
-				$userTableName = 'vtiger_users'.$parentReferenceField.$orderByFieldModel->getFieldName();
-				$groupTableName = 'vtiger_groups'.$parentReferenceField.$orderByFieldModel->getFieldName();
+				$userTableName = 'jo_users'.$parentReferenceField.$orderByFieldModel->getFieldName();
+				$groupTableName = 'jo_groups'.$parentReferenceField.$orderByFieldModel->getFieldName();
 				$orderByColumn = "COALESCE(CONCAT($userTableName.first_name,$userTableName.last_name),$groupTableName.groupname)";
 			} else {
-				$orderByColumn = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderByColumn = 'COALESCE(CONCAT(jo_users.first_name,jo_users.last_name),jo_groups.groupname)';
 			}
 		} else if (($orderByFieldModel->getFieldName() == 'taskstatus' || $orderByFieldModel->getFieldName() == 'eventstatus') && $this->module == 'Calendar') {
 			$orderByColumn = 'status';

@@ -9,23 +9,23 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Roles_Save_Action extends Vtiger_Action_Controller {
+class Settings_Roles_Save_Action extends Head_Action_Controller {
 	
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if(!$currentUser->isAdminUser()) {
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$roleName = $request->get('rolename');
 		$allowassignedrecordsto = $request->get('allowassignedrecordsto');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Head_Module_Model::getInstance($qualifiedModuleName);
 		if(!empty($recordId)) {
 			$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
 		} else {
@@ -81,7 +81,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller {
 		header("Location: $redirectUrl");
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

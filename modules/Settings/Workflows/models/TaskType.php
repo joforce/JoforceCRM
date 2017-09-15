@@ -12,9 +12,9 @@
 /*
  * Workflow Task Type Model Class
  */
-require_once 'modules/com_vtiger_workflow/VTTaskManager.inc';
+require_once 'modules/com_jo_workflow/VTTaskManager.inc';
 
-class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model {
+class Settings_Workflows_TaskType_Model extends Head_Base_Model {
 
 	public function getId() {
 		return $this->get('id');
@@ -44,7 +44,7 @@ class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model {
 
 	public static function getInstanceFromClassName($taskClass) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where classname=?",array($taskClass));
+		$result = $db->pquery("SELECT * FROM com_jo_workflow_tasktypes where classname=?",array($taskClass));
 		$row = $db->query_result_rowdata($result, 0);
 		$taskTypeObject = VTTaskType::getInstance($row);
 		return self::getInstanceFromTaskTypeObject($taskTypeObject);
@@ -71,8 +71,8 @@ class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model {
 	public function getTaskBaseModule() {
 		$taskTypeName = $this->get('tasktypename');
 		switch($taskTypeName) {
-			case 'VTCreateTodoTask' : return Vtiger_Module_Model::getInstance('Calendar');
-			case 'VTCreateEventTask' : return Vtiger_Module_Model::getInstance('Events');
+			case 'VTCreateTodoTask' : return Head_Module_Model::getInstance('Calendar');
+			case 'VTCreateEventTask' : return Head_Module_Model::getInstance('Events');
 		}
 	}
 

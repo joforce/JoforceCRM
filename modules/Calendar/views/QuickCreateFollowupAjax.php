@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_QuickCreateFollowupAjax_View extends Vtiger_QuickCreateAjax_View {
+class Calendar_QuickCreateFollowupAjax_View extends Head_QuickCreateAjax_View {
 
-	public function  process(Vtiger_Request $request) {
+	public function  process(Head_Request $request) {
 		$moduleName = $request->getModule();
         $recordId = $request->get('record');
         
-        $recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+        $recordModel = Head_Record_Model::getInstanceById($recordId);
         $moduleModel = $recordModel->getModule();
 
 		if(isPermitted($moduleName, 'CreateView', $recordId) === 'yes'){

@@ -87,11 +87,11 @@ require_once('include/utils/UserInfoUtil.php');
 		if( $owner != $userid)
 		{
 			
-			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('".$avail_date."' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=?  and vtiger_crmentity.deleted=0";
+			$usr_query="select activityid,jo_activity.date_start,jo_activity.due_date, jo_activity.time_start,jo_activity.duration_hours,jo_activity.duration_minutes,jo_crmentity.smownerid from jo_activity,jo_crmentity where jo_crmentity.crmid=jo_activity.activityid and ('".$avail_date."' like date_start) and jo_crmentity.smownerid=? and jo_activity.activityid !=?  and jo_crmentity.deleted=0";
 		}
 		else
 		{
-			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('".$avail_date."' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
+			$usr_query="select activityid,jo_activity.date_start,jo_activity.due_date, jo_activity.time_start,jo_activity.duration_hours,jo_activity.duration_minutes,jo_crmentity.smownerid from jo_activity,jo_crmentity where jo_crmentity.crmid=jo_activity.activityid and ('".$avail_date."' like date_start) and jo_crmentity.smownerid=? and jo_activity.activityid !=? and jo_crmentity.deleted=0";
 		}
 		$result_cal=$adb->pquery($usr_query, array($userid, $activity_id));   
 		$noofrows_cal = $adb->num_rows($result_cal);
@@ -121,7 +121,7 @@ require_once('include/utils/UserInfoUtil.php');
 		}
 		if($avail_flag!="true")
 		{
-			$recur_query="SELECT vtiger_activity.activityid, vtiger_activity.time_start, vtiger_activity.duration_hours, vtiger_activity.duration_minutes , vtiger_crmentity.smownerid, vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid where ('".$avail_date."' like vtiger_recurringevents.recurringdate) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
+			$recur_query="SELECT jo_activity.activityid, jo_activity.time_start, jo_activity.duration_hours, jo_activity.duration_minutes , jo_crmentity.smownerid, jo_recurringevents.recurringid, jo_recurringevents.recurringdate as date_start from jo_activity inner join jo_crmentity on jo_activity.activityid = jo_crmentity.crmid inner join jo_recurringevents on jo_activity.activityid=jo_recurringevents.activityid where ('".$avail_date."' like jo_recurringevents.recurringdate) and jo_crmentity.smownerid=? and jo_activity.activityid !=? and jo_crmentity.deleted=0";
 			$result_cal=$adb->pquery($recur_query, array($userid, $activity_id));   
 			$noofrows_cal = $adb->num_rows($result_cal);
 			$avail_flag="false";
@@ -151,11 +151,11 @@ require_once('include/utils/UserInfoUtil.php');
 		}	
 	 	if($avail_flag == "true")
                 {
-                        $availability=' <IMG SRC="' . vtiger_imageurl('busy.gif', $theme). '">';
+                        $availability=' <IMG SRC="' . jo_imageurl('busy.gif', $theme). '">';
                 }
                 else
                 {
-                        $availability=' <IMG SRC="' . vtiger_imageurl('free.gif', $theme). '">';
+                        $availability=' <IMG SRC="' . jo_imageurl('free.gif', $theme). '">';
                 }
 		$log->debug("Exiting status_availability method ...");
 		return $availability;

@@ -14,7 +14,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/utils/EditViewUtils.php,v 1.188 2005/04/29 05:5 * 4:39 rank Exp
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/include/utils/EditViewUtils.php,v 1.188 2005/04/29 05:5 * 4:39 rank Exp
  * Description:  Includes generic helper functions used throughout the application.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
@@ -27,7 +27,7 @@ require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once 'modules/PickList/DependentPickListUtils.php';
 
-/** This function returns the vtiger_invoice object populated with the details from sales order object.
+/** This function returns the jo_invoice object populated with the details from sales order object.
 * Param $focus - Invoice object
 * Param $so_focus - Sales order focus
 * Param $soid - sales order id
@@ -55,7 +55,7 @@ function getConvertSoToInvoice($focus,$so_focus,$soid)
 	$focus->column_fields['account_id'] = $so_focus->column_fields['account_id'];
 	$focus->column_fields['exciseduty'] = $so_focus->column_fields['exciseduty'];
 	$focus->column_fields['salescommission'] = $so_focus->column_fields['salescommission'];
-	$focus->column_fields['vtiger_purchaseorder'] = $so_focus->column_fields['vtiger_purchaseorder'];
+	$focus->column_fields['jo_purchaseorder'] = $so_focus->column_fields['jo_purchaseorder'];
 	$focus->column_fields['bill_street'] = $so_focus->column_fields['bill_street'];
 	$focus->column_fields['ship_street'] = $so_focus->column_fields['ship_street'];
 	$focus->column_fields['bill_city'] = $so_focus->column_fields['bill_city'];
@@ -79,7 +79,7 @@ function getConvertSoToInvoice($focus,$so_focus,$soid)
 
 }
 
-/** This function returns the detailed list of vtiger_products associated to a given entity or a record.
+/** This function returns the detailed list of jo_products associated to a given entity or a record.
 * Param $module - module name
 * Param $focus - module object
 * Param $seid - sales entity id
@@ -112,77 +112,77 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	if (in_array($module, $inventoryModules))
 	{
 		$query="SELECT
-					case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname,
-					case when vtiger_products.productid != '' then vtiger_products.product_no else vtiger_service.service_no end as productcode,
-					case when vtiger_products.productid != '' then vtiger_products.unit_price else vtiger_service.unit_price end as unit_price,
-					case when vtiger_products.productid != '' then vtiger_products.qtyinstock else 'NA' end as qtyinstock,
-					case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
-					vtiger_inventoryproductrel.listprice, vtiger_products.is_subproducts_viewable, 
-					vtiger_inventoryproductrel.description AS product_description, vtiger_inventoryproductrel.*,
-					vtiger_crmentity.deleted FROM vtiger_inventoryproductrel
-					LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_inventoryproductrel.productid
-					LEFT JOIN vtiger_products ON vtiger_products.productid=vtiger_inventoryproductrel.productid
-					LEFT JOIN vtiger_service ON vtiger_service.serviceid=vtiger_inventoryproductrel.productid
+					case when jo_products.productid != '' then jo_products.productname else jo_service.servicename end as productname,
+					case when jo_products.productid != '' then jo_products.product_no else jo_service.service_no end as productcode,
+					case when jo_products.productid != '' then jo_products.unit_price else jo_service.unit_price end as unit_price,
+					case when jo_products.productid != '' then jo_products.qtyinstock else 'NA' end as qtyinstock,
+					case when jo_products.productid != '' then 'Products' else 'Services' end as entitytype,
+					jo_inventoryproductrel.listprice, jo_products.is_subproducts_viewable, 
+					jo_inventoryproductrel.description AS product_description, jo_inventoryproductrel.*,
+					jo_crmentity.deleted FROM jo_inventoryproductrel
+					LEFT JOIN jo_crmentity ON jo_crmentity.crmid=jo_inventoryproductrel.productid
+					LEFT JOIN jo_products ON jo_products.productid=jo_inventoryproductrel.productid
+					LEFT JOIN jo_service ON jo_service.serviceid=jo_inventoryproductrel.productid
 					WHERE id=? ORDER BY sequence_no";
 			$params = array($focus->id);
 	}
 	elseif(in_array($module, $lineItemSupportedModules))
 	{
-		$query = '(SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.product_no AS productcode, vtiger_products.purchase_cost,
-					vtiger_products.unit_price, vtiger_products.qtyinstock, vtiger_crmentity.deleted, "Products" AS entitytype,
-					vtiger_products.is_subproducts_viewable, vtiger_crmentity.description '.$additionalProductFieldsString.' FROM vtiger_products
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_products.productid
-					INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.productid=vtiger_products.productid
-					INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
-					WHERE vtiger_seproductsrel.crmid=? AND vtiger_crmentity.deleted=0 AND vtiger_products.discontinued=1)
+		$query = '(SELECT jo_products.productid, jo_products.productname, jo_products.product_no AS productcode, jo_products.purchase_cost,
+					jo_products.unit_price, jo_products.qtyinstock, jo_crmentity.deleted, "Products" AS entitytype,
+					jo_products.is_subproducts_viewable, jo_crmentity.description '.$additionalProductFieldsString.' FROM jo_products
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_products.productid
+					INNER JOIN jo_seproductsrel ON jo_seproductsrel.productid=jo_products.productid
+					INNER JOIN jo_productcf ON jo_products.productid = jo_productcf.productid
+					WHERE jo_seproductsrel.crmid=? AND jo_crmentity.deleted=0 AND jo_products.discontinued=1)
 					UNION
-					(SELECT vtiger_service.serviceid AS productid, vtiger_service.servicename AS productname, vtiger_service.service_no AS productcode,
-					vtiger_service.purchase_cost, vtiger_service.unit_price, "NA" as qtyinstock, vtiger_crmentity.deleted,
-					"Services" AS entitytype, 1 AS is_subproducts_viewable, vtiger_crmentity.description '.$additionalServiceFieldsString.' FROM vtiger_service
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid
-					INNER JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid
-					INNER JOIN vtiger_servicecf ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-					WHERE vtiger_crmentityrel.crmid=? AND vtiger_crmentity.deleted=0 AND vtiger_service.discontinued=1)';
+					(SELECT jo_service.serviceid AS productid, jo_service.servicename AS productname, jo_service.service_no AS productcode,
+					jo_service.purchase_cost, jo_service.unit_price, "NA" as qtyinstock, jo_crmentity.deleted,
+					"Services" AS entitytype, 1 AS is_subproducts_viewable, jo_crmentity.description '.$additionalServiceFieldsString.' FROM jo_service
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_service.serviceid
+					INNER JOIN jo_crmentityrel ON jo_crmentityrel.relcrmid = jo_service.serviceid
+					INNER JOIN jo_servicecf ON jo_service.serviceid = jo_servicecf.serviceid
+					WHERE jo_crmentityrel.crmid=? AND jo_crmentity.deleted=0 AND jo_service.discontinued=1)';
 			$params = array($seid, $seid);
 	}
 	elseif ($module == 'Vendors') {
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.product_no AS productcode, vtiger_products.purchase_cost,
-					vtiger_products.unit_price, vtiger_products.qtyinstock, vtiger_crmentity.deleted, "Products" AS entitytype,
-					vtiger_products.is_subproducts_viewable, vtiger_crmentity.description '.$additionalServiceFieldsString.' FROM vtiger_products
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_products.productid
-					INNER JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_products.vendor_id
-					INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
-					WHERE vtiger_vendor.vendorid=? AND vtiger_crmentity.deleted=0 AND vtiger_products.discontinued=1';
+		$query = 'SELECT jo_products.productid, jo_products.productname, jo_products.product_no AS productcode, jo_products.purchase_cost,
+					jo_products.unit_price, jo_products.qtyinstock, jo_crmentity.deleted, "Products" AS entitytype,
+					jo_products.is_subproducts_viewable, jo_crmentity.description '.$additionalServiceFieldsString.' FROM jo_products
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_products.productid
+					INNER JOIN jo_vendor ON jo_vendor.vendorid = jo_products.vendor_id
+					INNER JOIN jo_productcf ON jo_products.productid = jo_productcf.productid
+					WHERE jo_vendor.vendorid=? AND jo_crmentity.deleted=0 AND jo_products.discontinued=1';
 			$params = array($seid);
 	}
 	elseif ($module == 'HelpDesk') {
-		$query = 'SELECT vtiger_service.serviceid AS productid, vtiger_service.servicename AS productname, vtiger_service.service_no AS productcode,
-					vtiger_service.purchase_cost, vtiger_service.unit_price, "NA" as qtyinstock, vtiger_crmentity.deleted,
-					"Services" AS entitytype, 1 AS is_subproducts_viewable, vtiger_crmentity.description '.$additionalServiceFieldsString.' FROM vtiger_service
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid
-					INNER JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid
-					INNER JOIN vtiger_servicecf ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-					WHERE vtiger_crmentityrel.crmid=? AND vtiger_crmentity.deleted=0 AND vtiger_service.discontinued=1';
+		$query = 'SELECT jo_service.serviceid AS productid, jo_service.servicename AS productname, jo_service.service_no AS productcode,
+					jo_service.purchase_cost, jo_service.unit_price, "NA" as qtyinstock, jo_crmentity.deleted,
+					"Services" AS entitytype, 1 AS is_subproducts_viewable, jo_crmentity.description '.$additionalServiceFieldsString.' FROM jo_service
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_service.serviceid
+					INNER JOIN jo_crmentityrel ON jo_crmentityrel.relcrmid = jo_service.serviceid
+					INNER JOIN jo_servicecf ON jo_service.serviceid = jo_servicecf.serviceid
+					WHERE jo_crmentityrel.crmid=? AND jo_crmentity.deleted=0 AND jo_service.discontinued=1';
 			$params = array($seid);
 	}
 	elseif($module == 'Products')
 	{
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.product_no AS productcode, vtiger_products.purchase_cost,
-					vtiger_products.unit_price, vtiger_products.qtyinstock, vtiger_crmentity.deleted, "Products" AS entitytype,
-					vtiger_products.is_subproducts_viewable, vtiger_crmentity.description '.$additionalProductFieldsString.' FROM vtiger_products
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_products.productid
-					INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
-					WHERE vtiger_crmentity.deleted=0 AND vtiger_products.productid=?';
+		$query = 'SELECT jo_products.productid, jo_products.productname, jo_products.product_no AS productcode, jo_products.purchase_cost,
+					jo_products.unit_price, jo_products.qtyinstock, jo_crmentity.deleted, "Products" AS entitytype,
+					jo_products.is_subproducts_viewable, jo_crmentity.description '.$additionalProductFieldsString.' FROM jo_products
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_products.productid
+					INNER JOIN jo_productcf ON jo_products.productid = jo_productcf.productid
+					WHERE jo_crmentity.deleted=0 AND jo_products.productid=?';
 			$params = array($seid);
 	}
 	elseif($module == 'Services')
 	{
-		$query='SELECT vtiger_service.serviceid AS productid, vtiger_service.servicename AS productname, vtiger_service.service_no AS productcode,
-					vtiger_service.purchase_cost, vtiger_service.unit_price AS unit_price, "NA" AS qtyinstock, vtiger_crmentity.deleted,
-					"Services" AS entitytype, 1 AS is_subproducts_viewable, vtiger_crmentity.description '.$additionalServiceFieldsString.' FROM vtiger_service
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_service.serviceid
-					INNER JOIN vtiger_servicecf ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-					WHERE vtiger_crmentity.deleted=0 AND vtiger_service.serviceid=?';
+		$query='SELECT jo_service.serviceid AS productid, jo_service.servicename AS productname, jo_service.service_no AS productcode,
+					jo_service.purchase_cost, jo_service.unit_price AS unit_price, "NA" AS qtyinstock, jo_crmentity.deleted,
+					"Services" AS entitytype, 1 AS is_subproducts_viewable, jo_crmentity.description '.$additionalServiceFieldsString.' FROM jo_service
+					INNER JOIN jo_crmentity ON jo_crmentity.crmid=jo_service.serviceid
+					INNER JOIN jo_servicecf ON jo_service.serviceid = jo_servicecf.serviceid
+					WHERE jo_crmentity.deleted=0 AND jo_service.serviceid=?';
 			$params = array($seid);
 	}
 
@@ -238,10 +238,10 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		}
 
 		if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors' || (!$focus->mode && $seid)) {
-			$subProductsQuery = 'SELECT vtiger_seproductsrel.crmid AS prod_id, quantity FROM vtiger_seproductsrel
-								 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_seproductsrel.crmid
-								 INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_seproductsrel.crmid
-								 WHERE vtiger_seproductsrel.productid=? AND vtiger_seproductsrel.setype=? AND vtiger_products.discontinued=1';
+			$subProductsQuery = 'SELECT jo_seproductsrel.crmid AS prod_id, quantity FROM jo_seproductsrel
+								 INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_seproductsrel.crmid
+								 INNER JOIN jo_products ON jo_products.productid = jo_seproductsrel.crmid
+								 WHERE jo_seproductsrel.productid=? AND jo_seproductsrel.setype=? AND jo_products.discontinued=1';
 
 			$subParams = array($seid);
 			if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors') {
@@ -249,7 +249,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			}
 			array_push($subParams, 'Products');
 		} else {
-			$subProductsQuery = 'SELECT productid AS prod_id, quantity FROM vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?';
+			$subProductsQuery = 'SELECT productid AS prod_id, quantity FROM jo_inventorysubproductrel WHERE id=? AND sequence_no=?';
 			$subParams = array($focus->id, $i);
 		}
 		$subProductsResult = $adb->pquery($subProductsQuery, $subParams);
@@ -533,7 +533,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	//First we should get all available taxes and then retrieve the corresponding tax values
 	$shtax_details = getAllTaxes('available','sh','edit',$focus->id);
 
-	//if taxtype is group then the tax should be same for all products in vtiger_inventoryproductrel table
+	//if taxtype is group then the tax should be same for all products in jo_inventoryproductrel table
 	for($shtax_count=0;$shtax_count<count($shtax_details);$shtax_count++)
 	{
 		$shtax_name = $shtax_details[$shtax_count]['taxname'];
@@ -574,8 +574,8 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 
 }
 
-/** This function returns the data type of the vtiger_fields, with vtiger_field label, which is used for javascript validation.
-* Param $validationData - array of vtiger_fieldnames with datatype
+/** This function returns the data type of the jo_fields, with jo_field label, which is used for javascript validation.
+* Param $validationData - array of jo_fieldnames with datatype
 * Return type array
 */
 

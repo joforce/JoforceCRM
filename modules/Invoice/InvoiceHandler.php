@@ -50,7 +50,7 @@ class InvoiceHandler extends VTEventHandler {
             if ($wsrecord['balance'] == 0) {
                 $wsrecord['invoicestatus'] = 'Paid';
             }
-            $query = "UPDATE vtiger_invoice SET balance=?,received=? WHERE invoiceid=?";
+            $query = "UPDATE jo_invoice SET balance=?,received=? WHERE invoiceid=?";
             $db->pquery($query, array($wsrecord['balance'], $wsrecord['received'], $entityData->getId()));
         }
     }

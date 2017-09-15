@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Calendar_Edit_View extends Vtiger_Edit_View {
+Class Calendar_Edit_View extends Head_Edit_View {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$this->exposeMethod('Calendar');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
@@ -40,12 +40,12 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->getMode();
 
 		$recordId = $request->get('record');
 		if(!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = Head_Record_Model::getInstanceById($recordId);
 			$mode = $recordModel->getType();
 		}
 
@@ -63,17 +63,17 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$record = $request->get('record');
 
 		 if(!empty($record) && $request->get('isDuplicate') == true) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		}else if(!empty($record)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 		}
-		$eventModule = Vtiger_Module_Model::getInstance($moduleName);
+		$eventModule = Head_Module_Model::getInstance($moduleName);
 		$recordModel->setModuleFromInstance($eventModule);
 
 		$moduleModel = $recordModel->getModule();
@@ -82,7 +82,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 
 		$relContactId = $request->get('contact_id');
 		if ($relContactId) {
-			$contactRecordModel = Vtiger_Record_Model::getInstanceById($relContactId);
+			$contactRecordModel = Head_Record_Model::getInstanceById($relContactId);
 			$requestFieldList['parent_id'] = $contactRecordModel->get('account_id');
 		}
 		foreach($requestFieldList as $fieldName=>$fieldValue){
@@ -98,15 +98,15 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 			} 
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) { 
 				if($fieldName == 'date_start'){
-					$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-					$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue." ".$startTime);
+					$startTime = Head_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
+					$startDateTime = Head_Datetime_UIType::getDBDateTimeValue($fieldValue." ".$startTime);
 					list($startDate, $startTime) = explode(' ', $startDateTime);
-					$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
+					$fieldValue = Head_Date_UIType::getDisplayDateValue($startDate);
 				}else{
-					$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
-					$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue." ".$endTime);
+					$endTime = Head_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
+					$endDateTime = Head_Datetime_UIType::getDBDateTimeValue($fieldValue." ".$endTime);
 					list($endDate, $endTime) = explode(' ', $endDateTime);
-					$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($endDate);
+					$fieldValue = Head_Date_UIType::getDisplayDateValue($endDate);
 				}
 			}
 
@@ -114,8 +114,8 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel,
-									Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel,
+									Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 
 		$viewMode = $request->get('view_mode');
 		if(!empty($viewMode)) {
@@ -159,7 +159,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('FOLLOW_UP_DATE',$followUpDate);
 		$viewer->assign('FOLLOW_UP_TIME',$followUpTime);
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurrenceInformation());
-		$viewer->assign('TOMORROWDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d', time()+86400)));
+		$viewer->assign('TOMORROWDATE', Head_Date_UIType::getDisplayDateValue(date('Y-m-d', time()+86400)));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
@@ -172,14 +172,14 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		//To add contact ids that is there in the request . Happens in gotoFull form mode of quick create
 		$requestContactIdValue = $request->get('contact_id');
 		if(!empty($requestContactIdValue)) {
-			$existingRelatedContacts[] = array('name' => decode_html(Vtiger_Util_Helper::getRecordName($requestContactIdValue)) ,'id' => $requestContactIdValue);
+			$existingRelatedContacts[] = array('name' => decode_html(Head_Util_Helper::getRecordName($requestContactIdValue)) ,'id' => $requestContactIdValue);
 		}
 		//If already selected contact ids, then in gotoFull form should show those selected contact ids
 		$idsList = $request->get('contactidlist');
 		if(!empty($idsList)) {
 			$contactIdsList = explode (';', $idsList);
 			foreach($contactIdsList as $contactId) {
-				$existingRelatedContacts[] = array('name' => decode_html(Vtiger_Util_Helper::getRecordName($contactId)) ,'id' => $contactId);
+				$existingRelatedContacts[] = array('name' => decode_html(Head_Util_Helper::getRecordName($contactId)) ,'id' => $contactId);
 			}
 		}
 
@@ -193,10 +193,10 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 			$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
 			$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$accessibleUsers = $currentUser->getAccessibleUsers();
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Head_Functions::jsonEncode($picklistDependencyDatasource));
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		$viewer->assign('CURRENT_USER', $currentUser);
@@ -213,7 +213,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 			$viewer->view('EditView.tpl', $moduleName);
 		}
 	}
-	public function getOverlayHeaderScripts(Vtiger_Request $request) {
+	public function getOverlayHeaderScripts(Head_Request $request) {
 		parent::getOverlayHeaderScripts($request);
 	}
 

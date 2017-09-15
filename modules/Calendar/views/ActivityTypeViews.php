@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_ActivityTypeViews_View extends Vtiger_Index_View {
+class Calendar_ActivityTypeViews_View extends Head_Index_View {
 
 	function __construct() {
 		$this->exposeMethod('addActivityType');
 		$this->exposeMethod('editActivityType');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,7 +24,7 @@ class Calendar_ActivityTypeViews_View extends Vtiger_Index_View {
 		}
 	}
 
-	public function addActivityType(Vtiger_Request $request) {
+	public function addActivityType(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$calendarViews = Calendar_Module_Model::getCalendarViewTypes($currentUser->id);
@@ -39,7 +39,7 @@ class Calendar_ActivityTypeViews_View extends Vtiger_Index_View {
 		$viewer->view('AddActivityType.tpl', $moduleName);
 	}
 
-	public function editActivityType(Vtiger_Request $request) {
+	public function editActivityType(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$calendarViews = Calendar_Module_Model::getCalendarViewTypes($currentUser->id);

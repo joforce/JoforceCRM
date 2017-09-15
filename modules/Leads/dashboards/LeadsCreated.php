@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View {
+class Leads_LeadsCreated_Dashboard extends Head_IndexAjax_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 
 		$jsFileNames = array(
 //			'~/libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
@@ -30,7 +30,7 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View {
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -39,10 +39,10 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View {
 		$dates = $request->get('createdtime');
 		$owner = $request->get('owner');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getLeadsCreated($owner, $dates);
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Head_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 		$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));

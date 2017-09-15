@@ -15,21 +15,21 @@ require_once 'include/utils/CommonUtils.php';
 require_once 'includes/Loader.php';
 vimport ('includes.runtime.EntryPoint');
 
-class Vtiger_WebUI extends Vtiger_EntryPoint {
+class Head_WebUI extends Head_EntryPoint {
 
 	/**
 	 * Function to check if the User has logged in
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @throws AppException
 	 */
-	protected function checkLogin (Vtiger_Request $request) {
+	protected function checkLogin (Head_Request $request) {
 		global $site_URL;
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
 			if($return_params && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
 				$return_params = urlencode($return_params);
-				Vtiger_Session::set('return_params', $return_params);
+				Head_Session::set('return_params', $return_params);
 			}
 			header ('Location:'.$site_URL.'index.php');
 			throw new AppException('Login is required');
@@ -43,7 +43,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	function getLogin() {
 		$user = parent::getLogin();
 		if (!$user && isset($_SESSION['authenticated_user_id'])) {
-			$userid = Vtiger_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
+			$userid = Head_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
 			if ($userid && vglobal('application_unique_key')==$_SESSION['app_unique_key']) {
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
@@ -55,7 +55,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 
 	protected function triggerCheckPermission($handler, $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
 			throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
@@ -93,8 +93,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		return true;
 	}
 
-	function process (Vtiger_Request $request) {
-		Vtiger_Session::init();
+	function process (Head_Request $request) {
+		Head_Session::init();
 		
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password 
@@ -116,20 +116,20 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 
 		global $default_language;
 		vglobal('default_language', $default_language);
-		$currentLanguage = Vtiger_Language_Handler::getLanguage();
+		$currentLanguage = Head_Language_Handler::getLanguage();
 		vglobal('current_language',$currentLanguage);
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		if ($currentUser && $qualifiedModuleName) {
-			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage,$qualifiedModuleName);
+			$moduleLanguageStrings = Head_Language_Handler::getModuleStringsFromFile($currentLanguage,$qualifiedModuleName);
 			if(isset($moduleLanguageStrings['languageStrings'])){
 				vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
 			}
 		}
 
 		if ($currentUser) {
-			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
+			$moduleLanguageStrings = Head_Language_Handler::getModuleStringsFromFile($currentLanguage);
 			if(isset($moduleLanguageStrings['languageStrings'])){
 				vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
 			}
@@ -142,7 +142,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		//Not able to open other pages when heavy duty view is open.
 		//heavy duty report views are open and to navigate to other module list view / detail view the page loading almost freezes page.
 		if ($module == 'Reports' && !$view) {
-			Vtiger_Session::readonly();
+			Head_Session::readonly();
 		}
 
 		try {
@@ -154,7 +154,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			if(empty($module)) {
 				if ($this->hasLogin()) {
 					$defaultModule = vglobal('default_module');
-					$moduleModel = Vtiger_Module_Model::getInstance($defaultModule);
+					$moduleModel = Head_Module_Model::getInstance($defaultModule);
 					if(!empty($defaultModule) && $defaultModule != 'Home' && $moduleModel && $moduleModel->isActive()) {
 						$module = $defaultModule; $qualifiedModuleName = $defaultModule; $view = 'List';
 						if($module == 'Calendar') { 
@@ -182,7 +182,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				}
 				$componentName = $view;
 			}
-			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
+			$handlerClass = Head_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 
 			if ($handler) {
@@ -196,7 +196,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				}
 
 				//TODO : Need to review the design as there can potential security threat
-				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'PriceBooks', 'Migration', 'Install');
+				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Head', 'PriceBooks', 'Migration', 'Install');
 
 				if(!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
@@ -225,12 +225,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				global $log;
 				$log->debug($e->getMessage().":".$e->getTraceAsString());
 
-				$viewer = new Vtiger_Viewer();
+				$viewer = new Head_Viewer();
 				$viewer->assign('MESSAGE', $e->getMessage());
-				$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+				$viewer->view('OperationNotPermitted.tpl', 'Head');
 			} else {
-				$response = new Vtiger_Response();
-				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+				$response = new Head_Response();
+				$response->setEmitType(Head_Response::$EMIT_JSON);
 				$response->setError($e->getMessage());
 			}
 		}

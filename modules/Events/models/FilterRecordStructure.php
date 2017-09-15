@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Events_FilterRecordStructure_Model extends Vtiger_FilterRecordStructure_Model {
+class Events_FilterRecordStructure_Model extends Head_FilterRecordStructure_Model {
 
 	/**
 	 * Function to get the fields & reference fields in stuctured format

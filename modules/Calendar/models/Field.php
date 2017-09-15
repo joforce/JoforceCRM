@@ -12,7 +12,7 @@
 /**
  * Calendar Field Model Class
  */
-class Calendar_Field_Model extends Vtiger_Field_Model {
+class Calendar_Field_Model extends Head_Field_Model {
 
 	/**
 	 * Function returns special validator for fields
@@ -69,7 +69,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if($currentUser->get('hour_format') == '12')
-					$startTime = Vtiger_Time_UIType::getTimeValueInAMorPM($startTime);
+					$startTime = Head_Time_UIType::getTimeValueInAMorPM($startTime);
 
 				return $startDate . ' ' . $startTime;
 			} else if ($this->getName() == 'due_date') {
@@ -79,7 +79,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if($currentUser->get('hour_format') == '12')
-					$startTime = Vtiger_Time_UIType::getTimeValueInAMorPM($startTime);
+					$startTime = Head_Time_UIType::getTimeValueInAMorPM($startTime);
 
 				return $startDate . ' ' . $startTime;
 			}
@@ -123,12 +123,12 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
      */
     public static function getReccurencePicklistValues() {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
+		$fieldModel = Head_Field_Model::getInstance('recurringtype', Head_Module_Model::getInstance('Events'));
 		if($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
+			$picklistValues = Head_Util_Helper::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
 		}else{
-			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
+			$picklistValues = Head_Util_Helper::getPickListValues('recurringtype');
 		}
 		foreach($picklistValues as $value) {
 			$fieldPickListValues[$value] = vtranslate($value,'Events');

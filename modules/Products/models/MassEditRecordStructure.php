@@ -13,7 +13,7 @@
 /**
  * Mass Edit Record Structure Model
  */
-class Products_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStructure_Model {
+class Products_MassEditRecordStructure_Model extends Head_MassEditRecordStructure_Model {
 	
 	/*
 	 * Function that return Field Restricted are not

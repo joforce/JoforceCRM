@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Contacts_Record_Model extends Vtiger_Record_Model {
+class Contacts_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
 	function getCreateEventUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl().'/'.$this->getId();
 	}
 
@@ -25,7 +25,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateTaskUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl().'/'.$this->getId();
 	}
 

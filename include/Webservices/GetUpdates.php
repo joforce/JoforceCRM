@@ -101,7 +101,7 @@ require_once 'include/Webservices/DescribeObject.php';
 				}
 		}
 		else
-		 $baseCRMTable = " vtiger_crmentity ";
+		 $baseCRMTable = " jo_crmentity ";
 
 		//modifiedtime - next token
 		$q = "SELECT modifiedtime FROM $baseCRMTable WHERE  modifiedtime>? and setype IN(".generateQuestionMarks($accessableModules).") ";
@@ -168,9 +168,9 @@ require_once 'include/Webservices/DescribeObject.php';
 				$fromClause.= 'and smownerid IN('.generateQuestionMarks($ownerIds).')';
 				$params = array_merge($params,$ownerIds);
 			}
-			$fromClause.= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
+			$fromClause.= ' ) jo_ws_sync ON (jo_crmentity.crmid = jo_ws_sync.crmid)';
 			if ($elementType == 'Events') {
-				// If we have more than one contact attached to Vtiger Event then we are getting duplicates
+				// If we have more than one contact attached to Head Event then we are getting duplicates
 				$moduleFocus = CRMEntity::getInstance('Activity');
 				$fromClause .= " GROUP BY $moduleFocus->table_name.$moduleFocus->table_index";
 			}
@@ -263,35 +263,35 @@ require_once 'include/Webservices/DescribeObject.php';
 	}
 
 	function vtws_getEmailFromClause(){
-		$q = "FROM vtiger_activity
-				INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid
-				LEFT JOIN vtiger_seattachmentsrel ON vtiger_activity.activityid = vtiger_seattachmentsrel.crmid
-				LEFT JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				LEFT JOIN vtiger_email_track ON vtiger_activity.activityid = vtiger_email_track.mailid
-				INNER JOIN vtiger_emaildetails ON vtiger_activity.activityid = vtiger_emaildetails.emailid
-				LEFT JOIN vtiger_users vtiger_users2 ON vtiger_emaildetails.idlists = vtiger_users2.id
-				LEFT JOIN vtiger_groups vtiger_groups2 ON vtiger_emaildetails.idlists = vtiger_groups2.groupid";
+		$q = "FROM jo_activity
+				INNER JOIN jo_crmentity ON jo_activity.activityid = jo_crmentity.crmid
+				LEFT JOIN jo_users ON jo_crmentity.smownerid = jo_users.id
+				LEFT JOIN jo_groups ON jo_crmentity.smownerid = jo_groups.groupid
+				LEFT JOIN jo_seattachmentsrel ON jo_activity.activityid = jo_seattachmentsrel.crmid
+				LEFT JOIN jo_attachments ON jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid
+				LEFT JOIN jo_email_track ON jo_activity.activityid = jo_email_track.mailid
+				INNER JOIN jo_emaildetails ON jo_activity.activityid = jo_emaildetails.emailid
+				LEFT JOIN jo_users jo_users2 ON jo_emaildetails.idlists = jo_users2.id
+				LEFT JOIN jo_groups jo_groups2 ON jo_emaildetails.idlists = jo_groups2.groupid";
 		return $q;
 	}
 
 	function getSyncQueryBaseTable($elementType){
 		if($elementType!="Calendar" && $elementType!="Events"){
-			return "vtiger_crmentity";
+			return "jo_crmentity";
 		}
 		else{
 			$activityCondition = getCalendarTypeCondition($elementType);
-			$query = "vtiger_crmentity INNER JOIN vtiger_activity ON (vtiger_crmentity.crmid = vtiger_activity.activityid and $activityCondition)";
+			$query = "jo_crmentity INNER JOIN jo_activity ON (jo_crmentity.crmid = jo_activity.activityid and $activityCondition)";
 			return $query;
 		}
 	}
 
 	function getCalendarTypeCondition($elementType){
 		if($elementType == "Events")
-			$activityCondition = "vtiger_activity.activitytype !='Task' and vtiger_activity.activitytype !='Emails'";
+			$activityCondition = "jo_activity.activitytype !='Task' and jo_activity.activitytype !='Emails'";
 		else
-			$activityCondition = "vtiger_activity.activitytype ='Task'";
+			$activityCondition = "jo_activity.activitytype ='Task'";
 		return $activityCondition;
 	}
     

@@ -44,7 +44,7 @@ $languageStrings = array(
 	'LBL_EDIT_ALL_DESC' => 'Can edit all the modules information',
 	'LBL_DUPLICATES_EXIST' => 'Duplicate Profile Exists',
 
-	/*Vtiger7 Strings*/
+	/*Head7 Strings*/
 	'LBL_EDIT_PROFILE' => 'Edit Profile',
 	'LBL_GLOBAL_PERMISSION_WARNING' => 'Warning : Users associated with this profile can access all records in the CRM',
 );

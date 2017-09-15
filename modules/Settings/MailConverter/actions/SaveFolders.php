@@ -9,16 +9,16 @@
  * Contributor(s): JoForce.com
  * ********************************************************************************** */
 
-class Settings_MailConverter_SaveFolders_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_SaveFolders_Action extends Settings_Head_Index_Action {
 
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$checkedFolders = $request->get('folders');
 		$folders = explode(',', $checkedFolders);
 		Settings_MailConverter_Module_Model::updateFolders($recordId, $folders);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 
 		$result = array('message' => vtranslate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName));
 		$result['id'] = $recordId;

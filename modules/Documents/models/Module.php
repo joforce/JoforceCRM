@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Module_Model extends Vtiger_Module_Model {
+class Documents_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Functions tells if the module supports workflow
@@ -41,7 +41,7 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 	 */
 	public static function getAllFolders() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_attachmentsfolder ORDER BY sequence', array());
+		$result = $db->pquery('SELECT * FROM jo_attachmentsfolder ORDER BY sequence', array());
 
 		$folderList = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -61,9 +61,9 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		if($sourceModule === 'Emails' && $field === 'composeEmail') {
-			$condition = ' (( vtiger_notes.filelocationtype LIKE "%I%")) AND vtiger_notes.filename != "" AND vtiger_notes.filestatus = 1';
+			$condition = ' (( jo_notes.filelocationtype LIKE "%I%")) AND jo_notes.filename != "" AND jo_notes.filestatus = 1';
 		} else {
-			$condition = " vtiger_notes.notesid NOT IN (SELECT notesid FROM vtiger_senotesrel WHERE crmid = '$record') AND vtiger_notes.filestatus = 1";
+			$condition = " jo_notes.notesid NOT IN (SELECT notesid FROM jo_senotesrel WHERE crmid = '$record') AND jo_notes.filestatus = 1";
 		}
 		$pos = stripos($listQuery, 'where');
 		if($pos) {
@@ -85,7 +85,7 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 								'File Size' => 'filesize', 
 								'File Location Type' => 'filelocationtype'); 
 		foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName,$this); 
+			$fieldModel = Head_Field_Model::getInstance($fieldName,$this); 
 			//TODO Fix Call to member function getPermissions() on boolean - JoForce
 			//if ($fieldModel->getPermissions('readonly')) { 
 				$popupFileds[$fieldName] = $fieldModel; 
@@ -135,19 +135,19 @@ class Documents_Module_Model extends Vtiger_Module_Model {
                 $basicListViewLinks[] = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_INTERNAL_DOCUMENT_TYPE',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=I","Documents")',
+					'linkurl' => 'javascript:Head_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=I","Documents")',
 					'linkicon' => ''
 				);
                 $basicListViewLinks[] = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_EXTERNAL_DOCUMENT_TYPE',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=E")',
+					'linkurl' => 'javascript:Head_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=E")',
 					'linkicon' => ''
 				);
                 $basicListViewLinks[] = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_WEBDOCUMENT_TYPE',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=W")',
+					'linkurl' => 'javascript:Head_Header_Js.getQuickCreateFormForModule("index.php?module=Documents&view=EditAjax&type=W")',
 					'linkicon' => ''
 				);
             }
@@ -156,8 +156,8 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 		if($basicListViewLinks) {
 			foreach($basicListViewLinks as $basicListViewLink) {
 				if(is_array($basicListViewLink)) {
-					$links[] = Vtiger_Link_Model::getInstanceFromValues($basicListViewLink);
-				} else if(is_a($basicListViewLink, 'Vtiger_Link_Model')) {
+					$links[] = Head_Link_Model::getInstanceFromValues($basicListViewLink);
+				} else if(is_a($basicListViewLink, 'Head_Link_Model')) {
 					$links[] = $basicListViewLink;
 				}
 			}

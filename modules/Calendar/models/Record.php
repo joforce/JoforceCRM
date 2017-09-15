@@ -10,7 +10,7 @@
  *************************************************************************************/
 vimport('~~include/utils/RecurringType.php');
 
-class Calendar_Record_Model extends Vtiger_Record_Model {
+class Calendar_Record_Model extends Head_Record_Model {
 
 /**
 	 * Function returns the Entity Name of Record Model
@@ -95,8 +95,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 
 	function save() {
 		//Time should changed to 24hrs format
-		$_REQUEST['time_start'] = Vtiger_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_start']);
-		$_REQUEST['time_end'] = Vtiger_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_end']);
+		$_REQUEST['time_start'] = Head_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_start']);
+		$_REQUEST['time_end'] = Head_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_end']);
 		parent::save();
 	}
 	
@@ -119,14 +119,14 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 			}
 			foreach($childRecords as $record) {
 				$recordModel = $this->getInstanceById($record, $this->getModuleName());
-				$adb->pquery("DELETE FROM vtiger_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
+				$adb->pquery("DELETE FROM jo_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
 				$recordModel->getModule()->deleteRecord($recordModel);
 				$deletedRecords[] = $record;
 			}
 		} else {
 			if($recurringEditMode == 'current') {
 				$parentRecurringId = $this->getParentRecurringRecord();
-				$adb->pquery("DELETE FROM vtiger_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $this->getId()));
+				$adb->pquery("DELETE FROM jo_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $this->getId()));
 			}
 			$this->getModule()->deleteRecord($this);
 			$deletedRecords[] = $this->getId();
@@ -160,9 +160,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getRecurringObject() {
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_recurringevents.*, vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.due_date, vtiger_activity.time_end FROM vtiger_recurringevents
-					INNER JOIN vtiger_activity ON vtiger_activity.activityid = vtiger_recurringevents.activityid
-					WHERE vtiger_recurringevents.activityid = ?';
+		$query = 'SELECT jo_recurringevents.*, jo_activity.date_start, jo_activity.time_start, jo_activity.due_date, jo_activity.time_end FROM jo_recurringevents
+					INNER JOIN jo_activity ON jo_activity.activityid = jo_recurringevents.activityid
+					WHERE jo_recurringevents.activityid = ?';
 		$result = $db->pquery($query, array($this->getId()));
 		if ($db->num_rows($result)) {
 			return RecurringType::fromDBRequest($db->query_result_rowdata($result, 0));
@@ -175,7 +175,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function updateReminderStatus($status=1) {
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_activity_reminder_popup set status = ? where recordid = ?", array($status, $this->getId()));
+		$db->pquery("UPDATE jo_activity_reminder_popup set status = ? where recordid = ?", array($status, $this->getId()));
 
 	}
 	/**
@@ -184,7 +184,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 	public function getParentRecurringRecord() {
 		$adb = PearDatabase::getInstance();
 		$recordId = $this->getId();
-		$result = $adb->pquery("SELECT * FROM vtiger_activity_recurring_info WHERE activityid=? OR activityid = (SELECT activityid FROM vtiger_activity_recurring_info WHERE recurrenceid=?) LIMIT 1", array($recordId, $recordId));
+		$result = $adb->pquery("SELECT * FROM jo_activity_recurring_info WHERE activityid=? OR activityid = (SELECT activityid FROM jo_activity_recurring_info WHERE recurrenceid=?) LIMIT 1", array($recordId, $recordId));
 		$parentRecurringId = $adb->query_result($result, 0,"activityid");
 		return $parentRecurringId;
 	}
@@ -196,7 +196,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$recurringRecordsList = array();
 		$recordId = $this->getId();
-		$result = $adb->pquery("SELECT * FROM vtiger_activity_recurring_info WHERE activityid=? OR activityid = (SELECT activityid FROM vtiger_activity_recurring_info WHERE recurrenceid=?)", array($recordId, $recordId));
+		$result = $adb->pquery("SELECT * FROM jo_activity_recurring_info WHERE activityid=? OR activityid = (SELECT activityid FROM jo_activity_recurring_info WHERE recurrenceid=?)", array($recordId, $recordId));
 		$noofrows = $adb->num_rows($result);
 		$parentRecurringId = $adb->query_result($result, 0,"activityid");
 		$childRecords = array();

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View {
+class Calendar_ViewTypes_View extends Head_IndexAjax_View {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View {
 		$this->exposeMethod('getSharedUsersList');
 	}
 
-	function getViewTypes(Vtiger_Request $request) {
+	function getViewTypes(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -32,9 +32,9 @@ class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View {
 
 	/**
 	 * Function to get Shared Users
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function getSharedUsersList(Vtiger_Request $request){
+	function getSharedUsersList(Head_Request $request){
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 

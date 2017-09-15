@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Emails_List_View extends Vtiger_List_View {
+class Emails_List_View extends Head_List_View {
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		header('Location: index.php?module=MailManager&view=List');
 	}
 }

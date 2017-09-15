@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>jo_quickview</name>
+			<sql><![CDATA[CREATE TABLE `jo_quickview` (
+  				`fieldid` int(19) NOT NULL,
+  				`related_fieldid` int(19) NOT NULL,
+  				`sequence` int(19) NOT NULL,
+  				`view` int(19) NOT NULL,
+  				CONSTRAINT fk_1_jo_quickview FOREIGN KEY (`fieldid`) REFERENCES `jo_field` (`fieldid`) ON DELETE CASCADE
+			)]]></sql>
+		</table>
+	</tables>
+</schema>

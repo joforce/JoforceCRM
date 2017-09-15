@@ -124,7 +124,7 @@ $languageStrings = array(
 	'LBL_ENABLE_TO_MAP_PRODUCT_FIELD' => 'Enable to map Products field',
 	'LBL_ENABLE_TO_MAP_SERVICE_FIELD' => 'Enable to map Services field',
     
-    //Vtiger7 Strings
+    //Head7 Strings
     'LBL_NO_RELATED_INFO' => 'No Relationship exists',
     'LBL_ADD_NEW_FIELD_HERE' => 'Add new field here',
     'LBL_SAVE_LAYOUT' => 'Save Layout',

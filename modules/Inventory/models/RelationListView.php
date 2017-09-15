@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_RelationListView_Model extends Vtiger_RelationListView_Model {
+class Inventory_RelationListView_Model extends Head_RelationListView_Model {
 
 	public function getAddRelationLinks() {
 		$relationModel = $this->getRelationModel();
@@ -40,7 +40,7 @@ class Inventory_RelationListView_Model extends Vtiger_RelationListView_Model {
 			}
 
 			foreach($addLinkList as $addLink) {
-				$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
+				$addLinkModel[] = Head_Link_Model::getInstanceFromValues($addLink);
 			}
 		}
 		return $addLinkModel;

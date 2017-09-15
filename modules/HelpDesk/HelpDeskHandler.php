@@ -20,7 +20,7 @@ class HelpDeskHandler extends VTEventHandler {
 			$moduleName = $entityData->getModuleName();
 			if ($moduleName == 'HelpDesk') {
 				$ticketId = $entityData->getId();
-				$adb->pquery('UPDATE vtiger_ticketcf SET from_portal=0 WHERE ticketid=?', array($ticketId));
+				$adb->pquery('UPDATE jo_ticketcf SET from_portal=0 WHERE ticketid=?', array($ticketId));
 			}
 		}
 	}
@@ -52,7 +52,7 @@ function HelpDesk_nofifyOnPortalTicketCreation($entityData) {
 							$entityData->get('ticket_title').'<br><br>'.$entityData->get('description');
 
 	//get the contact email id who creates the ticket from portal and use this email as from email id in email
-	$result = $adb->pquery("SELECT email, concat (firstname,' ',lastname) as name FROM vtiger_contactdetails WHERE contactid=?", array($parentId));
+	$result = $adb->pquery("SELECT email, concat (firstname,' ',lastname) as name FROM jo_contactdetails WHERE contactid=?", array($parentId));
 	$contact_email = $adb->query_result($result,0,'email');
 	$name = $adb->query_result($result, 0, 'name');
 	$from_email = $contact_email;
@@ -104,7 +104,7 @@ function HelpDesk_notifyOnPortalTicketComment($entityData) {
 						.getTranslatedString('LBL_SUPPORT_ADMIN', $moduleName);
 
 	//get the contact email id who creates the ticket from portal and use this email as from email id in email
-	$result = $adb->pquery("SELECT lastname, firstname, email FROM vtiger_contactdetails WHERE contactid=?", array($parentId));
+	$result = $adb->pquery("SELECT lastname, firstname, email FROM jo_contactdetails WHERE contactid=?", array($parentId));
 	$customername = $adb->query_result($result,0,'firstname').' '.$adb->query_result($result,0,'lastname');
 	$customername = decode_html($customername);//Fix to display the original UTF-8 characters in sendername instead of ascii characters
 	$from_email = $adb->query_result($result,0,'email');
@@ -134,27 +134,27 @@ function HelpDesk_notifyParentOnTicketChange($entityData) {
 	$contactId = explode('x', $wsContactId);
 	$wsAccountId = $entityData->get('parent_id');
 	$accountId = explode('x', $wsAccountId);
-	//To get the emailoptout vtiger_field value and then decide whether send mail about the tickets or not
+	//To get the emailoptout jo_field value and then decide whether send mail about the tickets or not
 	if(!empty($contactId[0])) {
-		$result = $adb->pquery('SELECT email, emailoptout, lastname, firstname FROM vtiger_contactdetails WHERE
+		$result = $adb->pquery('SELECT email, emailoptout, lastname, firstname FROM jo_contactdetails WHERE
 						contactid=?', array($contactId[1]));
 		$emailoptout = $adb->query_result($result,0,'emailoptout');
 		$parent_email = $contact_mailid = $adb->query_result($result,0,'email');
 		$parentname = $adb->query_result($result,0,'firstname').' '.$adb->query_result($result,0,'firstname');
 
-		//Get the status of the vtiger_portal user. if the customer is active then send the vtiger_portal link in the mail
+		//Get the status of the jo_portal user. if the customer is active then send the jo_portal link in the mail
 		if($parent_email != '') {
-			$sql = "SELECT * FROM vtiger_portalinfo WHERE user_name=?";
+			$sql = "SELECT * FROM jo_portalinfo WHERE user_name=?";
 			$isPortalUser = $adb->query_result($adb->pquery($sql, array($contact_mailid)),0,'isactive');
 		}
 	} elseif(!empty($accountId[0])) {
-		$result = $adb->pquery("SELECT accountname, emailoptout, email1 FROM vtiger_account WHERE accountid=?",
+		$result = $adb->pquery("SELECT accountname, emailoptout, email1 FROM jo_account WHERE accountid=?",
 									array($accountId[1]));
 		$emailoptout = $adb->query_result($result,0,'emailoptout');
 		$parent_email = $adb->query_result($result,0,'email1');
 		$parentname = $adb->query_result($result,0,'accountname');
 	}
-	//added condition to check the emailoptout(this is for contacts and vtiger_accounts.)
+	//added condition to check the emailoptout(this is for contacts and jo_accounts.)
 	if($emailoptout == 0) {
 		if($isPortalUser == 1) {
 			$email_body = HelpDesk::getTicketEmailContents($entityData);

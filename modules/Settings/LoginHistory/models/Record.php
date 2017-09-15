@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_LoginHistory_Record_Model extends Settings_Head_Record_Model {
 	
 	/**
 	 * Function to get the Id
@@ -31,7 +31,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$usersListArray = array();
 		
-		$query = 'SELECT user_name, first_name, last_name FROM vtiger_users';
+		$query = 'SELECT user_name, first_name, last_name FROM jo_users';
 		$result = $adb->pquery($query, array());
 		while($row = $adb->fetchByAssoc($result)) {
 			$usersListArray[$row['user_name']] = getFullNameFromArray('Users', $row);
@@ -47,7 +47,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getDisplayValue($fieldName, $recordId = false) {
 		if($fieldName == 'login_time' || $fieldName == 'logout_time'){
 			if($this->get($fieldName) != '0000-00-00 00:00:00'){
-				return Vtiger_Datetime_UIType::getDateTimeValue($this->get($fieldName));
+				return Head_Datetime_UIType::getDateTimeValue($this->get($fieldName));
 			}else{
 				return '---';
 			}

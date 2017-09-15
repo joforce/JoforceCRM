@@ -15,9 +15,9 @@
 			$userId = $_SESSION["authenticated_user_id"];
 			$sessionManager = new SessionManager();
 			$sessionManager->set("authenticatedUserId", $userId);
-			$crmObject = VtigerWebserviceObject::fromName($adb,"Users");
+			$crmObject = HeadWebserviceObject::fromName($adb,"Users");
 			$userId = vtws_getId($crmObject->getEntityId(),$userId);
-			$vtigerVersion = vtws_getVtigerVersion();
+			$vtigerVersion = vtws_getHeadVersion();
 			$resp = array("sessionName"=>$sessionManager->getSessionId(),"userId"=>$userId,"version"=>$API_VERSION,"vtigerVersion"=>$vtigerVersion);
 			return $resp;
 		}else{

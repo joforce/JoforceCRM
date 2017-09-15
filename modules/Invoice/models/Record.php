@@ -16,7 +16,7 @@ class Invoice_Record_Model extends Inventory_Record_Model {
 
 	public function getCreatePurchaseOrderUrl() {
         global $site_URL;
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
 	}
 }

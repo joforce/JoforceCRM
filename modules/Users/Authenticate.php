@@ -14,7 +14,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Users/Authenticate.php,v 1.10 2005/02/28 05:25:22 jack Exp $
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/modules/Users/Authenticate.php,v 1.10 2005/02/28 05:25:22 jack Exp $
  * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
@@ -50,8 +50,8 @@ if($focus->is_authenticated()) {
 			$auditrecord = $record;
 
 		$date_var = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		$query = "insert into vtiger_audit_trial values(?,?,?,?,?,?)";
-		$params = array($adb->getUniqueID('vtiger_audit_trial'), $focus->id, 'Users','Authenticate','',$date_var);
+		$query = "insert into jo_audit_trial values(?,?,?,?,?,?)";
+		$params = array($adb->getUniqueID('jo_audit_trial'), $focus->id, 'Users','Authenticate','',$date_var);
 		$adb->pquery($query, $params);
 	}
 
@@ -107,7 +107,7 @@ if($focus->is_authenticated()) {
 		$authenticated_user_language = $default_language;
 	}
 
-	$_SESSION['vtiger_authenticated_user_theme'] = $authenticated_user_theme;
+	$_SESSION['jo_authenticated_user_theme'] = $authenticated_user_theme;
 	$_SESSION['authenticated_user_language'] = $authenticated_user_language;
 
 	$log->debug("authenticated_user_theme is $authenticated_user_theme");
@@ -147,7 +147,7 @@ if($focus->is_authenticated()) {
 		}
 	}
 } else {
-	$sql = 'select user_name, id, crypt_type from vtiger_users where user_name=?';
+	$sql = 'select user_name, id, crypt_type from jo_users where user_name=?';
 	$result = $adb->pquery($sql, array($focus->column_fields["user_name"]));
 	$rowList = $result->GetRows();
 	foreach ($rowList as $row) {

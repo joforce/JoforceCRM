@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_Mass_Action extends Vtiger_Mass_Action {
+class Products_Mass_Action extends Head_Mass_Action {
 
 	public function __construct() {
 		parent::__construct();
 		$this->exposeMethod('isChildProduct');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		return true;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -30,13 +30,13 @@ class Products_Mass_Action extends Vtiger_Mass_Action {
 		}
 	}
 
-	public function isChildProduct(Vtiger_Request $request) {
+	public function isChildProduct(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordIdsList = $this->getRecordsListFromRequest($request);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($moduleName && $recordIdsList) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 			$areChildProducts = $moduleModel->areChildProducts($recordIdsList);
 
 			$response->setResult($areChildProducts);

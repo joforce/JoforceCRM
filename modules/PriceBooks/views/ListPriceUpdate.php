@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_ListPriceUpdate_View extends Vtiger_View_Controller {
+class PriceBooks_ListPriceUpdate_View extends Head_View_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -21,10 +21,10 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_View_Controller {
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true) {
+	function preProcess(Head_Request $request, $display = true) {
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$priceBookId = $request->get('record');
 		$relId = $request->get('relid');
@@ -39,7 +39,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_View_Controller {
 		$viewer->view('ListPriceUpdate.tpl', $moduleName);
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 	}
 }
 

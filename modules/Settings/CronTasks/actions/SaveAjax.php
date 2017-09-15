@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action {
+class Settings_CronTasks_SaveAjax_Action extends Settings_Head_Index_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 
 		$recordId = $request->get('record');
@@ -20,7 +20,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -36,12 +36,12 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action {
 
 		$recordModel->save();
 
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
 		$response->setResult(array(true));
 		$response->emit();
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

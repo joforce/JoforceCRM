@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
+class Inventory_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -28,7 +28,7 @@ class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
 					'linkurl' => $recordModel->getExportPDFURL(),
 					'linkicon' => ''
 						);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinks);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($detailViewLinks);
 
 			$sendEmailLink = array(
                 'linklabel' => vtranslate('LBL_SEND_MAIL_PDF', $moduleName),
@@ -36,7 +36,7 @@ class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
                 'linkicon' => ''
             );
 
-            $linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($sendEmailLink);
+            $linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($sendEmailLink);
 		}
 
 		return $linkModelList;

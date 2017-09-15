@@ -9,15 +9,15 @@ include('modules/Calendar/iCal/iCalendar_components.php');
 include('modules/Calendar/iCal/iCalendar_properties.php');
 include('modules/Calendar/iCal/iCalendar_parameters.php');
 
-//$ical_query = "SELECT * FROM vtiger_activity WHERE (( STATUS != 'Completed' AND STATUS != 'Deferred' ) OR STATUS IS NULL)
+//$ical_query = "SELECT * FROM jo_activity WHERE (( STATUS != 'Completed' AND STATUS != 'Deferred' ) OR STATUS IS NULL)
 //               AND (( eventstatus != 'Held' AND eventstatus != 'Not Held' ) OR eventstatus IS NULL )";
 
 global $current_user,$adb,$default_timezone;
 $filename = $_REQUEST['filename'];
-$ical_query = "select vtiger_activity.*,vtiger_crmentity.description,vtiger_activity_reminder.reminder_time from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid " .
-	" LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id=vtiger_activity.activityid AND vtiger_activity_reminder.recurringid=0" .
-	" where vtiger_crmentity.deleted = 0 and vtiger_crmentity.smownerid = " . $current_user->id . 
-	" and vtiger_activity.activitytype NOT IN ('Emails')";
+$ical_query = "select jo_activity.*,jo_crmentity.description,jo_activity_reminder.reminder_time from jo_activity inner join jo_crmentity on jo_activity.activityid = jo_crmentity.crmid " .
+	" LEFT JOIN jo_activity_reminder ON jo_activity_reminder.activity_id=jo_activity.activityid AND jo_activity_reminder.recurringid=0" .
+	" where jo_crmentity.deleted = 0 and jo_crmentity.smownerid = " . $current_user->id . 
+	" and jo_activity.activitytype NOT IN ('Emails')";
 
 $calendar_results = $adb->query($ical_query);
 

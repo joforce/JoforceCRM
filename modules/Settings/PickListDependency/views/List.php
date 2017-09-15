@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
+class Settings_PickListDependency_List_View extends Settings_Head_List_View {
 
-	public function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Head_Request $request, $display = true) {
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
 		$forModule = $request->get('formodule');
 		$viewer = $this->getViewer($request);
@@ -20,7 +20,7 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 		parent::preProcess($request, $display);
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 	   if($request->isAjax()) {
 			$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
 			$forModule = $request->get('formodule');
@@ -37,17 +37,17 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 
    /**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -55,12 +55,12 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
 			'~/libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
@@ -71,7 +71,7 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		parent::initializeListViewContents($request, $viewer);
 		$viewer->assign('SHOW_LISTVIEW_CHECKBOX', false);
 		$viewer->assign('LISTVIEW_ACTIONS_ENABLED', true);

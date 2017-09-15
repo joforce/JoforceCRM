@@ -15,7 +15,7 @@ include_once 'include/Webservices/RelatedTypes.php';
 function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = null) {
     global $log, $adb;
 
-    $webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
+    $webserviceObject = HeadWebserviceObject::fromId($adb, $id);
     $handlerPath  = $webserviceObject->getHandlerPath();
     $handlerClass = $webserviceObject->getHandlerClass();
     require_once $handlerPath;
@@ -46,7 +46,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
     vtws_preserveGlobal('currentModule', $entityName);
 
 	// Fetch related record IDs - so we can further retrieve complete information using vtws_query 
-    $relatedWebserviceObject = VtigerWebserviceObject::fromName($adb, $relatedType);
+    $relatedWebserviceObject = HeadWebserviceObject::fromName($adb, $relatedType);
     $relatedHandlerPath  = $relatedWebserviceObject->getHandlerPath();
     $relatedHandlerClass = $relatedWebserviceObject->getHandlerClass();
     require_once $relatedHandlerPath;

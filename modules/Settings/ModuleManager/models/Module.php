@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
+class Settings_ModuleManager_Module_Model extends Head_Module_Model {
 
 	public static function getNonVisibleModulesList() {
 		return array('ModTracker', 'Users', 'Mobile', 'Integration', 'WSAPP', 'ModComments', 'Dashboard', 'ConfigEditor', 'CronTasks',
-						'Import', 'Tooltip', 'CustomerPortal', 'Home', 'VtigerBackup', 'FieldFormulas', 'EmailTemplates', 'ExtensionStore');
+						'Import', 'Tooltip', 'CustomerPortal', 'Home', 'HeadBackup', 'FieldFormulas', 'EmailTemplates', 'ExtensionStore');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	 */
 	public static function getNewModuleImportUrl() {
 		$importURL = '';
-		$extensionStore = Vtiger_Module_Model::getInstance('ExtensionStore');
+		$extensionStore = Head_Module_Model::getInstance('ExtensionStore');
 		if($extensionStore && $extensionStore->isActive()) {
 			$importURL = Settings_ExtensionStore_Module_Model::getInstance()->getDefaultUrl();
 		} else {
@@ -65,8 +65,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * Static Function to get the instance of Head Module Model for all the modules
+	 * @return <Array> - List of Head Module Model or sub class instances
 	 */
 	public static function getAll() {
 		 return parent::getAll(array(0,1), self::getNonVisibleModulesList());
@@ -80,7 +80,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	public static function getModulesCount($onlyActive = false) {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT * FROM vtiger_tab';
+		$query = 'SELECT * FROM jo_tab';
 		$params = array();
 		if($onlyActive) {
 			$presence = array(0);
@@ -96,12 +96,12 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	/**
 	 * Function that returns all those modules that support Module Sequence Numbering
 	 * @global PearDatabase $db - database connector
-	 * @return <Array of Vtiger_Module_Model>
+	 * @return <Array of Head_Module_Model>
 	 */
 	public static function getModulesSupportingSequenceNumbering() {
 		$db = PearDatabase::getInstance();
-		$sql="SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
-			(SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = '4')";
+		$sql="SELECT tabid, name FROM jo_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
+			(SELECT DISTINCT tabid FROM jo_field WHERE uitype = '4')";
 		$result = $db->pquery($sql, array());
 
 		$moduleModels = array();

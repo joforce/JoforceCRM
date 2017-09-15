@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_Module_Model extends Vtiger_Module_Model {
+class Products_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function to get list view query for popup window
@@ -25,15 +25,15 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				|| in_array($sourceModule, $supportedModulesList)
 				|| in_array($sourceModule, getInventoryModules())) {
 
-			$condition = " vtiger_products.discontinued = 1 ";
+			$condition = " jo_products.discontinued = 1 ";
 			if ($sourceModule === $this->getName()) {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE setype = '". $this->getName(). "' UNION SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record') AND vtiger_products.productid <> '$record' ";
+				$condition .= " AND jo_products.productid NOT IN (SELECT productid FROM jo_seproductsrel WHERE setype = '". $this->getName(). "' UNION SELECT crmid FROM jo_seproductsrel WHERE productid = '$record') AND jo_products.productid <> '$record' ";
 			} elseif ($sourceModule === 'PriceBooks') {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$condition .= " AND jo_products.productid NOT IN (SELECT productid FROM jo_pricebookproductrel WHERE pricebookid = '$record') ";
 			} elseif ($sourceModule === 'Vendors') {
-				$condition .= " AND vtiger_products.vendor_id != '$record' ";
+				$condition .= " AND jo_products.vendor_id != '$record' ";
 			} elseif (in_array($sourceModule, $supportedModulesList)) {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
+				$condition .= " AND jo_products.productid NOT IN (SELECT productid FROM jo_seproductsrel WHERE crmid = '$record')";
 			}
 
 			$pos = stripos($listQuery, 'where');
@@ -54,7 +54,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getSpecificRelationQuery($relatedModule) {
 		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
+			$specificQuery = 'AND jo_leaddetails.converted = 0';
 			return $specificQuery;
 		}
 		return parent::getSpecificRelationQuery($relatedModule);
@@ -84,7 +84,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param <String> $parentModule - parent module name
-	 * @return <Array of Vtiger_Record_Model>
+	 * @return <Array of Head_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId=false, $parentModule=false, $relatedModule=false) {
 		if(!empty($searchValue) && empty($parentId) && empty($parentModule) && (in_array($relatedModule, getInventoryModules()))) {
@@ -98,22 +98,22 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	
 	/**
 	 * Function returns query for Product-PriceBooks relation
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
+	 * @param <Head_Record_Model> $recordModel
+	 * @param <Head_Record_Model> $relatedModuleModel
 	 * @return <String>
 	 */
 	function get_product_pricebooks($recordModel, $relatedModuleModel) {
-		$query = 'SELECT vtiger_pricebook.pricebookid, vtiger_pricebook.bookname, vtiger_pricebook.active, vtiger_crmentity.crmid, 
-						vtiger_crmentity.smownerid, vtiger_pricebookproductrel.listprice, vtiger_products.unit_price
-					FROM vtiger_pricebook
-					INNER JOIN vtiger_pricebookproductrel ON vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-					INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-					INNER JOIN vtiger_products on vtiger_products.productid = vtiger_pricebookproductrel.productid
-					INNER JOIN vtiger_pricebookcf on vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
+		$query = 'SELECT jo_pricebook.pricebookid, jo_pricebook.bookname, jo_pricebook.active, jo_crmentity.crmid, 
+						jo_crmentity.smownerid, jo_pricebookproductrel.listprice, jo_products.unit_price
+					FROM jo_pricebook
+					INNER JOIN jo_pricebookproductrel ON jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid
+					INNER JOIN jo_crmentity on jo_crmentity.crmid = jo_pricebook.pricebookid
+					INNER JOIN jo_products on jo_products.productid = jo_pricebookproductrel.productid
+					INNER JOIN jo_pricebookcf on jo_pricebookcf.pricebookid = jo_pricebook.pricebookid
+					LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+					LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid '
 					. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) .'
-					WHERE vtiger_products.productid = '.$recordModel->getId().' and vtiger_crmentity.deleted = 0';
+					WHERE jo_products.productid = '.$recordModel->getId().' and jo_crmentity.deleted = 0';
 					
 		return $query;
 	}
@@ -127,10 +127,10 @@ class Products_Module_Model extends Vtiger_Module_Model {
 		$baseTableName = $focus->table_name;
 		$splitQuery = spliti(' FROM ', $query);
 		$columnFields = explode(',', $splitQuery[0]);
-        $columnFields[] = ' vtiger_currency_info.currency_name AS currency_id, crmid';
+        $columnFields[] = ' jo_currency_info.currency_name AS currency_id, crmid';
 
 		$joinSplit = spliti(' WHERE ',$splitQuery[1]);
-		$joinSplit[0] .= " LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = $baseTableName.currency_id";
+		$joinSplit[0] .= " LEFT JOIN jo_currency_info ON jo_currency_info.id = $baseTableName.currency_id";
 		$splitQuery[1] = $joinSplit[0].' WHERE ' .$joinSplit[1];
 
 		$query = implode(',', $columnFields).' FROM '.$splitQuery[1];
@@ -155,9 +155,9 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				$fieldName = 'service_no';
 			}
 
-			$query = "SELECT label, crmid, $fieldName FROM vtiger_crmentity
-						INNER JOIN $tableName ON $tableName.$baseFieldName = vtiger_crmentity.crmid
-						WHERE $fieldName LIKE ? AND vtiger_crmentity.deleted = 0 AND discontinued = 1";
+			$query = "SELECT label, crmid, $fieldName FROM jo_crmentity
+						INNER JOIN $tableName ON $tableName.$baseFieldName = jo_crmentity.crmid
+						WHERE $fieldName LIKE ? AND jo_crmentity.deleted = 0 AND discontinued = 1";
 			$result = $db->pquery($query, array("%$searchValue%"));
 			$noOfRows = $db->num_rows($result);
 
@@ -166,7 +166,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				$row = $db->query_result_rowdata($result, $i);
 				if(Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
 					$row['id'] = $row['crmid'];
-					$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+					$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', $moduleName);
 					$recordInstance = new $modelClassName();
 					$matchingRecords[$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 				}
@@ -194,10 +194,10 @@ class Products_Module_Model extends Vtiger_Module_Model {
 			}
 
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT DISTINCT vtiger_seproductsrel.crmid FROM vtiger_seproductsrel
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_seproductsrel.productid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.setype = "Products"
-						AND vtiger_seproductsrel.crmid IN ('.generateQuestionMarks($productIdsList).')';
+			$query = 'SELECT DISTINCT jo_seproductsrel.crmid FROM jo_seproductsrel
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_seproductsrel.productid
+						WHERE jo_crmentity.deleted = 0 AND jo_seproductsrel.setype = "Products"
+						AND jo_seproductsrel.crmid IN ('.generateQuestionMarks($productIdsList).')';
 
 			$result = $db->pquery($query, $productIdsList);
 
@@ -248,7 +248,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 
 			$this->importableFields = array();
 			foreach ($taxHeaders as $fieldName => $fieldLabel) {
-				$fieldModel = new Vtiger_Field_Model();
+				$fieldModel = new Head_Field_Model();
 				$fieldModel->name = $fieldName;
 				$fieldModel->label = $fieldLabel;
 				$fieldModel->column = $fieldName;

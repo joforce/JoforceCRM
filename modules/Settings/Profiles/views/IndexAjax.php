@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Profiles_IndexAjax_View extends Settings_Vtiger_Index_View {
+class Settings_Profiles_IndexAjax_View extends Settings_Head_Index_View {
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return;
 	}
 }

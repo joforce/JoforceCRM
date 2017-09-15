@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_MoveReports_Action extends Vtiger_Mass_Action {
+class Reports_MoveReports_Action extends Head_Mass_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -21,7 +21,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$parentModule = 'Reports';
 		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);
 		$folderId = $request->get('folderid');
@@ -39,7 +39,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action {
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if($sameTargetFolder){
                     $result=array('success'=>false, 'message'=>vtranslate('LBL_SAME_SOURCE_AND_TARGET_FOLDER', $parentModule));
                 } 

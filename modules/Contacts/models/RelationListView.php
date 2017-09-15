@@ -9,5 +9,5 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Contacts_RelationListView_Model extends Vtiger_RelationListView_Model {
+class Contacts_RelationListView_Model extends Head_RelationListView_Model {
 }

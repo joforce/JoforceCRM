@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
+class Accounts_AccountHierarchy_View extends Head_View_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -21,15 +21,15 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 		}
 	}
 	
-	function preProcess(Vtiger_Request $request, $display = true) {
+	function preProcess(Head_Request $request, $display = true) {
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
 		
 		$viewer->assign('MODULE', $moduleName);
@@ -37,6 +37,6 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
 	}
 	
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 	}
 }

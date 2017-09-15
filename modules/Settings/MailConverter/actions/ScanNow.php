@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_ScanNow_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_ScanNow_Action extends Settings_Head_Index_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 		$recordId = $request->get('record');
 
@@ -20,14 +20,14 @@ class Settings_MailConverter_ScanNow_Action extends Settings_Vtiger_Index_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordModel = Settings_MailConverter_Record_Model::getInstanceById($recordId);
 		$status = $recordModel->scanNow();
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if (is_bool($status) && $status) {
 			$result = array('message'=> vtranslate('LBL_SCANNED_SUCCESSFULLY', $qualifiedModuleName));
 			$result['id'] = $recordModel->getId();

@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_SubProducts_Action extends Vtiger_Action_Controller {
+class Products_SubProducts_Action extends Head_Action_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -21,9 +21,9 @@ class Products_SubProducts_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$productId = $request->get('record');
-		$productModel = Vtiger_Record_Model::getInstanceById($productId, 'Products');
+		$productModel = Head_Record_Model::getInstanceById($productId, 'Products');
 		$subProducts = $productModel->getSubProducts($active = true);
 		$values = array();
 		foreach($subProducts as $id => $subProduct) {
@@ -37,7 +37,7 @@ class Products_SubProducts_Action extends Vtiger_Action_Controller {
 		}
 
 		$result = array('isBundleViewable' => $productModel->isBundleViewable(), 'values' => $values);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

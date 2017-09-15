@@ -1,11 +1,11 @@
 <?php
 
-class Calendar_TaskManagementByDueDate_View extends Vtiger_Index_View {
+class Calendar_TaskManagementByDueDate_View extends Head_Index_View {
 
         function __construct() {
         }
 
-        public function process(Vtiger_Request $request) {
+        public function process(Head_Request $request) {
 		global $adb, $current_user;
 
                 $page = 1;
@@ -14,7 +14,7 @@ class Calendar_TaskManagementByDueDate_View extends Vtiger_Index_View {
                 }
 		$fetch = false;
                 $moduleName = $request->getModule();
-                $pagingModel = new Vtiger_Paging_Model();
+                $pagingModel = new Head_Paging_Model();
                 $pagingModel->set('page', $page);
                 $pagingModel->set('limit', 10);
 		$tasks_value = $this->generateColors($request);
@@ -55,11 +55,11 @@ class Calendar_TaskManagementByDueDate_View extends Vtiger_Index_View {
                                 
 
 	}
-        public function generateColors(Vtiger_Request $request) {
+        public function generateColors(Head_Request $request) {
 		global $adb, $current_user;
                 $moduleName = $request->getModule();
                  $userId = $current_user->id;
-                $getCurrentUserTasks = $adb->pquery('select * from vtiger_activity join vtiger_crmentity on crmid = activityid and deleted = 0 and vtiger_activity.status != ? and activitytype = ? and smownerid = ?', array('Completed', 'Task', $userId));
+                $getCurrentUserTasks = $adb->pquery('select * from jo_activity join jo_crmentity on crmid = activityid and deleted = 0 and jo_activity.status != ? and activitytype = ? and smownerid = ?', array('Completed', 'Task', $userId));
                 while($tasks_value = $adb->fetch_array($getCurrentUserTasks)){
                         $tasks[] = $tasks_value;
                 }
@@ -126,9 +126,9 @@ class Calendar_TaskManagementByDueDate_View extends Vtiger_Index_View {
                 $_SESSION['task_filters'] = $filters;
         }
 
-	public function filterRecords(Vtiger_Request $request, $pagingModel) {
+	public function filterRecords(Head_Request $request, $pagingModel) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$filters = $request->get('filters');
 		$this->setFiltersInSession($filters);
 		$conditions = array();

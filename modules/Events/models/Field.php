@@ -38,7 +38,7 @@ class Events_Field_Model extends Calendar_Field_Model {
 				
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if($currentUser->get('hour_format') == '12')
-					$endTime = Vtiger_Time_UIType::getTimeValueInAMorPM($endTime);
+					$endTime = Head_Time_UIType::getTimeValueInAMorPM($endTime);
 
 				return $endDate . ' ' . $endTime;
 			}

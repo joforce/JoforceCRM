@@ -12,7 +12,7 @@
 /**
  * User Field Model Class
  */
-class Users_Field_Model extends Vtiger_Field_Model {
+class Users_Field_Model extends Head_Field_Model {
 
 	/**
 	 * Function to check whether the current field is read-only
@@ -76,12 +76,12 @@ class Users_Field_Model extends Vtiger_Field_Model {
 	 */
 	public function getPicklistValues() {
 		if($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getAllLanguages();
+			return Head_Language_Handler::getAllLanguages();
 		}
 		else if ($this->get('uitype') == '115') {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT '.$this->getFieldName().' FROM vtiger_'.$this->getFieldName();
+			$query = 'SELECT '.$this->getFieldName().' FROM jo_'.$this->getFieldName();
 			$result = $db->pquery($query, array());
 			$num_rows = $db->num_rows($result);
 			$fieldPickListValues = array();
@@ -99,7 +99,7 @@ class Users_Field_Model extends Vtiger_Field_Model {
 	 * @return <Array>
 	 */
 	public function getAllSkins(){
-		return Vtiger_Theme::getAllSkins();
+		return Head_Theme::getAllSkins();
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Users_Field_Model extends Vtiger_Field_Model {
 	public function getDisplayValue($value, $recordId = false) {
 
 		 if($this->get('uitype') == 32){
-			return Vtiger_Language_Handler::getLanguageLabel($value);
+			return Head_Language_Handler::getLanguageLabel($value);
 		 }
 		 $fieldName = $this->getFieldName();
 		 if(($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == "&nbsp;")) {

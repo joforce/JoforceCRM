@@ -51,41 +51,41 @@ function vtws_history($element, $user) {
 	// REFER: modules/ModTracker/ModTracker.php
 
 	// Two split phases for data extraction - so we can apply limit of retrieveal at record level.
-	$sql = 'SELECT vtiger_modtracker_basic.* FROM vtiger_modtracker_basic
-		INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-		AND vtiger_crmentity.deleted = 0';
+	$sql = 'SELECT jo_modtracker_basic.* FROM jo_modtracker_basic
+		INNER JOIN jo_crmentity ON jo_modtracker_basic.crmid = jo_crmentity.crmid
+		AND jo_crmentity.deleted = 0';
 
 	if ($mode == 'Private') {
-        $sql .= ' WHERE vtiger_modtracker_basic.whodid = ?';
+        $sql .= ' WHERE jo_modtracker_basic.whodid = ?';
 		$params[] = $user->id;
 
 		if ($acrossAllModule) {
 			// TODO collate only active (or enabled) modules for tracking.
 		} else if ($moduleName) {
-			$sql .= ' AND vtiger_modtracker_basic.module = ?';
+			$sql .= ' AND jo_modtracker_basic.module = ?';
 			$params[] = $moduleName;
 		}
 
 		if ($idComponents[1]) {
-			$sql .= ' AND vtiger_modtracker_basic.crmid = ?';
+			$sql .= ' AND jo_modtracker_basic.crmid = ?';
 			$params[] = $idComponents[1];
 		}
 	} else if ($mode == 'All') {
 		if ($acrossAllModule) {
 			// TODO collate only active (or enabled) modules for tracking.
 		} else if($moduleName) {
-            $sql .= ' WHERE vtiger_modtracker_basic.module = ?';
+            $sql .= ' WHERE jo_modtracker_basic.module = ?';
             $params[] = $moduleName;
 		}
 		if ($idComponents[1]) {
-			$sql .= ' AND vtiger_modtracker_basic.crmid = ?';
+			$sql .= ' AND jo_modtracker_basic.crmid = ?';
             $params[] = $idComponents[1];
         }
 	}
 
 	// Get most recently tracked changes with limit
 	$start = $page*$MAXLIMIT; if ($start > 0) $start = $start + 1; // Adjust the start range
-	$sql .= sprintf(' ORDER BY vtiger_modtracker_basic.id DESC LIMIT %s,%s', $start, $MAXLIMIT);
+	$sql .= sprintf(' ORDER BY jo_modtracker_basic.id DESC LIMIT %s,%s', $start, $MAXLIMIT);
 	$result = $adb->pquery($sql, $params);
 
 	$recordValuesMap = array();
@@ -128,8 +128,8 @@ function vtws_history($element, $user) {
 
 	// Minor optimizatin to avoid 2nd query run when there is nothing to expect.
 	if (!empty($updatesOrderedIds)) {
-		$sql = 'SELECT vtiger_modtracker_detail.* FROM vtiger_modtracker_detail';
-		$sql .= ' WHERE vtiger_modtracker_detail.id IN (' . generateQuestionMarks($updatesOrderedIds) . ')';
+		$sql = 'SELECT jo_modtracker_detail.* FROM jo_modtracker_detail';
+		$sql .= ' WHERE jo_modtracker_detail.id IN (' . generateQuestionMarks($updatesOrderedIds) . ')';
 
 		// LIMIT here is not required as $ids extracted is with limit at record level earlier.
 		$params = $updatesOrderedIds;
@@ -149,9 +149,9 @@ function vtws_history($element, $user) {
 
 	if (!empty($relationOrderedIds)) {
 		// get related record ids
-		$sql = 'SELECT vtiger_modtracker_relations.* , vtiger_crmentity.label FROM vtiger_modtracker_relations 
-					INNER JOIN vtiger_crmentity ON vtiger_modtracker_relations.targetid = vtiger_crmentity.crmid
-						WHERE vtiger_modtracker_relations.id IN ('.generateQuestionMarks($relationOrderedIds).') ORDER BY vtiger_modtracker_relations.changedon DESC';
+		$sql = 'SELECT jo_modtracker_relations.* , jo_crmentity.label FROM jo_modtracker_relations 
+					INNER JOIN jo_crmentity ON jo_modtracker_relations.targetid = jo_crmentity.crmid
+						WHERE jo_modtracker_relations.id IN ('.generateQuestionMarks($relationOrderedIds).') ORDER BY jo_modtracker_relations.changedon DESC';
 
 		// LIMIT here is not required as $ids extracted is with limit at record level earlier.
 		$params = $relationOrderedIds;

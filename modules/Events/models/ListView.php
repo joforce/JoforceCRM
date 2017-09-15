@@ -10,7 +10,7 @@
  *************************************************************************************/
 
 /**
- * Vtiger ListView Model Class
+ * Head ListView Model Class
  */
 class Events_ListView_Model extends Calendar_ListView_Model {
 

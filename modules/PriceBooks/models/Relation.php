@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_Relation_Model extends Vtiger_Relation_Model{
+class PriceBooks_Relation_Model extends Head_Relation_Model{
 
 	/**
 	 * Function returns the Query for the relationhips
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param <Head_Record_Model> $recordModel
 	 * @param type $actions
 	 * @return <String>
 	 */
@@ -41,10 +41,10 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model{
 			$queryGenerator->setFields($relatedListFields);
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
 			$newQuery = spliti('FROM', $query);
-			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,'.$selectColumnSql;
+			$selectColumnSql = 'SELECT DISTINCT jo_crmentity.crmid,'.$selectColumnSql;
 		}
 		if(($functionName == 'get_pricebook_products') || ($functionName ==  'get_pricebook_services')){
-			$selectColumnSql = $selectColumnSql.', vtiger_pricebookproductrel.listprice';
+			$selectColumnSql = $selectColumnSql.', jo_pricebookproductrel.listprice';
 		}
 		if(!empty($selectColumnSql)) {
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
@@ -61,7 +61,7 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model{
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice) {
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 
-		$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
+		$priceBookModel = Head_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
 		$priceBookModel->updateListPrice($destinationRecordId, $listPrice);
 	}
 
@@ -74,7 +74,7 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		if($sourceModuleName == 'PriceBooks' && ($destinationModuleName == 'Products' || $destinationModuleName == 'Services')) {
-			$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
+			$priceBookModel = Head_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
 			$priceBookModel->deleteListPrice($relatedRecordId);
 		} else {
 			parent::deleteRelation($sourceRecordId, $relatedRecordId);

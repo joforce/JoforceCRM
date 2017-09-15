@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
+class Calendar_QuickCreateAjax_View extends Head_QuickCreateAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		//Need to check record permission as Calendar view is using QuickCreateAjax to show edit form	
 		$record = $request->get('record');
@@ -22,7 +22,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		}
 	}
 
-	public function  process(Vtiger_Request $request) {
+	public function  process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$moduleList = array('Calendar','Events');
@@ -32,14 +32,14 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		foreach($moduleList as $module) {
 			$info = array();
 
-			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
+			$recordModel = Head_Record_Model::getCleanInstance($module);
 
 			//To enable popup edit support from calendar views
 			if($moduleName == $module) {
 				$recordId = $request->get('record','');
 				$mode = $request->get('mode');
 				if($mode === 'edit' && !empty($recordId)) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId,$moduleName);
+					$recordModel = Head_Record_Model::getInstanceById($recordId,$moduleName);
 				}
 			}
 
@@ -49,7 +49,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 			$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
 			$relContactId = $request->get('contact_id');
 			if (($request->get('parentModule') == 'Contacts' || $request->get('returnmodule') == 'Contacts') && $relContactId) {
-				$contactRecordModel = Vtiger_Record_Model::getInstanceById($relContactId);
+				$contactRecordModel = Head_Record_Model::getInstanceById($relContactId);
 				$requestFieldList['parent_id'] = $contactRecordModel->get('account_id');
 			}
 
@@ -60,13 +60,13 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 				}
 			}
 
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+			$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 
 			$info['recordStructureModel'] = $recordStructureInstance;
 			$info['recordStructure'] = $recordStructureInstance->getStructure();
 			$info['moduleModel'] = $moduleModel;
 			$quickCreateContents[$module] = $info;
-			$picklistDependencyDatasource[$module] = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($module);
+			$picklistDependencyDatasource[$module] = Head_DependencyPicklist::getPicklistDependencyDatasource($module);
 		}
 
 		$existingRelatedContacts = $recordModel->getRelatedContactInfo();
@@ -74,14 +74,14 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		//To add contact ids that is there in the request . Happens in gotoFull form mode of quick create
 		$requestContactIdValue = $request->get('contact_id');
 		if(!empty($requestContactIdValue)) {
-			$existingRelatedContacts[] = array('name' => decode_html(Vtiger_Util_Helper::getRecordName($requestContactIdValue)) ,'id' => $requestContactIdValue);
+			$existingRelatedContacts[] = array('name' => decode_html(Head_Util_Helper::getRecordName($requestContactIdValue)) ,'id' => $requestContactIdValue);
 		}
 		//If already selected contact ids, then in gotoFull form should show those selected contact ids
 		$idsList = $request->get('contactidlist');
 		if(!empty($idsList)) {
 			$contactIdsList = explode (';', $idsList);
 			foreach($contactIdsList as $contactId) {
-				$existingRelatedContacts[] = array('name' => decode_html(Vtiger_Util_Helper::getRecordName($contactId)) ,'id' => $contactId);
+				$existingRelatedContacts[] = array('name' => decode_html(Head_Util_Helper::getRecordName($contactId)) ,'id' => $contactId);
 			}
 		}
 
@@ -91,8 +91,8 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		}
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE_EVENT',Vtiger_Functions::jsonEncode($picklistDependencyDatasource['Events']));
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE_TODO',Vtiger_Functions::jsonEncode($picklistDependencyDatasource['Calendar']));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE_EVENT',Head_Functions::jsonEncode($picklistDependencyDatasource['Events']));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE_TODO',Head_Functions::jsonEncode($picklistDependencyDatasource['Calendar']));
 
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);

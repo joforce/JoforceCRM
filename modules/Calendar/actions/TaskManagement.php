@@ -15,7 +15,7 @@ class Calendar_TaskManagement_Action extends Calendar_SaveAjax_Action {
 		$this->exposeMethod('addTask');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -23,10 +23,10 @@ class Calendar_TaskManagement_Action extends Calendar_SaveAjax_Action {
 		}
 	}
 
-	public function addTask(Vtiger_Request $request) {
+	public function addTask(Head_Request $request) {
 		$user = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$madatoryFields = $moduleModel->getMandatoryFieldModels();
 		foreach ($madatoryFields as $mandatoryField) {
@@ -38,7 +38,7 @@ class Calendar_TaskManagement_Action extends Calendar_SaveAjax_Action {
 				$request->set('date_start', $date_start);
 			} else {
 				if ($request->get($fieldName) == null) {
-					$fieldValue = Vtiger_Util_Helper::fillMandatoryFields($fieldName, $moduleName, 'CRM');
+					$fieldValue = Head_Util_Helper::fillMandatoryFields($fieldName, $moduleName, 'CRM');
 					$request->set($fieldName, $fieldValue);
 				}
 			}

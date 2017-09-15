@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
+class Settings_Workflows_Edit_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if ($mode == 'v7Edit') {
 			$this->$mode($request);
@@ -22,7 +22,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 
@@ -36,7 +36,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(Vtiger_Request $request) {
+	public function step1(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -71,7 +71,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request) {
+	public function step2(Head_Request $request) {
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -85,7 +85,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = Head_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
@@ -115,7 +115,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('MODULE_MODEL', $selectedModule);
 		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
 
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+		$dateFilters = Head_Field_Model::getDateFilterTypes();
         foreach($dateFilters as $comparatorKey => $comparatorInfo) {
             $comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
             $comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
@@ -147,7 +147,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	function Step3(Vtiger_Request $request) {
+	function Step3(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -160,7 +160,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = Head_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
@@ -176,19 +176,19 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Edit',
+			'modules.Settings.Head.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
-			"modules.Vtiger.resources.CkEditor",
+			"modules.Head.resources.CkEditor",
             '~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
 			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 		);
@@ -198,7 +198,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request) {
+	function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
@@ -210,7 +210,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		return $headerCssInstances;
 	}
     
-   function v7Edit(Vtiger_Request $request) {
+   function v7Edit(Head_Request $request) {
       $currentUser = Users_Record_Model::getCurrentUserModel();
       $viewer = $this->getViewer($request);
       $moduleName = $request->getModule();

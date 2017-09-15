@@ -11,9 +11,9 @@
 
 vimport('~~/include/Webservices/Query.php');
 
-class Calendar_FetchAgendaEvents_Action extends Vtiger_BasicAjax_Action {
+class Calendar_FetchAgendaEvents_Action extends Head_BasicAjax_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$result = array();
 		$start = $request->get('startDate');
 		$noOfDays = $request->get('numOfDays');
@@ -25,25 +25,25 @@ class Calendar_FetchAgendaEvents_Action extends Vtiger_BasicAjax_Action {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT vtiger_activity.subject, vtiger_activity.eventstatus, vtiger_activity.priority ,vtiger_activity.visibility,
-						vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.due_date, vtiger_activity.time_end,
-						vtiger_crmentity.smownerid, vtiger_activity.activityid, vtiger_activity.activitytype, vtiger_activity.recurringtype,
-						vtiger_activity.location FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-						LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-						LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid
-						WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activityid > 0 AND vtiger_activity.activitytype NOT IN ("Emails","Task") AND ';
+		$query = 'SELECT jo_activity.subject, jo_activity.eventstatus, jo_activity.priority ,jo_activity.visibility,
+						jo_activity.date_start, jo_activity.time_start, jo_activity.due_date, jo_activity.time_end,
+						jo_crmentity.smownerid, jo_activity.activityid, jo_activity.activitytype, jo_activity.recurringtype,
+						jo_activity.location FROM jo_activity
+						INNER JOIN jo_crmentity ON jo_activity.activityid = jo_crmentity.crmid
+						LEFT JOIN jo_users ON jo_crmentity.smownerid = jo_users.id
+						LEFT JOIN jo_groups ON jo_crmentity.smownerid = jo_groups.groupid
+						WHERE jo_crmentity.deleted=0 AND jo_activity.activityid > 0 AND jo_activity.activitytype NOT IN ("Emails","Task") AND ';
 
 		$hideCompleted = $currentUser->get('hidecompletedevents');
 		if ($hideCompleted) {
-			$query.= "vtiger_activity.eventstatus != 'HELD' AND ";
+			$query.= "jo_activity.eventstatus != 'HELD' AND ";
 		}
 		$query.= " (concat(date_start,'',time_start)) >= '$dbStartDateTime' AND (concat(date_start,'',time_start)) < '$dbEndDateTime'";
 
 		$eventUserId = $currentUser->getId();
 		$params = array_merge(array($eventUserId), $this->getGroupsIdsForUsers($eventUserId));
 
-		$query.= " AND vtiger_crmentity.smownerid IN (".generateQuestionMarks($params).")";
+		$query.= " AND jo_crmentity.smownerid IN (".generateQuestionMarks($params).")";
 		$query.= ' ORDER BY time_start';
 
 		$queryResult = $db->pquery($query, $params);
@@ -74,8 +74,8 @@ class Calendar_FetchAgendaEvents_Action extends Vtiger_BasicAjax_Action {
 			$item['endTime'] = $endDateComponents[1];
 
 			if ($currentUser->get('hour_format') == '12') {
-				$item['startTime'] = Vtiger_Time_UIType::getTimeValueInAMorPM($item['startTime']);
-				$item['endTime'] = Vtiger_Time_UIType::getTimeValueInAMorPM($item['endTime']);
+				$item['startTime'] = Head_Time_UIType::getTimeValueInAMorPM($item['startTime']);
+				$item['endTime'] = Head_Time_UIType::getTimeValueInAMorPM($item['endTime']);
 			}
 			$recurringCheck = false;
 			if($record['recurringtype'] != '' && $record['recurringtype'] != '--None--') {
@@ -85,7 +85,7 @@ class Calendar_FetchAgendaEvents_Action extends Vtiger_BasicAjax_Action {
 			$result[$startDateComponents[0]][] = $item;
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-Class Users_EditAjax_View extends Vtiger_IndexAjax_View {
+Class Users_EditAjax_View extends Head_IndexAjax_View {
 
 	function __construct() {
 		parent::__construct();
@@ -18,15 +18,15 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View {
 		$this->exposeMethod('changeUsername');
 	}
 
-	public function checkPermission(Vtiger_Request $request){
+	public function checkPermission(Head_Request $request){
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $request->get('recordId');
 		if($currentUserModel->getId() != $userId && !$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -34,7 +34,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function changePassword(Vtiger_Request $request) {
+	public function changePassword(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->get('module');
 		$userId = $request->get('recordId');
@@ -45,7 +45,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View {
 		$viewer->view('ChangePassword.tpl', $moduleName);
 	}
 
-	public function changeUsername(Vtiger_Request $request) {
+	public function changeUsername(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$userId = $request->get('record');

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
+class Settings_PickListDependency_Edit_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -42,7 +42,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	public function getDependencyGraph(Vtiger_Request $request) {
+	public function getDependencyGraph(Head_Request $request) {
 		$qualifiedName = $request->getModule(false);
 		$module = $request->get('sourceModule');
 		$sourceField = $request->get('sourcefield');
@@ -52,13 +52,13 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 		$sourcePicklistValues = $recordModel->getSourcePickListValues();
 		$safeHtmlSourcePicklistValues = array();
 		foreach($sourcePicklistValues as $key => $value) {
-			$safeHtmlSourcePicklistValues[$key] = Vtiger_Util_Helper::toSafeHTML($key);
+			$safeHtmlSourcePicklistValues[$key] = Head_Util_Helper::toSafeHTML($key);
 		}
 
 		$targetPicklistValues = $recordModel->getTargetPickListValues();
 		$safeHtmlTargetPicklistValues = array();
 		foreach($targetPicklistValues as $key => $value) {
-			$safeHtmlTargetPicklistValues[$key] = Vtiger_Util_Helper::toSafeHTML($key);
+			$safeHtmlTargetPicklistValues[$key] = Head_Util_Helper::toSafeHTML($key);
 		}
 
 		$viewer = $this->getViewer($request);
@@ -75,10 +75,10 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -91,7 +91,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(

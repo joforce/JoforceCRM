@@ -10,7 +10,7 @@
  *
  ********************************************************************************/
 include_once 'modules/Quotes/QuotePDFController.php';
-$controller = new Vtiger_QuotePDFController($currentModule);
+$controller = new Head_QuotePDFController($currentModule);
 $controller->loadRecord(vtlib_purify($_REQUEST['record']));
 $quote_no = getModuleSequenceNumber($currentModule,vtlib_purify($_REQUEST['record']));
 if(isset($_REQUEST['savemode']) && $_REQUEST['savemode'] == 'file') {

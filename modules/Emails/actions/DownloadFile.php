@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Emails_DownloadFile_Action extends Vtiger_Action_Controller {
+class Emails_DownloadFile_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
@@ -19,11 +19,11 @@ class Emails_DownloadFile_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         $db = PearDatabase::getInstance();
 
         $attachmentId = $request->get('attachment_id');
-        $query = "SELECT * FROM vtiger_attachments WHERE attachmentsid = ?" ;
+        $query = "SELECT * FROM jo_attachments WHERE attachmentsid = ?" ;
         $result = $db->pquery($query, array($attachmentId));
 
         if($db->num_rows($result) == 1)

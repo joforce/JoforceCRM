@@ -17,7 +17,7 @@ vimport('~~/modules/Calendar/iCal/iCalendar_parameters.php');
 vimport('~~/modules/Calendar/iCal/ical-parser-class.php');
 vimport('~~/modules/Calendar/iCalLastImport.php');
 
-class Calendar_Import_View extends Vtiger_Import_View {
+class Calendar_Import_View extends Head_Import_View {
 
 	function __construct() {
 		parent::__construct();
@@ -27,9 +27,9 @@ class Calendar_Import_View extends Vtiger_Import_View {
 
 	/**
 	 * Function to show result of import
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	public function importResult(Vtiger_Request $request) {
+	public function importResult(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
@@ -50,7 +50,7 @@ class Calendar_Import_View extends Vtiger_Import_View {
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
+			$calendarModel = Head_Module_Model::getInstance($moduleName);
 
 			foreach($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -94,7 +94,7 @@ class Calendar_Import_View extends Vtiger_Import_View {
 					$activityFieldsList['time_end'] = '';
 				}
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
@@ -141,9 +141,9 @@ class Calendar_Import_View extends Vtiger_Import_View {
 
 	/**
 	 * Function to show result of undo import
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	public function undoIcalImport(Vtiger_Request $request) {
+	public function undoIcalImport(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
 

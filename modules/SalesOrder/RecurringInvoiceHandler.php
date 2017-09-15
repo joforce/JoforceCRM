@@ -26,21 +26,21 @@ class RecurringInvoiceHandler extends VTEventHandler {
 				$paymentDuration = $data['payment_duration'];
 				$invoiceStatus = $data['invoicestatus'];
 				if (isset($frequency) && $frequency != '' && $frequency != '--None--') {
-					$check_query = "SELECT * FROM vtiger_invoice_recurring_info WHERE salesorderid=?";
+					$check_query = "SELECT * FROM jo_invoice_recurring_info WHERE salesorderid=?";
 					$check_res = $adb->pquery($check_query, array($soId));
 					$noofrows = $adb->num_rows($check_res);
 					if ($noofrows > 0) {
 						$row = $adb->query_result_rowdata($check_res, 0);
-						$query = "UPDATE vtiger_invoice_recurring_info SET recurring_frequency=?, start_period=?, end_period=?, payment_duration=?, invoice_status=? WHERE salesorderid=?";
+						$query = "UPDATE jo_invoice_recurring_info SET recurring_frequency=?, start_period=?, end_period=?, payment_duration=?, invoice_status=? WHERE salesorderid=?";
 						$params = array($frequency,$startPeriod,$endPeriod,$paymentDuration,$invoiceStatus,$soId);
 					} else {
-						$query = "INSERT INTO vtiger_invoice_recurring_info VALUES (?,?,?,?,?,?,?)";
+						$query = "INSERT INTO jo_invoice_recurring_info VALUES (?,?,?,?,?,?,?)";
 						$params = array($soId,$frequency,$startPeriod,$endPeriod,$startPeriod,$paymentDuration,$invoiceStatus);
 					}
 					$adb->pquery($query, $params);
 				}
 			} else {
-				$query = "DELETE FROM vtiger_invoice_recurring_info WHERE salesorderid = ?";
+				$query = "DELETE FROM jo_invoice_recurring_info WHERE salesorderid = ?";
 				$adb->pquery($query, array($soId));	
 			}
 		}

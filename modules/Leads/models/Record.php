@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Leads_Record_Model extends Vtiger_Record_Model {
+class Leads_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function returns the url for converting lead
@@ -21,14 +21,14 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param <String> $searchKey
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
+	 * @return <Array> - List of Head_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module=false) {
 		$db = PearDatabase::getInstance();
 
 		$deletedCondition = $this->getModule()->getDeletedRecordCondition();
-		$query = 'SELECT * FROM vtiger_crmentity
-                    INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$query = 'SELECT * FROM jo_crmentity
+                    INNER JOIN jo_leaddetails ON jo_leaddetails.leadid = jo_crmentity.crmid
                     WHERE label LIKE ? AND '.$deletedCondition;
 		$params = array("%$searchKey%");
 		$result = $db->pquery($query, $params);
@@ -41,10 +41,10 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			$row['id'] = $row['crmid'];
 			$moduleName = $row['setype'];
 			if(!array_key_exists($moduleName, $moduleModels)) {
-				$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
+				$moduleModels[$moduleName] = Head_Module_Model::getInstance($moduleName);
 			}
 			$moduleModel = $moduleModels[$moduleName];
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -64,7 +64,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			return;
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
             //Fields that need to be shown
@@ -85,7 +85,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 				}
 			}
             foreach($complusoryFields as $complusoryField) {
-                $fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
+                $fieldModel = Head_Field_Model::getInstance($complusoryField, $moduleModel);
 				if($fieldModel->getPermissions('readwrite') && $fieldModel->isEditable()) {
                     $industryFieldModel = $moduleModel->getField($complusoryField);
                     $industryLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
@@ -114,7 +114,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			return;
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
             $complusoryFields = array('firstname', 'email');
@@ -140,7 +140,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
             }
 
 			foreach($complusoryFields as $complusoryField) {
-                $fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
+                $fieldModel = Head_Field_Model::getInstance($complusoryField, $moduleModel);
 				if($fieldModel->getPermissions('readwrite') && $fieldModel->isEditable()) {
 					$leadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
 					$fieldModel = $moduleModel->getField($complusoryField);
@@ -169,7 +169,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			return;
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 
@@ -191,7 +191,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 				}
 			}
             foreach($complusoryFields as $complusoryField) {
-                $fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
+                $fieldModel = Head_Field_Model::getInstance($complusoryField, $moduleModel);
                 if($fieldModel->getPermissions('readwrite') && $fieldModel->isEditable()) {
                     $fieldModel = $moduleModel->getField($complusoryField);
                     $amountLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
@@ -219,19 +219,19 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 			$db = PearDatabase::getInstance();
 			$mappingFields = array();
 
-			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());
+			$result = $db->pquery('SELECT * FROM jo_convertleadmapping', array());
 			$numOfRows = $db->num_rows($result);
 
-			$accountInstance = Vtiger_Module_Model::getInstance('Accounts');
+			$accountInstance = Head_Module_Model::getInstance('Accounts');
 			$accountFieldInstances = $accountInstance->getFieldsById();
 
-			$contactInstance = Vtiger_Module_Model::getInstance('Contacts');
+			$contactInstance = Head_Module_Model::getInstance('Contacts');
 			$contactFieldInstances = $contactInstance->getFieldsById();
 
-			$potentialInstance = Vtiger_Module_Model::getInstance('Potentials');
+			$potentialInstance = Head_Module_Model::getInstance('Potentials');
 			$potentialFieldInstances = $potentialInstance->getFieldsById();
 
-			$leadInstance = Vtiger_Module_Model::getInstance('Leads');
+			$leadInstance = Head_Module_Model::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
 			for($i=0; $i<$numOfRows; $i++) {
@@ -262,7 +262,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return <Array of Head_Field_Model>
 	 */
 	function getConvertLeadFields() {
 		$convertFields = array();
@@ -288,7 +288,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateEventUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl().'/'.$this->getId();
 	}
 
@@ -297,7 +297,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateTaskUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl().'/'.$this->getId();
 	}
     
@@ -308,7 +308,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
     function isLeadConverted() {
         $db = PearDatabase::getInstance();
         $id = $this->getId();
-        $sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
+        $sql = "select converted from jo_leaddetails where converted = 1 and leadid=?";
         $result = $db->pquery($sql,array($id));
         $rowCount = $db->num_rows($result);
         if($rowCount > 0){

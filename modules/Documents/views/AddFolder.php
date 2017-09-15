@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Documents_AddFolder_View extends Vtiger_IndexAjax_View {
+class Documents_AddFolder_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
@@ -19,7 +19,7 @@ class Documents_AddFolder_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process (Vtiger_Request $request) {
+	public function process (Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

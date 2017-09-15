@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View {
+class Settings_Workflows_CreateEntity_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -23,7 +23,7 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View {
 			$selectedModuleName = $selectedModule->getName();
 		} else {
             $selectedModuleName = $request->get('module_name');
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = Head_Module_Model::getInstance($selectedModuleName);
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
         
@@ -42,7 +42,7 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$relatedModule = $request->get('relatedModule');
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
 
 		$workflowModuleModel = $workflowModel->getModule();
 

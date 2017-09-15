@@ -10,9 +10,9 @@
  *************************************************************************************/
 vimport('~~modules/PickList/DependentPickListUtils.php');
 
-class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_PickListDependency_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_picklist_dependency';
+	var $baseTable = 'jo_picklist_dependency';
 	var $baseIndex = 'id';
 	var $name = 'PickListDependency';
 
@@ -37,21 +37,21 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 	}
 
 	public static function getAvailablePicklists($module) {
-		return Vtiger_DependencyPicklist::getAvailablePicklists($module);
+		return Head_DependencyPicklist::getAvailablePicklists($module);
 	}
 
 	public static function getPicklistSupportedModules() {
 		$adb = PearDatabase::getInstance();
 
-		$query = "SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
-						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
+		$query = "SELECT distinct jo_field.tabid, jo_tab.tablabel, jo_tab.name as tabname FROM jo_field
+						INNER JOIN jo_tab ON jo_tab.tabid = jo_field.tabid
 						WHERE uitype IN ('15','16')
-						AND vtiger_field.tabid != 29
-						AND vtiger_field.displaytype = 1
-						AND vtiger_field.presence in ('0','2')
-						AND vtiger_field.block != 'NULL'
-						AND vtiger_tab.presence != 1
-					GROUP BY vtiger_field.tabid HAVING count(*) > 1";
+						AND jo_field.tabid != 29
+						AND jo_field.displaytype = 1
+						AND jo_field.presence in ('0','2')
+						AND jo_field.block != 'NULL'
+						AND jo_tab.presence != 1
+					GROUP BY jo_field.tabid HAVING count(*) > 1";
 		// END
 		$result = $adb->pquery($query, array());
 		while($row = $adb->fetch_array($result)) {
@@ -61,7 +61,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 
 		$modulesModelsList = array();
 		foreach($modules as $moduleLabel => $moduleName) {
-			$instance = new Vtiger_Module_Model();
+			$instance = new Head_Module_Model();
 			$instance->name = $moduleName;
 			$instance->label = $moduleLabel;
 			$modulesModelsList[] = $instance;

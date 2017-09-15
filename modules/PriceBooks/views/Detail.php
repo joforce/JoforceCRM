@@ -9,15 +9,15 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_Detail_View extends Vtiger_Detail_View {
+class PriceBooks_Detail_View extends Head_Detail_View {
 	
 	
 	/**
 	 * Function returns related records
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return <type>
 	 */
-	function showRelatedList(Vtiger_Request $request) {
+	function showRelatedList(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
@@ -32,11 +32,11 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View {
 			return parent::showRelatedList($request);
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page',$requestedPage);
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = Head_Record_Model::getInstanceById($parentId, $moduleName);
+		$relationListView = Head_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if($sortOrder == "ASC") {
@@ -57,7 +57,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View {
 
 		$parentRecordCurrencyId = $parentRecordModel->get('currency_id');
 		if ($parentRecordCurrencyId) {
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModuleName);
 
 			foreach ($models as $recordId => $recorModel) {
 				$productIdsList[$recordId] = $recordId;

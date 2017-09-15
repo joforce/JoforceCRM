@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Vtiger_MailParser {
+class Head_MailParser {
 
 	var $msg = false;
 

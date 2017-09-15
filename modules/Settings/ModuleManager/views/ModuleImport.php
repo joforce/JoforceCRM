@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_View {
+class Settings_ModuleManager_ModuleImport_View extends Settings_Head_Index_View {
 
 	public function __construct() {
 		parent::__construct();
@@ -19,7 +19,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$this->exposeMethod('importUserModuleStep2');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -35,7 +35,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request) {
+	public function step2(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$upgradeError = true;
 		$qualifiedModuleName = $request->getModule(false);
@@ -59,7 +59,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				}
 				if (!$upgradeError) {
 					if(!$isLanguagePackage) {
-						$moduleModel = Vtiger_Module_Model::getInstance($importedModuleName);
+						$moduleModel = Head_Module_Model::getInstance($importedModuleName);
 						$viewer->assign('MODULE_EXISTS', ($moduleModel)? true :false);
 						$viewer->assign('MODULE_DIR_NAME', '../modules/'. $importedModuleName);
 
@@ -75,7 +75,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 					$viewer->assign('MODULE_TYPE', $package->type());
 					$viewer->assign('FILE_NAME', $extensionModel->getFileName());
 					$viewer->assign('MODULE_LICENSE', (string)$package->getLicense());
-					$viewer->assign('SUPPORTED_VTVERSION', $package->getDependentVtigerVersion());
+					$viewer->assign('SUPPORTED_VTVERSION', $package->getDependentHeadVersion());
 
 				} else {
 					$viewer->assign('ERROR', true);
@@ -94,11 +94,11 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function step3(Vtiger_Request $request) {
+	public function step3(Head_Request $request) {
 		$viewer = $this->getViewer($request);
-		global $Vtiger_Utils_Log;
-		$viewer->assign('VTIGER_UTILS_LOG', $Vtiger_Utils_Log);
-		$Vtiger_Utils_Log = true;
+		global $Head_Utils_Log;
+		$viewer->assign('VTIGER_UTILS_LOG', $Head_Utils_Log);
+		$Head_Utils_Log = true;
 		$qualifiedModuleName = $request->getModule(false);
 
 		$fileName = $request->get('fileName');
@@ -114,14 +114,14 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 			}
 
 			if (strtolower($moduleType) === 'language') {
-				$package = new Vtiger_Language();
+				$package = new Head_Language();
 			} else {
-				$package = new Vtiger_Package();
+				$package = new Head_Package();
 			}
 
 			$viewer->assign('MODULE_ACTION', $moduleAction);
 			$viewer->assign('MODULE_PACKAGE', $package);
-			$viewer->assign('TARGET_MODULE_INSTANCE', Vtiger_Module_Model::getInstance($targetModuleName));
+			$viewer->assign('TARGET_MODULE_INSTANCE', Head_Module_Model::getInstance($targetModuleName));
 			$viewer->assign('MODULE_FILE_NAME', Settings_ModuleManager_Extension_Model::getUploadDirectory(). '/' .$fileName);
 		} else {
 			$viewer->assign('ERROR', true);
@@ -133,10 +133,10 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -149,14 +149,14 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		return $headerScriptInstances;
 	}
 
-	public function importUserModuleStep1(Vtiger_Request $request){
+	public function importUserModuleStep1(Head_Request $request){
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep2(Vtiger_Request $request){
+	public function importUserModuleStep2(Head_Request $request){
 		$viewer = $this->getViewer($request);
 		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
 		$qualifiedModuleName = $request->getModule(false);
@@ -167,9 +167,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		if(!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
 			$viewer->assign('MODULEIMPORT_FAILED', true);
 		}else{
-			$package = new Vtiger_Package();
+			$package = new Head_Package();
 			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
-			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
+			$importModuleDepVtVersion = $package->getDependentHeadVersion();
 
 			if($importModuleName == null ) {
 				$viewer->assign('MODULEIMPORT_FAILED', true);
@@ -187,7 +187,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				$viewer->assign("MODULEIMPORT_LICENSE", $moduleLicence);
 
 				if(!$package->isLanguageType() && !$package->isModuleBundle()) {
-					$moduleInstance = Vtiger_Module::getInstance($importModuleName);
+					$moduleInstance = Head_Module::getInstance($importModuleName);
 					$moduleimport_exists = ($moduleInstance)? "true" : "false";
 					$moduleimport_dir_name = "modules/$importModuleName";
 					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name)? "true" : "false");
@@ -200,7 +200,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateReadAccess();
 	}
 }

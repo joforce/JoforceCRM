@@ -11,7 +11,7 @@
 
 class HelpDesk_RecipientPreferences_View extends Project_RecipientPreferences_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$sourceModule = $request->getModule();
 		$emailFieldsInfo = $this->getEmailFieldsInfo($sourceModule);
 		$viewer = $this->getViewer($request);

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model {
+class Users_DetailRecordStructure_Model extends Head_DetailRecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format

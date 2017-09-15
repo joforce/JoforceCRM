@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MailConverter_BodyAjax_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_MailConverter_BodyAjax_View extends Settings_Head_IndexAjax_View {
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         $action = $request->get('action1');
         $delimiter = $request->get('delimiter');
         $bodyText = $request->get('body');

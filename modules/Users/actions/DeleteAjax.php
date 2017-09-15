@@ -10,25 +10,25 @@
  *************************************************************************************/
 vimport('~~/include/Webservices/Custom/DeleteUser.php');
 
-class Users_DeleteAjax_Action extends Vtiger_Delete_Action {
+class Users_DeleteAjax_Action extends Head_Delete_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		 $ownerId = $request->get('userid');
 		if(!$currentUser->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		} else if($currentUser->isAdminUser() && ($currentUser->getId() == $ownerId)) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
         $ownerId = $request->get('userid');
         $newOwnerId = $request->get('transfer_user_id');
         
         $mode = $request->get('mode');
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         $result['message'] = vtranslate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName);
 
 		if($mode == 'permanent'){

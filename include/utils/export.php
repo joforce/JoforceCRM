@@ -14,7 +14,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 
-require_once('config.php');
+require_once('config/config.php');
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 require_once('modules/Accounts/Accounts.php');
@@ -141,40 +141,40 @@ function export($type){
 	if(($search_type == 'withoutsearch' || $search_type == 'includesearch') && $export_data == 'selecteddata'){
 		$idstring = getSelectedRecords($_REQUEST, $type, $idstring, vtlib_purify($_REQUEST['excludedRecords']));
 		if($type == 'Accounts' && count($idstring) > 0) {
-			$query .= ' and vtiger_account.accountid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_account.accountid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Contacts' && count($idstring) > 0) {
-			$query .= ' and vtiger_contactdetails.contactid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_contactdetails.contactid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Potentials' && count($idstring) > 0) {
-			$query .= ' and vtiger_potential.potentialid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_potential.potentialid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Leads' && count($idstring) > 0) {
-			$query .= ' and vtiger_leaddetails.leadid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_leaddetails.leadid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Products' && count($idstring) > 0) {
-			$query .= ' and vtiger_products.productid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_products.productid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Documents' && count($idstring) > 0) {
-			$query .= ' and vtiger_notes.notesid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_notes.notesid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'HelpDesk' && count($idstring) > 0) {
-			$query .= ' and vtiger_troubletickets.ticketid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_troubletickets.ticketid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Vendors' && count($idstring) > 0) {
-			$query .= ' and vtiger_vendor.vendorid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_vendor.vendorid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Invoice' && count($idstring) > 0) {
-			$query .= ' and vtiger_invoice.invoiceid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_invoice.invoiceid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'Quotes' && count($idstring) > 0) {
-			$query .= ' and vtiger_quotes.quoteid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_quotes.quoteid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'SalesOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_salesorder.salesorderid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_salesorder.salesorderid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		} elseif($type == 'PurchaseOrder' && count($idstring) > 0) {
-			$query .= ' and vtiger_purchaseorder.purchaseorderid in ('. generateQuestionMarks($idstring) .')';
+			$query .= ' and jo_purchaseorder.purchaseorderid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
 		}
 		else if(count($idstring) > 0) {
@@ -189,9 +189,9 @@ function export($type){
 		if($order_by == 'smownerid'){
 			$query .= ' ORDER BY user_name '.$sorder;
 		}elseif($order_by == 'lastname' && $type == 'Documents'){
-			$query .= ' ORDER BY vtiger_contactdetails.lastname  '. $sorder;
+			$query .= ' ORDER BY jo_contactdetails.lastname  '. $sorder;
 		}elseif($order_by == 'crmid' && $type == 'HelpDesk'){
-			$query .= ' ORDER BY vtiger_troubletickets.ticketid  '. $sorder;
+			$query .= ' ORDER BY jo_troubletickets.ticketid  '. $sorder;
 		}else{
 			$tablename = getTableNameForField($type,$order_by);
 			$tablename = (($tablename != '')?($tablename."."):'');
@@ -350,7 +350,7 @@ class ExportUtils{
 		global $adb;
 		$tabid = getTabid($module);
 		
-		$result = $adb->pquery("select * from vtiger_field where tabid=?", array($tabid));
+		$result = $adb->pquery("select * from jo_field where tabid=?", array($tabid));
 		$count = $adb->num_rows($result);
 		$arr = array();
 		$data = array();

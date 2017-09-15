@@ -11,12 +11,12 @@
 
 include_once dirname(__FILE__) . '/Connectors.php';
 
-class Vtiger_Cache_Connector {
+class Head_Cache_Connector {
 	protected $connection;
 
 	protected function __construct() {
 		if (!$this->connection) {
-			$this->connection = Vtiger_Cache_Connector_Memory::getInstance();
+			$this->connection = Head_Cache_Connector_Memory::getInstance();
 		}
 	}
 

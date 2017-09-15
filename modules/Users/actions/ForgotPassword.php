@@ -24,14 +24,14 @@ class Users_ForgotPassword_Action {
 
 	public function changePassword($request){
 
-		$request = new Vtiger_Request($request);
-		$viewer = Vtiger_Viewer::getInstance();
+		$request = new Head_Request($request);
+		$viewer = Head_Viewer::getInstance();
 		$userName = $request->get('username');
 		$newPassword = $request->get('password');
 		$confirmPassword = $request->get('confirmPassword');
 		$shortURLID = $request->get('shorturl_id');
 		$secretHash = $request->get('secret_hash');
-		$shortURLModel = Vtiger_ShortURL_Helper::getInstance($shortURLID);
+		$shortURLModel = Head_ShortURL_Helper::getInstance($shortURLID);
 		$secretToken = $shortURLModel->handler_data['secret_token'];
 
 		$validateData = array('username'  => $userName,

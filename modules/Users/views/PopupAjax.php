@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_PopupAjax_View extends Vtiger_PopupAjax_View {
+class Users_PopupAjax_View extends Head_PopupAjax_View {
     
-    function checkPermission(Vtiger_Request $request) {
+    function checkPermission(Head_Request $request) {
         $moduleName = $request->getModule();
         $sourceModuleName = $request->get('src_module');
         $sourceFieldName = $request->get('src_field');

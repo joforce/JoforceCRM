@@ -10,7 +10,7 @@
  *************************************************************************************/
 
 /**
- * Vtiger Detail View Record Structure Model
+ * Head Detail View Record Structure Model
  */
 class Events_DetailRecordStructure_Model extends Calendar_DetailRecordStructure_Model {
 	

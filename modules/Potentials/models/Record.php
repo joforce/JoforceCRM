@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_Record_Model extends Vtiger_Record_Model {
+class Potentials_Record_Model extends Head_Record_Model {
 
 	function getCreateInvoiceUrl() {
         global $site_URL;
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
+		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 		return $site_URL."index.php?module=".$invoiceModuleModel->getName()."&view=".$invoiceModuleModel->getEditViewName().'&sourceRecord='.$this->getId().'&sourceModule='.$this->getModuleName().'&potential_id='.$this->getId().'&account_id='.$this->get('related_to').'&contact_id='.$this->get('contact_id');
 	}
 
@@ -22,7 +22,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateEventUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl().'&parent_id='.$this->getId();
 	}
 
@@ -31,7 +31,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 */
 	function getCreateTaskUrl() {
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl().'&parent_id='.$this->getId();
 	}
 
@@ -52,7 +52,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getCreateQuoteUrl() {
         global $site_URL;
-		$quoteModuleModel = Vtiger_Module_Model::getInstance('Quotes');
+		$quoteModuleModel = Head_Module_Model::getInstance('Quotes');
 		return $site_URL."index.php?module=".$quoteModuleModel->getName()."&view=".$quoteModuleModel->getEditViewName().'&sourceRecord='.$this->getId().'&sourceModule='.$this->getModuleName().'&potential_id='.$this->getId().'&account_id='.$this->get('related_to').'&contact_id='.$this->get('contact_id').'&relationOperation=true';
 	}
 
@@ -62,7 +62,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getCreateSalesOrderUrl() {
         global $site_URL;
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
 		return $site_URL."index.php?module=".$salesOrderModuleModel->getName()."&view=".$salesOrderModuleModel->getEditViewName().'&sourceRecord='.$this->getId().'&sourceModule='.$this->getModuleName().
 				'&potential_id='.$this->getId().'&account_id='.$this->get('related_to').'&contact_id='.$this->get('contact_id').
 				'&relationOperation=true';
@@ -77,7 +77,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function returns the fields required for Potential Convert
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return <Array of Head_Field_Model>
 	 */
 	function getConvertPotentialFields() {
 		$convertFields = array();
@@ -102,7 +102,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			return;
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 			foreach ($fieldModels as $fieldName => $fieldModel) {
@@ -133,13 +133,13 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 			$db = PearDatabase::getInstance();
 			$mappingFields = array();
 
-			$result = $db->pquery('SELECT * FROM vtiger_convertpotentialmapping', array());
+			$result = $db->pquery('SELECT * FROM jo_convertpotentialmapping', array());
 			$numOfRows = $db->num_rows($result);
 
-			$projectInstance = Vtiger_Module_Model::getInstance('Project');
+			$projectInstance = Head_Module_Model::getInstance('Project');
 			$projectFieldInstances = $projectInstance->getFieldsById();
 
-			$potentialInstance = Vtiger_Module_Model::getInstance('Potentials');
+			$potentialInstance = Head_Module_Model::getInstance('Potentials');
 			$potentialFieldInstances = $potentialInstance->getFieldsById();
 
 			for($i=0; $i<$numOfRows; $i++) {
@@ -169,7 +169,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	function isPotentialConverted() {
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
-		$sql = "select converted from  vtiger_potential where converted = 1 and potentialid=?";
+		$sql = "select converted from  jo_potential where converted = 1 and potentialid=?";
 		$result = $db->pquery($sql,array($id));
 		$rowCount = $db->num_rows($result);
 		if($rowCount > 0){

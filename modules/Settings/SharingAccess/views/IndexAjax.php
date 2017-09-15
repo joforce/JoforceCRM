@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View {
+Class Settings_SharingAccess_IndexAjax_View extends Settings_Head_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('showRules');
 		$this->exposeMethod('editRule');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,7 +24,7 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		}
 	}
 
-	public function showRules(Vtiger_Request $request) {
+	public function showRules(Head_Request $request) {
 
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
@@ -44,7 +44,7 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
 
-	public function editRule(Vtiger_Request $request) {
+	public function editRule(Head_Request $request) {
 
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
@@ -73,15 +73,15 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Index',
+			'modules.Settings.Head.resources.Index',
 			"modules.Settings.$moduleName.resources.Index"
 		);
 

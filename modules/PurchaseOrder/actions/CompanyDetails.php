@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PurchaseOrder_CompanyDetails_Action extends Vtiger_Action_Controller {
+class PurchaseOrder_CompanyDetails_Action extends Head_Action_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -27,7 +27,7 @@ class PurchaseOrder_CompanyDetails_Action extends Vtiger_Action_Controller {
         $this->exposeMethod('getAddressDetails');
     }
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -37,7 +37,7 @@ class PurchaseOrder_CompanyDetails_Action extends Vtiger_Action_Controller {
 	}
 
     function getCompanyDetails($request){
-        $companyModel = Vtiger_CompanyDetails_Model::getInstanceById();
+        $companyModel = Head_CompanyDetails_Model::getInstanceById();
         $companyDetails = array(
             'street' => $companyModel->get('organizationname') .' '.$companyModel->get('address'),
             'city' => $companyModel->get('city'),
@@ -45,13 +45,13 @@ class PurchaseOrder_CompanyDetails_Action extends Vtiger_Action_Controller {
             'code' => $companyModel->get('code'),
             'country' =>  $companyModel->get('country'),
             );
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($companyDetails);
 		$response->emit();
 	}
 
 	function getAddressDetails($request){
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->get('recordId'));
+		$recordModel = Head_Record_Model::getInstanceById($request->get('recordId'));
 		$addressType = $request->get('type');
 		$code = 'code';
 		if($recordModel->getModuleName() == 'Vendors'){
@@ -74,7 +74,7 @@ class PurchaseOrder_CompanyDetails_Action extends Vtiger_Action_Controller {
 			'pobox'		=> html_entity_decode($recordModel->get($addressType.'pobox'),	ENT_COMPAT, 'UTF-8'),
 			'country'	=> html_entity_decode($recordModel->get($addressType.'country'),ENT_COMPAT, 'UTF-8'),
 		);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($addressDetails);
 		$response->emit();
 	}

@@ -11,7 +11,7 @@
 
 class Reports_ChartSave_Action extends Reports_Save_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');

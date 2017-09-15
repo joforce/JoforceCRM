@@ -11,9 +11,9 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Edit View Record Structure Model
+ * Head Edit View Record Structure Model
  */
-class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
+class Reports_RecordStructure_Model extends Head_RecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format
@@ -23,9 +23,9 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 		if (!empty($this->structuredValues[$moduleName])) {
 			return $this->structuredValues[$moduleName];
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleName === 'Emails') {
-			$restrictedTablesList = array('vtiger_emaildetails', 'vtiger_attachments');
+			$restrictedTablesList = array('jo_emaildetails', 'jo_attachments');
 			$moduleRecordStructure = array();
 			$blockModelList = $moduleModel->getBlocks();
 			foreach ($blockModelList as $blockLabel => $blockModel) {
@@ -33,8 +33,8 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 				if (!empty($fieldModelList)) {
 					$moduleRecordStructure[$blockLabel] = array();
 					foreach ($fieldModelList as $fieldName => $fieldModel) {
-						if($fieldModel->get('table')=='vtiger_activity' && $this->getRecord()->getPrimaryModule()!='Emails'){
-							$fieldModel->set('table','vtiger_activityEmails');
+						if($fieldModel->get('table')=='jo_activity' && $this->getRecord()->getPrimaryModule()!='Emails'){
+							$fieldModel->set('table','jo_activityEmails');
 						}
 						if (!in_array($fieldModel->get('table'), $restrictedTablesList) && $fieldModel->isViewable()) {
 							$moduleRecordStructure[$blockLabel][$fieldName] = $fieldModel;
@@ -43,12 +43,12 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 				}
 			}
 		} else if($moduleName === 'Calendar') { 
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+			$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = array();
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 			
-			$eventsModel = Vtiger_Module_Model::getInstance('Events');
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($eventsModel);
+			$eventsModel = Head_Module_Model::getInstance('Events');
+			$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($eventsModel);
 			$eventRecordStructure = $recordStructureInstance->getStructure();
 
 			foreach($eventRecordStructure as $blockLabel =>$blockFields){
@@ -69,7 +69,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 			}
 			$moduleRecordStructure = $calendarRecordStructure;
 		} else {
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+			$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = $recordStructureInstance->getStructure();
 		}
 		//To remove starred and tag fields 
@@ -86,7 +86,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 
 	/**
 	 * Function returns the Primary Module Record Structure
-	 * @return <Vtiger_RecordStructure_Model>
+	 * @return <Head_RecordStructure_Model>
 	 */
 	function getPrimaryModuleRecordStructure() {
 		$primaryModule = $this->getRecord()->getPrimaryModule();
@@ -96,7 +96,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 
 	/**
 	 * Function returns the Secondary Modules Record Structure
-	 * @return <Array of Vtiger_RecordSructure_Models>
+	 * @return <Array of Head_RecordSructure_Models>
 	 */
 	function getSecondaryModuleRecordStructure() {
 		$recordStructureInstances = array();

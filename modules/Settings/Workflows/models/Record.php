@@ -12,10 +12,10 @@
 /*
  * Workflow Record Model Class
  */
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_jo_workflow/include.inc';
+require_once 'modules/com_jo_workflow/expression_engine/VTExpressionsManager.inc';
 
-class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 
 	public function getId() {
 		return $this->get('workflow_id');
@@ -29,11 +29,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 //		if($key == 'execution_condition') {
 //			$executionCondition = parent::get($key);
 //			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
-//			return Vtiger_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
+//			return Head_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
 //		}
 //		if($key == 'module_name') {
 //			$moduleName = parent::get($key);
-//			return Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName);
+//			return Head_Language_Handler::getTranslatedString($moduleName, $moduleName);
 //		}
 		return parent::get($key);
 	}
@@ -66,7 +66,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	}
 
 	public function setModule($moduleName) {
-		$this->module = Vtiger_Module_Model::getInstance($moduleName);
+		$this->module = Head_Module_Model::getInstance($moduleName);
 		return $this;
 	}
 
@@ -130,7 +130,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
 	public function getRecordLinks() {
 
@@ -146,12 +146,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord('.$this->getId().');',
+				'linkurl' => 'javascript:Head_List_Js.deleteRecord('.$this->getId().');',
 				'linkicon' => 'icon-trash'
 			)
 		);
 		foreach($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -243,7 +243,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 				$valueArray = explode(',', $value);
 				$isDateValue = false;
 				for($i = 0; $i < count($valueArray); $i++) {
-					if(Vtiger_Functions::isDateValue($valueArray[$i])) {
+					if(Head_Functions::isDateValue($valueArray[$i])) {
 						$isDateValue = true;
 						$valueArray[$i] = DateTimeField::convertToUserFormat($valueArray[$i]);
 					}
@@ -330,7 +330,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$filterModules = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder', 'Emails', 'Calendar', 'Events');
 
 		foreach ($modulesList as $moduleName => $translatedModuleName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 			if (in_array($moduleName, $filterModules))
 				continue;
 			$createModuleModels[$moduleName] = $moduleModel;
@@ -348,7 +348,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		if ($relatedModule) {
 			$db = PearDatabase::getInstance();
 
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
 			if ($relatedModuleModel) {
 				$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
@@ -404,8 +404,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	public static function getUpdateFieldTaskIdsForModule($moduleName, $fieldName) {
 		$ids = array();
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM com_vtiger_workflows
-				INNER JOIN com_vtiger_workflowtasks ON com_vtiger_workflows.workflow_id = com_vtiger_workflowtasks.workflow_id
+		$sql = 'SELECT * FROM com_jo_workflows
+				INNER JOIN com_jo_workflowtasks ON com_jo_workflows.workflow_id = com_jo_workflowtasks.workflow_id
 				WHERE module_name = ?
 				AND task LIKE ? 
 				AND task LIKE ? ';
@@ -422,14 +422,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 
 	public static function updateWorkflowStatus($record, $status){
 	  $db = PearDatabase::getInstance();
-	  $sql = 'UPDATE com_vtiger_workflows SET status = ? WHERE workflow_id = ?';
+	  $sql = 'UPDATE com_jo_workflows SET status = ? WHERE workflow_id = ?';
 	  $db->pquery($sql, array($status, $record));
 	}
 
 	function getConditonDisplayValue() {
 		$test = $this->get('raw_test');
 		$moduleName = $this->get('raw_module_name');
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$wfCond = json_decode($test,true);
 		$conditionList = array();
 		if(is_array($wfCond)) {
@@ -438,7 +438,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 				preg_match('/\((\w+) : \(([_\w]+)\) (\w+)\)/', $fieldName, $matches);
 
 				if(count($matches)==0){
-					$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
+					$fieldModel = Head_Field_Model::getInstance($fieldName, $moduleModel);
 					if($fieldModel) {
 						$fieldLabel = vtranslate($fieldModel->get('label'), $moduleName);
 					} else {
@@ -446,9 +446,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 					}
 				} else {
 					list($full, $referenceField, $referenceModule, $fieldName) = $matches;
-					$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModule);
-					$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $referenceModuleModel);
-					$referenceFieldModel = Vtiger_Field_Model::getInstance($referenceField, $moduleModel);
+					$referenceModuleModel = Head_Module_Model::getInstance($referenceModule);
+					$fieldModel = Head_Field_Model::getInstance($fieldName, $referenceModuleModel);
+					$referenceFieldModel = Head_Field_Model::getInstance($referenceField, $moduleModel);
 					if($fieldModel) {
 						$translatedReferenceModule = vtranslate($referenceModule, $referenceModule);
 						$referenceFieldLabel = vtranslate($referenceFieldModel->get('label'), $moduleName);

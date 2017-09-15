@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_CalendarActions_Action extends Vtiger_BasicAjax_Action {
+class Calendar_CalendarActions_Action extends Head_BasicAjax_Action {
 
 	function __construct() {
 		$this->exposeMethod('fetchAgendaViewEventDetails');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -23,11 +23,11 @@ class Calendar_CalendarActions_Action extends Vtiger_BasicAjax_Action {
 		}
 	}
 
-	public function fetchAgendaViewEventDetails(Vtiger_Request $request) {
+	public function fetchAgendaViewEventDetails(Head_Request $request) {
 		$result = array();
 		$eventId = $request->get('id');
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance('Events');
+		$moduleModel = Head_Module_Model::getInstance('Events');
 		$recordModel = Events_Record_Model::getInstanceById($eventId);
 
 		$result[vtranslate('Assigned To')] = getUserFullName($recordModel->get('assigned_user_id'));
@@ -38,14 +38,14 @@ class Calendar_CalendarActions_Action extends Vtiger_BasicAjax_Action {
 			$result[vtranslate('Location', $moduleName)] = $recordModel->get('location');
 		}
 		if ($recordModel->get('contact_id')) {
-			$contact_id = Vtiger_Field_Model::getInstance('contact_id', $moduleModel);
+			$contact_id = Head_Field_Model::getInstance('contact_id', $moduleModel);
 			$result[vtranslate($contact_id->get('label'), $moduleName)] = $contact_id->getDisplayValue($recordModel->get('contact_id'));
 		}
 		if ($recordModel->get('parent_id')) {
-			$parent_id = Vtiger_Field_Model::getInstance('parent_id', $moduleModel);
+			$parent_id = Head_Field_Model::getInstance('parent_id', $moduleModel);
 			$result[vtranslate($parent_id->get('label'), $moduleName)] = $parent_id->getDisplayValue($recordModel->get('parent_id'));
 		}
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

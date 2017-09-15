@@ -46,9 +46,9 @@ class freetag {
 	var $_debug = FALSE;
 	/**
 	 * @access private
-	 * @param string The prefix of freetag database vtiger_tables.
+	 * @param string The prefix of freetag database jo_tables.
 	 */
-	var $_table_prefix = 'vtiger_';
+	var $_table_prefix = 'jo_';
 	/**
 	 * @access private
 	 * @param string The regex-style set of characters that are valid for normalized tags.
@@ -63,7 +63,7 @@ class freetag {
 	var $_normalize_tags = 0;
 	/**
 	 * @access private
-	 * @param string Whether to prevent multiple vtiger_users from tagging the same object. By default, set to block (ala Upcoming.org)
+	 * @param string Whether to prevent multiple jo_users from tagging the same object. By default, set to block (ala Upcoming.org)
 	 */
 	var $_block_multiuser_tag_on_object =0;
 	/**
@@ -95,10 +95,10 @@ class freetag {
 	 * - db_pass: Database password
 	 * - db_host: Database hostname [default: localhost]
 	 * - db_name: Database name
-	 * - vtiger_table_prefix: If you wish to create multiple Freetag databases on the same database, you can put a prefix in front of the vtiger_table names and pass separate prefixes to the constructor. [default: '']
+	 * - jo_table_prefix: If you wish to create multiple Freetag databases on the same database, you can put a prefix in front of the jo_table names and pass separate prefixes to the constructor. [default: '']
 	 * - normalize_tags: Whether to normalize (lowercase and filter for valid characters) on tags at all. [default: 1]
 	 * - normalized_valid_chars: Pass a regex-style set of valid characters that you want your tags normalized against. [default: 'a-zA-Z0-9' for alphanumeric]
-	 * - block_multiuser_tag_on_object: Set to 0 in order to allow individual vtiger_users to all tag the same object with the same tag. Default is 1 to only allow one occurence of a tag per object. [default: 1]
+	 * - block_multiuser_tag_on_object: Set to 0 in order to allow individual jo_users to all tag the same object with the same tag. Default is 1 to only allow one occurence of a tag per object. [default: 1]
 	 * - MAX_TAG_LENGTH: maximum length of normalized tags in chars. [default: 30]
 	 * - ADODB_DIR: directory in which adodb is installed. Change if you don't want to use the bundled version. [default: adodb/]
 	 * - PCONNECT: Whether to use ADODB persistent connections. [default: FALSE]
@@ -238,7 +238,7 @@ class freetag {
 	 * get_objects_with_tag_combo
 	 *
 	 * Returns an array of object ID's that have all the tags passed in the
-	 * tagArray parameter. Use this to provide tag combo services to your vtiger_users.
+	 * tagArray parameter. Use this to provide tag combo services to your jo_users.
 	 *
 	 * @param array - Pass an array of normalized form tags along to the function.
 	 * @param int (Optional) - The numerical offset to begin display at. Defaults to 0.
@@ -346,7 +346,7 @@ class freetag {
 	 * You can use this function to show the tags on an object. Since it supports both user-specific
 	 * and general modes with the $tagger_id parameter, you can use it twice on a page to make it work
 	 * similar to upcoming.org and flickr, where the page displays your own tags differently than
-	 * other vtiger_users' tags.
+	 * other jo_users' tags.
 	 *
 	 * @param int The unique ID of the object in question.
 	 * @param int The offset of tags to return.
@@ -428,7 +428,7 @@ class freetag {
 		$prefix = $this->_table_prefix;
 		$params = array();
 		// First, check for duplicate of the normalized form of the tag on this object.
-		// Dynamically switch between allowing duplication between vtiger_users on the constructor param 'block_multiuser_tag_on_object'.
+		// Dynamically switch between allowing duplication between jo_users on the constructor param 'block_multiuser_tag_on_object'.
 		// If it's set not to block multiuser tags, then modify the existence
 		// check to look for a tag by this particular user. Otherwise, the following
 		// query will reveal whether that tag exists on that object for ANY user.
@@ -457,7 +457,7 @@ class freetag {
 			$tag_id = $rs->fields['id'];
 		} else {
 			// Add new tag! 
-			$tag_id = $adb->getUniqueId('vtiger_freetags');
+			$tag_id = $adb->getUniqueId('jo_freetags');
 			$sql = "INSERT INTO ${prefix}freetags (id, tag, raw_tag, owner) VALUES (?,?,?,?)";
 			$params = array($tag_id, $normalized_tag, $tag, $tagger_id);
 			$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
@@ -515,7 +515,7 @@ class freetag {
 	 *
 	 * @param int The unique ID of the person who tagged the object with this tag.
 	 * @param int The ID of the object in question.
-	 * @param string The raw string form of the tag to delete. See above for vtiger_notes.
+	 * @param string The raw string form of the tag to delete. See above for jo_notes.
 	 *
 	 * @return string Returns the tag in normalized form.
 	 */ 
@@ -666,7 +666,7 @@ class freetag {
 	 *
 	 * @param int The unique ID of the person who tagged the object with this tag.
 	 * @param int The ID of the object in question.
-	 * @param string The raw string form of the tag to delete. See above for vtiger_notes.
+	 * @param string The raw string form of the tag to delete. See above for jo_notes.
 	 * @param int Whether to skip the update portion for objects that haven't been tagged. (Default: 1)
 	 *
 	 * @return string Returns the tag in normalized form.
@@ -914,7 +914,7 @@ class freetag {
 		if($module != 'All') {
 			foreach ($tag_list[0] as $tag => $qty) {
 				$size = $min_font_size + ($qty - $min_qty) * $step;
-				$cloud_span[] = '<span id="tag_'.$tag_list[1][$tag].'" class="' . $span_class . '" onMouseOver=$("tagspan_'.$tag_list[1][$tag].'").style.display="inline"; onMouseOut=$("tagspan_'.$tag_list[1][$tag].'").style.display="none";><a class="tagit" href="index.php?module=Home&action=UnifiedSearch&search_module='.$module.'&search_tag=tag_search&query_string='. urlencode($tag) . '" style="font-size: '. $size . $font_units . '">' . htmlspecialchars(stripslashes($tag)) . '</a><span class="'. $span_class .'" id="tagspan_'.$tag_list[1][$tag].'" style="display:none;cursor:pointer;" onClick="DeleteTag('.$tag_list[1][$tag].','.$obj_id.');"><img src="' . vtiger_imageurl('del_tag.gif', $theme) . '"></span></span>';
+				$cloud_span[] = '<span id="tag_'.$tag_list[1][$tag].'" class="' . $span_class . '" onMouseOver=$("tagspan_'.$tag_list[1][$tag].'").style.display="inline"; onMouseOut=$("tagspan_'.$tag_list[1][$tag].'").style.display="none";><a class="tagit" href="index.php?module=Home&action=UnifiedSearch&search_module='.$module.'&search_tag=tag_search&query_string='. urlencode($tag) . '" style="font-size: '. $size . $font_units . '">' . htmlspecialchars(stripslashes($tag)) . '</a><span class="'. $span_class .'" id="tagspan_'.$tag_list[1][$tag].'" style="display:none;cursor:pointer;" onClick="DeleteTag('.$tag_list[1][$tag].','.$obj_id.');"><img src="' . jo_imageurl('del_tag.gif', $theme) . '"></span></span>';
 
 			}
 		} else {
@@ -972,9 +972,9 @@ class freetag {
 		$prefix = $this->_table_prefix;
 		$sql = "SELECT tag,tag_id,COUNT(object_id) AS quantity
 			FROM ${prefix}freetags INNER JOIN ${prefix}freetagged_objects
-			ON (${prefix}freetags.id = tag_id) INNER JOIN vtiger_tab
-			ON ${prefix}freetagged_objects.module = vtiger_tab.name
-			WHERE vtiger_tab.presence != 1
+			ON (${prefix}freetags.id = tag_id) INNER JOIN jo_tab
+			ON ${prefix}freetagged_objects.module = jo_tab.name
+			WHERE jo_tab.presence != 1
 			$tagger_sql
 			GROUP BY tag
 			ORDER BY quantity DESC LIMIT 0, $max";
@@ -1000,7 +1000,7 @@ class freetag {
 	 *
 	 * Finds tags that are "similar" or related to the given tag.
 	 * It does this by looking at the other tags on objects tagged with the tag specified.
-	 * Confusing? Think of it like e-commerce's "Other vtiger_users who bought this also bought," 
+	 * Confusing? Think of it like e-commerce's "Other jo_users who bought this also bought," 
 	 * as that's exactly how this works.
 	 *
 	 * Returns an empty array if no tag is passed, or if no related tags are found.

@@ -11,14 +11,14 @@
  ********************************************************************************/
 
 /**
- * To get the lists of vtiger_users id who shared their calendar with specified user
+ * To get the lists of jo_users id who shared their calendar with specified user
  * @param $sharedid -- The shared user id :: Type integer
- * @returns $shared_ids -- a comma seperated vtiger_users id  :: Type string
+ * @returns $shared_ids -- a comma seperated jo_users id  :: Type string
  */
 function getSharedCalendarId($sharedid)
 {
 	global $adb;
-	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
+	$query = "SELECT * from jo_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if($adb->num_rows($result)!=0)
 	{
@@ -84,7 +84,7 @@ function getAcceptInvitationUrl($user_id,$eventRecordModel) {
 			'userId' => $user_id
        )
    );
-   return Vtiger_ShortURL_Helper::generateURL($options);
+   return Head_ShortURL_Helper::generateURL($options);
 }
 
 /**
@@ -104,12 +104,12 @@ function addAcceptEventLink($body,$user_id,$recordModel) {
     }
     //$AcceptTrackingUrl not found in body of template
     $acceptLink = '<div class="invitationresponse"><a href="' . 
-            $acceptInvitationUrl. '" target="_blank">Accept - Add Event to Vtiger Calendar</a></div>';
+            $acceptInvitationUrl. '" target="_blank">Accept - Add Event to Head Calendar</a></div>';
     return substr_replace($body, $acceptLink, strpos($body, '</body>'), 0);
 }
 
 /**
- * Function to get the vtiger_activity details for mail body
+ * Function to get the jo_activity details for mail body
  * @param   string   $description       - activity description
  * @param   string   $from              - to differenciate from notification to invitation.
  * return   string   $list              - HTML in string format
@@ -128,7 +128,7 @@ function getActivityDetails($description,$user_id,$from='',$recordModel=false) {
 	$name = getUserFullName($user_id);
 	
 	$db = PearDatabase::getInstance();
-	$query='SELECT body FROM vtiger_emailtemplates WHERE subject=? AND systemtemplate=?';
+	$query='SELECT body FROM jo_emailtemplates WHERE subject=? AND systemtemplate=?';
 	$result = $db->pquery($query, array('Invitation', '1'));
 	$body=decode_html($db->query_result($result,0,'body'));
 	$body=addAcceptEventLink($body,$user_id,$recordModel);
@@ -150,7 +150,7 @@ function twoDigit( $no ){
 
 function sendInvitation($inviteesid,$mode,$recordModel,$desc) {
 	global $current_user,$mod_strings;
-	require_once("vtlib/Vtiger/Mailer.php");
+	require_once("vtlib/Head/Mailer.php");
 	$invitees_array = explode(';',$inviteesid);
 	
 	if($desc['mode'] == 'edit') {
@@ -166,7 +166,7 @@ function sendInvitation($inviteesid,$mode,$recordModel,$desc) {
 			$description = getMergedDescription($description, $recordModel->getId(), 'Events');
 			$to_email = getUserEmailId('id',$inviteeid);
 			$to_name = getUserFullName($inviteeid);
-            $mail = new Vtiger_Mailer();
+            $mail = new Head_Mailer();
             $mail->IsHTML(true);
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$userName = $currentUserModel->getName();
@@ -207,9 +207,9 @@ function calendarview_getSelectedUserFilterQuerySuffix() {
 				if(!empty($user_group_ids)) $user_group_ids .= ',';
 				else $user_group_ids = '';
 				$user_group_ids .= $current_user->id;
-				$qcondition = " AND vtiger_crmentity.smownerid IN (" . $user_group_ids .")";
+				$qcondition = " AND jo_crmentity.smownerid IN (" . $user_group_ids .")";
 			} else {
-				$qcondition = " AND vtiger_crmentity.smownerid = "  . $adb->sql_escape_string($only_for_user);
+				$qcondition = " AND jo_crmentity.smownerid = "  . $adb->sql_escape_string($only_for_user);
 			}
 		}
 	}

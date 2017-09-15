@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_PickListDependency_AddDependency_View extends Settings_Head_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('GetPickListFields');
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode) && method_exists($this, $mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,7 +24,7 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 
 		$qualifiedModule = $request->getModule(true);
 		$viewer = $this->getViewer($request);
-		$moduleModels = Vtiger_Module_Model::getEntityModules();
+		$moduleModels = Head_Module_Model::getEntityModules();
 
 		$viewer->assign('MODULES', $moduleModels);
 		echo $viewer->view('AddDependency.tpl', $qualifiedModule);
@@ -32,14 +32,14 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 
 	/**
 	 * Function returns the picklist field for a module
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function GetPickListFields(Vtiger_Request $request) {
+	function GetPickListFields(Head_Request $request) {
 		$module = $request->get('sourceModule');
 
 		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($fieldList);
 		$response->emit();
 	}

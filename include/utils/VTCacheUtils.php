@@ -76,17 +76,17 @@ class VTCacheUtils {
 			'typeofdata'=> $typeofdata,
 			'presence'  => $presence,
 		);
-        Vtiger_Cache::set('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
+        Head_Cache::set('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
 	}
 	static function lookupFieldInfo($tabid, $fieldname) {
-        $fieldInfo = Vtiger_Cache::get('fieldInfo', $tabid);
+        $fieldInfo = Head_Cache::get('fieldInfo', $tabid);
         if($fieldInfo && isset($fieldInfo[$fieldname])){
             return $fieldInfo[$fieldname];
         }else if(isset(self::$_fieldinfo_cache[$tabid]) && isset(self::$_fieldinfo_cache[$tabid][$fieldname])) {
 			return self::$_fieldinfo_cache[$tabid][$fieldname];
 		}
 
-        $field = Vtiger_Cache::get('field-'.$tabid,$fieldname);
+        $field = Head_Cache::get('field-'.$tabid,$fieldname);
         if($field){
             $cacheField = array(
                 'tabid' => $tabid,
@@ -110,7 +110,7 @@ class VTCacheUtils {
             return self::$lookupModuleFieldInfo[$tabid][implode('-',$presencein)];
         }
 		$modulefields = false;
-		$fieldInfo = Vtiger_Cache::get('fieldInfo', $tabid);
+		$fieldInfo = Head_Cache::get('fieldInfo', $tabid);
         if($fieldInfo){
             $fldcache =$fieldInfo;
         }else if(isset(self::$_fieldinfo_cache[$tabid])) {
@@ -129,7 +129,7 @@ class VTCacheUtils {
 
         // If modulefields are already loaded then no need of this again
         if(!$modulefields){
-            $fieldInfo = Vtiger_Cache::get('ModuleFields',$tabid);
+            $fieldInfo = Head_Cache::get('ModuleFields',$tabid);
             if($fieldInfo){
                 foreach($fieldInfo as $block => $blockFields){
                     foreach ($blockFields as $field){
@@ -167,7 +167,7 @@ class VTCacheUtils {
 			}
 		}
 
-        $fieldInfo = Vtiger_Cache::get('ModuleFields',$tabid);
+        $fieldInfo = Head_Cache::get('ModuleFields',$tabid);
         if($fieldInfo){
             foreach($fieldInfo as $block => $blockFields){
                 foreach ($blockFields as $field){
@@ -195,10 +195,10 @@ class VTCacheUtils {
 	static $_module_entityname_cache = array();
 	static function updateEntityNameInfo($module, $data) {
 		self::$_module_entityname_cache[$module] = $data;
-        Vtiger_Cache::set('EntityInfo', $module, self::$_module_entityname_cache[$module]);
+        Head_Cache::set('EntityInfo', $module, self::$_module_entityname_cache[$module]);
 	}
 	static function lookupEntityNameInfo($module) {
-        $entityNames = Vtiger_Cache::get('EntityInfo', $module);
+        $entityNames = Head_Cache::get('EntityInfo', $module);
         if($entityNames){
             return $entityNames;
         }else if (isset(self::$_module_entityname_cache[$module])) {

@@ -11,27 +11,27 @@
 
 Class Users_Edit_View extends Users_PreferenceEdit_View {
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function preProcessSettings(Vtiger_Request $request) {
+	public function preProcessSettings(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
 
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
+		$settingsModel = Settings_Head_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 
 		if(!empty($selectedMenuId)) {
-			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
+			$selectedMenu = Settings_Head_Menu_Model::getInstanceById($selectedMenuId);
+		} elseif(!empty($moduleName) && $moduleName != 'Head') {
+			$fieldItem = Settings_Head_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
 			if($fieldItem){
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+				$selectedMenu = Settings_Head_Menu_Model::getInstanceById($fieldItem->get('blockid'));
 				$fieldId = $fieldItem->get('fieldid');
 			} else {
 				reset($menuModels);
@@ -44,7 +44,7 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 			$selectedMenu = $menuModels[$firstKey];
 		}
         
-        //Specific change for Vtiger7
+        //Specific change for Head7
         $settingsMenItems = array();
         foreach($menuModels as $menuModel) {
             $menuItems = $menuModel->getMenuItems();
@@ -66,24 +66,24 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcessSettings(Vtiger_Request $request) {
+	public function postProcessSettings(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 	
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Index',
-			"~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.js",
+			'modules.Settings.Head.resources.Index',
+			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -91,7 +91,7 @@ Class Users_Edit_View extends Users_PreferenceEdit_View {
 		return $headerScriptInstances;
 	}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		parent::process($request);
 	}
 }

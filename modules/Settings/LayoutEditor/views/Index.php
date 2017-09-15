@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
+class Settings_LayoutEditor_Index_View extends Settings_Head_Index_View {
 
 	function __construct() {
 		parent::__construct();
@@ -19,7 +19,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		$this->exposeMethod('showFieldEdit');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if($this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -29,7 +29,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	public function showFieldLayout(Vtiger_Request $request) {
+	public function showFieldLayout(Head_Request $request) {
 		$sourceModule = $request->get('sourceModule');
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 		$supportedModulesList = array_flip($supportedModulesList);
@@ -84,13 +84,13 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 
 		$cleanFieldModel = Settings_LayoutEditor_Field_Model::getCleanInstance();
 		$cleanFieldModel->setModule($moduleModel);
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
 		$this->setModuleInfo($request, $sourceModuleModel, $cleanFieldModel);
 
 		$viewer->view('Index.tpl',$qualifiedModule);
 	}
 
-	public function showRelatedListLayout(Vtiger_Request $request) {
+	public function showRelatedListLayout(Head_Request $request) {
 		$sourceModule = $request->get('sourceModule');
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 
@@ -135,7 +135,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
 
-	public function showFieldEdit(Vtiger_Request $request) {
+	public function showFieldEdit(Head_Request $request) {
 		$sourceModule = $request->get('sourceModule');
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
@@ -164,7 +164,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 
 		$cleanFieldModel = Settings_LayoutEditor_Field_Model::getCleanInstance();
 		$cleanFieldModel->setModule($moduleModel);
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
 		$this->setModuleInfo($request, $sourceModuleModel, $cleanFieldModel);
 
 		$viewer->view('FieldCreate.tpl', $qualifiedModule);
@@ -172,10 +172,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
@@ -189,7 +189,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 	}
 
 	/**
-	 * Setting module related Information to $viewer (for Vtiger7)
+	 * Setting module related Information to $viewer (for Head7)
 	 * @param type $request
 	 * @param type $moduleModel
 	 */
@@ -216,13 +216,13 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		if (method_exists($moduleModel, 'getModuleBasicLinks')) {
 			$moduleBasicLinks = $moduleModel->getModuleBasicLinks();
 			foreach ($moduleBasicLinks as $basicLink) {
-				$basicLinks[] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+				$basicLinks[] = Head_Link_Model::getInstanceFromValues($basicLink);
 			}
 			$viewer->assign('MODULE_BASIC_ACTIONS', $basicLinks);
 		}
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
 			'~/libraries/jquery/bootstrapswitch/css/bootstrap2/bootstrap-switch.min.css',

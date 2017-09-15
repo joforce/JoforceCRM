@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_Module_Model extends Vtiger_Module_Model {
+class Users_Module_Model extends Head_Module_Model {
 	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module
@@ -23,10 +23,10 @@ class Users_Module_Model extends Vtiger_Module_Model {
 			$overRideQuery = $listQuery;
 			if(!empty($record)){
 				$currentUser = Users_Record_Model::getCurrentUserModel();
-				$overRideQuery = $overRideQuery. " AND vtiger_users.id != ". $record;
+				$overRideQuery = $overRideQuery. " AND jo_users.id != ". $record;
 				$allSubordinates = $currentUser->getAllSubordinatesByReportsToField($record);
 				if(count($allSubordinates) > 0) {
-					$overRideQuery .= " AND vtiger_users.id NOT IN (". implode(',',$allSubordinates) .")"; // do not allow the subordinates
+					$overRideQuery .= " AND jo_users.id NOT IN (". implode(',',$allSubordinates) .")"; // do not allow the subordinates
 				}
 			}
 			return $overRideQuery;
@@ -45,14 +45,14 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		if(!empty($searchValue)) {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? OR last_name LIKE ?) AND status = ?';
+			$query = 'SELECT * FROM jo_users WHERE (first_name LIKE ? OR last_name LIKE ?) AND status = ?';
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$allSubordinates = $currentUser->getAllSubordinatesByReportsToField($currentUser->getId());
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
 
 			// do not allow the subordinates
 			if(count($allSubordinates) > 0) {
-				$query .= " AND vtiger_users.id NOT IN (". implode(',',$allSubordinates) .")";
+				$query .= " AND jo_users.id NOT IN (". implode(',',$allSubordinates) .")";
 			}
 
 			$result = $db->pquery($query, $params);
@@ -61,7 +61,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 			$matchingRecords = array();
 			for($i=0; $i<$noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
+				$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
@@ -90,7 +90,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		$status = false;
 		// To check username existence in db
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
+		$query = 'SELECT user_name FROM jo_users WHERE user_name = ?';
 		$result = $db->pquery($query, array($userName));
 		if ($db->num_rows($result) > 0) {
 			$status = true;
@@ -100,12 +100,12 @@ class Users_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function to delete a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param Head_Record_Model $recordModel
 	 */
-	public function deleteRecord(Vtiger_Record_Model $recordModel) {
+	public function deleteRecord(Head_Record_Model $recordModel) {
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
+		$query = "UPDATE jo_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
 		$db->pquery($query, array('Inactive', date('Y-m-d H:i:s'), $currentUser->getId(), $recordModel->getId()), true,"Error marking record deleted: ");
 	}
 
@@ -124,7 +124,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	*/
 	public function updateBaseCurrency($currencyName) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
+		$result = $db->pquery('SELECT currency_code, currency_symbol FROM jo_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
 			$currency_code = decode_html($db->query_result($result, 0, 'currency_code'));
@@ -132,7 +132,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		}
 		$this->updateConfigFile($currencyName);
 		//Updating Database
-		$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
+		$query = 'UPDATE jo_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
 		$params = array($currencyName, $currency_code, $currency_symbol, '1');
 		$db->pquery($query, $params);
 
@@ -147,7 +147,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		$currencyName = '$currency_name = \''.$currencyName.'\'';
 
 		//Updating in config inc file
-		$filename = 'config.inc.php';
+		$filename = 'config/config.inc.php';
 		if (file_exists($filename)) {
 			$contents = file_get_contents($filename);
 			$currentBaseCurrenyName = $this->getBaseCurrencyName();
@@ -158,7 +158,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 
 	public function getBaseCurrencyName() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT currency_name FROM vtiger_currency_info WHERE id=1",array());
+		$result = $db->pquery("SELECT currency_name FROM jo_currency_info WHERE id=1",array());
 		return $db->query_result($result,0,'currency_name');
 	}
 
@@ -170,7 +170,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 
 		//updating user setup status into database
-		$insertQuery = 'INSERT INTO vtiger_crmsetup (userid, setup_status) VALUES (?, ?)';
+		$insertQuery = 'INSERT INTO jo_crmsetup (userid, setup_status) VALUES (?, ?)';
 		$db->pquery($insertQuery, array($userId, '1'));
 	}
 
@@ -183,7 +183,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 
 		$userIPAddress = $_SERVER['REMOTE_ADDR'];
 		$loginTime = date("Y-m-d H:i:s");
-		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status) VALUES (?,?,?,?,?)";
+		$query = "INSERT INTO jo_loginhistory (user_name, user_ip, logout_time, login_time, status) VALUES (?,?,?,?,?)";
 		$params = array($username, $userIPAddress, '0000-00-00 00:00:00',  $loginTime, 'Signed in');
 		$adb->pquery($query, $params);
 	}
@@ -199,12 +199,12 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		$userIPAddress = $_SERVER['REMOTE_ADDR'];
 		$outtime = date("Y-m-d H:i:s");
 
-		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? AND user_ip=?";
+		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM jo_loginhistory WHERE user_name=? AND user_ip=?";
 		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
 		$loginid = $adb->query_result($result,0,"login_id");
 
 		if (!empty($loginid)){
-			$query = "UPDATE vtiger_loginhistory SET logout_time =?, status=? WHERE login_id = ?";
+			$query = "UPDATE jo_loginhistory SET logout_time =?, status=? WHERE login_id = ?";
 			$result = $adb->pquery($query, array($outtime, 'Signed off', $loginid));
 		}
 	}
@@ -225,10 +225,10 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		}
 
 		if ($disabledModulesList) {
-			$updateQuery = 'UPDATE vtiger_tab SET presence = CASE WHEN name IN (' . generateQuestionMarks($disabledModulesList) . ') THEN 1 ';
+			$updateQuery = 'UPDATE jo_tab SET presence = CASE WHEN name IN (' . generateQuestionMarks($disabledModulesList) . ') THEN 1 ';
 			$updateQuery .= 'ELSE 0 END WHERE presence != 2 ';
 		} else {
-			$updateQuery = 'UPDATE vtiger_tab SET presence = 0 WHERE presence != 2';
+			$updateQuery = 'UPDATE jo_tab SET presence = 0 WHERE presence != 2';
 		}
 
 		$adb->pquery($updateQuery, $disabledModulesList);
@@ -236,9 +236,9 @@ class Users_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param Head_Record_Model $recordModel
 	 */
-	public function saveRecord(Vtiger_Record_Model $recordModel) {
+	public function saveRecord(Head_Record_Model $recordModel) {
 		$moduleName = $this->get('name');
 		$focus = CRMEntity::getInstance($moduleName);
 		$fields = $focus->column_fields;
@@ -267,7 +267,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	public function getCurrenciesList() {
 		$adb = PearDatabase::getInstance();
 
-		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
+		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM jo_currencies ORDER BY currency_name';
 		$result = $adb->pquery($currency_query, array());
 		$num_rows = $adb->num_rows($result);
 		for($i = 0; $i<$num_rows; $i++) {
@@ -285,7 +285,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	public function getTimeZonesList() {
 		$adb = PearDatabase::getInstance();
 
-		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
+		$timezone_query = 'SELECT time_zone FROM jo_time_zone';
 		$result = $adb->pquery($timezone_query, array());
 		$num_rows = $adb->num_rows($result);
 		for($i = 0; $i<$num_rows; $i++) {
@@ -301,7 +301,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	public function getLanguagesList() {
 		$adb = PearDatabase::getInstance();
 
-		$language_query = 'SELECT prefix, label FROM vtiger_language';
+		$language_query = 'SELECT prefix, label FROM jo_language';
 		$result = $adb->pquery($language_query, array());
 		$num_rows = $adb->num_rows($result);
 		for($i = 0; $i<$num_rows; $i++) {

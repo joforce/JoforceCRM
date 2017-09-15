@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_UserSetup_View extends Vtiger_Index_View {
+class Users_UserSetup_View extends Head_Index_View {
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$userName = $request->get('user_name');
 		$viewer = $this->getViewer($request);
@@ -54,7 +54,7 @@ class Users_UserSetup_View extends Vtiger_Index_View {
 		}
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 

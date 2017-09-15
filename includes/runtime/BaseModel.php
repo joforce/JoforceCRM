@@ -12,7 +12,7 @@
 /**
  * Base Model Class
  */
-class Vtiger_Base_Model {
+class Head_Base_Model {
 	protected $valueMap;
 
 	/**
@@ -48,14 +48,14 @@ class Vtiger_Base_Model {
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy=true) {
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return Head_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
 	}
 
 	/**
 	 * Function to set the value for a given key
 	 * @param $key
 	 * @param $value
-	 * @return Vtiger_Base_Model
+	 * @return Head_Base_Model
 	 */
 	public function set($key,$value){
 		$this->valueMap[$key] = $value;
@@ -65,7 +65,7 @@ class Vtiger_Base_Model {
 	/**
 	 * Function to set all the values for the Object
 	 * @param Array (key-value mapping) $values
-	 * @return Vtiger_Base_Model
+	 * @return Head_Base_Model
 	 */
 	public function setData($values){
 		$this->valueMap = $values;

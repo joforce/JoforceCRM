@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
+class PriceBooks_QuickCreateAjax_View extends Head_QuickCreateAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);

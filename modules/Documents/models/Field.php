@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Field_Model extends Vtiger_Field_Model {
+class Documents_Field_Model extends Head_Field_Model {
 
 	/**
 	 * Function to retieve display value for a value

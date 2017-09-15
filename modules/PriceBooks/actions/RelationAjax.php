@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
+class PriceBooks_RelationAjax_Action extends Head_RelationAjax_Action {
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode) && method_exists($this, "$mode")) {
 			$this->$mode($request);
@@ -30,9 +30,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$relInfos = $request->get('relinfo');
 		$relatedModule = $request->get('related_module');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+		$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach($relInfos as $relInfo) {
 			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
@@ -49,9 +49,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+		$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId,$relatedRecordId,$listPrice);
 		}
@@ -68,8 +68,8 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
 		$relationModel = PriceBooks_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->deleteRelation($sourceRecordId,$relatedRecordId);

@@ -47,7 +47,7 @@ class PreparedQMark2SqlValue {
 /**
  * Performance perference API
  */
-@include_once('config.performance.php'); // Ignore warning if not present
+@include_once('config/config.performance.php'); // Ignore warning if not present
 class PerformancePrefs {
 	/**
 	 * Get performance parameter configured value or default one
@@ -201,7 +201,7 @@ class PearDatabase{
         	return;
         }
 
-		$today  = date('Y-m-d H:i:s'); $logtable = 'vtiger_sqltimelog';
+		$today  = date('Y-m-d H:i:s'); $logtable = 'jo_sqltimelog';
 		$logsql = 'INSERT INTO '.$logtable.'(id, type, started, ended, data, loggedon) VALUES (?,?,?,?,?,?)';
 
 		if ($this->logSqlTimingID === false) {

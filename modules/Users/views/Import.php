@@ -11,11 +11,11 @@
 
 vimport('~~/include/Webservices/Custom/DeleteUser.php');
 
-class Users_Import_View extends Vtiger_Import_View {
+class Users_Import_View extends Head_Import_View {
     
-    function checkPermission(Vtiger_Request $request) {
+    function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Import')) {
@@ -29,11 +29,11 @@ class Users_Import_View extends Vtiger_Import_View {
         }
 	}
         
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         if($request->getMode() != 'undoImport') {
             parent::process($request);
         } else {
-            $viewer = new Vtiger_Viewer();
+            $viewer = new Head_Viewer();
             $db = PearDatabase::getInstance();
 
             $moduleName = $request->getModule();

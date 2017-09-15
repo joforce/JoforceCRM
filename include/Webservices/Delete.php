@@ -11,7 +11,7 @@
 	
 	function vtws_delete($id,$user){
 		global $log,$adb;
-		$webserviceObject = VtigerWebserviceObject::fromId($adb,$id);
+		$webserviceObject = HeadWebserviceObject::fromId($adb,$id);
 		$handlerPath = $webserviceObject->getHandlerPath();
 		$handlerClass = $webserviceObject->getHandlerClass();
 		

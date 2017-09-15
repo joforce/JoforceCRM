@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Contacts_RelationAjax_Action extends Vtiger_RelationAjax_Action {
+class Contacts_RelationAjax_Action extends Head_RelationAjax_Action {
 
 	function getParentRecordInfo($request) {
 		$moduleName = $request->get('module');
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->get('id'), $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($request->get('id'), $moduleName);
 		$moduleModel = $recordModel->getModule();
 		$autoFillData = $moduleModel->getAutoFillModuleAndField($moduleName);
 		if ($autoFillData) {
@@ -41,7 +41,7 @@ class Contacts_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 			$result[$request->get('id')] = $resultData;
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

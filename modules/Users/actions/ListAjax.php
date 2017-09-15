@@ -9,27 +9,27 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_ListAjax_Action extends Vtiger_BasicAjax_Action{
+class Users_ListAjax_Action extends Head_BasicAjax_Action{
 	function __construct() {
 		parent::__construct();
 	}
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if(!$currentUser->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

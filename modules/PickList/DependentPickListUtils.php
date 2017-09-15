@@ -12,16 +12,16 @@
 require_once 'include/utils/utils.php';
 require_once 'modules/PickList/PickListUtils.php';
 
-class Vtiger_DependencyPicklist {
+class Head_DependencyPicklist {
 
 	static function getDependentPicklistFields($module='') {
 		global $adb;
 
 		if(empty($module)) {
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM jo_picklist_dependency', array());
 		} else {
 			$tabId = getTabid($module);
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM jo_picklist_dependency WHERE tabid=?', array($tabId));
 		}
 		$noofrows = $adb->num_rows($result);
 
@@ -37,10 +37,10 @@ class Vtiger_DependencyPicklist {
 					continue;
 				}
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?', array($sourceField, $fieldTabId));
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM jo_field WHERE fieldname = ? AND tabid = ?', array($sourceField, $fieldTabId));
 				$sourceFieldLabel = $adb->query_result($fieldResult,0,'fieldlabel');
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?', array($targetField, $fieldTabId));
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM jo_field WHERE fieldname = ? AND tabid = ?', array($targetField, $fieldTabId));
 				$targetFieldLabel = $adb->query_result($fieldResult,0,'fieldlabel');
 
 				$dependentPicklists[] = array('sourcefield'=>$sourceField, 'sourcefieldlabel'=>$sourceFieldLabel,
@@ -55,10 +55,10 @@ class Vtiger_DependencyPicklist {
 		global $adb, $log;
 		$tabId = getTabid($module);
 
-		$query="select vtiger_field.fieldlabel,vtiger_field.fieldname" .
-				" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
-				" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
-				" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
+		$query="select jo_field.fieldlabel,jo_field.fieldname" .
+				" FROM jo_field inner join jo_picklist on jo_field.fieldname = jo_picklist.name" .
+				" where displaytype=1 and jo_field.tabid=? and jo_field.uitype in ('15','16') " .
+				" and jo_field.presence in (0,2) ORDER BY jo_picklist.picklistid ASC";
 
 		$result = $adb->pquery($query, array($tabId));
 		$noofrows = $adb->num_rows($result);
@@ -98,16 +98,16 @@ class Vtiger_DependencyPicklist {
 			}
 			//to handle Accent Sensitive search in MySql
 			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
-			$checkForExistenceResult = $adb->pquery("SELECT id FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=? AND sourcevalue=CAST(? AS CHAR CHARACTER SET utf8) COLLATE utf8_bin",
+			$checkForExistenceResult = $adb->pquery("SELECT id FROM jo_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=? AND sourcevalue=CAST(? AS CHAR CHARACTER SET utf8) COLLATE utf8_bin",
 					array($tabId, $sourceField, $targetField, $sourceValue));
 			if($adb->num_rows($checkForExistenceResult) > 0) {
 				$dependencyId = $adb->query_result($checkForExistenceResult, 0, 'id');
-				$adb->pquery("UPDATE vtiger_picklist_dependency SET targetvalues=?, criteria=? WHERE id=?",
+				$adb->pquery("UPDATE jo_picklist_dependency SET targetvalues=?, criteria=? WHERE id=?",
 						array($serializedTargetValues, $serializedCriteria, $dependencyId));
 			} else {
-				$adb->pquery("INSERT INTO vtiger_picklist_dependency (id, tabid, sourcefield, targetfield, sourcevalue, targetvalues, criteria)
+				$adb->pquery("INSERT INTO jo_picklist_dependency (id, tabid, sourcefield, targetfield, sourcevalue, targetvalues, criteria)
 								VALUES (?,?,?,?,?,?,?)",
-						array($adb->getUniqueID('vtiger_picklist_dependency'), $tabId, $sourceField, $targetField, $sourceValue,
+						array($adb->getUniqueID('jo_picklist_dependency'), $tabId, $sourceField, $targetField, $sourceValue,
 						$serializedTargetValues, $serializedCriteria));
 			}
 		}
@@ -118,7 +118,7 @@ class Vtiger_DependencyPicklist {
 
 		$tabId = getTabid($module);
 
-		$adb->pquery("DELETE FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?",
+		$adb->pquery("DELETE FROM jo_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?",
 				array($tabId, $sourceField, $targetField));
 	}
 
@@ -130,7 +130,7 @@ class Vtiger_DependencyPicklist {
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
 
-		$result = $adb->pquery('SELECT sourcevalue,targetvalues FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?',
+		$result = $adb->pquery('SELECT sourcevalue,targetvalues FROM jo_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?',
 				array($tabId,$sourceField,$targetField));
 		$noOfMapping = $adb->num_rows($result);
 
@@ -157,10 +157,10 @@ class Vtiger_DependencyPicklist {
 
 		$tabId = getTabid($module);
 		$picklistDependencyDatasource = array();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = Head_Module_Model::getInstance($module);
 		$picklistDependencyDatasource = $moduleModel->getCustomPicklistDependency();
 		
-		$result = $adb->pquery('SELECT sourcefield,targetfield,sourcevalue,targetvalues,criteria FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
+		$result = $adb->pquery('SELECT sourcefield,targetfield,sourcevalue,targetvalues,criteria FROM jo_picklist_dependency WHERE tabid=?', array($tabId));
 		$noofrows = $adb->num_rows($result);
 
 		for($i=0; $i<$noofrows; ++$i) {
@@ -193,7 +193,7 @@ class Vtiger_DependencyPicklist {
 	}
 
 	static function getJSPicklistDependencyDatasource($module) {
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($module);
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($module);
 		return Zend_Json::encode($picklistDependencyDatasource);
 	}
 
@@ -201,7 +201,7 @@ class Vtiger_DependencyPicklist {
 		$adb = PearDatabase::getInstance();
 
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		$result = $adb->pquery('SELECT 1 FROM vtiger_picklist_dependency
+		$result = $adb->pquery('SELECT 1 FROM jo_picklist_dependency
 									WHERE tabid = ? AND targetfield = ? AND sourcefield != ?',
 				array(getTabid($module), $targetField, $sourceField));
 		if($adb->num_rows($result) > 0) {
@@ -216,14 +216,14 @@ class Vtiger_DependencyPicklist {
 	static function getDependentPickListModules() {
 		$adb = PearDatabase::getInstance();
 
-		$query = 'SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
-						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-						INNER JOIN vtiger_picklist ON vtiger_picklist.name = vtiger_field.fieldname
+		$query = 'SELECT distinct jo_field.tabid, jo_tab.tablabel, jo_tab.name as tabname FROM jo_field
+						INNER JOIN jo_tab ON jo_tab.tabid = jo_field.tabid
+						INNER JOIN jo_picklist ON jo_picklist.name = jo_field.fieldname
 					WHERE uitype IN (15,16)
-						AND vtiger_field.tabid != 29
-						AND vtiger_field.displaytype = 1
-						AND vtiger_field.presence in (0,2)
-					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
+						AND jo_field.tabid != 29
+						AND jo_field.displaytype = 1
+						AND jo_field.presence in (0,2)
+					GROUP BY jo_field.tabid HAVING count(*) > 1';
 		// END
 		$result = $adb->pquery($query, array());
 		while($row = $adb->fetch_array($result)) {
@@ -237,7 +237,7 @@ class Vtiger_DependencyPicklist {
         $adb = PearDatabase::getInstance();
 
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		$result = $adb->pquery('SELECT sourcefield FROM vtiger_picklist_dependency
+		$result = $adb->pquery('SELECT sourcefield FROM jo_picklist_dependency
 									WHERE tabid = ? AND targetfield = ? AND sourcefield != ?',
 				array(getTabid($module), $targetField, $sourceField));
 		if($adb->num_rows($result) > 0) {

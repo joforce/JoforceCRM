@@ -12,22 +12,22 @@
 /**
  * Reports ListView Model Class
  */
-class Reports_ListView_Model extends Vtiger_ListView_Model {
+class Reports_ListView_Model extends Head_ListView_Model {
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of Head_Link_Model instances
 	 */
 	public function getListViewLinks() {
 		$moduleModel = $this->getModule();
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), array('LISTVIEWBASIC'));
+		$links = Head_Link_Model::getAllByType($moduleModel->getId(), array('LISTVIEWBASIC'));
 		return $links;
 	}
 
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  Head_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions() {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -50,13 +50,13 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 		}
 
 		foreach($massActionLinks as $massActionLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
 	}
 
-	public function getListViewHeadersForVtiger7($folderId){
+	public function getListViewHeadersForHead7($folderId){
 		$headers = array(
 			'reporttype' => array('label' => 'Report Type', 'type' => 'picklist'),
 			'reportname' => array('label' => 'Report Name', 'type' => 'string'),
@@ -72,7 +72,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 	
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
+	 * @return <Array> - List of Head_Field_Model instances
 	 */
 	public function getListViewHeaders($folderId) {
 		$headers = array(
@@ -89,8 +89,8 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 	
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$reportFolderModel = Reports_Folder_Model::getInstance();
@@ -98,9 +98,9 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 
 		$orderBy = $this->get('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = Head_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(CONCAT(jo_users.first_name,jo_users.last_name),jo_groups.groupname)';
 			}
 		}
 		if(!empty($orderBy)) {

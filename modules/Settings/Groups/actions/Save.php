@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action {
+class Settings_Groups_Save_Action extends Settings_Head_Index_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Head_Module_Model::getInstance($qualifiedModuleName);
 		if(!empty($recordId)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
 		} else {
@@ -33,7 +33,7 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action {
 		header("Location: $redirectUrl");
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

@@ -12,9 +12,9 @@
 /*
  * Settings Module Model Class
  */
-class Settings_LoginHistory_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_LoginHistory_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_loginhistory';
+	var $baseTable = 'jo_loginhistory';
 	var $baseIndex = 'login_id';
 	var $listFields = Array(
 			'user_name'=> 'LBL_USER_NAME',

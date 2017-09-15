@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Detail_View extends Vtiger_Detail_View {
+class Calendar_Detail_View extends Head_Detail_View {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -31,20 +31,20 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		return true;
 	}
 
-	function preProcess(Vtiger_Request $request, $display=true) {
+	function preProcess(Head_Request $request, $display=true) {
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if(!empty($recordId)){
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = Head_Record_Model::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if($activityType == 'Events')
 				$moduleName = 'Events';
 		}
-		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		$detailViewModel = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = array();
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
@@ -90,7 +90,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 			}
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if(!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
 		}
@@ -117,30 +117,30 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function shows the entire detail for the record
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return <type>
 	 */
-	function showModuleDetailView(Vtiger_Request $request) {
+	function showModuleDetailView(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		if(!empty($recordId)){
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = Head_Record_Model::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if($activityType == 'Events')
 				$moduleName = 'Events';
 		}
 
-		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		$detailViewModel = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$moduleModel = $recordModel->getModule();
 
 		if ($moduleName == 'Events'){
 			$relatedContacts = $recordModel->getRelatedContactInfo();
 			foreach($relatedContacts as $index=>$contactInfo) {
-				$contactRecordModel = Vtiger_Record_Model::getCleanInstance('Contacts');
+				$contactRecordModel = Head_Record_Model::getCleanInstance('Contacts');
 				$contactRecordModel->setId($contactInfo['id']);
 				$contactInfo['_model'] = $contactRecordModel;
 				$relatedContacts[$index] = $contactInfo;
@@ -161,8 +161,8 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Head_Functions::jsonEncode($picklistDependencyDatasource));
 
 		if($moduleName=='Events') {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -192,7 +192,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
+	 * @param Head_Record_Model record model
 	 * @return <boolean> true/false
 	 */
 	function isAjaxEnabled($recordModel) {

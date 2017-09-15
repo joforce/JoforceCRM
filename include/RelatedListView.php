@@ -90,7 +90,7 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 	$computeCount = $_REQUEST['withCount'];
 	if(PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true ||
 			((boolean) $computeCount) == true){
-		$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)),0,'count');
+		$noofrows = $adb->query_result($adb->query(Head_Functions::mkCountQuery($query)),0,'count');
 	}else{
 		$noofrows = null;
 	}
@@ -158,14 +158,14 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 		$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 		$action = "";
 		if(isPermitted("PriceBooks","EditView","") == 'yes' && isPermitted('Products', 'EditView', $entity_id) == 'yes') {
-			$action .= '<img style="cursor:pointer;" src="'. vtiger_imageurl('editfield.gif', $theme).'" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\''.$entity_id.'\',\''.$pricebook_id.'\',\''.number_format($listprice, $no_of_decimal_places,'.','').'\')" alt="'.$app_strings["LBL_EDIT_BUTTON"].'" title="'.$app_strings["LBL_EDIT_BUTTON"].'"/>';
+			$action .= '<img style="cursor:pointer;" src="'. jo_imageurl('editfield.gif', $theme).'" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\''.$entity_id.'\',\''.$pricebook_id.'\',\''.number_format($listprice, $no_of_decimal_places,'.','').'\')" alt="'.$app_strings["LBL_EDIT_BUTTON"].'" title="'.$app_strings["LBL_EDIT_BUTTON"].'"/>';
 		} else {
-			$action .= '<img src="'. vtiger_imageurl('blank.gif', $theme).'" border="0" />';
+			$action .= '<img src="'. jo_imageurl('blank.gif', $theme).'" border="0" />';
 		}
 		if(isPermitted("PriceBooks","Delete","") == 'yes' && isPermitted('Products', 'Delete', $entity_id) == 'yes') {
 			if($action != "")
 				$action .= '&nbsp;|&nbsp;';
-			$action .= '<img src="'. vtiger_imageurl('delete.gif', $theme).'" onclick="if(confirm(\''.$app_strings['ARE_YOU_SURE'].'\')) deletePriceBookProductRel('.$entity_id.','.$pricebook_id.');" alt="'.$app_strings["LBL_DELETE"].'" title="'.$app_strings["LBL_DELETE"].'" style="cursor:pointer;" border="0">';
+			$action .= '<img src="'. jo_imageurl('delete.gif', $theme).'" onclick="if(confirm(\''.$app_strings['ARE_YOU_SURE'].'\')) deletePriceBookProductRel('.$entity_id.','.$pricebook_id.');" alt="'.$app_strings["LBL_DELETE"].'" title="'.$app_strings["LBL_DELETE"].'" style="cursor:pointer;" border="0">';
 		}
 		if($action != "")
 			$entries[] = $action;
@@ -201,7 +201,7 @@ function CheckColumnPermission($tablename, $columnname, $module)
 	
 	$cachekey = $module . ":" . $tablename . ":" . $columnname;
 	if (!array_key_exists($cachekey, $cache)) {
-		$res = $adb->pquery("select fieldname from vtiger_field where tablename=? and columnname=? and vtiger_field.presence in (0,2)", array($tablename, $columnname));
+		$res = $adb->pquery("select fieldname from jo_field where tablename=? and columnname=? and jo_field.presence in (0,2)", array($tablename, $columnname));
 		$fieldname = $adb->query_result($res, 0, 'fieldname');
 		$cache[$cachekey] = CheckFieldPermission($fieldname, $module);
 	}

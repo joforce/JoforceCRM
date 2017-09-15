@@ -11,14 +11,14 @@
 
 include_once dirname(__FILE__).'/cache/Connector.php';
 
-class Vtiger_Cache {
+class Head_Cache {
 	private static $selfInstance = false;
 	public static $cacheEnable = true;
 
 	protected $connector;
 
 	private function __construct() {
-		$this->connector = Vtiger_Cache_Connector::getInstance();
+		$this->connector = Head_Cache_Connector::getInstance();
 	}
 
 	public static function getInstance(){
@@ -130,15 +130,15 @@ class Vtiger_Cache {
 	}
 
 	public function getBlockInstance($block, $moduleName){
-		if(Vtiger_Cache::get('BlockInstance',$moduleName.'-'.$block)){
-			return Vtiger_Cache::get('BlockInstance',$moduleName.'-'.$block);
+		if(Head_Cache::get('BlockInstance',$moduleName.'-'.$block)){
+			return Head_Cache::get('BlockInstance',$moduleName.'-'.$block);
 		}
 		return false;
 	}
 
 	public function setBlockInstance($block, $moduleName, $instance){
 		if(isset($instance) && isset($block)){
-			Vtiger_Cache::set('BlockInstance',$moduleName.'-'.$block,$instance);
+			Head_Cache::set('BlockInstance',$moduleName.'-'.$block,$instance);
 		}
 	}
 
@@ -316,14 +316,14 @@ class Vtiger_Cache {
 	}
 
 	public function getBlockFields($moduleName,$blockId){
-		if(Vtiger_Cache::get('BlockFields',$moduleName.'_'.$blockId)){
-			return Vtiger_Cache::get('BlockFields',$moduleName.'_'.$blockId);
+		if(Head_Cache::get('BlockFields',$moduleName.'_'.$blockId)){
+			return Head_Cache::get('BlockFields',$moduleName.'_'.$blockId);
 		}
 		return false;
 	}
 
 	public function setBlockFields($moduleName,$blockId,$fields){
-		Vtiger_Cache::set('BlockFields',$moduleName.'_'.$blockId,$fields);
+		Head_Cache::set('BlockFields',$moduleName.'_'.$blockId,$fields);
 	}
 
 	private static $_name_fields;	
@@ -419,27 +419,27 @@ class Vtiger_Cache {
 	 * @param type $moduleName
 	 */
 	public static function flushModuleCache($moduleName) {
-		$module = Vtiger_Module_Model::getInstance($moduleName);
+		$module = Head_Module_Model::getInstance($moduleName);
 		if (empty($module))
 			return;
 
-		Vtiger_Cache::delete('module', $moduleName);
-		Vtiger_Cache::delete('module', $module->id);
+		Head_Cache::delete('module', $moduleName);
+		Head_Cache::delete('module', $module->id);
 
 		$moduleBlocks = $module->getBlocks();
 		foreach ($moduleBlocks as $label => $block) {
-			Vtiger_Cache::delete('BlockInstance', $module->id.'-'.$label);
-			Vtiger_Cache::delete('BlockInstance', $module->id.'-'.$block->id);
+			Head_Cache::delete('BlockInstance', $module->id.'-'.$label);
+			Head_Cache::delete('BlockInstance', $module->id.'-'.$block->id);
 		}
 
-		Vtiger_Cache::delete('ModuleFieldInfo', $moduleName);
-		Vtiger_Cache::delete('ModuleFieldInfo', $module->id);
+		Head_Cache::delete('ModuleFieldInfo', $moduleName);
+		Head_Cache::delete('ModuleFieldInfo', $module->id);
 
-		Vtiger_Cache::delete('ModuleFields', $module->id);
-		Vtiger_Cache::delete('ModuleFields', $moduleName);
+		Head_Cache::delete('ModuleFields', $module->id);
+		Head_Cache::delete('ModuleFields', $moduleName);
 
-		Vtiger_Cache::delete('ModuleBlocks', $moduleName);
-		Vtiger_Cache::delete('ModuleBlocks', $module->id);
+		Head_Cache::delete('ModuleBlocks', $moduleName);
+		Head_Cache::delete('ModuleBlocks', $module->id);
 	}
 
 	/**
@@ -448,15 +448,15 @@ class Vtiger_Cache {
 	 * @param type $rolesList
 	 */
 	public static function flushPicklistCache($pickListName, $rolesList = false) {
-		Vtiger_Cache::delete('PicklistValues', $pickListName);
-		Vtiger_Cache::delete('EditablePicklistValues', $pickListName);
-		Vtiger_Cache::delete('NonEditablePicklistValues', $pickListName);
-		Vtiger_Cache::delete('AllPicklistValues', $pickListName);
-		Vtiger_Cache::delete('PicklistDetails', $pickListName);
+		Head_Cache::delete('PicklistValues', $pickListName);
+		Head_Cache::delete('EditablePicklistValues', $pickListName);
+		Head_Cache::delete('NonEditablePicklistValues', $pickListName);
+		Head_Cache::delete('AllPicklistValues', $pickListName);
+		Head_Cache::delete('PicklistDetails', $pickListName);
 
 		if ($rolesList) {
 			foreach ($rolesList as $key => $roleId) {
-				Vtiger_Cache::delete('PicklistRoleBasedValues', $pickListName.$roleId);
+				Head_Cache::delete('PicklistRoleBasedValues', $pickListName.$roleId);
 			}
 		}
 	}
@@ -467,15 +467,15 @@ class Vtiger_Cache {
 	 * @param type $blockId
 	 */
 	public static function flushModuleandBlockFieldsCache($module, $blockId = false) {
-		Vtiger_Cache::delete('ModuleFieldInfo', $module->name);
-		Vtiger_Cache::delete('ModuleFields', $module->id);
+		Head_Cache::delete('ModuleFieldInfo', $module->name);
+		Head_Cache::delete('ModuleFields', $module->id);
 
 		if ($blockId) {
-			Vtiger_Cache::delete('BlockFields', $module->name.'_'.$blockId);
+			Head_Cache::delete('BlockFields', $module->name.'_'.$blockId);
 		} else {
 			$blocks = $module->getBlocks();
 			foreach ($blocks as $label => $block) {
-				Vtiger_Cache::delete('BlockFields', $module->name.'_'.$block->id);
+				Head_Cache::delete('BlockFields', $module->name.'_'.$block->id);
 			}
 		}
 	}
@@ -487,19 +487,19 @@ class Vtiger_Cache {
 	 */
 	static function flushModuleBlocksCache($moduleInstance, $block = null) {
 		if ($block == null) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleInstance->name);
+			$moduleModel = Head_Module_Model::getInstance($moduleInstance->name);
 			$moduleBlocks = $moduleModel->getBlocks();
-			Vtiger_Cache::delete('ModuleBlocks', $moduleInstance->id);
+			Head_Cache::delete('ModuleBlocks', $moduleInstance->id);
 			foreach ($moduleBlocks as $label => $block) {
-				Vtiger_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$label);
-				Vtiger_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->id);
-				Vtiger_Cache::delete('BlockFields', $moduleInstance->name.'_'.$block->label);
+				Head_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$label);
+				Head_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->id);
+				Head_Cache::delete('BlockFields', $moduleInstance->name.'_'.$block->label);
 			}
 		} else {
-			Vtiger_Cache::delete('ModuleBlocks', $moduleInstance->id);
-			Vtiger_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->label);
-			Vtiger_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->id);
-			Vtiger_Cache::delete('BlockFields', $moduleInstance->name.'_'.$block->id);
+			Head_Cache::delete('ModuleBlocks', $moduleInstance->id);
+			Head_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->label);
+			Head_Cache::delete('BlockInstance', $moduleInstance->id.'-'.$block->id);
+			Head_Cache::delete('BlockFields', $moduleInstance->name.'_'.$block->id);
 		}
 	}
 

@@ -11,7 +11,7 @@
 
 Class PurchaseOrder_Edit_View extends Inventory_Edit_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		parent::process($request);
 	}
 }

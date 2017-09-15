@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Model {
+class Settings_Workflows_RecordStructure_Model extends Head_RecordStructure_Model {
 
 	const RECORD_STRUCTURE_MODE_DEFAULT = '';
 	const RECORD_STRUCTURE_MODE_FILTER = 'Filter';
@@ -86,7 +86,7 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 			$referenceModules = $field->getReferenceList();
 			if($type == 'owner') $referenceModules = array('Users');
 			foreach($referenceModules as $refModule) {
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
+				$moduleModel = Head_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				if($taskTypeName == 'VTUpdateFieldsTask'){
 					unset($blockModelList['LBL_ITEM_DETAILS']);
@@ -172,7 +172,7 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 	}
 
 	public static function getInstanceForWorkFlowModule($workFlowModel, $mode) {
-		$className = Vtiger_Loader::getComponentClassName('Model', $mode.'RecordStructure', 'Settings:Workflows');
+		$className = Head_Loader::getComponentClassName('Model', $mode.'RecordStructure', 'Settings:Workflows');
 		$instance = new $className();
 		$instance->setWorkFlowModel($workFlowModel);
 		$instance->setModule($workFlowModel->getModule());
@@ -189,7 +189,7 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 			$referenceModules = $field->getReferenceList();
 			if($type == 'owner') $referenceModules = array('Users');
 			foreach($referenceModules as $refModule) {
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
+				$moduleModel = Head_Module_Model::getInstance($refModule);
 				$nameFieldsList[$refModule] = $moduleModel->getNameFields();
 			}
 		}

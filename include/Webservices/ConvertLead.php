@@ -28,7 +28,7 @@ function vtws_convertlead($entityvalues, $user) {
 	}
 	$activeAdminUser = Users::getActiveAdminUser();
 
-	$leadObject = VtigerWebserviceObject::fromName($adb, 'Leads');
+	$leadObject = HeadWebserviceObject::fromName($adb, 'Leads');
 	$handlerPath = $leadObject->getHandlerPath();
 	$handlerClass = $leadObject->getHandlerClass();
 
@@ -38,7 +38,7 @@ function vtws_convertlead($entityvalues, $user) {
 
 
 	$leadInfo = vtws_retrieve($entityvalues['leadId'], $activeAdminUser);
-	$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
+	$sql = "select converted from jo_leaddetails where converted = 1 and leadid=?";
 	$leadIdComponents = vtws_getIdComponents($entityvalues['leadId']);
 	$result = $adb->pquery($sql, array($leadIdComponents[1]));
 	if ($result === false) {
@@ -67,7 +67,7 @@ function vtws_convertlead($entityvalues, $user) {
 
 	$quoteIds = array();
 	$leadId = explode('x', $leadInfo['id']);
-	$getQuote = 'SELECT quoteid from vtiger_quotes where contactid=?';
+	$getQuote = 'SELECT quoteid from jo_quotes where contactid=?';
 	$results = $adb->pquery($getQuote, array($leadId[1]));
 	$count = $adb->num_rows($results);
 	if($count > 0){
@@ -79,7 +79,7 @@ function vtws_convertlead($entityvalues, $user) {
 	foreach ($availableModules as $entityName) {
 		if ($entityvalues['entities'][$entityName]['create']) {
 			$entityvalue = $entityvalues['entities'][$entityName];
-			$entityObject = VtigerWebserviceObject::fromName($adb, $entityvalue['name']);
+			$entityObject = HeadWebserviceObject::fromName($adb, $entityvalue['name']);
 			$handlerPath = $entityObject->getHandlerPath();
 			$handlerClass = $entityObject->getHandlerClass();
 
@@ -111,7 +111,7 @@ function vtws_convertlead($entityvalues, $user) {
 			try {
 				$create = true;
 				if ($entityvalue['name'] == 'Accounts') {
-					$sql = "SELECT vtiger_account.accountid FROM vtiger_account,vtiger_crmentity WHERE vtiger_crmentity.crmid=vtiger_account.accountid AND vtiger_account.accountname=? AND vtiger_crmentity.deleted=0";
+					$sql = "SELECT jo_account.accountid FROM jo_account,jo_crmentity WHERE jo_crmentity.crmid=jo_account.accountid AND jo_account.accountname=? AND jo_crmentity.deleted=0";
 					$result = $adb->pquery($sql, array($entityvalue['accountname']));
 					if ($adb->num_rows($result) > 0) {
 						$entityIds[$entityName] = vtws_getWebserviceEntityId('Accounts', $adb->query_result($result, 0, 'accountid'));
@@ -121,7 +121,7 @@ function vtws_convertlead($entityvalues, $user) {
 				if ($create) {
 					$entityObjectValues['imagename'] = '';
 					if(($leadHasImage) && ((($entityName == 'Contacts') || ($entityName == 'Accounts' && !$entityvalues['entities']['Contacts']['create'])))) {
-						$imageName = $adb->query_result($adb->pquery('SELECT name FROM vtiger_attachments 
+						$imageName = $adb->query_result($adb->pquery('SELECT name FROM jo_attachments 
 							WHERE attachmentsid = ?',array($imageAttachmentId)),0,'name');
 						$entityObjectValues['imagename'] = $imageName;
 					}
@@ -131,8 +131,8 @@ function vtws_convertlead($entityvalues, $user) {
 					if($leadHasImage && in_array($entityName,array('Accounts','Contacts'))) {
 						$idComponents = explode('x',$entityIds[$entityName]);
 						$crmId = $idComponents[1];
-						$adb->pquery('UPDATE vtiger_seattachmentsrel SET crmid = ? WHERE attachmentsid = ?',array($crmId,$imageAttachmentId));
-						$adb->pquery('UPDATE vtiger_crmentity SET setype = ? WHERE crmid = ?',array($entityName.' Image',$imageAttachmentId));
+						$adb->pquery('UPDATE jo_seattachmentsrel SET crmid = ? WHERE attachmentsid = ?',array($crmId,$imageAttachmentId));
+						$adb->pquery('UPDATE jo_crmentity SET setype = ? WHERE crmid = ?',array($entityName.' Image',$imageAttachmentId));
 					}
 				}
 			} catch (Exception $e) {
@@ -156,7 +156,7 @@ function vtws_convertlead($entityvalues, $user) {
 		}
 
 		if (!empty($accountId) && !empty($contactId) && !empty($potentialId)) {
-			$sql = "insert into vtiger_contpotentialrel values(?,?)";
+			$sql = "insert into jo_contpotentialrel values(?,?)";
 			$result = $adb->pquery($sql, array($contactId, $potentialId));
 			if ($result === false) {
 				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_CREATE_RELATION,
@@ -164,11 +164,11 @@ function vtws_convertlead($entityvalues, $user) {
 			}
 		}
 		if($quoteIds){
-			$queryUpdate = 'UPDATE vtiger_quotes SET contactid=?, potentialid=? WHERE quoteid IN('. generateQuestionMarks($quoteIds).') ';
+			$queryUpdate = 'UPDATE jo_quotes SET contactid=?, potentialid=? WHERE quoteid IN('. generateQuestionMarks($quoteIds).') ';
 			$adb->pquery($queryUpdate, array($contactId, $potentialId, $quoteIds));
 
 			if($accountId){
-				$queryUpdate = 'UPDATE vtiger_quotes SET accountid=? WHERE quoteid IN('. generateQuestionMarks($quoteIds).')';
+				$queryUpdate = 'UPDATE jo_quotes SET accountid=? WHERE quoteid IN('. generateQuestionMarks($quoteIds).')';
 				$adb->pquery($queryUpdate, array($accountId, $quoteIds));
 			}
 		}
@@ -209,7 +209,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 	global $adb, $log;
 	$column;
 	$entityName = $entityvalue['name'];
-	$sql = "SELECT * FROM vtiger_convertleadmapping";
+	$sql = "SELECT * FROM jo_convertleadmapping";
 	$result = $adb->pquery($sql, array());
 	if ($adb->num_rows($result)) {
 		switch ($entityName) {
@@ -280,22 +280,22 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user) {
 	global $adb, $log;
 	$leadIdComponents = vtws_getIdComponents($leadId);
 	if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
-		$sql = "UPDATE vtiger_leaddetails SET converted = 1 where leadid=?";
+		$sql = "UPDATE jo_leaddetails SET converted = 1 where leadid=?";
 		$result = $adb->pquery($sql, array($leadIdComponents[1]));
 		if ($result === false) {
 			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED,
 					"Failed mark lead converted");
 		}
 		//updating the campaign-lead relation --Minnie
-		$sql = "DELETE FROM vtiger_campaignleadrel WHERE leadid=?";
+		$sql = "DELETE FROM jo_campaignleadrel WHERE leadid=?";
 		$adb->pquery($sql, array($leadIdComponents[1]));
 
-		$sql = "DELETE FROM vtiger_tracker WHERE item_id=?";
+		$sql = "DELETE FROM jo_tracker WHERE item_id=?";
 		$adb->pquery($sql, array($leadIdComponents[1]));
 
 		//update the modifiedtime and modified by information for the record
 		$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		$crmentityUpdateSql = "UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";
+		$crmentityUpdateSql = "UPDATE jo_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";
 		$adb->pquery($crmentityUpdateSql, array($leadModifiedTime, $user->id, $leadIdComponents[1]));
 	}
 

@@ -11,19 +11,19 @@
 
 Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View {
 
-    public function preProcess(Vtiger_Request $request) {
+    public function preProcess(Head_Request $request) {
         return true;
     }
     
-    public function postProcess(Vtiger_Request $request) {
+    public function postProcess(Head_Request $request) {
         return true;
     }
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         echo $this->getContents($request);
     }
     
-    public function getContents(Vtiger_Request $request) {
+    public function getContents(Head_Request $request) {
         $this->initialize($request);
 		
         $qualifiedModuleName = $request->getModule(false);
@@ -35,10 +35,10 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View {
 	
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

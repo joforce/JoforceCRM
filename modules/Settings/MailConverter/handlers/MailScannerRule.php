@@ -15,7 +15,7 @@ require_once('modules/Settings/MailConverter/handlers/MailScannerAction.php');
 /**
  * Scanner Rule
  */
-class Vtiger_MailScannerRule {
+class Head_MailScannerRule {
     // id of this instance
 	var $ruleid    = false;
     // scanner to which this rule is linked
@@ -79,7 +79,7 @@ class Vtiger_MailScannerRule {
      */
     function initialize($forruleid) {
         global $adb;
-        $result = $adb->pquery("SELECT * FROM vtiger_mailscanner_rules WHERE ruleid=? ORDER BY sequence", Array($forruleid));
+        $result = $adb->pquery("SELECT * FROM jo_mailscanner_rules WHERE ruleid=? ORDER BY sequence", Array($forruleid));
 
         if ($adb->num_rows($result)) {
             $this->ruleid = $adb->query_result($result, 0, 'ruleid');
@@ -109,12 +109,12 @@ class Vtiger_MailScannerRule {
         global $adb;
             if($this->ruleid) {
             $this->actions = Array();
-                $actionres = $adb->pquery("SELECT actionid FROM vtiger_mailscanner_ruleactions WHERE ruleid=?",Array($this->ruleid));
+                $actionres = $adb->pquery("SELECT actionid FROM jo_mailscanner_ruleactions WHERE ruleid=?",Array($this->ruleid));
             $actioncount = $adb->num_rows($actionres);
                 if($actioncount) {
                     for($index = 0; $index < $actioncount; ++$index) {
                 $actionid = $adb->query_result($actionres, $index, 'actionid');
-                $ruleaction = new Vtiger_MailScannerAction($actionid);
+                $ruleaction = new Head_MailScannerAction($actionid);
                 $ruleaction->debug = $this->debug;
                 $this->actions[] = $ruleaction;
             }
@@ -361,7 +361,7 @@ class Vtiger_MailScannerRule {
      */
     static function resetSequence($ruleid1, $ruleid2) {
         global $adb;
-            $ruleresult = $adb->pquery("SELECT ruleid, sequence FROM vtiger_mailscanner_rules WHERE ruleid = ? or ruleid = ?",
+            $ruleresult = $adb->pquery("SELECT ruleid, sequence FROM jo_mailscanner_rules WHERE ruleid = ? or ruleid = ?",
                 Array($ruleid1, $ruleid2));
         $rule_partinfo = Array();
             if($adb->num_rows($ruleresult) != 2) {
@@ -369,8 +369,8 @@ class Vtiger_MailScannerRule {
         } else {
             $rule_partinfo[$adb->query_result($ruleresult, 0, 'ruleid')] = $adb->query_result($ruleresult, 0, 'sequence');
             $rule_partinfo[$adb->query_result($ruleresult, 1, 'ruleid')] = $adb->query_result($ruleresult, 1, 'sequence');
-            $adb->pquery("UPDATE vtiger_mailscanner_rules SET sequence = ? WHERE ruleid = ?", Array($rule_partinfo[$ruleid2], $ruleid1));
-            $adb->pquery("UPDATE vtiger_mailscanner_rules SET sequence = ? WHERE ruleid = ?", Array($rule_partinfo[$ruleid1], $ruleid2));
+            $adb->pquery("UPDATE jo_mailscanner_rules SET sequence = ? WHERE ruleid = ?", Array($rule_partinfo[$ruleid2], $ruleid1));
+            $adb->pquery("UPDATE jo_mailscanner_rules SET sequence = ? WHERE ruleid = ?", Array($rule_partinfo[$ruleid1], $ruleid2));
         }
     }
 
@@ -380,12 +380,12 @@ class Vtiger_MailScannerRule {
     function update() {
         global $adb;
         if ($this->ruleid) {
-            $adb->pquery("UPDATE vtiger_mailscanner_rules SET scannerid=?,fromaddress=?,toaddress=?,subjectop=?,subject=?,bodyop=?,body=?,matchusing=?,assigned_to=?,cc=?,bcc=?
+            $adb->pquery("UPDATE jo_mailscanner_rules SET scannerid=?,fromaddress=?,toaddress=?,subjectop=?,subject=?,bodyop=?,body=?,matchusing=?,assigned_to=?,cc=?,bcc=?
                     WHERE ruleid=?", Array($this->scannerid, $this->fromaddress, $this->toaddress, $this->subjectop, $this->subject,
             $this->bodyop, $this->body, $this->matchusing, $this->assigned_to, $this->cc, $this->bcc, $this->ruleid));
         } else {
             $this->sequence = $this->__nextsequence();
-            $adb->pquery("INSERT INTO vtiger_mailscanner_rules(scannerid,fromaddress,toaddress,subjectop,subject,bodyop,body,matchusing,sequence,assigned_to,cc,bcc)
+            $adb->pquery("INSERT INTO jo_mailscanner_rules(scannerid,fromaddress,toaddress,subjectop,subject,bodyop,body,matchusing,sequence,assigned_to,cc,bcc)
                     VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->scannerid, $this->fromaddress, $this->toaddress, $this->subjectop, $this->subject,
             $this->bodyop, $this->body, $this->matchusing, $this->sequence, $this->assigned_to, $this->cc, $this->bcc));
             $this->ruleid = $adb->database->Insert_ID();
@@ -397,7 +397,7 @@ class Vtiger_MailScannerRule {
      */
     function __nextsequence() {
         global $adb;
-        $seqres = $adb->pquery("SELECT max(sequence) AS max_sequence FROM vtiger_mailscanner_rules", Array());
+        $seqres = $adb->pquery("SELECT max(sequence) AS max_sequence FROM jo_mailscanner_rules", Array());
         $maxsequence = 0;
             if($adb->num_rows($seqres)) {
             $maxsequence = $adb->query_result($seqres, 0, 'max_sequence');
@@ -419,8 +419,8 @@ class Vtiger_MailScannerRule {
             }
         }
             if($this->ruleid) {
-            $adb->pquery("DELETE FROM vtiger_mailscanner_ruleactions WHERE ruleid = ?", Array($this->ruleid));
-            $adb->pquery("DELETE FROM vtiger_mailscanner_rules WHERE ruleid=?", Array($this->ruleid));
+            $adb->pquery("DELETE FROM jo_mailscanner_ruleactions WHERE ruleid = ?", Array($this->ruleid));
+            $adb->pquery("DELETE FROM jo_mailscanner_rules WHERE ruleid=?", Array($this->ruleid));
         }
     }
 
@@ -434,7 +434,7 @@ class Vtiger_MailScannerRule {
                 if($action) $action->delete();
         } else {
                 if($actionid == '') {
-            $action = new Vtiger_MailScannerAction($actionid);
+            $action = new Head_MailScannerAction($actionid);
             }
             $action->scannerid = $this->scannerid;
             $action->update($this->ruleid, $actiontext);

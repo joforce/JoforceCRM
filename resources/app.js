@@ -560,7 +560,7 @@ var app = {
 		var joinedDateFormat =  splitDateFormat.join('-');
 		return joinedDateFormat;
 	},
-	getDateInVtigerFormat: function(dateFormat,dateObject){
+	getDateInHeadFormat: function(dateFormat,dateObject){
 		var finalFormat = app.convertTojQueryDatePickerFormat(dateFormat);
 		var date = jQuery.datepicker.formatDate(finalFormat,dateObject);
 		return date;
@@ -649,7 +649,7 @@ var app = {
 		element.each(function(index,domElement){
 			var jQelement = jQuery(domElement);
 			var dateObj = new Date();
-			var selectedDate = app.getDateInVtigerFormat(dateFormat, dateObj);
+			var selectedDate = app.getDateInHeadFormat(dateFormat, dateObj);
 			//Take the element value as current date or current date
 			if(jQelement.val() != '') {
 				selectedDate = jQelement.val();
@@ -675,7 +675,7 @@ var app = {
 		element.datepicker({'autoclose':true}).on('changeDate', function(ev){
 			var currentElement = jQuery(ev.currentTarget);
 			var dateFormat = currentElement.data('dateFormat');
-			var finalFormat = app.getDateInVtigerFormat(dateFormat,ev.date);
+			var finalFormat = app.getDateInHeadFormat(dateFormat,ev.date);
 			var date = jQuery.datepicker.formatDate(finalFormat,ev.date);
 			currentElement.val(date);
 		});
@@ -1008,13 +1008,13 @@ var app = {
 
 		var moduleClassName = parentModule+"_"+moduleName+"_"+view+"_Js";
 		if(typeof window[moduleClassName] == 'undefined'){
-			moduleClassName = parentModule+"_Vtiger_"+view+"_Js";
+			moduleClassName = parentModule+"_Head_"+view+"_Js";
 		}
 		if(typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = moduleName+"_"+view+"_Js";
 		}
 		if(typeof window[moduleClassName] == 'undefined') {
-			moduleClassName = "Vtiger_"+view+"_Js";
+			moduleClassName = "Head_"+view+"_Js";
 		}
 		if(typeof window[moduleClassName] != 'undefined') {
 			return new window[moduleClassName]();

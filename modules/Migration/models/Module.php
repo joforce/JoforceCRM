@@ -10,12 +10,12 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Migration_Module_Model extends Vtiger_Module_Model {
+class Migration_Module_Model extends Head_Module_Model {
 	
 	public function getDBVersion(){
 		$db = PearDatabase::getInstance();
 		
-		$result = $db->pquery('SELECT current_version FROM vtiger_version', array());
+		$result = $db->pquery('SELECT current_version FROM jo_version', array());
 		if($db->num_rows($result) > 0){
 			$currentVersion = $db->query_result($result, 0, 'current_version');
 		}
@@ -44,16 +44,16 @@ class Migration_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	public function getLatestSourceVersion(){
-		return vglobal('vtiger_current_version');
+		return vglobal('jo_current_version');
 	}
 	
 	/**
 	 * Function to update the latest vtiger version in db
 	 * @return type
 	 */
-	public function updateVtigerVersion(){
+	public function updateHeadVersion(){
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_version SET current_version=?,old_version=?', array($this->getLatestSourceVersion(), $this->getDBVersion()));
+		$db->pquery('UPDATE jo_version SET current_version=?,old_version=?', array($this->getLatestSourceVersion(), $this->getDBVersion()));
 		return true;
 	}
 	

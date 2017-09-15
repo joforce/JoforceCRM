@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport('~~/vtlib/Vtiger/Module.php');
+vimport('~~/vtlib/Head/Module.php');
 
 /**
  * Calendar Module Model Class
  */
-class Calendar_Module_Model extends Vtiger_Module_Model {
+class Calendar_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function returns the default view for the Calendar module
@@ -78,9 +78,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
-	 * Function to get a Vtiger Record Model instance from an array of key-value mapping
+	 * Function to get a Head Record Model instance from an array of key-value mapping
 	 * @param <Array> $valueArray
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @return Head_Record_Model or Module Specific Record Model instance
 	 */
 	public function getRecordFromArray($valueArray, $rawData = false) {
 		$recordInstance = parent::getRecordFromArray($valueArray, $rawData);
@@ -132,11 +132,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of Head_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = array(
 			array(
@@ -159,7 +159,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			),
 		);
 		foreach($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = Head_Link_Model::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = array();
@@ -190,7 +190,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		);
 
 		foreach($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = Head_Link_Model::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;
@@ -216,10 +216,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$userGroupIds = $userGroup->user_groups;
 		array_push($userGroupIds, $userId);
 		$value = implode(',', $userGroupIds);
-		$query = "SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_activity_reminder.reminder_time FROM vtiger_activity
-					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-					LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0
-					WHERE vtiger_crmentity.deleted = 0 AND vtiger_crmentity.smownerid IN ($value) AND vtiger_activity.activitytype NOT IN ('Emails')";
+		$query = "SELECT jo_activity.*, jo_crmentity.description, jo_activity_reminder.reminder_time FROM jo_activity
+					INNER JOIN jo_crmentity ON jo_activity.activityid = jo_crmentity.crmid
+					LEFT JOIN jo_activity_reminder ON jo_activity_reminder.activity_id = jo_activity.activityid AND jo_activity_reminder.recurringid = 0
+					WHERE jo_crmentity.deleted = 0 AND jo_crmentity.smownerid IN ($value) AND jo_activity.activitytype NOT IN ('Emails')";
 		return $query;
 	}
 
@@ -234,7 +234,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$keysValuesToReplace = array('taskpriority' => 'priority');
 
 		foreach($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $this);
 			if($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if(!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
@@ -257,7 +257,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'taskstatus' => 'status');
 
 		foreach($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $this);
 			if($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if(!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
@@ -285,8 +285,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getCaledarSharedUsers($id){
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT vtiger_users.user_name, vtiger_sharedcalendar.* FROM vtiger_sharedcalendar
-				LEFT JOIN vtiger_users ON vtiger_sharedcalendar.sharedid=vtiger_users.id WHERE userid=?";
+		$query = "SELECT jo_users.user_name, jo_sharedcalendar.* FROM jo_sharedcalendar
+				LEFT JOIN jo_users ON jo_sharedcalendar.sharedid=jo_users.id WHERE userid=?";
 		$result = $db->pquery($query, array($id));
 		$rows = $db->num_rows($result);
 
@@ -310,12 +310,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if($currentUser->isAdminUser()) {
 			$query = "SELECT first_name,last_name, id AS userid
-					FROM vtiger_users WHERE status='Active' AND (user_name != 'admin' OR is_owner = 1) AND id <> ?";
+					FROM jo_users WHERE status='Active' AND (user_name != 'admin' OR is_owner = 1) AND id <> ?";
 			$result = $db->pquery($query, array($id));
 		} else {
-			$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id AS userid
-				FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id AND vtiger_users.status= 'Active'
-				WHERE vtiger_sharedcalendar.sharedid=? OR (vtiger_users.status='Active' AND vtiger_users.calendarsharedtype='public' AND vtiger_users.id <> ?)";
+			$query = "SELECT jo_users.first_name,jo_users.last_name, jo_users.id AS userid
+				FROM jo_sharedcalendar RIGHT JOIN jo_users ON jo_sharedcalendar.userid=jo_users.id AND jo_users.status= 'Active'
+				WHERE jo_sharedcalendar.sharedid=? OR (jo_users.status='Active' AND jo_users.calendarsharedtype='public' AND jo_users.id <> ?)";
 			$result = $db->pquery($query, array($id, $id));
 		}
 		$rows = $db->num_rows($result);
@@ -349,7 +349,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getSharedUsersInfoOfCurrentUser($id){
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT shareduserid,color,visible FROM vtiger_shareduserinfo where userid = ?";
+		$query = "SELECT shareduserid,color,visible FROM jo_shareduserinfo where userid = ?";
 		$result = $db->pquery($query, array($id));
 		$rows = $db->num_rows($result);
 
@@ -372,16 +372,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getCalendarViewTypes($id){
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
-			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
-			WHERE vtiger_calendar_user_activitytypes.userid=?";
+		$query = "SELECT * FROM jo_calendar_user_activitytypes 
+			INNER JOIN jo_calendar_default_activitytypes on jo_calendar_default_activitytypes.id=jo_calendar_user_activitytypes.defaultid 
+			WHERE jo_calendar_user_activitytypes.userid=?";
 		$result = $db->pquery($query, array($id));
 		$rows = $db->num_rows($result);
 
 		$calendarViewTypes = Array();
 		for($i=0; $i<$rows; $i++){
 			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = Vtiger_Module_Model::getInstance($activityTypes['module']);
+			$moduleInstance = Head_Module_Model::getInstance($activityTypes['module']);
 			//If there is no module view permission, should not show in calendar view
 			if($moduleInstance === false || !$moduleInstance->isPermitted('Detail')) {
 				continue;
@@ -393,7 +393,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			$fieldNamesList = Zend_Json::decode(html_entity_decode($activityTypes['fieldname']));
 			$fieldLabelsList = array();
 			foreach ($fieldNamesList as $fieldName) {
-				$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleInstance);
+				$fieldInstance = Head_Field_Model::getInstance($fieldName, $moduleInstance);
 				if ($fieldInstance) {
 					//If there is no field view permission, should not show in calendar view
 					if (!$type && !$fieldInstance->isViewableInDetailView()) {
@@ -436,9 +436,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getDateFieldModulesList() {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT DISTINCT(name) AS modulename FROM vtiger_tab 
-				  LEFT JOIN vtiger_field ON vtiger_field.tabid = vtiger_tab.tabid
-				  WHERE vtiger_field.typeofdata LIKE ?';
+		$query = 'SELECT DISTINCT(name) AS modulename FROM jo_tab 
+				  LEFT JOIN jo_field ON jo_field.tabid = jo_tab.tabid
+				  WHERE jo_field.typeofdata LIKE ?';
 		$result = $db->pquery($query, array('D~%'));
 		$num_rows = $db->num_rows($result);
 
@@ -451,7 +451,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		$moduleFieldsList = array();
 		foreach($moduleList as $module) {
-			$moduleModel = Vtiger_Module_Model::getInstance($module);
+			$moduleModel = Head_Module_Model::getInstance($module);
 			//If there is no module view permission, should not show in calendar view
 			if(!$moduleModel->isPermitted('Detail')) {
 				continue;
@@ -471,9 +471,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		$eventFieldsList = array('date_start','due_date');
 		$eventFieldLabelsList = array();
-		$moduleInstance = Vtiger_Module_Model::getInstance('Events');
+		$moduleInstance = Head_Module_Model::getInstance('Events');
 		foreach ($eventFieldsList as $fieldName) {
-			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleInstance);
+			$fieldInstance = Head_Field_Model::getInstance($fieldName, $moduleInstance);
 			if ($fieldInstance) {
 				$eventFieldLabelsList[$fieldName] = $fieldInstance->label;
 			}
@@ -481,9 +481,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		$calendarFieldsList = array('date_start','due_date');
 		$calendarFieldLabelsList = array();
-		$calendarInstance = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarInstance = Head_Module_Model::getInstance('Calendar');
 		foreach ($calendarFieldsList as $fieldName) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $calendarInstance);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $calendarInstance);
 			if ($fieldModel) {
 				$calendarFieldLabelsList[$fieldName] = $fieldModel->label;
 			}
@@ -522,16 +522,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	function getVisibleCalendarViewTypes($userId) {
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
-			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
-			WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_user_activitytypes.visible=?";
+		$query = "SELECT * FROM jo_calendar_user_activitytypes 
+			INNER JOIN jo_calendar_default_activitytypes on jo_calendar_default_activitytypes.id=jo_calendar_user_activitytypes.defaultid 
+			WHERE jo_calendar_user_activitytypes.userid=? AND jo_calendar_user_activitytypes.visible=?";
 		$result = $db->pquery($query, array($userId,'1'));
 		$rows = $db->num_rows($result);
 
 		$calendarViewTypes = Array();
 		for($i=0; $i<$rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = Vtiger_Module_Model::getInstance($activityTypes['module']);
+			$moduleInstance = Head_Module_Model::getInstance($activityTypes['module']);
 			//If there is no module view permission, should not show in calendar view
 			if(!$moduleInstance->isPermitted('Detail')) {
 				continue;
@@ -540,7 +540,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			$fieldNamesList = Zend_Json::decode(html_entity_decode($activityTypes['fieldname']));
 			$fieldLabelsList = array();
 			foreach ($fieldNamesList as $fieldName) {
-				$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleInstance);
+				$fieldInstance = Head_Field_Model::getInstance($fieldName, $moduleInstance);
 				if ($fieldInstance) {
 					//If there is no field view permission, should not show in calendar view
 					if (!$fieldInstance->isViewableInDetailView()) {
@@ -561,7 +561,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	 *  Function to check duplicate activity view while adding
 	 * @return <boolean>
 	 */
-	public function checkDuplicateView(Vtiger_Request $request) {
+	public function checkDuplicateView(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
@@ -571,14 +571,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$viewfieldname = Zend_Json::encode(explode(',',$fieldName));
 		$db = PearDatabase::getInstance();
         if($conditions)
-    		$queryResult = $db->pquery('SELECT id FROM vtiger_calendar_default_activitytypes WHERE module=? AND fieldname=? AND conditions=?', array($viewmodule, $viewfieldname,$conditions));
+    		$queryResult = $db->pquery('SELECT id FROM jo_calendar_default_activitytypes WHERE module=? AND fieldname=? AND conditions=?', array($viewmodule, $viewfieldname,$conditions));
         else
-            $queryResult = $db->pquery('SELECT id FROM vtiger_calendar_default_activitytypes WHERE module=? AND fieldname=?', array($viewmodule, $viewfieldname));
+            $queryResult = $db->pquery('SELECT id FROM jo_calendar_default_activitytypes WHERE module=? AND fieldname=?', array($viewmodule, $viewfieldname));
         
 		if($db->num_rows($queryResult) > 0) {
 			$defaultId = $db->query_result($queryResult, 0, 'id');
 
-			$query = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE defaultid=? AND userid=? AND visible=?', array($defaultId, $userId, '1'));
+			$query = $db->pquery('SELECT 1 FROM jo_calendar_user_activitytypes WHERE defaultid=? AND userid=? AND visible=?', array($defaultId, $userId, '1'));
 			if($db->num_rows($query) > 0) {
 				return true;
 			}
@@ -589,7 +589,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	/**
 	 *  Function to delete calendar view
 	 */
-	public function deleteCalendarView(Vtiger_Request $request) {
+	public function deleteCalendarView(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
@@ -599,20 +599,20 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$viewfieldname = Zend_Json::encode(explode(',',$fieldName));
 
 		$db = PearDatabase::getInstance();
-		$defaultIdQueryResult = $db->pquery('SELECT id FROM vtiger_calendar_default_activitytypes WHERE module=? AND fieldname=? AND isdefault=? AND conditions=?', array($viewmodule, $viewfieldname, 0, $viewconditions));
+		$defaultIdQueryResult = $db->pquery('SELECT id FROM jo_calendar_default_activitytypes WHERE module=? AND fieldname=? AND isdefault=? AND conditions=?', array($viewmodule, $viewfieldname, 0, $viewconditions));
 		if($db->num_rows($defaultIdQueryResult) > 0) {
 			$defaultId = $db->query_result($defaultIdQueryResult, 0, 'id');
-			$db->pquery('DELETE FROM vtiger_calendar_user_activitytypes WHERE defaultid=? AND vtiger_calendar_user_activitytypes.userid=?', array($defaultId, $userId));
+			$db->pquery('DELETE FROM jo_calendar_user_activitytypes WHERE defaultid=? AND jo_calendar_user_activitytypes.userid=?', array($defaultId, $userId));
 
-			$queryResult = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE defaultid=?', array($defaultId));
+			$queryResult = $db->pquery('SELECT 1 FROM jo_calendar_user_activitytypes WHERE defaultid=?', array($defaultId));
 			if($db->num_rows($queryResult) <= 0) {
-				$db->pquery('DELETE FROM vtiger_calendar_default_activitytypes WHERE module=? AND fieldname=? AND isdefault=? AND id=? AND conditions=?', array($viewmodule, $viewfieldname, 0, $defaultId, $viewconditions));
+				$db->pquery('DELETE FROM jo_calendar_default_activitytypes WHERE module=? AND fieldname=? AND isdefault=? AND id=? AND conditions=?', array($viewmodule, $viewfieldname, 0, $defaultId, $viewconditions));
 			}
 		} else {
-			$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
-						INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
-						SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.module=? AND vtiger_calendar_default_activitytypes.fieldname=? AND 
-						vtiger_calendar_default_activitytypes.conditions=?', 
+			$db->pquery('UPDATE jo_calendar_user_activitytypes 
+						INNER JOIN jo_calendar_default_activitytypes ON jo_calendar_default_activitytypes.id = jo_calendar_user_activitytypes.defaultid
+						SET jo_calendar_user_activitytypes.visible=? WHERE jo_calendar_user_activitytypes.userid=? AND jo_calendar_default_activitytypes.module=? AND jo_calendar_default_activitytypes.fieldname=? AND 
+						jo_calendar_default_activitytypes.conditions=?', 
 							array('0', $userId, $viewmodule, $viewfieldname, $viewconditions));
 		}
 	}
@@ -621,7 +621,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	 *  Function to add calendar view
 	 * @return <string>
 	 */
-	public function addCalendarView(Vtiger_Request $request) {
+	public function addCalendarView(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
@@ -632,7 +632,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$viewfieldname = Zend_Json::encode(explode(',',$fieldName));
 
 		$db = PearDatabase::getInstance();
-		$queryResult = $db->pquery('SELECT id,isdefault FROM vtiger_calendar_default_activitytypes WHERE module=? AND fieldname=? AND conditions=?', array($viewmodule, $viewfieldname, $viewconditions));
+		$queryResult = $db->pquery('SELECT id,isdefault FROM jo_calendar_default_activitytypes WHERE module=? AND fieldname=? AND conditions=?', array($viewmodule, $viewfieldname, $viewconditions));
 		$type = '';
 		if($db->num_rows($queryResult) > 0) {
 			$defaultId = $db->query_result($queryResult, 0, 'id');
@@ -642,22 +642,22 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 				$type = $viewmodule.'_'.$isDefault;
 			}
 
-			$query = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE defaultid=? AND userid=?', array($defaultId, $userId));
+			$query = $db->pquery('SELECT 1 FROM jo_calendar_user_activitytypes WHERE defaultid=? AND userid=?', array($defaultId, $userId));
 			if($db->num_rows($query) > 0) {
-				$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
-							INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
-							SET vtiger_calendar_user_activitytypes.color=?, vtiger_calendar_user_activitytypes.visible=? 
-							WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.module=? AND vtiger_calendar_default_activitytypes.fieldname=? 
-							AND vtiger_calendar_default_activitytypes.conditions=?',
+				$db->pquery('UPDATE jo_calendar_user_activitytypes 
+							INNER JOIN jo_calendar_default_activitytypes ON jo_calendar_default_activitytypes.id = jo_calendar_user_activitytypes.defaultid
+							SET jo_calendar_user_activitytypes.color=?, jo_calendar_user_activitytypes.visible=? 
+							WHERE jo_calendar_user_activitytypes.userid=? AND jo_calendar_default_activitytypes.module=? AND jo_calendar_default_activitytypes.fieldname=? 
+							AND jo_calendar_default_activitytypes.conditions=?',
 								array($viewcolor, '1', $userId, $viewmodule, $viewfieldname, $viewconditions));
 			} else {
-				$db->pquery('INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $defaultId, $userId, $viewcolor));
+				$db->pquery('INSERT INTO jo_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($db->getUniqueID('jo_calendar_user_activitytypes'), $defaultId, $userId, $viewcolor));
 			}
 		} else {
-			$defaultId = $db->getUniqueID('vtiger_calendar_default_activitytypes');
-			$db->pquery('INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor, isdefault, conditions) VALUES (?,?,?,?,?,?)', array($defaultId, $viewmodule, $viewfieldname, $viewcolor, '0', $viewconditions));
+			$defaultId = $db->getUniqueID('jo_calendar_default_activitytypes');
+			$db->pquery('INSERT INTO jo_calendar_default_activitytypes (id, module, fieldname, defaultcolor, isdefault, conditions) VALUES (?,?,?,?,?,?)', array($defaultId, $viewmodule, $viewfieldname, $viewcolor, '0', $viewconditions));
 
-			$db->pquery('INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $defaultId, $userId, $viewcolor));
+			$db->pquery('INSERT INTO jo_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($db->getUniqueID('jo_calendar_user_activitytypes'), $defaultId, $userId, $viewcolor));
 		}
 
 		return $type;
@@ -668,7 +668,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	 * @return <string>
 	 */
 	public function getCalendarViewConditions() {
-		$eventsModuleModel = Vtiger_Module_Model::getInstance('Events');
+		$eventsModuleModel = Head_Module_Model::getInstance('Events');
 		$eventTypePicklistValues = $eventsModuleModel->getField('activitytype')->getPicklistValues();
 		$eventsModuleConditions = array();
 
@@ -698,7 +698,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function deleteSharedUsers($currentUserId){
 		$db = PearDatabase::getInstance();
-		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
+		$delquery = "DELETE FROM jo_sharedcalendar WHERE userid=?";
 		$db->pquery($delquery, array($currentUserId));
 	}
 
@@ -711,7 +711,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 		foreach ($sharedIds as $sharedId) {
 			if($sharedId != $currentUserId) {
-				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
+				$sql = "INSERT INTO jo_sharedcalendar VALUES (?,?)";
 				$db->pquery($sql, array($currentUserId, $sharedId));
 			}
 		}
@@ -725,7 +725,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public function getSharedType($currentUserId){
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT calendarsharedtype FROM vtiger_users WHERE id=?";
+		$query = "SELECT calendarsharedtype FROM jo_users WHERE id=?";
 		$result = $db->pquery($query, array($currentUserId));
 		if($db->num_rows($result) > 0){
 			$sharedType = $db->query_result($result,0,'calendarsharedtype');
@@ -752,9 +752,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$deletedCondition = parent::getDeletedRecordCondition();
 		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
 
-		$query = 'SELECT * FROM vtiger_crmentity ';
+		$query = 'SELECT * FROM jo_crmentity ';
 		if($nonAdminQuery){
-			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid ".$nonAdminQuery;
+			$query .= " INNER JOIN jo_activity ON jo_crmentity.crmid = jo_activity.activityid ".$nonAdminQuery;
 		}
 		$query .= ' WHERE setype=? AND '.$deletedCondition.' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array('Calendar', $currentUserModel->id, $limit);
@@ -775,7 +775,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		$queryGenerator = new QueryGenerator("Calendar",$current_user);
 
-		$moduleModel = Vtiger_Module_Model::getInstance("Calendar");
+		$moduleModel = Head_Module_Model::getInstance("Calendar");
 		$quickCreateFields = $moduleModel->getQuickCreateFields();
 		$mandatoryFields = array("id","taskpriority","parent_id","contact_id");
 		$fields = array_unique(array_merge($mandatoryFields,array_keys($quickCreateFields)));
@@ -803,7 +803,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$tasks = array();
 		for($i=0;$i<$noOfRows;$i++){
 			$newRow = $db->query_result_rowdata($result, $i);
-			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
+			$model = Head_Record_Model::getCleanInstance('Calendar');
 			$model->setData($newRow);
 			$model->setId($newRow['activityid']);
 			$basicInfo = array();
@@ -816,11 +816,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 				$value = $model->get($columnName);
 				switch($fieldType){
 					case "reference":	if(!empty($value)){
-											$value = array("id"=>$value,"display_value"=>Vtiger_Functions::getCRMRecordLabel($value),"module"=>Vtiger_Functions::getCRMRecordType($value));
+											$value = array("id"=>$value,"display_value"=>Head_Functions::getCRMRecordLabel($value),"module"=>Head_Functions::getCRMRecordType($value));
 
 										}
 										break;
-					case "datetime":	$value = Vtiger_Date_UIType::getDisplayDateValue($value);
+					case "datetime":	$value = Head_Date_UIType::getDisplayDateValue($value);
 										break;
 				}
 				$basicInfo[$fieldName] = $value;
@@ -833,7 +833,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 					$value = $model->get("contactid");
 				}
 				if(!empty($value)){
-					$value = array("id"=>$value,"display_value"=>Vtiger_Functions::getCRMRecordLabel($value),"module"=>Vtiger_Functions::getCRMRecordType($value));
+					$value = array("id"=>$value,"display_value"=>Head_Functions::getCRMRecordLabel($value),"module"=>Head_Functions::getCRMRecordType($value));
 
 				}
 				$basicInfo[$fieldName] = $value;
@@ -871,19 +871,19 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
 			$time = date('H:i',   strtotime("+$activityReminder seconds", $currentTime));
-			$reminderActivitiesResult = "SELECT reminderid, recordid FROM vtiger_activity_reminder_popup
-								INNER JOIN vtiger_activity on vtiger_activity.activityid = vtiger_activity_reminder_popup.recordid
-								INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid
-								WHERE vtiger_activity_reminder_popup.status = 0
-								AND vtiger_crmentity.smownerid = ? AND vtiger_crmentity.deleted = 0
-								AND ((DATE_FORMAT(vtiger_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
-								AND (TIME_FORMAT(vtiger_activity_reminder_popup.time_start,'%H:%i') <= ?))
-								AND vtiger_activity.eventstatus <> 'Held' AND (vtiger_activity.status <> 'Completed' OR vtiger_activity.status IS NULL) LIMIT 20";
+			$reminderActivitiesResult = "SELECT reminderid, recordid FROM jo_activity_reminder_popup
+								INNER JOIN jo_activity on jo_activity.activityid = jo_activity_reminder_popup.recordid
+								INNER JOIN jo_crmentity ON jo_activity_reminder_popup.recordid = jo_crmentity.crmid
+								WHERE jo_activity_reminder_popup.status = 0
+								AND jo_crmentity.smownerid = ? AND jo_crmentity.deleted = 0
+								AND ((DATE_FORMAT(jo_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
+								AND (TIME_FORMAT(jo_activity_reminder_popup.time_start,'%H:%i') <= ?))
+								AND jo_activity.eventstatus <> 'Held' AND (jo_activity.status <> 'Completed' OR jo_activity.status IS NULL) LIMIT 20";
 			$result = $db->pquery($reminderActivitiesResult, array($currentUserModel->getId(), $date, $time));
 			$rows = $db->num_rows($result);
 			for($i=0; $i<$rows; $i++) {
 				$recordId = $db->query_result($result, $i, 'recordid');
-				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
+				$recordModels[] = Head_Record_Model::getInstanceById($recordId, 'Calendar');
 			}
 		}
 		return $recordModels;
@@ -892,7 +892,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	/**
 	 * Function gives fields based on the type
 	 * @param <String> $type - field type
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return <Array of Head_Field_Model> - list of field models
 	 */
 	public function getFieldsByType($type) {
 		$restrictedField = array('picklist'=>array('eventstatus', 'recurringtype', 'visibility', 'duration_minutes'));
@@ -928,7 +928,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_FIELDS',
 					'linkurl' => 'Settings/LayoutEditor',
-					'linkicon' => Vtiger_Theme::getImagePath('LayoutEditor.gif')
+					'linkicon' => Head_Theme::getImagePath('LayoutEditor.gif')
 			);
 
 			 $settingLinks[] = array( 
@@ -963,15 +963,15 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public function getQuickMenuModels() {
 		if($this->isEntityModule()) {
 			$moduleName = $this->getName();
-			$listViewModel = Vtiger_ListView_Model::getCleanInstance($moduleName);
+			$listViewModel = Head_ListView_Model::getCleanInstance($moduleName);
 			$basicListViewLinks = $listViewModel->getBasicLinks();
 		}
 
 		if($basicListViewLinks) {
 			foreach($basicListViewLinks as $basicListViewLink) {
 				if(is_array($basicListViewLink)) {
-					$links[] = Vtiger_Link_Model::getInstanceFromValues($basicListViewLink);
-				} else if(is_a($basicListViewLink, 'Vtiger_Link_Model')) {
+					$links[] = Head_Link_Model::getInstanceFromValues($basicListViewLink);
+				} else if(is_a($basicListViewLink, 'Head_Link_Model')) {
 					$links[] = $basicListViewLink;
 				}
 			}

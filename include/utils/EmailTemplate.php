@@ -128,7 +128,7 @@ class EmailTemplate {
 				$sql = 'SELECT '.$tableList[0].'.'.$moduleTableIndexList[$tableList[0]].' AS vt_recordid, ' . implode(', ', $columnListTable) . ' FROM ' . $tableList[0];
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
-						if($tableName == 'vtiger_seactivityrel' || $tableName == 'vtiger_cntactivityrel') {
+						if($tableName == 'jo_seactivityrel' || $tableName == 'jo_cntactivityrel') {
 							$sql .= ' LEFT JOIN ';
 						} else {
 							$sql .= ' INNER JOIN ';
@@ -140,8 +140,8 @@ class EmailTemplate {
 				}
 				//If module is Leads and if you are not selected any leads fields then query failure is happening.
 				//By default we are checking where condition on base table.
-				if($module == 'Leads' && !in_array('vtiger_leaddetails', $tableList)){
-					$sql .=' INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid';
+				if($module == 'Leads' && !in_array('jo_leaddetails', $tableList)){
+					$sql .=' INNER JOIN jo_leaddetails ON jo_leaddetails.leadid = jo_crmentity.crmid';
 				}
 				
 				$sql .= ' WHERE';
@@ -162,8 +162,8 @@ class EmailTemplate {
 				$values = array();
 				foreach ($it as $row) {
 					foreach ($fieldList as $field) {
-						$moduleModel = Vtiger_Module_Model::getInstance($module);
-						$fieldModel = Vtiger_Field_Model::getInstance($field, $moduleModel);
+						$moduleModel = Head_Module_Model::getInstance($module);
+						$fieldModel = Head_Field_Model::getInstance($field, $moduleModel);
 						if(!$fieldModel->isViewable()){
 							continue;
 						}
@@ -343,7 +343,7 @@ s								 */
 	public function isActive($field, $mod) {
 		global $adb;
 		$tabid = getTabid($mod);
-		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
+		$query = 'select * from jo_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);
 		if ($rows > 0) {

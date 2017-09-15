@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
+Class CustomView_EditAjax_View extends Head_IndexAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->get('source_module');
 		$module = $request->getModule();
 		$record = $request->get('record');
 		$sourceRecord = $request->get('source_viewname');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 
 		if(!empty($record)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($record);
@@ -35,16 +35,16 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 
 		$viewer->assign('ADVANCE_CRITERIA', $customViewModel->transformToNewAdvancedFilter());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', Vtiger_Field_Model::getDateFilterTypes());
+		$viewer->assign('DATE_FILTERS', Head_Field_Model::getDateFilterTypes());
 
 		if($moduleName == 'Calendar'){
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else{
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = Head_Field_Model::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', Vtiger_Field_Model::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', Head_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+		$dateFilters = Head_Field_Model::getDateFilterTypes();
 		foreach($dateFilters as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
@@ -63,8 +63,8 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 		// Added to show event module custom fields
 		if($moduleName == 'Calendar'){
 			$relatedModuleName = 'Events';
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModuleName);
+			$relatedRecordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($relatedModuleModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);

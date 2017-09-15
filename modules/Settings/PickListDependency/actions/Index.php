@@ -10,27 +10,27 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Action {
+class Settings_PickListDependency_Index_Action extends Settings_Head_Basic_Action {
     
     function __construct() {
         parent::__construct();
         $this->exposeMethod('checkCyclicDependency');
     }
    
-    public function checkCyclicDependency(Vtiger_Request $request) {
+    public function checkCyclicDependency(Head_Request $request) {
         $module = $request->get('sourceModule');
-        $moduleModel = Vtiger_Module_Model::getInstance($module);
+        $moduleModel = Head_Module_Model::getInstance($module);
         $sourceField = $request->get('sourcefield');
         $targetField = $request->get('targetfield');
-        $result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
+        $result = Head_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
         if($result) {
-            $currentSourceField = Vtiger_DependencyPicklist::getPicklistSourceField($module, $sourceField, $targetField);
-            $currentSourceFieldModel = Vtiger_Field_Model::getInstance($currentSourceField, $moduleModel);
-            $targetFieldModel = Vtiger_Field_Model::getInstance($targetField, $moduleModel);
+            $currentSourceField = Head_DependencyPicklist::getPicklistSourceField($module, $sourceField, $targetField);
+            $currentSourceFieldModel = Head_Field_Model::getInstance($currentSourceField, $moduleModel);
+            $targetFieldModel = Head_Field_Model::getInstance($targetField, $moduleModel);
             $errorMessage = vtranslate('LBL_CYCLIC_DEPENDENCY_ERROR', $request->getModule(false));
             $message = sprintf($errorMessage, '"'.vtranslate($currentSourceFieldModel->get('label'), $module).'"', '"'.vtranslate($targetFieldModel->get('label'), $module).'"');
         }
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         $response->setResult(array('result'=>$result, 'message' => $message));
         $response->emit();
     }

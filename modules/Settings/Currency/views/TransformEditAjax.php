@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Currency_TransformEditAjax_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_Currency_TransformEditAjax_View extends Settings_Head_IndexAjax_View {
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         $record = $request->get('record');
         
         $currencyList = Settings_Currency_Record_Model::getAll($record);

@@ -31,137 +31,137 @@ require_once 'include/ListView/ListViewController.php';
 require_once 'includes/runtime/Cache.php';
 
 function is_admin($user) {
-	return Vtiger_Functions::userIsAdministrator($user);
+	return Head_Functions::userIsAdministrator($user);
 }
 
 function parse_calendardate($local_format) {
-	return Vtiger_Functions::currentUserJSDateFormat($local_format);
+	return Head_Functions::currentUserJSDateFormat($local_format);
 }
 
 function from_html($string, $encode = true) {
-	return Vtiger_Functions::fromHTML($string, $encode);
+	return Head_Functions::fromHTML($string, $encode);
 }
 
 function fck_from_html($string) {
-	return Vtiger_Functions::fromHTML_FCK($string);
+	return Head_Functions::fromHTML_FCK($string);
 }
 
 function popup_from_html($string, $encode = true) {
-	return Vtiger_Functions::fromHTML_Popup($string, $encode);
+	return Head_Functions::fromHTML_Popup($string, $encode);
 }
 
 function fetchCurrency($id) {
-	return Vtiger_Functions::userCurrencyId($id);
+	return Head_Functions::userCurrencyId($id);
 }
 
 function getCurrencyName($currencyid, $show_symbol = true) {
-	return Vtiger_Functions::getCurrencyName($currencyid, $show_symbol);
+	return Head_Functions::getCurrencyName($currencyid, $show_symbol);
 }
 
 function getTabid($module) {
-	return Vtiger_Functions::getModuleId($module);
+	return Head_Functions::getModuleId($module);
 	}
 
 function getFieldid($tabid, $fieldname, $onlyactive = true) {
-	return Vtiger_Functions::getModuleFieldId($tabid, $fieldname, $onlyactive);
+	return Head_Functions::getModuleFieldId($tabid, $fieldname, $onlyactive);
 }
 
 function getTabOwnedBy($module) {
-	return Vtiger_Functions::getModuleOwner($module);
+	return Head_Functions::getModuleOwner($module);
 }
 
 function getSalesEntityType($crmid) {
-	return Vtiger_Functions::getCRMRecordType($crmid);
+	return Head_Functions::getCRMRecordType($crmid);
 }
 
 function getAccountName($account_id) {
-	return Vtiger_Functions::getCRMRecordLabel($account_id);
+	return Head_Functions::getCRMRecordLabel($account_id);
 }
 
 function getProductName($product_id) {
-	return Vtiger_Functions::getCRMRecordLabel($product_id);
+	return Head_Functions::getCRMRecordLabel($product_id);
 }
 
 function getPotentialName($potential_id) {
-	return Vtiger_Functions::getCRMRecordLabel($potential_id);
+	return Head_Functions::getCRMRecordLabel($potential_id);
 }
 
 function getContactName($contact_id) {
-	return Vtiger_Functions::getCRMRecordLabel($contact_id);
+	return Head_Functions::getCRMRecordLabel($contact_id);
 }
 
 function getFullNameFromQResult($result, $row_count, $module) {
-	return Vtiger_Deprecated::getFullNameFromQResult($result, $row_count, $module);
+	return Head_Deprecated::getFullNameFromQResult($result, $row_count, $module);
 }
 
 function getFullNameFromArray($module, $fieldValues) {
-	return Vtiger_Deprecated::getFullNameFromArray($module, $fieldValues);
+	return Head_Deprecated::getFullNameFromArray($module, $fieldValues);
 }
 
 function getCampaignName($campaign_id) {
-	return Vtiger_Functions::getCRMRecordLabel($campaign_id);
+	return Head_Functions::getCRMRecordLabel($campaign_id);
 }
 
 function getVendorName($vendor_id) {
-	return Vtiger_Functions::getCRMRecordLabel($vendor_id);
+	return Head_Functions::getCRMRecordLabel($vendor_id);
 }
 
 function getQuoteName($quote_id) {
-	return Vtiger_Functions::getCRMRecordLabel($quote_id);
+	return Head_Functions::getCRMRecordLabel($quote_id);
 }
 
 function getPriceBookName($pricebookid) {
-	return Vtiger_Functions::getCRMRecordLabel($pricebookid);
+	return Head_Functions::getCRMRecordLabel($pricebookid);
 }
 
 function getSoName($so_id) {
-	return Vtiger_Functions::getCRMRecordLabel($so_id);
+	return Head_Functions::getCRMRecordLabel($so_id);
 }
 
 function getGroupName($groupid) {
-	return Vtiger_Functions::getGroupName($groupid);
+	return Head_Functions::getGroupName($groupid);
 }
 
 function getUserName($userid) {
-	return Vtiger_Functions::getUserName($userid);
+	return Head_Functions::getUserName($userid);
 }
 
 function getUserFullName($userid) {
-	return Vtiger_Functions::getUserRecordLabel($userid);
+	return Head_Functions::getUserRecordLabel($userid);
 }
 
 function getParentName($parent_id) {
-	return Vtiger_Functions::getCRMRecordLabel($parent_id);
+	return Head_Functions::getCRMRecordLabel($parent_id);
 	}
 
 function getValidDisplayDate($cur_date_val) {
-	return Vtiger_Functions::currentUserDisplayDate($cur_date_val);
+	return Head_Functions::currentUserDisplayDate($cur_date_val);
 }
 
 function getNewDisplayDate() {
-	return Vtiger_Functions::currentUserDisplayDateNew();
+	return Head_Functions::currentUserDisplayDateNew();
 }
 
-/** This function returns the conversion rate and vtiger_currency symbol
+/** This function returns the conversion rate and jo_currency symbol
  * in array format for a given id.
- * param $id - vtiger_currency id.
+ * param $id - jo_currency id.
  */
 function getCurrencySymbolandCRate($id) {
-	return Vtiger_Functions::getCurrencySymbolandRate($id);
+	return Head_Functions::getCurrencySymbolandRate($id);
 }
 
 /** This function returns the terms and condition from the database.
  * Takes no param and the return type is text.
  */
 function getTermsAndConditions($moduleName) {
-	return Vtiger_Functions::getInventoryTermsAndCondition($moduleName);
+	return Head_Functions::getInventoryTermsAndCondition($moduleName);
 }
 
 /** This function returns a string with removed new line character, single quote, and back slash double quoute.
  * param $str - string to be converted.
  */
 function br2nl($str) {
-	return Vtiger_Functions::br2nl($str);
+	return Head_Functions::br2nl($str);
 }
 
 /**
@@ -170,7 +170,7 @@ function br2nl($str) {
  * This returns string type value
  */
 function getBlockId($tabid, $label) {
-	return Vtiger_Deprecated::getBlockId($tabid, $label);
+	return Head_Deprecated::getBlockId($tabid, $label);
 }
 
 /**
@@ -179,16 +179,16 @@ function getBlockId($tabid, $label) {
  * This returns value string type
  */
 function getParentTabFromModule($module) {
-	return Vtiger_Deprecated::getParentTabFromModule($module);
+	return Head_Deprecated::getParentTabFromModule($module);
 }
 
 /**
  * This function is used to get the Parent Tab name for a given module.
- * Takes no parameter but gets the vtiger_parenttab value from form request
+ * Takes no parameter but gets the jo_parenttab value from form request
  * This returns value string type
  */
 function getParentTab() {
-	return Vtiger_Deprecated::getParentTab();
+	return Head_Deprecated::getParentTab();
 }
 
 /**
@@ -196,27 +196,27 @@ function getParentTab() {
  * @param  object reference $focus - reference of the object
  */
 function setObjectValuesFromRequest($focus) {
-	return Vtiger_Deprecated::copyValuesFromRequest($focus);
+	return Head_Deprecated::copyValuesFromRequest($focus);
 }
 
 function create_tab_data_file() {
-	return Vtiger_Deprecated::createModuleMetaFile();
+	return Head_Deprecated::createModuleMetaFile();
 }
 
 /**
- * Function to write the vtiger_parenttabid and name to a flat file parent_tabdata.txt so that the data
+ * Function to write the jo_parenttabid and name to a flat file parent_tabdata.txt so that the data
  * is obtained from the file instead of repeated queries
  * returns null
  */
 function create_parenttab_data_file() {
-	return Vtiger_Deprecated::createModuleGroupMetaFile();
+	return Head_Deprecated::createModuleGroupMetaFile();
 }
 
 function getEntityName($module, $ids_list, $compute=true) {
 	if ($compute) {
-		return Vtiger_Functions::computeCRMRecordLabels($module, $ids_list);
+		return Head_Functions::computeCRMRecordLabels($module, $ids_list);
 	} else {
-		return Vtiger_Functions::getCRMRecordLabels($module, $ids_list);
+		return Head_Functions::getCRMRecordLabels($module, $ids_list);
 	}
 }
 
@@ -225,16 +225,16 @@ function getEntityName($module, $ids_list, $compute=true) {
  * 	return string $filepath  - filepath inwhere the file should be stored in the server will be return
  */
 function decideFilePath() {
-	return Vtiger_Functions::initStorageFileDirectory();
+	return Head_Functions::initStorageFileDirectory();
 }
 
 /**
  * 	This function is used to check whether the attached file is a image file or not
- * 	@param string $file_details  - vtiger_files array which contains all the uploaded file details
+ * 	@param string $file_details  - jo_files array which contains all the uploaded file details
  * 	return string $save_image - true or false. if the image can be uploaded then true will return otherwise false.
  */
 function validateImageFile($file_details) {
-	return Vtiger_Functions::validateImage($file_details);
+	return Head_Functions::validateImage($file_details);
 }
 
 /**
@@ -243,7 +243,7 @@ function validateImageFile($file_details) {
  * 	return array $returndata - Returns Subject, Body of Template of the the particular email template.
  */
 function getTemplateDetails($templateid) {
-	return Vtiger_Deprecated::getTemplateDetails($templateid);
+	return Head_Deprecated::getTemplateDetails($templateid);
 }
 
 /**
@@ -254,7 +254,7 @@ function getTemplateDetails($templateid) {
  * 	return string $description - Returns description, merged with the input template.
  */
 function getMergedDescription($description, $id, $parent_type, $removeTags = false) {
-	return Vtiger_Functions::getMergedDescription($description, $id, $parent_type, $removeTags);
+	return Head_Functions::getMergedDescription($description, $id, $parent_type, $removeTags);
 }
 
 /** 	Function used to retrieve a single field value from database
@@ -265,7 +265,7 @@ function getMergedDescription($description, $id, $parent_type, $removeTags = fal
  * 	return string $fieldval  - field value of the needed fieldname from database will be returned
  */
 function getSingleFieldValue($tablename, $fieldname, $idname, $id) {
-	return Vtiger_Functions::getSingleFieldValue($tablename, $fieldname, $idname, $id);
+	return Head_Functions::getSingleFieldValue($tablename, $fieldname, $idname, $id);
 }
 
 /** 	Function used to retrieve the announcements from database
@@ -273,7 +273,7 @@ function getSingleFieldValue($tablename, $fieldname, $idname, $id) {
  * 	return string $announcement  - List of announments for the CRM users
  */
 function get_announcements() {
-	return Vtiger_Deprecated::getAnnouncements();
+	return Head_Deprecated::getAnnouncements();
 }
 
 /**
@@ -281,11 +281,11 @@ function get_announcements() {
  *  return  $recurObj       - Object of class RecurringType
  */
 function getrecurringObjValue() {
-	return Vtiger_Functions::getRecurringObjValue();
+	return Head_Functions::getRecurringObjValue();
 }
 
-function getTranslatedString($str, $module = 'Vtiger', $language = '') {
-	return Vtiger_Functions::getTranslatedString($str, $module, $language);
+function getTranslatedString($str, $module = 'Head', $language = '') {
+	return Head_Functions::getTranslatedString($str, $module, $language);
 }
 
 /**
@@ -294,15 +294,15 @@ function getTranslatedString($str, $module = 'Vtiger', $language = '') {
  * @return String $str - translated currency name
  */
 function getTranslatedCurrencyString($str) {
-	return Vtiger_Deprecated::getTranslatedCurrencyString($str);
+	return Head_Deprecated::getTranslatedCurrencyString($str);
 	}
 
 function getTicketComments($ticketid) {
-	return Vtiger_Functions::getTicketComments($ticketid);
+	return Head_Functions::getTicketComments($ticketid);
 }
 
 function makeRandomPassword() {
-	return Vtiger_Functions::generateRandomPassword();
+	return Head_Functions::generateRandomPassword();
 }
 
 /**
@@ -310,7 +310,7 @@ function makeRandomPassword() {
  * @return a cvid of a module
  */
 function getCvIdOfAll($module) {
-	return Vtiger_Deprecated::getIdOfCustomViewByNameAll($module);
+	return Head_Deprecated::getIdOfCustomViewByNameAll($module);
 }
 
 /** gives the option  to display  the tagclouds or not for the current user
@@ -319,7 +319,7 @@ function getCvIdOfAll($module) {
  * * Added to provide User based Tagcloud
  * */
 function getTagCloudView($id = "") {
-	return Vtiger_Functions::getTagCloudView($id);
+	return Head_Functions::getTagCloudView($id);
 }
 
 /** Stores the option in database to display  the tagclouds or not for the current user
@@ -327,7 +327,7 @@ function getTagCloudView($id = "") {
  * * Added to provide User based Tagcloud
  * */
 function SaveTagCloudView($id = "") {
-	return Vtiger_Deprecated::SaveTagCloudView($id);
+	return Head_Deprecated::SaveTagCloudView($id);
 }
 
 /**     function used to change the Type of Data for advanced filters in custom view and Reports
@@ -342,24 +342,24 @@ function SaveTagCloudView($id = "") {
  * *
  * * 		fieldlabel         | typeofdata | tablename            | columnname       |
  * *	        -------------------+------------+----------------------+------------------+
- * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+ * *		Potential Name     | I~O        | jo_quotes        | potentialid      |
  * *
  * *     Then put an entry in $new_field_details  like this:
  * *
- * *				"vtiger_quotes:potentialid"=>"V",
+ * *				"jo_quotes:potentialid"=>"V",
  * *
  * *	Now in customview and report's advance filter this field's criteria will be show like string.
  * *
  * */
 function ChangeTypeOfData_Filter($table_name, $column_name, $type_of_data) {
-	return Vtiger_Functions::transformFieldTypeOfData($table_name, $column_name, $type_of_data);
+	return Head_Functions::transformFieldTypeOfData($table_name, $column_name, $type_of_data);
 }
 
 /** Clear the Smarty cache files(in Smarty/smarty_c)
  * * This function will called after migration.
  * */
 function clear_smarty_cache($path = null) {
-	Vtiger_Deprecated::clearSmartyCompiledFiles($path);
+	Head_Deprecated::clearSmartyCompiledFiles($path);
 }
 
 /** Get Smarty compiled file for the specified template filename.
@@ -367,12 +367,12 @@ function clear_smarty_cache($path = null) {
  * * @return Compiled file for the specified template file.
  * */
 function get_smarty_compiled_file($template_file, $path = null) {
-	return Vtiger_Deprecated::getSmartyCompiledTemplateFile($template_file, $path);
+	return Head_Deprecated::getSmartyCompiledTemplateFile($template_file, $path);
 }
 
 /** Function to carry out all the necessary actions after migration */
 function perform_post_migration_activities() {
-	Vtiger_Deprecated::postApplicationMigrationTasks();
+	Head_Deprecated::postApplicationMigrationTasks();
 }
 
 /** Function to get picklist values for the given field that are accessible for the given role.
@@ -382,33 +382,33 @@ function perform_post_migration_activities() {
  *  @return Array of picklist values accessible by the user.
  */
 function getPickListValues($tablename, $roleid) {
-	return Vtiger_Functions::getPickListValuesFromTableForRole($tablename, $roleid);
+	return Head_Functions::getPickListValuesFromTableForRole($tablename, $roleid);
 }
 
 /** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 function checkFileAccessForInclusion($filepath) {
-	Vtiger_Deprecated::checkFileAccessForInclusion($filepath);
+	Head_Deprecated::checkFileAccessForInclusion($filepath);
 }
 
 /** Function to check the file deletion within the deletable (safe) directories*/
 function checkFileAccessForDeletion($filepath) {
-	Vtiger_Deprecated::checkFileAccessForDeletion($filepath);
+	Head_Deprecated::checkFileAccessForDeletion($filepath);
 }
 
 /** Function to check the file access is made within web root directory. */
 function checkFileAccess($filepath) {
-	Vtiger_Deprecated::checkFileAccess($filepath);
+	Head_Deprecated::checkFileAccess($filepath);
 }
 
 /**
  * function to return whether the file access is made within vtiger root directory
  * and it exists.
- * @global String $root_directory vtiger root directory as given in config.inc.php file.
+ * @global String $root_directory vtiger root directory as given in config/config.inc.php file.
  * @param String $filepath relative path to the file which need to be verified
  * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
  */
 function isFileAccessible($filepath) {
-	return Vtiger_Deprecated::isFileAccessible($filepath);
+	return Head_Deprecated::isFileAccessible($filepath);
 }
 
 /** Function to get the ActivityType for the given entity id
@@ -416,17 +416,17 @@ function isFileAccessible($filepath) {
  *  return the activity type for the given id
  */
 function getActivityType($id) {
-	return Vtiger_Functions::getActivityType($id);
+	return Head_Functions::getActivityType($id);
 }
 
 /** Function to get owner name either user or group */
 function getOwnerName($id) {
-	return Vtiger_Functions::getOwnerRecordLabel($id);
+	return Head_Functions::getOwnerRecordLabel($id);
 }
 
 /** Function to get owner name either user or group */
 function getOwnerNameList($idList) {
-	return Vtiger_Functions::getOwnerRecordLabels($idList);
+	return Head_Functions::getOwnerRecordLabels($idList);
 }
 
 /**
@@ -435,7 +435,7 @@ function getOwnerNameList($idList) {
  * @return string type value
  */
 function getSettingsBlockId($label) {
-	return Vtiger_Deprecated::getSettingsBlockId($label);
+	return Head_Deprecated::getSettingsBlockId($label);
 }
 
 /**
@@ -444,17 +444,17 @@ function getSettingsBlockId($label) {
  * @return string $fieldsname - the entity field name for the module
  */
 function getEntityField($module) {
-	return Vtiger_Functions::getEntityModuleSQLColumnString($module);
+	return Head_Functions::getEntityModuleSQLColumnString($module);
 }
 
 /**
  * this function returns the entity information for a given module; for e.g. for Contacts module
- * it returns the information of tablename, modulename, fieldsname and id gets from vtiger_entityname
+ * it returns the information of tablename, modulename, fieldsname and id gets from jo_entityname
  * @param string $module - the module name
  * @return array $data - the entity information for the module
  */
 function getEntityFieldNames($module) {
-	return Vtiger_Functions::getEntityModuleInfoFieldsFormatted($module);
+	return Head_Functions::getEntityModuleInfoFieldsFormatted($module);
 }
 
 /**
@@ -465,7 +465,7 @@ function getEntityFieldNames($module) {
  * @return string $fieldConcatName - the entity field name for the module
  */
 function getEntityFieldNameDisplay($module, $fieldsName, $fieldValues) {
-	return Vtiger_Deprecated::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
+	return Head_Deprecated::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 }
 
 // vtiger cache utility
@@ -477,31 +477,31 @@ require_once('include/utils/VtlibUtils.php');
 // END
 
 function vt_suppressHTMLTags($string) {
-	return Vtiger_Functions::suppressHTMLTags($string);
+	return Head_Functions::suppressHTMLTags($string);
 }
 
 function getSqlForNameInDisplayFormat($input, $module, $glue = ' ') {
-	return Vtiger_Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
+	return Head_Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
 }
 
 function getModuleSequenceNumber($module, $recordId) {
-	return Vtiger_Deprecated::getModuleSequenceNumber($module, $recordId);
+	return Head_Deprecated::getModuleSequenceNumber($module, $recordId);
 	}
 
 function getInvoiceStatus($invoiceId) {
-	return Vtiger_Functions::getInvoiceStatus($invoiceId);
+	return Head_Functions::getInvoiceStatus($invoiceId);
 }
 
 function decimalFormat($value){
-	return Vtiger_Functions::formatDecimal($value);
+	return Head_Functions::formatDecimal($value);
 }
 
 function updateRecordLabel($module,$recordId){
-	return Vtiger_Functions::updateCRMRecordLabel($module, $recordId);
+	return Head_Functions::updateCRMRecordLabel($module, $recordId);
 }
 
 function get_group_options() {
-    return Vtiger_Functions::get_group_options();
+    return Head_Functions::get_group_options();
 }
 
 ?>

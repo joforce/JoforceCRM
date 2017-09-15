@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_DashBoard_Model extends Vtiger_DashBoard_Model {
+class Potentials_DashBoard_Model extends Head_DashBoard_Model {
 
 	/**
 	 * Function to get the default widgets
@@ -27,7 +27,7 @@ class Potentials_DashBoard_Model extends Vtiger_DashBoard_Model {
 		);
 
 		foreach($widgets as $widget) {
-			$widgetList[] = Vtiger_Widget_Model::getInstanceFromValues($widget);
+			$widgetList[] = Head_Widget_Model::getInstanceFromValues($widget);
 		}
 
 		return $widgetList;

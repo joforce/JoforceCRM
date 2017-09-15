@@ -10,23 +10,23 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Leads_Edit_View extends Vtiger_Edit_View {
+class Leads_Edit_View extends Head_Edit_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
         $recordModel = $this->record;
         if(!$recordModel){
             if (!empty($recordId)) {
-                $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+                $recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
             } else {
-                $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+                $recordModel = Head_Record_Model::getCleanInstance($moduleName);
             }
         }
 
 		$viewer = $this->getViewer($request);
 
-	$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $recordModel->getModule());
+	$salutationFieldModel = Head_Field_Model::getInstance('salutationtype', $recordModel->getModule());
 	$salutationValue = $request->get('salutationtype');
         if(!empty($salutationValue)){ 
         	$salutationFieldModel->set('fieldvalue', $salutationValue); 

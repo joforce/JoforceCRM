@@ -64,7 +64,7 @@ class Reports extends CRMEntity{
 
 	/**
 	 * This class has the informations for Reports and inherits class CRMEntity and
-	 * has the variables required to generate,save,restore vtiger_reports
+	 * has the variables required to generate,save,restore jo_reports
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..
 	 */
@@ -107,9 +107,9 @@ class Reports extends CRMEntity{
 
 	var $module_list = Array();
 
-	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
-	 *  This function accepts the vtiger_reportid as argument
-	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
+	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given jo_reportid
+	 *  This function accepts the jo_reportid as argument
+	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given jo_reportid
 	 */
 
 	function Reports($reportid="")
@@ -126,8 +126,8 @@ class Reports extends CRMEntity{
 			$sharingType = $reportModel->get('sharingtype');
 			
 			if($cachedInfo === false) {
-				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
-				$ssql .= " where vtiger_report.reportid = ?";
+				$ssql = "select jo_reportmodules.*,jo_report.* from jo_report inner join jo_reportmodules on jo_report.reportid = jo_reportmodules.reportmodulesid";
+				$ssql .= " where jo_report.reportid = ?";
 				$params = array($reportid);
 
 				require_once('include/utils/GetUserGroups.php');
@@ -140,14 +140,14 @@ class Reports extends CRMEntity{
 					array_push($params, $user_groups);
 				}
 
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
+				$non_admin_query = " jo_report.reportid IN (SELECT reportid from jo_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				if($sharingType == 'Private'){
-					$ssql .= " and (( (".$non_admin_query.") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'))";
+					$ssql .= " and (( (".$non_admin_query.") or jo_report.sharingtype='Public' or jo_report.owner = ? or jo_report.owner in(select jo_user2role.userid from jo_user2role inner join jo_users on jo_users.id=jo_user2role.userid inner join jo_role on jo_role.roleid=jo_user2role.roleid where jo_role.parentrole like '".$current_user_parent_role_seq."::%'))";
 					array_push($params, $current_user->id);
 					array_push($params, $current_user->id);
 				}
 
-				$query = $adb->pquery("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
+				$query = $adb->pquery("select userid from jo_user2role inner join jo_users on jo_users.id=jo_user2role.userid inner join jo_role on jo_role.roleid=jo_user2role.roleid where jo_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
 				$subordinate_users = Array();
 				for($i=0;$i<$adb->num_rows($query);$i++){
 					$subordinate_users[] = $adb->query_result($query,$i,'userid');
@@ -203,7 +203,7 @@ class Reports extends CRMEntity{
 		if ($module == 'Calendar') {
 			$tabid = array(9, 16);
 		}
-		$sql = "SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (". generateQuestionMarks($tabid) .")";
+		$sql = "SELECT blockid, blocklabel FROM jo_blocks WHERE tabid IN (". generateQuestionMarks($tabid) .")";
 		$res = $adb->pquery($sql, array($tabid));
 		$noOfRows = $adb->num_rows($res);
 		if ($noOfRows <= 0) return;
@@ -256,7 +256,7 @@ class Reports extends CRMEntity{
 
 				$moduleids = array_keys($this->module_id);
 				$reportblocks =
-					$adb->pquery("SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (" .generateQuestionMarks($moduleids) .")",
+					$adb->pquery("SELECT blockid, blocklabel, tabid FROM jo_blocks WHERE tabid IN (" .generateQuestionMarks($moduleids) .")",
 						array($moduleids));
 				$prev_block_label = '';
 				if($adb->num_rows($reportblocks)) {
@@ -285,20 +285,20 @@ class Reports extends CRMEntity{
 				}
 
 				$relatedmodules = $adb->pquery(
-					"SELECT vtiger_tab.name, vtiger_relatedlists.tabid FROM vtiger_tab
-					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
-					WHERE vtiger_tab.isentitytype=1
-					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
-					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
+					"SELECT jo_tab.name, jo_relatedlists.tabid FROM jo_tab
+					INNER JOIN jo_relatedlists on jo_tab.tabid=jo_relatedlists.related_tabid
+					WHERE jo_tab.isentitytype=1
+					AND jo_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
+					AND jo_tab.presence = 0 AND jo_relatedlists.label!='Activity History'
 					UNION
-					SELECT module, vtiger_tab.tabid FROM vtiger_fieldmodulerel
-					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.relmodule
-					INNER JOIN vtiger_tab AS vtiger_tabrel ON vtiger_tabrel.name = vtiger_fieldmodulerel.module AND vtiger_tabrel.presence = 0
-                    INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid
-					WHERE vtiger_tab.isentitytype = 1
-					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
-					AND vtiger_tab.presence = 0
-                    AND vtiger_field.fieldname NOT LIKE ?",
+					SELECT module, jo_tab.tabid FROM jo_fieldmodulerel
+					INNER JOIN jo_tab on jo_tab.name = jo_fieldmodulerel.relmodule
+					INNER JOIN jo_tab AS jo_tabrel ON jo_tabrel.name = jo_fieldmodulerel.module AND jo_tabrel.presence = 0
+                    INNER JOIN jo_field ON jo_field.fieldid = jo_fieldmodulerel.fieldid
+					WHERE jo_tab.isentitytype = 1
+					AND jo_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
+					AND jo_tab.presence = 0
+                    AND jo_field.fieldname NOT LIKE ?",
 					array($restricted_modules,$restricted_modules, 'cf_%')
 				);
 				if($adb->num_rows($relatedmodules)) {
@@ -353,7 +353,7 @@ class Reports extends CRMEntity{
 
 		global $adb,$log,$mod_strings;
 		$returndata = Array();
-		$sql = "select * from vtiger_reportfolder order by folderid";
+		$sql = "select * from jo_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
 		$reportfldrow = $adb->fetch_array($result);
 		if($mode != '')
@@ -391,7 +391,7 @@ class Reports extends CRMEntity{
 			}while($reportfldrow = $adb->fetch_array($result));
 		}
 
-		$log->info("Reports :: ListView->Successfully returned vtiger_report folder HTML");
+		$log->info("Reports :: ListView->Successfully returned jo_report folder HTML");
 		return $returndata;
 	}
 	
@@ -421,22 +421,22 @@ class Reports extends CRMEntity{
             }
             array_push($parentRolelist, $userRole);
 			$userParentRoleSeq = $userPrivilegeModel->get('parent_role_seq');
-			$sql .= " OR ( vtiger_report.sharingtype='Public' OR $userId IN (
-								SELECT vtiger_user2role.userid FROM vtiger_user2role
-									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-								WHERE vtiger_role.parentrole LIKE '".$userParentRoleSeq."::%') 
-                            OR vtiger_report.reportid IN (SELECT vtiger_report_shareusers.reportid FROM vtiger_report_shareusers WHERE vtiger_report_shareusers.userid=?)";
+			$sql .= " OR ( jo_report.sharingtype='Public' OR $userId IN (
+								SELECT jo_user2role.userid FROM jo_user2role
+									INNER JOIN jo_users ON jo_users.id = jo_user2role.userid
+									INNER JOIN jo_role ON jo_role.roleid = jo_user2role.roleid
+								WHERE jo_role.parentrole LIKE '".$userParentRoleSeq."::%') 
+                            OR jo_report.reportid IN (SELECT jo_report_shareusers.reportid FROM jo_report_shareusers WHERE jo_report_shareusers.userid=?)";
             $params[] = $userId;
             if(!empty($groups)){
-                $sql .= " OR vtiger_report.reportid IN (SELECT vtiger_report_sharegroups.reportid FROM vtiger_report_sharegroups WHERE vtiger_report_sharegroups.groupid IN (".  generateQuestionMarks($groups)."))";
+                $sql .= " OR jo_report.reportid IN (SELECT jo_report_sharegroups.reportid FROM jo_report_sharegroups WHERE jo_report_sharegroups.groupid IN (".  generateQuestionMarks($groups)."))";
                 $params = array_merge($params,$groups);
             }
                             
-            $sql.= " OR vtiger_report.reportid IN (SELECT vtiger_report_sharerole.reportid FROM vtiger_report_sharerole WHERE vtiger_report_sharerole.roleid =?)";
+            $sql.= " OR jo_report.reportid IN (SELECT jo_report_sharerole.reportid FROM jo_report_sharerole WHERE jo_report_sharerole.roleid =?)";
             $params[] = $userRole;
             if(!empty($parentRolelist)){
-                $sql.= " OR vtiger_report.reportid IN (SELECT vtiger_report_sharers.reportid FROM vtiger_report_sharers WHERE vtiger_report_sharers.rsid IN (". generateQuestionMarks($parentRolelist) ."))";
+                $sql.= " OR jo_report.reportid IN (SELECT jo_report_sharers.reportid FROM jo_report_sharers WHERE jo_report_sharers.rsid IN (". generateQuestionMarks($parentRolelist) ."))";
 				$params = array_merge($params,$parentRolelist);
             }
                             
@@ -466,26 +466,26 @@ class Reports extends CRMEntity{
 		
 		require_once('include/utils/UserInfoUtil.php');
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=> 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$sql = "SELECT vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid, vtiger_reportfolder.foldername,
-			CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql END AS ownername,
-			vtiger_module_dashboard_widgets.reportid AS pinned FROM vtiger_report 
-			LEFT JOIN vtiger_module_dashboard_widgets ON vtiger_module_dashboard_widgets.reportid = vtiger_report.reportid AND vtiger_module_dashboard_widgets.userid=$current_user->id 
-			LEFT JOIN vtiger_users ON vtiger_report.owner = vtiger_users.id
-			INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid
-			INNER JOIN vtiger_reportmodules ON vtiger_reportmodules.reportmodulesid = vtiger_report.reportid
-			INNER JOIN vtiger_tab ON vtiger_tab.name = vtiger_reportmodules.primarymodule AND vtiger_tab.presence = 0";
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=> 'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$sql = "SELECT jo_report.*, jo_reportmodules.*, jo_reportfolder.folderid, jo_reportfolder.foldername,
+			CASE WHEN (jo_users.user_name NOT LIKE '') THEN $userNameSql END AS ownername,
+			jo_module_dashboard_widgets.reportid AS pinned FROM jo_report 
+			LEFT JOIN jo_module_dashboard_widgets ON jo_module_dashboard_widgets.reportid = jo_report.reportid AND jo_module_dashboard_widgets.userid=$current_user->id 
+			LEFT JOIN jo_users ON jo_report.owner = jo_users.id
+			INNER JOIN jo_reportfolder ON jo_reportfolder.folderid = jo_report.folderid
+			INNER JOIN jo_reportmodules ON jo_reportmodules.reportmodulesid = jo_report.reportid
+			INNER JOIN jo_tab ON jo_tab.name = jo_reportmodules.primarymodule AND jo_tab.presence = 0";
 
 		$params = array();
 
 		// If information is required only for specific report folder?
 		if($rpt_fldr_id !== false && $rpt_fldr_id !== 'shared' && $rpt_fldr_id !== 'All') {
-			$sql .= " where vtiger_reportfolder.folderid=?";
+			$sql .= " where jo_reportfolder.folderid=?";
 			$params[] = $rpt_fldr_id;
 		}
 		
 		if($rpt_fldr_id == 'shared') {
-			$sql .= " where vtiger_report.sharingtype=? AND vtiger_report.owner != ?";
+			$sql .= " where jo_report.sharingtype=? AND jo_report.owner != ?";
 			$params[] = 'Private';
 			$params[] = $current_user->id;
 		}
@@ -502,7 +502,7 @@ class Reports extends CRMEntity{
 			$user_groups = $userGroups->user_groups;
 			if(!empty($user_groups) && ($rpt_fldr_id == 'shared' || $rpt_fldr_id == 'All')){
 				$user_group_query = " (shareid IN (".generateQuestionMarks($user_groups).") AND setype='groups') OR";
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid FROM vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
+				$non_admin_query = " jo_report.reportid IN (SELECT reportid FROM jo_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				foreach ($user_groups as $userGroup) {
 					array_push($params, $userGroup);
 				}
@@ -513,11 +513,11 @@ class Reports extends CRMEntity{
 				if ($non_admin_query) {
 					$non_admin_query = "( $non_admin_query ) OR ";
 				}
-				$sql .= " AND ( ($non_admin_query vtiger_report.sharingtype='Public' OR "
-						. "vtiger_report.owner = ? OR vtiger_report.owner IN (SELECT vtiger_user2role.userid "
-						. "FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid "
-						. "INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid "
-						. "WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%'))";
+				$sql .= " AND ( ($non_admin_query jo_report.sharingtype='Public' OR "
+						. "jo_report.owner = ? OR jo_report.owner IN (SELECT jo_user2role.userid "
+						. "FROM jo_user2role INNER JOIN jo_users ON jo_users.id=jo_user2role.userid "
+						. "INNER JOIN jo_role ON jo_role.roleid=jo_user2role.roleid "
+						. "WHERE jo_role.parentrole LIKE '".$current_user_parent_role_seq."::%'))";
 				array_push($params, $current_user->id);
 			}
 
@@ -539,9 +539,9 @@ class Reports extends CRMEntity{
 			}
 			$sql .= " LIMIT $startIndex,".($pageLimit+1);
 		}
-		$query = $adb->pquery("SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users "
-				. "ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role "
-				. "ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%'",array());
+		$query = $adb->pquery("SELECT userid FROM jo_user2role INNER JOIN jo_users "
+				. "ON jo_users.id=jo_user2role.userid INNER JOIN jo_role "
+				. "ON jo_role.roleid=jo_user2role.roleid WHERE jo_role.parentrole LIKE '".$current_user_parent_role_seq."::%'",array());
 		$subordinate_users = Array();
 		for($i=0;$i<$adb->num_rows($query);$i++){
 			$subordinate_users[] = $adb->query_result($query,$i,'userid');
@@ -583,7 +583,7 @@ class Reports extends CRMEntity{
 		if($rpt_fldr_id !== false && $rpt_fldr_id !== 'shared' && $rpt_fldr_id !== 'All') {
 			$returndata = $returndata[$rpt_fldr_id];
 		}
-		$log->info("Reports :: ListView->Successfully returned vtiger_report details HTML");
+		$log->info("Reports :: ListView->Successfully returned jo_report details HTML");
 		return $returndata;
 	}
 
@@ -601,9 +601,9 @@ class Reports extends CRMEntity{
 		return $srptfldr_js;
 	}
 
-	/** Function to set the Primary module vtiger_fields for the given Report
+	/** Function to set the Primary module jo_fields for the given Report
 	 *  This function sets the primary module columns for the given Report
-	 *  It accepts the Primary module as the argument and set the vtiger_fields of the module
+	 *  It accepts the Primary module as the argument and set the jo_fields of the module
 	 *  to the varialbe pri_module_columnslist and returns true if sucess
 	 */
 
@@ -625,7 +625,7 @@ class Reports extends CRMEntity{
 		if($module == 'Emails') {
 			foreach($ret_module_list[$module] as $key => $value) {
 				foreach($value as $key1 => $value1) {
-					if($key1 == 'vtiger_activity:time_start:Emails_Time_Start:time_start:T') {
+					if($key1 == 'jo_activity:time_start:Emails_Time_Start:time_start:T') {
 						unset($ret_module_list[$module][$key][$key1]);
 					}
 				}
@@ -637,7 +637,7 @@ class Reports extends CRMEntity{
 
 	/** Function to set the Secondary module fileds for the given Report
 	 *  This function sets the secondary module columns for the given module
-	 *  It accepts the module as the argument and set the vtiger_fields of the module
+	 *  It accepts the module as the argument and set the jo_fields of the module
 	 *  to the varialbe sec_module_columnslist and returns true if sucess
 	 */
 
@@ -663,7 +663,7 @@ class Reports extends CRMEntity{
 			if($module == 'Emails') {
 				foreach($this->sec_module_columnslist[$module] as $key => $value) {
 					foreach($value as $key1 => $value1) {
-						if($key1 == 'vtiger_activity:time_start:Emails_Time_Start:time_start:T') {
+						if($key1 == 'jo_activity:time_start:Emails_Time_Start:time_start:T') {
 							unset($this->sec_module_columnslist[$module][$key][$key1]);
 						}
 					}
@@ -701,11 +701,11 @@ class Reports extends CRMEntity{
 		return $ret_module_list[$module];
 	}
 
-	/** Function to get vtiger_fields for the given module and block
-	 *  This function gets the vtiger_fields for the given module
+	/** Function to get jo_fields for the given module and block
+	 *  This function gets the jo_fields for the given module
 	 *  It accepts the module and the block as arguments and
 	 *  returns the array column lists
-	 *  Array module_columnlist[ vtiger_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
+	 *  Array module_columnlist[ jo_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
 	 */
 
 	function getColumnsListbyBlock($module,$block,$group_res_by_block=false)
@@ -715,7 +715,7 @@ class Reports extends CRMEntity{
 		global $current_user;
 
 		if(is_string($block)) $block = explode(",", $block);
-		$skipTalbes = array('vtiger_emaildetails','vtiger_attachments');
+		$skipTalbes = array('jo_emaildetails','jo_attachments');
 
 		$tabid = getTabid($module);
 		if ($module == 'Calendar') {
@@ -727,11 +727,11 @@ class Reports extends CRMEntity{
 		//Security Check
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
 		{
-			$sql = "select * from vtiger_field where vtiger_field.tabid in (". generateQuestionMarks($tabid) .") and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.displaytype in (1,2,3,5) and vtiger_field.presence in (0,2) AND tablename NOT IN (".generateQuestionMarks($skipTalbes).") ";
+			$sql = "select * from jo_field where jo_field.tabid in (". generateQuestionMarks($tabid) .") and jo_field.block in (". generateQuestionMarks($block) .") and jo_field.displaytype in (1,2,3,5) and jo_field.presence in (0,2) AND tablename NOT IN (".generateQuestionMarks($skipTalbes).") ";
 
 			//fix for Ticket #4016
 			if($module == "Calendar")
-				$sql.=" group by vtiger_field.fieldlabel order by sequence";
+				$sql.=" group by jo_field.fieldlabel order by sequence";
 			else
 			$sql.=" order by sequence";
 		}
@@ -739,18 +739,18 @@ class Reports extends CRMEntity{
 		{
 
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (". generateQuestionMarks($tabid) .")  and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.displaytype in (1,2,3,5) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$sql = "select * from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid in (". generateQuestionMarks($tabid) .")  and jo_field.block in (". generateQuestionMarks($block) .") and jo_field.displaytype in (1,2,3,5) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$sql .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$sql .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
 			}
 			$sql .= ' and tablename NOT IN ('.generateQuestionMarks($skipTalbes).') ';
 
 			//fix for Ticket #4016
 			if($module == "Calendar")
-				$sql.=" group by vtiger_field.fieldlabel order by sequence";
+				$sql.=" group by jo_field.fieldlabel order by sequence";
 			else
-				$sql.=" group by vtiger_field.fieldid order by sequence";
+				$sql.=" group by jo_field.fieldid order by sequence";
 		}
 		array_push($params, $skipTalbes);
 
@@ -769,7 +769,7 @@ class Reports extends CRMEntity{
 
 			//added to escape attachments fields in Reports as we have multiple attachments
             if(($module == 'HelpDesk' && $fieldname =='filename')
-					|| ($fieldtablename == 'vtiger_inventoryproductrel' && $fieldname == 'image')) {
+					|| ($fieldtablename == 'jo_inventoryproductrel' && $fieldname == 'image')) {
 				continue;
 			}
 
@@ -780,18 +780,18 @@ class Reports extends CRMEntity{
 			{
 				$fieldtypeofdata = 'V';
 			}
-			if($fieldtablename == "vtiger_crmentity")
+			if($fieldtablename == "jo_crmentity")
 			{
 				$fieldtablename = $fieldtablename.$module;
 			}
 			if($fieldname == "assigned_user_id")
 			{
-				$fieldtablename = "vtiger_users".$module;
+				$fieldtablename = "jo_users".$module;
 				$fieldcolname = "user_name";
 			}
 			if($fieldname == "assigned_user_id1")
 			{
-				$fieldtablename = "vtiger_usersRel1";
+				$fieldtablename = "jo_usersRel1";
 				$fieldcolname = "user_name";
 			}
 
@@ -819,10 +819,10 @@ class Reports extends CRMEntity{
 		$primaryModule = $this->primodule;
 		if ($primaryModule == 'PriceBooks') {
 			if ($module == 'Products') {
-				$module_columnlist[$blockid]['vtiger_pricebookproductrel:listprice:Products_List_Price:listprice:V'] = 'List Price';
+				$module_columnlist[$blockid]['jo_pricebookproductrel:listprice:Products_List_Price:listprice:V'] = 'List Price';
 			}
 			if ($module == 'Services') {
-				$module_columnlist[$blockid]['vtiger_pricebookproductrel:listprice:Services_List_Price:listprice:V'] = 'List Price';
+				$module_columnlist[$blockid]['jo_pricebookproductrel:listprice:Services_List_Price:listprice:V'] = 'List Price';
 			}
 		}
 
@@ -834,7 +834,7 @@ class Reports extends CRMEntity{
 
 		$blockname = getBlockName($blockid);
 		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='PurchaseOrder' || $module=='SalesOrder' || $module=='Quotes' || $module=='Invoice')){
-			$fieldtablename = 'vtiger_inventoryproductrel';
+			$fieldtablename = 'jo_inventoryproductrel';
 			$fields = array('productid'=>getTranslatedString('Product Name',$module),
 							'serviceid'=>getTranslatedString('Service Name',$module),
 							'listprice'=>getTranslatedString('List Price',$module),
@@ -860,15 +860,15 @@ class Reports extends CRMEntity{
 		return $module_columnlist;
 	}
 
-	/** Function to set the standard filter vtiger_fields for the given vtiger_report
-	 *  This function gets the standard filter vtiger_fields for the given vtiger_report
+	/** Function to set the standard filter jo_fields for the given jo_report
+	 *  This function gets the standard filter jo_fields for the given jo_report
 	 *  and set the values to the corresponding variables
 	 *  It accepts the repordid as argument
 	 */
 
 	function getSelectedStandardCriteria($reportid) {
 		global $adb;
-		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
+		$sSQL = "select jo_reportdatefilter.* from jo_reportdatefilter inner join jo_report on jo_report.reportid = jo_reportdatefilter.datefilterid where jo_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
 		$selectedstdfilter = $adb->fetch_array($result);
 
@@ -888,7 +888,7 @@ class Reports extends CRMEntity{
 	}
 
 	/** Function to get the combo values for the standard filter
-	 *  This function get the combo values for the standard filter for the given vtiger_report
+	 *  This function get the combo values for the standard filter for the given jo_report
 	 *  and return a HTML string
 	 */
 
@@ -924,7 +924,7 @@ class Reports extends CRMEntity{
 
 	/** Function to get the selected standard filter columns
 	 *  This function returns the selected standard filter criteria
-	 *  which is selected for vtiger_reports as an array
+	 *  which is selected for jo_reports as an array
 	 *  Array stdcriteria_list[fieldtablename:fieldcolname:module_fieldlabel1]=fieldlabel
 	 */
 
@@ -946,17 +946,17 @@ class Reports extends CRMEntity{
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
 			//uitype 6 and 23 added for start_date,EndDate,Expected Close Date
-			$sql = "select * from vtiger_field where vtiger_field.tabid=? and (vtiger_field.uitype =5 or vtiger_field.uitype = 6 or vtiger_field.uitype = 23 or vtiger_field.displaytype=2) and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.presence in (0,2) order by vtiger_field.sequence";
+			$sql = "select * from jo_field where jo_field.tabid=? and (jo_field.uitype =5 or jo_field.uitype = 6 or jo_field.uitype = 23 or jo_field.displaytype=2) and jo_field.block in (". generateQuestionMarks($block) .") and jo_field.presence in (0,2) order by jo_field.sequence";
 		}
 		else
 		{
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid  where vtiger_field.tabid=? and (vtiger_field.uitype =5 or vtiger_field.displaytype=2) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.presence in (0,2)";
+			$sql = "select * from jo_field inner join jo_tab on jo_tab.tabid = jo_field.tabid inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid  where jo_field.tabid=? and (jo_field.uitype =5 or jo_field.displaytype=2) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.block in (". generateQuestionMarks($block) .") and jo_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$sql .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$sql .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
 			}
-			$sql .= " order by vtiger_field.sequence";
+			$sql .= " order by jo_field.sequence";
 		}
 
 		$result = $adb->pquery($sql, $params);
@@ -967,7 +967,7 @@ class Reports extends CRMEntity{
 			$fieldcolname = $criteriatyperow["columnname"];
 			$fieldlabel = $criteriatyperow["fieldlabel"];
 
-			if($fieldtablename == "vtiger_crmentity")
+			if($fieldtablename == "jo_crmentity")
 			{
 				$fieldtablename = $fieldtablename.$module;
 			}
@@ -1273,18 +1273,18 @@ function getEscapedColumns($selectedfields)
 		$fieldname = $selectedfields[3];
 		if($fieldname == "parent_id")
 		{
-			if($this->primarymodule == "HelpDesk" && $selectedfields[0] == "vtiger_crmentityRelHelpDesk")
+			if($this->primarymodule == "HelpDesk" && $selectedfields[0] == "jo_crmentityRelHelpDesk")
 			{
-				$querycolumn = "case vtiger_crmentityRelHelpDesk.setype when 'Accounts' then vtiger_accountRelHelpDesk.accountname when 'Contacts' then vtiger_contactdetailsRelHelpDesk.lastname End"." '".$selectedfields[2]."', vtiger_crmentityRelHelpDesk.setype 'Entity_type'";
+				$querycolumn = "case jo_crmentityRelHelpDesk.setype when 'Accounts' then jo_accountRelHelpDesk.accountname when 'Contacts' then jo_contactdetailsRelHelpDesk.lastname End"." '".$selectedfields[2]."', jo_crmentityRelHelpDesk.setype 'Entity_type'";
 				return $querycolumn;
 			}
 			if($this->primarymodule == "Products" || $this->secondarymodule == "Products")
 			{
-				$querycolumn = "case vtiger_crmentityRelProducts.setype when 'Accounts' then vtiger_accountRelProducts.accountname when 'Leads' then vtiger_leaddetailsRelProducts.lastname when 'Potentials' then vtiger_potentialRelProducts.potentialname End"." '".$selectedfields[2]."', vtiger_crmentityRelProducts.setype 'Entity_type'";
+				$querycolumn = "case jo_crmentityRelProducts.setype when 'Accounts' then jo_accountRelProducts.accountname when 'Leads' then jo_leaddetailsRelProducts.lastname when 'Potentials' then jo_potentialRelProducts.potentialname End"." '".$selectedfields[2]."', jo_crmentityRelProducts.setype 'Entity_type'";
 			}
 			if($this->primarymodule == "Calendar" || $this->secondarymodule == "Calendar")
 			{
-				$querycolumn = "case vtiger_crmentityRelCalendar.setype when 'Accounts' then vtiger_accountRelCalendar.accountname when 'Leads' then vtiger_leaddetailsRelCalendar.lastname when 'Potentials' then vtiger_potentialRelCalendar.potentialname when 'Quotes' then vtiger_quotesRelCalendar.subject when 'PurchaseOrder' then vtiger_purchaseorderRelCalendar.subject when 'Invoice' then vtiger_invoiceRelCalendar.subject End"." '".$selectedfields[2]."', vtiger_crmentityRelCalendar.setype 'Entity_type'";
+				$querycolumn = "case jo_crmentityRelCalendar.setype when 'Accounts' then jo_accountRelCalendar.accountname when 'Leads' then jo_leaddetailsRelCalendar.lastname when 'Potentials' then jo_potentialRelCalendar.potentialname when 'Quotes' then jo_quotesRelCalendar.subject when 'PurchaseOrder' then jo_purchaseorderRelCalendar.subject when 'Invoice' then jo_invoiceRelCalendar.subject End"." '".$selectedfields[2]."', jo_crmentityRelCalendar.setype 'Entity_type'";
 			}
 		}
 		return $querycolumn;
@@ -1296,26 +1296,26 @@ function getEscapedColumns($selectedfields)
 		$access_fields = Array();
 
 		$profileList = getCurrentUserProfileList();
-		$query = "select vtiger_field.fieldname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where";
+		$query = "select jo_field.fieldname from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where";
 		$params = array();
 		if($module == "Calendar")
 		{
-			$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$query .= " jo_field.tabid in (9,16) and jo_field.displaytype in (1,2,3) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$query .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$query .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
 			}
-			$query .= " group by vtiger_field.fieldid order by block,sequence";
+			$query .= " group by jo_field.fieldid order by block,sequence";
 		}
 		else
 		{
 			array_push($params, $this->primodule, $this->secmodule);
-			$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?,?)) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$query .= " jo_field.tabid in (select tabid from jo_tab where jo_tab.name in (?,?)) and jo_field.displaytype in (1,2,3) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$query .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$query .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
 			}
-			$query .= " group by vtiger_field.fieldid order by block,sequence";
+			$query .= " group by jo_field.fieldid order by block,sequence";
 		}
 		$result = $adb->pquery($query, $params);
 
@@ -1329,7 +1329,7 @@ function getEscapedColumns($selectedfields)
 
 	/** Function to set the order of grouping and to find the columns responsible
 	 *  to the grouping
-	 *  This function accepts the vtiger_reportid as variable,sets the variable ascdescorder[] to the sort order and
+	 *  This function accepts the jo_reportid as variable,sets the variable ascdescorder[] to the sort order and
 	 *  returns the array array_list which has the column responsible for the grouping
 	 *  Array array_list[0]=columnname
 	 */
@@ -1341,9 +1341,9 @@ function getEscapedColumns($selectedfields)
 		global $adb;
 		global $log;
 
-		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
-		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
-		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
+		$sreportsortsql = "select jo_reportsortcol.* from jo_report";
+		$sreportsortsql .= " inner join jo_reportsortcol on jo_report.reportid = jo_reportsortcol.reportid";
+		$sreportsortsql .= " where jo_report.reportid =? order by jo_reportsortcol.sortcolid";
 
 		$result = $adb->pquery($sreportsortsql, array($reportid));
 		$noofrows = $adb->num_rows($result);
@@ -1360,9 +1360,9 @@ function getEscapedColumns($selectedfields)
 		return $array_list;
 	}
 
-	/** Function to get the selected columns list for a selected vtiger_report
-	 *  This function accepts the vtiger_reportid as the argument and get the selected columns
-	 *  for the given vtiger_reportid and it forms a combo lists and returns
+	/** Function to get the selected columns list for a selected jo_report
+	 *  This function accepts the jo_reportid as the argument and get the selected columns
+	 *  for the given jo_reportid and it forms a combo lists and returns
 	 *  HTML of the combo values
 	 */
 
@@ -1372,10 +1372,10 @@ function getEscapedColumns($selectedfields)
 		global $modules;
 		global $log,$current_user;
 
-		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
-		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
-		$ssql .= " where vtiger_report.reportid = ?";
-		$ssql .= " order by vtiger_selectcolumn.columnindex";
+		$ssql = "select jo_selectcolumn.* from jo_report inner join jo_selectquery on jo_selectquery.queryid = jo_report.queryid";
+		$ssql .= " left join jo_selectcolumn on jo_selectcolumn.queryid = jo_selectquery.queryid";
+		$ssql .= " where jo_report.reportid = ?";
+		$ssql .= " order by jo_selectcolumn.columnindex";
 		$result = $adb->pquery($ssql, array($reportid));
 		$permitted_fields = Array();
 
@@ -1438,7 +1438,7 @@ function getEscapedColumns($selectedfields)
 
 		$advft_criteria = array();
 
-		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
+		$sql = 'SELECT * FROM jo_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
 		$groupsresult = $adb->pquery($sql, array($reportid));
 
 		$i = 1;
@@ -1447,11 +1447,11 @@ function getEscapedColumns($selectedfields)
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
-			$ssql = 'select vtiger_relcriteria.* from vtiger_report
-						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
-						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
-								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql.= " where vtiger_report.reportid = ? AND vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
+			$ssql = 'select jo_relcriteria.* from jo_report
+						inner join jo_relcriteria on jo_relcriteria.queryid = jo_report.queryid
+						left join jo_relcriteria_grouping on jo_relcriteria.queryid = jo_relcriteria_grouping.queryid
+								and jo_relcriteria.groupid = jo_relcriteria_grouping.groupid';
+			$ssql.= " where jo_report.reportid = ? AND jo_relcriteria.groupid = ? order by jo_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -1482,7 +1482,7 @@ function getEscapedColumns($selectedfields)
 						$advfilterval = CurrencyField::convertToUserFormat($advfilterval,$current_user,true);
 					}
 				}
-                $specialDateConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
+                $specialDateConditions = Head_Functions::getSpecialDateTimeCondtions();
 				$temp_val = explode(",",$relcriteriarow["value"]);
                 
 				if(($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) && !in_array($criteria['comparator'], $specialDateConditions)) {
@@ -1495,7 +1495,7 @@ function getEscapedColumns($selectedfields)
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDateTimeValue();
 						} elseif($fieldType == 'time') {
-                            $val[$x] = Vtiger_Time_UIType::getTimeValueWithSeconds($temp_val[$x]);
+                            $val[$x] = Head_Time_UIType::getTimeValueWithSeconds($temp_val[$x]);
                         } else {
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayTime();
@@ -1505,7 +1505,7 @@ function getEscapedColumns($selectedfields)
 				}
                 
 				//In vtiger6 report filter conditions, if the value has "(double quotes) then it is failed.
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = Head_Util_Helper::toSafeHTML(decode_html($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$advft_criteria[$relcriteriarow['groupid']]['columns'][$j] = $criteria;
@@ -1522,8 +1522,8 @@ function getEscapedColumns($selectedfields)
 	}
 	//<<<<<<<<advanced filter>>>>>>>>>>>>>>
 
-	/** Function to get the list of vtiger_report folders when Save and run  the vtiger_report
-	 *  This function gets the vtiger_report folders from database and form
+	/** Function to get the list of jo_report folders when Save and run  the jo_report
+	 *  This function gets the jo_report folders from database and form
 	 *  a combo values of the folders and return
 	 *  HTML of the combo values
 	 */
@@ -1533,7 +1533,7 @@ function getEscapedColumns($selectedfields)
 		global $adb;
 		global $log;
 
-		$sql = "select * from vtiger_reportfolder order by folderid";
+		$sql = "select * from jo_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
 		$reportfldrow = $adb->fetch_array($result);
 		$x = 0;
@@ -1546,10 +1546,10 @@ function getEscapedColumns($selectedfields)
 		return $shtml;
 	}
 
-	/** Function to get the column to total vtiger_fields in Reports
-	 *  This function gets columns to total vtiger_field
-	 *  and generated the html for that vtiger_fields
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	/** Function to get the column to total jo_fields in Reports
+	 *  This function gets columns to total jo_field
+	 *  and generated the html for that jo_fields
+	 *  It returns the HTML of the jo_fields along with the check boxes
 	 */
 
 	function sgetColumntoTotal($primarymodule,$secondarymodule)
@@ -1567,10 +1567,10 @@ function getEscapedColumns($selectedfields)
 		return $options;
 	}
 
-	/** Function to get the selected columns of total vtiger_fields in Reports
-	 *  This function gets selected columns of total vtiger_field
-	 *  and generated the html for that vtiger_fields
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	/** Function to get the selected columns of total jo_fields in Reports
+	 *  This function gets selected columns of total jo_field
+	 *  and generated the html for that jo_fields
+	 *  It returns the HTML of the jo_fields along with the check boxes
 	 */
 
 
@@ -1581,7 +1581,7 @@ function getEscapedColumns($selectedfields)
 		$options = Array();
 		if($reportid != "")
 		{
-			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
+			$ssql = "select jo_reportsummary.* from jo_reportsummary inner join jo_report on jo_report.reportid = jo_reportsummary.reportsummaryid where jo_report.reportid=?";
 			$result = $adb->pquery($ssql, array($reportid));
 			if($result)
 			{
@@ -1611,14 +1611,14 @@ function getEscapedColumns($selectedfields)
 
 	/** Function to form the HTML for columns to total
 	 *  This function formulates the HTML format of the
-	 *  vtiger_fields along with four checkboxes
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	 *  jo_fields along with four checkboxes
+	 *  It returns the HTML of the jo_fields along with the check boxes
 	 */
 
 
 	function sgetColumnstoTotalHTML($module)
 	{
-		//retreive the vtiger_tabid
+		//retreive the jo_tabid
 		global $adb;
 		global $log;
 		global $current_user;
@@ -1628,14 +1628,14 @@ function getEscapedColumns($selectedfields)
 		$sparams = array($tabid);
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
 		{
-			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2) ";
+			$ssql = "select * from jo_field inner join jo_tab on jo_tab.tabid = jo_field.tabid where jo_field.uitype != 50 and jo_field.tabid=? and jo_field.displaytype in (1,2,3) and jo_field.presence in (0,2) ";
 		}
 		else
 		{
 			$profileList = getCurrentUserProfileList();
-			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
+			$ssql = "select * from jo_field inner join jo_tab on jo_tab.tabid = jo_field.tabid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid  where jo_field.uitype != 50 and jo_field.tabid=? and jo_field.displaytype in (1,2,3) and jo_def_org_field.visible=0 and jo_profile2field.visible=0 and jo_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$ssql .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$ssql .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($sparams, $profileList);
 			}
 		}
@@ -1645,37 +1645,37 @@ function getEscapedColumns($selectedfields)
 		{
 			case 2://Potentials
 				//ie. Campaign name will not displayed in Potential's report calcullation
-				$ssql.= " and vtiger_field.fieldname not in ('campaignid')";
+				$ssql.= " and jo_field.fieldname not in ('campaignid')";
 				break;
 			case 4://Contacts
-				$ssql.= " and vtiger_field.fieldname not in ('account_id')";
+				$ssql.= " and jo_field.fieldname not in ('account_id')";
 				break;
 			case 6://Accounts
-				$ssql.= " and vtiger_field.fieldname not in ('account_id')";
+				$ssql.= " and jo_field.fieldname not in ('account_id')";
 				break;
 			case 9://Calandar
-				$ssql.= " and vtiger_field.fieldname not in ('parent_id','contact_id')";
+				$ssql.= " and jo_field.fieldname not in ('parent_id','contact_id')";
 				break;
 			case 13://Trouble tickets(HelpDesk)
-				$ssql.= " and vtiger_field.fieldname not in ('parent_id','product_id')";
+				$ssql.= " and jo_field.fieldname not in ('parent_id','product_id')";
 				break;
 			case 14://Products
-				$ssql.= " and vtiger_field.fieldname not in ('vendor_id','product_id')";
+				$ssql.= " and jo_field.fieldname not in ('vendor_id','product_id')";
 				break;
 			case 20://Quotes
-				$ssql.= " and vtiger_field.fieldname not in ('potential_id','assigned_user_id1','account_id','currency_id')";
+				$ssql.= " and jo_field.fieldname not in ('potential_id','assigned_user_id1','account_id','currency_id')";
 				break;
 			case 21://Purchase Order
-				$ssql.= " and vtiger_field.fieldname not in ('contact_id','vendor_id','currency_id')";
+				$ssql.= " and jo_field.fieldname not in ('contact_id','vendor_id','currency_id')";
 				break;
 			case 22://SalesOrder
-				$ssql.= " and vtiger_field.fieldname not in ('potential_id','account_id','contact_id','quote_id','currency_id')";
+				$ssql.= " and jo_field.fieldname not in ('potential_id','account_id','contact_id','quote_id','currency_id')";
 				break;
 			case 23://Invoice
-				$ssql.= " and vtiger_field.fieldname not in ('salesorder_id','contact_id','account_id','currency_id')";
+				$ssql.= " and jo_field.fieldname not in ('salesorder_id','contact_id','account_id','currency_id')";
 				break;
 			case 26://Campaigns
-				$ssql.= " and vtiger_field.fieldname not in ('product_id')";
+				$ssql.= " and jo_field.fieldname not in ('product_id')";
 				break;
 
 		}
@@ -1784,8 +1784,8 @@ function getEscapedColumns($selectedfields)
 	}
 }
 
-/** Function to get the primary module list in vtiger_reports
- *  This function generates the list of primary modules in vtiger_reports
+/** Function to get the primary module list in jo_reports
+ *  This function generates the list of primary modules in jo_reports
  *  and returns an array of permitted modules
  */
 
@@ -1805,8 +1805,8 @@ function getReportsModuleList($focus)
 	asort($modules);
 	return $modules;
 }
-/** Function to get the Related module list in vtiger_reports
- *  This function generates the list of secondary modules in vtiger_reports
+/** Function to get the Related module list in jo_reports
+ *  This function generates the list of secondary modules in jo_reports
  *  and returns the related module as an Array
  */
 
@@ -1836,10 +1836,10 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 
 	global $adb, $log;
 
-	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";
+	$idelrelcriteriasql = "delete from jo_relcriteria where queryid=?";
 	$idelrelcriteriasqlresult = $adb->pquery($idelrelcriteriasql, array($reportid));
 
-	$idelrelcriteriagroupsql = "delete from vtiger_relcriteria_grouping where queryid=?";
+	$idelrelcriteriagroupsql = "delete from jo_relcriteria_grouping where queryid=?";
 	$idelrelcriteriagroupsqlresult = $adb->pquery($idelrelcriteriagroupsql, array($reportid));
 
 	if(empty($advft_criteria)) return;
@@ -1894,7 +1894,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 			$adv_filter_value = implode(",",$val);
 		}
 
-		$irelcriteriasql = "insert into vtiger_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE,GROUPID,COLUMN_CONDITION) values (?,?,?,?,?,?,?)";
+		$irelcriteriasql = "insert into jo_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE,GROUPID,COLUMN_CONDITION) values (?,?,?,?,?,?,?)";
 		$irelcriteriaresult = $adb->pquery($irelcriteriasql, array($reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition));
 
 		// Update the condition expression for the group to which the condition column belongs
@@ -1911,7 +1911,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		if(empty($group_condition_info)) continue;
 		if(empty($group_condition_info["conditionexpression"])) continue; // Case when the group doesn't have any column criteria
 
-		$irelcriteriagroupsql = "insert into vtiger_relcriteria_grouping(GROUPID,QUERYID,GROUP_CONDITION,CONDITION_EXPRESSION) values (?,?,?,?)";
+		$irelcriteriagroupsql = "insert into jo_relcriteria_grouping(GROUPID,QUERYID,GROUP_CONDITION,CONDITION_EXPRESSION) values (?,?,?,?)";
 		$irelcriteriagroupresult = $adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
 	}
 }

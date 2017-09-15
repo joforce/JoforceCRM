@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_Record_Model extends Vtiger_Record_Model {
+class Users_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
@@ -159,7 +159,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	}
     
     /**
-     * Funtion to add default Dashboard Tab in Vtiger7 Home Page
+     * Funtion to add default Dashboard Tab in Head7 Home Page
      */
     function addDashboardTabs(){
         $db = PearDatabase::getInstance();
@@ -172,7 +172,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
                 $tabName = $tabName['name'];
             }
            
-            $db->pquery("INSERT INTO vtiger_dashboard_tabs(tabname,userid,isdefault,sequence,appname,modulename) VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE tabname=?,userid=?,appname=?,modulename=?",
+            $db->pquery("INSERT INTO jo_dashboard_tabs(tabname,userid,isdefault,sequence,appname,modulename) VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE tabname=?,userid=?,appname=?,modulename=?",
                     array($tabName, $this->getId(),$isDefault,$seq,$appName,$moduleName,$tabName, $this->getId(),$appName, $moduleName));
         }
     }
@@ -235,7 +235,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public static function getAll($onlyActive=true, $excludeDefaultAdmin = true) {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT id FROM vtiger_users';
+		$sql = 'SELECT id FROM jo_users';
 		$params = array();
 		if($onlyActive) {
 			$sql .= ' WHERE status = ?';
@@ -321,7 +321,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
         global $adb;
         $roleName = null;
         $roleId = $this->get('roleid');
-        $query = "SELECT rolename from vtiger_role WHERE roleid = ?";
+        $query = "SELECT rolename from jo_role WHERE roleid = ?";
         $result = $adb->pquery($query, array($roleId));
         if($result){
             $roleName = $adb->query_result($result, 0,'rolename');
@@ -386,9 +386,9 @@ class Users_Record_Model extends Vtiger_Record_Model {
 
 		if ($recordId) {
                         // Not a good approach to get all the fields if not required(May lead to Performance issue)
-			$query = "SELECT vtiger_attachments.attachmentsid, vtiger_attachments.path, vtiger_attachments.name FROM vtiger_attachments
-                                  LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-                                  WHERE vtiger_salesmanattachmentsrel.smid=?";
+			$query = "SELECT jo_attachments.attachmentsid, jo_attachments.path, jo_attachments.name FROM jo_attachments
+                                  LEFT JOIN jo_salesmanattachmentsrel ON jo_salesmanattachmentsrel.attachmentsid = jo_attachments.attachmentsid
+                                  WHERE jo_salesmanattachmentsrel.smid=?";
 
 			$result = $db->pquery($query, array($recordId));
 
@@ -416,7 +416,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getAccessibleUsers($private="",$module = false) {
 		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-		$accessibleUser = Vtiger_Cache::get('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
+		$accessibleUser = Head_Cache::get('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
         if(empty($accessibleUser)) {
 			if($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, "ACTIVE", "", $private,$module);
@@ -425,7 +425,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
 			}
-			Vtiger_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);
+			Head_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);
 		}
 		return $accessibleUser;
 	}
@@ -474,7 +474,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
             return array();
         }
         
-		$sql = 'SELECT userid FROM vtiger_user2role WHERE roleid IN ('.  generateQuestionMarks($roleIds).')';
+		$sql = 'SELECT userid FROM jo_user2role WHERE roleid IN ('.  generateQuestionMarks($roleIds).')';
 		$result = $db->pquery($sql, $roleIds);
 		$noOfUsers = $db->num_rows($result);
 		$userIds = array();
@@ -483,7 +483,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			for($i=0; $i<$noOfUsers; ++$i) {
 				$userIds[] = $db->query_result($result, $i, 'userid');
 			}
-			$query = 'SELECT id, first_name, last_name FROM vtiger_users WHERE status = ? AND id IN ('.  generateQuestionMarks($userIds).')';
+			$query = 'SELECT id, first_name, last_name FROM jo_users WHERE status = ? AND id IN ('.  generateQuestionMarks($userIds).')';
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
 			$noOfUsers = $db->num_rows($result);
 			for($j=0; $j<$noOfUsers; ++$j) {
@@ -502,10 +502,10 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getAccessibleGroups($private="",$module = false) {
 		//TODO:Remove dependence on $_REQUEST for the module name in the below API
-        $accessibleGroups = Vtiger_Cache::get('vtiger-'.$private, 'accessiblegroups');
+        $accessibleGroups = Head_Cache::get('vtiger-'.$private, 'accessiblegroups');
         if(!$accessibleGroups){
             $accessibleGroups = get_group_array(false, "ACTIVE", "", $private,$module);
-            Vtiger_Cache::set('vtiger-'.$private, 'accessiblegroups',$accessibleGroups);
+            Head_Cache::set('vtiger-'.$private, 'accessiblegroups',$accessibleGroups);
         }
 		return $accessibleGroups;
 	}
@@ -541,13 +541,13 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function deleteImage($imageId) {
 		$db = PearDatabase::getInstance();
 
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+		$checkResult = $db->pquery('SELECT smid FROM jo_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$smId = $db->query_result($checkResult, 0, 'smid');
 
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
-            $db->pquery('DELETE FROM vtiger_crmentity WHERE crmid = ?',array($imageId));
+			$db->pquery('DELETE FROM jo_attachments WHERE attachmentsid = ?', array($imageId));
+			$db->pquery('DELETE FROM jo_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+            $db->pquery('DELETE FROM jo_crmentity WHERE crmid = ?',array($imageId));
 			return true;
 		}
 		return false;
@@ -587,7 +587,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getTagCloudStatus() {
 		$db = PearDatabase::getInstance();
-		$query = "SELECT visible FROM vtiger_homestuff WHERE userid=? AND stufftype='Tag Cloud'";
+		$query = "SELECT visible FROM jo_homestuff WHERE userid=? AND stufftype='Tag Cloud'";
 		$visibility = $db->query_result($db->pquery($query, array($this->getId())), 0, 'visible');
 		if($visibility == 0) {
 			return true;
@@ -600,7 +600,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	function saveTagCloud() {
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_homestuff SET visible = ? WHERE userid=? AND stufftype='Tag Cloud'",
+		$db->pquery("UPDATE jo_homestuff SET visible = ? WHERE userid=? AND stufftype='Tag Cloud'",
 				array($this->get('tagcloud'), $this->getId()));
 	}
 
@@ -622,7 +622,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
     public static function getAllUserGroups() {
         if (empty(self::$allUserGroups)) {
             $db = PearDatabase::getInstance();
-            $query = "SELECT * FROM vtiger_users2group";
+            $query = "SELECT * FROM jo_users2group";
             $result = $db->pquery($query, array());
             for ($i = 0; $i < $db->num_rows($result); $i++) {
                 $userId = $db->query_result($result, $i, 'userid');
@@ -671,7 +671,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
      */
     public static function getCount($onlyActive = false) {
         $db = PearDatabase::getInstance();
-        $query = 'SELECT 1 FROM vtiger_users ';
+        $query = 'SELECT 1 FROM jo_users ';
         $params = array();
         
         if($onlyActive) {
@@ -702,7 +702,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public static function getInstanceByName($userName) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
+		$result = $db->pquery('SELECT id FROM jo_users WHERE user_name = ?', array($userName));
 
 		if ($db->num_rows($result)) {
 			return Users_Record_Model::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
@@ -719,7 +719,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	
 	public function isAccountOwner() {
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT is_owner FROM vtiger_users WHERE id = ?';
+		$query = 'SELECT is_owner FROM jo_users WHERE id = ?';
 		$isOwner = $db->query_result($db->pquery($query, array($this->getId())), 0, 'is_owner');
 		if($isOwner == 1) {
 			return true;
@@ -730,7 +730,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function getActiveAdminUsers() {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT id FROM vtiger_users WHERE status=? AND is_admin=?';
+		$sql = 'SELECT id FROM jo_users WHERE status=? AND is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
 		$noOfUsers = $db->num_rows($result);
@@ -752,7 +752,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function isFirstTimeLogin($userId) {
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT 1 FROM vtiger_crmsetup WHERE userid = ? and setup_status = ?';
+		$query = 'SELECT 1 FROM jo_crmsetup WHERE userid = ? and setup_status = ?';
 		$result = $db->pquery($query, array($userId, 1));
 		if($db->num_rows($result) == 0){
 			return true;
@@ -767,7 +767,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getUserHash() {
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT user_hash FROM vtiger_users WHERE id = ?';
+		$query = 'SELECT user_hash FROM jo_users WHERE id = ?';
 		$result = $db->pquery($query, array($this->getId()));
 		if($db->num_rows($result) > 0){
 			return $db->query_result($result, 0, 'user_hash');
@@ -786,22 +786,22 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function deleteUserPermanently($userId, $newOwnerId) {
 		$db = PearDatabase::getInstance();
 
-		$sql = "UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=?,modifiedtime=? WHERE smcreatorid=? AND setype=?";
+		$sql = "UPDATE jo_crmentity SET smcreatorid=?,smownerid=?,modifiedtime=? WHERE smcreatorid=? AND setype=?";
 		$db->pquery($sql, array($newOwnerId, $newOwnerId, date('Y-m-d H:i:s'), $userId,'ModComments'));
 
-		// Update creator Id in vtiger_crmentity table
-		$sql = "UPDATE vtiger_crmentity SET smcreatorid = ? WHERE smcreatorid = ? AND setype <> ?";
+		// Update creator Id in jo_crmentity table
+		$sql = "UPDATE jo_crmentity SET smcreatorid = ? WHERE smcreatorid = ? AND setype <> ?";
 		$db->pquery($sql, array($newOwnerId, $userId,'ModComments'));
 
-		//update history details in vtiger_modtracker_basic 
-		$sql ="update vtiger_modtracker_basic set whodid=? where whodid=?"; 
+		//update history details in jo_modtracker_basic 
+		$sql ="update jo_modtracker_basic set whodid=? where whodid=?"; 
 		$db->pquery($sql, array($newOwnerId, $userId)); 
 
-		//update comments details in vtiger_modcomments 
-		$sql ="update vtiger_modcomments set userid=? where userid=?"; 
+		//update comments details in jo_modcomments 
+		$sql ="update jo_modcomments set userid=? where userid=?"; 
 		$db->pquery($sql, array($newOwnerId, $userId));
 
-		$sql = "DELETE FROM vtiger_users WHERE id=?";
+		$sql = "DELETE FROM jo_users WHERE id=?";
 		$db->pquery($sql, array($userId));
 	}
 
@@ -828,7 +828,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
      */
     public function getAllSubordinatesByReportsToField($forUserId) {
         $db = PearDatabase::getInstance();
-        $result = $db->pquery('SELECT id, reports_to_id FROM vtiger_users where status = ?', array('Active'));
+        $result = $db->pquery('SELECT id, reports_to_id FROM jo_users where status = ?', array('Active'));
         $rows = $db->num_rows($result);
         for($i=0; $i<$rows; $i++) {
             $userId = $db->query_result($result, $i, 'id');

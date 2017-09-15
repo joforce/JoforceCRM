@@ -16,13 +16,13 @@ class Contacts_Detail_View extends Accounts_Detail_View {
 		parent::__construct();
 	}
 
-	public function showModuleDetailView(Vtiger_Request $request) {
+	public function showModuleDetailView(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		// Getting model to reuse it in parent 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$viewer = $this->getViewer($request);

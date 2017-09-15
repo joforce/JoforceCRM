@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
+class PriceBooks_ListView_Model extends Head_ListView_Model {
 	/*
 	 * Function to give advance links of a module
 	 *	@RETURN array of advanced links
@@ -34,7 +34,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 			$advancedLinks[] = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_EXPORT',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("'.$this->getModule()->getExportUrl().'")',
+					'linkurl' => 'javascript:Head_List_Js.triggerExportAction("'.$this->getModule()->getExportUrl().'")',
 					'linkicon' => ''
 				);
 		}
@@ -43,15 +43,15 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
 
 		$moduleName = $this->getModule()->get('name');
 		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
@@ -81,8 +81,8 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 			$queryGenerator = $this->get('query_generator');
 			$fieldModels = $queryGenerator->getModuleFields();
 			$orderByFieldModel = $fieldModels[$orderBy];
-            if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE ||
-					$orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::OWNER_TYPE)){
+            if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Head_Field_Model::REFERENCE_TYPE ||
+					$orderByFieldModel->getFieldDataType() == Head_Field_Model::OWNER_TYPE)){
                 $queryGenerator->addWhereField($orderBy);
             }
         }
@@ -106,7 +106,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 			$listQuery .= ' ORDER BY '.$queryGenerator->getOrderByColumn($orderBy).' '.$sortOrder;
 		} else if(empty($orderBy) && empty($sortOrder)){
 			//List view will be displayed on recently created/modified records
-			$listQuery .= ' ORDER BY vtiger_crmentity.modifiedtime DESC';
+			$listQuery .= ' ORDER BY jo_crmentity.modifiedtime DESC';
 		}
 
 		$viewid = ListViewSession::getCurrentView($moduleName);
@@ -153,8 +153,8 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewCount() {
 		$db = PearDatabase::getInstance();
@@ -162,7 +162,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
 		$queryGenerator = $this->get('query_generator');
 
 		$moduleName = $this->getModule()->get('name');
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
         $searchParams = $this->get('search_params');
         if(empty($searchParams)) {

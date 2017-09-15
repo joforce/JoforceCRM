@@ -12,7 +12,7 @@
 class Users_SaveCalendarSettings_Action extends Users_Save_Action {
 
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordModel = $this->getRecordModelFromRequest($request);
 		
 		$recordModel->save();
@@ -22,15 +22,15 @@ class Users_SaveCalendarSettings_Action extends Users_Save_Action {
 
 	/**
 	 * Function to update Calendar Sharing information
-	 * @params - Vtiger_Request $request
+	 * @params - Head_Request $request
 	 */
-	public function saveCalendarSharing(Vtiger_Request $request){
+	public function saveCalendarSharing(Head_Request $request){
 		
 		$sharedIds = $request->get('sharedIds');
 		$sharedType = $request->get('sharedtype');
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		$accessibleUsers = $currentUserModel->getAccessibleUsersForModule('Calendar');
 
 		if($sharedType == 'private'){

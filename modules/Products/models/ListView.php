@@ -9,19 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_ListView_Model extends Vtiger_ListView_Model {
+class Products_ListView_Model extends Head_ListView_Model {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
 
 		$moduleName = $this->getModule()->get('name');
 		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
@@ -51,8 +51,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 			$queryGenerator = $this->get('query_generator');
 			$fieldModels = $queryGenerator->getModuleFields();
 			$orderByFieldModel = $fieldModels[$orderBy];
-			if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE ||
-					$orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::OWNER_TYPE)){
+			if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Head_Field_Model::REFERENCE_TYPE ||
+					$orderByFieldModel->getFieldDataType() == Head_Field_Model::OWNER_TYPE)){
                 $queryGenerator->addWhereField($orderBy);
             }
         }
@@ -80,7 +80,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 			$listQuery .= ' ORDER BY '.$queryGenerator->getOrderByColumn($orderBy).' '.$sortOrder;
 		} else if(empty($orderBy) && empty($sortOrder)){
 			//List view will be displayed on recently created/modified records
-			$listQuery .= ' ORDER BY vtiger_crmentity.modifiedtime DESC';
+			$listQuery .= ' ORDER BY jo_crmentity.modifiedtime DESC';
 		}
 
 		$viewid = ListViewSession::getCurrentView($moduleName);
@@ -121,8 +121,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 		$productId = $this->get('productId');
 
 		$splitQuery = split('WHERE', $listQuery);
-		$splitQuery[0] .= " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'";
-		$splitQuery[1] .= " AND vtiger_seproductsrel.productid = $productId AND vtiger_products.discontinued = 1";
+		$splitQuery[0] .= " LEFT JOIN jo_seproductsrel ON jo_seproductsrel.crmid = jo_products.productid AND jo_seproductsrel.setype='Products'";
+		$splitQuery[1] .= " AND jo_seproductsrel.productid = $productId AND jo_products.discontinued = 1";
 
 		$listQuery = $splitQuery[0]. ' WHERE ' . $splitQuery[1];
 		return $listQuery;
@@ -132,11 +132,11 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 		$flag = false;
 		if(!empty($subProductId)){
             $db = PearDatabase::getInstance();
-			$query = 'SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel
-						INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_seproductsrel.crmid
-						INNER JOIN vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid
-						AND vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.setype=?
-						WHERE vtiger_seproductsrel.productid=? AND vtiger_products.discontinued = 1';
+			$query = 'SELECT jo_seproductsrel.crmid from jo_seproductsrel
+						INNER JOIN jo_products ON jo_products.productid = jo_seproductsrel.crmid
+						INNER JOIN jo_crmentity ON jo_seproductsrel.crmid = jo_crmentity.crmid
+						AND jo_crmentity.deleted = 0 AND jo_seproductsrel.setype=?
+						WHERE jo_seproductsrel.productid=? AND jo_products.discontinued = 1';
 			$result = $db->pquery($query, array($this->getModule()->get('name'), $subProductId ));
 			if($db->num_rows($result) > 0){
 				$flag = true;
@@ -147,8 +147,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewCount() {
 		$db = PearDatabase::getInstance();

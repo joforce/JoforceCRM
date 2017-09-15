@@ -74,12 +74,12 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 						switch($fieldModel->getFieldDataType()) {
 							case 'date'		:	if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
 													($moduleName === 'Calendar' && $fieldName === 'date_start')) {
-													$fieldName = $fieldName .' ($(general : (__VtigerMeta__) usertimezone))';
+													$fieldName = $fieldName .' ($(general : (__HeadMeta__) usertimezone))';
 												} else {
 													$fieldName = $fieldName .' ($_DATE_FORMAT_)';
 												}
 												break;
-							case 'datetime'	:	$fieldName = $fieldName .' ($(general : (__VtigerMeta__) usertimezone))';	break;
+							case 'datetime'	:	$fieldName = $fieldName .' ($(general : (__HeadMeta__) usertimezone))';	break;
 							default			:	$fieldName;
 						}
 
@@ -100,7 +100,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 				switch($commentFieldModel->getFieldDataType()) {
 						case 'date'		:	$commentFieldName = $commentFieldName .' ($_DATE_FORMAT_)';		break;
-						case 'datetime'	:	$commentFieldName = $commentFieldName .' ($(general : (__VtigerMeta__) usertimezone)_)';	break;
+						case 'datetime'	:	$commentFieldName = $commentFieldName .' ($(general : (__HeadMeta__) usertimezone)_)';	break;
 						default			:	$commentFieldName;
 				}
 				$commentFieldModel->set('workflow_columnname', $commentFieldName)
@@ -118,7 +118,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 			$referenceModules = $field->getReferenceList();
 			if($type == 'owner') $referenceModules = array('Users');
 			foreach($referenceModules as $refModule) {
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
+				$moduleModel = Head_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach($blockModelList as $blockLabel=>$blockModel) {
 					$fieldModelList = $blockModel->getFields();
@@ -134,12 +134,12 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 								switch ($fieldModel->getFieldDataType()) {
 									case 'date'		:	if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
 																($moduleName === 'Calendar' && $fieldName === 'date_start')) {
-															$workflowColumnName = $name . ' ($(general : (__VtigerMeta__) usertimezone))';
+															$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
 														} else {
 															$workflowColumnName = $name . ' ($_DATE_FORMAT_)';
 														}
 														break;
-									case 'datetime' :	$workflowColumnName = $name . ' ($(general : (__VtigerMeta__) usertimezone))';
+									case 'datetime' :	$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
 														break;
 									default : $workflowColumnName = $name;
 								}

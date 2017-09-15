@@ -9,21 +9,21 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller {
+class Reports_CheckDuplicate_Action extends Head_Action_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		return;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
 		$record = $request->get('record');
 		
 		if ($record) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($record, $moduleName);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		}
 
 		$recordModel->set('reportname', $reportName);
@@ -35,7 +35,7 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller {
 		} else {
 			$result = array('success'=>true, 'message'=>vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

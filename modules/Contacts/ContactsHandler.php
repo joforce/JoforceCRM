@@ -23,7 +23,7 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 
 	if ($isPortalEnabled) {
 		//If portal enabled / disabled, then trigger following actions
-		$sql = "SELECT id, user_name, user_password, isactive FROM vtiger_portalinfo WHERE id=?";
+		$sql = "SELECT id, user_name, user_password, isactive FROM jo_portalinfo WHERE id=?";
 		$result = $adb->pquery($sql, array($entityId));
 
 		$insert = true;
@@ -34,11 +34,11 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 			if($email == $dbusername && $isactive == 1 && !$entityData->isNew()){
 				$update = false;
 			} else if($isPortalEnabled) {
-				$sql = "UPDATE vtiger_portalinfo SET user_name=?, isactive=? WHERE id=?";
+				$sql = "UPDATE jo_portalinfo SET user_name=?, isactive=? WHERE id=?";
 				$adb->pquery($sql, array($email, 1, $entityId));
 				$update = true;
 			} else {
-				$sql = "UPDATE vtiger_portalinfo SET user_name=?, isactive=? WHERE id=?";
+				$sql = "UPDATE jo_portalinfo SET user_name=?, isactive=? WHERE id=?";
 				$adb->pquery($sql, array($email, 0, $entityId));
 				$update = false;
 			}
@@ -46,12 +46,12 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 
 		//generate new password
 		$password = makeRandomPassword();
-		$enc_password = Vtiger_Functions::generateEncryptedPassword($password);
+		$enc_password = Head_Functions::generateEncryptedPassword($password);
 
 		//create new portal user
 		$sendEmail = false;
 		if ($insert) {
-			$sql = "INSERT INTO vtiger_portalinfo(id,user_name,user_password,cryptmode,type,isactive) VALUES(?,?,?,?,?,?)";
+			$sql = "INSERT INTO jo_portalinfo(id,user_name,user_password,cryptmode,type,isactive) VALUES(?,?,?,?,?,?)";
 			$params = array($entityId, $email, $enc_password, 'CRYPT', 'C', 1);
 			$adb->pquery($sql, $params);
 			$sendEmail = true;
@@ -59,7 +59,7 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 
 		//update existing portal user password
 		if ($update && $isEmailChanged) {
-			$sql = "UPDATE vtiger_portalinfo SET user_password=?, cryptmode=? WHERE id=?";
+			$sql = "UPDATE jo_portalinfo SET user_password=?, cryptmode=? WHERE id=?";
 			$params = array($enc_password, 'CRYPT', $entityId);
 			$adb->pquery($sql, $params);
 			$sendEmail = true;
@@ -78,7 +78,7 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 			$contents = $emailData['body'];
 			$contents= decode_html(getMergedDescription($contents, $entityId, 'Contacts'));
 			if(empty($contents)) {
-				require_once 'config.inc.php';
+				require_once 'config/config.inc.php';
 				global $PORTAL_URL;
 				$contents = 'LoginDetails';
 				$contents .= "<br><br> User ID : $email";
@@ -90,7 +90,7 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 			send_mail('Contacts', $email, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID, $subject, $contents,'','','','','',true);
 		}
 	} else {
-		$sql = "UPDATE vtiger_portalinfo SET user_name=?,isactive=0 WHERE id=?";
+		$sql = "UPDATE jo_portalinfo SET user_name=?,isactive=0 WHERE id=?";
 		$adb->pquery($sql, array($email, $entityId));
 	}
 }

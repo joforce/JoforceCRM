@@ -17,7 +17,7 @@ require_once('modules/Settings/MailConverter/handlers/MailAttachmentMIME.php');
  * Mail Scanner provides the ability to scan through the given mailbox
  * applying the rules configured.
  */
-class Vtiger_MailScanner {
+class Head_MailScanner {
 	// MailScanner information instance
 	var $_scannerinfo = false;
 	// Reference mailbox to use
@@ -46,7 +46,7 @@ class Vtiger_MailScanner {
 	 */
 	function getMailBox() {
 		if(!$this->_mailbox) {
-			$this->_mailbox = new Vtiger_MailBox($this->_scannerinfo);
+			$this->_mailbox = new Head_MailBox($this->_scannerinfo);
 			$this->_mailbox->debug = $this->debug;
 		}
 		return $this->_mailbox;
@@ -179,7 +179,7 @@ class Vtiger_MailScanner {
 		global $adb;
 		if($crmid === false) $crmid = null;
 		// TODO Make sure we have unique entry
-		$adb->pquery("INSERT INTO vtiger_mailscanner_ids(scannerid, messageid, crmid) VALUES(?,?,?)",
+		$adb->pquery("INSERT INTO jo_mailscanner_ids(scannerid, messageid, crmid) VALUES(?,?,?)",
 			Array($this->_scannerinfo->scannerid, $mailrecord->_uniqueid, $crmid));
 	}
 
@@ -188,7 +188,7 @@ class Vtiger_MailScanner {
 	 */
 	function isMessageScanned($mailrecord, $lookAtFolder) {
 		global $adb;
-		$messages = $adb->pquery("SELECT 1 FROM vtiger_mailscanner_ids WHERE scannerid=? AND messageid=?",
+		$messages = $adb->pquery("SELECT 1 FROM jo_mailscanner_ids WHERE scannerid=? AND messageid=?",
 			Array($this->_scannerinfo->scannerid, $mailrecord->_uniqueid));
 
 		$folderRescan = $this->_scannerinfo->needRescan($lookAtFolder);
@@ -201,7 +201,7 @@ class Vtiger_MailScanner {
 			$relatedCRMId = $adb->query_result($messages, 0, 'crmid');
 
 			if($folderRescan && empty($relatedCRMId)) {
-				$adb->pquery("DELETE FROM vtiger_mailscanner_ids WHERE scannerid=? AND messageid=?",
+				$adb->pquery("DELETE FROM jo_mailscanner_ids WHERE scannerid=? AND messageid=?",
 					Array($this->_scannerinfo->scannerid, $mailrecord->_uniqueid));
 				$isScanned = false;
 			}
@@ -250,7 +250,7 @@ class Vtiger_MailScanner {
 			return $this->_cachedContactIds[$email];
 		}
 		$contactid = false;
-		$contactres = $adb->pquery("SELECT contactid FROM vtiger_contactdetails INNER JOIN vtiger_crmentity ON crmid = contactid WHERE setype = ? AND email = ? AND deleted = ?", array('Contacts', $email, 0));
+		$contactres = $adb->pquery("SELECT contactid FROM jo_contactdetails INNER JOIN jo_crmentity ON crmid = contactid WHERE setype = ? AND email = ? AND deleted = ?", array('Contacts', $email, 0));
 		if($adb->num_rows($contactres)) {
 			$deleted = $adb->query_result($contactres, 0, 'deleted');
 			if ($deleted != 1) {
@@ -276,7 +276,7 @@ class Vtiger_MailScanner {
 			return $this->_cachedLeadIds[$email];
 		}
 		$leadid = false;
-		$leadres = $adb->pquery("SELECT leadid FROM vtiger_leaddetails INNER JOIN vtiger_crmentity ON crmid = leadid WHERE setype=? AND email = ? AND converted = ? AND deleted = ?", array('Leads', $email, 0, 0));
+		$leadres = $adb->pquery("SELECT leadid FROM jo_leaddetails INNER JOIN jo_crmentity ON crmid = leadid WHERE setype=? AND email = ? AND converted = ? AND deleted = ?", array('Leads', $email, 0, 0));
 		if ($adb->num_rows($leadres)) {
 			$deleted = $adb->query_result($leadres, 0, 'deleted');
 			if ($deleted != 1) {
@@ -303,7 +303,7 @@ class Vtiger_MailScanner {
 		}
 
 		$accountid = false;
-		$accountres = $adb->pquery("SELECT accountid FROM vtiger_account INNER JOIN vtiger_crmentity ON crmid = accountid WHERE setype=? AND (email1 = ? OR email2 = ?) AND deleted = ?", Array('Accounts', $email, $email, 0));
+		$accountres = $adb->pquery("SELECT accountid FROM jo_account INNER JOIN jo_crmentity ON crmid = accountid WHERE setype=? AND (email1 = ? OR email2 = ?) AND deleted = ?", Array('Accounts', $email, $email, 0));
 		if($adb->num_rows($accountres)) {
 			$deleted = $adb->query_result($accountres, 0, 'deleted');
 			if ($deleted != 1) {
@@ -327,12 +327,12 @@ class Vtiger_MailScanner {
 
 		$checkTicketId = $this->__toInteger($subjectOrId);
 		if(!$checkTicketId) {
-			$ticketres = $adb->pquery("SELECT ticketid FROM vtiger_troubletickets WHERE title = ? OR ticket_no = ?", Array($subjectOrId, $subjectOrId));
+			$ticketres = $adb->pquery("SELECT ticketid FROM jo_troubletickets WHERE title = ? OR ticket_no = ?", Array($subjectOrId, $subjectOrId));
 			if($adb->num_rows($ticketres)) $checkTicketId = $adb->query_result($ticketres, 0, 'ticketid');
 		}
 		// Try with ticket_no before CRMID (case where ticket_no is also just number)
 		if(!$checkTicketId) {
-			$ticketres = $adb->pquery("SELECT ticketid FROM vtiger_troubletickets WHERE ticket_no = ?", Array($subjectOrId));
+			$ticketres = $adb->pquery("SELECT ticketid FROM jo_troubletickets WHERE ticket_no = ?", Array($subjectOrId));
 			if($adb->num_rows($ticketres)) $checkTicketId = $adb->query_result($ticketres, 0, 'ticketid');
 		}
 		// Nothing found?
@@ -346,7 +346,7 @@ class Vtiger_MailScanner {
 		// Verify ticket is not deleted
 		$ticketid = false;
 		if($checkTicketId) {
-			$crmres = $adb->pquery("SELECT setype, deleted FROM vtiger_crmentity WHERE crmid=?", Array($checkTicketId));
+			$crmres = $adb->pquery("SELECT setype, deleted FROM jo_crmentity WHERE crmid=?", Array($checkTicketId));
 			if($adb->num_rows($crmres)) {
 				if($adb->query_result($crmres, 0, 'setype') == 'HelpDesk' &&
 					$adb->query_result($crmres, 0, 'deleted') == '0') $ticketid = $checkTicketId;
@@ -485,7 +485,7 @@ class Vtiger_MailScanner {
 
 	function getAccountId($contactId) {
 		global $adb;
-		$result = $adb->pquery("SELECT accountid FROM vtiger_contactdetails WHERE contactid=?", array($contactId));
+		$result = $adb->pquery("SELECT accountid FROM jo_contactdetails WHERE contactid=?", array($contactId));
 		$accountId = $adb->query_result($result, 0, 'accountid');
 		return $accountId;
 	}
@@ -493,7 +493,7 @@ class Vtiger_MailScanner {
     function disableMailScanner(){
         global $adb;
         $scannerId = $this->_scannerinfo->scannerid;
-		$adb->pquery("UPDATE vtiger_mailscanner SET isvalid=? WHERE scannerid=?", array(0,$scannerId));
+		$adb->pquery("UPDATE jo_mailscanner SET isvalid=? WHERE scannerid=?", array(0,$scannerId));
     }
     
 }

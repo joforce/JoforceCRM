@@ -9,5 +9,5 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Home_DashBoard_View extends Vtiger_DashBoard_View {
+class Home_DashBoard_View extends Head_DashBoard_View {
 }

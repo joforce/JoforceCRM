@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
+class Products_QuickCreateAjax_View extends Head_QuickCreateAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);

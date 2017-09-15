@@ -10,17 +10,17 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-Class Products_Edit_View extends Vtiger_Edit_View {
+Class Products_Edit_View extends Head_Edit_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
         $recordModel = $this->record;
         if(!$recordModel){
             if (!empty($recordId)) {
-                $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+                $recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
             } else {
-                $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+                $recordModel = Head_Record_Model::getCleanInstance($moduleName);
             }
         }
 
@@ -65,10 +65,10 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 	
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(

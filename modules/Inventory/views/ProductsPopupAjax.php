@@ -26,15 +26,15 @@ class Inventory_ProductsPopupAjax_View extends Inventory_ProductsPopup_View {
 		return 'Products';
 	}
 	
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

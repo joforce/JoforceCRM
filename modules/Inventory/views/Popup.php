@@ -9,9 +9,9 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
-class Inventory_Popup_View extends Vtiger_Popup_View {
+class Inventory_Popup_View extends Head_Popup_View {
     
-    function initializeListViewContents (Vtiger_Request $request, Vtiger_Viewer $viewer) {
+    function initializeListViewContents (Head_Request $request, Head_Viewer $viewer) {
         parent::initializeListViewContents($request, $viewer);
 	}
 }

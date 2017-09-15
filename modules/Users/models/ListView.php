@@ -9,16 +9,16 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_ListView_Model extends Vtiger_ListView_Model {
+class Users_ListView_Model extends Head_ListView_Model {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of Head_Link_Model instances
 	 */
 	public function getListViewLinks($linkParams) {
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
 
 		$basicLinks = array(
 			array(
@@ -29,13 +29,13 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 			)
 		);
 		foreach($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicLink);
 		}
         
         $links['LISTVIEW'] = array();
         $advancedLinks = $this->getAdvancedLinks();
 		foreach($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = Head_Link_Model::getInstanceFromValues($advancedLink);
 		}
         
         $usersList = Users_Record_Model::getActiveAdminUsers();
@@ -51,7 +51,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
         }
         if(count($settingLinks) > 0) {
             foreach($settingLinks as $settingLink) {
-                $links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingLink);
+                $links['LISTVIEWSETTING'][] = Head_Link_Model::getInstanceFromValues($settingLink);
             }
         }
 
@@ -61,7 +61,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  Head_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams) {
 		return array();
@@ -76,17 +76,17 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
             $searchKey = $this->get('search_key');
             
             if(!empty($searchKey)) {
-                $listQueryComponents = explode(" WHERE vtiger_users.status='Active' AND", $listQuery);
+                $listQueryComponents = explode(" WHERE jo_users.status='Active' AND", $listQuery);
                 $listQuery = implode(' WHERE ', $listQueryComponents);
             }
-            $listQuery .= " AND (vtiger_users.user_name != 'admin' OR vtiger_users.is_owner = 1)";
+            $listQuery .= " AND (jo_users.user_name != 'admin' OR jo_users.is_owner = 1)";
             return $listQuery;
     }
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$queryGenerator = $this->get('query_generator');

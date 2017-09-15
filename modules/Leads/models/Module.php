@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Leads_Module_Model extends Vtiger_Module_Model {
+class Leads_Module_Model extends Head_Module_Model {
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of Head_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
 		$links = parent::getSideBarLinks($linkParams);
@@ -26,11 +26,11 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 		);
 		
 		//Check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		$moduleModel = Head_Module_Model::getInstance('Dashboard');
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if($permission) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = Head_Link_Model::getInstanceFromValues($quickLink);
 		}
 		
 		return $links;
@@ -60,22 +60,22 @@ class Leads_Module_Model extends Vtiger_Module_Model {
     * Function returns deleted records condition
     */
     public function getDeletedRecordCondition() {
-       return 'vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0';
+       return 'jo_crmentity.deleted = 0 AND jo_leaddetails.converted = 0';
     }
 
     /**
 	 * Function to get the list of recently visisted records
 	 * @param <Number> $limit
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
+	 * @return <Array> - List of Head_Record_Model or Module Specific Record Model instances
 	 */
 	public function getRecentRecords($limit=10) {
 		$db = PearDatabase::getInstance();
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
         $deletedCondition = $this->getDeletedRecordCondition();
-		$query = 'SELECT * FROM vtiger_crmentity '.
-            ' INNER JOIN vtiger_leaddetails ON
-                vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$query = 'SELECT * FROM jo_crmentity '.
+            ' INNER JOIN jo_leaddetails ON
+                jo_leaddetails.leadid = jo_crmentity.crmid
                 WHERE setype=? AND '.$deletedCondition.' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array($this->get('name'), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
@@ -111,8 +111,8 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['end'];
 		}
 
-		$result = $db->pquery('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$result = $db->pquery('SELECT COUNT(*) AS count, date(createdtime) AS time FROM jo_leaddetails
+						INNER JOIN jo_crmentity ON jo_leaddetails.leadid = jo_crmentity.crmid
 						AND deleted=0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).$ownerSql.' '.$dateFilterSql.' AND converted = 0 GROUP BY week(createdtime)',
 					$params);
 
@@ -151,13 +151,13 @@ class Leads_Module_Model extends Vtiger_Module_Model {
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
 
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE 
-						vtiger_leadstatus.leadstatus END AS leadstatusvalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN jo_leadstatus.leadstatus IS NULL OR jo_leadstatus.leadstatus = "" THEN "" ELSE 
+						jo_leadstatus.leadstatus END AS leadstatusvalue FROM jo_leaddetails 
+						INNER JOIN jo_crmentity ON jo_leaddetails.leadid = jo_crmentity.crmid
 						AND deleted=0 AND converted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql .' '.$dateFilterSql.
-						'INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus 
-                        WHERE vtiger_leaddetails.leadstatus IN ('.generateQuestionMarks($picklistvaluesmap).') 
-						GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid', $params);
+						'INNER JOIN jo_leadstatus ON jo_leaddetails.leadstatus = jo_leadstatus.leadstatus 
+                        WHERE jo_leaddetails.leadstatus IN ('.generateQuestionMarks($picklistvaluesmap).') 
+						GROUP BY leadstatusvalue ORDER BY jo_leadstatus.sortorderid', $params);
 
 		$response = array();
 		
@@ -200,13 +200,13 @@ class Leads_Module_Model extends Vtiger_Module_Model {
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
         
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = "" THEN "" 
-						ELSE vtiger_leaddetails.leadsource END AS leadsourcevalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN jo_leaddetails.leadsource IS NULL OR jo_leaddetails.leadsource = "" THEN "" 
+						ELSE jo_leaddetails.leadsource END AS leadsourcevalue FROM jo_leaddetails 
+						INNER JOIN jo_crmentity ON jo_leaddetails.leadid = jo_crmentity.crmid
 						AND deleted=0 AND converted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql .' '.$dateFilterSql.
-						'INNER JOIN vtiger_leadsource ON vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource 
-                        WHERE vtiger_leaddetails.leadsource IN ('.generateQuestionMarks($picklistvaluesmap).') 
-						GROUP BY leadsourcevalue ORDER BY vtiger_leadsource.sortorderid', $params);
+						'INNER JOIN jo_leadsource ON jo_leaddetails.leadsource = jo_leadsource.leadsource 
+                        WHERE jo_leaddetails.leadsource IN ('.generateQuestionMarks($picklistvaluesmap).') 
+						GROUP BY leadsourcevalue ORDER BY jo_leadsource.sortorderid', $params);
 		
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -248,13 +248,13 @@ class Leads_Module_Model extends Vtiger_Module_Model {
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
 		
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.industry IS NULL OR vtiger_leaddetails.industry = "" THEN "" 
-						ELSE vtiger_leaddetails.industry END AS industryvalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN jo_leaddetails.industry IS NULL OR jo_leaddetails.industry = "" THEN "" 
+						ELSE jo_leaddetails.industry END AS industryvalue FROM jo_leaddetails 
+						INNER JOIN jo_crmentity ON jo_leaddetails.leadid = jo_crmentity.crmid
 						AND deleted=0 AND converted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql .' '.$dateFilterSql.'
-						INNER JOIN vtiger_industry ON vtiger_leaddetails.industry = vtiger_industry.industry 
-                        WHERE vtiger_leaddetails.industry IN ('.generateQuestionMarks($picklistvaluesmap).') 
-						GROUP BY industryvalue ORDER BY vtiger_industry.sortorderid', $params);
+						INNER JOIN jo_industry ON jo_leaddetails.industry = jo_industry.industry 
+                        WHERE jo_leaddetails.industry IN ('.generateQuestionMarks($picklistvaluesmap).') 
+						GROUP BY industryvalue ORDER BY jo_industry.sortorderid', $params);
 		
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -274,25 +274,25 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 	 * Function to get relation query for particular module with function name
 	 * @param <record> $recordId
 	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
+	 * @param Head_Module_Model $relatedModule
 	 * @return <String>
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationId) {
 		if ($functionName === 'get_activities') {
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 
-			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, vtiger_seactivityrel.crmid AS parent_id,
-						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
-						FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'
-								AND vtiger_seactivityrel.crmid = ".$recordId;
+			$query = "SELECT CASE WHEN (jo_users.user_name not like '') THEN $userNameSql ELSE jo_groups.groupname END AS user_name,
+						jo_crmentity.*, jo_activity.activitytype, jo_activity.subject, jo_activity.date_start, jo_activity.time_start,
+						jo_activity.recurringtype, jo_activity.due_date, jo_activity.time_end, jo_activity.visibility, jo_seactivityrel.crmid AS parent_id,
+						CASE WHEN (jo_activity.activitytype = 'Task') THEN (jo_activity.status) ELSE (jo_activity.eventstatus) END AS status
+						FROM jo_activity
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_activity.activityid
+						LEFT JOIN jo_seactivityrel ON jo_seactivityrel.activityid = jo_activity.activityid
+						LEFT JOIN jo_cntactivityrel ON jo_cntactivityrel.activityid = jo_activity.activityid
+						LEFT JOIN jo_users ON jo_users.id = jo_crmentity.smownerid
+						LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid
+							WHERE jo_crmentity.deleted = 0 AND jo_activity.activitytype <> 'Emails'
+								AND jo_seactivityrel.crmid = ".$recordId;
 
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
@@ -316,7 +316,7 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 		$convertedInfo = array();
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT converted FROM vtiger_leaddetails WHERE leadid IN (".generateQuestionMarks($recordIdsList).")", $recordIdsList);
+			$result = $db->pquery("SELECT converted FROM jo_leaddetails WHERE leadid IN (".generateQuestionMarks($recordIdsList).")", $recordIdsList);
 			$numOfRows = $db->num_rows($result);
 
 			for ($i=0; $i<$numOfRows; $i++) {
@@ -337,16 +337,16 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		if (in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 			switch ($sourceModule) {
-				case 'Campaigns'	: $tableName = 'vtiger_campaignleadrel';	$fieldName = 'leadid';	$relatedFieldName ='campaignid';	break;
-				case 'Products'		: $tableName = 'vtiger_seproductsrel';		$fieldName = 'crmid';		$relatedFieldName ='productid';		break;
+				case 'Campaigns'	: $tableName = 'jo_campaignleadrel';	$fieldName = 'leadid';	$relatedFieldName ='campaignid';	break;
+				case 'Products'		: $tableName = 'jo_seproductsrel';		$fieldName = 'crmid';		$relatedFieldName ='productid';		break;
 			}
 
 			if ($sourceModule === 'Services') {
-				$condition = " vtiger_leaddetails.leadid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$condition = " jo_leaddetails.leadid NOT IN (SELECT relcrmid FROM jo_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM jo_crmentityrel WHERE relcrmid = '$record') ";
 			} elseif ($sourceModule === 'Emails') {
-				$condition = ' vtiger_leaddetails.emailoptout = 0';
+				$condition = ' jo_leaddetails.emailoptout = 0';
 			} else {
-				$condition = " vtiger_leaddetails.leadid NOT IN (SELECT $fieldName FROM $tableName WHERE $relatedFieldName = '$record')";
+				$condition = " jo_leaddetails.leadid NOT IN (SELECT $fieldName FROM $tableName WHERE $relatedFieldName = '$record')";
 			}
 
 			$position = stripos($listQuery, 'where');

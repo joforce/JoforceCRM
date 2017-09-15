@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Potentials_Save_Action extends Vtiger_Save_Action {
+class Potentials_Save_Action extends Head_Save_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		//Restrict to store indirect relationship from Potentials to Contacts
 		$sourceModule = $request->get('sourceModule');
 		$relationOperation = $request->get('relationOperation');

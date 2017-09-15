@@ -13,7 +13,7 @@
 /**
  * This class provides structured way of accessing details of email.
  */
-class Vtiger_MailRecord {
+class Head_MailRecord {
 	// FROM address(es) list 
 	var $_from;
 	// TO address(es) list

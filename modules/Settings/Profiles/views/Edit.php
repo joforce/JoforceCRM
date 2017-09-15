@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View {
+Class Settings_Profiles_Edit_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         $this->initialize($request);
         $qualifiedModuleName = $request->getModule(false);
         
@@ -19,7 +19,7 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
     
-    public function initialize(Vtiger_Request $request) {
+    public function initialize(Head_Request $request) {
         $viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -42,8 +42,8 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View {
 		}
 		$viewer->assign('ALL_PROFILES',$recordModel->getAll());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true)); 
+		$viewer->assign('ALL_BASIC_ACTIONS', Head_Action_Model::getAllBasic(true));
+		$viewer->assign('ALL_UTILITY_ACTIONS', Head_Action_Model::getAllUtility(true)); 
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
@@ -53,15 +53,15 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Edit',
+			'modules.Settings.Head.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit"
 		);
 
@@ -71,7 +71,7 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View {
 	}
     
     /**
-     * Setting module related Information to $viewer (for Vtiger7)
+     * Setting module related Information to $viewer (for Head7)
      * @param type $request
      * @param type $moduleModel
      */

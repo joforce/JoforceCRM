@@ -15,14 +15,14 @@
 
 		//setting $app_strings 
 		if(empty($app_strings)) { 
-			$currentLanguage = Vtiger_Language_Handler::getLanguage(); 
-			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage); 
+			$currentLanguage = Head_Language_Handler::getLanguage(); 
+			$moduleLanguageStrings = Head_Language_Handler::getModuleStringsFromFile($currentLanguage); 
 			$app_strings = $moduleLanguageStrings['languageStrings']; 
 		}
 
 		$idList = vtws_getIdComponents($element['id']);
 		
-		$webserviceObject = VtigerWebserviceObject::fromId($adb,$idList[0]);
+		$webserviceObject = HeadWebserviceObject::fromId($adb,$idList[0]);
 		$handlerPath = $webserviceObject->getHandlerPath();
 		$handlerClass = $webserviceObject->getHandlerClass();
 		
@@ -59,7 +59,7 @@
 				$ids = vtws_getIdComponents($element[$fieldName]);
 				$elemTypeId = $ids[0];
 				$elemId = $ids[1];
-				$referenceObject = VtigerWebserviceObject::fromId($adb,$elemTypeId);
+				$referenceObject = HeadWebserviceObject::fromId($adb,$elemTypeId);
 				if (!in_array($referenceObject->getEntityName(),$details)){
 					throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID,
 						"Invalid reference specified for $fieldName");

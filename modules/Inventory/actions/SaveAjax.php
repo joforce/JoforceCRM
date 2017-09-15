@@ -8,5 +8,5 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-class Inventory_SaveAjax_Action extends Vtiger_SaveAjax_Action {
+class Inventory_SaveAjax_Action extends Head_SaveAjax_Action {
 }

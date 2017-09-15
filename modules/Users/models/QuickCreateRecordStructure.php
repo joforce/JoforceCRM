@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_QuickCreateRecordStructure_Model extends Vtiger_QuickCreateRecordStructure_Model {
+class Users_QuickCreateRecordStructure_Model extends Head_QuickCreateRecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format

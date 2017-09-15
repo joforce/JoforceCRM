@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
+class Products_RelationListView_Model extends Head_RelationListView_Model {
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <Vtiger_Link_Model>
+	 * @return <Array> List of action models <Head_Link_Model>
 	 */
 	public function getLinks() {
 		$relationModel = $this->getRelationModel();
@@ -33,7 +33,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 		$headerFields = parent::getHeaders();
 		if($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
-			$unitPriceField = new Vtiger_Field_Model();
+			$unitPriceField = new Head_Field_Model();
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
@@ -41,7 +41,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$headerFields['unit_price'] = $unitPriceField;
 			
 			//Added to support List Price
-			$field = new Vtiger_Field_Model();
+			$field = new Head_Field_Model();
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');
@@ -65,7 +65,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$queryComponents = spliti(' FROM ', $query);
 			$count = count($queryComponents);
 
-			$query = $queryComponents[0]. ', vtiger_seproductsrel.quantity AS qty_per_unit ';
+			$query = $queryComponents[0]. ', jo_seproductsrel.quantity AS qty_per_unit ';
 			for($i=1; $i<$count; $i++) {
 				$query .= ' FROM '.$queryComponents[$i];
 			}

@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Vendors_Record_Model extends Vtiger_Record_Model {
+class Vendors_Record_Model extends Head_Record_Model {
 
 	function getCreatePurchaseOrderUrl() {
         global $site_URL;
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 
 		return $site_URL."index.php?module=".$purchaseOrderModuleModel->getName()."&view=".$purchaseOrderModuleModel->getEditViewName()."&vendor_id=".$this->getId()."&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId();
 	}

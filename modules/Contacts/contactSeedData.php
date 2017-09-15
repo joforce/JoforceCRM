@@ -14,7 +14,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Contacts/contactSeedData.php,v 1.4 2005/03/05 08:11:44 jack Exp $
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/modules/Contacts/contactSeedData.php,v 1.4 2005/03/05 08:11:44 jack Exp $
  * Description:  TODO: To be written.
  ********************************************************************************/
 $last_name_array = Array(

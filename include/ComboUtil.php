@@ -27,7 +27,7 @@ function getComboArray($combofieldNames)
 		$fldArrName= $arrayName;
 		$arrayName = Array();
 		
-		$sql = "select $tableName from vtiger_$tableName";
+		$sql = "select $tableName from jo_$tableName";
 		$params = array();
 		if(!is_admin($current_user))
 		{
@@ -41,7 +41,7 @@ function getComboArray($combofieldNames)
 			{
 				$roleids = $roleid;
 			}
-			$sql = "select distinct $tableName from vtiger_$tableName  inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$tableName.picklist_valueid where roleid in(". generateQuestionMarks($roleids) .") order by sortid";
+			$sql = "select distinct $tableName from jo_$tableName  inner join jo_role2picklist on jo_role2picklist.picklistvalueid = jo_$tableName.picklist_valueid where roleid in(". generateQuestionMarks($roleids) .") order by sortid";
 			$params = array($roleids);
 		}
 		$result = $adb->pquery($sql, $params);	
@@ -58,12 +58,12 @@ function getComboArray($combofieldNames)
 function getUniquePicklistID()
 {
 	global $adb;
-	/*$sql="select id from vtiger_picklistvalues_seq";
+	/*$sql="select id from jo_picklistvalues_seq";
 	$picklistvalue_id = $adb->query_result($adb->pquery($sql, array()),0,'id');
 
-	$qry = "update vtiger_picklistvalues_seq set id =?";
+	$qry = "update jo_picklistvalues_seq set id =?";
 	$adb->pquery($qry, array(++$picklistvalue_id));*/
-	return $adb->getUniqueID('vtiger_picklistvalues');
+	return $adb->getUniqueID('jo_picklistvalues');
 }
 
 ?>

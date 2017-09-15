@@ -46,7 +46,7 @@ class Events_Record_Model extends Calendar_Record_Model {
 
     public function getRelatedToContactIdList() {
         $adb = PearDatabase::getInstance();
-        $query = 'SELECT * from vtiger_cntactivityrel where activityid=?';
+        $query = 'SELECT * from jo_cntactivityrel where activityid=?';
         $result = $adb->pquery($query, array($this->getId()));
         $num_rows = $adb->num_rows($result);
 
@@ -62,22 +62,22 @@ class Events_Record_Model extends Calendar_Record_Model {
         $contactIdList = $this->getRelatedToContactIdList();
         $relatedContactInfo = array();
         foreach($contactIdList as $contactId) {
-            $relatedContactInfo[] = array('name' => decode_html(Vtiger_Util_Helper::toSafeHTML(Vtiger_Util_Helper::getRecordName($contactId))) ,'id' => $contactId);
+            $relatedContactInfo[] = array('name' => decode_html(Head_Util_Helper::toSafeHTML(Head_Util_Helper::getRecordName($contactId))) ,'id' => $contactId);
         }
         return $relatedContactInfo;
      }
      
      public function getRelatedContactInfoFromIds($eventIds){
          $adb = PearDatabase::getInstance();
-        $query = 'SELECT vtiger_cntactivityrel.activityid as id, vtiger_cntactivityrel.contactid, vtiger_contactdetails.email FROM vtiger_cntactivityrel INNER JOIN vtiger_contactdetails
-                  ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid  WHERE activityid in ('. generateQuestionMarks($eventIds) .')';
+        $query = 'SELECT jo_cntactivityrel.activityid as id, jo_cntactivityrel.contactid, jo_contactdetails.email FROM jo_cntactivityrel INNER JOIN jo_contactdetails
+                  ON jo_contactdetails.contactid = jo_cntactivityrel.contactid  WHERE activityid in ('. generateQuestionMarks($eventIds) .')';
         $result = $adb->pquery($query, array($eventIds));
         $num_rows = $adb->num_rows($result);
 
         $contactInfo = array();
         for($i=0; $i<$num_rows; $i++) {
             $row = $adb->fetchByAssoc($result, $i);
-            $contactInfo[$row['id']][] = array('name' => Vtiger_Util_Helper::toSafeHTML(Vtiger_Util_Helper::getRecordName($row['contactid'])),
+            $contactInfo[$row['id']][] = array('name' => Head_Util_Helper::toSafeHTML(Head_Util_Helper::getRecordName($row['contactid'])),
                                     'email' => $row['email'], 'id' => $row['contactid']);
         }
         return $contactInfo;
@@ -91,7 +91,7 @@ class Events_Record_Model extends Calendar_Record_Model {
      public function getInviteesDetails($userId=FALSE) {
          if(!$this->inviteesDetails || $userId) {
             $adb = PearDatabase::getInstance();
-            $sql = "SELECT vtiger_invitees.* FROM vtiger_invitees WHERE activityid=?";
+            $sql = "SELECT jo_invitees.* FROM jo_invitees WHERE activityid=?";
             $sqlParams = array($this->getId());
             if($userId !== FALSE) {
                 $sql .= " AND inviteeid = ?";
@@ -129,7 +129,7 @@ class Events_Record_Model extends Calendar_Record_Model {
       */
      public function updateInvitationStatus($activityId,$userId,$status) {
          $adb = PearDatabase::getInstance();
-         $sql = 'UPDATE vtiger_invitees SET status = ? WHERE activityid = ? AND inviteeid = ?';
+         $sql = 'UPDATE jo_invitees SET status = ? WHERE activityid = ? AND inviteeid = ?';
          $adb->pquery($sql,array($status,$activityId,$userId));
          $this->inviteesDetails = NULL;
      }
@@ -138,7 +138,7 @@ class Events_Record_Model extends Calendar_Record_Model {
             $adb = PearDatabase::getInstance();
 
             $return_id = $this->getId();
-            $cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
+            $cont_qry = "select * from jo_cntactivityrel where activityid=?";
             $cont_res = $adb->pquery($cont_qry, array($return_id));
             $noofrows = $adb->num_rows($cont_res);
             $cont_id = array();
@@ -150,7 +150,7 @@ class Events_Record_Model extends Calendar_Record_Model {
             $cont_name = '';
             foreach($cont_id as $key=>$id) {
                 if($id != '') {
-                    $contact_name = Vtiger_Util_Helper::getRecordName($id);
+                    $contact_name = Head_Util_Helper::getRecordName($id);
                     $cont_name .= $contact_name .', ';
                 }
             }
@@ -158,7 +158,7 @@ class Events_Record_Model extends Calendar_Record_Model {
 			$parentId = $this->get('parent_id');
 			$parentName = '';
 			if($parentId != '') {
-				$parentName = Vtiger_Util_Helper::getRecordName($parentId);
+				$parentName = Head_Util_Helper::getRecordName($parentId);
 			}
 			
             $cont_name  = trim($cont_name,', ');

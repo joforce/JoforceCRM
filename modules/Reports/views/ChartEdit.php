@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Reports_ChartEdit_View extends Vtiger_Edit_View {
+Class Reports_ChartEdit_View extends Head_Edit_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('step1');
@@ -17,7 +17,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$this->exposeMethod('step3');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -35,14 +35,14 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		$primaryModule = $reportModel->getPrimaryModule();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = Head_Module_Model::getInstance($primaryModule);
 		if ($primaryModuleModel) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
@@ -65,7 +65,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		parent::preProcess($request);
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -74,7 +74,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$this->step1($request);
 	}
 
-	function step1(Vtiger_Request $request) {
+	function step1(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -139,7 +139,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$viewer->view('ChartEditStep1.tpl', $moduleName);
 	}
 
-	function step2(Vtiger_Request $request) {
+	function step2(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -174,7 +174,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('PRIMARY_MODULE',$primaryModule);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 				if($secondaryModules) {
 					$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
@@ -183,7 +183,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$viewer->assign('SECONDARY_MODULES',$secondaryModules);
 		$viewer->assign('PRIMARY_MODULE_RECORD_STRUCTURE', $primaryModuleRecordStructure);
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+		$dateFilters = Head_Field_Model::getDateFilterTypes();
 		foreach($dateFilters as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
@@ -195,9 +195,9 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		if(($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))){
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else{
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = Head_Field_Model::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', Vtiger_Field_Model::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', Head_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$viewer->assign('MODULE', $moduleName);
 
@@ -212,7 +212,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$viewer->view('ChartEditStep2.tpl', $moduleName);
 	}
 
-	function step3(Vtiger_request $request) {
+	function step3(Head_request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -269,10 +269,10 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -293,7 +293,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request) {
+	function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(

@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Calendar_View extends Vtiger_Index_View {
+class Calendar_Calendar_View extends Head_Index_View {
 
-	public function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Head_Request $request, $display = true) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$viewer->assign('IS_CREATE_PERMITTED', $moduleModel->isPermitted('CreateView'));
 		$viewer->assign('IS_MODULE_EDITABLE', $moduleModel->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $moduleModel->isPermitted('Delete'));
@@ -26,16 +26,16 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		}
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request) {
+	protected function preProcessTplName(Head_Request $request) {
 		return 'CalendarViewPreProcess.tpl';
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$jsFileNames = array(
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/lib/moment.min.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/fullcalendar.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/webui-popover/dist/jquery.webui-popover.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/lib/moment.min.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/fullcalendar.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/webui-popover/dist/jquery.webui-popover.js",
 			"modules.Calendar.resources.CalendarView",
 			"~/libraries/jquery/colorpicker/js/colorpicker.js"
 		);
@@ -45,13 +45,13 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar.css',
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar-bootstrap.css',
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/webui-popover/dist/jquery.webui-popover.css',
+			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar.css',
+			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar-bootstrap.css',
+			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/webui-popover/dist/jquery.webui-popover.css',
 			'~/libraries/jquery/colorpicker/css/colorpicker.css'
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
@@ -60,7 +60,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		return $headerCssInstances;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if($mode == 'settings'){
 			$this->getCalendarSettings($request);
@@ -79,13 +79,13 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 	/*
 	 * Function to get the calendar settings view
 	 */
-	public function getCalendarSettings(Vtiger_Request $request){
+	public function getCalendarSettings(Head_Request $request){
 
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$module = $request->getModule();
-		$detailViewModel = Vtiger_DetailView_Model::getInstance('Users', $currentUserModel->id);
-		$userRecordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($detailViewModel->getRecord(), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$detailViewModel = Head_DetailView_Model::getInstance('Users', $currentUserModel->id);
+		$userRecordStructure = Head_RecordStructure_Model::getInstanceFromRecordModel($detailViewModel->getRecord(), Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $userRecordStructure->getStructure();
 		$allUsers = Users_Record_Model::getAll(true);
 		$sharedUsers = Calendar_Module_Model::getCaledarSharedUsers($currentUserModel->id);

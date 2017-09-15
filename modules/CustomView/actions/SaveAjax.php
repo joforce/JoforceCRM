@@ -16,8 +16,8 @@ class CustomView_SaveAjax_Action extends CustomView_Save_Action {
 		$this->exposeMethod('updateColumns');
 	}
 
-	public function process(Vtiger_Request $request) {
-		$response = new Vtiger_Response();
+	public function process(Head_Request $request) {
+		$response = new Head_Response();
 		$cvId = $request->get('record');
 		if (!$cvId) {
 			$response->setError('Filter Not specified');
@@ -41,12 +41,12 @@ class CustomView_SaveAjax_Action extends CustomView_Save_Action {
 
 	/**
 	 * Function to updated selected Custom view columns
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	 public function updateColumns(Vtiger_Request $request) {
+	 public function updateColumns(Head_Request $request) {
 		$cvid = $request->get('record');
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvid);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($customViewModel) {
 			$selectedColumns = $request->get('columnslist');
 			$customViewModel->deleteSelectedFields();
@@ -56,7 +56,7 @@ class CustomView_SaveAjax_Action extends CustomView_Save_Action {
 			 * we should clear this from session in order to apply view
 			 */
 			$listViewSessionKey = $customViewModel->getModule()->getName().'_'.$cvid;
-			Vtiger_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
+			Head_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
 			$response->setResult(array('message'=>vtranslate('List columns saved successfully',$request->getModule()), 'listviewurl'=>$customViewModel->getModule()->getListViewUrl().'/'.$cvid));
 		} else {
 			$response->setError(vtranslate('Filter does not exist',$request->getModule()));

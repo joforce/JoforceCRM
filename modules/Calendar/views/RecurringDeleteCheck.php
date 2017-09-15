@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_RecurringDeleteCheck_View extends Vtiger_Index_View {
+class Calendar_RecurringDeleteCheck_View extends Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);

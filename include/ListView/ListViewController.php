@@ -218,7 +218,7 @@ class ListViewController {
 			}
 		}
 		if(count($attachmentIds)) {
-			$getAttachmentsNamesSql = 'SELECT attachmentsid,name FROM vtiger_attachments WHERE attachmentsid IN (' . generateQuestionMarks($attachmentIds) . ')';
+			$getAttachmentsNamesSql = 'SELECT attachmentsid,name FROM jo_attachments WHERE attachmentsid IN (' . generateQuestionMarks($attachmentIds) . ')';
 			$attachmentNamesRes = $db->pquery($getAttachmentsNamesSql,$attachmentIds);
 			$attachmentNamesRowCount = $db->num_rows($attachmentNamesRes);
 			for($i=0;$i<$attachmentNamesRowCount;$i++) {
@@ -228,7 +228,7 @@ class ListViewController {
 			}
 		}
 
-		$moduleInstance = Vtiger_Module_Model::getInstance("PBXManager");
+		$moduleInstance = Head_Module_Model::getInstance("PBXManager");
 		if($moduleInstance && $moduleInstance->isActive()) {
 			$outgoingCallPermission = PBXManager_Server_Model::checkPermissionForOutgoingCall();
 			$clickToCallLabel = vtranslate("LBL_CLICK_TO_CALL");
@@ -280,7 +280,7 @@ class ListViewController {
 
 					$downloadType = $db->query_result($result,$i,'filelocationtype');
 					$status = $db->query_result($result,$i,'filestatus');
-					$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
+					$fileIdQuery = "select attachmentsid from jo_seattachmentsrel where crmid=?";
 					$fileIdRes = $db->pquery($fileIdQuery,array($recordId));
 					$fileId = $db->query_result($fileIdRes,0,'attachmentsid');
 					if($fileName != '' && $status == 1) {
@@ -338,15 +338,15 @@ class ListViewController {
 				}elseif ($fieldDataType == 'picklist') {
 					//not check for permissions for non admin users for status and activity type field
 					if($module == 'Calendar' && ($fieldName == 'taskstatus' || $fieldName == 'eventstatus' || $fieldName == 'activitytype')) {
-						$value = Vtiger_Language_Handler::getTranslatedString($value,$module);
+						$value = Head_Language_Handler::getTranslatedString($value,$module);
 						$value = textlength_check($value);
 					}
 					else if ($value != '' && !$is_admin && $this->picklistRoleMap[$fieldName] &&
 							!in_array($value, $this->picklistValueMap[$fieldName]) && strtolower($value) != '--none--' && strtolower($value) != 'none' ) {
-						$value = "<font color='red'>". Vtiger_Language_Handler::getTranslatedString('LBL_NOT_ACCESSIBLE',
+						$value = "<font color='red'>". Head_Language_Handler::getTranslatedString('LBL_NOT_ACCESSIBLE',
 								$module)."</font>";
 					} else {
-						$value =  Vtiger_Language_Handler::getTranslatedString($value,$module);
+						$value =  Head_Language_Handler::getTranslatedString($value,$module);
 						$value = textlength_check($value);
 					}
 				}elseif($fieldDataType == 'date' || $fieldDataType == 'datetime') {
@@ -365,7 +365,7 @@ class ListViewController {
 							}
 						}
 						if($fieldDataType == 'datetime' && $value != '0000-00-00 00:00:00') {
-							$value = Vtiger_Datetime_UIType::getDateTimeValue($value);
+							$value = Head_Datetime_UIType::getDateTimeValue($value);
 						} else if($fieldDataType == 'date') {
 							$date = new DateTimeField($value);
 							$value = $date->getDisplayDate();
@@ -381,7 +381,7 @@ class ListViewController {
 						}
 						$userModel = Users_Privileges_Model::getCurrentUserModel();
 						if($userModel->get('hour_format') == '12'){
-							$value = Vtiger_Time_UIType::getTimeValueInAMorPM($value);
+							$value = Head_Time_UIType::getTimeValueInAMorPM($value);
 						}
 					}
 				} elseif($fieldDataType == 'currency') {
@@ -422,7 +422,7 @@ class ListViewController {
 					global $current_user;
 					if($current_user->internal_mailer == 1){
 						//check added for email link in user detailview
-						$value = "<a class='emailField' data-rawvalue=\"$rawValue\" onclick=\"Vtiger_Helper_Js.getInternalMailer($recordId,".
+						$value = "<a class='emailField' data-rawvalue=\"$rawValue\" onclick=\"Head_Helper_Js.getInternalMailer($recordId,".
 						"'$fieldName','$module');\">".textlength_check($value)."</a>";
 					} else {
 						$value = '<a class="emailField" data-rawvalue="'.$rawValue.'" href="mailto:'.$rawValue.'">'.textlength_check($value).'</a>';
@@ -511,7 +511,7 @@ class ListViewController {
 					//TODO clean request object reference.
 					$contactId=$_REQUEST['record'];
 					$emailId=$this->db->query_result($result,$i,"activityid");
-					$result1 = $this->db->pquery("SELECT access_count FROM vtiger_email_track WHERE ".
+					$result1 = $this->db->pquery("SELECT access_count FROM jo_email_track WHERE ".
 							"crmid=? AND mailid=?", array($contactId,$emailId));
 					$value=$this->db->query_result($result1,0,"access_count");
 					if(!$value) {

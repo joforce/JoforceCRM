@@ -13,7 +13,7 @@ class Events_Save_Action extends Calendar_Save_Action {
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
+	 * @param <Head_Request> $request - values of the record
 	 * @return <RecordModel> - record Model of saved record
 	 */
 	public function saveRecord($request) {
@@ -27,15 +27,15 @@ class Events_Save_Action extends Calendar_Save_Action {
 		$originalRecordId = $recordModel->getId();
 		if($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = Head_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			if($relatedModule->getName() == 'Events'){
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+				$relatedModule = Head_Module_Model::getInstance('Calendar');
 			}
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = Head_Relation_Model::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 
@@ -43,8 +43,8 @@ class Events_Save_Action extends Calendar_Save_Action {
 		$followupMode = $request->get('followup');
 
 		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
-		$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start') . " " . $startTime);
+		$startTime = Head_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
+		$startDateTime = Head_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start') . " " . $startTime);
 		list($startDate, $startTime) = explode(' ', $startDateTime);
 
 		$subject = $request->get('subject');
@@ -93,10 +93,10 @@ class Events_Save_Action extends Calendar_Save_Action {
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @param Head_Request $request
+	 * @return Head_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request) {
+	protected function getRecordModelFromRequest(Head_Request $request) {
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if($request->has('selectedusers')) {
 			$recordModel->set('selectedusers', $request->get('selectedusers'));

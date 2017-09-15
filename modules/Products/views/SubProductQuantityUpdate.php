@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Products_SubProductQuantityUpdate_View extends Vtiger_View_Controller {
+class Products_SubProductQuantityUpdate_View extends Head_View_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -21,11 +21,11 @@ class Products_SubProductQuantityUpdate_View extends Vtiger_View_Controller {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Head_Request $request, $display = true) {
 
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$relId = $request->get('relid');
@@ -40,7 +40,7 @@ class Products_SubProductQuantityUpdate_View extends Vtiger_View_Controller {
 		$viewer->view('QuantityUpdate.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		
 	}
 

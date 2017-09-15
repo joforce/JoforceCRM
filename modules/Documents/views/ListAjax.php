@@ -18,15 +18,15 @@ class Documents_ListAjax_View extends Documents_List_View {
 		$this->exposeMethod('ShowListColumnsEdit');
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -35,20 +35,20 @@ class Documents_ListAjax_View extends Documents_List_View {
 	}
 
 	/**
-	 * Extending Vtiger List Ajax API to show Advance Search results
-	 * @param Vtiger_Request $request
+	 * Extending Head List Ajax API to show Advance Search results
+	 * @param Head_Request $request
 	 */
-	public function showSearchResults(Vtiger_Request $request) {
-		$vtigerListAjaxInstance = new Vtiger_ListAjax_View();
+	public function showSearchResults(Head_Request $request) {
+		$vtigerListAjaxInstance = new Head_ListAjax_View();
 		$vtigerListAjaxInstance->showSearchResults($request);
 	}
 
 	/**
-	 * Extending Vtiger List Ajax API to show List Columns Edit view
-	 * @param Vtiger_Request $request
+	 * Extending Head List Ajax API to show List Columns Edit view
+	 * @param Head_Request $request
 	 */
-	public function ShowListColumnsEdit(Vtiger_Request $request){
-		$vtigerListAjaxInstance = new Vtiger_ListAjax_View();
+	public function ShowListColumnsEdit(Head_Request $request){
+		$vtigerListAjaxInstance = new Head_ListAjax_View();
 		$vtigerListAjaxInstance->ShowListColumnsEdit($request);
 	}
 }

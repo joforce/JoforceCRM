@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 require_once 'includes/runtime/Cache.php';
-require_once 'vtlib/Vtiger/Runtime.php';
+require_once 'vtlib/Head/Runtime.php';
 
 class WebserviceField{
 	private $fieldId;
@@ -252,10 +252,10 @@ class WebserviceField{
 			$fieldTypeData = WebserviceField::$fieldTypeMapping[$this->getUIType()];
 			$referenceTypes = array();
 			if($this->getUIType() != $this->genericUIType){
-				$sql = "select type from vtiger_ws_referencetype where fieldtypeid=?";
+				$sql = "select type from jo_ws_referencetype where fieldtypeid=?";
 				$params = array($fieldTypeData['fieldtypeid']);
 			}else{
-				$sql = 'SELECT relmodule AS type FROM vtiger_fieldmodulerel WHERE fieldid=? ORDER BY sequence ASC';
+				$sql = 'SELECT relmodule AS type FROM jo_fieldmodulerel WHERE fieldid=? ORDER BY sequence ASC';
 				$params = array($this->getFieldId());
 			}
 			$result = $this->pearDB->pquery($sql,$params);
@@ -311,7 +311,7 @@ class WebserviceField{
 
 		// Cache all the information for futher re-use
 		if(empty(self::$fieldTypeMapping)) {
-			$result = $this->pearDB->pquery("select * from vtiger_ws_fieldtype", array());
+			$result = $this->pearDB->pquery("select * from jo_ws_fieldtype", array());
 			while($resultrow = $this->pearDB->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
 			}
@@ -330,7 +330,7 @@ class WebserviceField{
 	}
 
 	function getPicklistDetails(){
-		$cache = Vtiger_Cache::getInstance();
+		$cache = Head_Cache::getInstance();
 		if($cache->getPicklistDetails($this->getTabId(),$this->getFieldName())){
 			return $cache->getPicklistDetails($this->getTabId(),$this->getFieldName());
 		} else {
@@ -361,11 +361,11 @@ class WebserviceField{
 
 	function getPickListOptions(){
 		$fieldName = $this->getFieldName();
-		$language = Vtiger_Language_Handler::getLanguage();
+		$language = Head_Language_Handler::getLanguage();
 
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = array();
-		$sql = "select * from vtiger_picklist where name=?";
+		$sql = "select * from jo_picklist where name=?";
 		$result = $this->pearDB->pquery($sql,array($fieldName));
 		$numRows = $this->pearDB->num_rows($result);
 
@@ -373,7 +373,7 @@ class WebserviceField{
 		if ($moduleName == 'Events') $moduleName = 'Calendar';
 
 		if($numRows == 0){
-			$sql = "select * from vtiger_$fieldName";
+			$sql = "select * from jo_$fieldName";
 			$result = $this->pearDB->pquery($sql,array());
 			$numRows = $this->pearDB->num_rows($result);
 			for($i=0;$i<$numRows;++$i){

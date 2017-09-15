@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_Forecast_Dashboard extends Vtiger_IndexAjax_View {
+class Potentials_Forecast_Dashboard extends Head_IndexAjax_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 
 		$jsFileNames = array(
 			'~/libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
@@ -30,7 +30,7 @@ class Potentials_Forecast_Dashboard extends Vtiger_IndexAjax_View {
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -41,16 +41,16 @@ class Potentials_Forecast_Dashboard extends Vtiger_IndexAjax_View {
 		
 		//Date conversion from user to database format
 		if(!empty($expectedclosedate)) {
-			$closingdates['start'] = Vtiger_Date_UIType::getDBInsertedValue($expectedclosedate['start']);
-			$closingdates['end'] = Vtiger_Date_UIType::getDBInsertedValue($expectedclosedate['end']);
+			$closingdates['start'] = Head_Date_UIType::getDBInsertedValue($expectedclosedate['start']);
+			$closingdates['end'] = Head_Date_UIType::getDBInsertedValue($expectedclosedate['end']);
 		}
 		
 		$dates = $request->get('createdtime');
 		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getForecast($closingdates,$dates);
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Head_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 		$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));

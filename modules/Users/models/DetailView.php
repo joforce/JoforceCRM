@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_DetailView_Model extends Vtiger_DetailView_Model {
+class Users_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -36,7 +36,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 			
 			$detailViewPreferenceLinks = array(
@@ -49,7 +49,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWPREFERENCE'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWPREFERENCE'][] = Head_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 
 			if($currentUserModel->isAdminUser() && $currentUserModel->get('id') != $recordId){
@@ -86,7 +86,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model {
 									);
 
 			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}

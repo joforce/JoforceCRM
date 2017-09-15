@@ -13,8 +13,8 @@ if(defined('VTIGER_UPGRADE')) {
 	global $adb, $current_user;
 	$db = PearDatabase::getInstance();
 
-	if (!Vtiger_Utils::CheckTable('vtiger_mailscanner')) {
-		Vtiger_Utils::CreateTable('vtiger_mailscanner', 
+	if (!Head_Utils::CheckTable('jo_mailscanner')) {
+		Head_Utils::CreateTable('jo_mailscanner', 
 				"(`scannerid` INT(11) NOT NULL AUTO_INCREMENT,
 				`scannername` VARCHAR(30) DEFAULT NULL,
 				`server` VARCHAR(100) DEFAULT NULL,
@@ -33,17 +33,17 @@ if(defined('VTIGER_UPGRADE')) {
 			  ) ENGINE=InnoDB DEFAULT CHARSET=utf8", true);
 	}
 
-	$updateModulesList = array(	'Project'		=> 'packages/vtiger/optional/Projects.zip',
-								'Google'		=> 'packages/vtiger/optional/Google.zip',
-								'ExtensionStore'=> 'packages/vtiger/marketplace/ExtensionStore.zip');
+	$updateModulesList = array(	'Project'		=> 'packages/head/optional/Projects.zip',
+								'Google'		=> 'packages/head/optional/Google.zip',
+								'ExtensionStore'=> 'packages/head/marketplace/ExtensionStore.zip');
 	foreach ($updateModulesList as $moduleName => $packagePath) {
-		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		$moduleInstance = Head_Module::getInstance($moduleName);
 		if($moduleInstance) {
 			updateVtlibModule($moduleName, $packagepath);
 		}
 	}
-    if (!Vtiger_Utils::CheckTable('vtiger_loginhistory')) {
-       $db->pquery("CREATE TABLE `vtiger_loginhistory` (
+    if (!Head_Utils::CheckTable('jo_loginhistory')) {
+       $db->pquery("CREATE TABLE `jo_loginhistory` (
                     `login_id` int(11) NOT NULL AUTO_INCREMENT,
                     `user_name` varchar(255) DEFAULT NULL,
                     `user_ip` varchar(25) NOT NULL,
@@ -53,9 +53,9 @@ if(defined('VTIGER_UPGRADE')) {
                     PRIMARY KEY (`login_id`)
                     ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1", array());
     }
-    include_once 'vtlib/Vtiger/Module.php';
+    include_once 'vtlib/Head/Module.php';
     $moduleLists = 'MailManager';
-    $module = Vtiger_Module::getInstance($moduleLists);
+    $module = Head_Module::getInstance($moduleLists);
     if ($module) $module->delete();
     header('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
 }

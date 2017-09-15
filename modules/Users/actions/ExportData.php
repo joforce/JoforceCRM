@@ -1,16 +1,16 @@
 <?php
 
-class Users_ExportData_Action extends Vtiger_ExportData_Action{
+class Users_ExportData_Action extends Head_ExportData_Action{
 
   /**
    * Function exports the data based on the mode
-   * @param Vtiger_Request $request
+   * @param Head_Request $request
    */
-  function ExportData(Vtiger_Request $request) {
+  function ExportData(Head_Request $request) {
     global $adb;
     $moduleName = $request->get('source_module');
 
-    $this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+    $this->moduleInstance = Head_Module_Model::getInstance($moduleName);
     $this->moduleFieldInstances = $this->moduleInstance->getFields();
     $this->focus = CRMEntity::getInstance($moduleName);
     $query = $this->getExportQuery($request);
@@ -29,10 +29,10 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action{
 
   /**
    * Function that generates Export Query based on the mode
-   * @param Vtiger_Request $request
+   * @param Head_Request $request
    * @return <String> export query
    */
-  function getExportQuery(Vtiger_Request $request) {
+  function getExportQuery(Head_Request $request) {
     $currentUser = Users_Record_Model::getCurrentUserModel();
     $cvId = $request->get('viewname');
     $moduleName = $request->get('source_module');

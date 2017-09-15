@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
+class Settings_Currency_Record_Model extends Settings_Head_Record_Model{
     
     public function getId() {
         return $this->get('id');
@@ -26,7 +26,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
         if(!empty($disabledRestircted)) {
             return $disabledRestircted;
         }
-        $query = 'SELECT 1 FROM vtiger_users WHERE currency_id = ?';
+        $query = 'SELECT 1 FROM jo_users WHERE currency_id = ?';
         $params = array($this->getId());
         $result = $db->pquery($query,$params);
         
@@ -49,14 +49,14 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
             'linklabel' => 'LBL_EDIT',
             'linkicon' => 'icon-pencil'
         );
-        $editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
+        $editLinkInstance = Head_Link_Model::getInstanceFromValues($editLink);
         
         $deleteLink = array(
             'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'".$this->getId()."')",
             'linklabel' => 'LBL_DELETE',
             'linkicon' => 'icon-trash'
         );
-        $deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
+        $deleteLinkInstance = Head_Link_Model::getInstanceFromValues($deleteLink);
         return array($editLinkInstance,$deleteLinkInstance);
     }
     
@@ -95,7 +95,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
 
     public static function getInstance($id) {
         $db = PearDatabase::getInstance();
-        if(Vtiger_Utils::isNumber($id)){
+        if(Head_Utils::isNumber($id)){
             $query = 'SELECT * FROM ' . Settings_Currency_Module_Model::tableName . ' WHERE id=?';
         }else{
             $query = 'SELECT * FROM ' . Settings_Currency_Module_Model::tableName . ' WHERE currency_name=?';
@@ -121,15 +121,15 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
 			}
         }
 		
-        $query = 'SELECT vtiger_currencies.* FROM vtiger_currencies 
-                    LEFT JOIN vtiger_currency_info ON vtiger_currency_info.currency_name = vtiger_currencies.currency_name
-                    WHERE vtiger_currency_info.currency_name IS NULL or vtiger_currency_info.deleted=1';
+        $query = 'SELECT jo_currencies.* FROM jo_currencies 
+                    LEFT JOIN jo_currency_info ON jo_currency_info.currency_name = jo_currencies.currency_name
+                    WHERE jo_currency_info.currency_name IS NULL or jo_currency_info.deleted=1';
         $params = array();
         if(!empty($includedIds)) {
             $params = $includedIds;
-            $query .= ' OR vtiger_currency_info.id IN('.generateQuestionMarks($includedIds).')';
+            $query .= ' OR jo_currency_info.id IN('.generateQuestionMarks($includedIds).')';
         }
-		$query .= ' ORDER BY vtiger_currencies.currency_name';
+		$query .= ' ORDER BY jo_currencies.currency_name';
 
         $result = $db->pquery($query,$params);
         $currencyModelList = array();

@@ -12,7 +12,7 @@
 /**
  * Roles Record Model Class
  */
-class Settings_Groups_Member_Model extends Vtiger_Base_Model {
+class Settings_Groups_Member_Model extends Head_Base_Model {
 
 	const MEMBER_TYPE_USERS = 'Users';
 	const MEMBER_TYPE_GROUPS = 'Groups';
@@ -23,19 +23,19 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model {
     const CUSTOM_VIEW_MODE = 'CV';
 	const REPORTS_VIEW_MODE = 'RP';
     
-    public static $groupTables = array(self::MEMBER_TYPE_USERS => array('table'=>'vtiger_users2group','index'=>'groupid','refIndex'=>'userid'),
-                                self::MEMBER_TYPE_GROUPS => array('table'=>'vtiger_group2grouprel','index'=>'groupid','refIndex'=>'containsgroupid'),
-                                self::MEMBER_TYPE_ROLES => array('table'=>'vtiger_group2role' ,'index'=>'groupid','refIndex'=>'roleid'), 
-                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'vtiger_group2rs' ,'index'=>'groupid','refIndex'=>'roleandsubid'));
+    public static $groupTables = array(self::MEMBER_TYPE_USERS => array('table'=>'jo_users2group','index'=>'groupid','refIndex'=>'userid'),
+                                self::MEMBER_TYPE_GROUPS => array('table'=>'jo_group2grouprel','index'=>'groupid','refIndex'=>'containsgroupid'),
+                                self::MEMBER_TYPE_ROLES => array('table'=>'jo_group2role' ,'index'=>'groupid','refIndex'=>'roleid'), 
+                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'jo_group2rs' ,'index'=>'groupid','refIndex'=>'roleandsubid'));
     
-    public static $cvTables = array(self::MEMBER_TYPE_USERS => array('table'=>'vtiger_cv2users','index'=>'cvid','refIndex'=>'userid'),
-                                self::MEMBER_TYPE_GROUPS => array('table'=>'vtiger_cv2group','index'=>'cvid','refIndex'=>'groupid'),
-                                self::MEMBER_TYPE_ROLES => array('table'=>'vtiger_cv2role' ,'index'=>'cvid','refIndex'=>'roleid'), 
-                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'vtiger_cv2rs' ,'index'=>'cvid','refIndex'=>'rsid'));
-	 public static $reportTables = array(self::MEMBER_TYPE_USERS => array('table'=>'vtiger_report_shareusers','index'=>'reportid','refIndex'=>'userid'),
-                                self::MEMBER_TYPE_GROUPS => array('table'=>'vtiger_report_sharegroups','index'=>'reportid','refIndex'=>'groupid'),
-                                self::MEMBER_TYPE_ROLES => array('table'=>'vtiger_report_sharerole' ,'index'=>'reportid','refIndex'=>'roleid'), 
-                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'vtiger_report_sharers' ,'index'=>'reportid','refIndex'=>'rsid'));
+    public static $cvTables = array(self::MEMBER_TYPE_USERS => array('table'=>'jo_cv2users','index'=>'cvid','refIndex'=>'userid'),
+                                self::MEMBER_TYPE_GROUPS => array('table'=>'jo_cv2group','index'=>'cvid','refIndex'=>'groupid'),
+                                self::MEMBER_TYPE_ROLES => array('table'=>'jo_cv2role' ,'index'=>'cvid','refIndex'=>'roleid'), 
+                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'jo_cv2rs' ,'index'=>'cvid','refIndex'=>'rsid'));
+	 public static $reportTables = array(self::MEMBER_TYPE_USERS => array('table'=>'jo_report_shareusers','index'=>'reportid','refIndex'=>'userid'),
+                                self::MEMBER_TYPE_GROUPS => array('table'=>'jo_report_sharegroups','index'=>'reportid','refIndex'=>'groupid'),
+                                self::MEMBER_TYPE_ROLES => array('table'=>'jo_report_sharerole' ,'index'=>'reportid','refIndex'=>'roleid'), 
+                                self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => array('table'=>'jo_report_sharers' ,'index'=>'reportid','refIndex'=>'rsid'));
 
 	/**
 	 * Function to get the Qualified Id of the Group Member
@@ -103,8 +103,8 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model {
             $tableName = $tables[self::MEMBER_TYPE_USERS]['table'];
             $tableIndex = $tables[self::MEMBER_TYPE_USERS]['index'];
             $refIndex = $tables[self::MEMBER_TYPE_USERS]['refIndex'];
-			$sql = "SELECT vtiger_users.id, vtiger_users.last_name, vtiger_users.first_name FROM vtiger_users
-							INNER JOIN $tableName ON $tableName.$refIndex = vtiger_users.id
+			$sql = "SELECT jo_users.id, jo_users.last_name, jo_users.first_name FROM jo_users
+							INNER JOIN $tableName ON $tableName.$refIndex = jo_users.id
 							WHERE $tableName.$tableIndex = ?";
 			$params = array($groupModel->getId());
 			$result = $db->pquery($sql, $params);
@@ -124,8 +124,8 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model {
             $tableName = $tables[self::MEMBER_TYPE_GROUPS]['table'];
             $tableIndex = $tables[self::MEMBER_TYPE_GROUPS]['index'];
             $refIndex = $tables[self::MEMBER_TYPE_GROUPS]['refIndex'];
-			$sql = "SELECT vtiger_groups.groupid, vtiger_groups.groupname FROM vtiger_groups
-							INNER JOIN $tableName ON $tableName.$refIndex = vtiger_groups.groupid
+			$sql = "SELECT jo_groups.groupid, jo_groups.groupname FROM jo_groups
+							INNER JOIN $tableName ON $tableName.$refIndex = jo_groups.groupid
 							WHERE $tableName.$tableIndex = ?";
 			$params = array($groupModel->getId());
 			$result = $db->pquery($sql, $params);
@@ -144,8 +144,8 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model {
             $tableName = $tables[self::MEMBER_TYPE_ROLES]['table'];
             $tableIndex = $tables[self::MEMBER_TYPE_ROLES]['index'];
             $refIndex = $tables[self::MEMBER_TYPE_ROLES]['refIndex'];
-			$sql = "SELECT vtiger_role.roleid, vtiger_role.rolename FROM vtiger_role
-							INNER JOIN $tableName ON $tableName.$refIndex = vtiger_role.roleid
+			$sql = "SELECT jo_role.roleid, jo_role.rolename FROM jo_role
+							INNER JOIN $tableName ON $tableName.$refIndex = jo_role.roleid
 							WHERE $tableName.$tableIndex = ?";
 			$params = array($groupModel->getId());
 			$result = $db->pquery($sql, $params);
@@ -164,8 +164,8 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model {
             $tableName = $tables[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES]['table'];
             $tableIndex = $tables[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES]['index'];
             $refIndex = $tables[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES]['refIndex'];
-			$sql = "SELECT vtiger_role.roleid, vtiger_role.rolename FROM vtiger_role
-							INNER JOIN $tableName ON $tableName.$refIndex = vtiger_role.roleid
+			$sql = "SELECT jo_role.roleid, jo_role.rolename FROM jo_role
+							INNER JOIN $tableName ON $tableName.$refIndex = jo_role.roleid
 							WHERE $tableName.$tableIndex = ?";
 			$params = array($groupModel->getId());
 			$result = $db->pquery($sql, $params);

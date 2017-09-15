@@ -21,7 +21,7 @@ class path {
 
     static function rel2abs_url($path) {
 		//added so absolute url's used instead of url's relative to server's root.
-		require '../config.inc.php';
+		require '../config/config.inc.php';
 		$return = $site_URL."/$path";
 
         return $return;

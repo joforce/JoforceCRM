@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
+class Products_RelationAjax_Action extends Head_RelationAjax_Action {
 	
 	function __construct() {
 		parent::__construct();
@@ -35,21 +35,21 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 			$qtysList = array();
 		}
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+		$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId, $relatedRecordId, array('quantities' => $qtysList));
 			if($relatedModule == 'PriceBooks'){
-				$recordModel = Vtiger_Record_Model::getInstanceById($relatedRecordId);
+				$recordModel = Head_Record_Model::getInstanceById($relatedRecordId);
 				if ($sourceRecordId && ($sourceModule === 'Products' || $sourceModule === 'Services')) {
-					$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
+					$parentRecordModel = Head_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 					$recordModel->updateListPrice($sourceRecordId, $parentRecordModel->get('unit_price'));
 				}
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -64,16 +64,16 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$relatedModule =  $request->get('related_module');
 		$relInfos = $request->get('relinfo');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+		$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach($relInfos as $relInfo) {
 			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
 		}
 	}
 
-	public function updateShowBundles(Vtiger_Request $request) {
+	public function updateShowBundles(Head_Request $request) {
 		$sourceModule = $request->getModule();
 		$recordId = $request->get('record');
 		$relatedModule = $request->get('relatedModule');
@@ -81,29 +81,29 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$tabLabel = $request->get('tabLabel');
 
 		if ($relatedModule === 'Products' && $tabLabel === 'Product Bundles') {
-			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+			$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+			$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			$relationModel->updateShowBundlesOption($recordId, $value);
 		}
 	}
 
-	public function updateQuantity(Vtiger_Request $request) {
+	public function updateQuantity(Head_Request $request) {
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
 		$relatedModule =  $request->get('related_module');
 		$relatedRecordsInfo = $request->get('relatedRecords');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+		$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 
 		foreach($relatedRecordsInfo as $relatedRecordId => $quantity) {
 			$relationModel->updateQuantity($sourceRecordId, $relatedRecordId, $quantity);
 		}
 	}
 
-	public function changeBundleCost(Vtiger_Request $request) {
+	public function changeBundleCost(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$relatedModule = $request->get('relatedModule');
@@ -111,7 +111,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$unitPrice = $request->get('unit_price');
 
 		if ($moduleName === $relatedModule && $tabLabel === 'Product Bundles' && $unitPrice) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
@@ -129,7 +129,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = Head_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
 
 				if ($fieldValue !== null) {
@@ -171,7 +171,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 			$_REQUEST['base_currency']	= $currentRequest['base_currency'];
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

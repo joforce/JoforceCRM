@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_SharingAccess_SaveAjax_Action extends Vtiger_SaveAjax_Action {
+Class Settings_SharingAccess_SaveAjax_Action extends Head_SaveAjax_Action {
 
-    public function checkPermission(Vtiger_Request $request) {
+    public function checkPermission(Head_Request $request) {
         $currentUser = Users_Record_Model::getCurrentUserModel();
         if($currentUser->isAdminUser()) {
             return true;
         } else {
-            throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+            throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
         }
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$modulePermissions = $request->get('permissions');
 
 		foreach($modulePermissions as $tabId => $permission) {
@@ -35,8 +35,8 @@ Class Settings_SharingAccess_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		}
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		$response->emit();
 	}
  }

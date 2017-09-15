@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
+class Settings_Picklist_Index_View extends Settings_Head_Index_View {
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         
         $sourceModule = $request->get('source_module');
         $pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
@@ -35,7 +35,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
             } else {
                 $selectedPickListFieldModel = reset($pickListFields);
             }
-            $selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($selectedPickListFieldModel->getName());
+            $selectedFieldAllPickListValues = Head_Util_Helper::getPickListValues($selectedPickListFieldModel->getName());
 			
             $viewer->assign('PICKLIST_FIELDS',$pickListFields);
             $viewer->assign('SELECTED_PICKLIST_FIELDMODEL',$selectedPickListFieldModel);
@@ -61,7 +61,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Index.tpl',$qualifiedName);
     }
 	
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -75,7 +75,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
     
-    public function getHeaderCss(Vtiger_Request $request) {
+    public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 

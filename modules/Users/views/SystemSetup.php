@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_SystemSetup_View extends Vtiger_Index_View {
+class Users_SystemSetup_View extends Head_Index_View {
 	
-	public function preProcess(Vtiger_Request $request, $display=true) {
+	public function preProcess(Head_Request $request, $display=true) {
 		return true;
 	}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		global $site_URL;
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -33,7 +33,7 @@ class Users_SystemSetup_View extends Vtiger_Index_View {
 		}
 	}
 	
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 	

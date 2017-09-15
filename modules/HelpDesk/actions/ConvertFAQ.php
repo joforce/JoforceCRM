@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller {
+class HelpDesk_ConvertFAQ_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$recordPermission = Users_Privileges_Model::isPermitted('Faq', 'CreateView');
 
 		if(!$recordPermission) {
@@ -19,13 +19,13 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		$result = array();
 		if (!empty ($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 
 			$faqRecordModel = Faq_Record_Model::getInstanceFromHelpDesk($recordModel);
 
@@ -39,7 +39,7 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

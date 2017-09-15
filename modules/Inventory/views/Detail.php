@@ -9,8 +9,8 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_Detail_View extends Vtiger_Detail_View {
-	function preProcess(Vtiger_Request $request) {
+class Inventory_Detail_View extends Head_Detail_View {
+	function preProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
 		parent::preProcess($request);
@@ -18,19 +18,19 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function returns Inventory details
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function showModuleDetailView(Vtiger_Request $request) {
+	function showModuleDetailView(Head_Request $request) {
 		$this->showLineItemDetails($request);
 		return parent::showModuleDetailView($request);
 	}
 
 	/**
 	 * Function returns Inventory details
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return type
 	 */
-	function showDetailViewByMode(Vtiger_Request $request) {
+	function showDetailViewByMode(Head_Request $request) {
 		$requestMode = $request->get('requestMode');
 		if($requestMode == 'full') {
 			return $this->showModuleDetailView($request);
@@ -51,10 +51,10 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
+		$recordStrucure = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
 
 		$moduleModel = $recordModel->getModule();
 		$viewer = $this->getViewer($request);
@@ -72,9 +72,9 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function returns Inventory Line Items
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function showLineItemDetails(Vtiger_Request $request) {
+	function showLineItemDetails(Head_Request $request) {
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
 
@@ -90,7 +90,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 			$taxDetails = $finalDetails['taxes'];
 			$taxCount = count($taxDetails);
 			foreach ($taxDetails as $key => $taxInfo) {
-				$taxDetails[$key]['amount'] = Vtiger_Currency_UIType::transformDisplayValue($taxInfo['amount'], null, true);
+				$taxDetails[$key]['amount'] = Head_Currency_UIType::transformDisplayValue($taxInfo['amount'], null, true);
 			}
 			$finalDetails['taxes'] = $taxDetails;
 		}
@@ -99,7 +99,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		//Deducted tax details convertion started
 		$deductTaxes = $finalDetails['deductTaxes'];
 		foreach ($deductTaxes as $taxId => $taxInfo) {
-			$deductTaxes[$taxId]['taxAmount'] = Vtiger_Currency_UIType::transformDisplayValue($deductTaxes[$taxId]['taxAmount'], null, true);
+			$deductTaxes[$taxId]['taxAmount'] = Head_Currency_UIType::transformDisplayValue($deductTaxes[$taxId]['taxAmount'], null, true);
 		}
 		$finalDetails['deductTaxes'] = $deductTaxes;
 		//Deducted tax details convertion ended
@@ -107,7 +107,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		$currencyFieldsList = array('adjustment', 'grandTotal', 'hdnSubTotal', 'preTaxTotal', 'tax_totalamount',
 									'shtax_totalamount', 'discountTotal_final', 'discount_amount_final', 'shipping_handling_charge', 'totalAfterDiscount', 'deductTaxesTotalAmount');
 		foreach ($currencyFieldsList as $fieldName) {
-			$finalDetails[$fieldName] = Vtiger_Currency_UIType::transformDisplayValue($finalDetails[$fieldName], null, true);
+			$finalDetails[$fieldName] = Head_Currency_UIType::transformDisplayValue($finalDetails[$fieldName], null, true);
 		}
 
 		$relatedProducts[1]['final_details'] = $finalDetails;
@@ -123,7 +123,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 				$taxDetails = $product['taxes'];
 				$taxCount = count($taxDetails);
 				for($j=0; $j<$taxCount; $j++) {
-					$taxDetails[$j]['amount'] = Vtiger_Currency_UIType::transformDisplayValue($taxDetails[$j]['amount'], null, true);
+					$taxDetails[$j]['amount'] = Head_Currency_UIType::transformDisplayValue($taxDetails[$j]['amount'], null, true);
 				}
 				$product['taxes'] = $taxDetails;
 			}
@@ -132,7 +132,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 			$currencyFieldsList = array('taxTotal', 'netPrice', 'listPrice', 'unitPrice', 'productTotal','purchaseCost','margin',
 										'discountTotal', 'discount_amount', 'totalAfterDiscount');
 			foreach ($currencyFieldsList as $fieldName) {
-				$product[$fieldName.$i] = Vtiger_Currency_UIType::transformDisplayValue($product[$fieldName.$i], null, true);
+				$product[$fieldName.$i] = Head_Currency_UIType::transformDisplayValue($product[$fieldName.$i], null, true);
 			}
 
 			$relatedProducts[$i] = $product;
@@ -171,7 +171,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 
 					$taxInfo['name']	= $shippingTaxes[$taxId]['taxlabel'];
 					$taxInfo['percent']	= $taxPercent;
-					$taxInfo['amount']	= Vtiger_Currency_UIType::transformDisplayValue($calculatedAmount, null, true);
+					$taxInfo['amount']	= Head_Currency_UIType::transformDisplayValue($calculatedAmount, null, true);
 
 					$selectedTaxesList[$chargeId][$taxId] = $taxInfo;
 				}
@@ -181,7 +181,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		$selectedChargesList = Inventory_Charges_Model::getChargeModelsList(array_keys($selectedChargesAndItsTaxes));
 		foreach ($selectedChargesList as $chargeId => $chargeModel) {
 			$chargeInfo['name']		= $chargeModel->getName();
-			$chargeInfo['amount']	= Vtiger_Currency_UIType::transformDisplayValue($selectedChargesAndItsTaxes[$chargeId]['value'], null, true);
+			$chargeInfo['amount']	= Head_Currency_UIType::transformDisplayValue($selectedChargesAndItsTaxes[$chargeId]['value'], null, true);
 			$chargeInfo['percent']	= $selectedChargesAndItsTaxes[$chargeId]['percent'];
 			$chargeInfo['taxes']	= $selectedTaxesList[$chargeId];
 			$chargeInfo['deleted']	= $chargeModel->get('deleted');
@@ -198,9 +198,9 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 //		$viewer->view('LineItemsDetail.tpl', 'Inventory');
 	}
 
-	public function getActivities(Vtiger_Request $request) {
+	public function getActivities(Head_Request $request) {
 		$moduleName = 'Calendar';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -211,12 +211,12 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 			if (empty($pageNumber)) {
 				$pageNumber = 1;
 			}
-			$pagingModel = new Vtiger_Paging_Model();
+			$pagingModel = new Head_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('limit', 10);
 
 			if (!$this->record) {
-				$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+				$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 			}
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
@@ -236,10 +236,10 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getOverlayHeaderScripts(Vtiger_Request $request) {
+	function getOverlayHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getOverlayHeaderScripts($request);
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
@@ -252,7 +252,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		return $headerScriptInstances;
 	}
 
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$moduleName = $request->getModule();

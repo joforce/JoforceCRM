@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_FilterRecordStructure_Model extends Vtiger_FilterRecordStructure_Model {
+class Calendar_FilterRecordStructure_Model extends Head_FilterRecordStructure_Model {
 
 	/**
 	 * Function to get the fields & reference fields in stuctured format
@@ -55,7 +55,7 @@ class Calendar_FilterRecordStructure_Model extends Vtiger_FilterRecordStructure_
 						continue;
 					}
 
-					$refModuleModel = Vtiger_Module_Model::getInstance($refModule);
+					$refModuleModel = Head_Module_Model::getInstance($refModule);
 					$blockModelList = $refModuleModel->getBlocks();
 					$fieldModelList = null;
 					foreach ($blockModelList as $blockLabel => $blockModel) {

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Settings_Workflows_ValidateExpression_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Workflows_ValidateExpression_Action extends Settings_Head_Basic_Action {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Settings_Workflows_ValidateExpression_Action extends Settings_Vtiger_Basic
 		$this->exposeMethod('ForWorkflowEdit');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -25,10 +25,10 @@ class Settings_Workflows_ValidateExpression_Action extends Settings_Vtiger_Basic
 		}
 	}
 
-	public function ForTaskEdit(Vtiger_Request $request) {
-		require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+	public function ForTaskEdit(Head_Request $request) {
+		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
 
-		$result = new Vtiger_Response();
+		$result = new Head_Response();
 		$fieldMapping = Zend_Json::decode($request->getRaw('field_value_mapping'));
 		if (empty($fieldMapping)) {
 			$fieldMapping = array();
@@ -49,10 +49,10 @@ class Settings_Workflows_ValidateExpression_Action extends Settings_Vtiger_Basic
 		$result->emit();
 	}
 
-	public function ForWorkflowEdit(Vtiger_Request $request) {
-		require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+	public function ForWorkflowEdit(Head_Request $request) {
+		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
 
-		$result = new Vtiger_Response();
+		$result = new Head_Response();
 
 		//For workflows that are created in vtiger5 we are ignoring checking of expression validation
 		if ($request->get('filtersavedinnew') != '6') {

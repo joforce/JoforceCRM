@@ -191,7 +191,7 @@ finAndReplace()
 
 }
 
-isvtiger_MySQL_Running()
+isjo_MySQL_Running()
 {
 	version=$1
 	retval=1
@@ -274,7 +274,7 @@ ${mysql_dir}/bin/mysqldump -u $m_uname -h $machine_name --port=$m_port --passwor
 
 if [ $? -eq 0 ]
 then
-	echo 'Data dump taken successfully in vtiger_4_0_1_dump.txt'
+	echo 'Data dump taken successfully in jo_4_0_1_dump.txt'
 else
 	echo 'Unable to take the database dump. vtigercrm database may be corrupted'
 	exit
@@ -297,13 +297,13 @@ ${mysql_dir}/bin/mysql -h $machine_name --user=$m_uname --password=$m_passwd --p
 
 wget http://localhost:${apache_port_4_2}/Migrate.php
 
-echo 'set FOREIGN_KEY_CHECKS=0;' > migrated_vtiger_4_2_dump.txt
+echo 'set FOREIGN_KEY_CHECKS=0;' > migrated_jo_4_2_dump.txt
 
 #dump the migrated bkup database to a file
 
 echo 'about to take the dump of the bkup file and put into the migrated_dump.txt file'
 
- ${mysql_dir}/bin/mysqldump -h $machine_name --user=$m_uname --password=$m_passwd --port=$m_port vtigercrm_4_0_1_bkp >> migrated_vtiger_4_2_dump.txt
+ ${mysql_dir}/bin/mysqldump -h $machine_name --user=$m_uname --password=$m_passwd --port=$m_port vtigercrm_4_0_1_bkp >> migrated_jo_4_2_dump.txt
 
 echo 'about to drop the database vtigercrm_4_0_1_bkp'
 
@@ -322,7 +322,7 @@ startMySQL()
 		while [ "${mysql_running}" != "true" ]
 		do
 			promptAndCheckMySQL $version
-			isvtiger_MySQL_Running $version
+			isjo_MySQL_Running $version
 			if [ $? = 0 ]
 			then	
 				mysql_running=true
@@ -336,7 +336,7 @@ startMySQL()
 			echo "Going to start the  vtiger CRM $version mysql server at port $mysql_port"
 			${mysql_dir}/bin/mysqld_safe --basedir=$mysql_dir --datadir=$mysql_dir/data --socket=$mysql_socket --tmpdir=$mysql_dir/tmp --user=root --port=$mysql_port --default-table-type=INNODB > /dev/null &
 			sleep 8
-			isvtiger_MySQL_Running $version
+			isjo_MySQL_Running $version
 			if [ $? -ne 0 ]
 			then
 				echo ""
@@ -360,22 +360,22 @@ getdump4_0_1_db()
 	echo "********************************************"
 	echo "Taking the dump of vtiger CRM 4.0.1 database"
 	echo "*******************************************"
-	echo 'set FOREIGN_KEY_CHECKS=0;' > vtiger_4_0_1_dump.txt		
-	${mysql_dir_4_0_1}/bin/mysqldump --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm4_0_1 >> vtiger_4_0_1_dump.txt
+	echo 'set FOREIGN_KEY_CHECKS=0;' > jo_4_0_1_dump.txt		
+	${mysql_dir_4_0_1}/bin/mysqldump --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm4_0_1 >> jo_4_0_1_dump.txt
 	if [ $? -eq 0 ]
 	then
-		echo 'Data dump taken successfully in vtiger_4_0_1_dump.txt'
+		echo 'Data dump taken successfully in jo_4_0_1_dump.txt'
 	else
 		echo 'Unable to take the database dump. vtigercrm database may be corrupted'
 		exit
 	fi
 		
 	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket -e "create database vtigercrm_4_0_1_bkp" 
-	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm_4_0_1_bkp < vtiger_4_0_1_dump.txt
+	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm_4_0_1_bkp < jo_4_0_1_dump.txt
 	wget http://localhost:${apache_port_4_0_1}/Migrate.php
 	#${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm_4_0_bkp < migrate_4_0to4_0_1.sql
-	echo 'set FOREIGN_KEY_CHECKS=0;' > migrated_vtiger_4_2_dump.txt
-	${mysql_dir_4_0_1}/bin/mysqldump --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm_4_0_1_bkp >> migrated_vtiger_4_2_dump.txt
+	echo 'set FOREIGN_KEY_CHECKS=0;' > migrated_jo_4_2_dump.txt
+	${mysql_dir_4_0_1}/bin/mysqldump --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm_4_0_1_bkp >> migrated_jo_4_2_dump.txt
 	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket -e "drop database vtigercrm_4_0_1_bkp"
 
 }
@@ -422,7 +422,7 @@ dumpinto4_2db()
 {
        	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket -e "drop database vtigercrm4_2"
        	${mysql_dir}/bin/mysql --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket -e "create database if not exists vtigercrm4_2"
-	${mysql_dir}/bin/mysql  --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm4_2 --force < migrated_vtiger_4_2_dump.txt  2> migrate_log.txt
+	${mysql_dir}/bin/mysql  --user=$mysql_username --password=$mysql_password --port=$mysql_port --socket=$mysql_socket vtigercrm4_2 --force < migrated_jo_4_2_dump.txt  2> migrate_log.txt
 	
 	if [ $? -eq 0 ]
 	then
@@ -441,7 +441,7 @@ main()
 	if [ ${diffmac} -eq 0 ]
 	then
 		getvtiger4_0_1_data
-		isvtiger_MySQL_Running 4_0_1
+		isjo_MySQL_Running 4_0_1
 
 		if [ $? != 0 ]
 		then
@@ -455,7 +455,7 @@ main()
 	fi
 
 	getvtiger4_2data
-	isvtiger_MySQL_Running 4_2
+	isjo_MySQL_Running 4_2
 	if [ $? != 0 ]
 	then
 		startMySQL 4_2

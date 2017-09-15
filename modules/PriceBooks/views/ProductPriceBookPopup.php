@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
+class PriceBooks_ProductPriceBookPopup_View extends Head_Popup_View {
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
@@ -28,16 +28,16 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->get('src_module');
 		$jsFileNames = array(
 			"modules.Products.resources.ProductsPopup",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+			'modules.Head.resources.validator.BaseValidator',
+			'modules.Head.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		);
 
@@ -50,7 +50,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		$moduleName = $request->getModule();
 		$cvId = $request->get('cvid');
 		$pageNumber = $request->get('page');
@@ -70,13 +70,13 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$listViewModel = Head_ListView_Model::getInstanceForPopup($moduleName);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		if(!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
@@ -87,7 +87,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
-			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = Head_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 		}
 		if((!empty($searchKey)) && (!empty($searchValue)))  {
 			$listViewModel->set('search_key', $searchKey);
@@ -106,7 +106,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 		}
 		
 		//get the unit prices for the pricebooks based on the product currency
-		$productUnitPrice = Vtiger_Functions::getUnitPrice($sourceRecord, $sourceModule);
+		$productUnitPrice = Head_Functions::getUnitPrice($sourceRecord, $sourceModule);
 		$productPriceDetails = getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
 		
 		$productCurrencyPrice = array();
@@ -188,7 +188,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('VIEW', 'ProductPriceBookPopup');
 	}
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		return Head_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 
 }

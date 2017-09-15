@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_MailConverter_Module_Model extends Settings_Head_Module_Model {
 
 	var $name = 'MailConverter';
 
@@ -93,7 +93,7 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 
 	public function MailBoxExists() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_mailscanner", array());
+		$result = $db->pquery("SELECT COUNT(*) AS count FROM jo_mailscanner", array());
 		$response = $db->query_result($result, 0, 'count');
 		if ($response == 0)
 			return false;
@@ -102,7 +102,7 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 
 	public function getDefaultId() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT MIN(scannerid) AS id FROM vtiger_mailscanner", array());
+		$result = $db->pquery("SELECT MIN(scannerid) AS id FROM jo_mailscanner", array());
 		$id = $db->query_result($result, 0, 'id');
 		return $id;
 	}
@@ -110,7 +110,7 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getMailboxes() {
 		$mailBox = array();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT scannerid, scannername FROM vtiger_mailscanner", array());
+		$result = $db->pquery("SELECT scannerid, scannername FROM jo_mailscanner", array());
 		$numOfRows = $db->num_rows($result);
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$mailBox[$i]['scannerid'] = $db->query_result($result, $i, 'scannerid');
@@ -122,7 +122,7 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getScannedFolders($id) {
 		$folders = array();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT foldername FROM vtiger_mailscanner_folders WHERE scannerid=? AND enabled=1", array($id));
+		$result = $db->pquery("SELECT foldername FROM jo_mailscanner_folders WHERE scannerid=? AND enabled=1", array($id));
 		$numOfRows = $db->num_rows($result);
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$folders[$i] = $db->query_result($result, $i, 'foldername');
@@ -134,8 +134,8 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 		include_once 'modules/Settings/MailConverter/handlers/MailScannerInfo.php';
 		include_once 'modules/Settings/MailConverter/handlers/MailBox.php';
 		$scannerName = Settings_MailConverter_Module_Model::getScannerName($id);
-		$scannerInfo = new Vtiger_MailScannerInfo($scannerName);
-		$mailBox = new Vtiger_MailBox($scannerInfo);
+		$scannerInfo = new Head_MailScannerInfo($scannerName);
+		$mailBox = new Head_MailBox($scannerInfo);
 		$isConnected = $mailBox->connect();
 		if($isConnected) {
 			$allFolders = $mailBox->getFolders();
@@ -160,7 +160,7 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 
 	public function getScannerName($id) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT scannername FROM vtiger_mailscanner WHERE scannerid=?", array($id));
+		$result = $db->pquery("SELECT scannername FROM jo_mailscanner WHERE scannerid=?", array($id));
 		$scannerName = $db->query_result($result, 0, 'scannername');
 		return $scannerName;
 	}
@@ -169,11 +169,11 @@ class Settings_MailConverter_Module_Model extends Settings_Vtiger_Module_Model {
 		include_once 'modules/Settings/MailConverter/handlers/MailScannerInfo.php';
 		$db = PearDatabase::getInstance();
 		$scannerName = Settings_MailConverter_Module_Model::getScannerName($scannerId);
-		$scannerInfo = new Vtiger_MailScannerInfo($scannerName);
+		$scannerInfo = new Head_MailScannerInfo($scannerName);
 		$lastScan = $scannerInfo->dateBasedOnMailServerTimezone('d-M-Y');
-		$db->pquery("DELETE FROM vtiger_mailscanner_folders WHERE scannerid=?", array($scannerId));
+		$db->pquery("DELETE FROM jo_mailscanner_folders WHERE scannerid=?", array($scannerId));
 		foreach ($folders as $folder) {
-			$db->pquery("INSERT INTO vtiger_mailscanner_folders VALUES(?,?,?,?,?,?)", array('', $scannerId, $folder, $lastScan, '0', '1'));
+			$db->pquery("INSERT INTO jo_mailscanner_folders VALUES(?,?,?,?,?,?)", array('', $scannerId, $folder, $lastScan, '0', '1'));
 		}
 	}
 

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Multireference_UIType extends Vtiger_Reference_UIType{
+class Calendar_Multireference_UIType extends Head_Reference_UIType{
     /**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name

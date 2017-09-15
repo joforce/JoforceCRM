@@ -9,10 +9,10 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View {
+Class Settings_Groups_Detail_View extends Settings_Head_Index_View {
     
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         
         $groupId = $request->get('record');		
         $qualifiedModuleName = $request->getModule(false);
@@ -33,10 +33,10 @@ Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View {
     
     /**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -50,14 +50,14 @@ Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View {
 	}
     
     /**
-     * Setting module related Information to $viewer (for Vtiger7)
+     * Setting module related Information to $viewer (for Head7)
      * @param type $request
      * @param type $moduleModel
      */
     public function setModuleInfo($request, $moduleModel){
         
         $viewer = $this->getViewer($request);
-        $listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
+        $listViewModel = Settings_Head_ListView_Model::getInstance($request->getModule(false));
         $linkParams = array('MODULE'=>$request->getModule(false), 'ACTION'=>$request->get('view'));
 
         if(!$this->listViewLinks){

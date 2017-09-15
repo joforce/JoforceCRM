@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_MenuEditor_Module_Model extends Settings_Head_Module_Model {
 
 	var $name = 'MenuEditor';
 
@@ -20,7 +20,7 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 		$selectedModulesList = $this->get('selectedModulesList');
 
-		$updateQuery = "UPDATE vtiger_tab SET tabsequence = CASE tabid ";
+		$updateQuery = "UPDATE jo_tab SET tabsequence = CASE tabid ";
 
 		foreach ($selectedModulesList as $sequence => $tabId) {
 			$updateQuery .= " WHEN $tabId THEN $sequence ";
@@ -38,13 +38,13 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 	public static function getHiddenModulesForApp($appName) {
 		$db = PearDatabase::getInstance();
 		$modules = array();
-		$result = $db->pquery('SELECT tabid FROM vtiger_app2tab WHERE appname = ? AND visible = ?', array($appName, 0));
+		$result = $db->pquery('SELECT tabid FROM jo_app2tab WHERE appname = ? AND visible = ?', array($appName, 0));
 		$count = $db->num_rows($result);
 		if ($count > 0) {
 			for ($i = 0; $i < $count; $i++) {
 				$tabid = $db->query_result($result, $i, 'tabid');
 				$moduleName = getTabModuleName($tabid);
-				$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+				$moduleInstance = Head_Module_Model::getInstance($moduleName);
 				if ($moduleInstance->isActive()) {
 					$modules[$moduleName] = $moduleName;
 				}
@@ -58,7 +58,7 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 		$modules = array();
 		$presence = array('0', '2');
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_app2tab WHERE visible = ? ORDER BY appname,sequence', array(1));
+		$result = $db->pquery('SELECT * FROM jo_app2tab WHERE visible = ? ORDER BY appname,sequence', array(1));
 		$count = $db->num_rows($result);
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($count > 0) {
@@ -69,7 +69,7 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 				$moduleName = getTabModuleName($tabid);
 				if ($moduleName === 'Transactions')
 					continue; //Transactions module should not be available in Menu
-				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				$moduleModel = Head_Module_Model::getInstance($moduleName);
 				if (empty($moduleModel))
 					continue;
 				$moduleModel->set('app2tab_sequence', $sequence);
@@ -87,19 +87,19 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 	public static function addModuleToApp($moduleName, $parent) {
 		$db = PearDatabase::getInstance();
 		$parent = strtoupper($parent);
-		$oldToNewAppMapping = Vtiger_MenuStructure_Model::getOldToNewAppMapping();
+		$oldToNewAppMapping = Head_MenuStructure_Model::getOldToNewAppMapping();
 		if (!empty($oldToNewAppMapping[$parent])) {
 			$parent = $oldToNewAppMapping[$parent];
 		}
 
-		$ignoredModules = Vtiger_MenuStructure_Model::getIgnoredModules();
+		$ignoredModules = Head_MenuStructure_Model::getIgnoredModules();
 		if (!in_array($moduleName, $ignoredModules)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$result = $db->pquery('SELECT * FROM vtiger_app2tab WHERE tabid = ? AND appname = ?', array($moduleModel->getId(), $parent));
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
+			$result = $db->pquery('SELECT * FROM jo_app2tab WHERE tabid = ? AND appname = ?', array($moduleModel->getId(), $parent));
 
 			$sequence = self::getMaxSequenceForApp($parent) + 1;
 			if ($db->num_rows($result) == 0) {
-				$db->pquery('INSERT INTO vtiger_app2tab(tabid,appname,sequence) VALUES(?,?,?)', array($moduleModel->getId(), $parent, $sequence));
+				$db->pquery('INSERT INTO jo_app2tab(tabid,appname,sequence) VALUES(?,?,?)', array($moduleModel->getId(), $parent, $sequence));
 			}
 		}
 	}
@@ -108,14 +108,14 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 
 		$parent = strtoupper($parent);
-		$oldToNewAppMapping = Vtiger_MenuStructure_Model::getOldToNewAppMapping();
+		$oldToNewAppMapping = Head_MenuStructure_Model::getOldToNewAppMapping();
 		if (!empty($oldToNewAppMapping[$parent])) {
 			$parent = $oldToNewAppMapping[$parent];
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
-		$query = "UPDATE vtiger_app2tab SET appname=? WHERE tabid=?";
+		$query = "UPDATE jo_app2tab SET appname=? WHERE tabid=?";
 		$params = array($parent, $moduleModel->getId());
 		if ($oldParent) {
 			$query .= ' AND appname=?';
@@ -131,7 +131,7 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 	 */
 	public static function getMaxSequenceForApp($appName) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT MAX(sequence) AS maxsequence FROM vtiger_app2tab WHERE appname=?', array($appName));
+		$result = $db->pquery('SELECT MAX(sequence) AS maxsequence FROM jo_app2tab WHERE appname=?', array($appName));
 		$sequence = 0;
 		if ($db->num_rows($result) > 0) {
 			$sequence = $db->query_result($result, 0, 'maxsequence');

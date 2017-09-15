@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
+class Users_QuickCreateAjax_View extends Head_QuickCreateAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		if (!$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$recordModel = Users_Record_Model::getCleanInstance($moduleName);
@@ -54,7 +54,7 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 	}
 
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 
 		$moduleName = $request->getModule();
 

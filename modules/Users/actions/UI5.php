@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_UI5_Action extends Vtiger_Action_Controller {
+class Users_UI5_Action extends Head_Action_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		return true;
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		setcookie('vtigerui', 5, time() + 60 * 60 * 24 * 30, '/');
 		$HTTP_REFERER = $_SERVER['HTTP_REFERER'];
 		$switchURL = explode('?', $HTTP_REFERER);
@@ -28,7 +28,7 @@ class Users_UI5_Action extends Vtiger_Action_Controller {
 		$module = $action = $record = $mode = '';
 		if (isset($params['module'])) {
 			$module = $params['module'];
-			if ($module == 'Vtiger')
+			if ($module == 'Head')
 				$module = '';
 		}
 

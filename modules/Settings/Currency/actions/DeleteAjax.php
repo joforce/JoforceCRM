@@ -10,10 +10,10 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Currency_DeleteAjax_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Currency_DeleteAjax_Action extends Settings_Head_Basic_Action {
     
-    public function process(Vtiger_Request $request) {
-        $response = new Vtiger_Response();
+    public function process(Head_Request $request) {
+        $response = new Head_Response();
         try{
             $record = $request->get('record');
             $transforCurrencyToId = $request->get('transform_to_id');
@@ -29,7 +29,7 @@ class Settings_Currency_DeleteAjax_Action extends Settings_Vtiger_Basic_Action {
         $response->emit();
     }
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

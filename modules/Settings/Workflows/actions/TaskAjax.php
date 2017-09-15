@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View {
+class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 
 	function __construct() {
 		parent::__construct();
@@ -17,11 +17,11 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 		$this->exposeMethod('ChangeStatus');
 		$this->exposeMethod('Save');
 	}
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -29,18 +29,18 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 		}
 	}
 
-	public function Delete(Vtiger_Request $request){
+	public function Delete(Head_Request $request){
 		$record = $request->get('task_id');
 		if(!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskRecordModel->delete();
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult(array('ok'));
 			$response->emit();
 		}
 	}
 
-	public function ChangeStatus(Vtiger_Request $request) {
+	public function ChangeStatus(Head_Request $request) {
 		$record = $request->get('task_id');
 		if(!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
@@ -50,13 +50,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			else
 				$taskObject->active = false;
 			$taskRecordModel->save();
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult(array('ok'));
 			$response->emit();
 		}
 	}
 
-	public function Save(Vtiger_Request $request) {
+	public function Save(Head_Request $request) {
 
 		$workflowId = $request->get('for_workflow');
 		if(!empty($workflowId)) {
@@ -102,7 +102,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 				}
 			}
 
-			require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+			require_once 'modules/com_jo_workflow/expression_engine/include.inc';
 
 			$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
 			if (is_array($fieldMapping)) {
@@ -112,7 +112,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 							$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($mappingInfo['value'])));
 							$expression = $parser->expression();
 						} catch (Exception $e) {
-							$result = new Vtiger_Response();
+							$result = new Head_Response();
 							$result->setError($mappingInfo);
 							$result->emit();
 							return;
@@ -128,7 +128,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 				} else {
 					$module = 'Calendar';
 				}
-				$moduleModel = Vtiger_Module_Model::getInstance($module);
+				$moduleModel = Head_Module_Model::getInstance($module);
 				$fieldsList = $moduleModel->getFields();
 				foreach($fieldsList as $fieldName => $fieldModel) {
 					$fieldValue = $request->get($fieldName);
@@ -146,7 +146,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			}
 
 			if ($taskType === 'VTCreateEntityTask') {
-				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
+				$relationModuleModel = Head_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
@@ -166,7 +166,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			}
 
 			$taskRecordModel->save();
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult(array('for_workflow'=>$workflowId));
 			$response->emit();
 		}

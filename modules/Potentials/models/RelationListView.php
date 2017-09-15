@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_RelationListView_Model extends Vtiger_RelationListView_Model {
+class Potentials_RelationListView_Model extends Head_RelationListView_Model {
 
 	public function getCreateViewUrl() {
 		$createViewUrl = parent::getCreateViewUrl();

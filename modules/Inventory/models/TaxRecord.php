@@ -9,10 +9,10 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Inventory_TaxRecord_Model extends Vtiger_Base_Model {
+class Inventory_TaxRecord_Model extends Head_Base_Model {
 
-	const INVENTORY_TAXES_TABLE_NAME = 'vtiger_inventorytaxinfo';
-	const CHARGES_TAX_TABLE_NAME = 'vtiger_shippingtaxinfo';
+	const INVENTORY_TAXES_TABLE_NAME = 'jo_inventorytaxinfo';
+	const CHARGES_TAX_TABLE_NAME = 'jo_shippingtaxinfo';
 	const PRODUCT_AND_SERVICE_TAX = 0;
 	const SHIPPING_AND_HANDLING_TAX = 1;
 
@@ -68,11 +68,11 @@ class Inventory_TaxRecord_Model extends Vtiger_Base_Model {
 	}
 
 	public function getCreateTaxUrl() {
-		return '?module=Vtiger&parent=Settings&view=TaxAjax&mode=editTax';
+		return '?module=Head&parent=Settings&view=TaxAjax&mode=editTax';
 	}
 
 	public function getEditTaxUrl() {
-		return '?module=Vtiger&parent=Settings&view=TaxAjax&mode=editTax&type='.$this->getType().'&taxid='.$this->getId();
+		return '?module=Head&parent=Settings&view=TaxAjax&mode=editTax&type='.$this->getType().'&taxid='.$this->getId();
 	}
 
 	public function getRegionTaxes() {
@@ -140,10 +140,10 @@ class Inventory_TaxRecord_Model extends Vtiger_Base_Model {
 		//Add this tax as a column in related table
 		if($this->isShippingTax()) {
 			$taxname = "shtax".$taxid;
-			$query = "ALTER TABLE vtiger_inventoryshippingrel ADD COLUMN $taxname decimal(7,3) DEFAULT NULL";
+			$query = "ALTER TABLE jo_inventoryshippingrel ADD COLUMN $taxname decimal(7,3) DEFAULT NULL";
 		} else {
 			$taxname = "tax".$taxid;
-			$query = "ALTER TABLE vtiger_inventoryproductrel ADD COLUMN $taxname decimal(7,3) DEFAULT NULL";
+			$query = "ALTER TABLE jo_inventoryproductrel ADD COLUMN $taxname decimal(7,3) DEFAULT NULL";
 		}
 		$res = $adb->pquery($query, array());
 
@@ -155,14 +155,14 @@ class Inventory_TaxRecord_Model extends Vtiger_Base_Model {
 
 			$inventoryModules = getInventoryModules();
 			foreach ($inventoryModules as $moduleName) {
-				$moduleInstance = Vtiger_Module::getInstance($moduleName);
-				$blockInstance = Vtiger_Block::getInstance('LBL_ITEM_DETAILS',$moduleInstance);
-				$field = new Vtiger_Field();
+				$moduleInstance = Head_Module::getInstance($moduleName);
+				$blockInstance = Head_Block::getInstance('LBL_ITEM_DETAILS',$moduleInstance);
+				$field = new Head_Field();
 
 				$field->name = $taxname;
 				$field->label = $taxLabel;
 				$field->column = $taxname;
-				$field->table = 'vtiger_inventoryproductrel';
+				$field->table = 'jo_inventoryproductrel';
 				$field->uitype = '83';
 				$field->typeofdata = 'V~O';
 				$field->readonly = '0';

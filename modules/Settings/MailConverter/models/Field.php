@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_Field_Model extends Vtiger_Field_Model {
+class Settings_MailConverter_Field_Model extends Head_Field_Model {
     
     public static $timeZonePickListValues = array(' '=>'LBL_I_DONT_KNOW',
                                     '-12:00' => '(GMT -12:00 hours) Eniwetok, Kwajalein',

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View {
+class Settings_Profiles_Detail_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -22,15 +22,15 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
+		$viewer->assign('ALL_BASIC_ACTIONS', Head_Action_Model::getAllBasic(true));
+		$viewer->assign('ALL_UTILITY_ACTIONS', Head_Action_Model::getAllUtility(true));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
     
     /**
-     * Setting module related Information to $viewer (for Vtiger7)
+     * Setting module related Information to $viewer (for Head7)
      * @param type $request
      * @param type $moduleModel
      */

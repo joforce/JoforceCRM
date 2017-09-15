@@ -27,11 +27,11 @@
 		 */
 		function registerHandler($forEvent, $path, $className, $condition='', $depedentOn='[]'){
 			$adb = $this->adb;
-			$result = $adb->pquery("SELECT * FROM vtiger_eventhandlers WHERE event_name=? AND handler_path=? AND handler_class=?",
+			$result = $adb->pquery("SELECT * FROM jo_eventhandlers WHERE event_name=? AND handler_path=? AND handler_class=?",
 				array($forEvent, $path, $className));
 			if($adb->num_rows($result)===0){
-				$handlerId = $adb->getUniqueId('vtiger_eventhandlers');
-				$adb->pquery("insert into vtiger_eventhandlers
+				$handlerId = $adb->getUniqueId('jo_eventhandlers');
+				$adb->pquery("insert into jo_eventhandlers
 					(eventhandler_id, event_name, handler_path, handler_class, cond, is_active, dependent_on)
 					values (?,?,?,?,?, true, ?)", array($handlerId, $forEvent, $path, $className, $condition, $depedentOn));
 
@@ -65,7 +65,7 @@
 		 */
 		function setHandlerInActive($handlerClass){
 			$adb = $this->adb;
-			$adb->pquery("update vtiger_eventhandlers set is_active=false where handler_class=?", array($handlerClass));
+			$adb->pquery("update jo_eventhandlers set is_active=false where handler_class=?", array($handlerClass));
 
 			$this->clearTriggerCache();
 		}
@@ -77,7 +77,7 @@
 		 */
 		function setHandlerActive($handlerClass){
 			$adb = $this->adb;
-			$adb->pquery("update vtiger_eventhandlers set is_active=true where handler_class=?", array($handlerClass));
+			$adb->pquery("update jo_eventhandlers set is_active=true where handler_class=?", array($handlerClass));
 
 			$this->clearTriggerCache();
 		}
@@ -90,9 +90,9 @@
 		 */
 		function unregisterHandler($className){
 			$adb = $this->adb;
-			$adb->pquery("delete from vtiger_eventhandlers where handler_class=?",
+			$adb->pquery("delete from jo_eventhandlers where handler_class=?",
 				array($className));
-			$adb->pquery("delete from vtiger_eventhandler_module where handler_class=?",
+			$adb->pquery("delete from jo_eventhandler_module where handler_class=?",
 				array($className));
 
 			$this->clearTriggerCache();
@@ -127,11 +127,11 @@
 		 */
 		function setModuleForHandler($moduleName, $handlerClass){
 			$adb = $this->adb;
-			$result = $adb->pquery("SELECT * FROM vtiger_eventhandler_module WHERE handler_class=?",
+			$result = $adb->pquery("SELECT * FROM jo_eventhandler_module WHERE handler_class=?",
 				array($handlerClass));
 			if($adb->num_rows($result)===0){
-				$handlerModuleId = $adb->getUniqueId('vtiger_eventhandler_module');
-				$adb->pquery("insert into vtiger_eventhandler_module
+				$handlerModuleId = $adb->getUniqueId('jo_eventhandler_module');
+				$adb->pquery("insert into jo_eventhandler_module
 					(eventhandler_module_id, module_name, handler_class)
 					values (?,?,?)", array($handlerModuleId, $moduleName, $handlerClass));
 			}
@@ -144,7 +144,7 @@
 		 */
 		function listHandlersForModule($moduleName){
 		  $adb = $this->adb;
-		  $result = $adb->pquery('SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name=?', array($moduleName));
+		  $result = $adb->pquery('SELECT handler_class FROM jo_eventhandler_module WHERE module_name=?', array($moduleName));
 		  $it = new SqlResultIterator($adb, $result);
 		  $arr = array();
 		  foreach($it as $row){
@@ -160,14 +160,14 @@
 		 */
 		function listActiveEventHandlers(){
 			$adb = $this->adb;
-			$result = $adb->pquery("select * from vtiger_eventhandlers where is_active=true",
+			$result = $adb->pquery("select * from jo_eventhandlers where is_active=true",
 					array());
 			return $this->listEventHandlers($result);
 		}
 
 		function listAllEventHandlers(){
 			$adb = $this->adb;
-			$result = $adb->pquery("select * from vtiger_eventhandlers", array());
+			$result = $adb->pquery("select * from jo_eventhandlers", array());
 			return $this->listEventHandlers($result);
 
 		}

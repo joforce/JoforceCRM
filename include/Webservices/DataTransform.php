@@ -64,7 +64,7 @@
 			if(strtolower($meta->getEntityName()) == "emails"){
 				if(isset($row['parent_id'])){
 					$components = vtws_getIdComponents($row['parent_id']);
-					$userObj = VtigerWebserviceObject::fromName($adb,'Users');
+					$userObj = HeadWebserviceObject::fromName($adb,'Users');
 					$parentTypeId = $components[0];
 					if($components[0] == $userObj->getEntityId()){
 						$associatedToUser = true;
@@ -215,7 +215,7 @@
 				if($row[$field]){
 					$found = false;
 					foreach ($typeList as $entity) {
-						$webserviceObject = VtigerWebserviceObject::fromName($adb,$entity);
+						$webserviceObject = HeadWebserviceObject::fromName($adb,$entity);
 						$handlerPath = $webserviceObject->getHandlerPath();
 						$handlerClass = $webserviceObject->getHandlerClass();
 
@@ -249,7 +249,7 @@
 				if(isset($row[$field]) && $row[$field]!=null && $row[$field] != 0){
 					$ownerType = vtws_getOwnerType($row[$field]);
 					if ($ownerType) {
-						$webserviceObject = VtigerWebserviceObject::fromName($adb,$ownerType);
+						$webserviceObject = HeadWebserviceObject::fromName($adb,$ownerType);
 						$row[$field] = vtws_getId($webserviceObject->getEntityId(),$row[$field]);
 					}
 				}

@@ -23,7 +23,7 @@
 		if(preg_match($moduleRegex, $q, $m)) $moduleName = trim($m[1]);
 		
 		if(!isset($vtws_create_cache[$moduleName]['webserviceobject'])) {
-			$webserviceObject = VtigerWebserviceObject::fromQuery($adb,$q);
+			$webserviceObject = HeadWebserviceObject::fromQuery($adb,$q);
 			$vtws_query_cache[$moduleName]['webserviceobject'] = $webserviceObject;
 		} else {
 			$webserviceObject = $vtws_query_cache[$moduleName]['webserviceobject'];

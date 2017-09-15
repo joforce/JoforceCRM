@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Calendar_Picklist_UIType extends Vtiger_Picklist_UIType {
+class Calendar_Picklist_UIType extends Head_Picklist_UIType {
     
     
     public function getListSearchTemplateName() {

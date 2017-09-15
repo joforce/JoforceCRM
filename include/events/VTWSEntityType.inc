@@ -11,8 +11,8 @@
 
 require_once 'include/Webservices/Utils.php';
 require_once("modules/Users/Users.php");
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
+require_once("include/Webservices/HeadCRMObject.php");
+require_once("include/Webservices/HeadCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
@@ -20,7 +20,7 @@ require_once 'include/Webservices/ModuleTypes.php';
 require_once('include/Webservices/DescribeObject.php');
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
+require_once 'include/Webservices/HeadWebserviceObject.php';
 
 /*
  * An implementation of VTEntityType that uses the webservices api to reflect on vtiger's types.
@@ -47,7 +47,7 @@ class VTWSEntityType{
 	function getTabId(){
 		global $adb;
 		if(!isset($this->tabId)){
-			$result = $adb->pquery("select tabid from vtiger_tab where name=?", 
+			$result = $adb->pquery("select tabid from jo_tab where name=?", 
 				array($this->entityTypeName));
 			$this->tabId = $adb->query_result($result,0,"tabid");
 		}

@@ -54,7 +54,7 @@ class uploader {
             $this->file = &$_FILES[key($_FILES)];
 
         // LOAD DEFAULT CONFIGURATION
-        require "config.php";
+        require "config/config.php";
 
         // SETTING UP SESSION
         if (isset($_CONFIG['_sessionLifetime']))
@@ -66,7 +66,7 @@ class uploader {
         session_start();
 
         // RELOAD DEFAULT CONFIGURATION
-        require "config.php";
+        require "config/config.php";
         $this->config = $_CONFIG;
 
         // LOAD SESSION CONFIGURATION IF EXISTS

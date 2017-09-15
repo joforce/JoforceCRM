@@ -10,9 +10,9 @@
  *************************************************************************************/
 
 /**
- * Sharng Access Vtiger Module Model Class
+ * Sharng Access Head Module Model Class
  */
-class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model {
+class Settings_SharingAccess_RuleMember_Model extends Head_Base_Model {
 
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';
 	const RULE_MEMBER_TYPE_ROLES = 'Roles';
@@ -78,7 +78,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model {
 		$memberId = $idComponents[1];
 
 		if($type == self::RULE_MEMBER_TYPE_GROUPS) {
-			$sql = 'SELECT * FROM vtiger_groups WHERE groupid = ?';
+			$sql = 'SELECT * FROM jo_groups WHERE groupid = ?';
 			$params = array($memberId);
 			$result = $db->pquery($sql, $params);
 
@@ -92,7 +92,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model {
 		}
 
 		if($type == self::RULE_MEMBER_TYPE_ROLES) {
-			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
+			$sql = 'SELECT * FROM jo_role WHERE roleid = ?';
 			$params = array($memberId);
 			$result = $db->pquery($sql, $params);
 
@@ -106,7 +106,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model {
 		}
 
 		if($type == self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
+			$sql = 'SELECT * FROM jo_role WHERE roleid = ?';
 			$params = array($memberId);
 			$result = $db->pquery($sql, $params);
 

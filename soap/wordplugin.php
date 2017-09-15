@@ -13,12 +13,12 @@
 /**
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
-require_once 'config.php';
-if (file_exists('config_override.php')) {
-	                include_once 'config_override.php';
+require_once 'config/config.php';
+if (file_exists('config/config_override.php')) {
+	                include_once 'config/config_override.php';
 }
 
-include_once 'vtlib/Vtiger/Module.php';
+include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
 require_once('libraries/nusoap/nusoap.php');
@@ -342,7 +342,7 @@ function create_session($user_name, $password,$version)
 {
        	global $log,$adb;
 	require_once('modules/Users/Users.php');
-	include('vtigerversion.php');
+	include('version.php');
 
 	/* Make 5.0.4 plugins compatible with 5.1.0 */
 	if(version_compare($version,'5.0.4', '>=') === 1) {
@@ -362,7 +362,7 @@ function create_session($user_name, $password,$version)
 			$userid =  $objuser->retrieve_user_id($user_name);
 			$sessionid = makeRandomPassword();
 			unsetServerSessionId($userid);
-			$sql="insert into vtiger_soapservice values(?,?,?)";
+			$sql="insert into jo_soapservice values(?,?,?)";
 			$result = $adb->pquery($sql, array($userid,'Office',$sessionid));
 			$return_access = array("TRUE",$sessionid);
 		}else
@@ -390,7 +390,7 @@ function unsetServerSessionId($id)
 
 	$id = (int) $id;
 
-	$adb->query("delete from vtiger_soapservice where type='Office' and id=$id");
+	$adb->query("delete from jo_soapservice where type='Office' and id=$id");
 
 	return;
 }
@@ -425,7 +425,7 @@ function getServerSessionId($id)
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function
 	$id = (int) $id;
 
-	$query = "select * from vtiger_soapservice where type='Office' and id={$id}";
+	$query = "select * from jo_soapservice where type='Office' and id={$id}";
 	$sessionid = $adb->query_result($adb->query($query),0,'sessionid');
 
 	return $sessionid;

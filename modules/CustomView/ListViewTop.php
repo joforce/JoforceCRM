@@ -80,7 +80,7 @@ function getKeyMetrics($maxval,$calCnt)
 				$listquery = getListQuery($metriclist['module']);
 				$oCustomView = new CustomView($metriclist['module']);
 				$metricsql = $oCustomView->getModifiedCvListQuery($metriclist['id'],$listquery,$metriclist['module']);
-				$metricsql = Vtiger_Functions::mkCountQuery($metricsql);
+				$metricsql = Head_Functions::mkCountQuery($metricsql);
 				$metricresult = $adb->query($metricsql);
 				if($metricresult)
 				{
@@ -92,7 +92,7 @@ function getKeyMetrics($maxval,$calCnt)
 				$queryGenerator = new QueryGenerator($metriclist['module'], $current_user);
 				$queryGenerator->initForCustomViewById($metriclist['id']);
 				$metricsql = $queryGenerator->getQuery();
-				$metricsql = Vtiger_Functions::mkCountQuery($metricsql);
+				$metricsql = Head_Functions::mkCountQuery($metricsql);
 				$metricresult = $adb->query($metricsql);
 				if($metricresult)
 				{
@@ -145,15 +145,15 @@ function getMetricList()
 	global $adb, $current_user;
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	
-	$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";
-	$ssql .= " where vtiger_customview.setmetrics = 1 ";
+	$ssql = "select jo_customview.* from jo_customview inner join jo_tab on jo_tab.name = jo_customview.entitytype";
+	$ssql .= " where jo_customview.setmetrics = 1 ";
 	$sparams = array();
 	
 	if($is_admin == false){
-	      $ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status =3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'))";
+	      $ssql .= " and (jo_customview.status=0 or jo_customview.userid = ? or jo_customview.status =3 or jo_customview.userid in(select jo_user2role.userid from jo_user2role inner join jo_users on jo_users.id=jo_user2role.userid inner join jo_role on jo_role.roleid=jo_user2role.roleid where jo_role.parentrole like '".$current_user_parent_role_seq."::%'))";
 	      array_push($sparams, $current_user->id);
 	}
-	$ssql .= " order by vtiger_customview.entitytype";
+	$ssql .= " order by jo_customview.entitytype";
 	$result = $adb->pquery($ssql, $sparams);
 
 	$metriclists = array();

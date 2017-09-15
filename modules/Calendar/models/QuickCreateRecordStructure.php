@@ -11,7 +11,7 @@
 /**
  * Calendar QuickCreate Record Structure Model
  */
-class Calendar_QuickCreateRecordStructure_Model extends Vtiger_QuickCreateRecordStructure_Model {
+class Calendar_QuickCreateRecordStructure_Model extends Head_QuickCreateRecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format

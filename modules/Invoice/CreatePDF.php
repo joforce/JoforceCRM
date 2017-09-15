@@ -12,7 +12,7 @@
 include_once 'modules/Invoice/InvoicePDFController.php';
 global $currentModule;
 
-$controller = new Vtiger_InvoicePDFController($currentModule);
+$controller = new Head_InvoicePDFController($currentModule);
 $controller->loadRecord(vtlib_purify($_REQUEST['record']));
 $invoice_no = getModuleSequenceNumber($currentModule,vtlib_purify($_REQUEST['record']));
 if(isset($_REQUEST['savemode']) && $_REQUEST['savemode'] == 'file') {

@@ -16,7 +16,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 		$this->exposeMethod('updateDeltaOnDrop');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -25,7 +25,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 
 	}
 
-	public function updateDeltaOnResize(Vtiger_Request $request){
+	public function updateDeltaOnResize(Head_Request $request){
 		$moduleName = $request->getModule();
 		$activityType = $request->get('activitytype');
 		$recordId = $request->get('id');
@@ -35,14 +35,14 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 		$recurringEditMode = $request->get('recurringEditMode');
 
 		$actionname = 'EditView';
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if(isPermitted($moduleName, $actionname, $recordId) === 'no'){
 			$result = array('ispermitted'=>false,'error'=>false);
 			$response->setResult($result);
 			$response->emit();
 		} else {
 			$result = array('ispermitted'=>true,'error'=>false);
-			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$record = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$record->set('mode','edit');
 
 			$startDateTime[] = $record->get('date_start');
@@ -66,7 +66,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 					$childRecords = array_slice($childRecords, $parentKey[0]);
 				}
 				foreach($childRecords as $childId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($childId, 'Events');
+					$recordModel = Head_Record_Model::getInstanceById($childId, 'Events');
 					$recordModel->set('mode','edit');
 
 					$startDateTime = '';
@@ -171,7 +171,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 		}
 	}
 
-	public function updateDeltaOnDrop(Vtiger_Request $request){
+	public function updateDeltaOnDrop(Head_Request $request){
 		$moduleName = $request->getModule();
 		$activityType = $request->get('activitytype');
 		$recordId = $request->get('id');
@@ -181,7 +181,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 		$recurringEditMode = $request->get('recurringEditMode');
 		$actionname = 'EditView';
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if(isPermitted($moduleName, $actionname, $recordId) === 'no'){
 			$result = array('ispermitted'=>false);
 			$response->setResult($result);
@@ -189,7 +189,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 		}
 		else{
 			$result = array('ispermitted'=>true);
-			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$record = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$record->set('mode','edit');
 
 			$oldStartDateTime[] = $record->get('date_start');
@@ -215,7 +215,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action {
 					$childRecords = array_slice($childRecords, $parentKey[0]);
 				}
 				foreach ($childRecords as $childId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($childId, 'Events');
+					$recordModel = Head_Record_Model::getInstanceById($childId, 'Events');
 					$recordModel->set('mode', 'edit');
 
 					$startDateTime = '';

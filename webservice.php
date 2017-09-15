@@ -8,19 +8,19 @@
  * All Rights Reserved.
  ********************************************************************************/
 
-	require_once("config.php");
+	require_once("config/config.php");
     /**
     * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
     */
-    if (file_exists('config_override.php')) {
-        include_once 'config_override.php';
+    if (file_exists('config/config_override.php')) {
+        include_once 'config/config_override.php';
     }
 
 	//Overrides GetRelatedList : used to get related query
 	//TODO : Eliminate below hacking solution
 	include_once 'include/Webservices/Relation.php';
 
-	include_once 'vtlib/Vtiger/Module.php';
+	include_once 'vtlib/Head/Module.php';
 	include_once 'includes/main/WebUI.php';
 
 	require_once("libraries/HTTP_Session2/HTTP/Session2.php");

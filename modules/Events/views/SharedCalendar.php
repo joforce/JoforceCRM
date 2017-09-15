@@ -13,7 +13,7 @@
 // user continue working with Calendar when dropping from Event View.
 class Events_SharedCalendar_View extends Calendar_SharedCalendar_View { 
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		header("Location: index.php?module=Calendar&view=SharedCalendar");
 	}
 }

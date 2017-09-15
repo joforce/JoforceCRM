@@ -9,36 +9,36 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'modules/Head/CRMEntity.php';
 
-class ModuleName extends Vtiger_CRMEntity {
-	var $table_name = 'vtiger_<modulename>';
+class ModuleName extends Head_CRMEntity {
+	var $table_name = 'jo_<modulename>';
 	var $table_index= '<modulename>id';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_<modulename>cf', '<modulename>id');
+	var $customFieldTable = Array('jo_<modulename>cf', '<modulename>id');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_<modulename>', 'vtiger_<modulename>cf');
+	var $tab_name = Array('jo_crmentity', 'jo_<modulename>', 'jo_<modulename>cf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
-		'vtiger_crmentity' => 'crmid',
-		'vtiger_<modulename>' => '<modulename>id',
-		'vtiger_<modulename>cf'=>'<modulename>id');
+		'jo_crmentity' => 'crmid',
+		'jo_<modulename>' => '<modulename>id',
+		'jo_<modulename>cf'=>'<modulename>id');
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'jo_'
 		'<entityfieldlabel>' => Array('<modulename>', '<entitycolumn>'),
 		'Assigned To' => Array('crmentity','smownerid')
 	);
@@ -54,9 +54,9 @@ class ModuleName extends Vtiger_CRMEntity {
 	// For Popup listview and UI type support
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'jo_'
 		'<entityfieldlabel>' => Array('<modulename>', '<entitycolumn>'),
-		'Assigned To' => Array('vtiger_crmentity','assigned_user_id'),
+		'Assigned To' => Array('jo_crmentity','assigned_user_id'),
 	);
 	var $search_fields_name = Array (
 		/* Format: Field Label => fieldname */
@@ -74,7 +74,7 @@ class ModuleName extends Vtiger_CRMEntity {
 	var $def_detailview_recname = '<entityfieldname>';
 
 	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
+	// Refers to jo_field.fieldname values.
 	var $mandatory_fields = Array('<entityfieldname>','assigned_user_id');
 
 	var $default_order_by = '<entityfieldname>';

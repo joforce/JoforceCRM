@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller {
+class PriceBooks_ProductListPrice_Action extends Head_Action_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -21,13 +21,13 @@ class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleModel = $request->getModule();
-		$priceBookModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+		$priceBookModel = Head_Record_Model::getInstanceById($recordId, $moduleModel);
 		$listPrice = $priceBookModel->getProductsListPrice($request->get('itemId'));
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(array($listPrice));
 		$response->emit();
 	}

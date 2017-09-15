@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
+class Settings_LayoutEditor_Field_Model extends Head_Field_Model {
 
 	public function delete() {
 		$adb = PearDatabase::getInstance();
@@ -38,33 +38,33 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$adb->pquery("delete from vtiger_cvcolumnlist where columnname = ? ", array($deletecolumnname));
-		$adb->pquery("delete from vtiger_cvstdfilter where columnname = ?", array($column_cvstdfilter));
-		$adb->pquery("delete from vtiger_cvadvfilter where columnname = ?", array($deletecolumnname));
-		$adb->pquery("delete from vtiger_selectcolumn where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_relcriteria where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_reportsortcol where columnname = ?", array($select_columnname));
-		$adb->pquery("delete from vtiger_reportdatefilter where datecolumnname = ?", array($column_cvstdfilter));
-		$adb->pquery("delete from vtiger_reportsummary where columnname like ?", array('%'.$reportsummary_column.'%'));
+		$adb->pquery("delete from jo_cvcolumnlist where columnname = ? ", array($deletecolumnname));
+		$adb->pquery("delete from jo_cvstdfilter where columnname = ?", array($column_cvstdfilter));
+		$adb->pquery("delete from jo_cvadvfilter where columnname = ?", array($deletecolumnname));
+		$adb->pquery("delete from jo_selectcolumn where columnname = ?", array($select_columnname));
+		$adb->pquery("delete from jo_relcriteria where columnname = ?", array($select_columnname));
+		$adb->pquery("delete from jo_reportsortcol where columnname = ?", array($select_columnname));
+		$adb->pquery("delete from jo_reportdatefilter where datecolumnname = ?", array($column_cvstdfilter));
+		$adb->pquery("delete from jo_reportsummary where columnname like ?", array('%'.$reportsummary_column.'%'));
 
-		//Deleting from convert lead mapping vtiger_table- Jaguar
+		//Deleting from convert lead mapping jo_table- Jaguar
 		if($fld_module=="Leads") {
-			$deletequery = 'delete from vtiger_convertleadmapping where leadfid=?';
+			$deletequery = 'delete from jo_convertleadmapping where leadfid=?';
 			$adb->pquery($deletequery, array($id));
 		}elseif($fld_module=="Accounts" || $fld_module=="Contacts" || $fld_module=="Potentials") {
 			$map_del_id = array("Accounts"=>"accountfid","Contacts"=>"contactfid","Potentials"=>"potentialfid");
-			$map_del_q = "update vtiger_convertleadmapping set ".$map_del_id[$fld_module]."=0 where ".$map_del_id[$fld_module]."=?";
+			$map_del_q = "update jo_convertleadmapping set ".$map_del_id[$fld_module]."=0 where ".$map_del_id[$fld_module]."=?";
 			$adb->pquery($map_del_q, array($id));
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$deltablequery = 'drop table vtiger_'.$adb->sql_escape_string($columnname);
+			$deltablequery = 'drop table jo_'.$adb->sql_escape_string($columnname);
 			$adb->pquery($deltablequery, array());
 			//To Delete Sequence Table 
-			$deltableseqquery = 'drop table vtiger_'.$adb->sql_escape_string($columnname).'_seq'; 
+			$deltableseqquery = 'drop table jo_'.$adb->sql_escape_string($columnname).'_seq'; 
 			$adb->pquery($deltableseqquery, array()); 
-			$adb->pquery("delete from  vtiger_picklist_dependency where sourcefield=? or targetfield=?", array($columnname,$columnname));
+			$adb->pquery("delete from  jo_picklist_dependency where sourcefield=? or targetfield=?", array($columnname,$columnname));
 		}
 	}
 
@@ -84,29 +84,29 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND sequence <= ? AND block = ?';
+				$updateQuery = 'UPDATE jo_field SET sequence = sequence-1 WHERE sequence > ? AND sequence <= ? AND block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 
 			} else if($newSequence < $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? AND sequence >= ? AND block = ?';
+				$updateQuery = 'UPDATE jo_field SET sequence = sequence+1 WHERE sequence < ? AND sequence >= ? AND block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 
 			}
-			$query = 'UPDATE vtiger_field SET sequence = ? WHERE fieldid = ?';
+			$query = 'UPDATE jo_field SET sequence = ? WHERE fieldid = ?';
 			$params = array($newSequence, $this->getId());
 			$db->pquery($query, $params);
 		} else {
-			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND block = ?';
+			$updateOldBlockQuery = 'UPDATE jo_field SET sequence = sequence-1 WHERE sequence > ? AND block = ?';
 			$params = array($olderSequence, $olderBlockId);
 			$db->pquery($updateOldBlockQuery, $params);
 
-			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? AND block = ?';
+			$updateNewBlockQuery = 'UPDATE jo_field SET sequence = sequence+1 WHERE sequence >= ? AND block = ?';
 			$params = array($newSequence, $newBlockId);
 			$db->pquery($updateNewBlockQuery, $params);
 
-			$query = 'UPDATE vtiger_field SET sequence = ?, block = ? WHERE fieldid = ?';
+			$query = 'UPDATE jo_field SET sequence = ?, block = ? WHERE fieldid = ?';
 			$params = array($newSequence, $newBlockId, $this->getId());
 			$db->pquery($query, $params);
 		}
@@ -114,11 +114,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 	public static function makeFieldActive($fieldIdsList=array(), $blockId, $moduleName = false) {
 		$db = PearDatabase::getInstance();
-		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? AND presence IN (0,2) ";
+		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM jo_field WHERE block = ? AND presence IN (0,2) ";
 		$res = $db->pquery($maxSequenceQuery,array($blockId));
 		$maxSequence = $db->query_result($res,0,'maxsequence');
 
-		$query = 'UPDATE vtiger_field SET presence = 2, sequence = CASE';
+		$query = 'UPDATE jo_field SET presence = 2, sequence = CASE';
 		foreach ($fieldIdsList as $fieldId) {
 			$maxSequence = $maxSequence + 1;
 			$query .= ' WHEN fieldid = ? THEN '. $maxSequence;
@@ -129,8 +129,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 		$db->pquery($query, array_merge($fieldIdsList,$fieldIdsList));
 
 		// Clearing cache
-		$moduleModel = Vtiger_Module::getInstance($moduleName);
-		Vtiger_Cache::flushModuleandBlockFieldsCache($moduleModel, $blockId);
+		$moduleModel = Head_Module::getInstance($moduleName);
+		Head_Cache::flushModuleandBlockFieldsCache($moduleModel, $blockId);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 		$defaultValueRestrictedUitypes = array('4', '70', '69', '53', '6', '23');
 		if (in_array($this->getName(), $defaultValueRestrictedFields) 
 				|| in_array($this->get('displaytype'), array(4))
-				|| $this->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE
+				|| $this->getFieldDataType() == Head_Field_Model::REFERENCE_TYPE
 				|| in_array($this->get('uitype'), $defaultValueRestrictedUitypes)
 				|| ($this->get('uitype') == '83' && $this->getName() == 'taxclass' && in_array($this->block->module->name, array('Products', 'Services')))
 				|| $this->isOptionsRestrictedField()) {
@@ -267,10 +267,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 	/**
 	 * Function get instance using field object
-	 * @param Vtiger_Field_Model $fieldObject
+	 * @param Head_Field_Model $fieldObject
 	 * @return <Settings_LayoutEditor_Field_Model>
 	 */
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObject) {
+	public static function getInstanceFromFieldObject(Head_Field $fieldObject) {
 			$objectProperties = get_object_vars($fieldObject);
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
@@ -283,7 +283,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 	public static function getDetailsForMove($fieldIdsList = array()) {
 		if ($fieldIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN ('. generateQuestionMarks($fieldIdsList) .')', $fieldIdsList);
+			$result = $db->pquery('SELECT fieldid, sequence, block, fieldlabel FROM jo_field WHERE fieldid IN ('. generateQuestionMarks($fieldIdsList) .')', $fieldIdsList);
 			$numOfRows = $db->num_rows($result);
 
 			for ($i=0; $i<$numOfRows; $i++) {
@@ -299,7 +299,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 	/**
 	 * Function to get all fields list for all blocks
 	 * @param <Array> List of block ids
-	 * @param <Vtiger_Module_Model> $moduleInstance
+	 * @param <Head_Module_Model> $moduleInstance
 	 * @return <Array> List of Field models <Settings_LayoutEditor_Field_Model>
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance= false) {
@@ -309,7 +309,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 			$blockId = array($blockId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE block IN('. generateQuestionMarks($blockId) .') AND vtiger_field.displaytype IN (1,2,4) ORDER BY sequence';
+		$query = 'SELECT * FROM jo_field WHERE block IN('. generateQuestionMarks($blockId) .') AND jo_field.displaytype IN (1,2,4) ORDER BY sequence';
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 
@@ -373,7 +373,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 			$fieldId = array($fieldId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN ('.generateQuestionMarks($fieldId).') AND tabid=?';
+		$query = 'SELECT * FROM jo_field WHERE fieldid IN ('.generateQuestionMarks($fieldId).') AND tabid=?';
 		$result = $db->pquery($query, array($fieldId,$moduleTabId));
 		$fieldModelList = array();
 		$num_rows = $db->num_rows($result);
@@ -404,8 +404,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 		$fieldInstance = new self();
 		//We need to initialize these attributes since we use these for clean instance as well 
 		//$field->block->module->name at multiple places
-		$fieldInstance->block = new Vtiger_Block();
-		$fieldInstance->block->module = new Vtiger_Module();
+		$fieldInstance->block = new Head_Block();
+		$fieldInstance->block->module = new Head_Module();
 		return $fieldInstance;
 	}
 
@@ -441,7 +441,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 	 */
 	public function getEditViewDisplayValue($value, $skipConversion = false) {
 		if(!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
+			$this->uitype_instance = Head_Base_UIType::getInstanceFromField($this);
 		}
 		$uiTypeInstance = $this->uitype_instance;
 		return $uiTypeInstance->getEditViewDisplayValue($value, $skipConversion);
@@ -454,7 +454,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 	 */
 	public function getCurrencyDisplayValue($value, $skipConversion = false) {
 		if(!$this->uitype_instance) {
-			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
+			$this->uitype_instance = Head_Base_UIType::getInstanceFromField($this);
 		}
 		$uiTypeInstance = $this->uitype_instance;
 		return $uiTypeInstance->getDisplayValue($value, $skipConversion);

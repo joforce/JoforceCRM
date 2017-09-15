@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_Login_Action extends Vtiger_Action_Controller {
+class Users_Login_Action extends Head_Action_Controller {
 
 	function loginRequired() {
 		return false;
 	}
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		return true;
 	} 
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
 
@@ -30,7 +30,7 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 			session_regenerate_id(true); // to overcome session id reuse.
 
 			$userid = $user->retrieve_user_id($username);
-			Vtiger_Session::set('AUTHUSERID', $userid);
+			Head_Session::set('AUTHUSERID', $userid);
 
 			// For Backward compatability
 			// TODO Remove when switch-to-old look is not needed

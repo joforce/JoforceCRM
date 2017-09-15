@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Vtiger_Cache_Connector_Memory {
+class Head_Cache_Connector_Memory {
 	function set($key, $value) {
 		$this->$key = $value;
 	}

@@ -13,14 +13,14 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/VtlibUtils.php';
 require_once 'modules/Emails/class.phpmailer.php';
 require_once 'modules/Emails/mail.php';
-require_once 'modules/Vtiger/helpers/ShortURL.php';
+require_once 'modules/Head/helpers/ShortURL.php';
 
 global $adb;
 $adb = PearDatabase::getInstance();
 
 if (isset($_REQUEST['username']) && isset($_REQUEST['emailId'])) {
 	$username = vtlib_purify($_REQUEST['username']);
-	$result = $adb->pquery('select email1 from vtiger_users where user_name= ? ', array($username));
+	$result = $adb->pquery('select email1 from jo_users where user_name= ? ', array($username));
 	if ($adb->num_rows($result) > 0) {
 		$email = $adb->query_result($result, 0, 'email1');
 	}
@@ -38,7 +38,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['emailId'])) {
 				'hash' => md5($username.$time)
 			)
 		);
-		$trackURL = Vtiger_ShortURL_Helper::generateURL($options);
+		$trackURL = Head_ShortURL_Helper::generateURL($options);
 		$content = 'Dear Customer,<br><br> 
 						You recently requested a password reset for your JoForce Open source Account.<br> 
 						To create a new password, click on the link <a target="_blank" href='.$trackURL.'>here</a>. 
@@ -47,7 +47,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['emailId'])) {
 						Regards,<br> 
 						JoForce Open source Support Team.<br>';
 		$mail = new PHPMailer();
-		$query = "select from_email_field,server_username from vtiger_systems where server_type=?";
+		$query = "select from_email_field,server_username from jo_systems where server_type=?";
 		$params = array('email');
 		$result = $adb->pquery($query, $params);
 		$from = $adb->query_result($result, 0, 'from_email_field');

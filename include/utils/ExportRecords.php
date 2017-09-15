@@ -19,7 +19,7 @@ $category = getParentTab();
 
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
-require_once('modules/Vtiger/layout_utils.php');
+require_once('modules/Head/layout_utils.php');
 
 $smarty->assign("SESSION_WHERE",$_SESSION['export_where']);
 
@@ -35,7 +35,7 @@ $smarty->assign("EXCLUDED_RECORDS",vtlib_purify($_REQUEST['excludedRecords']));
 $smarty->assign("PERPAGE",$list_max_entries_per_page);
 
 if(!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {	
-	$smarty->display(vtlib_getModuleTemplate('Vtiger','OperationNotPermitted.tpl'));	
+	$smarty->display(vtlib_getModuleTemplate('Head','OperationNotPermitted.tpl'));	
 } else {
 	$smarty->display('ExportRecords.tpl');
 }

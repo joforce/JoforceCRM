@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Home_Index_View extends Vtiger_Index_View {
+class Home_Index_View extends Head_Index_View {
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		//$viewer->assign('HOME_PAGES', Home_Page_Model::getAll());

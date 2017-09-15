@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_ExportPDF_Action extends Vtiger_Action_Controller {
+class Inventory_ExportPDF_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -20,11 +20,11 @@ class Inventory_ExportPDF_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->getPDF();
 	}
 }

@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
+class Potentials_GroupedBySalesStage_Dashboard extends Head_IndexAjax_View {
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * @param Head_Request $request - request model
+	 * @return <array> - array of Head_CssScript_Model
 	 */
-	function getHeaderCss(Vtiger_Request $request){
+	function getHeaderCss(Head_Request $request){
 		$cssFileNames = array(
 			//Place your widget specific css files here
 		);
@@ -49,7 +49,7 @@ class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
         return '/'. json_encode($listSearchParams);
     }
     
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -60,18 +60,18 @@ class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
 
 		//Date conversion from user to database format
 		if(!empty($dates)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($dates['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($dates['end']);
+			$dates['start'] = Head_Date_UIType::getDBInsertedValue($dates['start']);
+			$dates['end'] = Head_Date_UIType::getDBInsertedValue($dates['end']);
 		}
 		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getPotentialsCountBySalesStage($owner, $dates);
         $listViewUrl = $moduleModel->getListViewUrlWithAllFilter();
         for($i = 0;$i<count($data);$i++){
             $data[$i][] = $listViewUrl.$this->getSearchParams($data[$i]['link'],$owner,$dates).'/1';
         }
         
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Head_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -9,16 +9,16 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action {
+class Users_BasicAjax_Action extends Head_BasicAjax_Action {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if(!$currentUser->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
 
@@ -38,7 +38,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

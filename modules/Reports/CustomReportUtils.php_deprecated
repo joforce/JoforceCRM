@@ -202,7 +202,7 @@ Class CustomReportUtils {
 
 		if($modules == false) {
 			$modules = array();
-			$result = $adb->pquery('SELECT modulename FROM vtiger_entityname', array());
+			$result = $adb->pquery('SELECT modulename FROM jo_entityname', array());
 			$noOfModules = $adb->num_rows($result);
 			for($i=0; $i<$noOfModules; ++$i) {
 				$modules[] = $adb->query_result($result, $i, 'modulename');

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Roles_Index_View extends Settings_Vtiger_Index_View {
+class Settings_Roles_Index_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$rootRole = Settings_Roles_Record_Model::getBaseRole();
@@ -25,17 +25,17 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Index',
+			'modules.Settings.Head.resources.Index',
 			"modules.Settings.$moduleName.resources.Index",
-			'modules.Settings.Vtiger.resources.Popup',
+			'modules.Settings.Head.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			'libraries.jquery.jquery_windowmsg',
 		);
@@ -47,10 +47,10 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_CssScript_Model instances
 	 */
-	function getHeaderCss(Vtiger_Request $request) {
+	function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 

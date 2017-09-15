@@ -10,13 +10,13 @@
  ************************************************************************************/
 
 chdir(dirname(__FILE__) . '/../..');
-include_once 'vtlib/Vtiger/Module.php';
-include_once 'vtlib/Vtiger/Package.php';
+include_once 'vtlib/Head/Module.php';
+include_once 'vtlib/Head/Package.php';
 include_once 'includes/main/WebUI.php';
 
 include_once 'include/Webservices/Utils.php';
 
-class Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_Controller {
 	const PROMPT_ANY      = 1;
 	const PROMPT_OPTIONAL = 2;
 	const PROMPT_NUMERIC  = 3;
@@ -54,7 +54,7 @@ class Vtiger_Tools_Console_Controller {
 
 	protected function welcome() {
 		if ($this->interactive) {
-			echo "Welcome to Vtiger CRM Creator.\n";
+			echo "Welcome to Head CRM Creator.\n";
 			echo "This tool will enable you to get started with developing extensions with ease.\n";
 			echo "Have a good time. Press CTRL+C to \"quit\".\n";
 		}
@@ -158,37 +158,37 @@ class Vtiger_Tools_Console_Controller {
 
 	// Option Handlers
 	protected function handleCreateModule() {
-		$controller = new Vtiger_Tools_Console_ModuleController();
+		$controller = new Head_Tools_Console_ModuleController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 
 	protected function handleCreateLanguage() {
-		$controller = new Vtiger_Tools_Console_LanguageController();
+		$controller = new Head_Tools_Console_LanguageController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 
 	protected function handleCreateTestLanguage() {
-		$controller = new Vtiger_Tools_Console_TestLanguageController();
+		$controller = new Head_Tools_Console_TestLanguageController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 
 	protected function handleCreateLayout() {
-		$controller = new Vtiger_Tools_Console_LayoutController();
+		$controller = new Head_Tools_Console_LayoutController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 	
 	protected function handleImportModule() {
-		$controller = new Vtiger_Tools_Console_ImportController();
+		$controller = new Head_Tools_Console_ImportController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 	
 	protected function handleUpdateModule() {
-		$controller = new Vtiger_Tools_Console_UpdateController();
+		$controller = new Head_Tools_Console_UpdateController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 	
 	protected function handleRemoveModule() {
-		$controller = new Vtiger_Tools_Console_RemoveController();
+		$controller = new Head_Tools_Console_RemoveController();
 		$controller->setArguments($this->arguments, $this->interactive)->handle();
 	}
 
@@ -199,7 +199,7 @@ class Vtiger_Tools_Console_Controller {
 	}
 }
 
-class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_ModuleController extends Head_Tools_Console_Controller {
 
 	public function handle() {
 		echo ">>> MODULE <<<\n";
@@ -230,28 +230,28 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 	}
 
 	public function find($name) {
-		return Vtiger_Module::getInstance($name);
+		return Head_Module::getInstance($name);
 	}
 
 	protected function create($moduleInformation) {
 		$moduleInformation['entityfieldname']  = strtolower($this->toAlphaNumeric($moduleInformation['entityfieldlabel']));
 
-		$module = new Vtiger_Module();
+		$module = new Head_Module();
 		$module->name = $moduleInformation['name'];
 		$module->parent=$moduleInformation['parent'];
 		$module->save();
 
 		$module->initTables();
 
-		$block = new Vtiger_Block();
+		$block = new Head_Block();
 		$block->label = 'LBL_'. strtoupper($module->name) . '_INFORMATION';
 		$module->addBlock($block);
 
-		$blockcf = new Vtiger_Block();
+		$blockcf = new Head_Block();
 		$blockcf->label = 'LBL_CUSTOM_INFORMATION';
 		$module->addBlock($blockcf);
 
-		$field1  = new Vtiger_Field();
+		$field1  = new Head_Field();
 		$field1->name = $moduleInformation['entityfieldname'];
 		$field1->label= $moduleInformation['entityfieldlabel'];
 		$field1->uitype= 2;
@@ -263,29 +263,29 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$module->setEntityIdentifier($field1);
 
 		/** Common fields that should be in every module, linked to vtiger CRM core table */
-		$field2 = new Vtiger_Field();
+		$field2 = new Head_Field();
 		$field2->name = 'assigned_user_id';
 		$field2->label = 'Assigned To';
-		$field2->table = 'vtiger_crmentity';
+		$field2->table = 'jo_crmentity';
 		$field2->column = 'smownerid';
 		$field2->uitype = 53;
 		$field2->typeofdata = 'V~M';
 		$block->addField($field2);
 
-		$field3 = new Vtiger_Field();
+		$field3 = new Head_Field();
 		$field3->name = 'createdtime';
 		$field3->label= 'Created Time';
-		$field3->table = 'vtiger_crmentity';
+		$field3->table = 'jo_crmentity';
 		$field3->column = 'createdtime';
 		$field3->uitype = 70;
 		$field3->typeofdata = 'T~O';
 		$field3->displaytype= 2;
 		$block->addField($field3);
 
-		$field4 = new Vtiger_Field();
+		$field4 = new Head_Field();
 		$field4->name = 'modifiedtime';
 		$field4->label= 'Modified Time';
-		$field4->table = 'vtiger_crmentity';
+		$field4->table = 'jo_crmentity';
 		$field4->column = 'modifiedtime';
 		$field4->uitype = 70;
 		$field4->typeofdata = 'T~O';
@@ -293,7 +293,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$block->addField($field4);
 
 		// Create default custom filter (mandatory)
-		$filter1 = new Vtiger_Filter();
+		$filter1 = new Head_Filter();
 		$filter1->name = 'All';
 		$filter1->isdefault = true;
 		$module->addFilter($filter1);
@@ -313,7 +313,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$this->createFiles($module, $field1);
 	}
 
-	protected function createFiles(Vtiger_Module $module, Vtiger_Field $entityField) {
+	protected function createFiles(Head_Module $module, Head_Field $entityField) {
 		$targetpath = 'modules/' . $module->name;
 
 		if (!is_file($targetpath)) {
@@ -340,7 +340,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 
 }
 
-class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_LayoutController extends Head_Tools_Console_Controller {
 
 	// Similar grouped patterns to identify the line on which tpl filename is specified.
 	const VIEWERREGEX = '/\$viewer->(view|fetch)[^\(]*\(([^\)]+)/';
@@ -373,7 +373,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 		$layoutdir =  'layouts/' . $layoutInformation['name'] . '/';
 
 		foreach ($files as $file) {
-			$tplfolder = $layoutdir . "modules/Vtiger";
+			$tplfolder = $layoutdir . "modules/Head";
 			if (preg_match("/modules\/([^\/]+)\/([^\/]+)\//", $file, $fmatch)) {
 				$tplfolder = $layoutdir . "modules/" . $fmatch[1];
 				if ($fmatch[1] == 'Settings') {
@@ -425,7 +425,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 	}
 }
 
-class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_LanguageController extends Head_Tools_Console_Controller {
 
 	const BASE_LANG_PREFIX = 'en_us';
 
@@ -473,18 +473,18 @@ class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Contr
 		}
 
 		$db = PearDatabase::getInstance();
-		$check = $db->pquery('SELECT 1 FROM vtiger_language WHERE prefix=?', $languageInformation['prefix']);
+		$check = $db->pquery('SELECT 1 FROM jo_language WHERE prefix=?', $languageInformation['prefix']);
 		if ($check && $db->num_rows($check)) {
 			;
 		} else {
-			$db->pquery('INSERT INTO vtiger_language (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)',
-					array($db->getUniqueId('vtiger_language'), $languageInformation['label'], $languageInformation['prefix'],
+			$db->pquery('INSERT INTO jo_language (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)',
+					array($db->getUniqueId('jo_language'), $languageInformation['label'], $languageInformation['prefix'],
 							$languageInformation['label'], date('Y-m-d H:i:s'), 0, 1));
 		}
 	}
 }
 
-class Vtiger_Tools_Console_TestLanguageController extends Vtiger_Tools_Console_LanguageController {
+class Head_Tools_Console_TestLanguageController extends Head_Tools_Console_LanguageController {
 
 	public function handle() {
 		echo ">>> TEST LANGUAGE <<<\n";
@@ -501,7 +501,7 @@ class Vtiger_Tools_Console_TestLanguageController extends Vtiger_Tools_Console_L
 	}
 }
 
-class Vtiger_Tools_Console_ImportController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_ImportController extends Head_Tools_Console_Controller {
 	
 	public function handle() {
 		if ($this->interactive) {
@@ -518,10 +518,10 @@ class Vtiger_Tools_Console_ImportController extends Vtiger_Tools_Console_Control
 		}
 		
 		if (file_exists($path)) {
-			$package = new Vtiger_Package();
+			$package = new Head_Package();
 			$module  = $package->getModuleNameFromZip($path);
 			
-			$moduleInstance = Vtiger_Module::getInstance($module);
+			$moduleInstance = Head_Module::getInstance($module);
 			if ($moduleInstance) {
 				echo "ERROR: Module $module already exists!\n";
 			} else {
@@ -537,7 +537,7 @@ class Vtiger_Tools_Console_ImportController extends Vtiger_Tools_Console_Control
 	}
 }
 
-class Vtiger_Tools_Console_UpdateController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_UpdateController extends Head_Tools_Console_Controller {
 	
 	public function handle() {
 		if ($this->interactive) {
@@ -554,10 +554,10 @@ class Vtiger_Tools_Console_UpdateController extends Vtiger_Tools_Console_Control
 		}
 		
 		if (file_exists($path)) {
-			$package = new Vtiger_Package();
+			$package = new Head_Package();
 			$module  = $package->getModuleNameFromZip($path);
 			
-			$moduleInstance = Vtiger_Module::getInstance($module);
+			$moduleInstance = Head_Module::getInstance($module);
 			if (!$moduleInstance) {
 				echo "ERROR: Module $module not found!\n";
 			} else {
@@ -573,14 +573,14 @@ class Vtiger_Tools_Console_UpdateController extends Vtiger_Tools_Console_Control
 	}
 }
 
-class Vtiger_Tools_Console_RemoveController extends Vtiger_Tools_Console_Controller {
+class Head_Tools_Console_RemoveController extends Head_Tools_Console_Controller {
 	
 	public function handle() {
 		if ($this->interactive) {
 			echo ">>> REMOVE MODULE <<<\n";
 			do {
 				$module = $this->prompt("Enter module name: ", self::PROMPT_NAME);
-				$moduleInstance = Vtiger_Module::getInstance($module);
+				$moduleInstance = Head_Module::getInstance($module);
 				if (!$moduleInstance) {
 					echo "ERROR: Module $module not found, try another.\n";
 				} else {
@@ -591,7 +591,7 @@ class Vtiger_Tools_Console_RemoveController extends Vtiger_Tools_Console_Control
 			} while (true);
 		} else {
 			$module = array_shift($this->arguments);
-			$moduleInstance = Vtiger_Module::getInstance($module);
+			$moduleInstance = Head_Module::getInstance($module);
 			if (!$moduleInstance) {
 				echo "ERROR: Module $module not found!\n";
 			} else {
@@ -604,7 +604,7 @@ class Vtiger_Tools_Console_RemoveController extends Vtiger_Tools_Console_Control
 }
 
 if (php_sapi_name() == 'cli') {
-	Vtiger_Tools_Console_Controller::run();
+	Head_Tools_Console_Controller::run();
 } else {
 	echo "Usage: php -f vtlib/tools/creator.php";
 }

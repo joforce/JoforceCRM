@@ -17,7 +17,7 @@
 //               info@tecnick.com
 //============================================================+
 
-// NOTE: change the FPDF_FONTPATH constant on config/tcpdf_config.php file to K_PATH_MAIN."fonts/old"
+// NOTE: change the FPDF_FONTPATH constant on config/tcpdf_config/config.php file to K_PATH_MAIN."fonts/old"
 //       to use the Type1 fonts.
 
 /**

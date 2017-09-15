@@ -14,14 +14,14 @@
 class PriceBooks extends CRMEntity {
 	var $log;
 	var $db;
-	var $table_name = "vtiger_pricebook";
+	var $table_name = "jo_pricebook";
 	var $table_index= 'pricebookid';
-	var $tab_name = Array('vtiger_crmentity','vtiger_pricebook','vtiger_pricebookcf');
-	var $tab_name_index = Array('vtiger_crmentity'=>'crmid','vtiger_pricebook'=>'pricebookid','vtiger_pricebookcf'=>'pricebookid');
+	var $tab_name = Array('jo_crmentity','jo_pricebook','jo_pricebookcf');
+	var $tab_name_index = Array('jo_crmentity'=>'crmid','jo_pricebook'=>'pricebookid','jo_pricebookcf'=>'pricebookid');
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
+	var $customFieldTable = Array('jo_pricebookcf', 'pricebookid');
 	var $column_fields = Array();
 
 	var $sortby_fields = Array('bookname');
@@ -76,7 +76,7 @@ class PriceBooks extends CRMEntity {
 		global $log, $adb;
 		$log->debug("Entering function updateListPrices...");
 		$pricebook_currency = $this->column_fields['currency_id'];
-		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? AND usedcurrency != ?",
+		$prod_res = $adb->pquery("select * from jo_pricebookproductrel where pricebookid=? AND usedcurrency != ?",
 							array($this->id, $pricebook_currency));
 		$numRows = $adb->num_rows($prod_res);
 
@@ -91,7 +91,7 @@ class PriceBooks extends CRMEntity {
 			$conversion_rate = $pb_conv_rate / $product_conv_rate;
 			$computed_list_price = $list_price * $conversion_rate;
 
-			$query = "update vtiger_pricebookproductrel set listprice=?, usedcurrency=? where pricebookid=? and productid=?";
+			$query = "update jo_pricebookproductrel set listprice=?, usedcurrency=? where pricebookid=? and productid=?";
 			$params = array($computed_list_price, $pricebook_currency, $this->id, $product_id);
 			$adb->pquery($query, $params);
 		}
@@ -129,17 +129,17 @@ class PriceBooks extends CRMEntity {
 			}
 		}
 
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
-						vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-						vtiger_pricebookproductrel.listprice
-				FROM vtiger_products
-				INNER JOIN vtiger_pricebookproductrel ON vtiger_products.productid = vtiger_pricebookproductrel.productid
-				INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_products.productid
-				INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
+		$query = 'SELECT jo_products.productid, jo_products.productname, jo_products.productcode, jo_products.commissionrate,
+						jo_products.qty_per_unit, jo_products.unit_price, jo_crmentity.crmid, jo_crmentity.smownerid,
+						jo_pricebookproductrel.listprice
+				FROM jo_products
+				INNER JOIN jo_pricebookproductrel ON jo_products.productid = jo_pricebookproductrel.productid
+				INNER JOIN jo_crmentity on jo_crmentity.crmid = jo_products.productid
+				INNER JOIN jo_pricebook on jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid
+				LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+				LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid '
 				. getNonAdminAccessControlQuery($related_module, $current_user) .'
-				WHERE vtiger_pricebook.pricebookid = '.$id.' and vtiger_crmentity.deleted = 0';
+				WHERE jo_pricebook.pricebookid = '.$id.' and jo_crmentity.deleted = 0';
 
 		$this->retrieve_entity_info($id,$this_module);
 		$return_value = getPriceBookRelatedProducts($query,$this,$returnset);
@@ -182,17 +182,17 @@ class PriceBooks extends CRMEntity {
 			}
 		}
 
-		$query = 'SELECT vtiger_service.serviceid, vtiger_service.servicename, vtiger_service.commissionrate,
-					vtiger_service.qty_per_unit, vtiger_service.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-					vtiger_pricebookproductrel.listprice
-			FROM vtiger_service
-			INNER JOIN vtiger_pricebookproductrel on vtiger_service.serviceid = vtiger_pricebookproductrel.productid
-			INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_service.serviceid
-			INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
+		$query = 'SELECT jo_service.serviceid, jo_service.servicename, jo_service.commissionrate,
+					jo_service.qty_per_unit, jo_service.unit_price, jo_crmentity.crmid, jo_crmentity.smownerid,
+					jo_pricebookproductrel.listprice
+			FROM jo_service
+			INNER JOIN jo_pricebookproductrel on jo_service.serviceid = jo_pricebookproductrel.productid
+			INNER JOIN jo_crmentity on jo_crmentity.crmid = jo_service.serviceid
+			INNER JOIN jo_pricebook on jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid
+			LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+			LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid '
 			. getNonAdminAccessControlQuery($related_module, $current_user) .'
-			WHERE vtiger_pricebook.pricebookid = '.$id.' and vtiger_crmentity.deleted = 0';
+			WHERE jo_pricebook.pricebookid = '.$id.' and jo_crmentity.deleted = 0';
 
 		$this->retrieve_entity_info($id,$this_module);
 		$return_value = $other->getPriceBookRelatedServices($query,$this,$returnset);
@@ -213,12 +213,12 @@ class PriceBooks extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_pricebook_noproduct(".$id.") method ...");
 
-		$query = "select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0";
+		$query = "select jo_crmentity.crmid, jo_pricebook.* from jo_pricebook inner join jo_crmentity on jo_crmentity.crmid=jo_pricebook.pricebookid where jo_crmentity.deleted=0";
 		$result = $this->db->pquery($query, array());
 		$no_count = $this->db->num_rows($result);
 		if($no_count !=0)
 		{
-       	 	$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';
+       	 	$pb_query = 'select jo_crmentity.crmid, jo_pricebook.pricebookid,jo_pricebookproductrel.productid from jo_pricebook inner join jo_crmentity on jo_crmentity.crmid=jo_pricebook.pricebookid inner join jo_pricebookproductrel on jo_pricebookproductrel.pricebookid=jo_pricebook.pricebookid where jo_crmentity.deleted=0 and jo_pricebookproductrel.productid=?';
 			$result_pb = $this->db->pquery($pb_query, array($id));
 			if($no_count == $this->db->num_rows($result_pb))
 			{
@@ -260,24 +260,24 @@ class PriceBooks extends CRMEntity {
 				}
 
 	 			$query = "from $moduletable $cfquery
-					inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex";
-				if ($queryplanner->requireTable("vtiger_currency_info$module")){
-				    $query .= "  left join vtiger_currency_info as vtiger_currency_info$module on vtiger_currency_info$module.id = $moduletable.currency_id";
+					inner join jo_crmentity on jo_crmentity.crmid=$moduletable.$moduleindex";
+				if ($queryplanner->requireTable("jo_currency_info$module")){
+				    $query .= "  left join jo_currency_info as jo_currency_info$module on jo_currency_info$module.id = $moduletable.currency_id";
 				}
-				if ($queryplanner->requireTable("vtiger_groups$module")){
-				    $query .= " left join vtiger_groups as vtiger_groups$module on vtiger_groups$module.groupid = vtiger_crmentity.smownerid";
+				if ($queryplanner->requireTable("jo_groups$module")){
+				    $query .= " left join jo_groups as jo_groups$module on jo_groups$module.groupid = jo_crmentity.smownerid";
 				}
-				if ($queryplanner->requireTable("vtiger_users$module")){
-				    $query .= " left join vtiger_users as vtiger_users$module on vtiger_users$module.id = vtiger_crmentity.smownerid";
+				if ($queryplanner->requireTable("jo_users$module")){
+				    $query .= " left join jo_users as jo_users$module on jo_users$module.id = jo_crmentity.smownerid";
 				}
-				$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-				$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
+				$query .= " left join jo_groups on jo_groups.groupid = jo_crmentity.smownerid";
+				$query .= " left join jo_users on jo_users.id = jo_crmentity.smownerid";
 
-				if ($queryplanner->requireTable("vtiger_lastModifiedByPriceBooks")){
-				    $query .= " left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentity.modifiedby ";
+				if ($queryplanner->requireTable("jo_lastModifiedByPriceBooks")){
+				    $query .= " left join jo_users as jo_lastModifiedByPriceBooks on jo_lastModifiedByPriceBooks.id = jo_crmentity.modifiedby ";
 				}
-                if($queryplanner->requireTable('vtiger_createdby'.$module)){
-                    $query .= " left join vtiger_users as vtiger_createdby".$module." on vtiger_createdby".$module.".id = vtiger_crmentity.smcreatorid";
+                if($queryplanner->requireTable('jo_createdby'.$module)){
+                    $query .= " left join jo_users as jo_createdby".$module." on jo_createdby".$module.".id = jo_crmentity.smcreatorid";
                 }
 				return $query;
 	}
@@ -292,31 +292,31 @@ class PriceBooks extends CRMEntity {
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityPriceBooks",array("vtiger_usersPriceBooks","vtiger_groupsPriceBooks"));
-		if (!$queryplanner->requireTable('vtiger_pricebook', $matrix)) {
+		$matrix->setDependency("jo_crmentityPriceBooks",array("jo_usersPriceBooks","jo_groupsPriceBooks"));
+		if (!$queryplanner->requireTable('jo_pricebook', $matrix)) {
 			return '';
 		}
-        $matrix->setDependency("vtiger_pricebook",array("vtiger_crmentityPriceBooks","vtiger_currency_infoPriceBooks"));
+        $matrix->setDependency("jo_pricebook",array("jo_crmentityPriceBooks","jo_currency_infoPriceBooks"));
 
-		$query = $this->getRelationQuery($module,$secmodule,"vtiger_pricebook","pricebookid", $queryplanner);
+		$query = $this->getRelationQuery($module,$secmodule,"jo_pricebook","pricebookid", $queryplanner);
 		// TODO Support query planner
-		if ($queryplanner->requireTable("vtiger_crmentityPriceBooks",$matrix)){
-		$query .=" left join vtiger_crmentity as vtiger_crmentityPriceBooks on vtiger_crmentityPriceBooks.crmid=vtiger_pricebook.pricebookid and vtiger_crmentityPriceBooks.deleted=0";
+		if ($queryplanner->requireTable("jo_crmentityPriceBooks",$matrix)){
+		$query .=" left join jo_crmentity as jo_crmentityPriceBooks on jo_crmentityPriceBooks.crmid=jo_pricebook.pricebookid and jo_crmentityPriceBooks.deleted=0";
 		}
-		if ($queryplanner->requireTable("vtiger_currency_infoPriceBooks")){
-		$query .=" left join vtiger_currency_info as vtiger_currency_infoPriceBooks on vtiger_currency_infoPriceBooks.id = vtiger_pricebook.currency_id";
+		if ($queryplanner->requireTable("jo_currency_infoPriceBooks")){
+		$query .=" left join jo_currency_info as jo_currency_infoPriceBooks on jo_currency_infoPriceBooks.id = jo_pricebook.currency_id";
 		}
-		if ($queryplanner->requireTable("vtiger_usersPriceBooks")){
-		    $query .=" left join vtiger_users as vtiger_usersPriceBooks on vtiger_usersPriceBooks.id = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable("jo_usersPriceBooks")){
+		    $query .=" left join jo_users as jo_usersPriceBooks on jo_usersPriceBooks.id = jo_crmentityPriceBooks.smownerid";
 		}
-		if ($queryplanner->requireTable("vtiger_groupsPriceBooks")){
-		    $query .=" left join vtiger_groups as vtiger_groupsPriceBooks on vtiger_groupsPriceBooks.groupid = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable("jo_groupsPriceBooks")){
+		    $query .=" left join jo_groups as jo_groupsPriceBooks on jo_groupsPriceBooks.groupid = jo_crmentityPriceBooks.smownerid";
 		}
-		if ($queryplanner->requireTable("vtiger_lastModifiedByPriceBooks")){
-		    $query .=" left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable("jo_lastModifiedByPriceBooks")){
+		    $query .=" left join jo_users as jo_lastModifiedByPriceBooks on jo_lastModifiedByPriceBooks.id = jo_crmentityPriceBooks.smownerid";
 		}
-        if ($queryplanner->requireTable("vtiger_createdbyPriceBooks")){
-			$query .= " left join vtiger_users as vtiger_createdbyPriceBooks on vtiger_createdbyPriceBooks.id = vtiger_crmentityPriceBooks.smcreatorid ";
+        if ($queryplanner->requireTable("jo_createdbyPriceBooks")){
+			$query .= " left join jo_users as jo_createdbyPriceBooks on jo_createdbyPriceBooks.id = jo_crmentityPriceBooks.smcreatorid ";
 		}
 		return $query;
 	}
@@ -328,8 +328,8 @@ class PriceBooks extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Products" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
-			"Services" => array("vtiger_pricebookproductrel"=>array("pricebookid","productid"),"vtiger_pricebook"=>"pricebookid"),
+			"Products" => array("jo_pricebookproductrel"=>array("pricebookid","productid"),"jo_pricebook"=>"pricebookid"),
+			"Services" => array("jo_pricebookproductrel"=>array("pricebookid","productid"),"jo_pricebook"=>"pricebookid"),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -403,9 +403,9 @@ class PriceBooks extends CRMEntity {
                         $label = $fieldData[$entityfields['fieldname']];
                     }
 
-                    $adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array(trim($label), $recordId));
+                    $adb->pquery('UPDATE jo_crmentity SET label=? WHERE crmid=?', array(trim($label), $recordId));
                     //updating solr while import records
-                    $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+                    $recordModel = Head_Record_Model::getCleanInstance($moduleName);
                     $focus = $recordModel->getEntity();
                     $focus->id = $recordId;
                     $focus->column_fields = $fieldData;
@@ -413,10 +413,10 @@ class PriceBooks extends CRMEntity {
                 }
 
                 $label = trim($label);
-                $adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+                $adb->pquery('UPDATE jo_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
                 //Creating entity data of updated records for post save events
                 if ($entityInfo['status'] !== Import_Data_Action::$IMPORT_RECORD_CREATED) {
-                    $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+                    $recordModel = Head_Record_Model::getCleanInstance($moduleName);
                     $focus = $recordModel->getEntity();
                     $focus->id = $recordId;
                     $focus->column_fields = $entityInfo;
@@ -461,10 +461,10 @@ class PriceBooks extends CRMEntity {
 				$productId = getEntityId($productName[0], $productName[1]);
                 $presence = isRecordExists($productId);
                 if($presence){
-                    $productInstance = Vtiger_Record_Model::getInstanceById($productId);
+                    $productInstance = Head_Record_Model::getInstanceById($productId);
                     $pricebookId = vtws_getIdComponents($entityinfo['id']);
                     if($productInstance){
-                        $recordModel = Vtiger_Record_Model::getInstanceById($pricebookId[1]);
+                        $recordModel = Head_Record_Model::getInstanceById($pricebookId[1]);
                         $recordModel->updateListPrice($productId, $product['listprice']);
                     }
                 }

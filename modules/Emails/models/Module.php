@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Emails_Module_Model extends Vtiger_Module_Model{
+class Emails_Module_Model extends Head_Module_Model{
 
 	/**
 	 * Function to check whether the module is an entity type module or not
@@ -48,7 +48,7 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 			}
 		}
 		foreach ($relatedModules as $moduleName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 			if(($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleModel->getId())) && !$moduleModel->restrictToListInComposeEmailPopup()) {
 				$emailRelatedModules[] = $moduleName;
 			}
@@ -67,12 +67,12 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 		$emailsResult = array();
 		$db = PearDatabase::getInstance();
 
-		$EmailsModuleModel = Vtiger_Module_Model::getInstance('Emails');
+		$EmailsModuleModel = Head_Module_Model::getInstance('Emails');
 		$emailSupportedModulesList = $EmailsModuleModel->getEmailRelatedModules();
 		foreach ($emailSupportedModulesList as $module) {
 			if ($module != 'Users' && $module != 'ModComments') {
                     $activeModules[] = "'".$module."'";
-                    $activeModuleModel = Vtiger_Module_Model::getInstance($module);
+                    $activeModuleModel = Head_Module_Model::getInstance($module);
                     $moduleEmailFields = $activeModuleModel->getFieldsByType('email');
 					foreach ($moduleEmailFields as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable()) {
@@ -86,16 +86,16 @@ class Emails_Module_Model extends Vtiger_Module_Model{
                 $activeModules = array("'".$moduleName."'");
             }
             
-            $query = "SELECT vtiger_emailslookup.crmid, vtiger_emailslookup.setype, vtiger_emailslookup.value, 
-                          vtiger_crmentity.label FROM vtiger_emailslookup INNER JOIN vtiger_crmentity on 
-                          vtiger_crmentity.crmid = vtiger_emailslookup.crmid AND vtiger_crmentity.deleted=0 WHERE 
-						  vtiger_emailslookup.fieldid in (".implode(',', $fieldIds).") and 
-						  vtiger_emailslookup.setype in (".implode(',', $activeModules).") 
-                          and (vtiger_emailslookup.value LIKE ? OR vtiger_crmentity.label LIKE ?)";
+            $query = "SELECT jo_emailslookup.crmid, jo_emailslookup.setype, jo_emailslookup.value, 
+                          jo_crmentity.label FROM jo_emailslookup INNER JOIN jo_crmentity on 
+                          jo_crmentity.crmid = jo_emailslookup.crmid AND jo_crmentity.deleted=0 WHERE 
+						  jo_emailslookup.fieldid in (".implode(',', $fieldIds).") and 
+						  jo_emailslookup.setype in (".implode(',', $activeModules).") 
+                          and (jo_emailslookup.value LIKE ? OR jo_crmentity.label LIKE ?)";
 
 			$emailOptOutIds = $this->getEmailOptOutRecordIds();
 			if (!empty($emailOptOutIds)) {
-				$query .= " AND vtiger_emailslookup.crmid NOT IN (".implode(',', $emailOptOutIds).")";
+				$query .= " AND jo_emailslookup.crmid NOT IN (".implode(',', $emailOptOutIds).")";
 			}
 
 			$result = $db->pquery($query, array('%'.$searchValue.'%', '%'.$searchValue.'%'));
@@ -118,7 +118,7 @@ class Emails_Module_Model extends Vtiger_Module_Model{
                 foreach($additionalModule as $moduleName){
                     $moduleInstance = CRMEntity::getInstance($moduleName);
                     $searchFields = array();
-                    $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+                    $moduleModel = Head_Module_Model::getInstance($moduleName);
                     $emailFieldModels = $moduleModel->getFieldsByType('email');
 
                     foreach ($emailFieldModels as $fieldName => $fieldModel) {
@@ -130,14 +130,14 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 
                     $nameFields = $moduleModel->getNameFields();
                     foreach ($nameFields as $fieldName) {
-                        $fieldModel = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
+                        $fieldModel = Head_Field_Model::getInstance($fieldName, $moduleModel);
                         if ($fieldModel->isViewable()) {
                                 $searchFields[] = $fieldName;
                         }
                     }
 
 				if ($emailFields) {
-					$userQuery = 'SELECT '.$moduleInstance->table_index.', '.implode(',',$searchFields).' FROM vtiger_users WHERE deleted=0';
+					$userQuery = 'SELECT '.$moduleInstance->table_index.', '.implode(',',$searchFields).' FROM jo_users WHERE deleted=0';
                         $result = $db->pquery($userQuery, array());
                         $numOfRows = $db->num_rows($result);
                         for($i=0; $i<$numOfRows; $i++) {
@@ -172,17 +172,17 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 	function getEmailOptOutRecordIds() {
 		$emailOptOutIds = array();
 		$db = PearDatabase::getInstance();
-		$contactResult = $db->pquery("SELECT crmid FROM vtiger_crmentity INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? AND vtiger_contactdetails.emailoptout = ?", array('0', '1'));
+		$contactResult = $db->pquery("SELECT crmid FROM jo_crmentity INNER JOIN jo_contactdetails ON jo_contactdetails.contactid = jo_crmentity.crmid WHERE jo_crmentity.deleted = ? AND jo_contactdetails.emailoptout = ?", array('0', '1'));
 		$contactCount = $db->num_rows($contactResult);
 		for($i = 0; $i < $contactCount; $i++) {
 			$emailOptOutIds[] = $db->query_result($contactResult, $i, 'crmid');
 		}
-		$accountResult = $db->pquery("SELECT crmid FROM vtiger_crmentity INNER JOIN vtiger_account ON vtiger_account.accountid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? AND vtiger_account.emailoptout = ?", array('0', '1'));
+		$accountResult = $db->pquery("SELECT crmid FROM jo_crmentity INNER JOIN jo_account ON jo_account.accountid = jo_crmentity.crmid WHERE jo_crmentity.deleted = ? AND jo_account.emailoptout = ?", array('0', '1'));
 		$accountCount = $db->num_rows($accountResult);
 		for($i = 0; $i < $accountCount; $i++) {
 			$emailOptOutIds[] = $db->query_result($accountResult, $i, 'crmid');
 		}
-		$leadResult = $db->pquery("SELECT crmid FROM vtiger_crmentity INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? AND vtiger_leaddetails.emailoptout = ?", array('0', '1'));
+		$leadResult = $db->pquery("SELECT crmid FROM jo_crmentity INNER JOIN jo_leaddetails ON jo_leaddetails.leadid = jo_crmentity.crmid WHERE jo_crmentity.deleted = ? AND jo_leaddetails.emailoptout = ?", array('0', '1'));
 		$leadCount = $db->num_rows($leadResult);
 		for($i = 0; $i < $leadCount; $i++) {
 			$emailOptOutIds[] = $db->query_result($leadResult, $i, 'crmid');
@@ -193,9 +193,9 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param Head_Record_Model $recordModel
 	 */
-	public function saveRecord(Vtiger_Record_Model $recordModel) {
+	public function saveRecord(Head_Record_Model $recordModel) {
 		$moduleName = $this->get('name');
 		$focus = $recordModel->getEntity();
 		$fields = $focus->column_fields;

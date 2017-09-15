@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Documents_Detail_View extends Vtiger_Detail_View {
+class Documents_Detail_View extends Head_Detail_View {
 	
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
 		parent::preProcess($request);
@@ -19,7 +19,7 @@ class Documents_Detail_View extends Vtiger_Detail_View {
 	
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
+	 * @param Head_Record_Model record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel) {

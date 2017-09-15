@@ -9,24 +9,24 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_Settings_View extends Vtiger_Basic_View {
+class Users_Settings_View extends Head_Basic_View {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
         return true;
 	}
     
-    public function preProcess (Vtiger_Request $request, $display=true) {
+    public function preProcess (Head_Request $request, $display=true) {
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request,$display);
 	}
 
-	public function preProcessSettings (Vtiger_Request $request ,$display=true) {
+	public function preProcessSettings (Head_Request $request ,$display=true) {
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
 		$fieldId = $request->get('fieldid');
 		
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+        $moduleModel = Head_Module_Model::getInstance($moduleName);
         $this->setModuleInfo($request, $moduleModel);
         
 		$viewer->assign('SELECTED_FIELDID',$fieldId);
@@ -37,34 +37,34 @@ class Users_Settings_View extends Vtiger_Basic_View {
 		}
 	}
     
-    public function preProcessTplName(Vtiger_Request $request) {
+    public function preProcessTplName(Head_Request $request) {
         return 'UsersSettingsMenuStart.tpl';
 	}
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         //Redirect to My Preference Page
         $userModel = Users_Record_Model::getCurrentUserModel();
         header('Location: ' . $userModel->getPreferenceDetailViewUrl());
     }
     
-    public function postProcessSettings (Vtiger_Request $request) {
+    public function postProcessSettings (Head_Request $request) {
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);
 		$viewer->view('UsersSettingsMenuEnd.tpl', $moduleName);
 	}
 
-	public function postProcess (Vtiger_Request $request) {
+	public function postProcess (Head_Request $request) {
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
     
     /**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
@@ -78,7 +78,7 @@ class Users_Settings_View extends Vtiger_Basic_View {
 	}
     
     /**
-     * Setting module related Information to $viewer (for Vtiger7)
+     * Setting module related Information to $viewer (for Head7)
      * @param type $request
      * @param type $moduleModel
      */

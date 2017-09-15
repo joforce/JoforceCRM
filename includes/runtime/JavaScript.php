@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Vtiger_JavaScript extends Vtiger_Viewer {
+class Head_JavaScript extends Head_Viewer {
 
 	/**
 	 * Function to get the path of a given style sheet or default style sheet
@@ -21,7 +21,7 @@ class Vtiger_JavaScript extends Vtiger_Viewer {
 			return false;
 		}
 		$filePath =  self::getBaseJavaScriptPath() . '/' . $fileName;
-		$completeFilePath = Vtiger_Loader::resolveNameToPath('~'.$filePath);
+		$completeFilePath = Head_Loader::resolveNameToPath('~'.$filePath);
 
 		if(file_exists($completeFilePath)){
 			return $filePath;

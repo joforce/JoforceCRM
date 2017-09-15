@@ -12,7 +12,7 @@
 /**
  * Class to handler language translations
  */
-class Vtiger_Language_Handler {
+class Head_Language_Handler {
 
 	//Contains module language translations
 	protected static $languageContainer;
@@ -32,7 +32,7 @@ class Vtiger_Language_Handler {
 			$key = decode_html($key);
 		$translatedString = self::getLanguageTranslatedString($currentLanguage, $key, $module);
 
-		// label not found in users language pack, then check in the default language pack(config.inc.php)
+		// label not found in users language pack, then check in the default language pack(config/config.inc.php)
 		if ($translatedString === null) {
 			$defaultLanguage = vglobal('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
@@ -68,7 +68,7 @@ class Vtiger_Language_Handler {
 		if (strpos($module, '.') > 0) {
 			$baseModule = substr($module, 0, strpos($module, '.'));
 			if ($baseModule == 'Settings') {
-				$baseModule = 'Settings.Vtiger';
+				$baseModule = 'Settings.Head';
 			}
 			$moduleStrings = self::getModuleStringsFromFile($language, $baseModule);
 			if (!empty($moduleStrings['languageStrings'][$key])) {
@@ -101,7 +101,7 @@ class Vtiger_Language_Handler {
 		if (strpos($module, '.') > 0) {
 			$baseModule = substr($module, 0, strpos($module, '.'));
 			if ($baseModule == 'Settings') {
-				$baseModule = 'Settings.Vtiger';
+				$baseModule = 'Settings.Head';
 			}
 			$moduleStrings = self::getModuleStringsFromFile($language, $baseModule);
 			if (!empty($moduleStrings['jsLanguageStrings'][$key])) {
@@ -122,11 +122,11 @@ class Vtiger_Language_Handler {
 	 * @param <String> $module - module Name
 	 * @return <array> - array if module has language strings else returns empty array
 	 */
-	public static function getModuleStringsFromFile($language, $module='Vtiger'){
+	public static function getModuleStringsFromFile($language, $module='Head'){
 		$module = str_replace(':', '.', $module);
 		if(empty(self::$languageContainer[$language][$module])){
 			$qualifiedName = 'languages.'.$language.'.'.$module;
-			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
+			$file = Head_Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = $jsLanguageStrings = array();
 			if(file_exists($file)){
 				require $file;
@@ -192,7 +192,7 @@ class Vtiger_Language_Handler {
 			if (strpos($module, '.') > 0) {
 				$baseModule = substr($module, 0, strpos($module, '.'));
 				if ($baseModule == 'Settings') {
-					$baseModule = 'Settings.Vtiger';
+					$baseModule = 'Settings.Head';
 				}
 				$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $baseModule);
 				if (!empty($moduleStrings[$type])) {
@@ -215,7 +215,7 @@ class Vtiger_Language_Handler {
 	 * @return <Array>
 	 */
 	public static function getAllLanguages() {
-		return Vtiger_Language::getAll();
+		return Head_Language::getAll();
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Vtiger_Language_Handler {
 	 */
 	public static function getLanguageLabel($name) {
 		$db = PearDatabase::getInstance();
-		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', array($name));
+		$languageResult = $db->pquery('SELECT label FROM jo_language WHERE prefix = ?', array($name));
 		if ($db->num_rows($languageResult)) {
 			return $db->query_result($languageResult, 0, 'label');
 		}
@@ -235,7 +235,7 @@ class Vtiger_Language_Handler {
 
 function vtranslate($key, $moduleName = '') {
 	$args = func_get_args();
-	$formattedString = call_user_func_array(array('Vtiger_Language_Handler', 'getTranslatedString'), $args);
+	$formattedString = call_user_func_array(array('Head_Language_Handler', 'getTranslatedString'), $args);
 	array_shift($args);
 	array_shift($args);
 	if (is_array($args) && !empty($args)) {
@@ -246,5 +246,5 @@ function vtranslate($key, $moduleName = '') {
 
 function vJSTranslate($key, $moduleName = '') {
 	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Language_Handler', 'getJSTranslatedString'), $args);
+	return call_user_func_array(array('Head_Language_Handler', 'getJSTranslatedString'), $args);
 }

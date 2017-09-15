@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_Relation_Model extends Vtiger_Relation_Model {
+class Campaigns_Relation_Model extends Head_Relation_Model {
 
 	/**
 	 * Function to get Email enabled modules list for detail view of record
@@ -17,9 +17,9 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 	 */
 	public function getEmailEnabledModulesInfoForDetailView() {
 		return array(
-				'Leads' => array('fieldName' => 'leadid', 'tableName' => 'vtiger_campaignleadrel'),
-				'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'vtiger_campaignaccountrel'),
-				'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'vtiger_campaigncontrel')
+				'Leads' => array('fieldName' => 'leadid', 'tableName' => 'jo_campaignleadrel'),
+				'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'jo_campaignaccountrel'),
+				'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'jo_campaigncontrel')
 		);
 	}
 
@@ -30,7 +30,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model {
 	public function getCampaignRelationStatusValues() {
 		$statusValues = array();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus", array());
+		$result = $db->pquery("SELECT campaignrelstatusid, campaignrelstatus FROM jo_campaignrelstatus", array());
 		$numOfRows = $db->num_rows($result);
 
 		for ($i=0; $i<$numOfRows; $i++) {

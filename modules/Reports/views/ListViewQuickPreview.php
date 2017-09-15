@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Reports_ListViewQuickPreview_View extends Vtiger_ListViewQuickPreview_View {
+class Reports_ListViewQuickPreview_View extends Head_ListViewQuickPreview_View {
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
+class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -27,7 +27,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = Head_Module_Model::getInstance($selectedModuleName);
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
@@ -72,7 +72,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 
 		if ($taskType === 'VTCreateEntityTask') {
 			if ($taskObject->entity_type && getTabid($taskObject->entity_type)) {
-				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
+				$relationModuleModel = Head_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
@@ -118,7 +118,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$metaVariables = Settings_Workflows_Module_Model::getMetaVariables();
 		if($moduleModel->getName() == 'Invoice' || $moduleModel->getName() == 'Quotes') {
-			$metaVariables['Portal Pdf Url'] = '(general : (__VtigerMeta__) portalpdfurl)';
+			$metaVariables['Portal Pdf Url'] = '(general : (__HeadMeta__) portalpdfurl)';
 		}
 
 		foreach($metaVariables as $variableName => $variableValue) {
@@ -145,7 +145,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
 		$repeat_date = $taskModel->getTaskObject()->calendar_repeat_limit_date;
 		if(!empty ($repeat_date)){
-			$repeat_date = Vtiger_Date_UIType::getDisplayDateValue($repeat_date);
+			$repeat_date = Head_Date_UIType::getDisplayDateValue($repeat_date);
 		}
 		$viewer->assign('REPEAT_DATE',$repeat_date);
 
@@ -159,16 +159,16 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		foreach($emailFields as $metaKey => $emailField) {
 			$emailFieldoptions .= '<option value=",$'.$metaKey.'">'.$emailField->get('workflow_columnlabel').'</option>';
 		}
-		$usersModuleModel = Vtiger_Module_Model::getInstance('Users');
+		$usersModuleModel = Head_Module_Model::getInstance('Users');
 
 		if($moduleModel->getField('assigned_user_id')) {
-			$emailFieldoptions .= '<option value=",$(general : (__VtigerMeta__) reports_to_id)"> '.
+			$emailFieldoptions .= '<option value=",$(general : (__HeadMeta__) reports_to_id)"> '.
 									vtranslate($moduleModel->getField('assigned_user_id')->get('label'),'Users').' : (' . vtranslate('Users','Users') . ') '. vtranslate($usersModuleModel->getField('reports_to_id')->get('label'),'Users') .'</option>';
 		}
 
 		$nameFields = $recordStructureInstance->getNameFields();
 		$fromEmailFieldOptions = '<option value="">'. vtranslate('ENTER_FROM_EMAIL_ADDRESS', $qualifiedModuleName) .'</option>';
-		$fromEmailFieldOptions .= '<option value="$(general : (__VtigerMeta__) supportName)<$(general : (__VtigerMeta__) supportEmailId)>"
+		$fromEmailFieldOptions .= '<option value="$(general : (__HeadMeta__) supportName)<$(general : (__HeadMeta__) supportEmailId)>"
 									>'.vtranslate('LBL_HELPDESK_SUPPORT_EMAILID', $qualifiedModuleName).
 									'</option>';
 
@@ -207,8 +207,8 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		$userList = $currentUser->getAccessibleUsers();
 		$groupList = $currentUser->getAccessibleGroups();
 		$assignedToValues = array();
-		$assignedToValues[vtranslate('LBL_USERS', 'Vtiger')] = $userList;
-		$assignedToValues[vtranslate('LBL_GROUPS', 'Vtiger')] = $groupList;
+		$assignedToValues[vtranslate('LBL_USERS', 'Head')] = $userList;
+		$assignedToValues[vtranslate('LBL_GROUPS', 'Head')] = $groupList;
 
 		if($taskType == 'VTEmailTask') {
 			$worflowModuleName = $workflowModel->get('module_name');

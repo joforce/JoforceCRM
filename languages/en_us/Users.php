@@ -260,7 +260,7 @@ $languageStrings = array(
 
 	'LBL_DUPLICATE_USER_EXISTS' => 'User Already Exists',
 
-	/* For Vtiger7*/
+	/* For Head7*/
 	'LBL_USERS_SETTINGS' => 'USERS SETTINGS',
 	'LBL_TEMPLATES' => 'Templates',
 );

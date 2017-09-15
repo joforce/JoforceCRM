@@ -35,7 +35,7 @@ function service_MailScanner_performScanNow($scannerinfo, $debug) {
 		echo "Scanning " . $scannerinfo->server . " in progress\n";
 
 		/** Start the scanning. */
-		$scanner = new Vtiger_MailScanner($scannerinfo);
+		$scanner = new Head_MailScanner($scannerinfo);
 		$scanner->debug = $debug;
 		$status = $scanner->performScanNow();
 		
@@ -63,7 +63,7 @@ if(isset($_REQUEST['scannername'])) {
 	
 	// Target scannername specified?	
 	$scannername = vtlib_purify($_REQUEST['scannername']);
-	$scannerinfo = new Vtiger_MailScannerInfo($scannername);
+	$scannerinfo = new Head_MailScannerInfo($scannername);
 	
 	service_MailScanner_performScanNow($scannerinfo, $debug);
 	
@@ -71,7 +71,7 @@ if(isset($_REQUEST['scannername'])) {
 	
 	// Scan all the configured mailscanners?
 	
-	$scannerinfos = Vtiger_MailScannerInfo::listAll();
+	$scannerinfos = Head_MailScannerInfo::listAll();
 	if(empty($scannerinfos)) {
 		
 		echo "No mailbox configured for scanning!";

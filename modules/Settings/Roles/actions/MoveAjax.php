@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Roles_MoveAjax_Action extends Settings_Head_Basic_Action {
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		return;
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		return;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$parentRoleId = $request->get('parent_roleid');
@@ -27,8 +27,8 @@ class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action {
 		$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		try {
 			$recordModel->moveTo($parentRole);
             //on moving a role sharing privilages should be recalculated for all the users

@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
+class PriceBooks_RelationListView_Model extends Head_RelationListView_Model {
 
 	public function getHeaders() {
 		$headerFields = parent::getHeaders();
 
 		//Added to support List Price
-		$field = new Vtiger_Field_Model();
+		$field = new Head_Field_Model();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');
@@ -61,7 +61,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 			//Added to support List Price
 			$newRow['listprice'] = CurrencyField::convertToUserFormat($row['listprice'], null, true);
 
-			$record = Vtiger_Record_Model::getCleanInstance($relationModule->get('name'));
+			$record = Head_Record_Model::getCleanInstance($relationModule->get('name'));
 			$relatedRecordList[$recordId] = $record->setData($newRow)->setModuleFromInstance($relationModule);
 		}
 		$pagingModel->calculatePageRange($relatedRecordList);

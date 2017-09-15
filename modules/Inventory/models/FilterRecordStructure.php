@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_FilterRecordStructure_Model extends Vtiger_FilterRecordStructure_Model {
+class Inventory_FilterRecordStructure_Model extends Head_FilterRecordStructure_Model {
 
 	/**
 	 * Function to get the fields & reference fields in stuctured format
@@ -49,7 +49,7 @@ class Inventory_FilterRecordStructure_Model extends Vtiger_FilterRecordStructure
 				$referenceModules = $field->getReferenceList();
 				foreach($referenceModules as $refModule) {
 					if($refModule == 'Users') continue;
-					$refModuleModel = Vtiger_Module_Model::getInstance($refModule);
+					$refModuleModel = Head_Module_Model::getInstance($refModule);
 					$blockModelList = $refModuleModel->getBlocks();
 					$fieldModelList = null;
 					foreach($blockModelList as $blockLabel=>$blockModel) {

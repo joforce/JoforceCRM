@@ -13,12 +13,12 @@
 /**
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
-require_once 'config.php';
-if (file_exists('config_override.php')) {
-	                include_once 'config_override.php';
+require_once 'config/config.php';
+if (file_exists('config/config_override.php')) {
+	                include_once 'config/config_override.php';
 }
 
-include_once 'vtlib/Vtiger/Module.php';
+include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
 require_once('libraries/nusoap/nusoap.php');
@@ -236,7 +236,7 @@ function track_email($user_name,$password,$contact_ids, $date_sent, $email_subje
 		require_once('modules/Emails/Emails.php');
 		$current_user = new Users();
 		$user_id = $current_user->retrieve_user_id($user_name);
-		$query = "select email1 from vtiger_users where id =?";
+		$query = "select email1 from jo_users where id =?";
 		$result = $adb->pquery($query, array($user_id));
 		$user_emailid = $adb->query_result($result,0,"email1");
 		$current_user = $current_user->retrieveCurrentUserInfoFromFile($user_id);
@@ -254,13 +254,13 @@ function track_email($user_name,$password,$contact_ids, $date_sent, $email_subje
 		$email->column_fields[activitytype] = 'Emails';
 		$email->plugin_save = true;
 		$email->save("Emails");
-		$query = "select fieldid from vtiger_field where fieldname = 'email' and tabid = 4 and vtiger_field.presence in (0,2)";
+		$query = "select fieldid from jo_field where fieldname = 'email' and tabid = 4 and jo_field.presence in (0,2)";
 		$result = $adb->pquery($query, array());
 		$field_id = $adb->query_result($result,0,"fieldid");
 		$email->set_emails_contact_invitee_relationship($email->id,$contact_ids);
 		$email->set_emails_se_invitee_relationship($email->id,$contact_ids);
 		$email->set_emails_user_invitee_relationship($email->id,$user_id);
-		$sql = "select email from vtiger_contactdetails inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid where vtiger_crmentity.deleted =0 and vtiger_contactdetails.contactid=?";
+		$sql = "select email from jo_contactdetails inner join jo_crmentity on jo_crmentity.crmid = jo_contactdetails.contactid where jo_crmentity.deleted =0 and jo_contactdetails.contactid=?";
 		$result = $adb->pquery($sql, array($contact_ids));
 		$camodulerow = $adb->fetch_array($result);
 		if(isset($camodulerow))
@@ -270,7 +270,7 @@ function track_email($user_name,$password,$contact_ids, $date_sent, $email_subje
 		    	//added to save < as $lt; and > as &gt; in the database so as to retrive the emailID
 		    	$user_emailid = str_replace('<','&lt;',$user_emailid);
 		    	$user_emailid = str_replace('>','&gt;',$user_emailid);
-			$query = 'insert into vtiger_emaildetails values (?,?,?,?,?,?,?,?)';
+			$query = 'insert into jo_emaildetails values (?,?,?,?,?,?,?,?)';
 			$params = array($email->id, $emailid, $user_emailid, "", "", "", $user_id.'@-1|'.$contact_ids.'@'.$field_id.'|',"THUNDERBIRD");
 			$adb->pquery($query, $params);
 		}
@@ -351,7 +351,7 @@ function retrieve_account_id($account_name,$user_id)
 
 	$db = PearDatabase::getInstance();
 	
-	$query = "select vtiger_account.accountname accountname,vtiger_account.accountid accountid from vtiger_account inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_account.accountid where vtiger_crmentity.deleted=0 and vtiger_account.accountname=?";
+	$query = "select jo_account.accountname accountname,jo_account.accountid accountid from jo_account inner join jo_crmentity on jo_crmentity.crmid=jo_account.accountid where jo_crmentity.deleted=0 and jo_account.accountname=?";
 	$result=  $db->pquery($query, array($account_name)) or die ("Not able to execute insert");
 
 	$rows_count =  $db->getRowCount($result);
@@ -400,14 +400,14 @@ function AddContact($user_name,$first_name, $last_name, $email_address ,$account
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-	    	$sql1 = "select fieldname,columnname from vtiger_field where tabid=4 and block <> 75 and block <> 6 and block <> 5 and vtiger_field.presence in (0,2)";
+	    	$sql1 = "select fieldname,columnname from jo_field where tabid=4 and block <> 75 and block <> 6 and block <> 5 and jo_field.presence in (0,2)";
 			$params1 = array();
 	  	} else {
 	    	$profileList = getCurrentUserProfileList();
-	    	$sql1 = "select fieldname,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=4 and vtiger_field.block <> 75 and vtiger_field.block <> 6 and vtiger_field.block <> 5 and vtiger_field.displaytype in (1,2,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+	    	$sql1 = "select fieldname,columnname from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid=4 and jo_field.block <> 75 and jo_field.block <> 6 and jo_field.block <> 5 and jo_field.displaytype in (1,2,4) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
 			$params1 = array();
 			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$sql1 .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params1, $profileList);
 			}
 	  	}
@@ -467,14 +467,14 @@ function AddLead($user_name, $first_name, $last_name, $email_address ,$account_n
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-	    	$sql1 = "select fieldname,columnname from vtiger_field where tabid=7 and block <> 14 and vtiger_field.presence in (0,2)";
+	    	$sql1 = "select fieldname,columnname from jo_field where tabid=7 and block <> 14 and jo_field.presence in (0,2)";
 			$params1 = array();
 	  	} else {
 	    	$profileList = getCurrentUserProfileList();
-	    	$sql1 = "select fieldname,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=7 and vtiger_field.block <> 14 and vtiger_field.displaytype in (1,2,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+	    	$sql1 = "select fieldname,columnname from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid=7 and jo_field.block <> 14 and jo_field.displaytype in (1,2,4) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
 	  		$params1 = array();
 			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
+				$sql1 .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params1, $profileList);
 			}
 		}
@@ -520,7 +520,7 @@ function create_session($user_name, $password,$version)
 {
   global $adb,$log;
   $return_access = 'FALSES';
-  include('vtigerversion.php');
+  include('version.php');
  
 	/* Make 5.0.4 plugins compatible with 5.1.0 */
 	if(version_compare($version,'5.0.4', '>=') === 1) {
@@ -535,7 +535,7 @@ function create_session($user_name, $password,$version)
 		$encrypted_password = $objuser->encrypt_password($password);
 		if($objuser->load_user($password) && $objuser->is_authenticated())
 		{
-			$query = "select id from vtiger_users where user_name=? and user_password=?";
+			$query = "select id from jo_users where user_name=? and user_password=?";
 			$result = $adb->pquery($query, array($user_name, $encrypted_password));
 			if($adb->num_rows($result) > 0)
 			{
@@ -570,7 +570,7 @@ function authentication($user_name,$password)
 		$encrypted_password = $objuser->encrypt_password($password);
 		if($objuser->load_user($password) && $objuser->is_authenticated())
 		{
-			$query = "select id from vtiger_users where user_name=? and user_password=?";
+			$query = "select id from jo_users where user_name=? and user_password=?";
 			$log->DEBUG("Running Query is ".$query);
 			$result = $adb->pquery($query, array($user_name, $encrypted_password));
 			if($adb->num_rows($result) > 0)

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Inventory_GetTaxes_Action extends Vtiger_Action_Controller {
+class Inventory_GetTaxes_Action extends Head_Action_Controller {
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$decimalPlace = getCurrencyDecimalPlaces();
 		$currencyId = $request->get('currency_id');
 		$currencies = Inventory_Module_Model::getAllCurrencies();
@@ -23,12 +23,12 @@ class Inventory_GetTaxes_Action extends Vtiger_Action_Controller {
 			$idList = array($recordId);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$namesList = $purchaseCostsList = $taxesList = $listPricesList = $listPriceValuesList = array();
 		$descriptionsList = $quantitiesList = $imageSourcesList = $productIdsList = $baseCurrencyIdsList = array();
 
 		foreach($idList as $id) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id);
+			$recordModel = Head_Record_Model::getInstanceById($id);
 			$taxes = $recordModel->getTaxes();
 			foreach ($taxes as $key => $taxInfo) {
 				$taxInfo['compoundOn'] = json_encode($taxInfo['compoundOn']);

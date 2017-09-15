@@ -11,11 +11,11 @@
 
 class Settings_MailConverter_BodyRule_Model extends Settings_MailConverter_RuleRecord_Model {
 
-	var $_bodyruleTable = 'vtiger_mailscanner_bodyrule';
-	var $_bodyruleMappingTable = 'vtiger_mailscanner_mapping';
+	var $_bodyruleTable = 'jo_mailscanner_bodyrule';
+	var $_bodyruleMappingTable = 'jo_mailscanner_mapping';
 
   public static function getCleanInstance($qualifiedModuleName='Settings:MailConverter'){
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'BodyRule', $qualifiedModuleName);
+		$modelClassName = Head_Loader::getComponentClassName('Model', 'BodyRule', $qualifiedModuleName);
 		return new $modelClassName();
 
 	}
@@ -41,8 +41,8 @@ class Settings_MailConverter_BodyRule_Model extends Settings_MailConverter_RuleR
 		if(!$module)
 			return array();
 		$fields = array();
-		$moduleInstance = Vtiger_Module_Model::getInstance($module);
-		$fieldInstances = Vtiger_Field_Model::getAllForModule($moduleInstance);
+		$moduleInstance = Head_Module_Model::getInstance($module);
+		$fieldInstances = Head_Field_Model::getAllForModule($moduleInstance);
 		foreach($fieldInstances as $blockInstance) {
 			foreach($blockInstance as $fieldInstance) {
 				if($fieldInstance->isEditable()) {

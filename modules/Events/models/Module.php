@@ -24,12 +24,12 @@ class Events_Module_Model extends Calendar_Module_Model {
 
    /**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param Head_Record_Model $recordModel
 	 */
-	public function saveRecord(Vtiger_Record_Model $recordModel) {
+	public function saveRecord(Head_Record_Model $recordModel) {
         $recordModel = parent::saveRecord($recordModel);
         
-        //code added to send mail to the vtiger_invitees
+        //code added to send mail to the jo_invitees
         $selectUsers = $recordModel->get('selectedusers');
         if(!empty($selectUsers))
         {
@@ -45,14 +45,14 @@ class Events_Module_Model extends Calendar_Module_Model {
 	 * @return <array> - array which contains fields which together construct name fields
 	 */
 	public function getNameFields(){
-        $nameFieldObject = Vtiger_Cache::get('EntityField',$this->getName());
+        $nameFieldObject = Head_Cache::get('EntityField',$this->getName());
         $moduleName = $this->getName();
 		if($nameFieldObject && $nameFieldObject->fieldname) {
 			$this->nameFields = explode(',', $nameFieldObject->fieldname);
 		} else {
 			$adb = PearDatabase::getInstance();
 
-			$query = "SELECT fieldname, tablename, entityidfield FROM vtiger_entityname WHERE tabid = ?";
+			$query = "SELECT fieldname, tablename, entityidfield FROM jo_entityname WHERE tabid = ?";
 			$result = $adb->pquery($query, array(getTabid('Calendar')));
 			$this->nameFields = array();
 			if($result){
@@ -67,7 +67,7 @@ class Events_Module_Model extends Calendar_Module_Model {
 			$entiyObj->basetable = $adb->query_result($result, 0, 'tablename');
 			$entiyObj->basetableid =  $adb->query_result($result, 0, 'entityidfield');
 			$entiyObj->fieldname =  $fieldNames;
-			Vtiger_Cache::set('EntityField',$this->getName(), $entiyObj);
+			Head_Cache::set('EntityField',$this->getName(), $entiyObj);
 		}
         return $this->nameFields;
 	}

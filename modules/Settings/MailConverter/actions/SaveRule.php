@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_SaveRule_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_SaveRule_Action extends Settings_Head_Index_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 		$recordId = $request->get('record');
 		$scannerId = $request->get('scannerId');
@@ -21,7 +21,7 @@ class Settings_MailConverter_SaveRule_Action extends Settings_Vtiger_Index_Actio
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$scannerId = $request->get('scannerId');
 		$action = $request->get('action1');
@@ -45,12 +45,12 @@ class Settings_MailConverter_SaveRule_Action extends Settings_Vtiger_Index_Actio
 
 		$ruleId = $recordModel->save();
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(array('message' => vtranslate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName), 'id' => $ruleId, 'scannerId' => $scannerId));
 		$response->emit();
 	}
         
-        public function validateRequest(Vtiger_Request $request) { 
+        public function validateRequest(Head_Request $request) { 
             $request->validateWriteAccess(); 
         }
 }

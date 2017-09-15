@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ********************************************************************************/
 
-require_once('config.php');
+require_once('config/config.php');
 require_once('modules/Users/Users.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/utils/utils.php');
@@ -141,7 +141,7 @@ if($handle)
 
 			//Constructing the Related Module Sharing Array
 			$relModSharArr=Array();	
-			$query ="select * from vtiger_datashare_relatedmodules";
+			$query ="select * from jo_datashare_relatedmodules";
                 	$result=$adb->pquery($query, array());
                 	$num_rows = $adb->num_rows($result);
                 	for($i=0;$i<$num_rows;$i++)
@@ -434,8 +434,8 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 		$rs_write_per=Array();
 		$grp_read_per=Array();
 		$grp_write_per=Array();
-		//Retreiving from vtiger_role to vtiger_role
-		$query="select vtiger_datashare_role2role.* from vtiger_datashare_role2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_role2role.to_roleid=?";
+		//Retreiving from jo_role to jo_role
+		$query="select jo_datashare_role2role.* from jo_datashare_role2role inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_role2role.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_role2role.to_roleid=?";
 		$result=$adb->pquery($query, array($mod_tabid, $current_user_roles));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -490,7 +490,7 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 			array_push($parRoleList, $par_role_id);		
 		}
 		array_push($parRoleList, $current_user_roles);
-		$query="select vtiger_datashare_role2rs.* from vtiger_datashare_role2rs inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2rs.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_role2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
+		$query="select jo_datashare_role2rs.* from jo_datashare_role2rs inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_role2rs.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_role2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
 		$result=$adb->pquery($query, array($mod_tabid, $parRoleList));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -542,11 +542,11 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 		if (empty($groupList)) $groupList = array(0);
 		
 		if (!empty($groupList)) {
-			$query="select vtiger_datashare_role2group.* from vtiger_datashare_role2group inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2group.shareid where vtiger_datashare_module_rel.tabid=?";
+			$query="select jo_datashare_role2group.* from jo_datashare_role2group inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_role2group.shareid where jo_datashare_module_rel.tabid=?";
 			$qparams = array($mod_tabid);
 
 			if (count($groupList) > 0) {
-				$query .= " and vtiger_datashare_role2group.to_groupid in (". generateQuestionMarks($groupList) .")";
+				$query .= " and jo_datashare_role2group.to_groupid in (". generateQuestionMarks($groupList) .")";
 				array_push($qparams, $groupList);
 			}
 			$result=$adb->pquery($query, $qparams);
@@ -595,8 +595,8 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 		}
 
 
-		//Retreiving from rs to vtiger_role
-		$query="select vtiger_datashare_rs2role.* from vtiger_datashare_rs2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_rs2role.to_roleid=?";
+		//Retreiving from rs to jo_role
+		$query="select jo_datashare_rs2role.* from jo_datashare_rs2role inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_rs2role.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_rs2role.to_roleid=?";
 		$result=$adb->pquery($query, array($mod_tabid, $current_user_roles));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -656,7 +656,7 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 			array_push($parRoleList, $par_role_id);		
 		}
 		array_push($parRoleList, $current_user_roles);
-		$query="select vtiger_datashare_rs2rs.* from vtiger_datashare_rs2rs inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2rs.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_rs2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
+		$query="select jo_datashare_rs2rs.* from jo_datashare_rs2rs inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_rs2rs.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_rs2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
 		$result=$adb->pquery($query, array($mod_tabid, $parRoleList));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -710,10 +710,10 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 
 		//Get roles from Rs2Grp
 
-		$query="select vtiger_datashare_rs2grp.* from vtiger_datashare_rs2grp inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2grp.shareid where vtiger_datashare_module_rel.tabid=?";
+		$query="select jo_datashare_rs2grp.* from jo_datashare_rs2grp inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_rs2grp.shareid where jo_datashare_module_rel.tabid=?";
 		$qparams = array($mod_tabid);
 		if (count($groupList) > 0) {
-			$query .= " and vtiger_datashare_rs2grp.to_groupid in (". generateQuestionMarks($groupList) .")";
+			$query .= " and jo_datashare_rs2grp.to_groupid in (". generateQuestionMarks($groupList) .")";
 			array_push($qparams, $groupList);
 		}
 		$result=$adb->pquery($query, $qparams);
@@ -773,7 +773,7 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 		$mod_share_write_permission['ROLE']=$role_write_per;
 		
 		//Retreiving from the grp2role sharing
-		$query="select vtiger_datashare_grp2role.* from vtiger_datashare_grp2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_grp2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_grp2role.to_roleid=?";
+		$query="select jo_datashare_grp2role.* from jo_datashare_grp2role inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_grp2role.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_grp2role.to_roleid=?";
 		$result=$adb->pquery($query, array($mod_tabid, $current_user_roles));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -875,7 +875,7 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 
 		//Retreiving from the grp2rs sharing
 
-		$query="select vtiger_datashare_grp2rs.* from vtiger_datashare_grp2rs inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_grp2rs.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_grp2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
+		$query="select jo_datashare_grp2rs.* from jo_datashare_grp2rs inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_grp2rs.shareid where jo_datashare_module_rel.tabid=? and jo_datashare_grp2rs.to_roleandsubid in (". generateQuestionMarks($parRoleList) .")";
 		$result=$adb->pquery($query, array($mod_tabid, $parRoleList));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -977,10 +977,10 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 
 		//Retreiving from the grp2grp sharing
 
-		$query="select vtiger_datashare_grp2grp.* from vtiger_datashare_grp2grp inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_grp2grp.shareid where vtiger_datashare_module_rel.tabid=?";
+		$query="select jo_datashare_grp2grp.* from jo_datashare_grp2grp inner join jo_datashare_module_rel on jo_datashare_module_rel.shareid=jo_datashare_grp2grp.shareid where jo_datashare_module_rel.tabid=?";
 		$qparams = array($mod_tabid);
 		if (count($groupList) > 0) {
-			$query .= " and vtiger_datashare_grp2grp.to_groupid in (". generateQuestionMarks($groupList) .")";
+			$query .= " and jo_datashare_grp2grp.to_groupid in (". generateQuestionMarks($groupList) .")";
 			array_push($qparams, $groupList);
 		}
 		$result=$adb->pquery($query, $qparams);
@@ -1128,7 +1128,7 @@ function getRelatedModuleSharingArray($par_mod,$share_mod,$mod_sharingrule_membe
 
 		foreach($mod_sharingrule_members as $sharingid => $sharingInfoArr)
 		{
-			$query = "select vtiger_datashare_relatedmodule_permission.* from vtiger_datashare_relatedmodule_permission inner join vtiger_datashare_relatedmodules on vtiger_datashare_relatedmodules.datashare_relatedmodule_id=vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id where vtiger_datashare_relatedmodule_permission.shareid=? and vtiger_datashare_relatedmodules.tabid=? and vtiger_datashare_relatedmodules.relatedto_tabid=?";
+			$query = "select jo_datashare_relatedmodule_permission.* from jo_datashare_relatedmodule_permission inner join jo_datashare_relatedmodules on jo_datashare_relatedmodules.datashare_relatedmodule_id=jo_datashare_relatedmodule_permission.datashare_relatedmodule_id where jo_datashare_relatedmodule_permission.shareid=? and jo_datashare_relatedmodules.tabid=? and jo_datashare_relatedmodules.relatedto_tabid=?";
 			$result=$adb->pquery($query, array($sharingid, $par_mod_id, $share_mod_id));
 			$share_permission=$adb->query_result($result,0,'permission');	
 
@@ -1594,8 +1594,8 @@ function populateSharingtmptables($userid)
 	global $adb;
 	checkFileAccessForInclusion('user_privileges/sharing_privileges_'.$userid.'.php');
 	require('user_privileges/sharing_privileges_'.$userid.'.php');
-	//Deleting from the existing vtiger_tables
-	$table_arr=Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per','vtiger_tmp_read_group_sharing_per','vtiger_tmp_write_group_sharing_per','vtiger_tmp_read_user_rel_sharing_per','vtiger_tmp_write_user_rel_sharing_per','vtiger_tmp_read_group_rel_sharing_per','vtiger_tmp_write_group_rel_sharing_per');
+	//Deleting from the existing jo_tables
+	$table_arr=Array('jo_tmp_read_user_sharing_per', 'jo_tmp_write_user_sharing_per','jo_tmp_read_group_sharing_per','jo_tmp_write_group_sharing_per','jo_tmp_read_user_rel_sharing_per','jo_tmp_write_user_rel_sharing_per','jo_tmp_read_group_rel_sharing_per','jo_tmp_write_group_rel_sharing_per');
 	foreach($table_arr as $tabname)
 	{
 		$query = "delete from ".$tabname." where userid=?";
@@ -1657,12 +1657,12 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 	{
 		if($pertype =='read')
 		{
-			$table_name='vtiger_tmp_read_user_sharing_per';
+			$table_name='jo_tmp_read_user_sharing_per';
 			$var_name=$module.'_share_read_permission';
 		}
 		elseif($pertype == 'write')
 		{
-			$table_name='vtiger_tmp_write_user_sharing_per';
+			$table_name='jo_tmp_write_user_sharing_per';
 			$var_name=$module.'_share_write_permission';
 		}
 		// Lookup for the variable if not set through function argument		
@@ -1706,12 +1706,12 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 	{
 		if($pertype =='read')
 		{
-			$table_name='vtiger_tmp_read_group_sharing_per';
+			$table_name='jo_tmp_read_group_sharing_per';
 			$var_name=$module.'_share_read_permission';
 		}
 		elseif($pertype == 'write')
 		{
-			$table_name='vtiger_tmp_write_group_sharing_per';
+			$table_name='jo_tmp_write_group_sharing_per';
 			$var_name=$module.'_share_write_permission';
 		}
 		// Lookup for the variable if not set through function argument
@@ -1760,12 +1760,12 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 	{
 		if($pertype =='read')
 		{
-			$table_name='vtiger_tmp_read_user_rel_sharing_per';
+			$table_name='jo_tmp_read_user_rel_sharing_per';
 			$var_name=$module.'_'.$relmodule.'_share_read_permission';
 		}
 		elseif($pertype == 'write')
 		{
-			$table_name='vtiger_tmp_write_user_rel_sharing_per';
+			$table_name='jo_tmp_write_user_rel_sharing_per';
 			$var_name=$module.'_'.$relmodule.'_share_write_permission';
 		}
 		// Lookup for the variable if not set through function argument
@@ -1809,12 +1809,12 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 	{
 		if($pertype =='read')
 		{
-			$table_name='vtiger_tmp_read_group_rel_sharing_per';
+			$table_name='jo_tmp_read_group_rel_sharing_per';
 			$var_name=$module.'_'.$relmodule.'_share_read_permission';
 		}
 		elseif($pertype == 'write')
 		{
-			$table_name='vtiger_tmp_write_group_rel_sharing_per';
+			$table_name='jo_tmp_write_group_rel_sharing_per';
 			$var_name=$module.'_'.$relmodule.'_share_write_permission';
 		}
 		// Lookup for the variable if not set through function argument

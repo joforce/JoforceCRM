@@ -14,7 +14,7 @@
 	function vtws_describe_partial($elementType,$user){
 		
 		global $log,$adb;
-		$webserviceObject = VtigerWebserviceObject::fromName($adb,$elementType);
+		$webserviceObject = HeadWebserviceObject::fromName($adb,$elementType);
 		$handlerPath = $webserviceObject->getHandlerPath();
 		$handlerClass = $webserviceObject->getHandlerClass();
 		

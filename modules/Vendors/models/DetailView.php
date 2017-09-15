@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
+class Vendors_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -22,18 +22,18 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
-		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
+		$emailModuleModel = Head_Module_Model::getInstance('Emails');
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
+				'linkurl' => 'javascript:Head_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showComposeEmailForm&step=step1","Emails");',
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		if($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -41,7 +41,7 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
 		return $linkModelList;

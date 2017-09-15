@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Reports_ExportReport_View extends Vtiger_View_Controller {
+class Reports_ExportReport_View extends Head_View_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -18,7 +18,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 		$this->exposeMethod('GetCSV');
 	}
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -31,15 +31,15 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 		}
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return false;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return false;
 	}
 
-	function process(Vtiger_request $request) {
+	function process(Head_request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -48,9 +48,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 
 	/**
 	 * Function exports the report in a Excel sheet
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function GetXLS(Vtiger_Request $request) {
+	function GetXLS(Head_Request $request) {
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
         $reportModel->set('advancedFilter', $request->get('advanced_filter'));
@@ -59,9 +59,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 
 	/**
 	 * Function exports report in a CSV file
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function GetCSV(Vtiger_Request $request) {
+	function GetCSV(Head_Request $request) {
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
         $reportModel->set('advancedFilter', $request->get('advanced_filter'));
@@ -70,9 +70,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 
 	/**
 	 * Function displays the report in printable format
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function GetPrintReport(Vtiger_Request $request) {
+	function GetPrintReport(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

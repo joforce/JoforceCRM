@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_RuleField_Model extends Vtiger_Field_Model {
+class Settings_MailConverter_RuleField_Model extends Head_Field_Model {
     
 	public function getFieldDataType() {
         return $this->get('datatype');

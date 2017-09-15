@@ -23,7 +23,7 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
+		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 		if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -31,10 +31,10 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
 		if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -42,10 +42,10 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 				'linkurl' => $recordModel->getCreateSalesOrderUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		if($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -53,7 +53,7 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
 		return $linkModelList;

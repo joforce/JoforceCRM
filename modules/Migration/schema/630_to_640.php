@@ -14,27 +14,27 @@ if(defined('VTIGER_UPGRADE')) {
 //Start add new currency - 'CFP Franc or Pacific Franc' 
 global $adb;
 
-$query = 'UPDATE vtiger_currencies_seq SET id = (SELECT currencyid FROM vtiger_currencies ORDER BY currencyid DESC LIMIT 1)';
+$query = 'UPDATE jo_currencies_seq SET id = (SELECT currencyid FROM jo_currencies ORDER BY currencyid DESC LIMIT 1)';
 $adb->pquery($query, array());
 
-$uniqId = $adb->getUniqueID('vtiger_currencies'); 
-$result = $adb->pquery('SELECT 1 FROM vtiger_currencies WHERE currency_name = ?',array('CFP Franc')); 
+$uniqId = $adb->getUniqueID('jo_currencies'); 
+$result = $adb->pquery('SELECT 1 FROM jo_currencies WHERE currency_name = ?',array('CFP Franc')); 
  
 if($adb->num_rows($result)<=0){ 
-Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies VALUES (?,?,?,?)', array($uniqId, 'CFP Franc', 'XPF', 'F')); 
+Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies VALUES (?,?,?,?)', array($uniqId, 'CFP Franc', 'XPF', 'F')); 
 } 
 
 //Adding new timezone (GMT+11:00) New Caledonia 
-    $sortOrderResult = $adb->pquery("SELECT sortorderid FROM vtiger_time_zone WHERE time_zone = ?", array('Asia/Yakutsk'));
+    $sortOrderResult = $adb->pquery("SELECT sortorderid FROM jo_time_zone WHERE time_zone = ?", array('Asia/Yakutsk'));
     if ($adb->num_rows($sortOrderResult)) {
         $sortOrderId = $adb->query_result($sortOrderResult, 0, 'sortorderid');
-        $adb->pquery("UPDATE vtiger_time_zone SET sortorderid = (sortorderid + 1) WHERE sortorderid > ?", array($sortOrderId));
-        Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_time_zone (time_zone, sortorderid, presence) VALUES (?, ?, ?)', array('Etc/GMT-11', ($sortOrderId + 1), 1));
+        $adb->pquery("UPDATE jo_time_zone SET sortorderid = (sortorderid + 1) WHERE sortorderid > ?", array($sortOrderId));
+        Migration_Index_View::ExecuteQuery('INSERT INTO jo_time_zone (time_zone, sortorderid, presence) VALUES (?, ?, ?)', array('Etc/GMT-11', ($sortOrderId + 1), 1));
         echo "New timezone (GMT+11:00) New Caledonia added.<br>";
     }
 
 //updating the config file to support multiple layout
-$filename = 'config.inc.php';
+$filename = 'config/config.inc.php';
 if (file_exists($filename)) {
     $contents = file_get_contents($filename);
     if (empty($contents)) {
@@ -45,7 +45,7 @@ if (file_exists($filename)) {
             $config_code = "// Set the default layout 
 \$default_layout = 'vlayout';
 
-include_once 'config.security.php';
+include_once 'config/config.security.php';
 ?>";
             $contents = $config_content[0] .  $config_code;
         }

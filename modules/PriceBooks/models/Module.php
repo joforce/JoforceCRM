@@ -9,50 +9,50 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class PriceBooks_Module_Model extends Vtiger_Module_Model {
+class PriceBooks_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function returns query for PriceBook-Product relation
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
+	 * @param <Head_Record_Model> $recordModel
+	 * @param <Head_Record_Model> $relatedModuleModel
 	 * @return <String>
 	 */
 	function get_pricebook_products($recordModel, $relatedModuleModel) {
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
-						vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-						vtiger_pricebookproductrel.listprice
-				FROM vtiger_products
-				INNER JOIN vtiger_pricebookproductrel ON vtiger_products.productid = vtiger_pricebookproductrel.productid
-				INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_products.productid
-				INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-				INNER JOIN vtiger_productcf on vtiger_productcf.productid = vtiger_products.productid
-				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
+		$query = 'SELECT jo_products.productid, jo_products.productname, jo_products.productcode, jo_products.commissionrate,
+						jo_products.qty_per_unit, jo_products.unit_price, jo_crmentity.crmid, jo_crmentity.smownerid,
+						jo_pricebookproductrel.listprice
+				FROM jo_products
+				INNER JOIN jo_pricebookproductrel ON jo_products.productid = jo_pricebookproductrel.productid
+				INNER JOIN jo_crmentity on jo_crmentity.crmid = jo_products.productid
+				INNER JOIN jo_pricebook on jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid
+				INNER JOIN jo_productcf on jo_productcf.productid = jo_products.productid
+				LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+				LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid '
 				. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) .'
-				WHERE vtiger_pricebook.pricebookid = '.$recordModel->getId().' and vtiger_crmentity.deleted = 0';
+				WHERE jo_pricebook.pricebookid = '.$recordModel->getId().' and jo_crmentity.deleted = 0';
 		return $query;
 	}
 
 
 	/**
 	 * Function returns query for PriceBooks-Services Relationship
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
+	 * @param <Head_Record_Model> $recordModel
+	 * @param <Head_Record_Model> $relatedModuleModel
 	 * @return <String>
 	 */
 	function get_pricebook_services($recordModel, $relatedModuleModel) {
-		$query = 'SELECT vtiger_service.serviceid, vtiger_service.servicename, vtiger_service.service_no, vtiger_service.commissionrate,
-					vtiger_service.qty_per_unit, vtiger_service.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-					vtiger_pricebookproductrel.listprice
-			FROM vtiger_service
-			INNER JOIN vtiger_pricebookproductrel on vtiger_service.serviceid = vtiger_pricebookproductrel.productid
-			INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_service.serviceid
-			INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-			INNER JOIN vtiger_servicecf on vtiger_servicecf.serviceid = vtiger_service.serviceid
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
+		$query = 'SELECT jo_service.serviceid, jo_service.servicename, jo_service.service_no, jo_service.commissionrate,
+					jo_service.qty_per_unit, jo_service.unit_price, jo_crmentity.crmid, jo_crmentity.smownerid,
+					jo_pricebookproductrel.listprice
+			FROM jo_service
+			INNER JOIN jo_pricebookproductrel on jo_service.serviceid = jo_pricebookproductrel.productid
+			INNER JOIN jo_crmentity on jo_crmentity.crmid = jo_service.serviceid
+			INNER JOIN jo_pricebook on jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid
+			INNER JOIN jo_servicecf on jo_servicecf.serviceid = jo_service.serviceid
+			LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid
+			LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid '
 			. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) .'
-			WHERE vtiger_pricebook.pricebookid = '.$recordModel->getId().' and vtiger_crmentity.deleted = 0';
+			WHERE jo_pricebook.pricebookid = '.$recordModel->getId().' and jo_crmentity.deleted = 0';
 		return $query;
 	}
 
@@ -69,11 +69,11 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 		if (in_array($sourceModule, $relatedModulesList)) {
 			$pos = stripos($listQuery, ' where ');
 			if ($currencyId && in_array($field, array('productid', 'serviceid'))) {
-				$condition = " vtiger_pricebook.pricebookid IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
-								AND vtiger_pricebook.currency_id = $currencyId AND vtiger_pricebook.active = 1";
+				$condition = " jo_pricebook.pricebookid IN (SELECT pricebookid FROM jo_pricebookproductrel WHERE productid = $record)
+								AND jo_pricebook.currency_id = $currencyId AND jo_pricebook.active = 1";
 			} else if($field == 'productsRelatedList') {
-				$condition = "vtiger_pricebook.pricebookid NOT IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
-								AND vtiger_pricebook.active = 1";
+				$condition = "jo_pricebook.pricebookid NOT IN (SELECT pricebookid FROM jo_pricebookproductrel WHERE productid = $record)
+								AND jo_pricebook.active = 1";
 			}
 			if ($pos) {
 				$split = spliti(' where ', $listQuery);
@@ -101,7 +101,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 		$popupFileds = $this->getSummaryViewFieldsList();
 		$reqPopUpFields = array('Currency' => 'currency_id'); 
 		foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName,$this); 
+			$fieldModel = Head_Field_Model::getInstance($fieldName,$this); 
 			if ($fieldModel->getPermissions('readwrite')) { 
 				$popupFileds[$fieldName] = $fieldModel; 
 			}
@@ -115,15 +115,15 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 	public function getQuickMenuModels() {
 		if($this->isEntityModule()) {
 			$moduleName = $this->getName();
-			$listViewModel = Vtiger_ListView_Model::getCleanInstance($moduleName);
+			$listViewModel = Head_ListView_Model::getCleanInstance($moduleName);
 			$basicListViewLinks = $listViewModel->getBasicLinks();
 		}
         
 		if($basicListViewLinks) {
 			foreach($basicListViewLinks as $basicListViewLink) {
 				if(is_array($basicListViewLink)) {
-					$links[] = Vtiger_Link_Model::getInstanceFromValues($basicListViewLink);
-				} else if(is_a($basicListViewLink, 'Vtiger_Link_Model')) {
+					$links[] = Head_Link_Model::getInstanceFromValues($basicListViewLink);
+				} else if(is_a($basicListViewLink, 'Head_Link_Model')) {
 					$links[] = $basicListViewLink;
 				}
 			}
@@ -149,13 +149,13 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 		$columnFields = explode(',', $splitQuery[0]);
 		foreach ($columnFields as &$value) {
 			if(trim($value) == "$baseTableName.currency_id") {
-				$value = ' vtiger_currency_info.currency_name AS currency_id';
+				$value = ' jo_currency_info.currency_name AS currency_id';
 			}
 		}
-		array_push($columnFields, "vtiger_pricebookproductrel.productid as Relatedto", "vtiger_pricebookproductrel.listprice as ListPrice");
+		array_push($columnFields, "jo_pricebookproductrel.productid as Relatedto", "jo_pricebookproductrel.listprice as ListPrice");
 		$joinSplit = spliti(' WHERE ',$splitQuery[1], 2);
-		$joinSplit[0] .= " LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = $baseTableName.currency_id "
-				."LEFT JOIN vtiger_pricebookproductrel on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid ";
+		$joinSplit[0] .= " LEFT JOIN jo_currency_info ON jo_currency_info.id = $baseTableName.currency_id "
+				."LEFT JOIN jo_pricebookproductrel on jo_pricebook.pricebookid = jo_pricebookproductrel.pricebookid ";
 		$splitQuery[1] = $joinSplit[0] . ' WHERE ' .$joinSplit[1];
 		$query = implode(', ', $columnFields).' FROM ' . $splitQuery[1];
 		return $query;
@@ -170,7 +170,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 
 			$this->importableFields = array();
 			foreach ($fieldHeaders as $fieldName => $fieldInfo) {
-				$fieldModel = new Vtiger_Field_Model();
+				$fieldModel = new Head_Field_Model();
 				$fieldModel->name = $fieldName;
 				$fieldModel->label = $fieldInfo['label'];
 				$fieldModel->column = $fieldName;

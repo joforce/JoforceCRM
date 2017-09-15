@@ -12,10 +12,10 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @param Head_Request $request
+	 * @return Head_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request) {
+	public function getRecordModelFromRequest(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -23,7 +23,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 			$enableRecurrence = true;
 		}
 		if(!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 
@@ -58,7 +58,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = Head_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {
@@ -69,9 +69,9 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 				$recordModel->set($fieldName, $fieldValue);
 			}
 		} else {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$recordModel->set('mode', '');
 
 			$fieldModelList = $moduleModel->getFields();
@@ -83,7 +83,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 				}
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = Head_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {

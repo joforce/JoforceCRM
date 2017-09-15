@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  * ********************************************************************************** */
 
-class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View {
+class Products_MoreCurrenciesList_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
@@ -22,16 +22,16 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currencyName = $request->get('currency');
 
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 
 			foreach ($priceDetails as $key => $currencyDetails) {

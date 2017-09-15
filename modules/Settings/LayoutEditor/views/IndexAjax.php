@@ -10,15 +10,15 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_IndexAjax_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_LayoutEditor_IndexAjax_View extends Settings_Head_IndexAjax_View {
 	
 	function __construct() {
 		$this->exposeMethod('getFieldUI');
 	}
     
-    public function addBlock(Vtiger_Request $request) {
+    public function addBlock(Head_Request $request) {
         $moduleName = $request->get('sourceModule');
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+        $moduleModel = Head_Module_Model::getInstance($moduleName);
         $blockList = $moduleModel->getBlocks();
         $qualifiedModuleName = $request->getModule(false);
         
@@ -28,7 +28,7 @@ class Settings_LayoutEditor_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vie
         echo $viewer->view('AddBlock.tpl', $qualifiedModuleName,true);
     } 
     
-    public function getFieldUI (Vtiger_Request $request) {
+    public function getFieldUI (Head_Request $request) {
         $fieldsList = $request->get('fieldIdList');
         $module = $request->get('sourceModule');
         $fieldModelList = Settings_LayoutEditor_Field_Model::getInstanceFromFieldId($fieldsList, getTabId($module));

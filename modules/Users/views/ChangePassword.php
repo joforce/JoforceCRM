@@ -10,16 +10,16 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_ChangePassword_View extends Vtiger_Basic_View {
+class Users_ChangePassword_View extends Head_Basic_View {
     
-    public function preProcess (Vtiger_Request $request, $display=true) {
+    public function preProcess (Head_Request $request, $display=true) {
 		parent::preProcess($request, false);
         
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
 		if(!empty($moduleName)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$viewer->assign('MODULE', $moduleName);
@@ -40,9 +40,9 @@ class Users_ChangePassword_View extends Vtiger_Basic_View {
 	}
     
     
-    protected function preProcessDisplay(Vtiger_Request $request) {}
+    protected function preProcessDisplay(Head_Request $request) {}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('UI5_URL', $this->getUI5EmbedURL($request));
 		$viewer->view('UI5EmbedView.tpl');

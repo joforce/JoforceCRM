@@ -102,13 +102,13 @@ function getVisibleCriteria($recordid='')
 	$selcriteria = "";
 	if($recordid!='')
 	{
-		$result = $adb->pquery("select sharingtype from vtiger_report where reportid=?",array($recordid));
+		$result = $adb->pquery("select sharingtype from jo_report where reportid=?",array($recordid));
 		$selcriteria=$adb->query_result($result,0,"sharingtype");
 	}
 	if($selcriteria == ""){
 		$selcriteria = 'Public';
 	}
-	$filter_result = $adb->query("select * from vtiger_reportfilters");
+	$filter_result = $adb->query("select * from jo_reportfilters");
 	$numrows = $adb->num_rows($filter_result);
 	for($j=0;$j<$numrows;$j++)
 	{
@@ -144,7 +144,7 @@ function getVisibleCriteria($recordid='')
 
 function getShareInfo($recordid=''){
 	global $adb;
-	$member_query = $adb->pquery("SELECT vtiger_reportsharing.setype,vtiger_users.id,vtiger_users.user_name FROM vtiger_reportsharing INNER JOIN vtiger_users on vtiger_users.id = vtiger_reportsharing.shareid WHERE vtiger_reportsharing.setype='users' AND vtiger_reportsharing.reportid = ?",array($recordid));
+	$member_query = $adb->pquery("SELECT jo_reportsharing.setype,jo_users.id,jo_users.user_name FROM jo_reportsharing INNER JOIN jo_users on jo_users.id = jo_reportsharing.shareid WHERE jo_reportsharing.setype='users' AND jo_reportsharing.reportid = ?",array($recordid));
 	$noofrows = $adb->num_rows($member_query);
 	if($noofrows > 0){
 		for($i=0;$i<$noofrows;$i++){
@@ -155,7 +155,7 @@ function getShareInfo($recordid=''){
 		}
 	}
 	
-	$member_query = $adb->pquery("SELECT vtiger_reportsharing.setype,vtiger_groups.groupid,vtiger_groups.groupname FROM vtiger_reportsharing INNER JOIN vtiger_groups on vtiger_groups.groupid = vtiger_reportsharing.shareid WHERE vtiger_reportsharing.setype='groups' AND vtiger_reportsharing.reportid = ?",array($recordid));
+	$member_query = $adb->pquery("SELECT jo_reportsharing.setype,jo_groups.groupid,jo_groups.groupname FROM jo_reportsharing INNER JOIN jo_groups on jo_groups.groupid = jo_reportsharing.shareid WHERE jo_reportsharing.setype='groups' AND jo_reportsharing.reportid = ?",array($recordid));
 	$noofrows = $adb->num_rows($member_query);
 	if($noofrows > 0){
 		for($i=0;$i<$noofrows;$i++){

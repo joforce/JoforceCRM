@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_ConvertPotential_View extends Vtiger_Index_View {
+class Potentials_ConvertPotential_View extends Head_Index_View {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$projectModuleModel = Vtiger_Module_Model::getInstance('Project');
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$projectModuleModel = Head_Module_Model::getInstance('Project');
 
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserModel->hasModuleActionPermission($projectModuleModel->getId(), 'CreateView')) {
@@ -22,14 +22,14 @@ class Potentials_ConvertPotential_View extends Vtiger_Index_View {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$viewer = $this->getViewer($request);
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = Head_Record_Model::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('MODULE', $moduleName);

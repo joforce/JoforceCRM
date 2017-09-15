@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Save_Action extends Vtiger_Save_Action {
+class Calendar_Save_Action extends Head_Save_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
@@ -34,7 +34,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordModel = $this->saveRecord($request);
 		$loadUrl = $recordModel->getDetailViewUrl();
 
@@ -43,7 +43,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 		} else if($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+			$parentRecordModel = Head_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			//TODO : Url should load the related list instead of detail view of record
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
@@ -73,7 +73,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
+	 * @param <Head_Request> $request - values of the record
 	 * @return <RecordModel> - record Model of saved record
 	 */
 	public function saveRecord($request) {
@@ -81,15 +81,15 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 		$recordModel->save();
 		if($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = Head_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			if($relatedModule->getName() == 'Events'){
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+				$relatedModule = Head_Module_Model::getInstance('Calendar');
 			}
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = Head_Relation_Model::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 		return $recordModel;
@@ -97,24 +97,24 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @param Head_Request $request
+	 * @return Head_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request) {
+	protected function getRecordModelFromRequest(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		if(!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
             //Due to dependencies on the activity_reminder api in Activity.php(5.x)
             $_REQUEST['mode'] = 'edit';
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('mode', '');
 		}
@@ -125,7 +125,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
             // For custom time fields in Calendar, it was not converting to db insert format(sending as 10:00 AM/PM)
             $fieldDataType = $fieldModel->getFieldDataType();
 			if($fieldDataType == 'time' && $fieldValue !== null){
-				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+				$fieldValue = Head_Time_UIType::getTimeValueWithSeconds($fieldValue);
             }
             // End
             if ($fieldName === $request->get('field')) {
@@ -141,8 +141,8 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 		}
 
 		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
-		$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
+		$startTime = Head_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
+		$startDateTime = Head_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
 		list($startDate, $startTime) = explode(' ', $startDateTime);
 
 		$recordModel->set('date_start', $startDate);
@@ -150,11 +150,11 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 
 		//End Date and Time values
 		$endTime = $request->get('time_end');
-		$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
+		$endDate = Head_Date_UIType::getDBInsertedValue($request->get('due_date'));
 
 		if ($endTime) {
-			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date')." ".$endTime);
+			$endTime = Head_Time_UIType::getTimeValueWithSeconds($endTime);
+			$endDateTime = Head_Datetime_UIType::getDBDateTimeValue($request->get('due_date')." ".$endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
 

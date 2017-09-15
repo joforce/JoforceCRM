@@ -10,8 +10,8 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-require_once 'vtlib/Vtiger/Cron.php';
-class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
+require_once 'vtlib/Head/Cron.php';
+class Reports_ScheduleReports_Model extends Head_Base_Model {
 
 	static $SCHEDULED_DAILY = 1;
 	static $SCHEDULED_WEEKLY = 2;
@@ -33,7 +33,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
-			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', array($recordId));
+			$scheduledReportResult = $db->pquery('SELECT * FROM jo_schedulereports WHERE reportid = ?', array($recordId));
 			if ($db->num_rows($scheduledReportResult) > 0) {
 				$reportScheduleInfo = $db->query_result_rowdata($scheduledReportResult, 0);
 				$reportScheduleInfo['schdate'] = decode_html($reportScheduleInfo['schdate']);
@@ -97,15 +97,15 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 			$nextTriggerTime = $this->getNextTriggerTime();
 		}
 		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled == false) {
-			$deleteScheduledReportSql = "DELETE FROM vtiger_schedulereports WHERE reportid=?";
+			$deleteScheduledReportSql = "DELETE FROM jo_schedulereports WHERE reportid=?";
 			$adb->pquery($deleteScheduledReportSql, array($reportid));
 		} else {
-			$checkScheduledResult = $adb->pquery('SELECT next_trigger_time FROM vtiger_schedulereports WHERE reportid=?', array($reportid));
+			$checkScheduledResult = $adb->pquery('SELECT next_trigger_time FROM jo_schedulereports WHERE reportid=?', array($reportid));
 			if ($adb->num_rows($checkScheduledResult) > 0) {
-				$scheduledReportSql = 'UPDATE vtiger_schedulereports SET scheduleid=?, recipients=?, schdate=?, schtime=?, schdayoftheweek=?, schdayofthemonth=?, schannualdates=?, specificemails=?, next_trigger_time=?, fileformat = ? WHERE reportid=?';
+				$scheduledReportSql = 'UPDATE jo_schedulereports SET scheduleid=?, recipients=?, schdate=?, schtime=?, schdayoftheweek=?, schdayofthemonth=?, schannualdates=?, specificemails=?, next_trigger_time=?, fileformat = ? WHERE reportid=?';
 				$adb->pquery($scheduledReportSql, array($scheduleid, $recipients, $schdate, $schtime, $schdayoftheweek, $schdayofthemonth, $schannualdates, $specificemails, $nextTriggerTime, $fileFormat, $reportid));
 			} else {
-				$scheduleReportSql = 'INSERT INTO vtiger_schedulereports (reportid,scheduleid,recipients,schdate,schtime,schdayoftheweek,schdayofthemonth,schannualdates,next_trigger_time,specificemails, fileformat) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
+				$scheduleReportSql = 'INSERT INTO jo_schedulereports (reportid,scheduleid,recipients,schdate,schtime,schdayoftheweek,schdayofthemonth,schannualdates,next_trigger_time,specificemails, fileformat) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
 				$adb->pquery($scheduleReportSql, array($reportid, $scheduleid, $recipients, $schdate, $schtime, $schdayoftheweek, $schdayofthemonth, $schannualdates, $nextTriggerTime,$specificemails,$fileFormat));
 			}
 		}
@@ -161,7 +161,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$recipientsEmails = array();
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if(!Vtiger_Util_Helper::isUserDeleted($userId)) {
+				if(!Head_Util_Helper::isUserDeleted($userId)) {
 					$userName = getUserFullName($userId);
 					$userEmail = getUserEmail($userId);
 					if (!in_array($userEmail, $recipientsEmails)) {
@@ -180,23 +180,23 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 	}
 
 	public function sendEmail() {
-		require_once 'vtlib/Vtiger/Mailer.php';
+		require_once 'vtlib/Head/Mailer.php';
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-		$vtigerMailer = new Vtiger_Mailer();
+		$vtigerMailer = new Head_Mailer();
 
 		$recipientEmails = $this->getRecipientEmails();
-		Vtiger_Utils::ModuleLog('ScheduleReprots', $recipientEmails);
+		Head_Utils::ModuleLog('ScheduleReprots', $recipientEmails);
 		foreach ($recipientEmails as $name => $email) {
 			$vtigerMailer->AddAddress($email, decode_html($name));
 		}
 		vimport('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d H:i:s');
-		Vtiger_Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		Head_Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
 		$subject = $reportname;
-		Vtiger_Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
+		Head_Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		if(empty($vtigerMailer->From)) {
 			$fromName = trim($currentUserModel->get('first_name').' '.$currentUserModel->get('last_name'));
 			$vtigerMailer->ConfigSenderInfo($currentUserModel->get('email1'), $fromName);
@@ -251,7 +251,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 	 * @return type
 	 */
 	function getNextTriggerTime() {
-		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.inc';
+		require_once 'modules/com_jo_workflow/VTWorkflowManager.inc';
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
@@ -286,18 +286,18 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 	public function updateNextTriggerTime() {
 		$adb = PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		Vtiger_Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
-		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
-		Vtiger_Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
+		Head_Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		$adb->pquery('UPDATE jo_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
+		Head_Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
 	}
 
 	public static function getScheduledReports() {
 		$adb = PearDatabase::getInstance();
 
 		$currentTimestamp = date("Y-m-d H:i:s");
-		$result = $adb->pquery("SELECT reportid FROM vtiger_schedulereports
-								INNER JOIN vtiger_reportmodules ON vtiger_reportmodules.reportmodulesid = vtiger_schedulereports.reportid
-								INNER JOIN vtiger_tab ON vtiger_tab.name = vtiger_reportmodules.primarymodule AND presence = 0
+		$result = $adb->pquery("SELECT reportid FROM jo_schedulereports
+								INNER JOIN jo_reportmodules ON jo_reportmodules.reportmodulesid = jo_schedulereports.reportid
+								INNER JOIN jo_tab ON jo_tab.name = jo_reportmodules.primarymodule AND presence = 0
 								WHERE next_trigger_time <= ? AND next_trigger_time IS NOT NULL", array($currentTimestamp));
 
 		$scheduledReports = array();
@@ -310,7 +310,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 	}
 
 	public static function runScheduledReports() {
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
@@ -331,7 +331,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 					$status = $scheduledReport->sendEmail();
 				}
 			}
-			Vtiger_Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
+			Head_Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
 			$scheduledReport->updateNextTriggerTime();
 		}
 		$util->revertUser();
@@ -415,7 +415,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$dateTime = new DateTimeField($this->get('next_trigger_time'));
 		$nextTriggerTime = $dateTime->getDisplayDateTimeValue();
 		$valueParts = explode(' ', $nextTriggerTime);
-		$value = $valueParts[0].' '.Vtiger_Time_UIType::getDisplayValue($valueParts[1]);
+		$value = $valueParts[0].' '.Head_Time_UIType::getDisplayValue($valueParts[1]);
 		return $value;
 	}
 

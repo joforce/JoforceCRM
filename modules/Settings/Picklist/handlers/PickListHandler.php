@@ -33,10 +33,10 @@ class PickListHandler extends VTEventHandler {
 		$newValue = $entityData['newvalue'];
 		$moduleName = $entityData['module'];
 		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$tabId = $moduleModel->getId();
 		//update picklist dependency values 
-		$query = "SELECT id,targetvalues FROM vtiger_picklist_dependency where targetfield=? and tabid=?";
+		$query = "SELECT id,targetvalues FROM jo_picklist_dependency where targetfield=? and tabid=?";
 		$result = $db->pquery($query, array($pickListFieldName, $tabId));
 		$num_rows = $db->num_rows($result);
 		for($i = 0; $i < $num_rows; $i++) {
@@ -48,15 +48,15 @@ class PickListHandler extends VTEventHandler {
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = Zend_Json::encode($explodedValueArray);
-			$query = 'UPDATE vtiger_picklist_dependency SET targetvalues=? where id=? AND tabid=?';
+			$query = 'UPDATE jo_picklist_dependency SET targetvalues=? where id=? AND tabid=?';
 			$db->pquery($query, array($value, $row['id'], $tabId));
 		}
-		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
+		$fieldModel = Head_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
 		$reportFilterColumnName = $fieldModel->getReportFilterColumnName();
 		
 		//update advancefilter values
-		$query= 'SELECT cvid,value,columnindex,groupid FROM vtiger_cvadvfilter where columnname=?';
+		$query= 'SELECT cvid,value,columnindex,groupid FROM jo_cvadvfilter where columnname=?';
 		$result = $db->pquery($query, array($advFiltercolumnName));
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -73,12 +73,12 @@ class PickListHandler extends VTEventHandler {
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = implode(',', $explodedValueArray);
-			$query = 'UPDATE vtiger_cvadvfilter SET value=? where columnname=? and cvid=? and columnindex=? and groupid=?';
+			$query = 'UPDATE jo_cvadvfilter SET value=? where columnname=? and cvid=? and columnindex=? and groupid=?';
 			$db->pquery($query, array($value, $advFiltercolumnName, $row['cvid'], $row['columnindex'], $row['groupid']));
 		}
 		
 		//update reportsFilter values
-		$query= 'SELECT queryid,value,columnindex,groupid FROM vtiger_relcriteria where columnname=?';
+		$query= 'SELECT queryid,value,columnindex,groupid FROM jo_relcriteria where columnname=?';
 		$result = $db->pquery($query, array($reportFilterColumnName));
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -90,12 +90,12 @@ class PickListHandler extends VTEventHandler {
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = implode(',', $explodedValueArray);
-			$query = 'UPDATE vtiger_relcriteria SET value=? where columnname=? and queryid=? and columnindex=? and groupid=?';
+			$query = 'UPDATE jo_relcriteria SET value=? where columnname=? and queryid=? and columnindex=? and groupid=?';
 			$db->pquery($query, array($value, $reportFilterColumnName, $row['queryid'], $row['columnindex'], $row['groupid']));
 		}
 		
 		//update Workflows values
-		$query= 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+		$query= 'SELECT workflow_id,test FROM com_jo_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
 		$result = $db->pquery($query, array($moduleName,"%$oldValue%"));
 		$num_rows = $db->num_rows($result);
 		for($i = 0;$i < $num_rows; $i++) {
@@ -117,13 +117,13 @@ class PickListHandler extends VTEventHandler {
 					$decodedArrayConditions[$key] = $condition;
 				}
 				$condtion = Zend_Json::encode($decodedArrayConditions);
-				$query= 'UPDATE com_vtiger_workflows SET test=? where workflow_id=?';
+				$query= 'UPDATE com_jo_workflows SET test=? where workflow_id=?';
 				$db->pquery($query, array($condtion, $row['workflow_id']));
 			}
 		}
 		
 		//update workflow task
-		$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE ?';
+		$query = 'SELECT task,task_id,workflow_id FROM com_jo_workflowtasks where task LIKE ?';
 		$result = $db->pquery($query, array("%$oldValue%"));
 		$num_rows = $db->num_rows($result);
 		
@@ -133,8 +133,8 @@ class PickListHandler extends VTEventHandler {
 			$taskComponents = explode(':', $task);
 			$classNameWithDoubleQuotes = $taskComponents[2];
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
-			require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-			require_once 'modules/com_vtiger_workflow/tasks/'.$className.'.inc';
+			require_once("modules/com_jo_workflow/VTTaskManager.inc");
+			require_once 'modules/com_jo_workflow/tasks/'.$className.'.inc';
 			$unserializeTask = unserialize($task);
 			if(array_key_exists("field_value_mapping",$unserializeTask)) {
 				$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
@@ -155,7 +155,7 @@ class PickListHandler extends VTEventHandler {
 					$updatedTask = Zend_Json::encode($fieldMapping);
 					$unserializeTask->field_value_mapping = $updatedTask;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			} else {
@@ -182,7 +182,7 @@ class PickListHandler extends VTEventHandler {
 					$value = implode(',', $explodedValueArray);
 					$unserializeTask->$pickListFieldName = $value;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			}
@@ -200,13 +200,13 @@ class PickListHandler extends VTEventHandler {
 		$replaceValue = $entityData['replacevalue'];
 		$moduleName = $entityData['module'];
 					
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$fieldModel = Head_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
 		$reportFilterColumnName = $fieldModel->getReportFilterColumnName();
 		
 		//update advancefilter values
-		$query= 'SELECT cvid,value,columnindex,groupid FROM vtiger_cvadvfilter where columnname=?';
+		$query= 'SELECT cvid,value,columnindex,groupid FROM jo_cvadvfilter where columnname=?';
 		$result = $db->pquery($query, array($advFiltercolumnName));
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -220,12 +220,12 @@ class PickListHandler extends VTEventHandler {
 				}
 			}
 			$value = implode(',', $explodedValueArray);
-			$query = 'UPDATE vtiger_cvadvfilter SET value=? where columnname=? and cvid=? and columnindex=? and groupid=?';
+			$query = 'UPDATE jo_cvadvfilter SET value=? where columnname=? and cvid=? and columnindex=? and groupid=?';
 			$db->pquery($query, array($value, $advFiltercolumnName, $row['cvid'], $row['columnindex'], $row['groupid']));
 		}
 		
 		//update reportsFilter values
-		$query= 'SELECT queryid,value,columnindex,groupid FROM vtiger_relcriteria where columnname=?';
+		$query= 'SELECT queryid,value,columnindex,groupid FROM jo_relcriteria where columnname=?';
 		$result = $db->pquery($query, array($reportFilterColumnName));
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -239,14 +239,14 @@ class PickListHandler extends VTEventHandler {
 				}
 			}
 			$value = implode(',', $explodedValueArray);
-			$query = 'UPDATE vtiger_relcriteria SET value=? where columnname=? and queryid=? and columnindex=? and groupid=?';
+			$query = 'UPDATE jo_relcriteria SET value=? where columnname=? and queryid=? and columnindex=? and groupid=?';
 			$db->pquery($query, array($value, $reportFilterColumnName, $row['queryid'], $row['columnindex'], $row['groupid']));
 		}
 		
 		
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
-			$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+			$query = 'SELECT workflow_id,test FROM com_jo_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
 			$result = $db->pquery($query, array($moduleName,"%$value%"));
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -270,7 +270,7 @@ class PickListHandler extends VTEventHandler {
 						$decodedArrayConditions[$key] = $condition;
 					}
 					$condtion = Zend_Json::encode($decodedArrayConditions);
-					$query = 'UPDATE com_vtiger_workflows SET test=? where workflow_id=?';
+					$query = 'UPDATE com_jo_workflows SET test=? where workflow_id=?';
 					$db->pquery($query, array($condtion, $row['workflow_id']));
 				}
 			}
@@ -279,7 +279,7 @@ class PickListHandler extends VTEventHandler {
 		
 		foreach ($valueToDelete as $value) {
 			//update workflow task
-			$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE ?';
+			$query = 'SELECT task,task_id,workflow_id FROM com_jo_workflowtasks where task LIKE ?';
 			$result = $db->pquery($query, array("%$value%"));
 			$num_rows = $db->num_rows($result);
 
@@ -289,8 +289,8 @@ class PickListHandler extends VTEventHandler {
 				$taskComponents = explode(':', $task);
 				$classNameWithDoubleQuotes = $taskComponents[2];
 				$className = str_replace('"', '', $classNameWithDoubleQuotes);
-				require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-				require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
+				require_once("modules/com_jo_workflow/VTTaskManager.inc");
+				require_once 'modules/com_jo_workflow/tasks/' . $className . '.inc';
 				$unserializeTask = unserialize($task);
 				if (array_key_exists("field_value_mapping", $unserializeTask)) {
 					$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
@@ -313,7 +313,7 @@ class PickListHandler extends VTEventHandler {
 						$updatedTask = Zend_Json::encode($fieldMapping);
 						$unserializeTask->field_value_mapping = $updatedTask;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				} else {
@@ -342,7 +342,7 @@ class PickListHandler extends VTEventHandler {
 						$value = implode(',', $explodedValueArray);
 						$unserializeTask->$pickListFieldName = $value;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				}

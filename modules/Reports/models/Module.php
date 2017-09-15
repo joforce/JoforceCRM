@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Module_Model extends Vtiger_Module_Model {
+class Reports_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function deletes report
@@ -29,26 +29,26 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 			$reportId = $reportModel->getId();
 			$db = PearDatabase::getInstance();
 
-			$db->pquery('DELETE FROM vtiger_selectquery WHERE queryid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_selectquery WHERE queryid = ?', array($reportId));
 
-			$db->pquery('DELETE FROM vtiger_report WHERE reportid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_report WHERE reportid = ?', array($reportId));
 
-			$db->pquery('DELETE FROM vtiger_schedulereports WHERE reportid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_schedulereports WHERE reportid = ?', array($reportId));
 
-                        $db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($reportId));
+                        $db->pquery('DELETE FROM jo_reporttype WHERE reportid = ?', array($reportId));
 
-			$result = $db->pquery('SELECT * FROM vtiger_homereportchart WHERE reportid = ?',array($reportId));
+			$result = $db->pquery('SELECT * FROM jo_homereportchart WHERE reportid = ?',array($reportId));
 			$numOfRows = $db->num_rows($result);
 			for ($i = 0; $i < $numOfRows; $i++) {
 				$homePageChartIdsList[] = $adb->query_result($result, $i, 'stuffid');
 			}
 			if ($homePageChartIdsList) {
-				$deleteQuery = 'DELETE FROM vtiger_homestuff WHERE stuffid IN (' . implode(",", $homePageChartIdsList) . ')';
+				$deleteQuery = 'DELETE FROM jo_homestuff WHERE stuffid IN (' . implode(",", $homePageChartIdsList) . ')';
 				$db->pquery($deleteQuery, array());
 			}
                         
                         if($reportModel->get('reporttype') == 'chart'){
-                            Vtiger_Widget_Model::deleteChartReportWidgets($reportId);
+                            Head_Widget_Model::deleteChartReportWidgets($reportId);
                         }
 			return true;
 		}
@@ -57,7 +57,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function returns quick links for the module
-	 * @return <Array of Vtiger_Link_Model>
+	 * @return <Array of Head_Link_Model>
 	 */
 	function getSideBarLinks() {
 		$quickLinks = array(
@@ -69,7 +69,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 			),
 		);
 		foreach($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = Head_Link_Model::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = array(
@@ -81,7 +81,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 			),
 		);
 		foreach($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = Head_Link_Model::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;
@@ -95,9 +95,9 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	function getRecentRecords($limit = 10) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_report 
-						INNER JOIN vtiger_reportmodules ON vtiger_reportmodules.reportmodulesid = vtiger_report.reportid
-						INNER JOIN vtiger_tab ON vtiger_tab.name = vtiger_reportmodules.primarymodule AND presence = 0
+		$result = $db->pquery('SELECT * FROM jo_report 
+						INNER JOIN jo_reportmodules ON jo_reportmodules.reportmodulesid = jo_report.reportid
+						INNER JOIN jo_tab ON jo_tab.name = jo_reportmodules.primarymodule AND presence = 0
 						ORDER BY reportid DESC LIMIT ?', array($limit));
 		$rows = $db->num_rows($result);
 
@@ -134,12 +134,12 @@ class Reports_Module_Model extends Vtiger_Module_Model {
     }
 
 	/**
-	 * Function is a callback from Vtiger_Link model to check permission for the links
+	 * Function is a callback from Head_Link model to check permission for the links
 	 * @param type $linkData
 	 */
 	public function checkLinkAccess($linkData) {
 		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$reportModuleModel = Vtiger_Module_Model::getInstance('Reports');
+		$reportModuleModel = Head_Module_Model::getInstance('Reports');
 		return $privileges->hasModulePermission($reportModuleModel->getId());
 	}
     

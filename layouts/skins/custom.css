@@ -1,0 +1,706 @@
+/*@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');*/
+ /*Custom CSS */
+
+ /*body{
+  font-family: 'Roboto', sans-serif !important;
+ }*/
+
+.dashBoardContainer .dashBoardTabContents ul li {
+	border: 1px solid #E2E2E4 !important;
+}
+
+.badge{
+	color:#e7e7e7 !important;
+	padding: 5px 8px;
+	text-transform: uppercase;
+
+}
+
+.badge:hover {
+color:#fff !important;
+	}
+
+
+	.detailViewContainer .recordImage, .overlayDetailHeader .recordImage, .quickPreviewModuleHeader .recordImage {
+	border-radius: 6px;
+}
+
+.accountname{
+	text-transform: capitalize;
+}
+
+/*.listViewPageDiv{
+	transition: 0.3s;
+}*/
+
+.listview-table tbody td{
+
+font-size: 14px !important;
+}
+
+
+.table-container{
+	/*border:none !important;*/
+}
+
+
+#listview-table tbody tr td{
+
+
+	padding-top:8px !important; 
+	padding-bottom:8px !important; 
+}
+
+.floatThead-table{
+
+	border:none !important;
+}
+
+
+.vtiger-bg-section{
+	background: #FBFBFB !important;
+}
+.table > thead > tr > th {
+	border-bottom: 1px solid #ddd !important;
+	text-transform: uppercase;
+}
+
+/*button box shadow remove css*/
+
+.bootstrap-switch.bootstrap-switch-focused
+{
+
+box-shadow:none !important;
+border-color:#dddddd !important;
+}
+
+.module-designer-bg{
+background:#fff !important;
+border-top-left-radius: 5px !important;
+border-top-right-radius: 5px !important;
+}
+
+.module-designer-tab{
+	border-bottom:none !important;
+}
+
+/*document side bar css start */
+
+.docs-submenu{
+   display:none;
+   width:230px;
+   height:423px;
+   background-color:#0f0e26;
+   height: 100vh;
+   overflow-x: hidden;
+   position: fixed;
+   left:42px;
+   top:12%;
+}
+
+.modules-menu ul li a:hover + .docs-marketing-submenu, .docs-marketing-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-sales-submenu, .docs-sales-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-inventory-submenu, .docs-inventory-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-support-submenu, .docs-support-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-project-submenu, .docs-project-submenu:hover{
+   display:block !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-text{
+   display:inline !important;
+   font-size:1.2em;
+    color: #dddddd;
+    text-shadow: 0 0 1px #000;
+    text-transform: capitalize; 
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-text{
+   color:#fff; 
+}
+
+.modules-menu .docs-submenu ul li a > span{
+   display:inline !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-icon{
+   font-size: 1.2em !important;
+   opacity: 0.2;
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-icon{
+   color:#fff;
+   opacity: 1;
+}
+
+.sidebar-table .floatThead-floatContainer{
+    z-index:0 !important;
+}
+
+
+ul.dropdown-menu.profile-dropdown li a{
+
+  padding: 5px !important;
+}
+
+ul.dropdown-menu.profile-dropdown{
+
+  padding: 5px 10px !important;
+}
+
+.dropdown-menu li, .dropdown-menu-nav li {
+  text-align: left;
+  list-style: none;
+  padding: 0 10px;
+}
+
+ul.dropdown-menu.profile-dropdown li{
+
+  padding: 0px !important;
+}
+
+.user-image {
+  float: left;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+  background-color:#8E44AD;
+  color:#fff;
+  border:none;
+  font-weight:bold;
+
+}
+
+.profile-dropdown h4,.profile-dropdown h5,.profile-dropdown p,.profile-dropdown li a{
+  /*padding-left: 10px;*/
+  font-size: 14px;
+  white-space: nowrap;
+  color:#333;
+}
+
+.profile-dropdown h4{
+
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+
+.related-tabs .nav-tabs > li.active, .related-tabs .nav-tabs > li:hover, .related-tabs .nav-tabs > li.active:focus, .dashBoardContainer .nav-tabs > li.active, .dashBoardContainer .nav-tabs > li:hover, .dashBoardContainer .nav-tabs > li.active:focus, .contents.tabbable .nav-tabs > li.active, .contents.tabbable .nav-tabs > li:hover, .contents.tabbable .nav-tabs > li.active:focus {
+  border: none;
+  border-bottom: 2px solid #7f3d9b !important;
+}
+
+/*input element css*/
+
+.joforce-form input[type="checkbox"], .table input[type="checkbox"] {
+  width:13px !important;
+}
+.joforce-form .inputElement.currencyField, #Leads_editView_fieldName_annualrevenue{
+  width:205px !important;
+}
+
+.quickCreateContent .inputElement, .inputElement, .uploadview-content .inputElement.select2, #uploadToDriveContainer .inputElement.select2, .fieldBlockContainer .inputElement, .md-medium-text-input, .select2-container{
+  width:228px !important;
+}
+
+/*first name field*/
+
+#Leads_editView_fieldName_firstname, #Contacts_editView_fieldName_firstname{
+  width:140px !important;
+}
+
+/*auto search field*/
+.marginLeftZero.autoComplete.inputElement.ui-autocomplete-input{
+  width:200px !important;
+}
+/*currency field*/
+.inputElement.currencyField{
+  width:205px !important;
+}
+
+/*input element css*/
+
+
+.inputElement, .select2-container, .timePicker, .dateField, textarea, .inputElement.select2-container .select2-choice, .select2-container .select2-choice, .select2-choices.ui-sortable, .select2-container-multi .select2-choices{
+
+ border-color: #c2c2c2!important;
+    box-shadow: 1px 1px 4px #EBEBEB !important;
+    -moz-box-shadow: 1px 1px 4px #EBEBEB !important; 
+    -webkit-box-shadow: 1px 1px 4px #EBEBEB !important;
+    border-radius: 3px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    
+    outline: none !important;
+}
+
+
+
+.pointerCursorOnHover.input-group-addon.input-group-addon-save.inlineAjaxSave{
+  border-radius: 0px !important;
+}
+
+.inputElement.ui-autocomplete-input, .timepicker-default, .ui-autocomplete-input, .input-group span.input-group-addon{ 
+border-radius: 3px 0px 0px 3px !important;
+border-color:#c2c2c2 !important;
+}
+
+.input-group-addon, .input-group-btn, .input-group-addon.relatedPopup, .currencyField, .input-group.inputElement span.input-group-addon, .input-group span.input-group-addon.relatedPopup.cursorPointer, .table.detailview-table.no-border .ajaxEdited .input-group-addon.inlineAjaxCancel{
+  border-radius: 0px 3px 3px 0px !important;
+  border-color:#c2c2c2 !important;
+}
+
+/*.currencyField{
+border-radius: 0px 0px 3px 3px !important;
+}*/
+
+.inputElement:focus, .timePicker:focus, .dateField:focus, textarea:focus, .input-group.inputElement input:focus{
+    border-color: rgba(142, 68, 173, 0.5) !important;
+    box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD !important;
+    outline: 0 none !important;
+}
+
+
+.timePicker .ui-timepicker-list li:hover,.ui-timepicker-selected{
+background-color: #8E44AD !important; 
+color:#ffffff !important;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
+  background-color:#8E44AD !important;
+  background-image: none !important;
+  
+}
+
+
+.select2-results .select2-highlighted{
+ background-color: #8E44AD !important; 
+}
+
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
+  border-color:#8E44AD !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD;
+}
+.select2-drop-active{
+  border-color: #8E44AD !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD;
+}
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices 
+{ 
+   border-color: #8E44AD !important;
+   -webkit-box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD !important; 
+   box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD !important;
+   -webkit-transition: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #8E44AD !important;
+  
+}
+
+textarea{
+  padding: 3px 8px !important;
+}
+
+ul.dropdown-menu.profile-dropdown {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.recordImage {
+  background:#8E44AD !important;
+}
+
+
+/*new css for verison 1.1*/
+
+.dashBoardContainer .dashBoardTabContents ul li{
+
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.dashBoardWidgetFooter{
+  border-radius:0 0 5px 5px;
+}
+
+.dashBoardContainer, .detailViewContainer .content-area, .editViewPageDiv .content-area, .editViewPageDiv.content-area, .editViewPageDiv .reports-content-area{
+  background-color: #ECF0F5 !important; 
+}
+.settingsPageDiv{
+  background-color:#ECF0F5 !important;
+}
+.settingsPageDiv.content-area.clearfix{
+  background-color:#ECF0F5 !important;
+}
+.listViewPageDiv.content-area{
+  background-color:#ECF0F5 !important;
+} 
+
+.table-container.ps-container.ps-active-x, .table-container.ps-container, table { 
+  border:none !important;
+  border-radius:5px;
+}
+.table-container, .table.listview-table{
+  border:none !important;
+}
+
+.table.listview-table tr:hover, .shippingTaxTable tr:hover, .joforce-tax-section table tr:hover{
+  background-color:#F9FCFF;
+}
+.table.listview-table  thead tr:hover, .table-container thead tr:hover{
+  background-color: #ffffff;
+}
+
+.listview-table-norecords tr:hover, .emptyRecordsDiv:hover{
+background-color:#ffffff !important;
+}
+
+.joforce-bg{
+  background-color: rgb(255, 255, 255); 
+  min-height: 700px; 
+  /*min-height: 850px; */
+  width: 97%; 
+  border-radius: 5px; 
+  padding-top: 20px; 
+  padding-right: 23px; 
+  padding-left: 23px;
+  padding-bottom:20px; 
+  margin-left: 17px;
+}
+.joforce-bg-prefer{
+  background-color: rgb(255, 255, 255); 
+  /*min-height: 700px; */
+  /*min-height: 850px; */
+  width: 97%; 
+  border-radius: 5px 5px 0px 0px; 
+  padding-top: 20px; 
+  padding-right: 23px; 
+  padding-left: 23px;
+  padding-bottom:20px; 
+  margin-left: 17px;
+}
+.joforce-bg-prefer-detail{
+  border-radius: 0px 0px 5px 5px;
+}
+
+/*search css start*/
+
+.joforce-search-close{
+
+padding:11px 16px !important;
+}
+.searchbardiv{
+  display: block;
+  position: fixed;
+/*  background: #7D1935 ; */
+  top: 42px;
+  right: 0px;
+  
+  z-index: 1001;
+  width: 100%;
+  max-width: 97%;
+  /*padding: 10px;*/
+  margin: 0px;
+  /*height:auto;*/
+  z-index:999999 !important;
+}
+.joforce-search-btn{
+ /* position: fixed;*/
+ /* top :15px;*/
+  padding:15px;
+  float: right;
+  right: 0px;
+  /*margin-right: 5px;*/
+  background-color: transparent;
+  border: 0px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.joforce-search-btn:hover{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 0px;
+
+}
+.joforce-search-btn:focus{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 0px;
+
+}
+#joforce-search-section{
+  display: none;
+}
+.glyphicon.glyphicon-search {
+  font-size: 18px;
+}
+#joforce-search-box {
+  
+  box-shadow: none;
+  padding: 10px 14px;
+  background-color:#EBEBEB;
+  height:auto;
+  font-size:18px;
+}
+#joforce-search-box:hover {
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #ccc;
+  }
+
+
+/* search conflict remove css */
+.searchbardiv .search-link{
+margin-top:0px !important;
+padding:0px !important;
+}
+
+.searchbardiv .keyword-input{
+width:100% !important;
+margin:0px !important;
+border:none !important;
+}
+
+
+/*search css end*/
+
+
+.joforce-calendar, .joforce-task{
+  display:none !important;
+}
+
+
+.menuEditorItem.app-SALES, .menuEditorItem.app-INVENTORY, .menuEditorItem.app-SUPPORT {
+  background:#8e44ad !important;
+}
+
+
+
+/*sidebar icon remove css*/
+
+.app-indicator-icon, .app-indicator-icon-container{
+  display:none !important;
+}
+.app-nav .module-action-bar{
+  border-bottom:none !important;
+  }
+.main-container .module-nav{
+  top: -42px !important;
+  z-index:9999 !important;
+
+}
+.app-menu{
+  z-index:9999 !important;
+}
+
+.main-container .settingsNav{
+  top:0px !important;
+  z-index:0 !important;
+  /*background-color:#27245F !important;*/
+}
+.module-action-bar{
+background-color:#fbfbfb !important;
+}
+
+
+
+/*sidebar color change css */
+
+.app-menu, .app-menu .app-modules-dropdown, .settingsgroup .panel-group .panel, .settingsgroup div.panel-collapse, .settingsgroup, .module-nav .modules-menu, .app-switcher-container .app-navigator{
+  background-color:#3E516D !important;
+}
+
+.app-item{
+  /*background-color:#27245F !important;*/
+  background-color: #3E516D !important;
+}
+
+/*joforce text color css*/
+
+
+.fieldValue .value a, .joforce-link, .creatorName, .actionImages a:hover{
+  color:#934e97 !important;
+}
+.nav.navbar-nav li a:hover, .joforce-link:hover, .joforce-color:hover, .popoverCancel:hover, .joforce-tax-section a:hover,#addMore span:hover,#moreCurrencies:hover, .editFieldDetails:hover{
+  color:#934e97 !important;
+}
+
+.nav.navbar-nav li a:focus, .joforce-link:focus, .joforce-color:focus, .popoverCancel:focus, .joforce-tax-section a:focus, #addMore span:focus, #moreCurrencies:focus{
+  color:#934e97 !important;
+}
+
+
+.checked{
+  color:#8E44AD !important;
+}
+
+
+.cancelLink:hover, .popoverCancel:hover{
+  color:red !important;
+}
+
+
+.cancelLink, .popoverCancel{
+  color:red !important;
+}
+
+/*btn primary css*/
+
+
+.datepicker .active.day, .datepicker .month.active, .datepicker .year.active,.onoffswitch1-inner::before{
+  background-color:#934e97 !important;
+}
+
+.btn-default{
+  background:#8E44AD !important;
+border:2px solid #8E44AD !important;
+color:#ffffff !important;
+/*border-radius:5px !important;*/
+}
+
+.btn-default:hover{
+   background: #763890 !important;
+    border: 2px solid #763890 !important;
+    color:#ffffff !important;
+}
+
+/*btn-primary old css*/
+
+.btn-primary, .btn-default.btn-primary {
+  color: #fff !important;
+  /*text-shadow: 0 1px rgba(0,0,0,.1);*/
+  background: #8E44AD !important;
+  border: 2px solid #8E44AD !important;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary, .btn-default.btn-primary:hover {
+  color: #fff !important;
+  background: #7f3d9b !important; 
+  border: 2px solid #7f3d9b !important;
+}
+
+.btn-default{
+  text-shadow:none !important;
+}
+
+
+
+/*btn secondary css*/
+.joforce-detailview-upload{
+  /*border-radius: 5px !important;*/
+}
+
+.btn-secondary, .joforce-enable.btn-default, .joforce-detailview-btn .btn-default, .widget_header.clearfix .btn-default, .addCondition .btn-default{
+  background:#ffffff !important;
+border:2px solid #ccc !important;
+color: #292b2c !important;
+
+}
+
+.settingsIcon .btn-default, .import-icon .btn-default, .inActiveFields.btn-default, .listViewMassActions .btn-default, .joforce-import-btn .btn-default {
+ background:#ffffff !important;
+border:2px solid #ccc !important;
+color:#292b2c !important;
+}
+
+.btn-secondary:hover, .settingsIcon .btn-default:hover, .import-icon .btn-default:hover, .inActiveFields.btn-default:hover, .listViewMassActions .btn-default:hover, .joforce-import-btn .btn-default:hover, .joforce-enable.btn-default:hover,.joforce-detailview-btn .btn-default:hover, .widget_header.clearfix .btn-default:hover, .addCondition .btn-default:hover   {
+
+ background: #e6e6e6 !important;
+border:2px solid #adadad !important;
+color:#292b2c !important; 
+}
+/*btn default css*/
+
+.joforce-default {
+    background-color: #fff;
+    background-color: #efefef;
+    border: 2px solid #ccc;
+    color: #636b6f;
+    }
+.joforce-default:hover{
+    background-color:#e7e7e7;
+    border-color:#adadad;
+    color:#636b6f;
+}
+
+
+
+/*table.glyphicon-hover .glyphicon {
+  visibility: hidden;
+}
+table.glyphicon-hover td:hover .glyphicon {
+  visibility: visible;
+}*/
+
+
+
+.dashBoardContainer .tabContainer{
+  margin-top:0px !important;
+}
+
+
+ .searchRow{
+  display:none;
+}
+#listColumnFilterContainer .listColumnFilter{
+  width:1% !important;
+  margin-left:30% !important;
+}
+
+#joforce-table-search{
+ /*margin-left:6% !important;*/
+ margin-top:-17px !important;
+ position:absolute !important;
+}
+
+
+.listViewPageDiv.content-area  .floatThead-floatContainer.floatThead-container table thead .listViewContentHeader th .table-actions #joforce-table-search{
+   
+   margin-left:6% !important;
+}
+
+.listViewPageDiv.content-area.full-width  .floatThead-floatContainer.floatThead-container table thead .listViewContentHeader th .table-actions #joforce-table-search{
+   
+   margin-left:5% !important;
+}
+
+
+.bootstrap-switch-handle-on.bootstrap-switch-success{
+background-color:#8E44AD !important;
+background-image:none !important;
+}
+
+/*modal css */
+.modal-header{
+    background-color: #3E516D !important;
+    color:#ffffff !important;
+}
+.modal-footer .btn.btn-success{
+
+  color: #fff !important;
+  /*text-shadow: 0 1px rgba(0,0,0,.1);*/
+  background: #8E44AD !important;
+  border: 1px solid #8E44AD !important;
+}
+.modal-footer .btn.btn-success:hover{
+color: #fff !important;
+  background: #7f3d9b !important; 
+  border: 1px solid #7f3d9b !important;
+}
+
+
+/*all block border remove*/
+
+.fieldBlockContainer, .block{
+  border:none !important;
+}

@@ -11,7 +11,7 @@
 
 include_once 'include/InventoryPDFController.php';
 
-class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
+class Head_InvoicePDFController extends Head_InventoryPDFController{
 	function buildHeaderModelTitle() {
 		$singularModuleNameKey = 'SINGLE_'.$this->moduleName;
 		$translatedSingularModuleLabel = getTranslatedString($singularModuleNameKey, $this->moduleName);
@@ -24,7 +24,7 @@ class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
 	function buildHeaderModelColumnCenter() {
 		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
-		$purchaseOrder = $this->focusColumnValue('vtiger_purchaseorder');
+		$purchaseOrder = $this->focusColumnValue('jo_purchaseorder');
 		$salesOrder	= $this->resolveReferenceLabel($this->focusColumnValue('salesorder_id'));
 
 		$customerNameLabel = getTranslatedString('Customer Name', $this->moduleName);

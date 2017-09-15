@@ -14,7 +14,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/data/Tracker.php,v 1.15 2005/04/28 05:44:22 samk Exp $
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/data/Tracker.php,v 1.15 2005/04/28 05:44:22 samk Exp $
  * Description:  Updates entries for the Last Viewed functionality tracking the
  * last viewed records on a per user basis.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
@@ -23,7 +23,7 @@
  * Contributor(s): ______________________________________..
  ********************************************************************************/
 
-include_once('config.php');
+include_once('config/config.php');
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 
@@ -37,9 +37,9 @@ require_once('include/database/PearDatabase.php');
 class Tracker {
     var $log;
     var $db;
-    var $table_name = "vtiger_tracker";
+    var $table_name = "jo_tracker";
 
-    // Tracker vtiger_table
+    // Tracker jo_table
     var $column_fields = Array(
         "id",
         "user_id",
@@ -57,7 +57,7 @@ class Tracker {
     }
 
     /**
-     * Add this new item to the vtiger_tracker vtiger_table.  If there are too many items (global config for now)
+     * Add this new item to the jo_tracker jo_table.  If there are too many items (global config for now)
      * then remove the oldest item.  If there is more than one extra item, log an error.
      * If the new item is the same as the most recent item then do not change the list
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
@@ -76,7 +76,7 @@ $log->info("in  track view method ".$current_module);
          //get the first name and last name from the respective modules
 	 if($current_module != '')
 	 {
-		 $query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
+		 $query = "select fieldname,tablename,entityidfield from jo_entityname where modulename = ?";
 		 $result = $adb->pquery($query, array($current_module));
 		 $fieldsname = $adb->query_result($result,0,'fieldname');
 		 $tablename = $adb->query_result($result,0,'tablename'); 
@@ -103,7 +103,7 @@ $log->info("in  track view method ".$current_module);
 	     }
 	 }
 	 
-	 #if condition added to skip vtiger_faq in last viewed history
+	 #if condition added to skip jo_faq in last viewed history
 	      $query = "INSERT into $this->table_name (user_id, module_name, item_id, item_summary) values (?,?,?,?)";
 		  $qparams = array($user_id, $current_module, $item_id, $item_summary);
           
@@ -118,7 +118,7 @@ $log->info("in  track view method ".$current_module);
     /**
      * param $user_id - The id of the user to retrive the history for
      * param $module_name - Filter the history to only return records from the specified module.  If not specified all records are returned
-     * return - return the array of result set rows from the query.  All of the vtiger_table vtiger_fields are included
+     * return - return the array of result set rows from the query.  All of the jo_table jo_fields are included
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): JoForce.com
@@ -131,7 +131,7 @@ $log->info("in  track view method ".$current_module);
     	}
 
 //        $query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id DESC";
-	$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
+	$query = "SELECT * from $this->table_name inner join jo_crmentity on jo_crmentity.crmid=jo_tracker.item_id WHERE user_id=? and jo_crmentity.deleted=0 ORDER BY id DESC";
         $this->log->debug("About to retrieve list: $query");
         $result = $this->db->pquery($query, array($user_id), true);
         $list = Array();

@@ -14,7 +14,7 @@ require_once('modules/Settings/MailConverter/handlers/MailScannerRule.php');
 /**
  * Mail Scanner information manager.
  */
-class Vtiger_MailScannerInfo {
+class Head_MailScannerInfo {
 	// id of this scanner record
 	var $scannerid = false;
 	// name of this scanner
@@ -75,7 +75,7 @@ class Vtiger_MailScannerInfo {
 	 */
 	function initialize($scannername) {
 		global $adb;
-		$result = $adb->pquery("SELECT * FROM vtiger_mailscanner WHERE scannername=?", Array($scannername));
+		$result = $adb->pquery("SELECT * FROM jo_mailscanner WHERE scannername=?", Array($scannername));
 
 		if($adb->num_rows($result)) {
 			$this->scannerid  = $adb->query_result($result, 0, 'scannerid');
@@ -106,7 +106,7 @@ class Vtiger_MailScannerInfo {
 		if($this->scannerid) {
 			$this->lastscan = Array();
 			$this->rescan   = Array();
-			$lastscanres = $adb->pquery("SELECT * FROM vtiger_mailscanner_folders WHERE scannerid=?",Array($this->scannerid));
+			$lastscanres = $adb->pquery("SELECT * FROM jo_mailscanner_folders WHERE scannerid=?",Array($this->scannerid));
 			$lastscancount = $adb->num_rows($lastscanres);
 			if($lastscancount) {
 				for($lsindex = 0; $lsindex < $lastscancount; ++$lsindex) {
@@ -125,7 +125,7 @@ class Vtiger_MailScannerInfo {
 	 */
 	function clearLastscan() {
 		global $adb;
-		$adb->pquery("DELETE FROM vtiger_mailscanner_folders WHERE scannerid=?", Array($this->scannerid));
+		$adb->pquery("DELETE FROM jo_mailscanner_folders WHERE scannerid=?", Array($this->scannerid));
 		$this->lastscan = false;
 	}
 
@@ -135,7 +135,7 @@ class Vtiger_MailScannerInfo {
 	function updateAllFolderRescan($rescanFlag=false) {
 		global $adb;
 		$useRescanFlag = $rescanFlag? 1 : 0;
-		$adb->pquery("UPDATE vtiger_mailscanner_folders set rescan=? WHERE scannerid=?",
+		$adb->pquery("UPDATE jo_mailscanner_folders set rescan=? WHERE scannerid=?",
 			Array($rescanFlag, $this->scannerid));
 		if($this->rescan) {
 			foreach($this->rescan as $folderName=>$oldRescanFlag) {
@@ -169,14 +169,14 @@ class Vtiger_MailScannerInfo {
 
 		$needRescan = $rescanFolder? 1 : 0;
 
-		$folderInfo = $adb->pquery("SELECT folderid FROM vtiger_mailscanner_folders WHERE scannerid=? AND foldername=?",
+		$folderInfo = $adb->pquery("SELECT folderid FROM jo_mailscanner_folders WHERE scannerid=? AND foldername=?",
 			Array($this->scannerid, $folderName));
 		if($adb->num_rows($folderInfo)) {
 			$folderid = $adb->query_result($folderInfo, 0, 'folderid');
-			$adb->pquery("UPDATE vtiger_mailscanner_folders SET lastscan=?, rescan=? WHERE folderid=?",
+			$adb->pquery("UPDATE jo_mailscanner_folders SET lastscan=?, rescan=? WHERE folderid=?",
 				Array($scannedOn, $needRescan, $folderid));
 		} else {
-			$adb->pquery("INSERT INTO vtiger_mailscanner_folders(scannerid, foldername, lastscan, rescan, enabled)
+			$adb->pquery("INSERT INTO jo_mailscanner_folders(scannerid, foldername, lastscan, rescan, enabled)
 			   VALUES(?,?,?,?,?)", Array($this->scannerid, $folderName, $scannedOn, $needRescan, $enabledForScan));
 		}
 		if(!$this->lastscan) $this->lastscan = Array();
@@ -228,7 +228,7 @@ class Vtiger_MailScannerInfo {
 		$folderinfo = false;
 		if($this->scannerid) {
 			global $adb;
-			$fldres = $adb->pquery("SELECT * FROM vtiger_mailscanner_folders WHERE scannerid=?", Array($this->scannerid));
+			$fldres = $adb->pquery("SELECT * FROM jo_mailscanner_folders WHERE scannerid=?", Array($this->scannerid));
 			$fldcount = $adb->num_rows($fldres);
 			if($fldcount) {
 				$folderinfo = Array();
@@ -257,7 +257,7 @@ class Vtiger_MailScannerInfo {
 				$this->updateLastscan($foldername, $rescanFolder);
 			}
 			// Delete the folder that is no longer present
-			$adb->pquery("DELETE FROM vtiger_mailscanner_folders WHERE scannerid=? AND foldername NOT IN
+			$adb->pquery("DELETE FROM jo_mailscanner_folders WHERE scannerid=? AND foldername NOT IN
 				(". implode(',', $qmarks) . ")", Array($this->scannerid, $foldernames));
 		}
 	}
@@ -268,11 +268,11 @@ class Vtiger_MailScannerInfo {
 	function enableFoldersForScan($folderinfo) {
 		if($this->scannerid) {
 			global $adb;
-			$adb->pquery("UPDATE vtiger_mailscanner_folders set enabled=0 WHERE scannerid=?", Array($this->scannerid));
+			$adb->pquery("UPDATE jo_mailscanner_folders set enabled=0 WHERE scannerid=?", Array($this->scannerid));
 			foreach($folderinfo as $foldername=>$foldervalue) {
 				$folderid = $foldervalue[folderid];
 				$enabled  = $foldervalue[enabled];
-				$adb->pquery("UPDATE vtiger_mailscanner_folders set enabled=? WHERE folderid=? AND scannerid=?",
+				$adb->pquery("UPDATE jo_mailscanner_folders set enabled=? WHERE folderid=? AND scannerid=?",
 					Array($enabled,$folderid,$this->scannerid));
 			}
 		}
@@ -285,12 +285,12 @@ class Vtiger_MailScannerInfo {
 		global $adb;
 		if($this->scannerid) {
 			$this->rules = Array();
-			$rulesres = $adb->pquery("SELECT * FROM vtiger_mailscanner_rules WHERE scannerid=? ORDER BY sequence",Array($this->scannerid));
+			$rulesres = $adb->pquery("SELECT * FROM jo_mailscanner_rules WHERE scannerid=? ORDER BY sequence",Array($this->scannerid));
 			$rulescount = $adb->num_rows($rulesres);
 			if($rulescount) {
 				for($index = 0; $index < $rulescount; ++$index) {
 					$ruleid = $adb->query_result($rulesres, $index, 'ruleid');
-					$scannerrule = new Vtiger_MailScannerRule($ruleid);
+					$scannerrule = new Head_MailScannerRule($ruleid);
 					$scannerrule->debug = $this->debug;
 					$this->rules[] = $scannerrule;
 				}
@@ -355,13 +355,13 @@ class Vtiger_MailScannerInfo {
 
 		global $adb;
 		if($this->scannerid == false) {
-            $adb->pquery("INSERT INTO vtiger_mailscanner(scannername,server,protocol,username,password,ssltype,
+            $adb->pquery("INSERT INTO jo_mailscanner(scannername,server,protocol,username,password,ssltype,
 				sslmethod,connecturl,searchfor,markas,isvalid,time_zone) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 				Array($this->scannername,$this->server, $this->protocol, $this->username, $usepassword,
 				$this->ssltype, $this->sslmethod, $this->connecturl, $this->searchfor, $this->markas, $useisvalid, $this->time_zone));
 			$this->scannerid = $adb->database->Insert_ID();
         } else { //this record is exist in the data
-			$adb->pquery("UPDATE vtiger_mailscanner SET scannername=?,server=?,protocol=?,username=?,password=?,ssltype=?,
+			$adb->pquery("UPDATE jo_mailscanner SET scannername=?,server=?,protocol=?,username=?,password=?,ssltype=?,
 				sslmethod=?,connecturl=?,searchfor=?,markas=?,isvalid=?, time_zone=? WHERE scannerid=?",
 				Array($this->scannername,$this->server,$this->protocol, $this->username, $usepassword, $this->ssltype,
 				$this->sslmethod, $this->connecturl,$this->searchfor, $this->markas,$useisvalid, $this->time_zone, $this->scannerid));
@@ -385,16 +385,16 @@ class Vtiger_MailScannerInfo {
 
 		if($this->scannerid) {
 			$tables = Array(
-				'vtiger_mailscanner',
-				'vtiger_mailscanner_ids',
-				'vtiger_mailscanner_folders'
+				'jo_mailscanner',
+				'jo_mailscanner_ids',
+				'jo_mailscanner_folders'
 			);
 			foreach($tables as $table) {
 				$adb->pquery("DELETE FROM $table WHERE scannerid=?", Array($this->scannerid));
 			}
-			$adb->pquery("DELETE FROM vtiger_mailscanner_ruleactions
-				WHERE actionid in (SELECT actionid FROM vtiger_mailscanner_actions WHERE scannerid=?)", Array($this->scannerid));
-			$adb->pquery("DELETE FROM vtiger_mailscanner_actions WHERE scannerid=?", Array($this->scannerid));
+			$adb->pquery("DELETE FROM jo_mailscanner_ruleactions
+				WHERE actionid in (SELECT actionid FROM jo_mailscanner_actions WHERE scannerid=?)", Array($this->scannerid));
+			$adb->pquery("DELETE FROM jo_mailscanner_actions WHERE scannerid=?", Array($this->scannerid));
 		}
 	}
 
@@ -405,7 +405,7 @@ class Vtiger_MailScannerInfo {
 		$scanners = array();
 
 		global $adb;
-		$result = $adb->pquery("SELECT scannername FROM vtiger_mailscanner", array());
+		$result = $adb->pquery("SELECT scannername FROM jo_mailscanner", array());
 		if($result && $adb->num_rows($result)) {
 			while($resultrow = $adb->fetch_array($result)) {
 				$scanners[] = new self( decode_html($resultrow['scannername'] ));

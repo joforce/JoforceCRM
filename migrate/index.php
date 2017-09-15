@@ -10,7 +10,7 @@
  * ***********************************************************************************/
 
 chdir (dirname(__FILE__) . '/..');
-include_once 'vtigerversion.php';
+include_once 'version.php';
 include_once 'data/CRMEntity.php';
 include_once 'includes/main/WebUI.php';
 
@@ -25,7 +25,7 @@ if (!$errorMessage) {
 	$nonPortedExtns = array();
 	$moduleModelsList = array();
 	$db = PearDatabase::getInstance();
-	$result = $db->pquery('SELECT name FROM vtiger_tab WHERE isentitytype != ? AND presence != ? AND trim(name) NOT IN ('.generateQuestionMarks($vtigerStandardModules).')', array(1, 1, $vtigerStandardModules));
+	$result = $db->pquery('SELECT name FROM jo_tab WHERE isentitytype != ? AND presence != ? AND trim(name) NOT IN ('.generateQuestionMarks($vtigerStandardModules).')', array(1, 1, $vtigerStandardModules));
 	if ($db->num_rows($result)) {
 		$moduleModelsList = $extensionStoreInstance->getListings();
 	}
@@ -63,7 +63,7 @@ if (!$errorMessage) {
 		}
 
 		if ($nonPortedExtns) {
-			$portingMessage = 'Following custom modules are not compatible with Vtiger 7. Please disable these modules to proceed.';
+			$portingMessage = 'Following custom modules are not compatible with Head 7. Please disable these modules to proceed.';
 			foreach ($nonPortedExtns as $moduleName) {
 				$portingMessage .= "<li>$moduleName</li>";
 			}
@@ -75,7 +75,7 @@ if (!$errorMessage) {
 
 <html>
 	<head>
-		<title>Vtiger CRM Setup</title>
+		<title>Head CRM Setup</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script type="text/javascript" src="resources/js/jquery-min.js"></script>
 		<link href="resources/todc/css/bootstrap.min.css" rel="stylesheet">
@@ -88,7 +88,7 @@ if (!$errorMessage) {
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="logo">
-						<img src="resources/images/vt1.png" alt="Vtiger Logo"/>
+						<img src="resources/images/vt1.png" alt="Head Logo"/>
 					</div>
 				</div>
 				<div class="col-lg-6">
@@ -112,10 +112,10 @@ if (!$errorMessage) {
 					<hr>
 					<div class="row">
 						<div class="col-lg-4 welcome-image">
-							<img src="resources/images/migration_screen.png" alt="Vtiger Logo" style="width: 100%; margin-left: 15px;"/>
+							<img src="resources/images/migration_screen.png" alt="Head Logo" style="width: 100%; margin-left: 15px;"/>
 						</div>
 						<?php
-							$currentVersion = explode('.', $vtiger_current_version);
+							$currentVersion = explode('.', $jo_current_version);
 							 if ($portingMessage) { ?>
 								<div class="col-lg-1"></div>
 								<div class="col-lg-7">
@@ -126,22 +126,22 @@ if (!$errorMessage) {
 							<div class="button-container col-lg-12">
 								<div class="pull-right">
 									<form action="../index.php?module=Migration&action=DisableModules&mode=fromMig" method="POST">
-										<input type="hidden" name="modulesList" <?php echo 'value="'.Vtiger_Util_Helper::toSafeHTML(Zend_JSON::encode($nonPortedExtns)).'"'; ?> />
+										<input type="hidden" name="modulesList" <?php echo 'value="'.Head_Util_Helper::toSafeHTML(Zend_JSON::encode($nonPortedExtns)).'"'; ?> />
 										<input type="submit" class="btn btn-warning" value="Disable modules & Proceed"/>
 										<input type="button" onclick="window.location.href='../index.php'" class="btn btn-default" value="Close"/>
 									</form>
 								</div>
 						<?php } else if($currentVersion[0] >= 6 && $currentVersion[1] >= 0) { ?>
 							<div class="col-lg-8" style="padding-left: 30px;">
-								<h3> Welcome to Vtiger Migration</h3>
+								<h3> Welcome to Head Migration</h3>
 								<?php if(isset($errorMessage)) {
 									echo '<span><font color="red"><b>'.filter_var($errorMessage, FILTER_SANITIZE_STRING).'</b></font></span><br><br>';
 								} ?>
-								<p>We have detected that you have <strong>Vtiger <?php echo $vtiger_current_version ?></strong> installation.<br><br></p>
+								<p>We have detected that you have <strong>Head <?php echo $jo_current_version ?></strong> installation.<br><br></p>
 								<p>
 									<strong>Warning: </strong>
-									Please note that it is not possible to revert back to <?php echo $vtiger_current_version ?>&nbsp;after the upgrade to vtiger 7 <br>
-									So, it is important to take a backup of the <?php echo $vtiger_current_version ?> installation, including the source files and database.
+									Please note that it is not possible to revert back to <?php echo $jo_current_version ?>&nbsp;after the upgrade to vtiger 7 <br>
+									So, it is important to take a backup of the <?php echo $jo_current_version ?> installation, including the source files and database.
 								</p><br>
 								<form action="../index.php?module=Migration&action=Extract&mode=fromMig" method="POST">
 									<div><input type="checkbox" id="checkBox1" name="checkBox1"/><div class="chkbox"></div> I have taken the backup of database <a href="http://community.vtiger.com/help/vtigercrm/administrators/backup.html" target="_blank" >(how to?)</a></div><br>
@@ -164,10 +164,10 @@ if (!$errorMessage) {
 							<div class="col-lg-1"></div>
 							<div class="col-lg-7">
 								<h3><font color="red">WARNING : Cannot continue with Migration</font></h3><br>
-								<p>We detected that this installation is running <strong>Vtiger CRM</strong>
+								<p>We detected that this installation is running <strong>Head CRM</strong>
 										<?php
-											if($vtiger_current_version < 6 ) {
-												echo '<b>'.$vtiger_current_version.'</b>';
+											if($jo_current_version < 6 ) {
+												echo '<b>'.$jo_current_version.'</b>';
 											}
 										?>.
 									Please upgrade to <strong>5.4.0</strong> first before continuing with this wizard.

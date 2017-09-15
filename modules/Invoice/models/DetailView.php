@@ -17,7 +17,7 @@ class Invoice_DetailView_Model extends Inventory_DetailView_Model {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		if ($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -25,7 +25,7 @@ class Invoice_DetailView_Model extends Inventory_DetailView_Model {
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

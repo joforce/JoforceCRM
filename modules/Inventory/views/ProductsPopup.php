@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
+class Inventory_ProductsPopup_View extends Head_Popup_View {
 
 	/**
 	 * Function returns module name for which Popup will be initialized
@@ -19,9 +19,9 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 		return 'Products';
 	}
 	
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$viewer = $this->getViewer ($request);
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
@@ -35,7 +35,7 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		//src_module value is added to just to stop showing inactive products
 		$request->set('src_module', $request->getModule());
 
@@ -67,12 +67,12 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$listViewModel = Head_ListView_Model::getInstanceForPopup($moduleName);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		if(!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
@@ -197,10 +197,10 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 
 	 /**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$moduleName = $request->getModule();
@@ -216,7 +216,7 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 	}
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		return Head_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 
 }

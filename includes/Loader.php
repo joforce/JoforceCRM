@@ -12,7 +12,7 @@
 global $LOADER_FILE_DIR;
 $LOADER_FILE_DIR = dirname(__FILE__);
 
-class Vtiger_Loader {
+class Head_Loader {
 	protected static $includeCache = array();
 	protected static $includePathCache = array();
 
@@ -103,11 +103,11 @@ class Vtiger_Loader {
 	 * @return <String> Required Class Name
 	 * @throws AppException
 	 */
-	public static function getComponentClassName($componentType, $componentName, $moduleName='Vtiger') {
+	public static function getComponentClassName($componentType, $componentName, $moduleName='Head') {
 		// Change component type from view to views, action to actions to navigate to the right path.
 		$componentTypeDirectory = strtolower($componentType).'s';
 		// Fall Back Directory & Fall Back Class
-		$fallBackModuleDir = $fallBackModuleClassPath = 'Vtiger';
+		$fallBackModuleDir = $fallBackModuleClassPath = 'Head';
 		// Intermediate Fall Back Directories & Classes, before relying on final fall back
 		$firstFallBackModuleDir = $firstFallBackModuleClassPath = '';
 		$secondFallBackDir = $secondFallBackClassPath = '';
@@ -123,13 +123,13 @@ class Vtiger_Loader {
 			$modules = array('Users');
 			if($actualModule != 'Users') {
 				$baseModule = $moduleHierarchyParts[0];
-				if($baseModule == 'Settings')  $baseModule = 'Settings:Vtiger';
+				if($baseModule == 'Settings')  $baseModule = 'Settings:Head';
 				$firstFallBackDir = str_replace(':', '.', $baseModule);
 				$firstFallBackClassPath = str_replace(':', '_', $baseModule);
 			}
 		}
 		// Build module specific file path and class name
-		$moduleSpecificComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.'.$moduleDir.'.'.$componentTypeDirectory.'.'.$componentName);
+		$moduleSpecificComponentFilePath = Head_Loader::resolveNameToPath('modules.'.$moduleDir.'.'.$componentTypeDirectory.'.'.$componentName);
 		$moduleSpecificComponentClassName = $moduleClassPath.'_'.$componentName.'_'.$componentType;
 		if(file_exists($moduleSpecificComponentFilePath)) {
 			return $moduleSpecificComponentClassName;
@@ -138,7 +138,7 @@ class Vtiger_Loader {
 
 		// Build first intermediate fall back file path and class name
 		if(!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
-			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.'.$firstFallBackDir.'.'.$componentTypeDirectory.'.'.$componentName);
+			$fallBackComponentFilePath = Head_Loader::resolveNameToPath('modules.'.$firstFallBackDir.'.'.$componentTypeDirectory.'.'.$componentName);
 			$fallBackComponentClassName = $firstFallBackClassPath.'_'.$componentName.'_'.$componentType;
 
 			if(file_exists($fallBackComponentFilePath)) {
@@ -148,7 +148,7 @@ class Vtiger_Loader {
 
 		// Build intermediate fall back file path and class name
 		if(!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
-			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.'.$secondFallBackModuleDir.'.'.$componentTypeDirectory.'.'.$componentName);
+			$fallBackComponentFilePath = Head_Loader::resolveNameToPath('modules.'.$secondFallBackModuleDir.'.'.$componentTypeDirectory.'.'.$componentName);
 			$fallBackComponentClassName = $secondFallBackModuleClassPath.'_'.$componentName.'_'.$componentType;
 
 			if(file_exists($fallBackComponentFilePath)) {
@@ -157,7 +157,7 @@ class Vtiger_Loader {
 		}
 
 		// Build fall back file path and class name
-		$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.'.$fallBackModuleDir.'.'.$componentTypeDirectory.'.'.$componentName);
+		$fallBackComponentFilePath = Head_Loader::resolveNameToPath('modules.'.$fallBackModuleDir.'.'.$componentTypeDirectory.'.'.$componentName);
 		$fallBackComponentClassName = $fallBackModuleClassPath.'_'.$componentName.'_'.$componentType;
 		if(file_exists($fallBackComponentFilePath)) {
 			return $fallBackComponentClassName;
@@ -182,22 +182,22 @@ class Vtiger_Loader {
 			$fileName = $parts[$noOfParts-2];
 			$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
 			$filePath .= $fileComponentName. '.' .$fileName;
-            return Vtiger_Loader::includeOnce($filePath);
+            return Head_Loader::includeOnce($filePath);
 		}
 		return false;
 	}
 }
 
 function vimport($qualifiedName) {
-	return Vtiger_Loader::includeOnce($qualifiedName);
+	return Head_Loader::includeOnce($qualifiedName);
 }
 
 function vimport_try($qualifiedName) {
-	return Vtiger_Loader::includeOnce($qualifiedName, true);
+	return Head_Loader::includeOnce($qualifiedName, true);
 }
 
 function vimport_path($qualifiedName) {
-	return Vtiger_Loader::includePath($qualifiedName);
+	return Head_Loader::includePath($qualifiedName);
 }
 
-spl_autoload_register('Vtiger_Loader::autoLoad');
+spl_autoload_register('Head_Loader::autoLoad');

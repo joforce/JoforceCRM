@@ -177,8 +177,8 @@ $languageStrings = array (
 		'LBL_MY_VALUE' => 'My value',
         'LBL_MODULE_NAME_TRANSLATION' => 'Plural, translation',
         'LBL_MODULE_NAME_SINGLE_TRANSLATION' => 'Singular name, translation',
-		'LBL_CUSTOM_VALUES_DESCRIPTION' => 'You can set your own fields and variables. To do this modify these files: <ul><li>layouts/v7/modules/Settings/ModuleDesigner/Custom.tpl</li>'.
-											'<li>layouts/v7/modules/Settings/ModuleDesigner/resources/CustomScript.js</li>'.
+		'LBL_CUSTOM_VALUES_DESCRIPTION' => 'You can set your own fields and variables. To do this modify these files: <ul><li>layouts/modules/Settings/ModuleDesigner/Custom.tpl</li>'.
+											'<li>layouts/modules/Settings/ModuleDesigner/resources/CustomScript.js</li>'.
 											'<li>modules/ModuleDesigner/CustomManifestStructure.php</li></ul>'.
 											'You can also create plugins to handle your variables, in the directory /modules/ModuleDesigner/plugins'
 );

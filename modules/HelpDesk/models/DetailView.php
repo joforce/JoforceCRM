@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
+class HelpDesk_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -23,19 +23,19 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
+		$emailModuleModel = Head_Module_Model::getInstance('Emails');
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
+				'linkurl' => 'javascript:Head_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showComposeEmailForm&step=step1","Emails");',
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Faq');
+		$quotesModuleModel = Head_Module_Model::getInstance('Faq');
 		//TODO Fix Call to member function hasModuleActionPermission() on boolean - JoForce
 	//	if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
@@ -44,7 +44,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkurl' => $recordModel->getConvertFAQUrl(),
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 	//	}
 
 		return $linkModelList;
@@ -52,14 +52,14 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
+	 * @return <Array> - List of widgets , where each widget is an Head_Link_Model
 	 */
 	public function getWidgets() {
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$widgetLinks = parent::getWidgets();
 		$widgets = array();
 
-        $documentsInstance = Vtiger_Module_Model::getInstance('Documents');
+        $documentsInstance = Head_Module_Model::getInstance('Documents');
 		if($userPrivilegesModel->hasModuleActionPermission($documentsInstance->getId(), 'DetailView')) {
 			$createPermission = $userPrivilegesModel->hasModuleActionPermission($documentsInstance->getId(), 'CreateView');
 			$widgets[] = array(
@@ -74,7 +74,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 		}
 
 		foreach ($widgets as $widgetDetails) {
-			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
+			$widgetLinks[] = Head_Link_Model::getInstanceFromValues($widgetDetails);
 		}
 
 		return $widgetLinks;

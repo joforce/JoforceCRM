@@ -10,24 +10,24 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Contacts_Edit_View extends Vtiger_Edit_View {
+class Contacts_Edit_View extends Head_Edit_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$recordModel = $this->record;
 		if(!$recordModel){
 			if (!empty($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 			} else {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			}
 			$this->record = $recordModel;
 		}
 
 		$viewer = $this->getViewer($request);
 
-		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $recordModel->getModule());
+		$salutationFieldModel = Head_Field_Model::getInstance('salutationtype', $recordModel->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');
 		if(!empty($salutationType)){

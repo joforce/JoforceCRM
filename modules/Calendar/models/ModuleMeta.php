@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_ModuleMeta_Model extends Vtiger_ModuleMeta_Model {
+class Calendar_ModuleMeta_Model extends Head_ModuleMeta_Model {
 
 	public function getMergableFields() {
 		$mergableFields = array();
@@ -25,7 +25,7 @@ class Calendar_ModuleMeta_Model extends Vtiger_ModuleMeta_Model {
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$eventModuleMeta = Vtiger_ModuleMeta_Model::getInstance('Events', $currentUserModel);
+		$eventModuleMeta = Head_ModuleMeta_Model::getInstance('Events', $currentUserModel);
 		$eventMergableFields = $eventModuleMeta->getMergableFields();
 		foreach ($eventMergableFields as $fieldName => $fieldModel) {
 			$fieldLabel = $fieldModel->getFieldLabelKey();
@@ -59,7 +59,7 @@ class Calendar_ModuleMeta_Model extends Vtiger_ModuleMeta_Model {
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$eventModuleMeta = Vtiger_ModuleMeta_Model::getInstance('Events', $currentUserModel);
+		$eventModuleMeta = Head_ModuleMeta_Model::getInstance('Events', $currentUserModel);
 		$eventImportableFields = $eventModuleMeta->getImportableFields();
 		foreach ($eventImportableFields as $fieldName => $fieldModel) {
 			$fieldLabel = $fieldModel->getFieldLabelKey();

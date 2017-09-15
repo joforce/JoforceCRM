@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_SaveMailBox_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_SaveMailBox_Action extends Settings_Head_Index_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -29,7 +29,7 @@ class Settings_MailConverter_SaveMailBox_Action extends Settings_Vtiger_Index_Ac
 
 		$status = $recordModel->save();
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($status) {
 			$result = array('message' => vtranslate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName));
 			$result['id'] = $recordModel->getId();
@@ -41,7 +41,7 @@ class Settings_MailConverter_SaveMailBox_Action extends Settings_Vtiger_Index_Ac
 		$response->emit();
 	}
         
-        public function validateRequest(Vtiger_Request $request) { 
+        public function validateRequest(Head_Request $request) { 
             $request->validateWriteAccess(); 
         }
 }

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_CronTasks_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_cron_task';
+	var $baseTable = 'jo_cron_task';
 	var $baseIndex = 'id';
 	var $listFields = array('sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End');
 	var $nameFields = array('');
@@ -32,7 +32,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model {
 	public function updateSequence($sequencesList) {
 		$db = PearDatabase::getInstance();
 
-		$updateQuery = "UPDATE vtiger_cron_task SET sequence = CASE";
+		$updateQuery = "UPDATE jo_cron_task SET sequence = CASE";
 
 		foreach ($sequencesList as $sequence => $recordId) {
 			$updateQuery .= " WHEN id = $recordId THEN $sequence ";

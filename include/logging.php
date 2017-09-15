@@ -14,14 +14,14 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/logging.php,v 1.1 2004/08/17 13:23:37 gjayakrishnan Exp $
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/include/logging.php,v 1.1 2004/08/17 13:23:37 gjayakrishnan Exp $
  * Description:  Kicks off log4php.
  ********************************************************************************/
 
-require_once('config.php');
+require_once('config/config.php');
 
 // Performance Optimization: Configure the log folder
-@include_once('config.performance.php');
+@include_once('config/config.performance.php');
 global $PERFORMANCE_CONFIG;
 if(isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) && $PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) {
 	define('LOG4PHP_DIR', 'libraries/log4php.debug');

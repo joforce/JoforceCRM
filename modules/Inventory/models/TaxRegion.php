@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Inventory_TaxRegion_Model extends Vtiger_Base_Model {
+class Inventory_TaxRegion_Model extends Head_Base_Model {
 
-	const REGIONS_TABLE_NAME = 'vtiger_taxregions';
+	const REGIONS_TABLE_NAME = 'jo_taxregions';
 
 	public function getId() {
 		return $this->get('regionid');
@@ -22,11 +22,11 @@ class Inventory_TaxRegion_Model extends Vtiger_Base_Model {
 	}
 
 	public function getEditRegionUrl() {
-		return '?module=Vtiger&parent=Settings&view=TaxAjax&mode=editTaxRegion&taxRegionId='.$this->getId();
+		return '?module=Head&parent=Settings&view=TaxAjax&mode=editTaxRegion&taxRegionId='.$this->getId();
 	}
 
 	public function getDeleteRegionUrl() {
-		return '?module=Vtiger&parent=Settings&action=TaxAjax&mode=deleteTaxRegion&taxRegionId='.$this->getId();
+		return '?module=Head&parent=Settings&action=TaxAjax&mode=deleteTaxRegion&taxRegionId='.$this->getId();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Inventory_TaxRegion_Model extends Vtiger_Base_Model {
 			$result = $db->pquery('SELECT regionid FROM '.self::REGIONS_TABLE_NAME.' WHERE name=?', array($taxRagionName));
 			$this->set('regionid', $db->query_result($result, 0, 'regionid'));
 		}
-		Vtiger_Cache::flushPicklistCache('regionid');
+		Head_Cache::flushPicklistCache('regionid');
 		return $this->getId();
 	}
 

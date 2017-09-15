@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Install_Index_view extends Vtiger_View_Controller {
+class Install_Index_view extends Head_View_Controller {
 
 	protected $debug = false;
 	protected $viewer = null;
@@ -28,13 +28,13 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$this->exposeMethod('Step7');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Head_Request $request, $display = true) {
 		date_default_timezone_set('Europe/London'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
-		$configFileName = 'config.inc.php';
+		$configFileName = 'config/config.inc.php';
 		if(is_file($configFileName) && filesize($configFileName) > 0) {
 			$defaultModule = vglobal('default_module');
-			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
+			$defaultModuleInstance = Head_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:index.php?module='.$defaultModule.'&view='.$defaultView);
 			exit;
@@ -55,7 +55,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('InstallPreProcess.tpl', $moduleName);
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		global $default_charset;$default_charset='UTF-8';
 		$mode = $request->getMode();
 		if(!empty($mode) && $this->isMethodExposed($mode)) {
@@ -64,13 +64,13 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$this->Step1($request);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->view('InstallPostProcess.tpl', $moduleName);
 	}
 
-	public function Step1(Vtiger_Request $request) {
+	public function Step1(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('CURRENT_LANGUAGE', vglobal('default_language'));
@@ -78,13 +78,13 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('Step1.tpl', $moduleName);
 	}
 
-	public function Step2(Vtiger_Request $request) {
+	public function Step2(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->view('Step2.tpl', $moduleName);
 	}
 
-	public function Step3(Vtiger_Request $request) {
+	public function Step3(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('FAILED_FILE_PERMISSIONS', Install_Utils_Model::getFailedPermissionsFiles());
@@ -94,7 +94,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('Step3.tpl', $moduleName);
 	}
 
-	public function Step4(Vtiger_Request $request) {
+	public function Step4(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
@@ -116,7 +116,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('Step4.tpl', $moduleName);
 	}
 
-	public function Step5(Vtiger_Request $request) {
+	public function Step5(Head_Request $request) {
 		set_time_limit(0); // Override default limit to let install complete.
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -163,7 +163,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('Step5.tpl', $moduleName);
 	}
 
-	public function Step6(Vtiger_Request $request) {
+	public function Step6(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 
@@ -171,12 +171,12 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->view('Step6.tpl', $moduleName);
 	}
 
-	public function Step7(Vtiger_Request $request) {
+	public function Step7(Head_Request $request) {
 		// Set favourable error reporting
 		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
 		$moduleName = $request->getModule();
-		$webuiInstance = new Vtiger_WebUI();
+		$webuiInstance = new Head_WebUI();
 		$isInstalled = $webuiInstance->isInstalled();
 		if(!$isInstalled){
 			if($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
@@ -203,11 +203,11 @@ class Install_Index_view extends Vtiger_View_Controller {
 			$viewer = $this->getViewer($request);
 			$viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$viewer->assign('CURRENT_VERSION', $_SESSION['vtiger_version']);
+			$viewer->assign('CURRENT_VERSION', $_SESSION['jo_version']);
 			$viewer->assign('INDUSTRY', $request->get('industry'));
 			$viewer->view('Step7.tpl', $moduleName);
 		}else{
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult(vtranslate('THIS_INSTANCE_IS_ALREADY_INSTALLED', $moduleName));
 			return $response;
 		}
@@ -215,33 +215,33 @@ class Install_Index_view extends Vtiger_View_Controller {
 
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey() {
-		include 'config.inc.php';
+		include 'config/config.inc.php';
 		return $application_unique_key;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$parentCSSScripts = parent::getHeaderCss($request);
 		$styleFileNames = array(
-			"~/layouts/v7/modules/$moduleName/resources/css/style.css",
+			"~/layouts/modules/$moduleName/resources/css/style.css",
 		);
 		$cssScriptInstances = $this->checkAndConvertCssStyles($styleFileNames);
 		$headerCSSScriptInstances = array_merge($parentCSSScripts, $cssScriptInstances);
 		return $headerCSSScriptInstances;
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$parentScripts = parent::getHeaderScripts($request);
-		$jsFileNames = array("modules.Vtiger.resources.List",
-							 "modules.Vtiger.resources.Popup",
+		$jsFileNames = array("modules.Head.resources.List",
+							 "modules.Head.resources.Popup",
 							 "modules.$moduleName.resources.Index");
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($parentScripts, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
 
-	public function validateRequest(Vtiger_Request $request) { 
+	public function validateRequest(Head_Request $request) { 
 		return $request->validateWriteAccess(true); 
 	}
 }

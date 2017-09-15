@@ -11,11 +11,11 @@
 
 class PriceBooks_ProductPriceBookPopupAjax_View extends PriceBooks_ProductPriceBookPopup_View {
 
-	public function process (Vtiger_Request $request) {
+	public function process (Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);

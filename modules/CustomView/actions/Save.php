@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class CustomView_Save_Action extends Vtiger_Action_Controller {
+class CustomView_Save_Action extends Head_Action_Controller {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         $sourceModuleName = $request->get('source_module');
-        $moduleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
+        $moduleModel = Head_Module_Model::getInstance($sourceModuleName);
 		$customViewModel = $this->getCVModelFromRequest($request);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
@@ -25,7 +25,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller {
              * we should clear this from session in order to apply view
              */
             $listViewSessionKey = $sourceModuleName.'_'.$cvId;
-            Vtiger_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
+            Head_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
 			$response->setResult(array('id'=>$cvId, 'listviewurl'=>$moduleModel->getListViewUrl().'/'.$cvId));
 		} else {
 			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
@@ -36,10 +36,10 @@ class CustomView_Save_Action extends Vtiger_Action_Controller {
 
 	/**
 	 * Function to get the custom view model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return CustomView_Record_Model or Module specific Record Model instance
 	 */
-	private function getCVModelFromRequest(Vtiger_Request $request) {
+	private function getCVModelFromRequest(Head_Request $request) {
 		$cvId = $request->get('record');
 
 		if(!empty($cvId)) {
@@ -76,7 +76,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller {
 		return $customViewModel->setData($customViewData);
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

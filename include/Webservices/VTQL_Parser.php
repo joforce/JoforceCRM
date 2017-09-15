@@ -109,7 +109,7 @@ condition ::= PARENOPEN expr_set expr(E) PARENCLOSE.
 sample format(for contacts) for generated sql object 
 Array ( 
 	[column_list] => c4,c3,c2,c1 
-	[tableName] => vtiger_crmentity,vtiger_contactdetails,vtiger_contactaddress,vtiger_contactsubdetails,vtiger_contactscf,vtiger_customerdetails 
+	[tableName] => jo_crmentity,jo_contactdetails,jo_contactaddress,jo_contactsubdetails,jo_contactscf,jo_customerdetails 
 	[where_condition] => Array ( 
 		[column_operators] => Array ( 
 			[0] => = 
@@ -1357,11 +1357,11 @@ $tabNameIndex = $objectMeta->getEntityTableIndexList();
 $firstIndex = $tabNameIndex[$firstTable];
 foreach($tables as $ind=>$table){
 if($firstTable!=$table){
-	if(!isset($tabNameIndex[$table]) && $table == "vtiger_crmentity"){
+	if(!isset($tabNameIndex[$table]) && $table == "jo_crmentity"){
 		$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions']." LEFT JOIN $table ON $firstTable.$firstIndex=$table.crmid";
 	}else{
 		$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions']." LEFT JOIN $table ON $firstTable.$firstIndex=$table.{$tabNameIndex[$table]}";
-        if($this->user && Vtiger_Functions::isUserSpecificFieldTable($table, $module)) {
+        if($this->user && Head_Functions::isUserSpecificFieldTable($table, $module)) {
             $this->out['defaultJoinConditions'] .= ' AND '. $table. '.userid = '.$this->user->id;
         }
 	}

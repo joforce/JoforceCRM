@@ -12,7 +12,7 @@ include_once 'modules/Users/Users.php';
 
 class Emails_ViewInBrowser_Handler {
 
-	function isRequestAuthorized(Vtiger_Request $request) {
+	function isRequestAuthorized(Head_Request $request) {
 		$urlParameters = array();
 		$urlParameters['rid'] = $request->get('rid');
 		$urlParameters['applicationKey'] = vglobal('application_unique_key');
@@ -34,7 +34,7 @@ class Emails_ViewInBrowser_Handler {
 	 * @param type $data
 	 */
 	function viewInBrowser($data) {
-		$request = new Vtiger_Request(vtlib_purify($_REQUEST));
+		$request = new Head_Request(vtlib_purify($_REQUEST));
 		$isRequestAuthorized = $this->isRequestAuthorized($request);
 		if ($isRequestAuthorized) {
 			$applicationKey = $request->get('applicationKey');
@@ -58,7 +58,7 @@ class Emails_ViewInBrowser_Handler {
 			$urlParameters['applicationKey'] = $applicationKey;
 			$url = http_build_query($urlParameters);
 			$rlock = md5($url);
-			$viewInBrowserMergeTagURL = $site_URL . "/shorturl.php?id=$shorturlId&$url&rv=$rlock";
+			$viewInBrowserMergeTagURL = $site_URL . "/config/shorturl.php?id=$shorturlId&$url&rv=$rlock";
 			$mergedDescription = str_replace(EmailTemplates_Module_Model::$BROWSER_MERGE_TAG, $viewInBrowserMergeTagURL, $description);
 			$htmlContent = getMergedDescription($mergedDescription, $recipientId, $parentModule);
 			header('Content-Type: text/html; charset=utf-8');

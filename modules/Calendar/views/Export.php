@@ -9,5 +9,5 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Export_View extends Vtiger_Export_View {
+class Calendar_Export_View extends Head_Export_View {
 }

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller {
+class Documents_CheckFileIntegrity_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
@@ -19,11 +19,11 @@ class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$documentRecordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
 
 		$result = array('success'=>$resultVal);
@@ -36,7 +36,7 @@ class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller {
 			$result['message'] = vtranslate('LBL_FILE_NOT_AVAILABLE', $moduleName);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_DetailView_Model extends Vtiger_DetailView_Model {
+class Documents_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -33,11 +33,11 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
                             'linktype' => 'DETAILVIEWBASIC',
                             'linklabel' => 'LBL_VIEW_FILE',
                             'linkicon' => '',
-                            'linkurl' => 'Vtiger_Header_Js.previewFile(event,'.$recordModel->getId().')',
+                            'linkurl' => 'Head_Header_Js.previewFile(event,'.$recordModel->getId().')',
                             'filelocationtype' => $recordModel->get('filelocationtype'),
                             'filename' => $recordModel->get('filename'),
                     );
-                $linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($filePreviewLinkModel);
+                $linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($filePreviewLinkModel);
             }
 		}
 
@@ -48,7 +48,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 					'linkurl' => $recordModel->getDownloadFileURL(),
 					'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
         
         if($recordModel->get('filelocationtype') === 'I') {
@@ -58,11 +58,11 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
                     'linkurl' => $recordModel->checkFileIntegrityURL(),
                     'linkicon' => ''
             );
-            $linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+            $linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
         }
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
+			$emailModuleModel = Head_Module_Model::getInstance('Emails');
 
 			if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 				$basicActionLink = array(
@@ -71,7 +71,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 						'linkurl' => "javascript:Documents_Detail_Js.triggerSendEmail('". ZEND_JSON::encode(array($recordModel->getId())) ."')",
 						'linkicon' => ''
 				);
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+				$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 			}
 		}
 

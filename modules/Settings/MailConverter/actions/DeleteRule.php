@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_DeleteRule_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_DeleteRule_Action extends Settings_Head_Index_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 		$recordId = $request->get('record');
 		$scannerId = $request->get('scannerId');
@@ -21,14 +21,14 @@ class Settings_MailConverter_DeleteRule_Action extends Settings_Vtiger_Index_Act
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordModel = Settings_MailConverter_RuleRecord_Model::getInstanceById($recordId);
 		$scannerId = $recordModel->getScannerId();
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($scannerId === $request->get('scannerId')) {
 			$recordModel->delete();
 			$response->setResult(vtranslate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName));
@@ -38,7 +38,7 @@ class Settings_MailConverter_DeleteRule_Action extends Settings_Vtiger_Index_Act
 		$response->emit();
 	}
         
-        public function validateRequest(Vtiger_Request $request) { 
+        public function validateRequest(Head_Request $request) { 
             $request->validateWriteAccess(); 
         } 
 }

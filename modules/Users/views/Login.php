@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-vimport('~~/vtlib/Vtiger/Net/Client.php');
-class Users_Login_View extends Vtiger_View_Controller {
+vimport('~~/vtlib/Head/Net/Client.php');
+class Users_Login_View extends Head_View_Controller {
 
 	function loginRequired() {
 		return false;
 	}
 	
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		return true;
 	}
 	
-	function preProcess(Vtiger_Request $request, $display = true) {
+	function preProcess(Head_Request $request, $display = true) {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
@@ -33,7 +33,7 @@ class Users_Login_View extends Vtiger_View_Controller {
 		}
 	}
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$finalJsonData = array();
 
 /*		$modelInstance = Settings_ExtensionStore_Extension_Model::getInstance();
@@ -44,7 +44,7 @@ class Users_Login_View extends Vtiger_View_Controller {
 			$oldTextLength = vglobal('listview_max_textlength');
 			foreach ($jsonData as $blockData) {
 				if ($blockData['type'] === 'feature') {
-					$blockData['heading'] = "What's new in Vtiger Cloud";
+					$blockData['heading'] = "What's new in Head Cloud";
 				} else if ($blockData['type'] === 'news') {
 					$blockData['heading'] = "Latest News";
 					$blockData['image'] = '';
@@ -83,23 +83,23 @@ class Users_Login_View extends Vtiger_View_Controller {
 		$viewer->view('Login.tpl', 'Users');
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->view('LoginFooter.tpl', $moduleName);
 	}
 
-	function getPageTitle(Vtiger_Request $request) {
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+	function getPageTitle(Head_Request $request) {
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		return $companyDetails->get('organizationname');
 	}
 
-	function getHeaderScripts(Vtiger_Request $request){
+	function getHeaderScripts(Head_Request $request){
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
-							'modules.Vtiger.resources.List',
-							'modules.Vtiger.resources.Popup',
+							'modules.Head.resources.List',
+							'modules.Head.resources.Popup',
 							);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances,$headerScriptInstances);

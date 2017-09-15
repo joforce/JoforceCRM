@@ -22,7 +22,7 @@
  ********************************************/
 
 /*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Users/Users.php,v 1.10 2005/04/19 14:40:48 ray Exp $
+ * $Header: /advent/projects/wesat/jo_crm/sugarcrm/modules/Users/Users.php,v 1.10 2005/04/19 14:40:48 ray Exp $
  * Description: TODO:  To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
@@ -53,10 +53,10 @@ class Users extends CRMEntity {
 	var $is_admin;
 	var $deleted;
 
-	var $tab_name = Array('vtiger_users','vtiger_attachments','vtiger_user2role','vtiger_asteriskextensions');
-	var $tab_name_index = Array('vtiger_users'=>'id','vtiger_attachments'=>'attachmentsid','vtiger_user2role'=>'userid','vtiger_asteriskextensions'=>'userid');
+	var $tab_name = Array('jo_users','jo_attachments','jo_user2role','jo_asteriskextensions');
+	var $tab_name_index = Array('jo_users'=>'id','jo_attachments'=>'attachmentsid','jo_user2role'=>'userid','jo_asteriskextensions'=>'userid');
 
-	var $table_name = "vtiger_users";
+	var $table_name = "jo_users";
 	var $table_index= 'id';
 
 	// This is the list of fields that are in the lists.
@@ -66,9 +66,9 @@ class Users extends CRMEntity {
 	var $popup_type;
 
 	var $search_fields = Array(
-			'Name'=>Array('vtiger_users'=>'last_name'),
-			'Email'=>Array('vtiger_users'=>'email1'),
-			'Email2'=>Array('vtiger_users'=>'email2')
+			'Name'=>Array('jo_users'=>'last_name'),
+			'Email'=>Array('jo_users'=>'email1'),
+			'Email2'=>Array('jo_users'=>'email2')
 	);
 	var $search_fields_name = Array(
 			'Name'=>'last_name',
@@ -89,17 +89,17 @@ class Users extends CRMEntity {
 
 	var $sortby_fields = Array('status','email1','email2','phone_work','is_admin','user_name','last_name');
 
-	// This is the list of vtiger_fields that are in the lists.
+	// This is the list of jo_fields that are in the lists.
 	var $list_fields = Array(
-			'First Name'=>Array('vtiger_users'=>'first_name'),
-			'Last Name'=>Array('vtiger_users'=>'last_name'),
-			'Role Name'=>Array('vtiger_user2role'=>'roleid'),
-			'User Name'=>Array('vtiger_users'=>'user_name'),
-			'Status'=>Array('vtiger_users'=>'status'),
-			'Email'=>Array('vtiger_users'=>'email1'),
-			'Email2'=>Array('vtiger_users'=>'email2'),
-			'Admin'=>Array('vtiger_users'=>'is_admin'),
-			'Phone'=>Array('vtiger_users'=>'phone_work')
+			'First Name'=>Array('jo_users'=>'first_name'),
+			'Last Name'=>Array('jo_users'=>'last_name'),
+			'Role Name'=>Array('jo_user2role'=>'roleid'),
+			'User Name'=>Array('jo_users'=>'user_name'),
+			'Status'=>Array('jo_users'=>'status'),
+			'Email'=>Array('jo_users'=>'email1'),
+			'Email2'=>Array('jo_users'=>'email2'),
+			'Admin'=>Array('jo_users'=>'is_admin'),
+			'Phone'=>Array('jo_users'=>'phone_work')
 	);
 	var $list_fields_name = Array(
 			'Last Name'=>'last_name',
@@ -347,7 +347,7 @@ class Users extends CRMEntity {
 
 	}
 	/**
-	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
+	 * Checks the config/config.php AUTHCFG value for login type and forks off to the proper module
 	 *
 	 * @param string $user_password - The password of the user to authenticate
 	 * @return true if the user is authenticated, false otherwise
@@ -468,7 +468,7 @@ class Users extends CRMEntity {
 
 		// For backward compatability, we need to make sure to handle this case.
 		global $adb;
-		$table_cols = $adb->getColumnNames("vtiger_users");
+		$table_cols = $adb->getColumnNames("jo_users");
 		if(!in_array("crypt_type", $table_cols)) {
 			return $crypt_type;
 		}
@@ -608,7 +608,7 @@ class Users extends CRMEntity {
 
 	function retrieve_user_id($user_name) {
 		global $adb;
-		$query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
+		$query = "SELECT id from jo_users where user_name=? AND deleted=0";
 		$result  =$adb->pquery($query, array($user_name));
 		$userid = $adb->query_result($result,0,'id');
 		return $userid;
@@ -625,12 +625,12 @@ class Users extends CRMEntity {
 		$usr_name = $this->column_fields["user_name"];
 		global $mod_strings;
 
-		$query = "SELECT user_name from vtiger_users where user_name=? AND id<>? AND deleted=0";
+		$query = "SELECT user_name from jo_users where user_name=? AND id<>? AND deleted=0";
 		$result =$this->db->pquery($query, array($usr_name, $this->id), true, "Error selecting possible duplicate users: ");
 		$dup_users = $this->db->fetchByAssoc($result);
 
-		$query = "SELECT user_name from vtiger_users where is_admin = 'on' AND deleted=0";
-		$result =$this->db->pquery($query, array(), true, "Error selecting possible duplicate vtiger_users: ");
+		$query = "SELECT user_name from jo_users where is_admin = 'on' AND deleted=0";
+		$result =$this->db->pquery($query, array(), true, "Error selecting possible duplicate jo_users: ");
 		$last_admin = $this->db->fetchByAssoc($result);
 
 		$this->log->debug("last admin length: ".count($last_admin));
@@ -672,8 +672,8 @@ class Users extends CRMEntity {
 	}
 
 	function fill_in_additional_detail_fields() {
-		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id AND u2.id = ? and u1.deleted=0";
-		$result =$this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields") ;
+		$query = "SELECT u1.first_name, u1.last_name from jo_users u1, jo_users u2 where u1.id = u2.reports_to_id AND u2.id = ? and u1.deleted=0";
+		$result =$this->db->pquery($query, array($this->id), true, "Error filling in additional detail jo_fields") ;
 
 		$row = $this->db->fetchByAssoc($result);
 		$this->log->debug("additional detail query results: $row");
@@ -694,7 +694,7 @@ class Users extends CRMEntity {
 	 */
 
 	function retrieveCurrentUserInfoFromFile($userid) {
-		$acl = Vtiger_AccessControl::loadUserPrivileges($userid);
+		$acl = Head_AccessControl::loadUserPrivileges($userid);
 		foreach($this->column_fields as $field=>$value_iter) {
 			if(isset($acl->user_info[$field])) {
 				$this->$field = $acl->user_info[$field];
@@ -771,7 +771,7 @@ class Users extends CRMEntity {
 		$this->db->println("TRANS saveentity starts $module");
 		$this->db->startTransaction();
 		foreach($this->tab_name as $table_name) {
-			if($table_name == 'vtiger_attachments') {
+			if($table_name == 'jo_attachments') {
 				$this->insertIntoAttachment($this->id,$module);
 			}
 			else {
@@ -791,7 +791,7 @@ class Users extends CRMEntity {
 
 	function createAccessKey() {
 		global $adb;
-		$updateQuery = "update vtiger_users set accesskey=? where id=?";
+		$updateQuery = "update jo_users set accesskey=? where id=?";
 		$adb->pquery($updateQuery,array(vtws_generateRandomAccessKey(16),$this->id));
 	}
 
@@ -801,10 +801,10 @@ class Users extends CRMEntity {
 	 */
 	function insertIntoEntityTable($table_name, $module) {
 		global $log;
-		$log->info("function insertIntoEntityTable ".$module.' vtiger_table name ' .$table_name);
+		$log->info("function insertIntoEntityTable ".$module.' jo_table name ' .$table_name);
 		global $adb, $current_user;
 		$insertion_mode = $this->mode;
-		//Checkin whether an entry is already is present in the vtiger_table to update
+		//Checkin whether an entry is already is present in the jo_table to update
 		if($insertion_mode == 'edit') {
 			$check_query = "select * from ".$table_name." where ".$this->tab_name_index[$table_name]."=?";
 			$check_result=$this->db->pquery($check_query, array($this->id));
@@ -823,18 +823,18 @@ class Users extends CRMEntity {
 			$update = '';
 			$update_params = array();
 			$tabid= getTabid($module);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
+			$sql = "select * from jo_field where tabid=? and tablename=? and displaytype in (1,3,5) and jo_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 		}
 		else {
 			$column = $this->tab_name_index[$table_name];
-			if($column == 'id' && $table_name == 'vtiger_users') {
-				$currentuser_id = $this->db->getUniqueID("vtiger_users");
+			if($column == 'id' && $table_name == 'jo_users') {
+				$currentuser_id = $this->db->getUniqueID("jo_users");
 				$this->id = $currentuser_id;
 			}
 			$qparams = array($this->id);
 			$tabid= getTabid($module);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
+			$sql = "select * from jo_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and jo_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 
 			$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
@@ -902,7 +902,7 @@ class Users extends CRMEntity {
 				$fldvalue = '';
 			}
 			if($uitype == 31) {
-				$themeList = array_keys(Vtiger_Util_Helper::getAllSkins());
+				$themeList = array_keys(Head_Util_Helper::getAllSkins());
 				if(!in_array($fldvalue, $themeList) || $fldvalue == '') {
 					global $default_theme;
 					if(!empty($default_theme) && in_array($default_theme, $themeList)) {
@@ -912,10 +912,10 @@ class Users extends CRMEntity {
 					}
 				}
 				if($current_user->id == $this->id) {
-					$_SESSION['vtiger_authenticated_user_theme'] = $fldvalue;
+					$_SESSION['jo_authenticated_user_theme'] = $fldvalue;
 				}
 			} elseif($uitype == 32) {
-				$languageList = Vtiger_Language::getAll();
+				$languageList = Head_Language::getAll();
 				$languageList = array_keys($languageList);
 				if(!in_array($fldvalue, $languageList) || $fldvalue == '') {
 					global $default_language;
@@ -958,14 +958,14 @@ class Users extends CRMEntity {
 
 		}
 		else {
-			// Set the crypt_type being used, to override the DB default constraint as it is not in vtiger_field
-			if($table_name == 'vtiger_users' && strpos('crypt_type', $column) === false) {
+			// Set the crypt_type being used, to override the DB default constraint as it is not in jo_field
+			if($table_name == 'jo_users' && strpos('crypt_type', $column) === false) {
 				$column .= ', crypt_type';
 				$qparams[]= $crypt_type;
 			}
 			// END
 
-			if($table_name == 'vtiger_users' && strpos('user_hash', $column) === false) {
+			if($table_name == 'jo_users' && strpos('user_hash', $column) === false) {
 				$column .= ', user_hash';
 				$qparams[] = $this->column_fields['user_hash'];
 			}
@@ -1014,7 +1014,7 @@ class Users extends CRMEntity {
 		}
 		$tabid = getTabid($module);
 		// Not a good approach to get all the fields if not required(May leads to Performance issue)
-		$sql1 =  "select columnname, tablename, fieldname from vtiger_field where tabid=? and vtiger_field.presence in (0,2)";
+		$sql1 =  "select columnname, tablename, fieldname from jo_field where tabid=? and jo_field.presence in (0,2)";
 		$result1 = $adb->pquery($sql1, array($tabid));
 		$noofrows = $adb->num_rows($result1);
 		for($i=0; $i<$noofrows; $i++) {
@@ -1030,10 +1030,10 @@ class Users extends CRMEntity {
 		$this->column_fields["record_id"] = $record;
 		$this->column_fields["record_module"] = $module;
 
-		$currency_query = "select * from vtiger_currency_info where id=? and currency_status='Active' and deleted=0";
+		$currency_query = "select * from jo_currency_info where id=? and currency_status='Active' and deleted=0";
 		$currency_result = $adb->pquery($currency_query, array($this->column_fields["currency_id"]));
 		if($adb->num_rows($currency_result) == 0) {
-			$currency_query = "select * from vtiger_currency_info where id =1";
+			$currency_query = "select * from jo_currency_info where id =1";
 			$currency_result = $adb->pquery($currency_query, array());
 		}
 		$currency_array = array("$"=>"&#36;","&euro;"=>"&#8364;","&pound;"=>"&#163;","&yen;"=>"&#165;");
@@ -1112,7 +1112,7 @@ class Users extends CRMEntity {
 		$filesize = $file_details['size'];
 		$filetmp_name = $file_details['tmp_name'];
 
-		$current_id = $this->db->getUniqueID("vtiger_crmentity");
+		$current_id = $this->db->getUniqueID("jo_crmentity");
 
 		//get the file path inwhich folder we want to upload the file
 		$upload_file_path = decideFilePath();
@@ -1121,24 +1121,24 @@ class Users extends CRMEntity {
 
 		if($save_file == 'true') {
 
-			$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
-			$params1 = array($current_id, $current_user->id, $ownerid, $module." Image", $this->column_fields['description'], $this->db->formatString("vtiger_crmentity","createdtime",$date_var), $this->db->formatDate($date_var, true));
+			$sql1 = "insert into jo_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
+			$params1 = array($current_id, $current_user->id, $ownerid, $module." Image", $this->column_fields['description'], $this->db->formatString("jo_crmentity","createdtime",$date_var), $this->db->formatDate($date_var, true));
 			$this->db->pquery($sql1, $params1);
 
-			$sql2="insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?,?,?,?,?)";
+			$sql2="insert into jo_attachments(attachmentsid, name, description, type, path) values(?,?,?,?,?)";
 			$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path);
 			$result=$this->db->pquery($sql2, $params2);
 
 			if($id != '') {
-				$delquery = 'delete from vtiger_salesmanattachmentsrel where smid = ?';
+				$delquery = 'delete from jo_salesmanattachmentsrel where smid = ?';
 				$this->db->pquery($delquery, array($id));
 			}
 
-			$sql3='insert into vtiger_salesmanattachmentsrel values(?,?)';
+			$sql3='insert into jo_salesmanattachmentsrel values(?,?)';
 			$this->db->pquery($sql3, array($id, $current_id));
 
 			//we should update the imagename in the users table
-			$this->db->pquery("update vtiger_users set imagename=? where id=?", array($filename, $id));
+			$this->db->pquery("update jo_users set imagename=? where id=?", array($filename, $id));
 		}
 		else {
 			$log->debug("Skip the save attachment process.");
@@ -1159,7 +1159,7 @@ class Users extends CRMEntity {
 		parent::save($module_name);
 
 		// Added for Reminder Popup support
-		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?",
+		$query_prev_interval = $adb->pquery("SELECT reminder_interval from jo_users where id=?",
 				array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval,0,'reminder_interval');
 
@@ -1175,12 +1175,12 @@ class Users extends CRMEntity {
 		}
 
 		//After adding new user, set the default activity types for new user
-		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($this->id);
+		Head_Util_Helper::setCalendarDefaultActivityTypesForUser($this->id);
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($this->id);
 		createUserSharingPrivilegesfile($this->id);
-		Vtiger_AccessControl::clearUserPrivileges($this->id);
+		Head_AccessControl::clearUserPrivileges($this->id);
 	}
 
 
@@ -1198,7 +1198,7 @@ class Users extends CRMEntity {
 		$return_array = Array();
 		$homeorder=Array();
 		if($id != '') {
-			$qry=" select distinct(vtiger_homedefault.hometype) from vtiger_homedefault inner join vtiger_homestuff  on vtiger_homestuff.stuffid=vtiger_homedefault.stuffid where vtiger_homestuff.visible=0 and vtiger_homestuff.userid=?";
+			$qry=" select distinct(jo_homedefault.hometype) from jo_homedefault inner join jo_homestuff  on jo_homestuff.stuffid=jo_homedefault.stuffid where jo_homestuff.visible=0 and jo_homestuff.userid=?";
 			$res=$adb->pquery($qry, array($id));
 			for($q=0;$q<$adb->num_rows($res);$q++) {
 				$homeorder[]=$adb->query_result($res,$q,"hometype");
@@ -1238,123 +1238,123 @@ class Users extends CRMEntity {
 	function insertUserdetails($inVal) {
 		global $adb;
 		$uid=$this->id;
-		$s1=$adb->getUniqueID("vtiger_homestuff");
+		$s1=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('ALVT',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s1,1,'Default',$uid,$visibility,'Top Accounts'));
 
-		$s2=$adb->getUniqueID("vtiger_homestuff");
+		$s2=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('HDB',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s2,2,'Default',$uid,$visibility,'Home Page Dashboard'));
 
-		$s3=$adb->getUniqueID("vtiger_homestuff");
+		$s3=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('PLVT',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s3,3,'Default',$uid,$visibility,'Top Potentials'));
 
-		$s4=$adb->getUniqueID("vtiger_homestuff");
+		$s4=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('QLTQ',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s4,4,'Default',$uid,$visibility,'Top Quotes'));
 
-		$s5=$adb->getUniqueID("vtiger_homestuff");
+		$s5=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('CVLVT',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s5,5,'Default',$uid,$visibility,'Key Metrics'));
 
-		$s6=$adb->getUniqueID("vtiger_homestuff");
+		$s6=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('HLT',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s6,6,'Default',$uid,$visibility,'Top Trouble Tickets'));
 
-		$s7=$adb->getUniqueID("vtiger_homestuff");
+		$s7=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('UA',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s7,7,'Default',$uid,$visibility,'Upcoming Activities'));
 
-		$s8=$adb->getUniqueID("vtiger_homestuff");
+		$s8=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('GRT',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s8,8,'Default',$uid,$visibility,'My Group Allocation'));
 
-		$s9=$adb->getUniqueID("vtiger_homestuff");
+		$s9=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('OLTSO',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s9,9,'Default',$uid,$visibility,'Top Sales Orders'));
 
-		$s10=$adb->getUniqueID("vtiger_homestuff");
+		$s10=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('ILTI',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s10,10,'Default',$uid,$visibility,'Top Invoices'));
 
-		$s11=$adb->getUniqueID("vtiger_homestuff");
+		$s11=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('MNL',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s11,11,'Default',$uid,$visibility,'My New Leads'));
 
-		$s12=$adb->getUniqueID("vtiger_homestuff");
+		$s12=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('OLTPO',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s12,12,'Default',$uid,$visibility,'Top Purchase Orders'));
 
-		$s13=$adb->getUniqueID("vtiger_homestuff");
+		$s13=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('PA',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s13,13,'Default',$uid,$visibility,'Pending Activities'));
 		;
 
-		$s14=$adb->getUniqueID("vtiger_homestuff");
+		$s14=$adb->getUniqueID("jo_homestuff");
 		$visibility=$this->getDefaultHomeModuleVisibility('LTFAQ',$inVal);
-		$sql="insert into vtiger_homestuff values(?,?,?,?,?,?)";
+		$sql="insert into jo_homestuff values(?,?,?,?,?,?)";
 		$res=$adb->pquery($sql, array($s14,14,'Default',$uid,$visibility,'My Recent FAQs'));
 
-		// Non-Default Home Page widget (no entry is requried in vtiger_homedefault below)
-		$tc = $adb->getUniqueID("vtiger_homestuff");
+		// Non-Default Home Page widget (no entry is requried in jo_homedefault below)
+		$tc = $adb->getUniqueID("jo_homestuff");
 		$visibility=0;
-		$sql="insert into vtiger_homestuff values($tc, 15, 'Tag Cloud', $uid, $visibility, 'Tag Cloud')";
+		$sql="insert into jo_homestuff values($tc, 15, 'Tag Cloud', $uid, $visibility, 'Tag Cloud')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s1.",'ALVT',5,'Accounts')";
+		$sql="insert into jo_homedefault values(".$s1.",'ALVT',5,'Accounts')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s2.",'HDB',5,'Dashboard')";
+		$sql="insert into jo_homedefault values(".$s2.",'HDB',5,'Dashboard')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s3.",'PLVT',5,'Potentials')";
+		$sql="insert into jo_homedefault values(".$s3.",'PLVT',5,'Potentials')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s4.",'QLTQ',5,'Quotes')";
+		$sql="insert into jo_homedefault values(".$s4.",'QLTQ',5,'Quotes')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s5.",'CVLVT',5,'NULL')";
+		$sql="insert into jo_homedefault values(".$s5.",'CVLVT',5,'NULL')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s6.",'HLT',5,'HelpDesk')";
+		$sql="insert into jo_homedefault values(".$s6.",'HLT',5,'HelpDesk')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s7.",'UA',5,'Calendar')";
+		$sql="insert into jo_homedefault values(".$s7.",'UA',5,'Calendar')";
 		$adb->pquery($sql,array());
 
-		$sql="insert into vtiger_homedefault values(".$s8.",'GRT',5,'NULL')";
+		$sql="insert into jo_homedefault values(".$s8.",'GRT',5,'NULL')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s9.",'OLTSO',5,'SalesOrder')";
+		$sql="insert into jo_homedefault values(".$s9.",'OLTSO',5,'SalesOrder')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s10.",'ILTI',5,'Invoice')";
+		$sql="insert into jo_homedefault values(".$s10.",'ILTI',5,'Invoice')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s11.",'MNL',5,'Leads')";
+		$sql="insert into jo_homedefault values(".$s11.",'MNL',5,'Leads')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s12.",'OLTPO',5,'PurchaseOrder')";
+		$sql="insert into jo_homedefault values(".$s12.",'OLTPO',5,'PurchaseOrder')";
 		$adb->pquery($sql, array());
 
-		$sql="insert into vtiger_homedefault values(".$s13.",'PA',5,'Calendar')";
+		$sql="insert into jo_homedefault values(".$s13.",'PA',5,'Calendar')";
 		$adb->pquery($sql,array());
 
-		$sql="insert into vtiger_homedefault values(".$s14.",'LTFAQ',5,'Faq')";
+		$sql="insert into jo_homedefault values(".$s14.",'LTFAQ',5,'Faq')";
 		$adb->pquery($sql, array());
 
 	}
@@ -1374,12 +1374,12 @@ class Users extends CRMEntity {
 				 if($_REQUEST[$this->homeorder_array[$i]] != '')
 				 {
 					$save_array[] = $this->homeorder_array[$i];
-					$qry=" update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=".$id." and vtiger_homedefault.hometype='".$this->homeorder_array[$i]."'";//To show the default Homestuff on the the Home Page
+					$qry=" update jo_homestuff,jo_homedefault set jo_homestuff.visible=0 where jo_homestuff.stuffid=jo_homedefault.stuffid and jo_homestuff.userid=".$id." and jo_homedefault.hometype='".$this->homeorder_array[$i]."'";//To show the default Homestuff on the the Home Page
 					$result=$adb->pquery($qry, array());
 				}
 				 else
 				 {
-					$qry="update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=".$id." and vtiger_homedefault.hometype='".$this->homeorder_array[$i]."'";//To hide the default Homestuff on the the Home Page
+					$qry="update jo_homestuff,jo_homedefault set jo_homestuff.visible=1 where jo_homestuff.stuffid=jo_homedefault.stuffid and jo_homestuff.userid=".$id." and jo_homedefault.hometype='".$this->homeorder_array[$i]."'";//To hide the default Homestuff on the the Home Page
 					$result=$adb->pquery($qry, array());
 				}
 			}
@@ -1403,7 +1403,7 @@ class Users extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function track_view($user_id, $current_module,$id='') {
-		$this->log->debug("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
+		$this->log->debug("About to call jo_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
 
 		$tracker = new Tracker();
 		$tracker->track_view($user_id, $current_module, $id, '');
@@ -1436,7 +1436,7 @@ class Users extends CRMEntity {
 			unset($_SESSION['next_reminder_time']);
 			$set_reminder_next = date('Y-m-d H:i');
 			// NOTE date_entered has CURRENT_TIMESTAMP constraint, so we need to reset when updating the table
-			$adb->pquery("UPDATE vtiger_users SET reminder_next_time=?, date_entered=? WHERE id=?",array($set_reminder_next, $this->column_fields['date_entered'], $this->id));
+			$adb->pquery("UPDATE jo_users SET reminder_next_time=?, date_entered=? WHERE id=?",array($set_reminder_next, $this->column_fields['date_entered'], $this->id));
 		}
 	}
 
@@ -1449,21 +1449,21 @@ class Users extends CRMEntity {
 	}
 
 	function deleteImage() {
-		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
+		$sql1 = 'SELECT attachmentsid FROM jo_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
 		if ($this->db->num_rows($res1) > 0) {
 			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
 
-			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? AND setype='Users Attachments'";
+			$sql2 = "DELETE FROM jo_crmentity WHERE crmid=? AND setype='Users Attachments'";
 			$this->db->pquery($sql2, array($attachmentId));
 
-			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? AND attachmentsid=?';
+			$sql3 = 'DELETE FROM jo_salesmanattachmentsrel WHERE smid=? AND attachmentsid=?';
 			$this->db->pquery($sql3, array($this->id, $attachmentId));
 
-			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
+			$sql2 = "UPDATE jo_users SET imagename='' WHERE id=?";
 			$this->db->pquery($sql2, array($this->id));
 
-			$sql4 = 'DELETE FROM vtiger_attachments WHERE attachmentsid=?';
+			$sql4 = 'DELETE FROM jo_attachments WHERE attachmentsid=?';
 			$this->db->pquery($sql4, array($attachmentId));
 		}
 	}
@@ -1491,8 +1491,8 @@ class Users extends CRMEntity {
 		$em->triggerEvent("vtiger.entity.beforedelete", $entityData);
 		vtws_transferOwnership($userId, $transformToUserId);
 
-		//delete from user vtiger_table;
-		$sql = "UPDATE vtiger_users SET status=?,deleted=? where id=?";
+		//delete from user jo_table;
+		$sql = "UPDATE jo_users SET status=?,deleted=? where id=?";
 		$adb->pquery($sql, array('Inactive',true,$userId));
 
 		$em->triggerEvent("vtiger.user.afterdelete", $entityData);
@@ -1508,7 +1508,7 @@ class Users extends CRMEntity {
 	function mark_deleted($id) {
 		global $log, $current_user, $adb;
 		$date_var = date('Y-m-d H:i:s');
-		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
+		$query = "UPDATE jo_users set status=?,date_modified=?,modified_user_id=? where id=?";
 		$adb->pquery($query, array('Inactive', $adb->formatDate($date_var, true),
 				$current_user->id, $id), true,"Error marking record deleted: ");
 	}
@@ -1519,11 +1519,11 @@ class Users extends CRMEntity {
 	 */
 	public static function getActiveAdminId() {
 		global $adb;
-		$cache = Vtiger_Cache::getInstance();
+		$cache = Head_Cache::getInstance();
 		if($cache->getAdminUserId()){
 			return $cache->getAdminUserId();
 		} else {
-		$sql = "SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' AND is_owner = 1 limit 1";
+		$sql = "SELECT id FROM jo_users WHERE is_admin = 'on' AND status = 'Active' AND is_owner = 1 limit 1";
 		$result = $adb->pquery($sql, array());
 		$adminId = 1;
 		$it = new SqlResultIterator($adb, $result);
@@ -1564,7 +1564,7 @@ class Users extends CRMEntity {
 		if (isset($requestArray['date_format'])) $updateData['date_format']= vtlib_purify ($requestArray['date_format']);
 
 		if (!empty($updateData)) {
-			$updateQuery = 'UPDATE vtiger_users SET '. ( implode('=?,', array_keys($updateData)). '=?') . ' WHERE id = ?';
+			$updateQuery = 'UPDATE jo_users SET '. ( implode('=?,', array_keys($updateData)). '=?') . ' WHERE id = ?';
 			$updateQueryParams = array_values($updateData);
 			$updateQueryParams[] = $this->id;
 			$adb->pquery($updateQuery, $updateQueryParams);
@@ -1593,7 +1593,7 @@ class Users extends CRMEntity {
 			move_uploaded_file($file['tmp_name'], 'test/logo/'.$logo_name);
 
 			//Updating Database
-			$sql = 'UPDATE vtiger_organizationdetails SET logoname = ? WHERE organization_id = ?';
+			$sql = 'UPDATE jo_organizationdetails SET logoname = ? WHERE organization_id = ?';
 			$params = array(decode_html($logo_name), '1');
 			$adb->pquery($sql, $params);
 			copy('test/logo/'.$logo_name, 'test/logo/application.ico');
@@ -1609,7 +1609,7 @@ class Users extends CRMEntity {
 		if (isset ($requestArray['currency_name'])) {
 			$currency_name = vtlib_purify($requestArray['currency_name']);
 
-			$result = $adb->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currency_name));
+			$result = $adb->pquery('SELECT currency_code, currency_symbol FROM jo_currencies WHERE currency_name = ?', array($currency_name));
 			$num_rows = $adb->num_rows($result);
 			if ($num_rows > 0) {
 				$currency_code = decode_html($adb->query_result($result, 0, 'currency_code'));
@@ -1617,7 +1617,7 @@ class Users extends CRMEntity {
 			}
 
 			//Updating Database
-			$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
+			$query = 'UPDATE jo_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
 			$params = array($currency_name, $currency_code, $currency_symbol, '1');
 			$adb->pquery($query, $params);
 
@@ -1634,7 +1634,7 @@ class Users extends CRMEntity {
 		   $currency_name = '$currency_name = \''.$currency_name.'\'';
 
 		   //Updating in config inc file
-		   $filename = 'config.inc.php';
+		   $filename = 'config/config.inc.php';
 		   if (file_exists($filename)) {
 			   $contents = file_get_contents($filename);
 			   $contents = str_replace('$currency_name = \'USA, Dollars\'', $currency_name, $contents);
@@ -1695,14 +1695,14 @@ class Users extends CRMEntity {
 	*/
    public function getAccountOwnerId(){
 	   global $adb;
-		$query = 'SELECT id FROM vtiger_users WHERE is_owner = ?';
+		$query = 'SELECT id FROM jo_users WHERE is_owner = ?';
 		return $adb->query_result($adb->pquery($query, array(1)), 0, 'id');
    }
 
    public function transferAccountOwnerShipAndSave(){
 		global $current_user, $adb;
 		//update account owner
-		$adb->pquery('UPDATE vtiger_users SET is_owner=? WHERE id = ?', array(1, $current_user->id));
+		$adb->pquery('UPDATE jo_users SET is_owner=? WHERE id = ?', array(1, $current_user->id));
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($current_user->id);
@@ -1716,8 +1716,8 @@ class Users extends CRMEntity {
 		   $activeAdminId = $this->getActiveAdminId();
 		   $recordModel = Users_Record_Model::getInstanceById($recordId, 'Users');
 			$db = PearDatabase::getInstance();
-			$db->pquery("UPDATE vtiger_users SET is_owner = ? WHERE id = ?", array('', $activeAdminId));
-			$db->pquery("UPDATE vtiger_users SET is_owner = ? WHERE id = ?", array(1, $recordId));
+			$db->pquery("UPDATE jo_users SET is_owner = ? WHERE id = ?", array('', $activeAdminId));
+			$db->pquery("UPDATE jo_users SET is_owner = ? WHERE id = ?", array(1, $recordId));
 			require_once('modules/Users/CreateUserPrivilegeFile.php');
 			createUserPrivilegesfile($activeAdminId);
 			createUserPrivilegesfile($recordId);
@@ -1731,7 +1731,7 @@ class Users extends CRMEntity {
 
 	function getImportableFields() {
 		$nonImportableFields = array('is_owner', 'imagename', 'status', 'end_hour', 'theme');
-		$moduleModel = Vtiger_Module_Model::getInstance('Users');
+		$moduleModel = Head_Module_Model::getInstance('Users');
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields('Users');
 		$importableFields = array();
@@ -1758,11 +1758,11 @@ class Users extends CRMEntity {
 		}
 
 		$fieldMapping = $obj->fieldMapping;
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldInstances = Vtiger_Field_Model::getAllForModule($moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$fieldInstances = Head_Field_Model::getAllForModule($moduleModel);
 		$allRoles = Settings_Roles_Record_Model::getAll();
 		$allCurrency = Settings_Currency_Record_Model::getAll();
-		$allLanguages = Vtiger_Language_Handler::getAllLanguages();
+		$allLanguages = Head_Language_Handler::getAllLanguages();
 
 		$plainPasswords = array();
 
@@ -1909,7 +1909,7 @@ class Users extends CRMEntity {
 			}
 
 			if($mandatoryFlag) {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 				$modelData = $recordModel->getData();
 				$recordModel->set('mode', '');
 				foreach($modelData as $fieldName => $fieldValue) {
@@ -1937,7 +1937,7 @@ class Users extends CRMEntity {
 		}
 
 		if(!empty($createdRecords)) {
-			$recordModels = Vtiger_Record_Model::getInstancesFromIds($createdRecords, $moduleName);
+			$recordModels = Head_Record_Model::getInstancesFromIds($createdRecords, $moduleName);
 			$entityInfos = array();
 			foreach ($recordModels as $recordModel) {
 				$focus = $recordModel->getEntity();
@@ -1972,7 +1972,7 @@ class Users_CRMSetup {
 
 		$isFirstUser = false;
 		if (is_admin($user)) {
-			$query = 'SELECT COUNT(*) AS count FROM vtiger_crmsetup';
+			$query = 'SELECT COUNT(*) AS count FROM jo_crmsetup';
 			$result = $adb->pquery($query, array());
 			$count = $adb->query_result($result, 0, 'count');
 			if (!$count) {
@@ -1990,7 +1990,7 @@ class Users_CRMSetup {
 		global $adb;
 
 		//updating user setup status into database
-		$insertQuery = 'INSERT INTO vtiger_crmsetup (userid, setup_status) VALUES (?, ?)';
+		$insertQuery = 'INSERT INTO jo_crmsetup (userid, setup_status) VALUES (?, ?)';
 		$adb->pquery($insertQuery, array($id, '1'));
 
 	}
@@ -2003,7 +2003,7 @@ class Users_CRMSetup {
 		global $adb;
 
 		$userSetupStatus = false;
-		$query = 'SELECT 1 FROM vtiger_crmsetup WHERE userid = ? AND setup_status = ?';
+		$query = 'SELECT 1 FROM jo_crmsetup WHERE userid = ? AND setup_status = ?';
 		$result = $adb->pquery($query, array($id, '1'));
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows === 0) {
@@ -2079,7 +2079,7 @@ class Users_CRMSetup {
 		);
 
 		global $adb;
-		$result = $adb->pquery('SELECT parent, name, tablabel FROM vtiger_tab', array());
+		$result = $adb->pquery('SELECT parent, name, tablabel FROM jo_tab', array());
 		$numOfRows = $adb->num_rows($result);
 
 		for ($i = 0; $i < $numOfRows; $i++) {

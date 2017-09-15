@@ -115,7 +115,7 @@ class Snoopy
 	function Snoopy()
 	{
 		global $adb;
-		$query = "select * from vtiger_systems where server_type=?";
+		$query = "select * from jo_systems where server_type=?";
 		$result = $adb->pquery($query, array('proxy'));
 		$noofrows = $adb->num_rows($result);
 		if($noofrows != 0)

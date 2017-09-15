@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
+class Settings_Workflows_SaveWorkflow_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
 		$moduleName = $request->get('module_name');
@@ -33,7 +33,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
 		$status = $request->get('status');
 		$tasks = $request->get('tasks');
 		$rawTasks = $request->getRaw('tasks');
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($request->getModule(false));
+		$moduleModel = Settings_Head_Module_Model::getInstance($request->getModule(false));
 
 		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -46,7 +46,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
 		} else {
 			$status = 0;
 		}
-		require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
 
 		foreach ($conditions as $info) {
 			foreach ($info['columns'] as $conditionRow) {
@@ -95,7 +95,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-				$currentTime = Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
+				$currentTime = Head_Util_Helper::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {
@@ -148,14 +148,14 @@ class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
 			foreach ($tasks as $key => $task) {
 				$taskDecodedArray = json_decode($task, true);
 				$taskAjaxObject = new Settings_Workflows_TaskAjax_Action();
-				$request = new Vtiger_Request($taskDecodedArray, $taskDecodedArray);
+				$request = new Head_Request($taskDecodedArray, $taskDecodedArray);
 				$request->set('for_workflow', $id);
 				$taskAjaxObject->process($request);
 			}
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

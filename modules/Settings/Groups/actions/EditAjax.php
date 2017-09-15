@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_IndexAjax_View {
+Class Settings_Groups_EditAjax_Action extends Settings_Head_IndexAjax_View {
 
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,13 +24,13 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function checkDuplicate(Vtiger_Request $request) {
+	public function checkDuplicate(Head_Request $request) {
 		$groupName = $request->get('groupname');
 		$recordId = $request->get('record');
 		
 		$recordModel = Settings_Groups_Record_Model::getInstanceByName(decode_html($groupName), array($recordId));
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if(!empty($recordModel)) {
 			$response->setResult(array('success' => true,'message'=>  vtranslate('LBL_DUPLICATES_EXIST',$request->getModule(false))));
 			

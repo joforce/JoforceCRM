@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Events_AddCalendarEvent_View extends Vtiger_QuickCreateAjax_View {
+class Events_AddCalendarEvent_View extends Head_QuickCreateAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		$recordId = $request->get('record');
 		$mode = $request->get('mode');
 		if ($mode === 'edit' && $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		}
 
 		$moduleModel = $recordModel->getModule();
@@ -40,7 +40,7 @@ class Events_AddCalendarEvent_View extends Vtiger_QuickCreateAjax_View {
 		if (!empty($idsList)) {
 			$contactIdsList = explode(';', $idsList);
 			foreach ($contactIdsList as $contactId) {
-				$existingRelatedContacts[] = array('name' => decode_html(Vtiger_Util_Helper::getRecordName($contactId)), 'id' => $contactId);
+				$existingRelatedContacts[] = array('name' => decode_html(Head_Util_Helper::getRecordName($contactId)), 'id' => $contactId);
 			}
 		}
 
@@ -49,8 +49,8 @@ class Events_AddCalendarEvent_View extends Vtiger_QuickCreateAjax_View {
 			$fieldsInfo[$name] = $model->getFieldInfo();
 		}
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$fields = array();
 		foreach ($recordStructure as $blockLabel => $blockFields) {
@@ -60,7 +60,7 @@ class Events_AddCalendarEvent_View extends Vtiger_QuickCreateAjax_View {
 		}
 
 		$viewer = $this->getViewer($request);
-		//Events quick create will fall back to Vtiger 
+		//Events quick create will fall back to Head 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE_EVENT', Zend_Json::encode($picklistDependencyDatasource['Events']));
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -75,8 +75,8 @@ class Events_AddCalendarEvent_View extends Vtiger_QuickCreateAjax_View {
 
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
 
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Vtiger_Util_Helper::getMaxUploadSizeInBytes());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Head_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Head_Util_Helper::getMaxUploadSizeInBytes());
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('RELATED_CONTACTS', $existingRelatedContacts);

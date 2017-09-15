@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once('vtlib/Vtiger/Layout.php'); 
+require_once('vtlib/Head/Layout.php'); 
 
-class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View {
+class Settings_ModuleManager_Basic_Action extends Settings_Head_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
@@ -18,7 +18,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateUserModuleStep3');
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -26,7 +26,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function updateModuleStatus(Vtiger_Request $request) {
+	public function updateModuleStatus(Head_Request $request) {
 		$moduleName = $request->get('forModule');
 		$updateStatus = $request->get('updateStatus');
 
@@ -38,11 +38,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 			$moduleManagerModel->disableModule($moduleName);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->emit();
 	}
 
-	public function importUserModuleStep3(Vtiger_Request $request) {
+	public function importUserModuleStep3(Head_Request $request) {
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
@@ -51,11 +51,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$importType = $request->get('module_import_type');
 		if(strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new Head_Language();
 		} else if(strtolower($importType) == 'layout') {
-			$package = new Vtiger_Layout();
+			$package = new Head_Layout();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new Head_Package();
 		}
 
 		$package->import($uploadFileName);
@@ -63,12 +63,12 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		unlink($uploadFileName);
 
 		$result = array('success'=>true, 'importModuleName'=> $importModuleName);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function updateUserModuleStep3(Vtiger_Request $request){
+	public function updateUserModuleStep3(Head_Request $request){
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
@@ -77,29 +77,29 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$importType = $request->get('module_import_type');
 		if(strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new Head_Language();
 		} else if(strtolower($importType) == 'layout') { 
-			$package = new Vtiger_Layout(); 
+			$package = new Head_Layout(); 
 		} else { 
-			$package = new Vtiger_Package();
+			$package = new Head_Package();
 		}
 
 		if (strtolower($importType) == 'language' || strtolower($importType) == 'layout' ) {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(Head_Module::getInstance($importModuleName), $uploadFileName);
 		}
 
 		checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$result = array('success'=>true, 'importModuleName'=> $importModuleName);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	 public function validateRequest(Vtiger_Request $request) { 
+	 public function validateRequest(Head_Request $request) { 
 		$request->validateWriteAccess(); 
 	} 
 }

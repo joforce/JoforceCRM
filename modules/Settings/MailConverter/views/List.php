@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_List_View extends Settings_Vtiger_Index_View {
+class Settings_MailConverter_List_View extends Settings_Head_Index_View {
 
-	public function preProcess (Vtiger_Request $request, $display=true) {
+	public function preProcess (Head_Request $request, $display=true) {
 		parent::preProcess($request, false);
 		$qualifiedModuleName = $request->getModule(false);
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel = Settings_Head_ListView_Model::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('LISTVIEW_LINKS', $listViewModel->getListViewLinks());
 		if($display) {
@@ -22,24 +22,24 @@ class Settings_MailConverter_List_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request) {
+	protected function preProcessTplName(Head_Request $request) {
 		return parent::preProcessTplName($request);
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$scannerId = $request->get('record');
 		if ($scannerId == '') {
 			$scannerId = Settings_MailConverter_Module_Model::getDefaultId();
 		}
 		$qualifiedModuleName = $request->getModule(false);
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel = Settings_Head_ListView_Model::getInstance($qualifiedModuleName);
 		$recordExists = Settings_MailConverter_Module_Model::MailBoxExists();
 		$recordModel = Settings_MailConverter_Record_Model::getAll();
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('LISTVIEW_LINKS', $listViewModel->getListViewLinks());
-		$viewer->assign('MODULE_MODEL', Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName));
+		$viewer->assign('MODULE_MODEL', Settings_Head_Module_Model::getInstance($qualifiedModuleName));
 		$viewer->assign('MAILBOXES', Settings_MailConverter_Module_Model::getMailboxes());
 	
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -59,10 +59,10 @@ class Settings_MailConverter_List_View extends Settings_Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 

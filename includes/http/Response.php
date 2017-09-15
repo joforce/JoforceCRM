@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Vtiger_Response {
+class Head_Response {
 	// Constants
 
 	/**

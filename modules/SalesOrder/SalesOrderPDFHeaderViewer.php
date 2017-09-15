@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-	include_once 'vtlib/Vtiger/PDF/inventory/HeaderViewer.php';
+	include_once 'vtlib/Head/PDF/inventory/HeaderViewer.php';
 
-	class SalesOrderPDFHeaderViewer extends Vtiger_PDF_InventoryHeaderViewer {
+	class SalesOrderPDFHeaderViewer extends Head_PDF_InventoryHeaderViewer {
 
 		function display($parent) {
 			$pdf = $parent->getPDF();

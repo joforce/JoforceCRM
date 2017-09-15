@@ -9,15 +9,15 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Roles_Delete_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Roles_Delete_Action extends Settings_Head_Basic_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Head_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
 		$transferToRole = Settings_Roles_Record_Model::getInstanceById($transferRecordId);
 		if($recordModel && $transferToRole) {
@@ -28,7 +28,7 @@ class Settings_Roles_Delete_Action extends Settings_Vtiger_Basic_Action {
 		header("Location: $redirectUrl");
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

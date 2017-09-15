@@ -12,7 +12,7 @@
 /**
  * Inventory Modules Edit View Record Structure Model
  */
-class Inventory_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model {
+class Inventory_EditRecordStructure_Model extends Head_EditRecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format

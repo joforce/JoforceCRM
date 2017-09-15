@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Leads_ConvertLead_View extends Vtiger_Index_View {
+class Leads_ConvertLead_View extends Head_Index_View {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
@@ -21,14 +21,14 @@ class Leads_ConvertLead_View extends Vtiger_Index_View {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$viewer = $this->getViewer($request);
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = Head_Record_Model::getInstanceById($recordId);
         $imageDetails = $recordModel->getImageDetails();
         if(count($imageDetails)) {
             $imageAttachmentId = $imageDetails[0]['id'];
@@ -46,14 +46,14 @@ class Leads_ConvertLead_View extends Vtiger_Index_View {
 		$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		$viewer->assign('ASSIGN_TO', $assignedToFieldModel);
 
-		$potentialModuleModel = Vtiger_Module_Model::getInstance('Potentials');
-		$accountField = Vtiger_Field_Model::getInstance('related_to', $potentialModuleModel);
-		$contactField = Vtiger_Field_Model::getInstance('contact_id', $potentialModuleModel);
+		$potentialModuleModel = Head_Module_Model::getInstance('Potentials');
+		$accountField = Head_Field_Model::getInstance('related_to', $potentialModuleModel);
+		$contactField = Head_Field_Model::getInstance('contact_id', $potentialModuleModel);
 		$viewer->assign('ACCOUNT_FIELD_MODEL', $accountField);
 		$viewer->assign('CONTACT_FIELD_MODEL', $contactField);
 		
-		$contactsModuleModel = Vtiger_Module_Model::getInstance('Contacts');
-		$accountField = Vtiger_Field_Model::getInstance('account_id', $contactsModuleModel);
+		$contactsModuleModel = Head_Module_Model::getInstance('Contacts');
+		$accountField = Head_Field_Model::getInstance('account_id', $contactsModuleModel);
 		$viewer->assign('CONTACT_ACCOUNT_FIELD_MODEL', $accountField);
 		
 		$viewer->view('ConvertLead.tpl', $moduleName);

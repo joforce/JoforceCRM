@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Tags_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Tags_Record_Model extends Settings_Head_Record_Model {
  
     public function getId() {
         return $this->get('id');
@@ -23,7 +23,7 @@ class Settings_Tags_Record_Model extends Settings_Vtiger_Record_Model {
     
     /**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
 	public function getRecordLinks() {
 
@@ -43,14 +43,14 @@ class Settings_Tags_Record_Model extends Settings_Vtiger_Record_Model {
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
 	}
     
     public function getDeleteActionUrl() {
-        return 'index.php?module=Vtiger&action=TagCloud&mode=remove&tag_id='.$this->getId();
+        return 'index.php?module=Head&action=TagCloud&mode=remove&tag_id='.$this->getId();
     }
     
     public function getRowInfo() {

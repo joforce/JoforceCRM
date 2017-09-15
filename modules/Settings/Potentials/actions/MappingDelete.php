@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Potentials_MappingDelete_Action extends Settings_Vtiger_Index_Action {
+class Settings_Potentials_MappingDelete_Action extends Settings_Head_Index_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('mappingId');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($recordId) {
 			Settings_Potentials_Mapping_Model::deleteMapping(array($recordId));
 			$response->setResult(array(vtranslate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
@@ -25,7 +25,7 @@ class Settings_Potentials_MappingDelete_Action extends Settings_Vtiger_Index_Act
 		$response->emit();
 	}
 	
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

@@ -12,12 +12,12 @@
 /*
  * Settings List View Model Class
  */
-class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
+class Settings_Workflows_ListView_Model extends Settings_Head_ListView_Model {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 		$listview_max_textlength = vglobal('listview_max_textlength');
@@ -30,7 +30,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 		if(!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName.':'.$qualifiedModuleName;
 		}
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = Head_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$search_value = $this->get('search_value');
 
 		$listFields = $module->listFields;
@@ -42,14 +42,14 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 		$listQuery .= "status, ";
 
 		$listQuery .= $module->baseIndex . " FROM ". $module->baseTable.
-					  ' INNER JOIN vtiger_tab ON vtiger_tab.name='. $module->baseTable.'.module_name';
+					  ' INNER JOIN jo_tab ON jo_tab.name='. $module->baseTable.'.module_name';
 		$params = array();
 		$sourceModule = $this->get('sourceModule');
 		if(!empty($sourceModule)) {
-			$listQuery .= ' WHERE vtiger_tab.presence IN (0,2) AND module_name = ?';
+			$listQuery .= ' WHERE jo_tab.presence IN (0,2) AND module_name = ?';
 			$params[] = $sourceModule;
 		} else {
-			$listQuery .= ' WHERE vtiger_tab.presence IN (0,2)';
+			$listQuery .= ' WHERE jo_tab.presence IN (0,2)';
 		}
 
 		if(!empty($search_value)) {
@@ -61,9 +61,9 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') { 
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel); 
+			$fieldModel = Head_Field_Model::getInstance('assigned_user_id', $moduleModel); 
 			if ($fieldModel->getFieldDataType() == 'owner') { 
-				$orderBy = 'COALESCE(CONCAT(vtiger_users.first_name,vtiger_users.last_name),vtiger_groups.groupname)'; 
+				$orderBy = 'COALESCE(CONCAT(jo_users.first_name,jo_users.last_name),jo_groups.groupname)'; 
 			} 
 		}
 		if(!empty($orderBy)) {
@@ -138,8 +138,8 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 
 		$module = $this->getModule();
 		$listQuery = 'SELECT count(*) AS count FROM ' . $module->baseTable . ' 
-						INNER JOIN vtiger_tab ON vtiger_tab.name = '. $module->baseTable .'.module_name
-						AND vtiger_tab.presence IN (0,2)';
+						INNER JOIN jo_tab ON jo_tab.name = '. $module->baseTable .'.module_name
+						AND jo_tab.presence IN (0,2)';
 
 		$sourceModule = $this->get('sourceModule');
 		if($sourceModule) {

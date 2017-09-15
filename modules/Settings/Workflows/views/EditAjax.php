@@ -12,11 +12,11 @@
 
 class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
 
-   public function preProcess(Vtiger_Request $request) {
+   public function preProcess(Head_Request $request) {
       return true;
    }
 
-   public function postProcess(Vtiger_Request $request) {
+   public function postProcess(Head_Request $request) {
       return true;
    }
 
@@ -25,7 +25,7 @@ class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
       $this->exposeMethod('getWorkflowConditions');
    }
 
-   public function process(Vtiger_Request $request) {
+   public function process(Head_Request $request) {
       $mode = $request->get('mode');
       if (!empty($mode)) {
          $this->invokeExposedMethod($mode, $request);
@@ -33,7 +33,7 @@ class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
       }
    }
 
-   function getWorkflowConditions(Vtiger_Request $request) {
+   function getWorkflowConditions(Head_Request $request) {
       $viewer = $this->getViewer($request);
       $moduleName = $request->getModule();
       $qualifiedModuleName = $request->getModule(false);
@@ -46,7 +46,7 @@ class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
          $selectedModuleName = $selectedModule->getName();
       } else {
          $selectedModuleName = $request->get('module_name');
-         $selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
+         $selectedModule = Head_Module_Model::getInstance($selectedModuleName);
          $workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
       }
       
@@ -66,7 +66,7 @@ class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
       $viewer->assign('MODULE_MODEL', $selectedModule);
       $viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
 
-      $dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+      $dateFilters = Head_Field_Model::getDateFilterTypes();
       foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
          $comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
          $comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);

@@ -67,7 +67,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 */
 	public function hasModulePermission($tabId) {
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($tabId);
+		$moduleModel = Head_Module_Model::getInstance($tabId);
 		return (($this->isAdminUser() || $profileTabsPermissions[$tabId] === 0) && $moduleModel->isActive());
 	}
 
@@ -78,12 +78,12 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * @return <Boolean> true/false
 	 */
 	public function hasModuleActionPermission($tabId, $action) {
-		if(!is_a($action, 'Vtiger_Action_Model')) {
-			$action = Vtiger_Action_Model::getInstance($action);
+		if(!is_a($action, 'Head_Action_Model')) {
+			$action = Head_Action_Model::getInstance($action);
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($tabId);
+		$moduleModel = Head_Module_Model::getInstance($tabId);
 		return (($this->isAdminUser() || $profileTabsPermissions[$tabId][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)
 				 && $moduleModel->isActive());
 	}
@@ -111,7 +111,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 		if (empty($userId))
 			return null;
 
-		$acl = Vtiger_AccessControl::loadUserPrivileges($userId);
+		$acl = Head_AccessControl::loadUserPrivileges($userId);
 		require("user_privileges/sharing_privileges_$userId.php");
 
 		$valueMap = array();

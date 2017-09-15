@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Reports_Chart_Model extends Vtiger_Base_Model {
+class Reports_Chart_Model extends Head_Base_Model {
 
 	public static function getInstanceById($reportModel) {
 		$self = new self();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
+		$result = $db->pquery('SELECT * FROM jo_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if(!empty($data)) {
 			$decodeData = Zend_Json::decode(decode_html($data));
@@ -62,7 +62,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model {
 	}
 }
 
-abstract class Base_Chart extends Vtiger_Base_Model{
+abstract class Base_Chart extends Head_Base_Model{
 
 	function __construct($parent) {
 		$this->setParent($parent);
@@ -110,10 +110,10 @@ abstract class Base_Chart extends Vtiger_Base_Model{
 		$fieldName = $fieldInfo[3];
 
 		if($moduleName && $fieldName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 			$fieldInstance = $moduleModel->getField($fieldName);
 			if($moduleName == "Calendar" && !$fieldInstance){
-				$moduleModel = Vtiger_Module_Model::getInstance("Events");
+				$moduleModel = Head_Module_Model::getInstance("Events");
 				return $moduleModel->getField($fieldName);
 			}
 			return $fieldInstance;
@@ -282,7 +282,7 @@ abstract class Base_Chart extends Vtiger_Base_Model{
 	 */
 	function getBaseModuleListViewURL() {
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = Head_Module_Model::getInstance($primaryModule);
 		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
@@ -381,7 +381,7 @@ abstract class Base_Chart extends Vtiger_Base_Model{
 				}
 			}
 		} elseif($dataFieldInfo[4] == 'DT') {
-			$value = Vtiger_Date_UIType::getDisplayDateTimeValue($value);
+			$value = Head_Date_UIType::getDisplayDateTimeValue($value);
 		}
 
 		if(empty($value)) {
@@ -452,8 +452,8 @@ abstract class Base_Chart extends Vtiger_Base_Model{
 		foreach ($selectedDataFields as $dataField) {
 			list($tableName, $columnName, $moduleField, $fieldName, $single) = split(':', $dataField);
 			list($relModuleName, $fieldLabel) = split('_', $moduleField);
-			$relModuleModel = Vtiger_Module_Model::getInstance($relModuleName);
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $relModuleModel);
+			$relModuleModel = Head_Module_Model::getInstance($relModuleName);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $relModuleModel);
 			if ($fieldModel) {
 				$dataTypes[] = $fieldModel->getFieldDataType();
 			} else {
@@ -527,7 +527,7 @@ class PieChart extends Base_Chart {
 						if ($groupByDataField[5] == 'M' || $groupByDataField[5] == 'Y' || $groupByDataField[5] == 'MY') {
 							$label = $row[strtolower($legendField->get('reportlabel'))];
 						} else {
-							$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
+							$label = Head_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
 						}
 					} else {
 						$label = '--';
@@ -539,7 +539,7 @@ class PieChart extends Base_Chart {
 						if ($groupByDataField[5] == 'M' || $groupByDataField[5] == 'Y' || $groupByDataField[5] == 'MY') {
 							$label = $row[strtolower($legendField->get('reportlabel'))];
 						} else {
-							$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
+							$label = Head_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 						}
 					} else {
 						$label = '--';
@@ -633,7 +633,7 @@ class VerticalbarChart extends Base_Chart {
 							if ($groupByDataField[5] == 'M' || $groupByDataField[5] == 'Y' || $groupByDataField[5] == 'MY') {
 								$label = $row[strtolower($gFieldModel->get('reportlabel'))];
 							} else {
-								$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+								$label = Head_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
 							}
 						} else {
 							$label = '--';
@@ -644,7 +644,7 @@ class VerticalbarChart extends Base_Chart {
 							if ($groupByDataField[5] == 'M' || $groupByDataField[5] == 'Y' || $groupByDataField[5] == 'MY') {
 								$label = $row[strtolower($gFieldModel->get('reportlabel'))];
 							} else {
-								$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+								$label = Head_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
 							}
 						} else {
 							$label = '--';

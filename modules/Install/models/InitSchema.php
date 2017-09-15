@@ -42,14 +42,14 @@ class Install_InitSchema_Model {
 
 		// ensure required sequences are created (adodb creates them as needed, but if
 		// creation occurs within a transaction we get problems
-		$adb->getUniqueID("vtiger_crmentity");
-		$adb->getUniqueID("vtiger_seactivityrel");
-		$adb->getUniqueID("vtiger_freetags");
+		$adb->getUniqueID("jo_crmentity");
+		$adb->getUniqueID("jo_seactivityrel");
+		$adb->getUniqueID("jo_freetags");
 
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
-		$adb->pquery("INSERT INTO vtiger_currency_info VALUES (?,?,?,?,?,?,?,?)", array($adb->getUniqueID("vtiger_currency_info"),
+		$adb->pquery("INSERT INTO jo_currency_info VALUES (?,?,?,?,?,?,?,?)", array($adb->getUniqueID("jo_currency_info"),
 					$currencyName,$currencyCode,$currencySymbol,1,'Active','-11','0'));
 
 		Install_InitSchema_Model::installDefaultEventsAndWorkflows();
@@ -86,680 +86,680 @@ class Install_InitSchema_Model {
 	 */
 	public static function createDefaultUsersAccess() {
       	$adb = PearDatabase::getInstance();
-        $roleId1 = $adb->getUniqueID("vtiger_role");
-		$roleId2 = $adb->getUniqueID("vtiger_role");
-		$roleId3 = $adb->getUniqueID("vtiger_role");
-		$roleId4 = $adb->getUniqueID("vtiger_role");
-		$roleId5 = $adb->getUniqueID("vtiger_role");
+        $roleId1 = $adb->getUniqueID("jo_role");
+		$roleId2 = $adb->getUniqueID("jo_role");
+		$roleId3 = $adb->getUniqueID("jo_role");
+		$roleId4 = $adb->getUniqueID("jo_role");
+		$roleId5 = $adb->getUniqueID("jo_role");
 
-		$profileId1 = $adb->getUniqueID("vtiger_profile");
-		$profileId2 = $adb->getUniqueID("vtiger_profile");
-		$profileId3 = $adb->getUniqueID("vtiger_profile");
-		$profileId4 = $adb->getUniqueID("vtiger_profile");
+		$profileId1 = $adb->getUniqueID("jo_profile");
+		$profileId2 = $adb->getUniqueID("jo_profile");
+		$profileId3 = $adb->getUniqueID("jo_profile");
+		$profileId4 = $adb->getUniqueID("jo_profile");
 
-		$adb->pquery("INSERT INTO vtiger_role VALUES('H".$roleId1."','Organisation','H".$roleId1."',0)", array());
-        $adb->pquery("INSERT INTO vtiger_role VALUES('H".$roleId2."','CEO','H".$roleId1."::H".$roleId2."',1)", array());
-        $adb->pquery("INSERT INTO vtiger_role VALUES('H".$roleId3."','Vice President','H".$roleId1."::H".$roleId2."::H".$roleId3."',2)", array());
-        $adb->pquery("INSERT INTO vtiger_role VALUES('H".$roleId4."','Sales Manager','H".$roleId1."::H".$roleId2."::H".$roleId3."::H".$roleId4."',3)", array());
-        $adb->pquery("INSERT INTO vtiger_role VALUES('H".$roleId5."','Sales Person','H".$roleId1."::H".$roleId2."::H".$roleId3."::H".$roleId4."::H".$roleId5."',4)", array());
+		$adb->pquery("INSERT INTO jo_role VALUES('H".$roleId1."','Organisation','H".$roleId1."',0)", array());
+        $adb->pquery("INSERT INTO jo_role VALUES('H".$roleId2."','CEO','H".$roleId1."::H".$roleId2."',1)", array());
+        $adb->pquery("INSERT INTO jo_role VALUES('H".$roleId3."','Vice President','H".$roleId1."::H".$roleId2."::H".$roleId3."',2)", array());
+        $adb->pquery("INSERT INTO jo_role VALUES('H".$roleId4."','Sales Manager','H".$roleId1."::H".$roleId2."::H".$roleId3."::H".$roleId4."',3)", array());
+        $adb->pquery("INSERT INTO jo_role VALUES('H".$roleId5."','Sales Person','H".$roleId1."::H".$roleId2."::H".$roleId3."::H".$roleId4."::H".$roleId5."',4)", array());
 
-		//INSERT INTO vtiger_role2profile
-		$adb->pquery("INSERT INTO vtiger_role2profile VALUES ('H".$roleId2."',".$profileId1.")", array());
-		$adb->pquery("INSERT INTO vtiger_role2profile VALUES ('H".$roleId3."',".$profileId2.")", array());
-	  	$adb->pquery("INSERT INTO vtiger_role2profile VALUES ('H".$roleId4."',".$profileId2.")", array());
-		$adb->pquery("INSERT INTO vtiger_role2profile VALUES ('H".$roleId5."',".$profileId2.")", array());
+		//INSERT INTO jo_role2profile
+		$adb->pquery("INSERT INTO jo_role2profile VALUES ('H".$roleId2."',".$profileId1.")", array());
+		$adb->pquery("INSERT INTO jo_role2profile VALUES ('H".$roleId3."',".$profileId2.")", array());
+	  	$adb->pquery("INSERT INTO jo_role2profile VALUES ('H".$roleId4."',".$profileId2.")", array());
+		$adb->pquery("INSERT INTO jo_role2profile VALUES ('H".$roleId5."',".$profileId2.")", array());
 
 		//New Security Start
-		//Inserting into vtiger_profile vtiger_table
-		$adb->pquery("INSERT INTO vtiger_profile VALUES ('".$profileId1."','Administrator','Admin Profile')", array());
-		$adb->pquery("INSERT INTO vtiger_profile VALUES ('".$profileId2."','Sales Profile','Profile Related to Sales')", array());
-		$adb->pquery("INSERT INTO vtiger_profile VALUES ('".$profileId3."','Support Profile','Profile Related to Support')", array());
-		$adb->pquery("INSERT INTO vtiger_profile VALUES ('".$profileId4."','Guest Profile','Guest Profile for Test Users')", array());
+		//Inserting into jo_profile jo_table
+		$adb->pquery("INSERT INTO jo_profile VALUES ('".$profileId1."','Administrator','Admin Profile')", array());
+		$adb->pquery("INSERT INTO jo_profile VALUES ('".$profileId2."','Sales Profile','Profile Related to Sales')", array());
+		$adb->pquery("INSERT INTO jo_profile VALUES ('".$profileId3."','Support Profile','Profile Related to Support')", array());
+		$adb->pquery("INSERT INTO jo_profile VALUES ('".$profileId4."','Guest Profile','Guest Profile for Test Users')", array());
 
-		//Inserting into vtiger_profile2gloabal permissions
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId1."',1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId1."',2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId2."',1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId2."',2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId3."',1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId3."',2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId4."',1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2globalpermissions VALUES ('".$profileId4."',2,1)", array());
+		//Inserting into jo_profile2gloabal permissions
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId1."',1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId1."',2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId2."',1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId2."',2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId3."',1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId3."',2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId4."',1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2globalpermissions VALUES ('".$profileId4."',2,1)", array());
 
-		//Inserting into vtiger_profile2tab
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",6,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",7,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",13,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",14,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",15,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",16,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",18,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",19,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",20,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",21,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",22,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",23,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",24,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",25,0)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",26,0)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId1.",27,0)", array());
+		//Inserting into jo_profile2tab
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",6,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",7,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",13,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",14,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",15,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",16,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",18,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",19,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",20,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",21,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",22,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",23,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",24,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",25,0)", array());
+       	$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",26,0)", array());
+       	$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId1.",27,0)", array());
 
-		//Inserting into vtiger_profile2tab
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",6,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",7,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",13,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",14,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",15,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",16,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",18,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",19,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",20,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",21,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",22,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",23,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",24,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",25,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",26,0)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId2.",27,0)", array());
+		//Inserting into jo_profile2tab
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",6,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",7,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",13,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",14,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",15,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",16,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",18,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",19,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",20,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",21,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",22,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",23,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",24,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",25,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",26,0)", array());
+       	$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId2.",27,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",6,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",7,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",13,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",14,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",15,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",16,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",18,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",19,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",20,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",21,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",22,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",23,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",24,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",25,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",26,0)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId3.",27,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",6,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",7,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",13,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",14,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",15,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",16,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",18,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",19,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",20,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",21,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",22,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",23,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",24,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",25,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",26,0)", array());
+       	$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId3.",27,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",6,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",7,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",13,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",14,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",15,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",16,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",18,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",19,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",20,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",21,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",22,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",23,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",24,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",25,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",26,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2tab VALUES (".$profileId4.",27,0)", array());
-		//Inserting into vtiger_profile2standardpermissions  Adminsitrator
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",6,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",7,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",13,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",14,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",15,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",16,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",18,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",19,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",20,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",21,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",22,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",23,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",24,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",25,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",26,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2tab VALUES (".$profileId4.",27,0)", array());
+		//Inserting into jo_profile2standardpermissions  Adminsitrator
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",2,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",2,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",2,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",2,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",2,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",2,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",2,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",2,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",2,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",2,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",4,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",4,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",4,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",4,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",4,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",4,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",4,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",4,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",4,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",4,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",6,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",6,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",6,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",6,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",6,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",6,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",6,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",6,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",6,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",6,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",7,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",7,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",7,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",7,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",7,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",7,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",7,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",7,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",7,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",7,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",8,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",8,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",8,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",8,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",8,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",8,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",8,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",8,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",8,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",8,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",9,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",9,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",9,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",9,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",9,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",9,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",9,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",9,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",9,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",9,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",13,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",13,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",13,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",13,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",13,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",13,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",13,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",13,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",13,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",13,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",14,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",14,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",14,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",14,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",14,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",14,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",14,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",14,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",14,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",14,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",15,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",15,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",15,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",15,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",15,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",15,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",15,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",15,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",15,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",15,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",16,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",16,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",16,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",16,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",16,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",16,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",16,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",16,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",16,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",16,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",18,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",18,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",18,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",18,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",18,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",18,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",18,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",18,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",18,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",18,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",19,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",19,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",19,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",19,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",19,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",19,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",19,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",19,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",19,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",19,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",20,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",20,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",20,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",20,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",20,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",20,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",20,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",20,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",20,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",20,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",21,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",21,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",21,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",21,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",21,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",21,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",21,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",21,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",21,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",21,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",22,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",22,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",22,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",22,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",22,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",22,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",22,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",22,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",22,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",22,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",23,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",23,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",23,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",23,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",23,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",23,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",23,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",23,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",23,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",23,4,0)", array());
 
-        $adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",26,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",26,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",26,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",26,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId1.",26,4,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",26,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",26,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",26,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",26,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId1.",26,4,0)", array());
 
 		//INSERT INTO Profile 2 std permissions for Sales User
 		//Help Desk Create/Delete not allowed. Read-Only
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",2,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",2,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",2,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",2,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",2,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",2,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",2,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",2,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",2,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",2,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",4,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",4,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",4,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",4,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",4,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",4,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",4,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",4,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",4,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",4,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",6,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",6,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",6,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",6,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",6,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",6,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",6,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",6,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",6,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",6,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",7,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",7,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",7,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",7,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",7,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",7,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",7,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",7,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",7,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",7,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",8,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",8,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",8,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",8,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",8,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",8,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",8,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",8,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",8,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",8,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",9,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",9,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",9,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",9,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",9,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",9,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",9,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",9,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",9,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",9,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",13,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",13,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",13,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",13,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",13,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",13,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",13,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",13,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",13,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",13,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",14,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",14,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",14,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",14,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",14,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",14,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",14,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",14,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",14,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",14,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",15,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",15,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",15,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",15,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",15,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",15,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",15,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",15,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",15,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",15,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",16,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",16,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",16,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",16,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",16,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",16,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",16,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",16,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",16,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",16,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",18,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",18,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",18,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",18,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",18,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",18,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",18,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",18,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",18,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",18,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",19,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",19,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",19,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",19,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",19,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",19,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",19,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",19,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",19,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",19,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",20,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",20,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",20,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",20,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",20,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",20,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",20,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",20,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",20,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",20,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",21,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",21,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",21,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",21,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",21,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",21,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",21,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",21,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",21,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",21,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",22,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",22,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",22,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",22,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",22,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",22,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",22,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",22,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",22,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",22,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",23,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",23,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",23,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",23,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",23,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",23,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",23,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",23,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",23,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",23,4,0)", array());
 
 
-        	$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",26,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",26,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",26,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",26,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId2.",26,4,0)", array());
+        	$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",26,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",26,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",26,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",26,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId2.",26,4,0)", array());
 
-		//Inserting into vtiger_profile2std for Support Profile
+		//Inserting into jo_profile2std for Support Profile
 		// Potential is read-only
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",2,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",2,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",2,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",2,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",2,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",2,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",2,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",2,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",2,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",2,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",4,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",4,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",4,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",4,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",4,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",4,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",4,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",4,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",4,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",4,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",6,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",6,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",6,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",6,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",6,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",6,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",6,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",6,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",6,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",6,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",7,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",7,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",7,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",7,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",7,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",7,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",7,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",7,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",7,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",7,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",8,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",8,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",8,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",8,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",8,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",8,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",8,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",8,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",8,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",8,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",9,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",9,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",9,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",9,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",9,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",9,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",9,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",9,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",9,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",9,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",13,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",13,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",13,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",13,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",13,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",13,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",13,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",13,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",13,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",13,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",14,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",14,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",14,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",14,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",14,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",14,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",14,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",14,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",14,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",14,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",15,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",15,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",15,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",15,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",15,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",15,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",15,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",15,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",15,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",15,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",16,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",16,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",16,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",16,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",16,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",16,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",16,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",16,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",16,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",16,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",18,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",18,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",18,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",18,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",18,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",18,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",18,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",18,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",18,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",18,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",19,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",19,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",19,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",19,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",19,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",19,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",19,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",19,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",19,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",19,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",20,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",20,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",20,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",20,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",20,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",20,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",20,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",20,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",20,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",20,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",21,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",21,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",21,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",21,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",21,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",21,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",21,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",21,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",21,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",21,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",22,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",22,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",22,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",22,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",22,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",22,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",22,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",22,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",22,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",22,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",23,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",23,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",23,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",23,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",23,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",23,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",23,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",23,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",23,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",23,4,0)", array());
 
 
-        $adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",26,0,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",26,1,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",26,2,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",26,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId3.",26,4,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",26,0,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",26,1,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",26,2,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",26,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId3.",26,4,0)", array());
 
-		//Inserting into vtiger_profile2stdper for Profile Guest Profile
+		//Inserting into jo_profile2stdper for Profile Guest Profile
 		//All Read-Only
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",2,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",2,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",2,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",2,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",2,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",2,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",2,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",2,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",2,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",2,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",4,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",4,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",4,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",4,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",4,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",4,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",4,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",4,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",4,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",4,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",6,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",6,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",6,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",6,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",6,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",6,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",6,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",6,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",6,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",6,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",7,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",7,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",7,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",7,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",7,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",7,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",7,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",7,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",7,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",7,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",8,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",8,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",8,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",8,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",8,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",8,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",8,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",8,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",8,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",8,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",9,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",9,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",9,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",9,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",9,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",9,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",9,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",9,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",9,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",9,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",13,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",13,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",13,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",13,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",13,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",13,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",13,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",13,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",13,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",13,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",14,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",14,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",14,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",14,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",14,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",14,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",14,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",14,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",14,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",14,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",15,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",15,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",15,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",15,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",15,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",15,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",15,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",15,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",15,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",15,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",16,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",16,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",16,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",16,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",16,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",16,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",16,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",16,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",16,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",16,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",18,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",18,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",18,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",18,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",18,4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",19,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",19,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",19,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",19,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",19,4,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",20,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",20,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",20,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",20,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",20,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",18,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",18,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",18,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",18,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",18,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",19,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",19,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",19,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",19,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",19,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",20,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",20,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",20,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",20,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",20,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",21,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",21,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",21,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",21,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",21,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",21,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",21,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",21,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",21,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",21,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",22,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",22,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",22,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",22,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",22,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",22,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",22,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",22,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",22,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",22,4,0)", array());
 
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",23,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",23,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",23,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",23,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",23,4,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",23,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",23,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",23,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",23,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",23,4,0)", array());
 
 
-        $adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",26,0,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",26,1,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",26,2,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",26,3,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2standardpermissions VALUES (".$profileId4.",26,4,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",26,0,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",26,1,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",26,2,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",26,3,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2standardpermissions VALUES (".$profileId4.",26,4,0)", array());
 
-		//Inserting into vtiger_profile 2 utility Admin
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",2,5,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",2,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",4,5,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",4,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",6,5,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",6,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",7,5,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",7,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",8,6,0)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",7,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",6,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",4,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",13,5,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",13,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",13,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",14,5,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",14,6,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",7,9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",18,5,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",18,6,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",7,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",6,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",4,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",2,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",13,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",14,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId1.",18,10,0)", array());
+		//Inserting into jo_profile 2 utility Admin
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",2,5,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",2,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",4,5,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",4,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",6,5,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",6,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",7,5,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",7,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",8,6,0)", array());
+       	$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",7,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",6,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",4,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",13,5,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",13,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",13,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",14,5,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",14,6,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",7,9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",18,5,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",18,6,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",7,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",6,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",4,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",2,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",13,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",14,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId1.",18,10,0)", array());
         
 
-		//Inserting into vtiger_profile2utility Sales Profile
+		//Inserting into jo_profile2utility Sales Profile
 		//Import Export Not Allowed.
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",2,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",2,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",4,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",4,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",6,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",6,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",7,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",7,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",8,6,1)", array());
-       	$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",7,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",6,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",4,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",13,5,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",13,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",13,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",14,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",14,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",7,9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",18,5,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",18,6,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",7,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",6,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",4,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",2,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",13,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",14,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId2.",18,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",2,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",2,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",4,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",4,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",6,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",6,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",7,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",7,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",8,6,1)", array());
+       	$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",7,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",6,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",4,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",13,5,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",13,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",13,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",14,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",14,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",7,9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",18,5,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",18,6,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",7,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",6,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",4,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",2,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",13,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",14,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId2.",18,10,0)", array());
        
-		//Inserting into vtiger_profile2utility Support Profile
+		//Inserting into jo_profile2utility Support Profile
 		//Import Export Not Allowed.
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",2,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",2,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",4,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",4,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",6,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",6,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",7,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",7,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",8,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",7,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",6,8,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",4,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",13,5,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",13,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",13,8,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",14,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",14,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",7,9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",18,5,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",18,6,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",7,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",6,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",4,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",2,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",13,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",14,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId3.",18,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",2,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",2,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",4,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",4,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",6,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",6,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",7,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",7,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",8,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",7,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",6,8,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",4,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",13,5,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",13,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",13,8,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",14,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",14,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",7,9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",18,5,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",18,6,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",7,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",6,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",4,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",2,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",13,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",14,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId3.",18,10,0)", array());
         
 
-		//Inserting into vtiger_profile2utility Guest Profile Read-Only
+		//Inserting into jo_profile2utility Guest Profile Read-Only
 		//Import Export BusinessCar Not Allowed.
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",2,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",2,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",4,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",4,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",6,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",6,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",7,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",7,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",8,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",7,8,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",6,8,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",4,8,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",13,5,1)", array());
-    	$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",13,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",13,8,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",14,5,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",14,6,1)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",7,9,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",18,5,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",18,6,1)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",7,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",6,10,0)", array());
-        $adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",4,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",2,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",13,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",14,10,0)", array());
-		$adb->pquery("INSERT INTO vtiger_profile2utility VALUES (".$profileId4.",18,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",2,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",2,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",4,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",4,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",6,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",6,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",7,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",7,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",8,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",7,8,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",6,8,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",4,8,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",13,5,1)", array());
+    	$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",13,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",13,8,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",14,5,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",14,6,1)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",7,9,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",18,5,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",18,6,1)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",7,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",6,10,0)", array());
+        $adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",4,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",2,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",13,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",14,10,0)", array());
+		$adb->pquery("INSERT INTO jo_profile2utility VALUES (".$profileId4.",18,10,0)", array());
         
 
 		 // Invalidate any cached information
@@ -803,7 +803,7 @@ class Install_InitSchema_Model {
 		$adminEmail = $_SESSION['config_file_info']['admin_email'];
 		if($adminEmail == '') $adminEmail ="admin@vtigeruser.com";
 		$user->column_fields["email1"] = $adminEmail;
-		$roleQuery = "SELECT roleid FROM vtiger_role WHERE rolename='CEO'";
+		$roleQuery = "SELECT roleid FROM jo_role WHERE rolename='CEO'";
 		$adb->checkConnection();
 		$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
 		$roleResult = $adb->pquery($roleQuery, array());
@@ -813,31 +813,31 @@ class Install_InitSchema_Model {
         $user->save("Users");
         $adminUserId = $user->id;
 
-		//Inserting into vtiger_groups table
-		$groupId1 = $adb->getUniqueID("vtiger_users");
-		$groupId2 = $adb->getUniqueID("vtiger_users");
-		$groupId3 = $adb->getUniqueID("vtiger_users");
+		//Inserting into jo_groups table
+		$groupId1 = $adb->getUniqueID("jo_users");
+		$groupId2 = $adb->getUniqueID("jo_users");
+		$groupId3 = $adb->getUniqueID("jo_users");
 
-		$adb->pquery("INSERT INTO vtiger_groups VALUES ('".$groupId1."','Team Selling','Group Related to Sales')", array());
-		$adb->pquery("INSERT INTO vtiger_group2role VALUES ('".$groupId1."','H".$roleId4."')", array());
-		$adb->pquery("INSERT INTO vtiger_group2rs VALUES ('".$groupId1."','H".$roleId5."')", array());
+		$adb->pquery("INSERT INTO jo_groups VALUES ('".$groupId1."','Team Selling','Group Related to Sales')", array());
+		$adb->pquery("INSERT INTO jo_group2role VALUES ('".$groupId1."','H".$roleId4."')", array());
+		$adb->pquery("INSERT INTO jo_group2rs VALUES ('".$groupId1."','H".$roleId5."')", array());
 
-		$adb->pquery("INSERT INTO vtiger_groups VALUES ('".$groupId2."','Marketing Group','Group Related to Marketing Activities')", array());
-		$adb->pquery("INSERT INTO vtiger_group2role VALUES ('".$groupId2."','H".$roleId2."')", array());
-		$adb->pquery("INSERT INTO vtiger_group2rs VALUES ('".$groupId2."','H".$roleId3."')", array());
+		$adb->pquery("INSERT INTO jo_groups VALUES ('".$groupId2."','Marketing Group','Group Related to Marketing Activities')", array());
+		$adb->pquery("INSERT INTO jo_group2role VALUES ('".$groupId2."','H".$roleId2."')", array());
+		$adb->pquery("INSERT INTO jo_group2rs VALUES ('".$groupId2."','H".$roleId3."')", array());
 
-		$adb->pquery("INSERT INTO vtiger_groups VALUES ('".$groupId3."','Support Group','Group Related to providing Support to Customers')", array());
-		$adb->pquery("INSERT INTO vtiger_group2role VALUES ('".$groupId3."','H".$roleId3."')", array());
-		$adb->pquery("INSERT INTO vtiger_group2rs VALUES ('".$groupId3."','H".$roleId3."')", array());
+		$adb->pquery("INSERT INTO jo_groups VALUES ('".$groupId3."','Support Group','Group Related to providing Support to Customers')", array());
+		$adb->pquery("INSERT INTO jo_group2role VALUES ('".$groupId3."','H".$roleId3."')", array());
+		$adb->pquery("INSERT INTO jo_group2rs VALUES ('".$groupId3."','H".$roleId3."')", array());
 
 		// Setting user group relation for admin user
-	 	$adb->pquery("INSERT INTO vtiger_users2group VALUES (?,?)", array($groupId2, $adminUserId), array());
+	 	$adb->pquery("INSERT INTO jo_users2group VALUES (?,?)", array($groupId2, $adminUserId), array());
 
 		//Creating the flat files for admin user
 		createUserPrivilegesfile($adminUserId);
 		createUserSharingPrivilegesfile($adminUserId);
 
-		//INSERT INTO vtiger_profile2field
+		//INSERT INTO jo_profile2field
 		insertProfile2field($profileId1);
         insertProfile2field($profileId2);
         insertProfile2field($profileId3);
@@ -875,12 +875,12 @@ class Install_InitSchema_Model {
 	 *  Register all the Cron Tasks
 	 */
 	public static function registerCronTasks() {
-		vimport('~~vtlib/Vtiger/Cron.php');
-		Vtiger_Cron::register( 'Workflow', 'cron/modules/com_vtiger_workflow/com_vtiger_workflow.service', 900, 'com_vtiger_workflow', 1, 1, 'Recommended frequency for Workflow is 15 mins');
-		Vtiger_Cron::register( 'RecurringInvoice', 'cron/modules/SalesOrder/RecurringInvoice.service', 43200, 'SalesOrder', 1, 2, 'Recommended frequency for RecurringInvoice is 12 hours');
-		Vtiger_Cron::register( 'SendReminder', 'cron/SendReminder.service', 900, 'Calendar', 1, 3, 'Recommended frequency for SendReminder is 15 mins');
-		Vtiger_Cron::register( 'ScheduleReports', 'cron/modules/Reports/ScheduleReports.service', 900, 'Reports', 1, 4, 'Recommended frequency for ScheduleReports is 15 mins');
-		Vtiger_Cron::register( 'MailScanner', 'cron/MailScanner.service', 900, 'Settings', 1, 5, 'Recommended frequency for MailScanner is 15 mins');
+		vimport('~~vtlib/Head/Cron.php');
+		Head_Cron::register( 'Workflow', 'cron/modules/com_jo_workflow/com_jo_workflow.service', 900, 'com_jo_workflow', 1, 1, 'Recommended frequency for Workflow is 15 mins');
+		Head_Cron::register( 'RecurringInvoice', 'cron/modules/SalesOrder/RecurringInvoice.service', 43200, 'SalesOrder', 1, 2, 'Recommended frequency for RecurringInvoice is 12 hours');
+		Head_Cron::register( 'SendReminder', 'cron/SendReminder.service', 900, 'Calendar', 1, 3, 'Recommended frequency for SendReminder is 15 mins');
+		Head_Cron::register( 'ScheduleReports', 'cron/modules/Reports/ScheduleReports.service', 900, 'Reports', 1, 4, 'Recommended frequency for ScheduleReports is 15 mins');
+		Head_Cron::register( 'MailScanner', 'cron/MailScanner.service', 900, 'Settings', 1, 5, 'Recommended frequency for MailScanner is 15 mins');
 	}
 
 	/**
@@ -900,11 +900,11 @@ class Install_InitSchema_Model {
 		// Workflow manager
 		$dependentEventHandlers = array('VTEntityDelta');
 		$dependentEventHandlersJson = Zend_Json::encode($dependentEventHandlers);
-		$em->registerHandler('vtiger.entity.aftersave', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler',
+		$em->registerHandler('vtiger.entity.aftersave', 'modules/com_jo_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler',
 									'',$dependentEventHandlersJson);
 
 		//Registering events for On modify
-		$em->registerHandler('vtiger.entity.afterrestore', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler');
+		$em->registerHandler('vtiger.entity.afterrestore', 'modules/com_jo_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler');
 
 		// Registering event for HelpDesk - To reset from_portal value
 		$em->registerHandler('vtiger.entity.aftersave.final', 'modules/HelpDesk/HelpDeskHandler.php', 'HelpDeskHandler');
@@ -915,9 +915,9 @@ class Install_InitSchema_Model {
 	 * @param <PearDatabase> $adb
 	 */
 	static function registerEntityMethods($adb) {
-		vimport("~~modules/com_vtiger_workflow/include.inc");
-		vimport("~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc");
-		vimport("~~modules/com_vtiger_workflow/VTEntityMethodManager.inc");
+		vimport("~~modules/com_jo_workflow/include.inc");
+		vimport("~~modules/com_jo_workflow/tasks/VTEntityMethodTask.inc");
+		vimport("~~modules/com_jo_workflow/VTEntityMethodManager.inc");
 		$emm = new VTEntityMethodManager($adb);
 
 		// Registering method for Updating Inventory Stock
@@ -945,10 +945,10 @@ class Install_InitSchema_Model {
 	 * @param <PearDatabase> $adb
 	 */
 	static function populateDefaultWorkflows($adb) {
-		vimport("~~modules/com_vtiger_workflow/include.inc");
-		vimport("~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc");
-		vimport("~~modules/com_vtiger_workflow/VTEntityMethodManager.inc");
-		vimport("~~modules/com_vtiger_workflow/VTTaskManager.inc");
+		vimport("~~modules/com_jo_workflow/include.inc");
+		vimport("~~modules/com_jo_workflow/tasks/VTEntityMethodTask.inc");
+		vimport("~~modules/com_jo_workflow/VTEntityMethodManager.inc");
+		vimport("~~modules/com_jo_workflow/VTTaskManager.inc");
 
 		// register the workflow tasks
 		$taskTypes = array();
@@ -956,13 +956,13 @@ class Install_InitSchema_Model {
 		$createToDoModules = array('include' => array("Leads","Accounts","Potentials","Contacts","HelpDesk","Campaigns","Quotes","PurchaseOrder","SalesOrder","Invoice"), 'exclude'=>array("Calendar", "FAQ", "Events"));
 		$createEventModules = array('include' => array("Leads","Accounts","Potentials","Contacts","HelpDesk","Campaigns"), 'exclude'=>array("Calendar", "FAQ", "Events"));
 
-		$taskTypes[] = array("name"=>"VTEmailTask", "label"=>"Send Mail", "classname"=>"VTEmailTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTEmailTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTEmailTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTEntityMethodTask", "label"=>"Invoke Custom Function", "classname"=>"VTEntityMethodTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTEntityMethodTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTCreateTodoTask", "label"=>"Create Todo", "classname"=>"VTCreateTodoTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTCreateTodoTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTCreateTodoTask.tpl", "modules"=>$createToDoModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTCreateEventTask", "label"=>"Create Event", "classname"=>"VTCreateEventTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTCreateEventTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTCreateEventTask.tpl", "modules"=>$createEventModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTUpdateFieldsTask", "label"=>"Update Fields", "classname"=>"VTUpdateFieldsTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTUpdateFieldsTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTUpdateFieldsTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTCreateEntityTask", "label"=>"Create Entity", "classname"=>"VTCreateEntityTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTCreateEntityTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTCreateEntityTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
-		$taskTypes[] = array("name"=>"VTSMSTask", "label"=>"SMS Task", "classname"=>"VTSMSTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTSMSTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTSMSTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'SMSNotifier');
+		$taskTypes[] = array("name"=>"VTEmailTask", "label"=>"Send Mail", "classname"=>"VTEmailTask", "classpath"=>"modules/com_jo_workflow/tasks/VTEmailTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTEmailTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTEntityMethodTask", "label"=>"Invoke Custom Function", "classname"=>"VTEntityMethodTask", "classpath"=>"modules/com_jo_workflow/tasks/VTEntityMethodTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTEntityMethodTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTCreateTodoTask", "label"=>"Create Todo", "classname"=>"VTCreateTodoTask", "classpath"=>"modules/com_jo_workflow/tasks/VTCreateTodoTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTCreateTodoTask.tpl", "modules"=>$createToDoModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTCreateEventTask", "label"=>"Create Event", "classname"=>"VTCreateEventTask", "classpath"=>"modules/com_jo_workflow/tasks/VTCreateEventTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTCreateEventTask.tpl", "modules"=>$createEventModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTUpdateFieldsTask", "label"=>"Update Fields", "classname"=>"VTUpdateFieldsTask", "classpath"=>"modules/com_jo_workflow/tasks/VTUpdateFieldsTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTUpdateFieldsTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTCreateEntityTask", "label"=>"Create Entity", "classname"=>"VTCreateEntityTask", "classpath"=>"modules/com_jo_workflow/tasks/VTCreateEntityTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTCreateEntityTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
+		$taskTypes[] = array("name"=>"VTSMSTask", "label"=>"SMS Task", "classname"=>"VTSMSTask", "classpath"=>"modules/com_jo_workflow/tasks/VTSMSTask.inc", "templatepath"=>"com_jo_workflow/taskforms/VTSMSTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'SMSNotifier');
 
 		foreach ($taskTypes as $taskType) {
 			VTTaskType::registerTaskType($taskType);
@@ -1004,7 +1004,7 @@ class Install_InitSchema_Model {
 				"Description:".'<b>$description</b><br><br><br>'."Thank You<br>Admin";
 		$task->summary="An account has been created ";
 		$tm->saveTask($task);
-		$adb->pquery("update com_vtiger_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
+		$adb->pquery("update com_jo_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
 
 		// Creating Workflow for Contacts when Notifyowner is true
 
@@ -1030,7 +1030,7 @@ class Install_InitSchema_Model {
 				"Description:".'<b>$description</b><br><br><br>'."Thank You<br>Admin";
 		$task->summary="An contact has been created ";
 		$tm->saveTask($task);
-		$adb->pquery("update com_vtiger_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
+		$adb->pquery("update com_jo_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
 
 
 		// Creating Workflow for Contacts when PortalUser is true
@@ -1102,7 +1102,7 @@ class Install_InitSchema_Model {
 
 		$task->summary="An contact has been created ";
 		$tm->saveTask($task);
-		$adb->pquery("update com_vtiger_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
+		$adb->pquery("update com_jo_workflows set defaultworkflow=? where workflow_id=?",array(1,$id1));
                 
 		// Trouble Tickets workflow on creation from Customer Portal
 		$helpDeskWorkflow = $workflowManager->newWorkFlow("HelpDesk");
@@ -1168,8 +1168,8 @@ class Install_InitSchema_Model {
 		$task->content = '$(assigned_user_id : (Users) first_name) $(assigned_user_id : (Users) last_name) ,<br/>'
 						.'<b>Activity Notification Details:</b><br/>'
 						.'Subject             : $subject<br/>'
-						.'Start date and time : $date_start  $time_start ( $(general : (__VtigerMeta__) dbtimezone) ) <br/>'
-						.'End date and time   : $due_date  $time_end ( $(general : (__VtigerMeta__) dbtimezone) ) <br/>'
+						.'Start date and time : $date_start  $time_start ( $(general : (__HeadMeta__) dbtimezone) ) <br/>'
+						.'End date and time   : $due_date  $time_end ( $(general : (__HeadMeta__) dbtimezone) ) <br/>'
 						.'Status              : $eventstatus <br/>'
 						.'Priority            : $taskpriority <br/>'
 						.'Related To          : $(parent_id : (Leads) lastname) $(parent_id : (Leads) firstname) $(parent_id : (Accounts) accountname) '
@@ -1195,8 +1195,8 @@ class Install_InitSchema_Model {
 		$task->content = '$(assigned_user_id : (Users) first_name) $(assigned_user_id : (Users) last_name) ,<br/>'
 						.'<b>Task Notification Details:</b><br/>'
 						.'Subject : $subject<br/>'
-						.'Start date and time : $date_start  $time_start ( $(general : (__VtigerMeta__) dbtimezone) ) <br/>'
-						.'End date and time   : $due_date ( $(general : (__VtigerMeta__) dbtimezone) ) <br/>'
+						.'Start date and time : $date_start  $time_start ( $(general : (__HeadMeta__) dbtimezone) ) <br/>'
+						.'End date and time   : $due_date ( $(general : (__HeadMeta__) dbtimezone) ) <br/>'
 						.'Status              : $taskstatus <br/>'
 						.'Priority            : $taskpriority <br/>'
 						.'Related To          : $(parent_id : (Leads) lastname) $(parent_id : (Leads) firstname) $(parent_id : (Accounts) accountname) '
@@ -1211,10 +1211,10 @@ class Install_InitSchema_Model {
 	 * Function adds default details view links
 	 */
 	public static function populateLinks() {
-		vimport('~~vtlib/Vtiger/Module.php');
+		vimport('~~vtlib/Head/Module.php');
 
 		// Links for Accounts module
-		$accountInstance = Vtiger_Module::getInstance('Accounts');
+		$accountInstance = Head_Module::getInstance('Accounts');
 		// Detail View Custom link
 		$accountInstance->addLink(
 			'DETAILVIEWBASIC', 'LBL_ADD_NOTE',
@@ -1223,18 +1223,42 @@ class Install_InitSchema_Model {
 		);
 		$accountInstance->addLink('DETAILVIEWBASIC', 'LBL_SHOW_ACCOUNT_HIERARCHY', 'index.php?module=Accounts&action=AccountHierarchy&accountid=$RECORD$');
 
-		$leadInstance = Vtiger_Module::getInstance('Leads');
+		$leadInstance = Head_Module::getInstance('Leads');
 		$leadInstance->addLink(
 			'DETAILVIEWBASIC', 'LBL_ADD_NOTE',
 			'index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$',
 			'themes/images/bookMark.gif'
 		);
 
-		$contactInstance = Vtiger_Module::getInstance('Contacts');
+		$contactInstance = Head_Module::getInstance('Contacts');
 		$contactInstance->addLink(
 			'DETAILVIEWBASIC', 'LBL_ADD_NOTE',
 			'index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$',
 			'themes/images/bookMark.gif'
+		);
+
+		//PDFMAKER Instance
+		$pdfInstance = Head_Module::getInstance('VTPDFMaker');
+		$pdfInstance->addLink(
+			'DETAILVIEWSIDEBARWIDGET','PDF Maker','module=VTPDFMaker&view=ExportPDF&record=$RECORD$','NULL'
+			);
+		$duplicateInsance = Head_Module::getInstance('DuplicateCheck');
+		$duplicateInsance->addLink(
+			'HEADERSCRIPT','Duplicate Check','layouts/modules/Settings/DuplicateCheck/jsresources/duplicatecheck.js','NULL'
+			);
+		$duplicateInsance->addLink(
+		'HEADERSCRIPT','Duplicate Check Quick Create','layouts/modules/Settings/DuplicateCheck/jsresources/quickcreateduplicatecheck.js','NULL'
+
+		);
+
+		$addressInstance = Head_Module::getInstance('AddressLookup');
+		$addressInstance->addLink(
+		'HEADERSCRIPT','Address Autofill','layouts/modules/Settings/AddressLookup/jsresources/AddressLookup.js','NULL'
+		);
+
+		$emailInstance = Head_Module::getInstance('EmailPlus');
+		$emailInstance->addLink(
+		'HEADERSCRIPT','Check Server Details','layouts/modules/EmailPlus/resources/checkServerInfo.js'
 		);
 	}
 
@@ -1243,10 +1267,10 @@ class Install_InitSchema_Model {
 	 */
 	public static function setFieldHelpInfo() {
 		// Added Help Info for Hours and Days fields of HelpDesk module.
-		vimport('~~vtlib/Vtiger/Module.php');
-		$helpDeskModule = Vtiger_Module::getInstance('HelpDesk');
-		$field1 = Vtiger_Field::getInstance('hours',$helpDeskModule);
-		$field2 = Vtiger_Field::getInstance('days',$helpDeskModule);
+		vimport('~~vtlib/Head/Module.php');
+		$helpDeskModule = Head_Module::getInstance('HelpDesk');
+		$field1 = Head_Field::getInstance('hours',$helpDeskModule);
+		$field2 = Head_Field::getInstance('days',$helpDeskModule);
 
 		$field1->setHelpInfo('This gives the estimated hours for the Ticket.'.
 					'<br>When the same ticket is added to a Service Contract,'.
@@ -1258,11 +1282,11 @@ class Install_InitSchema_Model {
 					'based on the Tracking Unit of the Service Contract,'.
 					'Used units is updated whenever a ticket is Closed.');
 
-		$usersModuleInstance = Vtiger_Module::getInstance('Users');
-		$field1 = Vtiger_Field::getInstance('currency_grouping_pattern', $usersModuleInstance);
-		$field2 = Vtiger_Field::getInstance('currency_decimal_separator', $usersModuleInstance);
-		$field3 = Vtiger_Field::getInstance('currency_grouping_separator', $usersModuleInstance);
-		$field4 = Vtiger_Field::getInstance('currency_symbol_placement', $usersModuleInstance);
+		$usersModuleInstance = Head_Module::getInstance('Users');
+		$field1 = Head_Field::getInstance('currency_grouping_pattern', $usersModuleInstance);
+		$field2 = Head_Field::getInstance('currency_decimal_separator', $usersModuleInstance);
+		$field3 = Head_Field::getInstance('currency_grouping_separator', $usersModuleInstance);
+		$field4 = Head_Field::getInstance('currency_symbol_placement', $usersModuleInstance);
 
 		$field1->setHelpInfo("<b>Currency - Digit Grouping Pattern</b> <br/><br/>".
 									"This pattern specifies the format in which the currency separator will be placed.");

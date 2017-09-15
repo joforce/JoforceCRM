@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class PriceBooks_Popup_View extends Vtiger_Popup_View {
+class PriceBooks_Popup_View extends Head_Popup_View {
 
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	*/
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
 		$pageNumber = $request->get('page');
@@ -48,12 +48,12 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$listViewModel = Head_ListView_Model::getInstanceForPopup($moduleName);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		if(!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
@@ -82,7 +82,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		//Added to support List Price
-		$field = new Vtiger_Field_Model();
+		$field = new Head_Field_Model();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');

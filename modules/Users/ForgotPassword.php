@@ -13,9 +13,9 @@ class Users_ForgotPassword_Handler {
 
 	public function changePassword($data){
 		global $site_URL;
-        $request = new Vtiger_Request($data);
-        $viewer = Vtiger_Viewer::getInstance();
-		$companyModel = Vtiger_CompanyDetails_Model::getInstanceById();
+        $request = new Head_Request($data);
+        $viewer = Head_Viewer::getInstance();
+		$companyModel = Head_CompanyDetails_Model::getInstanceById();
         $companyName = $companyModel->get('organizationname');
         $organisationDetails=$companyModel->getLogo();
         $logoTitle = $organisationDetails->get('title');

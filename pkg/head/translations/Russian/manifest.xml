@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<module>
+	<type>language</type>
+	<name>Russian</name>
+	<label>Russian</label>
+	<prefix>ru_ru</prefix>
+	<version>6.0.0</version>
+	<encoding>UTF-8</encoding>
+	<author>vtigerCRM</author>
+	<license>MPL1.1</license>
+	<dependencies>
+		<jo_version>6.0.0.rc</jo_version>
+		<jo_max_version>7.*</jo_max_version>
+	</dependencies>
+</module>
+

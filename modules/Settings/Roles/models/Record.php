@@ -12,7 +12,7 @@
 /**
  * Roles Record Model Class
  */
-class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Roles_Record_Model extends Settings_Head_Record_Model {
 
 	/**
 	 * Function to get the Id
@@ -84,7 +84,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM jo_role WHERE parentrole LIKE ? AND depth = ?';
 			$params = array($parentRoleString.'::%', $currentRoleDepth+1);
 			$result = $db->pquery($sql, $params);
 			$noOfRoles = $db->num_rows($result);
@@ -108,7 +108,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 				if(empty($parentRoleString)) $parentRoleString = $role;
 				else $parentRoleString = $parentRoleString.'::'.$role;
 			}
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM jo_role WHERE parentrole LIKE ? AND depth = ?';
 			$params = array($parentRoleString.'::%', $currentRoleDepth);
 			$result = $db->pquery($sql, $params);
 			$noOfRoles = $db->num_rows($result);
@@ -131,7 +131,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 
 		$parentRoleString = $this->getParentRoleString();
 
-		$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? ORDER BY depth';
+		$sql = 'SELECT * FROM jo_role WHERE parentrole LIKE ? ORDER BY depth';
 		$params = array($parentRoleString.'::%');
 		$result = $db->pquery($sql, $params);
 		$noOfRoles = $db->num_rows($result);
@@ -150,7 +150,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
     public function getProfileIdList(){
         
         $db = PearDatabase::getInstance();
-        $query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
+        $query = 'SELECT profileid FROM jo_role2profile WHERE roleid=?';
         
         $result = $db->pquery($query,array($this->getId()));
         $num_rows = $db->num_rows($result);
@@ -175,9 +175,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
         
         $db = PearDatabase::getInstance();
         
-        $query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
-                  INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
-                  WHERE vtiger_role2profile.roleid=?';
+        $query = 'SELECT directly_related_to_role, jo_profile.profileid FROM jo_role2profile 
+                  INNER JOIN jo_profile ON jo_profile.profileid = jo_role2profile.profileid 
+                  WHERE jo_role2profile.roleid=?';
         $params = array($this->getId());
         
         $result = $db->pquery($query,$params);
@@ -291,7 +291,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 
 		if(empty($roleId)) {
 			$mode = '';
-			$roleIdNumber = $db->getUniqueId('vtiger_role');
+			$roleIdNumber = $db->getUniqueId('jo_role');
 			$roleId = 'H'.$roleIdNumber;
 		}
 		$parentRole = $this->getParent();
@@ -301,15 +301,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 
 		if($mode == 'edit') {
-			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=? WHERE roleid=?';
+			$sql = 'UPDATE jo_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=? WHERE roleid=?';
 			$params = array($this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $roleId);
 			$db->pquery($sql, $params);
 		} else {
-			$sql = 'INSERT INTO vtiger_role(roleid, rolename, parentrole, depth, allowassignedrecordsto) VALUES (?,?,?,?,?)';
+			$sql = 'INSERT INTO jo_role(roleid, rolename, parentrole, depth, allowassignedrecordsto) VALUES (?,?,?,?,?)';
 			$params = array($roleId, $this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'));
 			$db->pquery($sql, $params);
-			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '".$roleId."',picklistvalueid,picklistid,sortid
-					FROM vtiger_role2picklist WHERE roleid = ?";
+			$picklist2RoleSQL = "INSERT INTO jo_role2picklist SELECT '".$roleId."',picklistvalueid,picklistid,sortid
+					FROM jo_role2picklist WHERE roleid = ?";
 			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));
 		}
 
@@ -323,9 +323,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		if(!empty($profileIds)) {
 			$noOfProfiles = count($profileIds);
 			if($noOfProfiles > 0) {
-				$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
+				$db->pquery('DELETE FROM jo_role2profile WHERE roleid=?', array($roleId));
 
-				$sql = 'INSERT INTO vtiger_role2profile(roleid, profileid) VALUES (?,?)';
+				$sql = 'INSERT INTO jo_role2profile(roleid, profileid) VALUES (?,?)';
 				for($i=0; $i<$noOfProfiles; ++$i) {
 					$params = array($roleId, $profileIds[$i]);
 					$db->pquery($sql, $params);
@@ -345,23 +345,23 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$transferRoleId = $transferToRole->getId();
 
 		// get all the users tp recreate user_privileges files
-		$usersResult = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($roleId));
+		$usersResult = $db->pquery('SELECT userid FROM jo_user2role WHERE roleid = ?', array($roleId));
 		$usersCount = $db->num_rows($usersResult);
 		$users = array();
 		for($i=0; $i<$usersCount; $i++) {
 			$users[] = $db->query_result($usersResult, $i, 'userid');
 		}
 		
-		$db->pquery('UPDATE vtiger_user2role SET roleid=? WHERE roleid=?', array($transferRoleId, $roleId));
+		$db->pquery('UPDATE jo_user2role SET roleid=? WHERE roleid=?', array($transferRoleId, $roleId));
 
-		$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
-		$db->pquery('DELETE FROM vtiger_group2role WHERE roleid=?', array($roleId));
-		$db->pquery('DELETE FROM vtiger_group2rs WHERE roleandsubid=?', array($roleId));
+		$db->pquery('DELETE FROM jo_role2profile WHERE roleid=?', array($roleId));
+		$db->pquery('DELETE FROM jo_group2role WHERE roleid=?', array($roleId));
+		$db->pquery('DELETE FROM jo_group2rs WHERE roleandsubid=?', array($roleId));
 
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
 
-		$db->pquery('DELETE FROM vtiger_role WHERE roleid=?', array($roleId));
+		$db->pquery('DELETE FROM jo_role WHERE roleid=?', array($roleId));
 
 		$allChildren = $this->getAllChildren();
 		$transferParentRoleSequence = $transferToRole->getParentRoleString();
@@ -384,7 +384,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
 	public function getRecordLinks() {
 
@@ -405,7 +405,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 				)
 			);
 			foreach($recordLinks as $recordLink) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+				$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 			}
 		}
 
@@ -434,7 +434,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$params = array();
 
-		$sql = 'SELECT * FROM vtiger_role';
+		$sql = 'SELECT * FROM jo_role';
 		if (!$baseRole) {
 			$sql .= ' WHERE depth != ?';
 			$params[] = 0;
@@ -460,17 +460,17 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	public static function getInstanceById($roleId) {
 		$db = PearDatabase::getInstance();
         
-        $instance = Vtiger_Cache::get('roleById',$roleId);
+        $instance = Head_Cache::get('roleById',$roleId);
         if($instance){
             return $instance;
         }
         
-        $sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
+        $sql = 'SELECT * FROM jo_role WHERE roleid = ?';
         $params = array($roleId);
         $result = $db->pquery($sql, $params);
         if($db->num_rows($result) > 0) {
             $instance =  self::getInstanceFromQResult($result, 0);
-            Vtiger_Cache::set('roleById',$roleId,$instance);
+            Head_Cache::set('roleById',$roleId,$instance);
             return $instance;
         }
 		return null;
@@ -483,7 +483,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	public static function getBaseRole() {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1';
+		$sql = 'SELECT * FROM jo_role WHERE depth=0 LIMIT 1';
 		$params = array();
 		$result = $db->pquery($sql, $params);
 		if($db->num_rows($result) > 0) {
@@ -498,7 +498,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
     */
    public static function getInstanceByName($name, $excludedRecordId = array()) {
        $db = PearDatabase::getInstance();
-       $sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
+       $sql = 'SELECT * FROM jo_role WHERE rolename=?';
        $params = array($name);
        if(!empty($excludedRecordId)){
            $sql.= ' AND roleid NOT IN ('.generateQuestionMarks($excludedRecordId).')';
@@ -517,7 +517,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
     */
    public function getUsers() {
 	   $db = PearDatabase::getInstance();
-	   $result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
+	   $result = $db->pquery('SELECT userid FROM jo_user2role WHERE roleid = ?', array($this->getId()));
 	   $numOfRows = $db->num_rows($result);
 
 	   $usersList = array();

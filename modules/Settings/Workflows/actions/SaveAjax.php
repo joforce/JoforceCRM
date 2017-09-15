@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Settings_Workflows_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
+class Settings_Workflows_SaveAjax_Action extends Settings_Head_IndexAjax_View {
 
-   public function process(Vtiger_Request $request) {
+   public function process(Head_Request $request) {
       $record = $request->get('record');
       $status = $request->get('status');
       
@@ -24,12 +24,12 @@ class Settings_Workflows_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View 
          Settings_Workflows_Record_Model::updateWorkflowStatus($record, $status);
       }
       
-      $response = new Vtiger_Response();
+      $response = new Head_Response();
       $response->setResult(array('success'));
       $response->emit();
    }
 
-   public function validateRequest(Vtiger_Request $request) {
+   public function validateRequest(Head_Request $request) {
       $request->validateWriteAccess();
    }
 

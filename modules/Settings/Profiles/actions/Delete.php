@@ -9,29 +9,29 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Profiles_Delete_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Profiles_Delete_Action extends Settings_Head_Basic_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Head_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
 		$transferToProfile = Settings_Profiles_Record_Model::getInstanceById($transferRecordId);
 		if($recordModel && $transferToProfile) {
 			$recordModel->delete($transferToProfile);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$result = array('success'=>true);
 		
 		$response->setResult($result);
 		$response->emit();
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

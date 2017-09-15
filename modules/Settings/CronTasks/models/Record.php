@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_CronTasks_Record_Model extends Settings_Head_Record_Model {
 
 	static $STATUS_DISABLED = 0;
     static $STATUS_ENABLED = 1;
@@ -91,7 +91,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
      */
     function getLastEndDateTime() {
         if($this->get('lastend') != NULL) {
-		    $lastScannedTime = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+		    $lastScannedTime = Head_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
 		    $userModel = Users_Record_Model::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 		    if($hourFormat == '24') {
@@ -166,7 +166,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
 	public function save() {
 		$db = PearDatabase::getInstance();
 
-		$updateQuery = "UPDATE vtiger_cron_task SET frequency = ?, status = ? WHERE id = ?";
+		$updateQuery = "UPDATE jo_cron_task SET frequency = ?, status = ? WHERE id = ?";
 		$params = array($this->get('frequency'), $this->get('status'), $this->getId());
 		$db->pquery($updateQuery, $params);
 	}
@@ -180,10 +180,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
 	static public function getInstanceById($recordId, $qualifiedModuleName) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT * FROM vtiger_cron_task WHERE id = ?", array($recordId));
+		$result = $db->pquery("SELECT * FROM jo_cron_task WHERE id = ?", array($recordId));
 		if ($db->num_rows($result)) {
-			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+			$recordModelClass = Head_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$moduleModel = Settings_Head_Module_Model::getInstance($qualifiedModuleName);
 			$rowData = $db->query_result_rowdata($result, 0);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($rowData)->setModule($moduleModel);
@@ -195,7 +195,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
     public static function getInstanceByName($name) {
         $db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT * FROM vtiger_cron_task WHERE name = ?", array($name));
+		$result = $db->pquery("SELECT * FROM jo_cron_task WHERE name = ?", array($name));
 		if ($db->num_rows($result)) {
 			$moduleModel = new Settings_CronTasks_Module_Model();
 			$rowData = $db->query_result_rowdata($result, 0);
@@ -209,7 +209,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
 
 		/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
 	public function getRecordLinks() {
 
@@ -224,7 +224,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
 			)
 		);
 		foreach($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

@@ -9,29 +9,29 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_jo_workflow/include.inc';
+require_once 'modules/com_jo_workflow/expression_engine/VTExpressionsManager.inc';
 
-class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_Workflows_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'com_vtiger_workflows';
+	var $baseTable = 'com_jo_workflows';
 	var $baseIndex = 'workflow_id';
 //	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition');
 	var $listFields = array('module_name' => 'Module', 'workflowname' => 'Workflow Name', 'summary'=>'Description', 'execution_condition' => 'Trigger',  'test' => 'Conditions');
 	var $name = 'Workflows';
 
 	static $metaVariables = array(
-		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
-		'Current Time' => '(general : (__VtigerMeta__) time)',
-		'System Timezone' => '(general : (__VtigerMeta__) dbtimezone)',
-		'User Timezone' => '(general : (__VtigerMeta__) usertimezone)',
-		'CRM Detail View URL' => '(general : (__VtigerMeta__) crmdetailviewurl)',
-		'Portal Detail View URL' => '(general : (__VtigerMeta__) portaldetailviewurl)',
-		'Site Url' => '(general : (__VtigerMeta__) siteurl)',
-		'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
-		'Record Id' => '(general : (__VtigerMeta__) recordId)',
-		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
-		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
+		'Current Date' => '(general : (__HeadMeta__) date) ($_DATE_FORMAT_)',
+		'Current Time' => '(general : (__HeadMeta__) time)',
+		'System Timezone' => '(general : (__HeadMeta__) dbtimezone)',
+		'User Timezone' => '(general : (__HeadMeta__) usertimezone)',
+		'CRM Detail View URL' => '(general : (__HeadMeta__) crmdetailviewurl)',
+		'Portal Detail View URL' => '(general : (__HeadMeta__) portaldetailviewurl)',
+		'Site Url' => '(general : (__HeadMeta__) siteurl)',
+		'Portal Url' => '(general : (__HeadMeta__) portalurl)',
+		'Record Id' => '(general : (__HeadMeta__) recordId)',
+		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__HeadMeta__) supportName)',
+		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__HeadMeta__) supportEmailid)',
 	);
 
 	static $triggerTypes = array(
@@ -66,7 +66,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function getSupportedModules() {
-		$moduleModels = Vtiger_Module_Model::getAll(array(0,2));
+		$moduleModels = Head_Module_Model::getAll(array(0,2));
 		$supportedModuleModels = array();
 		foreach($moduleModels as $tabId => $moduleModel) {
 			if($moduleModel->isWorkflowSupported() && $moduleModel->getName() != 'Webmails') {
@@ -97,9 +97,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
 			$fieldObjects = array();
 			foreach($fields as $fieldName => $fieldLabel) {
 				if($fieldName == 'module_name' || $fieldName == 'execution_condition') {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort'=>false));
+					$fieldObjects[$fieldName] = new Head_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort'=>false));
 				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new Head_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
 			}
 			$this->listFieldModels = $fieldObjects;
@@ -114,12 +114,12 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getActiveWorkflowCount($moduleCount = false){
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT count(*) AS count, vtiger_tab.tabid FROM com_vtiger_workflows 
-				  INNER JOIN vtiger_tab ON vtiger_tab.name = com_vtiger_workflows.module_name 
-				  AND vtiger_tab.presence IN (0,2) WHERE com_vtiger_workflows.status = ? ';
+		$query = 'SELECT count(*) AS count, jo_tab.tabid FROM com_jo_workflows 
+				  INNER JOIN jo_tab ON jo_tab.name = com_jo_workflows.module_name 
+				  AND jo_tab.presence IN (0,2) WHERE com_jo_workflows.status = ? ';
 
 		if($moduleCount){
-		   $query .=' GROUP BY com_vtiger_workflows.module_name';
+		   $query .=' GROUP BY com_jo_workflows.module_name';
 		}
 
 		$result = $db->pquery($query, array(1));

@@ -12,7 +12,7 @@
 /**
  * Sharing Access Action Model Class
  */
-class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model {
+class Settings_SharingAccess_Action_Model extends Head_Base_Model {
 
 	static $nonConfigurableActions = array('Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events');
 
@@ -32,7 +32,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model {
 		$db = PearDatabase::getInstance();
 		$tabId = $module->getId();
 
-		$sql = 'SELECT 1 FROM vtiger_org_share_action2tab WHERE tabid = ? AND share_action_id = ?';
+		$sql = 'SELECT 1 FROM jo_org_share_action2tab WHERE tabid = ? AND share_action_id = ?';
 		$params = array($tabId, $this->getId());
 		$result = $db->pquery($sql, $params);
 		if($result && $db->num_rows($result) > 0) {
@@ -51,10 +51,10 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model {
 	public static function getInstance($value) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::isNumber($value)) {
-			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
+		if(Head_Utils::isNumber($value)) {
+			$sql = 'SELECT * FROM jo_org_share_action_mapping WHERE share_action_id = ?';
 		} else {
-			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';
+			$sql = 'SELECT * FROM jo_org_share_action_mapping WHERE share_action_name = ?';
 		}
 		$params = array($value);
 		$result = $db->pquery($sql, $params);
@@ -67,7 +67,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model {
 	public static function getAll($configurable=true) {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
+		$sql = 'SELECT * FROM jo_org_share_action_mapping';
 		$params = array();
 		if($configurable) {
 			$sql .= ' WHERE share_action_name NOT IN ('. generateQuestionMarks(self::$nonConfigurableActions) .')';

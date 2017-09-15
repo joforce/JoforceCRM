@@ -9,23 +9,23 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Roles_Popup_View extends Vtiger_Footer_View {
+class Settings_Roles_Popup_View extends Head_Footer_View {
 	
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if(!$currentUser->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$sourceRecord = $request->get('src_record');
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$sourceRole = Settings_Roles_Record_Model::getInstanceById($sourceRecord);
@@ -44,15 +44,15 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Popup',
+			'modules.Settings.Head.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'libraries.jquery.jquery_windowmsg',

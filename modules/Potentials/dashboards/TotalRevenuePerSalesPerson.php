@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Potentials_TotalRevenuePerSalesPerson_Dashboard extends Vtiger_IndexAjax_View {
+class Potentials_TotalRevenuePerSalesPerson_Dashboard extends Head_IndexAjax_View {
     
     function getSearchParams($assignedto,$dates) {
         $listSearchParams = array();
@@ -21,7 +21,7 @@ class Potentials_TotalRevenuePerSalesPerson_Dashboard extends Vtiger_IndexAjax_V
         return '/'. json_encode($listSearchParams);
     }
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -30,14 +30,14 @@ class Potentials_TotalRevenuePerSalesPerson_Dashboard extends Vtiger_IndexAjax_V
 		
 		$dates = $request->get('createdtime');
         
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getTotalRevenuePerSalesPerson($dates);
         $listViewUrl = $moduleModel->getListViewUrlWithAllFilter();
         for($i = 0;$i<count($data);$i++){
             $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i]["last_name"], $request->get('dateFilter')).'/1';
         }
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Head_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

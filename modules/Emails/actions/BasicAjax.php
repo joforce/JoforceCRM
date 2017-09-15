@@ -9,15 +9,15 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Emails_BasicAjax_Action extends Vtiger_Action_Controller {
+class Emails_BasicAjax_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		return;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->get('module');
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$searchValue = $request->get('searchValue');
 
 		$emailsResult = array();
@@ -25,7 +25,7 @@ class Emails_BasicAjax_Action extends Vtiger_Action_Controller {
 			$emailsResult = $moduleModel->searchEmails($request->get('searchValue'));
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($emailsResult);
 		$response->emit();
 	}

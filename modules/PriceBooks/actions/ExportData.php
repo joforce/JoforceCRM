@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class PriceBooks_ExportData_Action extends Vtiger_ExportData_Action {
+class PriceBooks_ExportData_Action extends Head_ExportData_Action {
 	/**
 	 * this function takes in an array of values for an user and sanitizes it for export
 	 * @param array $arr - the array of values

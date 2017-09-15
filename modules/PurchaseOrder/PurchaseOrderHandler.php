@@ -49,7 +49,7 @@ class PurchaseOrderHandler extends VTEventHandler {
             $wsrecord['balance'] = floatval($wsrecord['hdnGrandTotal'] - $wsrecord['paid']);
             if ($wsrecord['balance'] == 0)
                 $wsrecord['postatus'] = 'Received Shipment';
-            $query = "UPDATE vtiger_purchaseorder SET balance=?,paid=? WHERE purchaseorderid=?";
+            $query = "UPDATE jo_purchaseorder SET balance=?,paid=? WHERE purchaseorderid=?";
             $db->pquery($query, array($wsrecord['balance'], $wsrecord['paid'], $entityData->getId()));
             // TODO Make it available for other event handlers
         }

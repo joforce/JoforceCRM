@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Folder_Model extends Vtiger_Base_Model {
+class Documents_Folder_Model extends Head_Base_Model {
 
 	/**
 	 * Function returns duplicate record status of the module
@@ -20,7 +20,7 @@ class Documents_Folder_Model extends Vtiger_Base_Model {
 		$folderName = $this->getName();
 		$folderId = $this->getId();
 		//added folder id check to support folder edit feature
-		$result = $db->pquery("SELECT 1 FROM vtiger_attachmentsfolder WHERE foldername = ? AND folderid != ?", array($folderName, $folderId));
+		$result = $db->pquery("SELECT 1 FROM jo_attachmentsfolder WHERE foldername = ? AND folderid != ?", array($folderName, $folderId));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
 			return true;
@@ -36,12 +36,12 @@ class Documents_Folder_Model extends Vtiger_Base_Model {
 		$db = PearDatabase::getInstance();
 		$folderId = $this->getId();
 
-		$result = $db->pquery("SELECT 1 FROM vtiger_notes
-						INNER JOIN vtiger_attachmentsfolder ON vtiger_attachmentsfolder.folderid = vtiger_notes.folderid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_notes.notesid
-						WHERE vtiger_attachmentsfolder.folderid = ?
-						AND vtiger_attachmentsfolder.foldername != 'Default'
-						AND vtiger_crmentity.deleted = 0", array($folderId));
+		$result = $db->pquery("SELECT 1 FROM jo_notes
+						INNER JOIN jo_attachmentsfolder ON jo_attachmentsfolder.folderid = jo_notes.folderid
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_notes.notesid
+						WHERE jo_attachmentsfolder.folderid = ?
+						AND jo_attachmentsfolder.foldername != 'Default'
+						AND jo_crmentity.deleted = 0", array($folderId));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows>0) {
 			return true;
@@ -62,18 +62,18 @@ class Documents_Folder_Model extends Vtiger_Base_Model {
 		$currentUserId = $currentUserModel->getId();
 
 		if($this->get('mode') != 'edit') {
-			$result = $db->pquery("SELECT max(sequence) AS max, max(folderid) AS max_folderid FROM vtiger_attachmentsfolder", array());
+			$result = $db->pquery("SELECT max(sequence) AS max, max(folderid) AS max_folderid FROM jo_attachmentsfolder", array());
 			$sequence = $db->query_result($result, 0, 'max') + 1;
 			$folderId = $db->query_result($result,0,'max_folderid') + 1;
 			$params = array($folderId,$folderName, $folderDesc, $currentUserId, $sequence);
 
-			$db->pquery("INSERT INTO vtiger_attachmentsfolder(folderid,foldername, description, createdby, sequence) VALUES(?, ?, ?, ?, ?)", $params);
+			$db->pquery("INSERT INTO jo_attachmentsfolder(folderid,foldername, description, createdby, sequence) VALUES(?, ?, ?, ?, ?)", $params);
 
 			$this->set('sequence', $sequence);
 			$this->set('createdby', $currentUserId);
 			$this->set('folderid',$folderId);
 		} else {
-			$db->pquery('UPDATE vtiger_attachmentsfolder SET foldername=?, description=? WHERE folderid=?', array($folderName, $folderDesc, $this->getId()));
+			$db->pquery('UPDATE jo_attachmentsfolder SET foldername=?, description=? WHERE folderid=?', array($folderName, $folderDesc, $this->getId()));
 		}
 
 		return $this;
@@ -86,7 +86,7 @@ class Documents_Folder_Model extends Vtiger_Base_Model {
 	public function delete() {
 		$db = PearDatabase::getInstance();
 		$folderId = $this->getId();
-		$result = $db->pquery("DELETE FROM vtiger_attachmentsfolder WHERE folderid = ? AND foldername != 'Default'", array($folderId));
+		$result = $db->pquery("DELETE FROM jo_attachmentsfolder WHERE folderid = ? AND foldername != 'Default'", array($folderId));
 		return $this;
 	}
 
@@ -107,7 +107,7 @@ class Documents_Folder_Model extends Vtiger_Base_Model {
 		$db = PearDatabase::getInstance();
 		$folderModel = Documents_Folder_Model::getInstance();
 
-		$result = $db->pquery("SELECT * FROM vtiger_attachmentsfolder WHERE folderid = ?", array($folderId));
+		$result = $db->pquery("SELECT * FROM jo_attachmentsfolder WHERE folderid = ?", array($folderId));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
 			$values = $db->query_result_rowdata($result, 0);

@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Leads_Save_Action extends Vtiger_Save_Action {
+class Leads_Save_Action extends Head_Save_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 
 		//To stop saveing the value of salutation as '--None--'
 		$salutationType = $request->get('salutationtype');

@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Products_Detail_View extends Vtiger_Detail_View {
+class Products_Detail_View extends Head_Detail_View {
 
 	public function __construct() {
 		parent::__construct();
 		$this->exposeMethod('showBundleTotalCostView');
 	}
 	
-	function preProcess(Vtiger_Request $request, $display = true) {
+	function preProcess(Head_Request $request, $display = true) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 		
 		$viewer = $this->getViewer($request);
@@ -29,11 +29,11 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		parent::preProcess($request, $display);
 	}
 
-	public function showModuleDetailView(Vtiger_Request $request) {
+	public function showModuleDetailView(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 		
 		$viewer = $this->getViewer($request);
@@ -44,11 +44,11 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		return parent::showModuleDetailView($request);
 	}
 
-	public function showModuleBasicView(Vtiger_Request $request) {
+	public function showModuleBasicView(Head_Request $request) {
 		return $this->showModuleDetailView($request);
 	}
 	
-	public function getOverlayHeaderScripts(Vtiger_Request $request){
+	public function getOverlayHeaderScripts(Head_Request $request){
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
 		$jsFileNames = array(
@@ -60,7 +60,7 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		return $jsScriptInstances;	
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
@@ -83,14 +83,14 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		return $headerScriptInstances;
 	}
 	
-	public function showBundleTotalCostView(Vtiger_Request $request) {
+	public function showBundleTotalCostView(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$parentRecordId = $request->get('record');
 		$tabLabel = $request->get('tabLabel');
 
 		if ($moduleName === $relatedModuleName && $tabLabel === 'Product Bundles') {//Products && Child Products
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $moduleName);
+			$parentRecordModel = Head_Record_Model::getInstanceById($parentRecordId, $moduleName);
 			$parentModuleModel = $parentRecordModel->getModule();
 			$parentRecordModel->set('currency_id', getProductBaseCurrency($parentRecordId, $parentModuleModel->getName()));
 

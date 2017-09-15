@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_EditAjax_View extends Vtiger_QuickCreateAjax_View {
+class Documents_EditAjax_View extends Head_QuickCreateAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
@@ -26,10 +26,10 @@ class Documents_EditAjax_View extends Vtiger_QuickCreateAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 		$showType = $documentType = $request->get('type');
 
@@ -49,7 +49,7 @@ class Documents_EditAjax_View extends Vtiger_QuickCreateAjax_View {
 		if($request->get('relationOperation')=='true'){
 				$requestFieldList = array_intersect_key($request->getAll(), $allFields);
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		foreach($recordStructure as $blocks) {
 			foreach($blocks as $fieldLabel=> $fieldValue) {
@@ -60,10 +60,10 @@ class Documents_EditAjax_View extends Vtiger_QuickCreateAjax_View {
 				if(in_array($fieldLabel,$fieldNames)) $fieldModel[] = $fieldValue;
 			}
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Head_Functions::jsonEncode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FIELD_MODELS',$fieldModel);
@@ -83,14 +83,14 @@ class Documents_EditAjax_View extends Vtiger_QuickCreateAjax_View {
 
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
 
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Vtiger_Util_Helper::getMaxUploadSizeInBytes());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Head_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Head_Util_Helper::getMaxUploadSizeInBytes());
 		echo $viewer->view('AjaxEdit.tpl',$moduleName,true);
 
 	}
 
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			"modules.$moduleName.resources.Edit"

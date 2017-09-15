@@ -24,9 +24,9 @@ vimport ('includes.runtime.JavaScript');
 
 vimport ('includes.runtime.LanguageHandler');
 vimport ('includes.runtime.Cache');
-vimport ('vtlib.Vtiger.Runtime');
+vimport ('vtlib.Head.Runtime');
 
-abstract class Vtiger_EntryPoint {
+abstract class Head_EntryPoint {
 
 	/**
 	 * Login data
@@ -55,6 +55,6 @@ abstract class Vtiger_EntryPoint {
 		return $this->getLogin()? true: false;
 	}
 
-	abstract function process (Vtiger_Request $request);
+	abstract function process (Head_Request $request);
 
 }

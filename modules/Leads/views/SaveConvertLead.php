@@ -9,11 +9,11 @@
  *************************************************************************************/
 vimport('~~/include/Webservices/ConvertLead.php');
 
-class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
+class Leads_SaveConvertLead_View extends Head_View_Controller {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
@@ -21,10 +21,10 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
         global $site_URL;
 		$recordId = $request->get('record');
 		$modules = $request->get('modules');
@@ -38,7 +38,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		$entityValues['leadId'] =  vtws_getWebserviceEntityId($request->getModule(), $recordId);
         $entityValues['imageAttachmentId'] = $request->get('imageAttachmentId');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 
 		$availableModules = array('Accounts', 'Contacts', 'Potentials');
@@ -57,9 +57,9 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 					if ($fieldModel->getFieldDataType() === 'currency') {
                         if($fieldModel->get('uitype') == 72){
                             // Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-                            $fieldValue = Vtiger_Currency_UIType::convertToDBFormat($fieldValue, null, true);
+                            $fieldValue = Head_Currency_UIType::convertToDBFormat($fieldValue, null, true);
                         } else {
-                            $fieldValue = Vtiger_Currency_UIType::convertToDBFormat($fieldValue);
+                            $fieldValue = Head_Currency_UIType::convertToDBFormat($fieldValue);
                         }
 					} elseif ($fieldModel->getFieldDataType() === 'date') {
 						$fieldValue = DateTimeField::convertToDBFormat($fieldValue);
@@ -113,7 +113,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

@@ -14,7 +14,7 @@ function vtws_relatedtypes($elementType, $user) {
 
     $allowedTypes = vtws_listtypes(null, $user);
 
-    $webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
+    $webserviceObject = HeadWebserviceObject::fromName($adb, $elementType);
     $handlerPath  = $webserviceObject->getHandlerPath();
     $handlerClass = $webserviceObject->getHandlerClass();
 
@@ -23,9 +23,9 @@ function vtws_relatedtypes($elementType, $user) {
     $meta = $handler->getMeta();
     $tabid = $meta->getTabId();
 
-    $sql = "SELECT vtiger_relatedlists.label, vtiger_tab.name, vtiger_tab.isentitytype FROM vtiger_relatedlists 
-            INNER JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid 
-            WHERE vtiger_relatedlists.tabid=? AND vtiger_tab.presence = 0";
+    $sql = "SELECT jo_relatedlists.label, jo_tab.name, jo_tab.isentitytype FROM jo_relatedlists 
+            INNER JOIN jo_tab ON jo_tab.tabid=jo_relatedlists.related_tabid 
+            WHERE jo_relatedlists.tabid=? AND jo_tab.presence = 0";
 
     $params = array($tabid);
     $rs = $adb->pquery($sql, $params);

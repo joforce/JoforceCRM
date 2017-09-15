@@ -10,7 +10,7 @@
  *************************************************************************************/
 vimport('~~modules/PickList/DependentPickListUtils.php');
 
-class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_PickListDependency_Record_Model extends Settings_Head_Record_Model {
 
 	private $mapping = false;
 	private $sourcePickListValues = false;
@@ -38,14 +38,14 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'icon-pencil'
 		);
-		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
+		$editLinkInstance = Head_Link_Model::getInstanceFromValues($editLink);
 
 		$deleteLink = array(
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'icon-trash'
 		);
-		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = Head_Link_Model::getInstanceFromValues($deleteLink);
 		return array($editLinkInstance,$deleteLinkInstance);
 	}
 
@@ -53,9 +53,9 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($this->get('sourceModule'));
 
-		$query="select vtiger_field.fieldlabel,vtiger_field.fieldname FROM vtiger_field" .
-				" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
-				" and vtiger_field.presence in ('0','2') and vtiger_field.block != 'NULL'";
+		$query="select jo_field.fieldlabel,jo_field.fieldname FROM jo_field" .
+				" where displaytype=1 and jo_field.tabid=? and jo_field.uitype in ('15','16') " .
+				" and jo_field.presence in ('0','2') and jo_field.block != 'NULL'";
 
 		$result = $db->pquery($query, array($tabId));
 		$noofrows = $db->num_rows($result);
@@ -71,7 +71,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function getPickListDependency() {
 		if(empty($this->mapping)) {
-			$dependency = Vtiger_DependencyPicklist::getPickListDependency($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
+			$dependency = Head_DependencyPicklist::getPickListDependency($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
 			$this->mapping = $dependency['valuemapping'];
 		}
 		return $this->mapping;
@@ -129,12 +129,12 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$dependencyMap['sourcefield'] = $this->get('sourcefield');
 		$dependencyMap['targetfield'] = $this->get('targetfield');
 		$dependencyMap['valuemapping'] = $mapping;
-		Vtiger_DependencyPicklist::savePickListDependencies($this->get('sourceModule'), $dependencyMap);
+		Head_DependencyPicklist::savePickListDependencies($this->get('sourceModule'), $dependencyMap);
 		return true;
 	}
 
 	public function delete() {
-		Vtiger_DependencyPicklist::deletePickListDependencies($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
+		Head_DependencyPicklist::deletePickListDependencies($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
 		return true;
 	}
 
@@ -144,7 +144,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$tabId = getTabid($this->get('sourceModule'));
 		$fieldNames = array($this->get('sourcefield'),$this->get('targetfield'));
 
-		$query = 'SELECT fieldlabel,fieldname FROM vtiger_field WHERE fieldname IN ('.generateQuestionMarks($fieldNames).') AND tabid = ?';
+		$query = 'SELECT fieldlabel,fieldname FROM jo_field WHERE fieldname IN ('.generateQuestionMarks($fieldNames).') AND tabid = ?';
 		$params = array($fieldNames, $tabId);
 		$result = $db->pquery($query, $params);
 		$num_rows = $db->num_rows($result);

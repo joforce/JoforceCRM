@@ -10,7 +10,7 @@
  ************************************************************************************/
 include_once 'include/InventoryPDFController.php';
 include_once dirname(__FILE__). '/SalesOrderPDFHeaderViewer.php';
-class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
+class Head_SalesOrderPDFController extends Head_InventoryPDFController{
 	function buildHeaderModelTitle() {
 		$singularModuleNameKey = 'SINGLE_'.$this->moduleName;
 		$translatedSingularModuleLabel = getTranslatedString($singularModuleNameKey, $this->moduleName);
@@ -35,7 +35,7 @@ class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
 		$subject = $this->focusColumnValue('subject');
 		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
-		$purchaseOrder = $this->focusColumnValue('vtiger_purchaseorder');
+		$purchaseOrder = $this->focusColumnValue('jo_purchaseorder');
 		$quoteName = $this->resolveReferenceLabel($this->focusColumnValue('quote_id'), 'Quotes');
 		
 		$subjectLabel = getTranslatedString('Subject', $this->moduleName);

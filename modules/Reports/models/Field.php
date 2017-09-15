@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_Field_Model extends Vtiger_Field_Model {
+class Reports_Field_Model extends Head_Field_Model {
 
 	static function getPicklistValueByField($fieldName) {
 		$picklistValues = false;

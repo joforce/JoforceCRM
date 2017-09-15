@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Time_UIType extends Vtiger_Time_UIType {
+class Calendar_Time_UIType extends Head_Time_UIType {
 
 
 	public function getEditViewDisplayValue($value) {
@@ -34,7 +34,7 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType {
 	 * Function to get the calendar event call duration value in hour format
 	 * @param type $fieldName
 	 * @param type $value
-	 * @return <Vtiger_Time_UIType> - getTimeValue 
+	 * @return <Head_Time_UIType> - getTimeValue 
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value){
 		$userModel = Users_Privileges_Model::getCurrentUserModel();

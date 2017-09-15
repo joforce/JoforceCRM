@@ -24,11 +24,11 @@ function getUserFldArray($fld_module,$roleid){
 	$user_fld = Array();
 	$tabid = getTabid($fld_module);
 
-	$query="select vtiger_field.fieldlabel,vtiger_field.columnname,vtiger_field.fieldname, vtiger_field.uitype" .
-			" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
-			" where (displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','55','33','16') " .
-			" or (vtiger_field.tabid=? and fieldname='salutationtype' and fieldname !='vendortype')) " .
-			" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
+	$query="select jo_field.fieldlabel,jo_field.columnname,jo_field.fieldname, jo_field.uitype" .
+			" FROM jo_field inner join jo_picklist on jo_field.fieldname = jo_picklist.name" .
+			" where (displaytype=1 and jo_field.tabid=? and jo_field.uitype in ('15','55','33','16') " .
+			" or (jo_field.tabid=? and fieldname='salutationtype' and fieldname !='vendortype')) " .
+			" and jo_field.presence in (0,2) ORDER BY jo_picklist.picklistid ASC";
 
 	$result = $adb->pquery($query, array($tabid, $tabid));
 	$noofrows = $adb->num_rows($result);
@@ -59,7 +59,7 @@ function getUserFldArray($fld_module,$roleid){
 function getPickListModules(){
 	global $adb;
 	// vtlib customization: Ignore disabled modules.
-	$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
+	$query = 'select distinct jo_field.fieldname,jo_field.tabid,jo_tab.tablabel, jo_tab.name as tabname,uitype from jo_field inner join jo_tab on jo_tab.tabid=jo_field.tabid where uitype IN (15,33) and jo_field.tabid != 29 and jo_tab.presence != 1 and jo_field.presence in (0,2) order by jo_field.tabid ASC';
 	// END
 	$result = $adb->pquery($query, array());
 	while($row = $adb->fetch_array($result)){
@@ -74,7 +74,7 @@ function getPickListModules(){
  */
 function getrole2picklist(){
 	global $adb;
-	$query = "select rolename,roleid from vtiger_role where roleid not in('H1') order by roleid";
+	$query = "select rolename,roleid from jo_role where roleid not in('H1') order by roleid";
 	$result = $adb->pquery($query, array());
 	while($row = $adb->fetch_array($result)){
 		$role[$row['roleid']] = $row['rolename'];
@@ -103,8 +103,8 @@ function get_available_module_picklist($picklist_details){
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
 	global $adb;
-	if(Vtiger_Cache::get('AllPicklistValues',$fieldName)){
-		return Vtiger_Cache::get('AllPicklistValues',$fieldName);
+	if(Head_Cache::get('AllPicklistValues',$fieldName)){
+		return Head_Cache::get('AllPicklistValues',$fieldName);
 	}
 	$userRecordModel = Users_Record_Model::getCurrentUserModel();
 	if($fieldName == 'group_id'){
@@ -112,7 +112,7 @@ function getAllPickListValues($fieldName,$lang = Array() ){
 	}else if ($fieldName == 'assigned_user_id'){ 
 		$arr = array_map('decode_html', $userRecordModel->getAccessibleUsers());
 	}else {
-		$sql = 'SELECT * FROM vtiger_'.$adb->sql_escape_string($fieldName);
+		$sql = 'SELECT * FROM jo_'.$adb->sql_escape_string($fieldName);
 		$result = $adb->query($sql);
 		$count = $adb->num_rows($result);
 
@@ -128,7 +128,7 @@ function getAllPickListValues($fieldName,$lang = Array() ){
 		}
 	}
 
-	Vtiger_Cache::set('AllPicklistValues', $fieldName, $arr);
+	Head_Cache::set('AllPicklistValues', $fieldName, $arr);
 	return $arr;
 }
 
@@ -143,7 +143,7 @@ function getAllPickListValues($fieldName,$lang = Array() ){
 function getEditablePicklistValues($fieldName, $lang= array(), $adb){
 	$values = array();
 	$fieldName = $adb->sql_escape_string($fieldName);
-	$sql="select $fieldName from vtiger_$fieldName where presence=1 and $fieldName <> '--None--'";
+	$sql="select $fieldName from jo_$fieldName where presence=1 and $fieldName <> '--None--'";
 	$res = $adb->query($sql);
 	$RowCount = $adb->num_rows($res);
 	if($RowCount > 0){
@@ -169,7 +169,7 @@ function getEditablePicklistValues($fieldName, $lang= array(), $adb){
 function getNonEditablePicklistValues($fieldName, $lang=array(), $adb){
 	$values = array();
 	$fieldName = $adb->sql_escape_string($fieldName);
-	$sql = "select $fieldName from vtiger_$fieldName where presence=0";
+	$sql = "select $fieldName from jo_$fieldName where presence=0";
 	$result = $adb->query($sql);
 	$count = $adb->num_rows($result);
 	for($i=0;$i<$count;$i++){
@@ -194,13 +194,13 @@ function getNonEditablePicklistValues($fieldName, $lang=array(), $adb){
  * @return array $val - the assigned picklist values in array format
  */
 function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
-	$cache = Vtiger_Cache::getInstance();
+	$cache = Head_Cache::getInstance();
 	if($cache->hasAssignedPicklistValues($tableName,$roleid)) {
 		return $cache->getAssignedPicklistValues($tableName,$roleid);
 	} else {
 		$arr = array();
 
-		$sql = "select picklistid from vtiger_picklist where name = ?";
+		$sql = "select picklistid from jo_picklist where name = ?";
 		$result = $adb->pquery($sql, array($tableName));
 		if($adb->num_rows($result)){
 		$picklistid = $adb->query_result($result, 0, "picklistid");
@@ -214,8 +214,8 @@ function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
 			$roleids[] = $role;
 		}
 
-		$sql = "SELECT distinct ".$adb->sql_escape_string($tableName)." FROM ". $adb->sql_escape_string("vtiger_$tableName")
-				. " inner join vtiger_role2picklist on ".$adb->sql_escape_string("vtiger_$tableName").".picklist_valueid=vtiger_role2picklist.picklistvalueid"
+		$sql = "SELECT distinct ".$adb->sql_escape_string($tableName)." FROM ". $adb->sql_escape_string("jo_$tableName")
+				. " inner join jo_role2picklist on ".$adb->sql_escape_string("jo_$tableName").".picklist_valueid=jo_role2picklist.picklistvalueid"
 				. " and roleid in (".generateQuestionMarks($roleids).") order by sortorderid";
 		$result = $adb->pquery($sql, $roleids);
 			$count = $adb->num_rows($result);

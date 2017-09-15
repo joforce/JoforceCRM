@@ -71,28 +71,28 @@ class Appointment
 							OR	(CAST(CONCAT(due_date,' ',time_end) AS DATETIME) >= ? AND CAST(CONCAT(due_date,' ',time_end) AS DATETIME) <= ? )
 							OR	(CAST(CONCAT(date_start,' ',time_start) AS DATETIME) <= ? AND CAST(CONCAT(due_date,' ',time_end) AS DATETIME) >= ?)
 						)
-						AND vtiger_recurringevents.activityid is NULL
+						AND jo_recurringevents.activityid is NULL
 					)
 				OR (
-						(CAST(CONCAT(vtiger_recurringevents.recurringdate,' ',time_start) AS DATETIME) >= ?
-							AND CAST(CONCAT(vtiger_recurringevents.recurringdate,' ',time_start) AS DATETIME) <= ?)
+						(CAST(CONCAT(jo_recurringevents.recurringdate,' ',time_start) AS DATETIME) >= ?
+							AND CAST(CONCAT(jo_recurringevents.recurringdate,' ',time_start) AS DATETIME) <= ?)
 						OR	(CAST(CONCAT(due_date,' ',time_end) AS DATETIME) >= ? AND CAST(CONCAT(due_date,' ',time_end) AS DATETIME) <= ?)
-						OR	(CAST(CONCAT(vtiger_recurringevents.recurringdate,' ',time_start) AS DATETIME) <= ?
+						OR	(CAST(CONCAT(jo_recurringevents.recurringdate,' ',time_start) AS DATETIME) <= ?
 							AND CAST(CONCAT(due_date,' ',time_end) AS DATETIME) >= ?)
 					)
 				)";
 		
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 		
-        	$q= "select vtiger_activity.*, vtiger_crmentity.*,
-					case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-					FROM vtiger_activity
-						inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid
-						left join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid
-						left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-					WHERE vtiger_crmentity.deleted = 0 and vtiger_activity.activitytype not in ('Emails','Task') $and ";
+        	$q= "select jo_activity.*, jo_crmentity.*,
+					case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name
+					FROM jo_activity
+						inner join jo_crmentity on jo_activity.activityid = jo_crmentity.crmid
+						left join jo_recurringevents on jo_activity.activityid=jo_recurringevents.activityid
+						left join jo_groups on jo_groups.groupid = jo_crmentity.smownerid
+						LEFT JOIN jo_users ON jo_users.id = jo_crmentity.smownerid
+					WHERE jo_crmentity.deleted = 0 and jo_activity.activitytype not in ('Emails','Task') $and ";
 
 		// User Select Customization: Changes should made also in (calendayLaout getEventList) and one more BELOW
 		$query_filter_prefix = calendarview_getSelectedUserFilterQuerySuffix(); 
@@ -124,8 +124,8 @@ class Appointment
 			$q .= $sec_parameter;
 		}
 									
-        $q .= " AND vtiger_recurringevents.activityid is NULL ";
-        $q .= " group by vtiger_activity.activityid ORDER by vtiger_activity.date_start,vtiger_activity.time_start";
+        $q .= " AND jo_recurringevents.activityid is NULL ";
+        $q .= " group by jo_activity.activityid ORDER by jo_activity.date_start,jo_activity.time_start";
 
 		$r = $adb->pquery($q, $params);
 		$n = $adb->getRowCount($r);
@@ -172,9 +172,9 @@ class Appointment
 			
         }
 		//Get Recurring events
-		$q = "SELECT vtiger_activity.*, vtiger_crmentity.*, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name , vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start ,vtiger_recurringevents.recurringtype,vtiger_groups.groupname from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
+		$q = "SELECT jo_activity.*, jo_crmentity.*, case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name , jo_recurringevents.recurringid, jo_recurringevents.recurringdate as date_start ,jo_recurringevents.recurringtype,jo_groups.groupname from jo_activity inner join jo_crmentity on jo_activity.activityid = jo_crmentity.crmid inner join jo_recurringevents on jo_activity.activityid=jo_recurringevents.activityid left join jo_groups on jo_groups.groupid = jo_crmentity.smownerid LEFT JOIN jo_users ON jo_users.id = jo_crmentity.smownerid";
 		$q .= getNonAdminAccessControlQuery('Calendar',$current_user);
-        $q.=" where vtiger_crmentity.deleted = 0 and vtiger_activity.activitytype not in ('Emails','Task') AND (cast(concat(recurringdate, ' ', time_start) as datetime) between ? and ?) ";
+        $q.=" where jo_crmentity.deleted = 0 and jo_activity.activitytype not in ('Emails','Task') AND (cast(concat(recurringdate, ' ', time_start) as datetime) between ? and ?) ";
 		
 		// User Select Customization
 		$q .= $query_filter_prefix;
@@ -182,7 +182,7 @@ class Appointment
 
 		$params = array($startDate->getDBInsertDateTimeValue(), $endDate->getDBInsertDateTimeValue());
 													
-        $q .= " ORDER by vtiger_recurringevents.recurringid";
+        $q .= " ORDER by jo_recurringevents.recurringid";
 		$r = $adb->pquery($q, $params);
         $n = $adb->getRowCount($r);
         $a = 0;
@@ -204,7 +204,7 @@ class Appointment
 
 
 	/** To read and set the events value in Appointment Obj
-          * @param $act_array -- The vtiger_activity array :: Type Array
+          * @param $act_array -- The jo_activity array :: Type Array
           * @param $view -- The calendar view :: Type String
          */
 	function readResult($act_array, $view)
@@ -226,7 +226,7 @@ class Appointment
 		if(!is_admin($current_user))
 		{
 			if($act_array["smownerid"]!=0 && $act_array["smownerid"] != $current_user->id && $act_array["visibility"] == "Public"){
-				$que = "select * from vtiger_sharedcalendar where sharedid=? and userid=?";
+				$que = "select * from jo_sharedcalendar where sharedid=? and userid=?";
 				$row = $adb->pquery($que, array($current_user->id, $act_array["smownerid"]));
 				$no = $adb->getRowCount($row);
 				if($no > 0)
@@ -289,8 +289,8 @@ class Appointment
 }
 
 /** To two array values
-  * @param $a -- The vtiger_activity array :: Type Array
-  * @param $b -- The vtiger_activity array :: Type Array
+  * @param $a -- The jo_activity array :: Type Array
+  * @param $b -- The jo_activity array :: Type Array
   * @returns value 0 or 1 or -1 depends on comparision result
  */
 function compare($a,$b)
@@ -316,11 +316,11 @@ function getRoleBasesdPickList($fldname,$exist_val)
 
 				//here we are checking wheather the table contains the sortorder column .If  sortorder is present in the main picklist table, then the role2picklist will be applicable for this table...
 
-				$sql="select * from vtiger_$fldname where $fldname=?";
+				$sql="select * from jo_$fldname where $fldname=?";
 				$res = $adb->pquery($sql,array(decode_html($exist_val)));
 				$picklistvalueid = $adb->query_result($res,0,'picklist_valueid');
 				if ($picklistvalueid != null) {
-					$pick_query="select * from vtiger_role2picklist where picklistvalueid=$picklistvalueid and roleid in (". generateQuestionMarks($roleids) .")";
+					$pick_query="select * from jo_role2picklist where picklistvalueid=$picklistvalueid and roleid in (". generateQuestionMarks($roleids) .")";
 
 					$res_val=$adb->pquery($pick_query,array($roleids));
 					$num_val = $adb->num_rows($res_val);

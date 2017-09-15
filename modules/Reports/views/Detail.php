@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_Detail_View extends Vtiger_Index_View {
+class Reports_Detail_View extends Head_Index_View {
 
 	protected $reportData;
 	protected $calculationFields;
 	protected $count;
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -38,7 +38,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 
 	const REPORT_LIMIT = 500;
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -50,7 +50,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		$page = $request->get('page');
 		$reportModel->setModule('Reports');
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', self::REPORT_LIMIT);
 
@@ -62,7 +62,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 
 		$primaryModule = $reportModel->getPrimaryModule();
 		$secondaryModules = $reportModel->getSecondaryModules();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = Head_Module_Model::getInstance($primaryModule);
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
@@ -80,7 +80,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('SELECTED_ADVANCED_FILTER_FIELDS', $reportModel->transformToNewAdvancedFilter());
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
@@ -117,11 +117,11 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		if(($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== FALSE)){
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else{
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = Head_Field_Model::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', Vtiger_Field_Model::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', Head_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+		$dateFilters = Head_Field_Model::getDateFilterTypes();
 		foreach($dateFilters as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
@@ -140,7 +140,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		$viewer->view('ReportHeader.tpl', $moduleName);
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -149,7 +149,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		echo $this->getReport($request);
 	}
 
-	function getReport(Vtiger_Request $request) {
+	function getReport(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -159,7 +159,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		$data = $this->reportData;
 		$calculation = $this->calculationFields;
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', self::REPORT_LIMIT+1);
 
@@ -190,15 +190,15 @@ class Reports_Detail_View extends Vtiger_Index_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Detail',
+			'modules.Head.resources.Detail',
 			"modules.$moduleName.resources.Detail"
 		);
 

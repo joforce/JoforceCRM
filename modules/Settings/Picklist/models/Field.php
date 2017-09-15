@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
+class Settings_Picklist_Field_Model extends Head_Field_Model {
 
 
 
@@ -36,18 +36,18 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
             $intersectionMode = true;
         }
 
-        if(Vtiger_Cache::get('PicklistRoleBasedValues',$this->getName().implode('_', $roleIdList))){
-            return Vtiger_Cache::get('PicklistRoleBasedValues',$this->getName().implode('_', $roleIdList));
+        if(Head_Cache::get('PicklistRoleBasedValues',$this->getName().implode('_', $roleIdList))){
+            return Head_Cache::get('PicklistRoleBasedValues',$this->getName().implode('_', $roleIdList));
         }
         $db = PearDatabase::getInstance();
         $fieldName = $this->getName();
-        $tableName = 'vtiger_'.$fieldName;
+        $tableName = 'jo_'.$fieldName;
         $idColName = $fieldName.'id';
         $query = 'SELECT '.$fieldName;
         if($intersectionMode) {
             $query .= ',count(roleid) as rolecount ';
         }
-        $query .= ' FROM  vtiger_role2picklist INNER JOIN '.$tableName.' ON vtiger_role2picklist.picklistvalueid = '.$tableName.'.picklist_valueid'.
+        $query .= ' FROM  jo_role2picklist INNER JOIN '.$tableName.' ON jo_role2picklist.picklistvalueid = '.$tableName.'.picklist_valueid'.
                  ' WHERE roleid IN ('.generateQuestionMarks($roleIdList).') order by sortorderid';
         if($intersectionMode) {
             $query .= ' GROUP BY picklistvalueid';
@@ -66,7 +66,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
 			//Need to decode the picklist values twice which are saved from old ui
             $pickListValues[$rowData[$fieldName]] = decode_html(decode_html($rowData[$fieldName]));
         }
-        Vtiger_Cache::set('PicklistRoleBasedValues', $fieldName.implode('_', $roleIdList), $pickListValues);
+        Head_Cache::set('PicklistRoleBasedValues', $fieldName.implode('_', $roleIdList), $pickListValues);
         return $pickListValues;
     }
 
@@ -74,7 +74,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
 	 * Function to get instance
 	 * @param <String> $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
-	 * @return <Vtiger_Field_Model>
+	 * @return <Head_Field_Model>
 	 */
 	public static function  getInstance($value, $module = false) {
 		$fieldObject = parent::getInstance($value, $module);
@@ -85,11 +85,11 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
 	}
 
     /**
-	 * Static Function to get the instance fo Vtiger Field Model from a given Vtiger_Field object
-	 * @param Vtiger_Field $fieldObj - vtlib field object
-	 * @return Vtiger_Field_Model instance
+	 * Static Function to get the instance fo Head Field Model from a given Head_Field object
+	 * @param Head_Field $fieldObj - vtlib field object
+	 * @return Head_Field_Model instance
 	 */
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObj) {
+	public static function getInstanceFromFieldObject(Head_Field $fieldObj) {
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();
 		foreach($objectProperties as $properName=>$propertyValue) {
@@ -104,15 +104,15 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
      * @return type -- array of values
      */
 	public static function getEditablePicklistValues($fieldName){
-		$cache = Vtiger_Cache::getInstance();
+		$cache = Head_Cache::getInstance();
 		$EditablePicklistValues = $cache->get('EditablePicklistValues', $fieldName);
         if($EditablePicklistValues) {
             return $EditablePicklistValues;
         }
         $db = PearDatabase::getInstance();
-		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
+		$primaryKey = Head_Util_Helper::getPickListId($fieldName);
 		
-        $query="SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1";
+        $query="SELECT $primaryKey ,$fieldName FROM jo_$fieldName WHERE presence=1";
         $values = array();
         $result = $db->pquery($query, array());
         $num_rows = $db->num_rows($result);
@@ -130,15 +130,15 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model {
      * @return type -- array of values
      */
 	public static function getNonEditablePicklistValues($fieldName){
-		$cache = Vtiger_Cache::getInstance();
+		$cache = Head_Cache::getInstance();
 		$NonEditablePicklistValues = $cache->get('NonEditablePicklistValues', $fieldName);
         if($NonEditablePicklistValues) {
             return $NonEditablePicklistValues;
         }
         $db = PearDatabase::getInstance();
 
-        $columnIndex = Vtiger_Util_Helper::getPickListId($fieldName);
-        $query = "select $columnIndex, $fieldName from vtiger_$fieldName where presence=0";
+        $columnIndex = Head_Util_Helper::getPickListId($fieldName);
+        $query = "select $columnIndex, $fieldName from jo_$fieldName where presence=0";
         $values = array();
         $result = $db->pquery($query, array());
         $num_rows = $db->num_rows($result);

@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 vimport('~~/modules/Reports/Reports.php');
 
-class Vtiger_Report_Model extends Reports {
+class Head_Report_Model extends Reports {
 
 	static function getInstance($reportId = "") {
 		$self = new self();
@@ -33,9 +33,9 @@ class Vtiger_Report_Model extends Reports {
 			$subOrdinateUsers = VTCacheUtils::lookupReport_SubordinateUsers($reportId);
 
 			if($cachedInfo === false) {
-				$ssql = "SELECT vtiger_reportmodules.*, vtiger_report.* FROM vtiger_report
-							INNER JOIN vtiger_reportmodules ON vtiger_report.reportid = vtiger_reportmodules.reportmodulesid
-							WHERE vtiger_report.reportid = ?";
+				$ssql = "SELECT jo_reportmodules.*, jo_report.* FROM jo_report
+							INNER JOIN jo_reportmodules ON jo_report.reportid = jo_reportmodules.reportmodulesid
+							WHERE jo_report.reportid = ?";
 				$params = array($reportId);
 
 				require_once('include/utils/GetUserGroups.php');
@@ -52,23 +52,23 @@ class Vtiger_Report_Model extends Reports {
 					}
 				}
 
-				$nonAdminQuery = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing
+				$nonAdminQuery = " jo_report.reportid IN (SELECT reportid from jo_reportsharing
 									WHERE $userGroupsQuery (shareid=? AND setype='users'))";
 				if($currentUser->isAdminUser() == false) {
 					$ssql .= " AND (($nonAdminQuery)
-								OR vtiger_report.sharingtype = 'Public'
-								OR vtiger_report.owner = ? OR vtiger_report.owner IN
-									(SELECT vtiger_user2role.userid FROM vtiger_user2role
-									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%') 
-								OR (vtiger_report.reportid IN (SELECT reportid FROM vtiger_report_shareusers WHERE userid = ?))";
+								OR jo_report.sharingtype = 'Public'
+								OR jo_report.owner = ? OR jo_report.owner IN
+									(SELECT jo_user2role.userid FROM jo_user2role
+									INNER JOIN jo_users ON jo_users.id = jo_user2role.userid
+									INNER JOIN jo_role ON jo_role.roleid = jo_user2role.roleid
+									WHERE jo_role.parentrole LIKE '$current_user_parent_role_seq::%') 
+								OR (jo_report.reportid IN (SELECT reportid FROM jo_report_shareusers WHERE userid = ?))";
 					if(!empty($userGroupsList)) {
-						$ssql .= " OR (vtiger_report.reportid IN (SELECT reportid FROM vtiger_report_sharegroups 
+						$ssql .= " OR (jo_report.reportid IN (SELECT reportid FROM jo_report_sharegroups 
 									WHERE groupid IN (".generateQuestionMarks($userGroupsList).")))";
 					}
-					$ssql .= " OR (vtiger_report.reportid IN (SELECT reportid FROM vtiger_report_sharerole WHERE roleid = ?))
-							   OR (vtiger_report.reportid IN (SELECT reportid FROM vtiger_report_sharers 
+					$ssql .= " OR (jo_report.reportid IN (SELECT reportid FROM jo_report_sharerole WHERE roleid = ?))
+							   OR (jo_report.reportid IN (SELECT reportid FROM jo_report_sharers 
 								WHERE rsid IN (".generateQuestionMarks($subordinateRoles).")))
 							  )";
 					array_push($params, $userId, $userId, $userId);
@@ -96,10 +96,10 @@ class Vtiger_Report_Model extends Reports {
 
 				$subOrdinateUsers = Array();
 
-				$subResult = $db->pquery("SELECT userid FROM vtiger_user2role
-									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%'", array());
+				$subResult = $db->pquery("SELECT userid FROM jo_user2role
+									INNER JOIN jo_users ON jo_users.id = jo_user2role.userid
+									INNER JOIN jo_role ON jo_role.roleid = jo_user2role.roleid
+									WHERE jo_role.parentrole LIKE '$current_user_parent_role_seq::%'", array());
 
 				$numOfSubRows = $db->num_rows($subResult);
 

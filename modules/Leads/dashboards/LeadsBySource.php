@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
+class Leads_LeadsBySource_Dashboard extends Head_IndexAjax_View {
     
     function getSearchParams($value,$assignedto,$dates) {
         $listSearchParams = array();
@@ -25,7 +25,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
         return '&search_params='. json_encode($listSearchParams);
     }
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -34,14 +34,14 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 		$data = $request->get('data');
 		$dates = $request->get('createdtime');
 		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getLeadsBySource($request->get('smownerid'),$dates);
         $listViewUrl = $moduleModel->getListViewUrlWithAllFilter();
         for($i = 0;$i<count($data);$i++){
             $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$request->get('smownerid'), $request->get('dateFilter')).'&nolistcache=1';
         }
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Head_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 

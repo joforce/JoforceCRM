@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Vtiger_Theme extends Vtiger_Viewer {
+class Head_Theme extends Head_Viewer {
 
 	/**
 	 * Function to get the path of a given style sheet or default style sheet
@@ -25,9 +25,9 @@ class Vtiger_Theme extends Vtiger_Viewer {
 		$lessFilePath = self::getThemePath($theme) . '/style.less' ;
 		$fallbackPath = self::getBaseThemePath() . '/' . self::getDefaultThemeName() .'/' .'style.less' ;
 
-		$completeFilePath = Vtiger_Loader::resolveNameToPath('~'.$filePath);
-		$completeLessFilePath = Vtiger_Loader::resolveNameToPath('~'.$lessFilePath);
-		$completeFallBackPath = Vtiger_Loader::resolveNameToPath('~'.$fallbackPath);
+		$completeFilePath = Head_Loader::resolveNameToPath('~'.$filePath);
+		$completeLessFilePath = Head_Loader::resolveNameToPath('~'.$lessFilePath);
+		$completeFallBackPath = Head_Loader::resolveNameToPath('~'.$fallbackPath);
 
 		if(file_exists($completeFilePath)){
 			return $filePath;
@@ -49,8 +49,8 @@ class Vtiger_Theme extends Vtiger_Viewer {
 	public static function getImagePath($imageFileName){
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
 		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
-		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~'.$imageFilePath);
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~'.$fallbackPath);
+		$completeImageFilePath = Head_Loader::resolveNameToPath('~'.$imageFilePath);
+		$completeFallBackThemePath = Head_Loader::resolveNameToPath('~'.$fallbackPath);
 
 		if(file_exists($completeImageFilePath)){
 			return $imageFilePath;
@@ -82,8 +82,8 @@ class Vtiger_Theme extends Vtiger_Viewer {
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
 		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
 
-		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~'.$selectedThemePath);
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~'.$fallBackThemePath);
+		$completeSelectedThemePath = Head_Loader::resolveNameToPath('~'.$selectedThemePath);
+		$completeFallBackThemePath = Head_Loader::resolveNameToPath('~'.$fallBackThemePath);
 
 		if(file_exists($completeSelectedThemePath)){
 			return $selectedThemePath;
@@ -109,7 +109,7 @@ class Vtiger_Theme extends Vtiger_Viewer {
 	 * @return <Array>
 	 */
 	public static function getAllSkins(){
-		return Vtiger_Util_Helper::getAllSkins();
+		return Head_Util_Helper::getAllSkins();
 	}
 
 	/**
@@ -125,11 +125,11 @@ class Vtiger_Theme extends Vtiger_Viewer {
 		if (empty($appTheme)) {
 			$appTheme = 'MARKETING';
 		}
-		return Vtiger_Theme::getStylePath('', strtolower($appTheme));
+		return Head_Theme::getStylePath('', strtolower($appTheme));
 	}
 }
 
 function vimage_path($imageName) {
 	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+	return call_user_func_array(array('Head_Theme', 'getImagePath'), $args);
 }

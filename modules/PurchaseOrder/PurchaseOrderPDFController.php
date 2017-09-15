@@ -11,7 +11,7 @@
 
 include_once 'include/InventoryPDFController.php';
 
-class Vtiger_PurchaseOrderPDFController extends Vtiger_InventoryPDFController{
+class Head_PurchaseOrderPDFController extends Head_InventoryPDFController{
 	function buildHeaderModelTitle() {
 		$singularModuleNameKey = 'SINGLE_'.$this->moduleName;
 		$translatedSingularModuleLabel = getTranslatedString($singularModuleNameKey, $this->moduleName);

@@ -9,17 +9,17 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Groups_DeleteAjax_View extends Settings_Vtiger_Index_View {
+class Settings_Groups_DeleteAjax_View extends Settings_Head_Index_View {
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

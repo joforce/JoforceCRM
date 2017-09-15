@@ -13,7 +13,7 @@ vimport('~~/modules/Reports/ReportRun.php');
 require_once('modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
-class Reports_Record_Model extends Vtiger_Record_Model {
+class Reports_Record_Model extends Head_Record_Model {
 	/**
 	 * Function to get the id of the Report
 	 * @return <Number> - Report Id
@@ -139,10 +139,10 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 
 		$self = new self();
-		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
+		$reportResult = $db->pquery('SELECT * FROM jo_report WHERE reportid = ?', array($recordId));
 		if($db->num_rows($reportResult)) {
 			$values = $db->query_result_rowdata($reportResult, 0);
-			$module = Vtiger_Module_Model::getInstance('Reports');
+			$module = Head_Module_Model::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();
 		}
@@ -161,7 +161,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			$self = self::getInstanceById($recordId);
 		}
 		$self->initialize();
-		$module = Vtiger_Module_Model::getInstance('Reports');
+		$module = Head_Module_Model::getInstance('Reports');
 		$self->setModuleFromInstance($module);
 		return $self;
 	}
@@ -171,7 +171,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	 */
 	function initialize() {
 		$reportId = $this->getId();
-		$this->report = Vtiger_Report_Model::getInstance($reportId);
+		$this->report = Head_Report_Model::getInstance($reportId);
 	}
 
 
@@ -255,7 +255,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$report = $this->report;
 		$primaryModule = $this->getPrimaryModule();
 		$report->getPriModuleColumnsList($primaryModule);
-		//need to add this vtiger_crmentity:crmid:".$module."_ID:crmid:I
+		//need to add this jo_crmentity:crmid:".$module."_ID:crmid:I
 		return $report->pri_module_columnslist;
 	}
 
@@ -280,7 +280,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 			$params = array();
-			$sql = ' SELECT vtiger_report.reportid,vtiger_report.reportname FROM vtiger_report ';
+			$sql = ' SELECT jo_report.reportid,jo_report.reportname FROM jo_report ';
 			require('user_privileges/user_privileges_'.$current_user->id.'.php');
 			require_once('include/utils/GetUserGroups.php');
 			$userGroups = new GetUserGroups();
@@ -291,13 +291,13 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 				array_push($params, $user_groups);
 			}
 
-			$non_admin_query = " vtiger_report.reportid IN (SELECT reportid FROM vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
+			$non_admin_query = " jo_report.reportid IN (SELECT reportid FROM jo_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 			if($reportType == 'Private'){
-				$sql .= " WHERE ( ( (".$non_admin_query.") OR vtiger_report.sharingtype='Public' OR "
-						. "vtiger_report.owner = ? OR vtiger_report.owner IN (SELECT vtiger_user2role.userid "
-						. "FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid "
-						. "INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid "
-						. "WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%'))";
+				$sql .= " WHERE ( ( (".$non_admin_query.") OR jo_report.sharingtype='Public' OR "
+						. "jo_report.owner = ? OR jo_report.owner IN (SELECT jo_user2role.userid "
+						. "FROM jo_user2role INNER JOIN jo_users ON jo_users.id=jo_user2role.userid "
+						. "INNER JOIN jo_role ON jo_role.roleid=jo_user2role.roleid "
+						. "WHERE jo_role.parentrole LIKE '".$current_user_parent_role_seq."::%'))";
 				array_push($params, $current_user->id);
 				array_push($params, $current_user->id);
 			}
@@ -307,7 +307,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			$queryObj->query = $sql;
 			$queryObj->queryParams = $params;
 			$queryObj = Reports::getReportSharingQuery($queryObj,$reportType);
-			$sql = $queryObj->query. ' AND vtiger_report.reportid = '.$this->getId();
+			$sql = $queryObj->query. ' AND jo_report.reportid = '.$this->getId();
 			$params = $queryObj->queryParams;
 			$result = $db->pquery($sql,$params);
 			return $db->num_rows($result) > 0 ? true:false;
@@ -321,10 +321,10 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function getSelectedFields() {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
-					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
-					INNER JOIN vtiger_selectcolumn ON vtiger_selectcolumn.queryid = vtiger_selectquery.queryid
-					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
+		$result = $db->pquery("SELECT jo_selectcolumn.columnname FROM jo_report
+					INNER JOIN jo_selectquery ON jo_selectquery.queryid = jo_report.queryid
+					INNER JOIN jo_selectcolumn ON jo_selectcolumn.queryid = jo_selectquery.queryid
+					WHERE jo_report.reportid = ? ORDER BY jo_selectcolumn.columnindex", array($this->getId()));
 
 		$selectedColumns = array();
 		$primaryModule = $this->report->primodule;
@@ -357,9 +357,9 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function getSelectedCalculationFields() {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
-					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
-					WHERE vtiger_report.reportid=?', array($this->getId()));
+		$result = $db->pquery('SELECT jo_reportsummary.columnname FROM jo_reportsummary
+					INNER JOIN jo_report ON jo_report.reportid = jo_reportsummary.reportsummaryid
+					WHERE jo_report.reportid=?', array($this->getId()));
 
 		$columns = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -376,9 +376,9 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 
 		//TODO : handle date fields with group criteria
-		$result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
-					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
-					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid',array($this->getId()));
+		$result = $db->pquery('SELECT jo_reportsortcol.* FROM jo_report
+					INNER JOIN jo_reportsortcol ON jo_report.reportid = jo_reportsortcol.reportid
+					WHERE jo_report.reportid = ? ORDER BY jo_reportsortcol.sortcolid',array($this->getId()));
 
 		$sortColumns = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -396,7 +396,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function getSelectedStandardFilter() {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? AND startdate != ? AND enddate != ?',
+		$result = $db->pquery('SELECT * FROM jo_reportdatefilter WHERE datefilterid = ? AND startdate != ? AND enddate != ?',
 																		array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = array();
 		if($db->num_rows($result)) {
@@ -453,20 +453,20 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		}
 
 		if(empty($reportId)) {
-			$reportId = $db->getUniqueID("vtiger_selectquery");
+			$reportId = $db->getUniqueID("jo_selectquery");
 			$this->setId($reportId);
 
-			$db->pquery('INSERT INTO vtiger_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)',
+			$db->pquery('INSERT INTO jo_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)',
 					array($reportId, 0, 0));
 
 			$reportParams = array($reportId, $this->get('folderid'), $this->get('reportname'), $this->get('description'),
 					$this->get('reporttype', 'tabular'), $reportId, 'CUSTOM', $currentUser->id, $sharingType);
-			$db->pquery('INSERT INTO vtiger_report(reportid, folderid, reportname, description,
+			$db->pquery('INSERT INTO jo_report(reportid, folderid, reportname, description,
 								reporttype, queryid, state, owner, sharingtype) VALUES(?,?,?,?,?,?,?,?,?)', $reportParams);
 
 
 			$secondaryModule = $this->getSecondaryModules();
-			$db->pquery('INSERT INTO vtiger_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)',
+			$db->pquery('INSERT INTO jo_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)',
 					array($reportId, $this->getPrimaryModule(), $secondaryModule));
 
 			$this->saveSelectedFields();
@@ -485,29 +485,29 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		} else {
 
 			$reportId = $this->getId();
-			$db->pquery('DELETE FROM vtiger_selectcolumn WHERE queryid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_selectcolumn WHERE queryid = ?', array($reportId));
 			$this->saveSelectedFields();
 
-			$db->pquery("DELETE FROM vtiger_reportsharing WHERE reportid = ?", array($reportId));
+			$db->pquery("DELETE FROM jo_reportsharing WHERE reportid = ?", array($reportId));
 			$this->saveSharingInformation();
 
 
-			$db->pquery('UPDATE vtiger_reportmodules SET primarymodule = ?,secondarymodules = ? WHERE reportmodulesid = ?',
+			$db->pquery('UPDATE jo_reportmodules SET primarymodule = ?,secondarymodules = ? WHERE reportmodulesid = ?',
 					array($this->getPrimaryModule(), $this->getSecondaryModules(), $reportId));
 
-			$db->pquery('UPDATE vtiger_report SET reportname = ?, description = ?, reporttype = ?, folderid = ?,sharingtype = ? WHERE
+			$db->pquery('UPDATE jo_report SET reportname = ?, description = ?, reporttype = ?, folderid = ?,sharingtype = ? WHERE
 				reportid = ?', array(decode_html($this->get('reportname')), decode_html($this->get('description')),
 					$this->get('reporttype'), $this->get('folderid'),$sharingType, $reportId));
 
 
-			$db->pquery('DELETE FROM vtiger_reportsortcol WHERE reportid = ?', array($reportId));
-			$db->pquery('DELETE FROM vtiger_reportgroupbycolumn WHERE reportid = ?',array($reportId));
+			$db->pquery('DELETE FROM jo_reportsortcol WHERE reportid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_reportgroupbycolumn WHERE reportid = ?',array($reportId));
 			$this->saveSortFields();
 
-			$db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_reportsummary WHERE reportsummaryid = ?', array($reportId));
 			$this->saveCalculationFields();
 
-			$db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_reportdatefilter WHERE datefilterid = ?', array($reportId));
 			$this->saveStandardFilter();
 
 			$this->saveReportType();
@@ -527,13 +527,13 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		if(!empty($sortFields)){
 			$i = 0;
 			foreach($sortFields as $fieldInfo) {
-				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)',
+				$db->pquery('INSERT INTO jo_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)',
 						array($i, $this->getId(), $fieldInfo[0], $fieldInfo[1]));
 				if(IsDateField($fieldInfo[0])) {
 					if(empty($fieldInfo[2])){
 						$fieldInfo[2] = 'None';
 					}
-					$db->pquery("INSERT INTO vtiger_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
+					$db->pquery("INSERT INTO jo_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
 						VALUES(?,?,?,?)", array($this->getId(), $i, $fieldInfo[0], $fieldInfo[2]));
 				}
 				$i++;
@@ -549,7 +549,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		$calculationFields = $this->get('calculationFields');
 		for ($i=0; $i<count($calculationFields); $i++) {
-			$db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)',
+			$db->pquery('INSERT INTO jo_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)',
 					array($this->getId(), $i, $calculationFields[$i]));
 		}
 	}
@@ -562,7 +562,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		$standardFilter = $this->get('standardFilter');
 		if(!empty($standardFilter)) {
-			$db->pquery('INSERT INTO vtiger_reportdatefilter (datefilterid, datecolumnname, datefilter, startdate, enddate)
+			$db->pquery('INSERT INTO jo_reportdatefilter (datefilterid, datecolumnname, datefilter, startdate, enddate)
 							VALUES (?,?,?,?,?)', array($this->getId(), $standardFilter['field'], $standardFilter['type'],
 					$standardFilter['start'], $standardFilter['end']));
 		}
@@ -577,7 +577,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$reportId = $this->getId();
 		$sharingInfo = $this->get('sharingInfo');
 		for($i=0; $i<count($sharingInfo); $i++) {
-			$db->pquery('INSERT INTO vtiger_reportsharing(reportid, shareid, setype) VALUES (?,?,?)',
+			$db->pquery('INSERT INTO jo_reportsharing(reportid, shareid, setype) VALUES (?,?,?)',
 					array($reportId, $sharingInfo[$i]['id'], $sharingInfo[$i]['type']));
 		}
 		
@@ -585,10 +585,10 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		if(!empty($members)) {
 			//On every report save delete information from below tables and insert new to avoid 
 			// confusion in updating
-			$db->pquery('DELETE FROM vtiger_report_shareusers WHERE reportid=?',array($reportId));
-			$db->pquery('DELETE FROM vtiger_report_sharegroups WHERE reportid=?',array($reportId));
-			$db->pquery('DELETE FROM vtiger_report_sharerole WHERE reportid=?',array($reportId));
-			$db->pquery('DELETE FROM vtiger_report_sharers WHERE reportid=?',array($reportId));
+			$db->pquery('DELETE FROM jo_report_shareusers WHERE reportid=?',array($reportId));
+			$db->pquery('DELETE FROM jo_report_sharegroups WHERE reportid=?',array($reportId));
+			$db->pquery('DELETE FROM jo_report_sharerole WHERE reportid=?',array($reportId));
+			$db->pquery('DELETE FROM jo_report_sharers WHERE reportid=?',array($reportId));
 
 			$noOfMembers = count($members);
 			for ($i = 0; $i < $noOfMembers; ++$i) {
@@ -599,16 +599,16 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 					$memberId = $idComponents[1];
 
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
-						$db->pquery('INSERT INTO vtiger_report_shareusers(userid, reportid) VALUES (?,?)', array($memberId, $reportId));
+						$db->pquery('INSERT INTO jo_report_shareusers(userid, reportid) VALUES (?,?)', array($memberId, $reportId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
-						$db->pquery('INSERT INTO vtiger_report_sharegroups(groupid, reportid) VALUES (?,?)', array($memberId, $reportId));
+						$db->pquery('INSERT INTO jo_report_sharegroups(groupid, reportid) VALUES (?,?)', array($memberId, $reportId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLES) {
-						$db->pquery('INSERT INTO vtiger_report_sharerole(roleid, reportid) VALUES (?,?)', array($memberId, $reportId));
+						$db->pquery('INSERT INTO jo_report_sharerole(roleid, reportid) VALUES (?,?)', array($memberId, $reportId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-						$db->pquery('INSERT INTO vtiger_report_sharers(rsid, reportid) VALUES (?,?)', array($memberId, $reportId));
+						$db->pquery('INSERT INTO jo_report_sharers(rsid, reportid) VALUES (?,?)', array($memberId, $reportId));
 					}
 				}
 			}
@@ -626,7 +626,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		if(!empty($selectedFields)){
 		   for($i=0 ;$i<count($selectedFields);$i++) {
 				if(!empty($selectedFields[$i])) {
-					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)",
+					$db->pquery("INSERT INTO jo_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)",
 							array($this->getId(), $i, decode_html($selectedFields[$i])));
 				}
 			}
@@ -643,8 +643,8 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$advancedFilter = $this->get('advancedFilter');
 		if(!empty($advancedFilter)) {
 
-			$db->pquery('DELETE FROM vtiger_relcriteria WHERE queryid = ?', array($reportId));
-			$db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_relcriteria WHERE queryid = ?', array($reportId));
+			$db->pquery('DELETE FROM jo_relcriteria_grouping WHERE queryid = ?', array($reportId));
 
 			foreach($advancedFilter as $groupIndex => $groupInfo) {
 				if(empty($groupInfo)) continue;
@@ -674,13 +674,13 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 					if($fieldType == 'currency') {
 						if($field->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
+							$advFilterValue = Head_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
 						} else {
-							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue);
+							$advFilterValue = Head_Currency_UIType::convertToDBFormat($advFilterValue);
 						}
 					}
 
-					$specialDateConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
+					$specialDateConditions = Head_Functions::getSpecialDateTimeCondtions();
 					$tempVal = explode(",",$advFilterValue);
 					if(($columnInfo[4] == 'D' || ($columnInfo[4] == 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
 									($columnInfo[4] == 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' ) && !in_array($advFilterComparator, $specialDateConditions)) {
@@ -701,7 +701,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 									$date = new DateTimeField($values[0]);
 									$val[$i] = $date->getDBInsertDateValue();
 								} elseif($fieldType == 'time') {
-									$val[$i] = Vtiger_Time_UIType::getTimeValueWithSeconds($tempVal[$i]);
+									$val[$i] = Head_Time_UIType::getTimeValueWithSeconds($tempVal[$i]);
 								} else {
 									$val[$i] = $date->getDBInsertTimeValue();
 								}
@@ -710,7 +710,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 						$advFilterValue = implode(",", $val);
 					}
 
-					$db->pquery('INSERT INTO vtiger_relcriteria (queryid, columnindex, columnname, comparator, value,
+					$db->pquery('INSERT INTO jo_relcriteria (queryid, columnindex, columnname, comparator, value,
 						groupid, column_condition) VALUES (?,?,?,?,?,?,?)', array($reportId, $columnIndex, $advFilterColumn,
 							$advFilterComparator, $advFilterValue, $groupIndex, $advFilterColumnCondition));
 
@@ -726,7 +726,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 				$groupConditionExpression = $advancedFilter[$groupIndex]["conditionexpression"];
 				if(empty($groupConditionExpression)) continue; // Case when the group doesn't have any column criteria
 
-				$db->pquery("INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)",
+				$db->pquery("INSERT INTO jo_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)",
 						array($groupIndex, $reportId, $groupCondition, $groupConditionExpression));
 			}
 		}
@@ -742,7 +742,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$scheduledInterval = $this->get('scheduledInterval');
 		$scheduledFormat = $this->get('scheduledFormat');
 
-		$db->pquery('INSERT INTO vtiger_scheduled_reports(reportid, recipients, schedule, format, next_trigger_time) VALUES
+		$db->pquery('INSERT INTO jo_scheduled_reports(reportid, recipients, schedule, format, next_trigger_time) VALUES
 			(?,?,?,?,?)', array($this->getId(), $selectedRecipients, $scheduledInterval, $scheduledFormat, date("Y-m-d H:i:s")));
 	}
 
@@ -751,7 +751,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	 */
 	function deleteScheduling() {
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', array($this->getId()));
+		$db->pquery('DELETE FROM jo_scheduled_reports WHERE reportid = ?', array($this->getId()));
 	}
 
 	/**
@@ -780,7 +780,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	}
 	/**
 	 * Function returns report's data
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <Head_Paging_Model> $pagingModel
 	 * @param <String> $filterQuery
 	 * @return <Array>
 	 */
@@ -899,7 +899,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function move($folderId) {
 		$db = PearDatabase::getInstance();
 
-		$db->pquery("UPDATE vtiger_report SET folderid = ? WHERE reportid = ?", array($folderId, $this->getId()));
+		$db->pquery("UPDATE jo_report SET folderid = ? WHERE reportid = ?", array($folderId, $this->getId()));
 	}
 
 	/**
@@ -1032,7 +1032,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 			$fields = explode(':',$standardFilter['columnname']);
 
-			if($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' ||($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')){
+			if($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' ||($fields[0] == 'jo_activity' && $fields[1] == 'date_start')){
 				$tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:DT";
 				$date[] = $standardFilter['startdate'].' 00:00:00';
 				$date[] = $standardFilter['enddate'].' 00:00:00';
@@ -1085,7 +1085,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param Head_Paging_Model $pagingModel
 	 * @return <Array>
 	 */
 	public function generateData($pagingModel = false) {
@@ -1098,7 +1098,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param Head_Paging_Model $pagingModel
 	 * @return <Array>
 	 */
 	public function generateCalculationData() {
@@ -1112,7 +1112,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	public function checkDuplicate() {
 		$db = PearDatabase::getInstance();
 
-		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
+		$query = "SELECT 1 FROM jo_report WHERE reportname = ?";
 		$params = array($this->getName());
 
 		$record = $this->getId();
@@ -1141,7 +1141,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		if(!in_array($primaryModule, $inventoryModules)) return false;
 		if(!empty($calculationFields)) {
 			foreach($calculationFields as $field) {
-				if(stripos($field, 'cb:vtiger_inventoryproductrel') !== false) {
+				if(stripos($field, 'cb:jo_inventoryproductrel') !== false) {
 					return true;
 				}
 			}
@@ -1154,7 +1154,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
 	}
 
-	public function getRecordsListFromRequest(Vtiger_Request $request) {
+	public function getRecordsListFromRequest(Head_Request $request) {
 		$folderId = $request->get('viewname');
 		$module = $request->get('module');
 		$selectedIds = $request->get('selected_ids');
@@ -1209,8 +1209,8 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
 		if(!empty($data)){
-			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($this->getId()));
-			$db->pquery("INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)",
+			$db->pquery('DELETE FROM jo_reporttype WHERE reportid = ?', array($this->getId()));
+			$db->pquery("INSERT INTO jo_reporttype(reportid, data) VALUES (?,?)",
 			array($this->getId(), $data));
 		}
 	}
@@ -1218,7 +1218,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function getReportTypeInfo() {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
+		$result = $db->pquery("SELECT data FROM jo_reporttype WHERE reportid = ?", array($this->getId()));
 
 		$dataFields = '';
 		if($db->num_rows($result) > 0) {
@@ -1236,10 +1236,10 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$fields = $this->getPrimaryModuleFields();
 		$primaryModule = $this->getPrimaryModule();
 		if($primaryModule == "Calendar"){
-			$eventModuleModel = Vtiger_Module_Model::getInstance('Events');
+			$eventModuleModel = Head_Module_Model::getInstance('Events');
 			$eventModuleFieldInstances = $eventModuleModel->getFields();
 		}
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = Head_Module_Model::getInstance($primaryModule);
 		$primaryModuleFieldInstances = $primaryModuleModel->getFields();
 
 		if(is_array($fields)) foreach($fields as $module => $blocks) {
@@ -1251,7 +1251,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 					if(!$fieldInstance && $eventModuleFieldInstances){
 						$fieldInstance = $eventModuleFieldInstances[$fieldInfo[3]];
 					}
-					if(empty($fieldInstance) || $fieldInfo[0] == 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() == 'email'
+					if(empty($fieldInstance) || $fieldInfo[0] == 'jo_inventoryproductrel' || $fieldInstance->getFieldDataType() == 'email'
 							|| $fieldInstance->getFieldDataType() == 'phone' || $fieldInstance->getFieldDataType() == 'image'
 							|| $fieldInstance->get('uitype') == '4') {
 						unset($fields[$module][$blockLabel][$reportFieldInfo]);
@@ -1277,10 +1277,10 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			foreach($secondaryModules as $secondaryModule) {
 				if(!empty($secondaryModule)) {
 					if($secondaryModule == "Calendar"){
-						$eventModuleModel = Vtiger_Module_Model::getInstance('Events');
+						$eventModuleModel = Head_Module_Model::getInstance('Events');
 						$eventModuleFieldInstances['Events'] = $eventModuleModel->getFields();
 					}
-					$secondaryModuleModel = Vtiger_Module_Model::getInstance($secondaryModule);
+					$secondaryModuleModel = Head_Module_Model::getInstance($secondaryModule);
 					$secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
 				}
 			}
@@ -1293,7 +1293,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 					if(!$fieldInstance && $eventModuleFieldInstances['Events']){
 						$fieldInstance = $eventModuleFieldInstances['Events'][$fieldInfo[3]];
 					}
-					if(empty($fieldInstance) || $fieldInfo[0] == 'vtiger_inventoryproductrel'
+					if(empty($fieldInstance) || $fieldInfo[0] == 'jo_inventoryproductrel'
 							|| $fieldInstance->getFieldDataType() == 'email' || $fieldInstance->getFieldDataType() == 'phone'
 								|| $fieldInstance->getFieldDataType() == 'image' || $fieldInstance->get('uitype') == '4') {
 						unset($fields[$module][$blockLabel][$reportFieldInfo]);
@@ -1321,7 +1321,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	public function isPinnedToDashboard() {
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery("SELECT 1 FROM vtiger_module_dashboard_widgets WHERE reportid = ? AND userid = ?", array($this->getId(), $currentUser->getId()));
+		$result = $db->pquery("SELECT 1 FROM jo_module_dashboard_widgets WHERE reportid = ? AND userid = ?", array($this->getId(), $currentUser->getId()));
 		if($db->num_rows($result)) {
 			return true;
 		}
@@ -1331,17 +1331,17 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	function isEditableBySharing() {
 		$db = PearDatabase::getInstance();
 		$currentUserId = Users_Record_Model::getCurrentUserModel()->getId();
-		$ownerResult = $db->pquery("SELECT owner FROM vtiger_report WHERE reportid = ?", array($this->getId()));
+		$ownerResult = $db->pquery("SELECT owner FROM jo_report WHERE reportid = ?", array($this->getId()));
 		$reportOnwer = $db->query_result($ownerResult, 0, 'owner');
 
 		if($currentUserId == $reportOnwer) {
 			return true;
 		} else {
 			$reportId = $this->getId();
-			$query = "SELECT 1 FROM vtiger_report_sharegroups WHERE reportid = ? "
-					. "UNION SELECT 1 FROM vtiger_report_sharerole WHERE reportid = ? "
-					. "UNION SELECT 1 FROM vtiger_report_sharers WHERE reportid = ? "
-					. "UNION SELECT 1 FROM vtiger_report_shareusers WHERE reportid = ?";
+			$query = "SELECT 1 FROM jo_report_sharegroups WHERE reportid = ? "
+					. "UNION SELECT 1 FROM jo_report_sharerole WHERE reportid = ? "
+					. "UNION SELECT 1 FROM jo_report_sharers WHERE reportid = ? "
+					. "UNION SELECT 1 FROM jo_report_shareusers WHERE reportid = ?";
 			$result = $db->pquery($query, array($reportId, $reportId, $reportId, $reportId));
 			if($db->num_rows($result)) {
 				return false;

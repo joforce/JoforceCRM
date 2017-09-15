@@ -9,6 +9,6 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class HelpDesk_DashBoard_Model extends Vtiger_DashBoard_Model {
+class HelpDesk_DashBoard_Model extends Head_DashBoard_Model {
 
 }

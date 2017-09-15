@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_DownloadFile_Action extends Vtiger_Action_Controller {
+class Documents_DownloadFile_Action extends Head_Action_Controller {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
@@ -19,10 +19,10 @@ class Documents_DownloadFile_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$documentRecordModel = Head_Record_Model::getInstanceById($request->get('record'), $moduleName);
 		//Download the file
 		$documentRecordModel->downloadFile();
 		//Update the Download Count

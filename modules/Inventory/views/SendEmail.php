@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Inventory_SendEmail_View extends Vtiger_ComposeEmail_View {
+class Inventory_SendEmail_View extends Head_ComposeEmail_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'index') || !Users_Privileges_Model::isPermitted('Emails', 'CreateView')) {
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
@@ -21,13 +21,13 @@ class Inventory_SendEmail_View extends Vtiger_ComposeEmail_View {
 	/**
 	 * Function which will construct the compose email
 	 * This will handle the case of attaching the invoice pdf as attachment
-	 * @param Vtiger_Request $request 
+	 * @param Head_Request $request 
 	 */
-	public function composeMailData(Vtiger_Request $request) {
+	public function composeMailData(Head_Request $request) {
 		parent::composeMailData($request);
 		$viewer = $this->getViewer($request);
 		$inventoryRecordId = $request->get('record');
-        $recordModel = Vtiger_Record_Model::getInstanceById($inventoryRecordId, $request->getModule());
+        $recordModel = Head_Record_Model::getInstanceById($inventoryRecordId, $request->getModule());
         $pdfFileName = $recordModel->getPDFFileName();
 
         $fileComponents = explode('/', $pdfFileName);
@@ -53,7 +53,7 @@ class Inventory_SendEmail_View extends Vtiger_ComposeEmail_View {
 		$viewer = $this->getViewer($request);
 
 		$inventoryRecordId = $request->get('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($inventoryRecordId, $request->getModule());
+		$recordModel = Head_Record_Model::getInstanceById($inventoryRecordId, $request->getModule());
 		$inventoryModule = $recordModel->getModule();
 		$inventotyfields = $inventoryModule->getFields();
 
@@ -74,14 +74,14 @@ class Inventory_SendEmail_View extends Vtiger_ComposeEmail_View {
 			if(empty($fieldValue)) {
 				continue;
 			}
-			$referenceModule = Vtiger_Functions::getCRMRecordType($fieldValue);
-			$fieldLabel = decode_html(Vtiger_Util_Helper::getRecordName($fieldValue));
-			$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModule);
+			$referenceModule = Head_Functions::getCRMRecordType($fieldValue);
+			$fieldLabel = decode_html(Head_Util_Helper::getRecordName($fieldValue));
+			$referenceModuleModel = Head_Module_Model::getInstance($referenceModule);
 			if (!$referenceModuleModel) {
 				continue;
 			}
 			if(isRecordExists($fieldValue)) {
-				$referenceRecordModel = Vtiger_Record_Model::getInstanceById($fieldValue, $referenceModule);
+				$referenceRecordModel = Head_Record_Model::getInstanceById($fieldValue, $referenceModule);
 				if ($referenceRecordModel->get('emailoptout')) {
 					continue;
 				}

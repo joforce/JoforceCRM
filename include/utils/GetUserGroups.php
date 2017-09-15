@@ -21,7 +21,7 @@ class GetUserGroups {
 	var $user_groups=Array();
 	//var $userRole='';
 
-	/** to get all the parent vtiger_groups of the specified group
+	/** to get all the parent jo_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer
          * @returns updates the parent group in the varibale $parent_groups of the class
          */
@@ -30,7 +30,7 @@ class GetUserGroups {
 		global $adb,$log;
 		$log->debug("Entering getAllUserGroups(".$userid.") method...");
 		//Retreiving from the user2grouptable
-		$query="select * from vtiger_users2group where userid=?";
+		$query="select * from jo_users2group where userid=?";
         $result = $adb->pquery($query, array($userid));
 		$num_rows=$adb->num_rows($result);
 		for($i=0;$i<$num_rows;$i++)
@@ -45,8 +45,8 @@ class GetUserGroups {
 
 		//Setting the User Role
 		$userRole = fetchUserRole($userid);
-		//Retreiving from the vtiger_user2role
-		$query="select * from vtiger_group2role where roleid=?";
+		//Retreiving from the jo_user2role
+		$query="select * from jo_group2role where roleid=?";
                 $result = $adb->pquery($query, array($userRole));
                 $num_rows=$adb->num_rows($result);
                 for($i=0;$i<$num_rows;$i++)
@@ -67,7 +67,7 @@ class GetUserGroups {
 			array_push($parentRolelist, $par_rol_id);		
 		}
 		array_push($parentRolelist, $userRole);
-		$query="select * from vtiger_group2rs where roleandsubid in (". generateQuestionMarks($parentRolelist) .")";
+		$query="select * from jo_group2rs where roleandsubid in (". generateQuestionMarks($parentRolelist) .")";
         $result = $adb->pquery($query, array($parentRolelist));
         $num_rows=$adb->num_rows($result);
         for($i=0;$i<$num_rows;$i++)

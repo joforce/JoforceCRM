@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MenuEditor_Save_Action extends Settings_Vtiger_Index_Action {
+class Settings_MenuEditor_Save_Action extends Settings_Head_Index_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule(false);
-		$menuEditorModuleModel = Settings_Vtiger_Module_Model::getInstance($moduleName);
+		$menuEditorModuleModel = Settings_Head_Module_Model::getInstance($moduleName);
 		$selectedModulesList = $request->get('selectedModulesList');
 
 		if ($selectedModulesList) {
@@ -24,7 +24,7 @@ class Settings_MenuEditor_Save_Action extends Settings_Vtiger_Index_Action {
 		header("Location: $loadUrl");
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

@@ -15,7 +15,7 @@ include_once 'libraries/HTTP_Session2/HTTP/Session2.php';
 /**
  * Session class
  */
-class Vtiger_Session {
+class Head_Session {
 
 	/**
 	 * Constructor

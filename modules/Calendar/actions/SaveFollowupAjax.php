@@ -11,7 +11,7 @@
 
 class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
@@ -38,7 +38,7 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action {
         $this->exposeMethod('markAsHeldCompleted');
     }
     
-    public function process(Vtiger_Request $request) {  
+    public function process(Head_Request $request) {  
 		$mode = $request->getMode();
 		if(!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -47,11 +47,11 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action {
 
 	}
 
-	public function createFollowupEvent(Vtiger_Request $request) {
+	public function createFollowupEvent(Head_Request $request) {
         
         $recordId = $request->get('record');
         
-        $recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+        $recordModel = Head_Record_Model::getInstanceById($recordId);
         $subject = $recordModel->get('subject');
         $followupSubject = "[Followup] ".$subject;
         $recordModel->set('subject',$followupSubject);
@@ -64,8 +64,8 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action {
         else
             $eventDuration = $request->get('defaultOtherEventDuration');
         
-        $followupStartTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
-		$followupStartDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start')." ".$followupStartTime);
+        $followupStartTime = Head_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
+		$followupStartDateTime = Head_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start')." ".$followupStartTime);
 		list($followupStartDate, $followupStartTime) = explode(' ', $followupStartDateTime);
         //Duration of followup event based on activitytype
         $durationMS = $eventDuration*60;
@@ -82,19 +82,19 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action {
         
         $recordModel->save();
         
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         $result = array('created'=>true);
         $response->setResult($result);
         $response->emit();
 	}
     
-    public function markAsHeldCompleted(Vtiger_Request $request) {
+    public function markAsHeldCompleted(Head_Request $request) {
         $moduleName = $request->getModule();
         $recordId = $request->get('record');
-        $recordModel = Vtiger_Record_Model::getInstanceById($recordId,$moduleName);
+        $recordModel = Head_Record_Model::getInstanceById($recordId,$moduleName);
         $recordModel->set('mode','edit');
         $activityType = $recordModel->get('activitytype');
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         
         if($activityType == 'Task'){
             $status = 'Completed';

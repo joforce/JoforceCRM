@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MenuEditor_Index_View extends Settings_Vtiger_Index_View {
+class Settings_MenuEditor_Index_View extends Settings_Head_Index_View {
 
-	public function process(Vtiger_Request $request) {
-		$allModelsList = Vtiger_Menu_Model::getAll(true);
-		$menuModelStructure = Vtiger_MenuStructure_Model::getInstanceFromMenuList($allModelsList);
+	public function process(Head_Request $request) {
+		$allModelsList = Head_Menu_Model::getAll(true);
+		$menuModelStructure = Head_MenuStructure_Model::getInstanceFromMenuList($allModelsList);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 

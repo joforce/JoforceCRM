@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class CustomView_Delete_Action extends Vtiger_Action_Controller {
+class CustomView_Delete_Action extends Head_Action_Controller {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
 		$moduleModel = $customViewModel->getModule();
 
@@ -19,7 +19,7 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller {
 
 		$listViewUrl = $moduleModel->getListViewUrl();
 		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult(array('success' => true));
 			$response->emit();
 		} else {
@@ -27,7 +27,7 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

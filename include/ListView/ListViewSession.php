@@ -63,7 +63,7 @@ class ListViewSession {
 		$displayBufferRecordCount = 10;
 		$bufferRecordCount = 15;
 		if($currentModule == 'Documents'){
-			$sql = "select folderid from vtiger_notes where notesid=?";
+			$sql = "select folderid from jo_notes where notesid=?";
 			$params = array($currentRecordId);
 			$result = $adb->pquery($sql,$params);
 			$folderId = $adb->query_result($result,0,'folderid');
@@ -120,7 +120,7 @@ class ListViewSession {
 				$list_query = explode('ORDER BY', $list_query);
                 $default_orderby = $list_query[1];
 				$list_query = $list_query[0];
-				$list_query .= " AND vtiger_notes.folderid=$folderId";
+				$list_query .= " AND jo_notes.folderid=$folderId";
 				$order_by = $instance->getOrderByForFolder($folderId);
 				$sorder = $instance->getSortOrderForFolder($folderId);
 				$tablename = getTableNameForField($currentModule,$order_by);
@@ -186,7 +186,7 @@ class ListViewSession {
 		if(!empty($_REQUEST['start'])){
 			$start = $_REQUEST['start'];
 			if($start == 'last'){
-				$count_result = $adb->query(Vtiger_Functions::mkCountQuery( $query));
+				$count_result = $adb->query(Head_Functions::mkCountQuery( $query));
 				$noofrows = $adb->query_result($count_result,0,"count");
 				if($noofrows > 0){
 					$start = ceil($noofrows/$list_max_entries_per_page);

@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action {
+class Settings_LayoutEditor_Relation_Action extends Settings_Head_Index_Action {
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         $relationInfo = $request->get('related_info');
         $updatedRelatedList = $relationInfo['updated'];
         $deletedRelatedList = $relationInfo['deleted'];
@@ -23,8 +23,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 			$deletedRelatedList = array();
 		}
         $sourceModule = $request->get('sourceModule');
-        $moduleModel = Vtiger_Module_Model::getInstance($sourceModule, false);
-        $relationModulesList = Vtiger_Relation_Model::getAllRelations($moduleModel, false);
+        $moduleModel = Head_Module_Model::getInstance($sourceModule, false);
+        $relationModulesList = Head_Relation_Model::getAllRelations($moduleModel, false);
         $sequenceList = array();
         foreach($relationModulesList as $relationModuleModel) {
             $sequenceList[] = $relationModuleModel->get('sequence');
@@ -39,10 +39,10 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
         foreach($deletedRelatedList as $relatedId) {
             $relationUpdateDetail[] = array('relation_id'=> $relatedId, 'sequence' => $sequenceList[$index++], 'presence' => 1);
         }
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $response->setResult(array('success'=> true));
-            Vtiger_Relation_Model::updateRelationSequenceAndPresence($relationUpdateDetail, $moduleModel->getId());
+            Head_Relation_Model::updateRelationSequenceAndPresence($relationUpdateDetail, $moduleModel->getId());
         }
         catch(Exception $e) {
             $response->setError($e->getCode(), $e->getMessage());
@@ -50,7 +50,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
         $response->emit();
     }
     
-    public function validateRequest(Vtiger_Request $request) { 
+    public function validateRequest(Head_Request $request) { 
         $request->validateWriteAccess(); 
     } 
 }

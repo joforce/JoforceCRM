@@ -13,12 +13,12 @@
 /**
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
-require_once 'config.php';
-if (file_exists('config_override.php')) {
-	                include_once 'config_override.php';
+require_once 'config/config.php';
+if (file_exists('config/config_override.php')) {
+	                include_once 'config/config_override.php';
 }
 
-include_once 'vtlib/Vtiger/Module.php';
+include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
 require_once('libraries/nusoap/nusoap.php');
@@ -125,7 +125,7 @@ $server->register(
 	$NAMESPACE);
 
 $server->register(
-    'LogintoVtigerCRM',
+    'LogintoHeadCRM',
     array('user_name'=>'xsd:string','password'=>'xsd:string','version'=>'xsd:string'),
     array('return'=>'tns:logindetails'),
     $NAMESPACE);
@@ -424,12 +424,12 @@ function create_site_from_webform($username,$sessionid,$portalname,$portalurl)
 		return $accessDenied;
 	}
 }
-function LogintoVtigerCRM($user_name,$password,$version)
+function LogintoHeadCRM($user_name,$password,$version)
 {
 	global $log,$adb;
 	require_once('modules/Users/Users.php');
-	include('vtigerversion.php');
-	if($version != $vtiger_current_version)
+	include('version.php');
+	if($version != $jo_current_version)
 	{
 		return array("VERSION",'00');
 	}
@@ -446,7 +446,7 @@ function LogintoVtigerCRM($user_name,$password,$version)
 			$userid =  $objuser->retrieve_user_id($user_name);
 			$sessionid = makeRandomPassword();
 			unsetServerSessionId($userid);
-			$sql="insert into vtiger_soapservice values(?,?,?)";
+			$sql="insert into jo_soapservice values(?,?,?)";
 			$result = $adb->pquery($sql, array($userid,'FireFox' ,$sessionid));
 			$return_access = array("TRUES",$sessionid);
 		}else
@@ -686,7 +686,7 @@ function create_account($username,$sessionid,$accountname,$email,$phone,$primary
 	require_once("modules/Accounts/Accounts.php");
 	if(isPermitted("Accounts",'CreateView') == "yes")
 	{
-		$query = "SELECT accountname FROM vtiger_account,vtiger_crmentity WHERE accountname =? and vtiger_account.accountid = vtiger_crmentity.crmid and vtiger_crmentity.deleted != 1";
+		$query = "SELECT accountname FROM jo_account,jo_crmentity WHERE accountname =? and jo_account.accountid = jo_crmentity.crmid and jo_crmentity.deleted != 1";
 		$result = $adb->pquery($query, array($accountname));
 	        if($adb->num_rows($result) > 0)
 		{
@@ -848,7 +848,7 @@ function GetPicklistValues($username,$sessionid,$tablename)
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 	{
-		$query = "select " . $adb->sql_escape_string($tablename) . " from vtiger_". $adb->sql_escape_string($tablename);		
+		$query = "select " . $adb->sql_escape_string($tablename) . " from jo_". $adb->sql_escape_string($tablename);		
 			$result1 = $adb->pquery($query, array());
 		for($i=0;$i<$adb->num_rows($result1);$i++)
 		{
@@ -857,7 +857,7 @@ function GetPicklistValues($username,$sessionid,$tablename)
 	}
 	else if((isPermitted("HelpDesk",'CreateView') == "yes") && (CheckFieldPermission($tablename,'HelpDesk') == 'true'))
 	{
-		$query = "select " .$adb->sql_escape_string($tablename) . " from vtiger_". $adb->sql_escape_string($tablename) ." inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_". $adb->sql_escape_string($tablename) .".picklist_valueid where roleid=? and picklistid in (select picklistid from vtiger_". $adb->sql_escape_string($tablename)." ) order by sortid";	
+		$query = "select " .$adb->sql_escape_string($tablename) . " from jo_". $adb->sql_escape_string($tablename) ." inner join jo_role2picklist on jo_role2picklist.picklistvalueid = jo_". $adb->sql_escape_string($tablename) .".picklist_valueid where roleid=? and picklistid in (select picklistid from jo_". $adb->sql_escape_string($tablename)." ) order by sortid";	
 		$result1 = $adb->pquery($query, array($roleid));
 		for($i=0;$i<$adb->num_rows($result1);$i++)
 		{
@@ -878,7 +878,7 @@ function unsetServerSessionId($id)
 
 	$id = (int) $id;
 
-	$adb->query("delete from vtiger_soapservice where type='FireFox' and id=$id");
+	$adb->query("delete from jo_soapservice where type='FireFox' and id=$id");
 
 	return;
 }
@@ -913,7 +913,7 @@ function getServerSessionId($id)
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function
 	$id = (int) $id;
 
-	$query = "select * from vtiger_soapservice where type='FireFox' and id={$id}";
+	$query = "select * from jo_soapservice where type='FireFox' and id={$id}";
 	$sessionid = $adb->query_result($adb->query($query),0,'sessionid');
 
 	return $sessionid;

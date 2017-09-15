@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_MoveReports_View extends Vtiger_Index_View {
+class Reports_MoveReports_View extends Head_Index_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -21,9 +21,9 @@ class Reports_MoveReports_View extends Vtiger_Index_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$folderList = $moduleModel->getFolders();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOLDERS', $folderList);

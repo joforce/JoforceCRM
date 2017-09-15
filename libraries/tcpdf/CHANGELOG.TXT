@@ -199,7 +199,7 @@
 	- The signature of setPage() function is changed.
 
 4.0.014 (2008-07-29)
-	- K_PATH_MAIN calculation on tcpdf_config.php was fixed.
+	- K_PATH_MAIN calculation on tcpdf_config/config.php was fixed.
 	- HTML support for EPS/AI images was added (see example_006.php).
 	- Bugs item #2030807 "Truncated text on multipage html fields" was fixed.
 	- PDF header bug was fixed.
@@ -209,7 +209,7 @@
 
 4.0.013 (2008-07-27)
 	- Bugs item #2027799 " Big spaces between lines after page break" was fixed.
-	- K_PATH_MAIN calculation on tcpdf_config.php was changed.
+	- K_PATH_MAIN calculation on tcpdf_config/config.php was changed.
 	- Function setVisibility() was fixed to avoid the "Incorrect PDEObject type" error message.
 
 4.0.012 (2008-07-24)
@@ -597,7 +597,7 @@
 
 1.53.0.TC027 (2006-12-14)
 	- $attr['face'] bug were fixed.
-	- K_TCPDF_EXTERNAL_CONFIG control where introduced on /config/tcpdf_config.php to use external configuration files.
+	- K_TCPDF_EXTERNAL_CONFIG control where introduced on /config/tcpdf_config/config.php to use external configuration files.
 	
 1.53.0.TC026 (2006-10-28)
 	- writeHTML function call were fixed on examples.

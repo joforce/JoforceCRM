@@ -77,7 +77,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 			$referenceModules = $field->getReferenceList();
 			foreach($referenceModules as $refModule) {
 				if($refModule == 'Users') continue;
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
+				$moduleModel = Head_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach($blockModelList as $blockLabel=>$blockModel) {
 					$fieldModelList = $blockModel->getFields();

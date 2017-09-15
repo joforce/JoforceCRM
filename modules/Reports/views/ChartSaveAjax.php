@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
+class Reports_ChartSaveAjax_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$record = $request->get('record');
 		if (!$record) {
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
@@ -27,7 +27,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -67,8 +67,8 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 		foreach ($selectedDataFields as $dataField) {
 			list($tableName, $columnName, $moduleField, $fieldName, $single) = split(':', $dataField);
 			list($relModuleName, $fieldLabel) = split('_', $moduleField);
-			$relModuleModel = Vtiger_Module_Model::getInstance($relModuleName);
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $relModuleModel);
+			$relModuleModel = Head_Module_Model::getInstance($relModuleName);
+			$fieldModel = Head_Field_Model::getInstance($fieldName, $relModuleModel);
 			if ($fieldModel && $fieldModel->getFieldDataType() != 'currency') {
 				$isPercentExist = true;
 				break;

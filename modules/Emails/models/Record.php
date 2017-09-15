@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Emails_Record_Model extends Vtiger_Record_Model {
+class Emails_Record_Model extends Head_Record_Model {
 
 	/**
 	 * Function to get the Detail View url for the record
@@ -19,7 +19,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		if(!$parentId) {
 			list($parentId, $status) = explode('@', reset(array_filter(explode('|', $this->get('parent_id')))));
 		}
-		return 'Javascript:Vtiger_Index_Js.showEmailPreview("'.$this->getId().'","'.$parentId.'")';
+		return 'Javascript:Head_Index_Js.showEmailPreview("'.$this->getId().'","'.$parentId.'")';
 	}
 
 	/**
@@ -89,8 +89,8 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 			$subject = $this->get('subject');
 			$parentModule = $this->getEntityType($id);
 			if ($parentModule) {
-				$currentLanguage = Vtiger_Language_Handler::getLanguage();
-				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage,$parentModule);
+				$currentLanguage = Head_Language_Handler::getLanguage();
+				$moduleLanguageStrings = Head_Language_Handler::getModuleStringsFromFile($currentLanguage,$parentModule);
 				vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
 				$mergedDescriptionWithHyperLinkConversion = $this->replaceBrowserMergeTagWithValue($mergedDescription,$parentModule,$id); 
 				if ($parentModule != 'Users') {
@@ -162,7 +162,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 					}
 				}
 				if ($logo) {
-					$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+					$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 					$companyLogoDetails = $companyDetails->getLogo();
 					//While sending email template and which has '$logo$' then it should replace with company logo
 					$mailer->AddEmbeddedImage($companyLogoDetails->get('imagepath'), 'companyLogo', 'attachment', 'base64', 'image/jpg');
@@ -224,7 +224,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$fromEmail = false;
-		$result = $db->pquery('SELECT from_email_field FROM vtiger_systems WHERE server_type=?', array('email'));
+		$result = $db->pquery('SELECT from_email_field FROM jo_systems WHERE server_type=?', array('email'));
 		if ($db->num_rows($result)) {
 			$fromEmail = decode_html($db->query_result($result, 0, 'from_email_field'));
 		}
@@ -239,9 +239,9 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	function getAttachmentDetails() {
 		$db = PearDatabase::getInstance();
 
-		$attachmentRes = $db->pquery("SELECT * FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid
-						WHERE vtiger_seattachmentsrel.crmid = ?", array($this->getId()));
+		$attachmentRes = $db->pquery("SELECT * FROM jo_attachments
+						INNER JOIN jo_seattachmentsrel ON jo_attachments.attachmentsid = jo_seattachmentsrel.attachmentsid
+						WHERE jo_seattachmentsrel.crmid = ?", array($this->getId()));
 		$numOfRows = $db->num_rows($attachmentRes);
 		$attachmentsList = array();
 		if($numOfRows) {
@@ -282,12 +282,12 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	public function getRelatedDocuments() {
 		$db = PearDatabase::getInstance();
 
-		$documentRes = $db->pquery("SELECT * FROM vtiger_senotesrel
-						INNER JOIN vtiger_crmentity ON vtiger_senotesrel.notesid = vtiger_crmentity.crmid AND vtiger_senotesrel.crmid = ?
-						INNER JOIN vtiger_notes ON vtiger_notes.notesid = vtiger_senotesrel.notesid
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid = vtiger_notes.notesid
-						INNER JOIN vtiger_attachments ON vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid
-						WHERE vtiger_crmentity.deleted = 0", array($this->getId()));
+		$documentRes = $db->pquery("SELECT * FROM jo_senotesrel
+						INNER JOIN jo_crmentity ON jo_senotesrel.notesid = jo_crmentity.crmid AND jo_senotesrel.crmid = ?
+						INNER JOIN jo_notes ON jo_notes.notesid = jo_senotesrel.notesid
+						INNER JOIN jo_seattachmentsrel ON jo_seattachmentsrel.crmid = jo_notes.notesid
+						INNER JOIN jo_attachments ON jo_attachments.attachmentsid = jo_seattachmentsrel.attachmentsid
+						WHERE jo_crmentity.deleted = 0", array($this->getId()));
 		$numOfRows = $db->num_rows($documentRes);
 
 		$documentsList = array();
@@ -333,7 +333,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 
 		$count = count($documentIds);
 		for ($i=0; $i<$count; $i++) {
-			$db->pquery("INSERT INTO vtiger_senotesrel(crmid, notesid) VALUES(?, ?)", array($record, $documentIds[$i]));
+			$db->pquery("INSERT INTO jo_senotesrel(crmid, notesid) VALUES(?, ?)", array($record, $documentIds[$i]));
 		}
 	}
 
@@ -343,7 +343,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function deleteDocumentLink($idList = array()){
 		$db = PearDatabase::getInstance();
-		$query = 'DELETE FROM vtiger_senotesrel where crmid=?';
+		$query = 'DELETE FROM jo_senotesrel where crmid=?';
 		$params = array($this->getId());
 		if(count($idList) > 0) {
 			$query .= 'AND notesid IN ('.generateQuestionMarks($idList).')';
@@ -367,9 +367,9 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 			$attachmentIdList[] = $attachInfo['fileid'];
 		}
 
-		$db->pquery('UPDATE vtiger_crmentity SET deleted=0 WHERE crmid IN('.generateQuestionMarks($attachmentIdList).')',$attachmentIdList);
-		$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid IN('.generateQuestionMarks($attachmentIdList).')',$attachmentIdList);
-		$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE crmid=? and attachmentsid IN('.generateQuestionMarks($attachmentIdList).')',
+		$db->pquery('UPDATE jo_crmentity SET deleted=0 WHERE crmid IN('.generateQuestionMarks($attachmentIdList).')',$attachmentIdList);
+		$db->pquery('DELETE FROM jo_attachments WHERE attachmentsid IN('.generateQuestionMarks($attachmentIdList).')',$attachmentIdList);
+		$db->pquery('DELETE FROM jo_seattachmentsrel WHERE crmid=? and attachmentsid IN('.generateQuestionMarks($attachmentIdList).')',
 				array_merge(array($this->getId()),$attachmentIdList));
 
 	}
@@ -390,14 +390,14 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 			$count = count($documentIds);
 			for ($i=0; $i<$count; $i++) {
 				try {
-					$documentRecordModel = Vtiger_Record_Model::getInstanceById($documentIds[$i], 'Documents');
+					$documentRecordModel = Head_Record_Model::getInstanceById($documentIds[$i], 'Documents');
 					$totalFileSize = $totalFileSize + (int) $documentRecordModel->get('filesize');
 				} catch(Exception $ex) {
 					continue;
 				}
 			}
 		}
-		$uploadLimit = Vtiger_Util_Helper::getMaxUploadSizeInBytes();
+		$uploadLimit = Head_Util_Helper::getMaxUploadSizeInBytes();
 		if ($totalFileSize > $uploadLimit) {
 			return false;
 		}
@@ -414,7 +414,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		// return open tracking shorturl only if email tracking is enabled in configuration editor
 		if($emailTrack){
 			$emailId = $this->getId();
-			$imageDetails = Vtiger_Functions::getTrackImageContent($emailId, $crmId);
+			$imageDetails = Head_Functions::getTrackImageContent($emailId, $crmId);
 			return $imageDetails;
 		} else {
 			return null;
@@ -443,13 +443,13 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$recordId = $this->getId();
 
-		$db->pquery("INSERT INTO vtiger_email_access(crmid, mailid, accessdate, accesstime) VALUES(?, ?, ?, ?)", array($parentId, $recordId, date('Y-m-d'), date('Y-m-d H:i:s')));
+		$db->pquery("INSERT INTO jo_email_access(crmid, mailid, accessdate, accesstime) VALUES(?, ?, ?, ?)", array($parentId, $recordId, date('Y-m-d'), date('Y-m-d H:i:s')));
 
-		$result = $db->pquery("SELECT 1 FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
+		$result = $db->pquery("SELECT 1 FROM jo_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
 		if ($db->num_rows($result)>0) {
-			$db->pquery("UPDATE vtiger_email_track SET access_count = access_count+1 WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
+			$db->pquery("UPDATE jo_email_track SET access_count = access_count+1 WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
 		} else {
-			$db->pquery("INSERT INTO vtiger_email_track(crmid, mailid, access_count) values(?, ?, ?)", array($parentId, $recordId, 1));
+			$db->pquery("INSERT INTO jo_email_track(crmid, mailid, access_count) values(?, ?, ?)", array($parentId, $recordId, 1));
 		}
 	}
 
@@ -467,7 +467,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	public function getClickCountValue($parentId){
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT click_count FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
+		$result = $db->pquery("SELECT click_count FROM jo_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
 		return $db->query_result($result, 0, 'click_count');
 	}
 
@@ -479,7 +479,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	public function getAccessCountValue($parentId) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT access_count FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
+		$result = $db->pquery("SELECT access_count FROM jo_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
 		return $db->query_result($result, 0, 'access_count');
 	}
 
@@ -494,7 +494,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		}
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT mailid, access_count,click_count FROM vtiger_email_track WHERE crmid = ? AND mailid IN('.generateQuestionMarks($emailIds).')';
+		$sql = 'SELECT mailid, access_count,click_count FROM jo_email_track WHERE crmid = ? AND mailid IN('.generateQuestionMarks($emailIds).')';
 		$result = $db->pquery($sql, array($parentId, $emailIds));
 		$numRows = $db->num_rows($result);
 		if($numRows > 0) {
@@ -509,7 +509,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	public function getEmailFlag() {
 		if(!array_key_exists('email_flag', $this->getData())) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT email_flag FROM vtiger_emaildetails WHERE emailid = ?", array($this->getId()));
+			$result = $db->pquery("SELECT email_flag FROM jo_emaildetails WHERE emailid = ?", array($this->getId()));
 			if($db->num_rows($result) > 0) {
 				$this->set('email_flag', $db->query_result($result, 0, 'email_flag'));
 			} else {
@@ -525,12 +525,12 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$emailRelatedModules = $moduleModel->getEmailRelatedModules();
 		$relatedModule = '';
 		if (!empty($id)) {
-			$sql = "SELECT setype FROM vtiger_crmentity WHERE crmid=?";
+			$sql = "SELECT setype FROM jo_crmentity WHERE crmid=?";
 			$result = $db->pquery($sql, array($id));
 			$relatedModule = $db->query_result($result, 0, "setype");
 
 			if(!in_array($relatedModule, $emailRelatedModules)){
-				$sql = 'SELECT id FROM vtiger_users WHERE id=?';
+				$sql = 'SELECT id FROM jo_users WHERE id=?';
 				$result = $db->pquery($sql, array($id));
 				if($db->num_rows($result) > 0){
 					$relatedModule = 'Users';
@@ -555,7 +555,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 				'parentModule' => $parentModule
 			)
 		);
-		$trackURL = Vtiger_ShortURL_Helper::generateURL($options);
+		$trackURL = Head_ShortURL_Helper::generateURL($options);
 		return $trackURL;
 	}
 
@@ -590,13 +590,13 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$recordId = $this->getId();
 
-		$db->pquery("INSERT INTO vtiger_email_access(crmid, mailid, accessdate, accesstime) VALUES(?, ?, ?, ?)", array($parentId, $recordId, date('Y-m-d'), date('Y-m-d H:i:s')));
+		$db->pquery("INSERT INTO jo_email_access(crmid, mailid, accessdate, accesstime) VALUES(?, ?, ?, ?)", array($parentId, $recordId, date('Y-m-d'), date('Y-m-d H:i:s')));
 
-		$result = $db->pquery("SELECT 1 FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
+		$result = $db->pquery("SELECT 1 FROM jo_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
 		if ($db->num_rows($result) > 0) {
-			$db->pquery("UPDATE vtiger_email_track SET click_count = click_count+1 WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
+			$db->pquery("UPDATE jo_email_track SET click_count = click_count+1 WHERE crmid = ? AND mailid = ?", array($parentId, $recordId));
 		} else {
-			$db->pquery("INSERT INTO vtiger_email_track(crmid, mailid, click_count) values(?, ?, ?)", array($parentId, $recordId, 1));
+			$db->pquery("INSERT INTO jo_email_track(crmid, mailid, click_count) values(?, ?, ?)", array($parentId, $recordId, 1));
 		}
 	}
 
@@ -606,7 +606,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function getSenderName($relatedModule = false, $relatedRecordId = false) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT from_email,idlists FROM vtiger_emaildetails WHERE emailid = ?", array($this->getId()));
+			$result = $db->pquery("SELECT from_email,idlists FROM jo_emaildetails WHERE emailid = ?", array($this->getId()));
 		if ($db->num_rows($result) > 0) {
 				$fromEmail = $db->query_result($result, 0, 'from_email');
 				$supportEmail = vglobal('HELPDESK_SUPPORT_EMAIL_ID');
@@ -637,7 +637,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 
 	public function convertUrlsToTrackUrls($content, $crmid, $type = 'html') {
 		if ($this->isEmailTrackEnabled()) {
-			$extractedUrls = Vtiger_Functions::getUrlsFromHtml($content);
+			$extractedUrls = Head_Functions::getUrlsFromHtml($content);
 
 			foreach ($extractedUrls as $sourceUrl => $value) {
 				$trackingUrl = $this->getTrackUrlForClicks($crmid, $sourceUrl);
@@ -683,7 +683,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$params = array($values['crmid'], $values['setype'], $values[$fieldId], $fieldId);
 
-		$db->pquery('INSERT INTO vtiger_emailslookup
+		$db->pquery('INSERT INTO jo_emailslookup
 					(crmid, setype, value, fieldid) 
 					VALUES(?,?,?,?) 
 					ON DUPLICATE KEY 
@@ -699,10 +699,10 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		if ($fieldid) {
 			$params = array($crmid, $fieldid);
-			$db->pquery('DELETE FROM vtiger_emailslookup WHERE crmid=? AND fieldid=?', $params);
+			$db->pquery('DELETE FROM jo_emailslookup WHERE crmid=? AND fieldid=?', $params);
 		} else {
 			$params = array($crmid);
-			$db->pquery('DELETE FROM vtiger_emailslookup WHERE crmid=?', $params);
+			$db->pquery('DELETE FROM jo_emailslookup WHERE crmid=?', $params);
 		}
 	}
 
@@ -711,7 +711,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function updateEmailFlag() {
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_emaildetails SET email_flag="SAVED" WHERE emailid=?';
+		$query = 'UPDATE jo_emaildetails SET email_flag="SAVED" WHERE emailid=?';
 		$db->pquery($query, array($this->get('id')));
 	}
 
@@ -740,7 +740,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$replyTo = $currentUserModel->get('email1');
 
 		if ($defaultReplyTo == 'outgoing_server_from_email') {
-			$result = $db->pquery('SELECT from_email_field FROM vtiger_systems WHERE server_type=?', array('email'));
+			$result = $db->pquery('SELECT from_email_field FROM jo_systems WHERE server_type=?', array('email'));
 			if ($db->num_rows($result)) {
 				$fromEmail = decode_html($db->query_result($result, 0, 'from_email_field'));
 			}

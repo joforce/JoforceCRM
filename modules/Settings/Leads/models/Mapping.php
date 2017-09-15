@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
+class Settings_Leads_Mapping_Model extends Settings_Head_Module_Model {
 
 	var $name = 'Leads';
 
@@ -47,10 +47,10 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <Vtiger_Link_Model>
+	 * @return <Array> list of detail view link models <Head_Link_Model>
 	 */
 	public function getDetailViewLinks() {
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(Head_Link_Model::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("'. $this->getEditViewUrl() .'")',
@@ -60,10 +60,10 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <Vtiger_Link_Model>
+	 * @return <Array> list of mapping link models <Head_Link_Model>
 	 */
 	public function getMappingLinks() {
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(Head_Link_Model::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"'. $this->getMappingDeleteUrl() .'")',
@@ -78,7 +78,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 	public function getMapping($editable = false) {
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM vtiger_convertleadmapping';
+			$query = 'SELECT * FROM jo_convertleadmapping';
 			if ($editable) {
 				$query .= ' WHERE editable = 1';
 			}
@@ -120,11 +120,11 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 	 * @return <Array> list of field info
 	 */
 	public function getFieldsInfo($fieldIdsList) {
-		$leadModel = Vtiger_Module_Model::getInstance($this->getName());
+		$leadModel = Head_Module_Model::getInstance($this->getName());
 		$leadId = $leadModel->getId();
 
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT fieldid, fieldlabel, uitype, typeofdata, fieldname, tablename, tabid FROM vtiger_field WHERE fieldid IN ('. generateQuestionMarks($fieldIdsList). ')', $fieldIdsList);
+		$result = $db->pquery('SELECT fieldid, fieldlabel, uitype, typeofdata, fieldname, tablename, tabid FROM jo_field WHERE fieldid IN ('. generateQuestionMarks($fieldIdsList). ')', $fieldIdsList);
 		$numOfRows = $db->num_rows($result);
 
 		$fieldLabelsList = array();
@@ -174,11 +174,11 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 		}
 
 		if ($deleteMappingsList) {
-			$db->pquery('DELETE FROM vtiger_convertleadmapping WHERE editable = 1 AND cfmid IN ('. generateQuestionMarks($deleteMappingsList) .')', $deleteMappingsList);
+			$db->pquery('DELETE FROM jo_convertleadmapping WHERE editable = 1 AND cfmid IN ('. generateQuestionMarks($deleteMappingsList) .')', $deleteMappingsList);
 		}
 
 		if ($createMappingsList) {
-			$insertQuery = 'INSERT INTO vtiger_convertleadmapping(leadfid, accountfid, contactfid, potentialfid) VALUES ';
+			$insertQuery = 'INSERT INTO jo_convertleadmapping(leadfid, accountfid, contactfid, potentialfid) VALUES ';
 
 			$count = count($createMappingsList);
 			for ($i=0; $i<$count; $i++) {
@@ -209,7 +209,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 			$contactQuery	.= ' ELSE contactfid END ';
 			$potentialQuery .= ' ELSE potentialfid END ';
 
-			$db->pquery("UPDATE vtiger_convertleadmapping $leadQuery, $accountQuery, $contactQuery, $potentialQuery WHERE editable = ?", array(1));
+			$db->pquery("UPDATE jo_convertleadmapping $leadQuery, $accountQuery, $contactQuery, $potentialQuery WHERE editable = ?", array(1));
 		}
 	}
 
@@ -219,7 +219,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 	 */
 	public static function getRestrictedFieldIdsList() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping WHERE editable = ?', array(0));
+		$result = $db->pquery('SELECT * FROM jo_convertleadmapping WHERE editable = ?', array(0));
 		$numOfRows = $db->num_rows($result);
 
 		$restrictedIdsList = array();
@@ -271,6 +271,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 	 */
 	public static function deleteMapping($mappingIdsList) {
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_convertleadmapping WHERE cfmid IN ('. generateQuestionMarks($mappingIdsList). ')', $mappingIdsList);
+		$db->pquery('DELETE FROM jo_convertleadmapping WHERE cfmid IN ('. generateQuestionMarks($mappingIdsList). ')', $mappingIdsList);
 	}
 }

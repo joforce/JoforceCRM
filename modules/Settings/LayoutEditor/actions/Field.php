@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
+class Settings_LayoutEditor_Field_Action extends Settings_Head_Index_Action {
 
     function __construct() {
 		parent::__construct();
@@ -21,12 +21,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
         $this->exposeMethod('unHide');
     }
 
-    public function add(Vtiger_Request $request) {
+    public function add(Head_Request $request) {
         $type = $request->get('fieldType');
         $moduleName = $request->get('sourceModule');
         $blockId = $request->get('blockid');
         $moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $fieldModel = $moduleModel->addField($type,$blockId,$request->getAll());
             $fieldInfo = $fieldModel->getFieldInfo();
@@ -55,7 +55,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
         $response->emit();
     }
 
-    public function save(Vtiger_Request $request) {
+    public function save(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
         $fieldId = $request->get('fieldid');
         $fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
@@ -96,7 +96,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 
 		$defaultValue = decode_html($request->get('fieldDefaultValue'));
 		$fieldInstance->set('defaultvalue', $defaultValue);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
         try{
             $fieldInstance->save();
 			$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
@@ -126,10 +126,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 		$response->emit();
 	}
 
-    public function delete(Vtiger_Request $request) {
+    public function delete(Head_Request $request) {
         $fieldId = $request->get('fieldid');
         $fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
 
         if(!$fieldInstance->isCustomField()) {
             $response->setError('122', 'Cannot delete Non custom field');
@@ -159,23 +159,23 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
         Settings_Workflows_Record_Model::deleteUpadateFieldWorkflow($moduleName, $fieldInstance->getFieldName());
     }
 
-    public function move(Vtiger_Request $request) {
+    public function move(Head_Request $request) {
         $updatedFieldsList = $request->get('updatedFields');
         
         // for Clearing cache we need Module Model
         $sourceModule = $request->get('selectedModule');
-        $moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
+        $moduleModel = Head_Module_Model::getInstance($sourceModule);
         
 		//This will update the fields sequence for the updated blocks
         Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList,$moduleModel);
         
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
 		$response->setResult(array('success'=>true));
         $response->emit();
     }
 
-    public function unHide(Vtiger_Request $request) {
-        $response = new Vtiger_Response();
+    public function unHide(Head_Request $request) {
+        $response = new Head_Response();
         try{
 			$fieldIds = $request->get('fieldIdList');
             Settings_LayoutEditor_Field_Model::makeFieldActive($fieldIds, $request->get('blockId'),$request->get('selectedModule'));
@@ -193,7 +193,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 
     }
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

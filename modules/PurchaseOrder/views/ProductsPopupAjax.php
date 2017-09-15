@@ -18,15 +18,15 @@ class PurchaseOrder_ProductsPopupAjax_View extends PurchaseOrder_ProductsPopup_V
 		$this->exposeMethod('getPageCount');
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	function process (Vtiger_Request $request) {
+	function process (Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

@@ -12,9 +12,9 @@
 /*
  * Settings Module Model Class
  */
-class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_Groups_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_groups';
+	var $baseTable = 'jo_groups';
 	var $baseIndex = 'groupid';
 	var $listFields = array('groupname' => 'Name', 'description' => 'Description');
 	var $name = 'Groups';

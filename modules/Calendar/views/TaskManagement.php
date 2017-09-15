@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_TaskManagement_View extends Vtiger_Index_View {
+class Calendar_TaskManagement_View extends Head_Index_View {
 
 	function __construct() {
 		$this->exposeMethod('showManagementView');
@@ -17,7 +17,7 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		$this->exposeMethod('getContentsOfPriority');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -25,11 +25,11 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		}
 	}
 
-	public function showManagementView(Vtiger_Request $request) {
+	public function showManagementView(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$statusField = Vtiger_Field_Model::getInstance('taskstatus', $moduleModel);
-		$ownerField = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$statusField = Head_Field_Model::getInstance('taskstatus', $moduleModel);
+		$ownerField = Head_Field_Model::getInstance('assigned_user_id', $moduleModel);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -38,8 +38,8 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('TASK_FILTERS', $this->getFiltersFromSession());
-		$module = Vtiger_Module_Model::getInstance($moduleName);
-		$field = Vtiger_Field_Model::getInstance('taskpriority', $module);
+		$module = Head_Module_Model::getInstance($moduleName);
+		$field = Head_Field_Model::getInstance('taskpriority', $module);
 		$priorities = $field->getPicklistValues();
 
 		$page = 1;
@@ -52,10 +52,10 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		$viewer->view('TaskManagement.tpl', $moduleName);
 	}
 
-	public function getAllContents(Vtiger_Request $request) {
+	public function getAllContents(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$module = Vtiger_Module_Model::getInstance($moduleName);
-		$field = Vtiger_Field_Model::getInstance('taskpriority', $module);
+		$module = Head_Module_Model::getInstance($moduleName);
+		$field = Head_Field_Model::getInstance('taskpriority', $module);
 		$priorities = $field->getPicklistValues();
 
 		$data = array();
@@ -67,7 +67,7 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		echo json_encode($data);
 	}
 
-	public function getContentsOfPriority(Vtiger_Request $request, $fetch = false) {
+	public function getContentsOfPriority(Head_Request $request, $fetch = false) {
 		$moduleName = $request->getModule();
 
 		$page = 1;
@@ -75,7 +75,7 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 			$page = $request->get('page');
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', 10);
 
@@ -91,10 +91,10 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		return $viewer->view('TaskManagementContents.tpl', $moduleName, $fetch);
 	}
 
-	public function generateColors(Vtiger_Request $request) {
+	public function generateColors(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$module = Vtiger_Module_Model::getInstance($moduleName);
-		$field = Vtiger_Field_Model::getInstance('taskpriority', $module);
+		$module = Head_Module_Model::getInstance($moduleName);
+		$field = Head_Field_Model::getInstance('taskpriority', $module);
 		$priorities = $field->getPicklistValues();
 
 		if (!$request->get('colors')) {
@@ -138,9 +138,9 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		return $filters;
 	}
 
-	public function filterRecords(Vtiger_Request $request, $pagingModel) {
+	public function filterRecords(Head_Request $request, $pagingModel) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$filters = $request->get('filters');
 		$this->setFiltersInSession($filters);
 		$conditions = array();

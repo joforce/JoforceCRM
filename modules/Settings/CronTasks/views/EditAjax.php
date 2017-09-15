@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View {
+class Settings_CronTasks_EditAjax_View extends Settings_Head_IndexAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

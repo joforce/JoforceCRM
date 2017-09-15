@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Products_Relation_Model extends Vtiger_Relation_Model {
+class Products_Relation_Model extends Head_Relation_Model {
 	
 	/**
 	 * Function returns the Query for the relationhips
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param <Head_Record_Model> $recordModel
 	 * @param type $actions
 	 * @return <String>
 	 */
@@ -45,17 +45,17 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 			$queryGenerator->setFields($relatedListFields);
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
 			$newQuery = spliti('FROM', $query);
-			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid, '.$selectColumnSql;
+			$selectColumnSql = 'SELECT DISTINCT jo_crmentity.crmid, '.$selectColumnSql;
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
 		}
 		if($functionName == 'get_product_pricebooks'){
 			$newQuery = spliti('FROM', $query);
-			$selectColumnSql = $newQuery[0].' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_products.unit_price';
+			$selectColumnSql = $newQuery[0].' ,jo_pricebookproductrel.listprice, jo_pricebook.currency_id, jo_products.unit_price';
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
 		}
 		if($functionName == 'get_service_pricebooks'){
 			$newQuery = spliti('FROM', $query);
-			$selectColumnSql = $newQuery[0].' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_service.unit_price';
+			$selectColumnSql = $newQuery[0].' ,jo_pricebookproductrel.listprice, jo_pricebook.currency_id, jo_service.unit_price';
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
 		}
 		return $query;
@@ -71,7 +71,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
 		if(($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
-			$priceBookModel = Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName);
+			$priceBookModel = Head_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName);
 			$priceBookModel->deleteListPrice($sourceRecordId);
 			$relatedModuleFocus = CRMEntity::getInstance($relatedModuleName);
 			$relatedModuleFocus->trackUnLinkedInfo($sourceModuleName, $sourceRecordId, $relatedModuleName, $relatedRecordId);
@@ -91,7 +91,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId) {
 		$db = PearDatabase::getInstance();
 		if(!empty($sourceRecordId) && !empty($relatedRecordId)){
-			$db->pquery('DELETE FROM vtiger_seproductsrel WHERE crmid = ? AND productid = ?', array($relatedRecordId, $sourceRecordId));
+			$db->pquery('DELETE FROM jo_seproductsrel WHERE crmid = ? AND productid = ?', array($relatedRecordId, $sourceRecordId));
 			return true;
 		}
 	}
@@ -116,7 +116,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	public function isSubProduct($subProductId){
 		if(!empty($subProductId)){
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT crmid FROM vtiger_seproductsrel WHERE crmid = ?', array($subProductId));
+			$result = $db->pquery('SELECT crmid FROM jo_seproductsrel WHERE crmid = ?', array($subProductId));
 			if($db->num_rows($result) > 0){
 				return true;
 			}
@@ -132,16 +132,16 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice) {
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		$relationModuleModel = Vtiger_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
+		$relationModuleModel = Head_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
 		
-		$productModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
+		$productModel = Head_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
 		$productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
 	}
 
 	public function updateShowBundlesOption($recordId, $value) {
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 
-		$productRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModuleName);
+		$productRecordModel = Head_Record_Model::getInstanceById($recordId, $sourceModuleName);
 		$productRecordModel->updateShowBundlesOption($value);
 	}
 
@@ -154,9 +154,9 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	public function updateQuantity($sourceRecordId, $destinationRecordId, $quantity) {
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		$relationModuleModel = Vtiger_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
+		$relationModuleModel = Head_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
 
-		$productModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
+		$productModel = Head_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
 		$productModel->updateSubProductQuantity($destinationRecordId, $quantity);
 	}
 }

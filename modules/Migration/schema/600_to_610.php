@@ -11,30 +11,30 @@
 if (!defined('VTIGER_UPGRADE'))
     die('Invalid entry point');
 chdir(dirname(__FILE__) . '/../../../');
-include_once 'modules/com_vtiger_workflow/VTTaskManager.inc';
+include_once 'modules/com_jo_workflow/VTTaskManager.inc';
 include_once 'include/utils/utils.php';
 
 if(defined('VTIGER_UPGRADE')) {
         //Collating all module package updates here
-	updateVtlibModule('Import', 'packages/vtiger/mandatory/Import.zip');
-        updateVtlibModule('PBXManager', 'packages/vtiger/mandatory/PBXManager.zip');
-//	updateVtlibModule('MailManager', 'packages/vtiger/mandatory/MailManager.zip');
-	updateVtlibModule('Mobile', 'packages/vtiger/mandatory/Mobile.zip');
-        updateVtlibModule('ModTracker', 'packages/vtiger/mandatory/ModTracker.zip');
-//        updateVtlibModule('ServiceContracts', 'packages/vtiger/mandatory/ServiceContracts.zip');
-        updateVtlibModule('Services', 'packages/vtiger/mandatory/Services.zip');
-	updateVtlibModule('WSAPP', 'packages/vtiger/mandatory/WSAPP.zip');
-        updateVtlibModule('Arabic_ar_ae', 'packages/vtiger/optional/Arabic_ar_ae.zip');
-        updateVtlibModule('Assets', 'packages/vtiger/optional/Assets.zip');
-        updateVtlibModule('EmailTemplates', 'packages/vtiger/optional/EmailTemplates.zip');
-        updateVtlibModule('Google', 'packages/vtiger/optional/Google.zip');
-        updateVtlibModule('ModComments', 'packages/vtiger/optional/ModComments.zip');
-        updateVtlibModule('Projects', 'packages/vtiger/optional/Projects.zip');
-	updateVtlibModule('RecycleBin', 'packages/vtiger/optional/RecycleBin.zip');
-	updateVtlibModule('SMSNotifier', "packages/vtiger/optional/SMSNotifier.zip");
-        updateVtlibModule("Sweden_sv_se","packages/vtiger/optional/Sweden_sv_se.zip");
-	updateVtlibModule("Webforms","packages/vtiger/optional/Webforms.zip");
-        installVtlibModule('ExtensionStore', 'packages/vtiger/marketplace/ExtensionStore.zip');
+	updateVtlibModule('Import', 'packages/head/mandatory/Import.zip');
+        updateVtlibModule('PBXManager', 'packages/head/mandatory/PBXManager.zip');
+//	updateVtlibModule('MailManager', 'packages/head/mandatory/MailManager.zip');
+	updateVtlibModule('Mobile', 'packages/head/mandatory/Mobile.zip');
+        updateVtlibModule('ModTracker', 'packages/head/mandatory/ModTracker.zip');
+//        updateVtlibModule('ServiceContracts', 'packages/head/mandatory/ServiceContracts.zip');
+        updateVtlibModule('Services', 'packages/head/mandatory/Services.zip');
+	updateVtlibModule('WSAPP', 'packages/head/mandatory/WSAPP.zip');
+        updateVtlibModule('Arabic_ar_ae', 'packages/head/optional/Arabic_ar_ae.zip');
+        updateVtlibModule('Assets', 'packages/head/optional/Assets.zip');
+        updateVtlibModule('EmailTemplates', 'packages/head/optional/EmailTemplates.zip');
+        updateVtlibModule('Google', 'packages/head/optional/Google.zip');
+        updateVtlibModule('ModComments', 'packages/head/optional/ModComments.zip');
+        updateVtlibModule('Projects', 'packages/head/optional/Projects.zip');
+	updateVtlibModule('RecycleBin', 'packages/head/optional/RecycleBin.zip');
+	updateVtlibModule('SMSNotifier', "packages/head/optional/SMSNotifier.zip");
+        updateVtlibModule("Sweden_sv_se","packages/head/optional/Sweden_sv_se.zip");
+	updateVtlibModule("Webforms","packages/head/optional/Webforms.zip");
+        installVtlibModule('ExtensionStore', 'packages/head/marketplace/ExtensionStore.zip');
 }
 if(defined('INSTALLATION_MODE')) {
 		// Set of task to be taken care while specifically in installation mode.
@@ -94,22 +94,22 @@ $unWanted=array(
  "modules/ModComments/ModCommentsCommon.js",
  "modules/ModTracker/ModTracker.js",
  "modules/ModTracker/ModTrackerCommon.js",
- "modules/com_vtiger_workflow/resources/functional.js",
- "modules/com_vtiger_workflow/resources/parallelexecuter.js",
- "modules/com_vtiger_workflow/resources/editworkflowscript.js",
- "modules/com_vtiger_workflow/resources/createtodotaskscript.js",
- "modules/com_vtiger_workflow/resources/fieldexpressionpopup.js",
- "modules/com_vtiger_workflow/resources/workflowlistscript.js",
- "modules/com_vtiger_workflow/resources/fieldvalidator.js",
- "modules/com_vtiger_workflow/resources/updatefieldstaskscript.js",
- "modules/com_vtiger_workflow/resources/jquery-1.2.6.js",
- "modules/com_vtiger_workflow/resources/json2.js",
- "modules/com_vtiger_workflow/resources/vtigerwebservices.js",
- "modules/com_vtiger_workflow/resources/jquery.timepicker.js",
- "modules/com_vtiger_workflow/resources/createentitytaskscript.js",
- "modules/com_vtiger_workflow/resources/edittaskscript.js",
- "modules/com_vtiger_workflow/resources/createeventtaskscript.js",
- "modules/com_vtiger_workflow/resources/emailtaskscript.js",
+ "modules/com_jo_workflow/resources/functional.js",
+ "modules/com_jo_workflow/resources/parallelexecuter.js",
+ "modules/com_jo_workflow/resources/editworkflowscript.js",
+ "modules/com_jo_workflow/resources/createtodotaskscript.js",
+ "modules/com_jo_workflow/resources/fieldexpressionpopup.js",
+ "modules/com_jo_workflow/resources/workflowlistscript.js",
+ "modules/com_jo_workflow/resources/fieldvalidator.js",
+ "modules/com_jo_workflow/resources/updatefieldstaskscript.js",
+ "modules/com_jo_workflow/resources/jquery-1.2.6.js",
+ "modules/com_jo_workflow/resources/json2.js",
+ "modules/com_jo_workflow/resources/vtigerwebservices.js",
+ "modules/com_jo_workflow/resources/jquery.timepicker.js",
+ "modules/com_jo_workflow/resources/createentitytaskscript.js",
+ "modules/com_jo_workflow/resources/edittaskscript.js",
+ "modules/com_jo_workflow/resources/createeventtaskscript.js",
+ "modules/com_jo_workflow/resources/emailtaskscript.js",
  "modules/FieldFormulas/editexpressionscript.js",              
  "modules/FieldFormulas/jquery-1.2.6.js",
  "modules/FieldFormulas/json2.js",
@@ -123,54 +123,54 @@ for($i=0;$i<=count($unWanted);$i++){
     }
 }
  
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('schtypeid'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('schtypeid'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD schtypeid INT(10)", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD schtypeid INT(10)", array());
 }
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('schtime'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('schtime'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD schtime TIME", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD schtime TIME", array());
 }
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('schdayofmonth'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('schdayofmonth'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD schdayofmonth VARCHAR(100)", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD schdayofmonth VARCHAR(100)", array());
 }
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('schdayofweek'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('schdayofweek'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD schdayofweek VARCHAR(100)", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD schdayofweek VARCHAR(100)", array());
 }
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('schannualdates'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('schannualdates'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD schannualdates VARCHAR(100)", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD schannualdates VARCHAR(100)", array());
 }
-$result = $adb->pquery("show columns from com_vtiger_workflows like ?", array('nexttrigger_time'));
+$result = $adb->pquery("show columns from com_jo_workflows like ?", array('nexttrigger_time'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE com_vtiger_workflows ADD nexttrigger_time DATETIME", array());
+    $adb->pquery("ALTER TABLE com_jo_workflows ADD nexttrigger_time DATETIME", array());
 }
 
-Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS vtiger_faqcf ( 
+Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_faqcf ( 
                                 faqid int(19), 
                                 PRIMARY KEY (faqid), 
-                                CONSTRAINT fk_1_vtiger_faqcf FOREIGN KEY (faqid) REFERENCES vtiger_faq(id) ON DELETE CASCADE 
+                                CONSTRAINT fk_1_jo_faqcf FOREIGN KEY (faqid) REFERENCES jo_faq(id) ON DELETE CASCADE 
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array()); 
 
 echo "FAQ cf created";
 
 //73 starts
-$query = 'SELECT 1 FROM vtiger_currencies WHERE currency_name=?';
+$query = 'SELECT 1 FROM jo_currencies WHERE currency_name=?';
 $result = $adb->pquery($query, array('Sudanese Pound'));
 if($adb->num_rows($result) <= 0){
-    //Inserting Currency Sudanese Pound to vtiger_currencies
-    Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies (currencyid,currency_name,currency_code,currency_symbol) VALUES ('.$adb->getUniqueID("vtiger_currencies").',"Sudanese Pound","SDG","£")',array());
-    Vtiger_Utils::AddColumn('vtiger_mailmanager_mailattachments', 'cid', 'VARCHAR(100)');
+    //Inserting Currency Sudanese Pound to jo_currencies
+    Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid,currency_name,currency_code,currency_symbol) VALUES ('.$adb->getUniqueID("jo_currencies").',"Sudanese Pound","SDG","£")',array());
+    Head_Utils::AddColumn('jo_mailmanager_mailattachments', 'cid', 'VARCHAR(100)');
 }
 //73 ends
 
 //74 starts
 
 //Start: Moving Entity methods of Tickets to Workflows
-$result = $adb->pquery('SELECT DISTINCT workflow_id FROM com_vtiger_workflowtasks WHERE workflow_id IN
-                                (SELECT workflow_id FROM com_vtiger_workflows WHERE module_name IN (?) AND defaultworkflow = ?)
+$result = $adb->pquery('SELECT DISTINCT workflow_id FROM com_jo_workflowtasks WHERE workflow_id IN
+                                (SELECT workflow_id FROM com_jo_workflows WHERE module_name IN (?) AND defaultworkflow = ?)
                                 AND task LIKE ?', array($moduleName, 1, '%VTEntityMethodTask%'));
 $numOfRows = $adb->num_rows($result);
 
@@ -257,25 +257,25 @@ for($i=0; $i<$numOfRows; $i++) {
                     $emailTask->id = '';
                     $emailTask->workflowId = $properties['workflowId'];
                     $emailTask->summary = 'Notify Record Owner when Ticket is created from Portal';
-                    $emailTask->fromEmail =  '$(contact_id : (Contacts) lastname) $(contact_id : (Contacts) firstname)&lt;$(general : (__VtigerMeta__) supportEmailId)&gt;';
+                    $emailTask->fromEmail =  '$(contact_id : (Contacts) lastname) $(contact_id : (Contacts) firstname)&lt;$(general : (__HeadMeta__) supportEmailId)&gt;';
                     $emailTask->recepient = ',$(assigned_user_id : (Users) email1)';
-                    $emailTask->subject =  '[From Portal] $ticket_no [ Ticket Id : $(general : (__VtigerMeta__) recordId) ] $ticket_title';
+                    $emailTask->subject =  '[From Portal] $ticket_no [ Ticket Id : $(general : (__HeadMeta__) recordId) ] $ticket_title';
                     $emailTask->content = 'Ticket No : $ticket_no<br>
-                                              Ticket ID : $(general : (__VtigerMeta__) recordId)<br>
+                                              Ticket ID : $(general : (__HeadMeta__) recordId)<br>
                                               Ticket Title : $ticket_title<br><br>
                                               $description';
                     $tm->saveTask($emailTask);
 
                     $emailTask->id = $properties['id'];
                     $emailTask->summary = 'Notify Related Contact when Ticket is created from Portal';
-                    $emailTask->fromEmail =  '$(general : (__VtigerMeta__) supportName)&lt;$(general : (__VtigerMeta__) supportEmailId)&gt;';
+                    $emailTask->fromEmail =  '$(general : (__HeadMeta__) supportName)&lt;$(general : (__HeadMeta__) supportEmailId)&gt;';
                     $emailTask->recepient = ',$(contact_id : (Contacts) email)';
 
                     $tm->saveTask($emailTask);
                     break;
                 case 'NotifyOnPortalTicketComment'	:
                             $tm->deleteTask($properties['id']);
-                            Migration_Index_View::ExecuteQuery('DELETE FROM com_vtiger_workflows WHERE workflow_id = ?', array($workflowModel->id));
+                            Migration_Index_View::ExecuteQuery('DELETE FROM com_jo_workflows WHERE workflow_id = ?', array($workflowModel->id));
                             break;
                 
                 case 'NotifyParentOnTicketChange'	:
@@ -377,10 +377,10 @@ for($i=0; $i<$numOfRows; $i++) {
 
                             $emailTask->id = '';
                             $emailTask->summary = 'Send Email to Organization on Ticket Update';
-                            $emailTask->fromEmail = '$(general : (__VtigerMeta__) supportName)&lt;$(general : (__VtigerMeta__) supportEmailId)&gt;';
+                            $emailTask->fromEmail = '$(general : (__HeadMeta__) supportName)&lt;$(general : (__HeadMeta__) supportEmailId)&gt;';
                             $emailTask->recepient = ',$(parent_id : (Accounts) email1)';
-                            $emailTask->subject = '$ticket_no [ Ticket Id : $(general : (__VtigerMeta__) recordId) ] $ticket_title';
-                            $emailTask->content = 'Ticket ID : $(general : (__VtigerMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
+                            $emailTask->subject = '$ticket_no [ Ticket Id : $(general : (__HeadMeta__) recordId) ] $ticket_title';
+                            $emailTask->content = 'Ticket ID : $(general : (__HeadMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
                                                             Dear $(parent_id : (Accounts) accountname),<br><br>
                                                             The Ticket is replied the details are :<br><br>
                                                             Ticket No : $ticket_no<br>
@@ -437,7 +437,7 @@ for($i=0; $i<$numOfRows; $i++) {
                             $emailTask->workflowId = $properties['workflowId'];
                             $emailTask->summary = 'Send Email to Contact on Ticket Update';
                             $emailTask->recepient = ',$(contact_id : (Contacts) email)';
-                            $emailTask->content = 'Ticket ID : $(general : (__VtigerMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
+                            $emailTask->content = 'Ticket ID : $(general : (__HeadMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
                                                             Dear $(contact_id : (Contacts) lastname) $(contact_id : (Contacts) firstname),<br><br>
                                                             The Ticket is replied the details are :<br><br>
                                                             Ticket No : $ticket_no<br>
@@ -565,10 +565,10 @@ for($i=0; $i<$numOfRows; $i++) {
                             $emailTask->id = '';
                             $emailTask->workflowId = $newWorkflowModel->id;
                             $emailTask->summary = 'Send Email to Record Owner on Ticket Update';
-                            $emailTask->fromEmail = '$(general : (__VtigerMeta__) supportName)&lt;$(general : (__VtigerMeta__) supportEmailId)&gt;';
+                            $emailTask->fromEmail = '$(general : (__HeadMeta__) supportName)&lt;$(general : (__HeadMeta__) supportEmailId)&gt;';
                             $emailTask->recepient = ',$(assigned_user_id : (Users) email1)';
                             $emailTask->subject =  'Ticket Number : $ticket_no $ticket_title';
-                            $emailTask->content = 'Ticket ID : $(general : (__VtigerMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
+                            $emailTask->content = 'Ticket ID : $(general : (__HeadMeta__) recordId)<br>Ticket Title : $ticket_title<br><br>
                                                             Dear $(assigned_user_id : (Users) last_name) $(assigned_user_id : (Users) first_name),<br><br>
                                                             The Ticket is replied the details are :<br><br>
                                                             Ticket No : $ticket_no<br>
@@ -613,38 +613,38 @@ echo '<br>SuccessFully Done For Tickets<br>';
 
 //75 starts
 //create new table for feedback on removing old version
-$adb->query("CREATE TABLE IF NOT EXISTS vtiger_feedback (userid INT(19), dontshow VARCHAR(19) default false);");
+$adb->query("CREATE TABLE IF NOT EXISTS jo_feedback (userid INT(19), dontshow VARCHAR(19) default false);");
 
 //75 ends
 
 //76 starts
-$moduleInstance = Vtiger_Module::getInstance('Calendar');
-$fieldInstance = Vtiger_Field::getInstance('activitytype',$moduleInstance);
+$moduleInstance = Head_Module::getInstance('Calendar');
+$fieldInstance = Head_Field::getInstance('activitytype',$moduleInstance);
 
 $fieldInstance->setPicklistValues(array('Mobile Call'));
 //76 ends
 
 //77 starts
-$sql = "ALTER TABLE vtiger_products MODIFY productname VARCHAR( 100 )";
+$sql = "ALTER TABLE jo_products MODIFY productname VARCHAR( 100 )";
 Migration_Index_View::ExecuteQuery($sql,array());
 echo "<br>Updated to varchar(100) for productname";
 
-$result = $adb->pquery('SELECT 1 FROM vtiger_currencies WHERE currency_name = ?', array('CFA Franc BCEAO'));
+$result = $adb->pquery('SELECT 1 FROM jo_currencies WHERE currency_name = ?', array('CFA Franc BCEAO'));
     if(!$adb->num_rows($result)) {
-        Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
-            array($adb->getUniqueID('vtiger_currencies'), 'CFA Franc BCEAO', 'XOF', 'CFA'));
+        Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
+            array($adb->getUniqueID('jo_currencies'), 'CFA Franc BCEAO', 'XOF', 'CFA'));
     }
-$result = $adb->pquery('SELECT 1 FROM vtiger_currencies WHERE currency_name = ?', array('CFA Franc BEAC'));
+$result = $adb->pquery('SELECT 1 FROM jo_currencies WHERE currency_name = ?', array('CFA Franc BEAC'));
     if(!$adb->num_rows($result)) {
-        Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
-            array($adb->getUniqueID('vtiger_currencies'), 'CFA Franc BEAC', 'XAF', 'CFA'));
+        Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
+            array($adb->getUniqueID('jo_currencies'), 'CFA Franc BEAC', 'XAF', 'CFA'));
     }    
 echo "<br>Added CFA Franc BCEAO and CFA Franc BEAC currencies";
 
-$sql = "ALTER TABLE vtiger_loginhistory MODIFY user_name VARCHAR( 255 )";
+$sql = "ALTER TABLE jo_loginhistory MODIFY user_name VARCHAR( 255 )";
 Migration_Index_View::ExecuteQuery($sql,array());
 
-$sql = "UPDATE vtiger_activitytype SET presence = '0' WHERE activitytype ='Mobile Call'";
+$sql = "UPDATE jo_activitytype SET presence = '0' WHERE activitytype ='Mobile Call'";
 Migration_Index_View::ExecuteQuery($sql,array());
 //77 ends(Some function addGroupTaxTemplatesForQuotesAndPurchaseOrder)
 
@@ -652,44 +652,44 @@ Migration_Index_View::ExecuteQuery($sql,array());
 //78 ends
 
 //79 starts
-Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS vtiger_shareduserinfo
+Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_shareduserinfo
 						(userid INT(19) NOT NULL default 0, shareduserid INT(19) NOT NULL default 0,
 						color VARCHAR(50), visible INT(19) default 1);", array());
 
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_mailscanner_rules ADD assigned_to INT(10), ADD cc VARCHAR(255), ADD bcc VARCHAR(255)', array());
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_mailscanner_rules ADD assigned_to INT(10), ADD cc VARCHAR(255), ADD bcc VARCHAR(255)', array());
 $assignedToId = Users::getActiveAdminId();
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_mailscanner_rules SET assigned_to=?", array($assignedToId));
+Migration_Index_View::ExecuteQuery("UPDATE jo_mailscanner_rules SET assigned_to=?", array($assignedToId));
 echo "<br> Adding assigned to, cc, bcc fields for mail scanner rules";
 
 
-//Schema changes for vtiger_troubletickets hours & days column
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_troubletickets MODIFY hours decimal(25,8)', array());
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_troubletickets MODIFY days decimal(25,8)', array());
+//Schema changes for jo_troubletickets hours & days column
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_troubletickets MODIFY hours decimal(25,8)', array());
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_troubletickets MODIFY days decimal(25,8)', array());
 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET defaultvalue=? WHERE tablename=? and fieldname=?", array('1', 'vtiger_pricebook', 'active'));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET defaultvalue=? WHERE tablename=? and fieldname=?", array('1', 'jo_pricebook', 'active'));
 echo "<br> updated default value for pricebooks active";
 
-$relationId = $adb->getUniqueID('vtiger_relatedlists');
+$relationId = $adb->getUniqueID('jo_relatedlists');
 $contactTabId = getTabid('Contacts');
 $vendorTabId = getTabId('Vendors');
 $actions = 'SELECT';
 
-$query = 'SELECT max(sequence) as maxsequence FROM vtiger_relatedlists where tabid = ?';
+$query = 'SELECT max(sequence) as maxsequence FROM jo_relatedlists where tabid = ?';
 $result = $adb->pquery($query, array($contactTabId));
 $sequence = $adb->query_result($result, 0 ,'maxsequence');
 
-$query = 'INSERT INTO vtiger_relatedlists VALUES(?,?,?,?,?,?,?,?)';
+$query = 'INSERT INTO jo_relatedlists VALUES(?,?,?,?,?,?,?,?)';
 $result = Migration_Index_View::ExecuteQuery($query, array($relationId, $contactTabId,$vendorTabId,'get_vendors',($sequence+1),'Vendors',0,$actions));
 
-//Schema changes for vtiger_troubletickets hours & days column
-Migration_Index_View::ExecuteQuery('UPDATE vtiger_field set typeofdata=? WHERE fieldname IN(?,?) AND tablename = ?', array('N~O', 'hours', 'days', 'vtiger_troubletickets'));
+//Schema changes for jo_troubletickets hours & days column
+Migration_Index_View::ExecuteQuery('UPDATE jo_field set typeofdata=? WHERE fieldname IN(?,?) AND tablename = ?', array('N~O', 'hours', 'days', 'jo_troubletickets'));
 
 //79 ends
 
 //80 starts
-//Added recurring enddate column for events,to vtiger_recurringevents table
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_recurringevents ADD COLUMN recurringenddate date', array());
-echo "added field recurring enddate to vtiger_recurringevents to save untill date of repeat events";
+//Added recurring enddate column for events,to jo_recurringevents table
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_recurringevents ADD COLUMN recurringenddate date', array());
+echo "added field recurring enddate to jo_recurringevents to save untill date of repeat events";
 
 //80 ends
 
@@ -697,14 +697,14 @@ echo "added field recurring enddate to vtiger_recurringevents to save untill dat
 //81 ends
 
 //82 starts
-Migration_Index_View::ExecuteQuery("ALTER TABLE vtiger_mailscanner CHANGE timezone time_zone VARCHAR(10)", array());
+Migration_Index_View::ExecuteQuery("ALTER TABLE jo_mailscanner CHANGE timezone time_zone VARCHAR(10)", array());
 echo "<br>Changed timezone column name for mail scanner";
 
 //82 ends
 
 //83 starts
-$result = $adb->pquery('SELECT task_id FROM com_vtiger_workflowtasks WHERE workflow_id IN
-                        (SELECT workflow_id FROM com_vtiger_workflows WHERE module_name IN (?, ?))
+$result = $adb->pquery('SELECT task_id FROM com_jo_workflowtasks WHERE workflow_id IN
+                        (SELECT workflow_id FROM com_jo_workflows WHERE module_name IN (?, ?))
                         AND task LIKE ?', array('Calendar', 'Events', '%VTSendNotificationTask%'));
 $numOfRowas = $adb->num_rows($result);
 for ($i = 0; $i < $numOfRows; $i++) {
@@ -714,9 +714,9 @@ for ($i = 0; $i < $numOfRows; $i++) {
         $emailTask = new VTEmailTask();
         $properties = get_object_vars($task);
         foreach ($properties as $propertyName => $propertyValue) {
-                $propertyValue = str_replace('$date_start  $time_start ( $(general : (__VtigerMeta__) usertimezone) ) ', '$date_start', $propertyValue);
-                $propertyValue = str_replace('$due_date  $time_end ( $(general : (__VtigerMeta__) usertimezone) )', '$due_date', $propertyValue);
-                $propertyValue = str_replace('$due_date ( $(general : (__VtigerMeta__) usertimezone) )', '$due_date', $propertyValue);
+                $propertyValue = str_replace('$date_start  $time_start ( $(general : (__HeadMeta__) usertimezone) ) ', '$date_start', $propertyValue);
+                $propertyValue = str_replace('$due_date  $time_end ( $(general : (__HeadMeta__) usertimezone) )', '$due_date', $propertyValue);
+                $propertyValue = str_replace('$due_date ( $(general : (__HeadMeta__) usertimezone) )', '$due_date', $propertyValue);
                 $propertyValue = str_replace('$(contact_id : (Contacts) lastname) $(contact_id : (Contacts) firstname)', '$contact_id', $propertyValue);
                 $emailTask->$propertyName = $propertyValue;
         }
@@ -728,14 +728,14 @@ echo '<br>Successfully Done<br>';
 //83 ends
 
 //84 starts
-$query = "ALTER table vtiger_relcriteria modify comparator varchar(20)";
+$query = "ALTER table jo_relcriteria modify comparator varchar(20)";
 Migration_Index_View::ExecuteQuery($query, array());
 
-//To copy imagename saved in vtiger_attachments for products and contacts into respectively base table
+//To copy imagename saved in jo_attachments for products and contacts into respectively base table
 //to support filters on imagename field
-$productIdSql = 'SELECT productid,name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
-                                        vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid INNER JOIN vtiger_products ON
-                                        vtiger_products.productid = vtiger_seattachmentsrel.crmid';
+$productIdSql = 'SELECT productid,name FROM jo_seattachmentsrel INNER JOIN jo_attachments ON
+                                        jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid INNER JOIN jo_products ON
+                                        jo_products.productid = jo_seattachmentsrel.crmid';
 $productIds = $adb->pquery($productIdSql,array());
 $numOfRows = $adb->num_rows($productIds);
 
@@ -751,30 +751,30 @@ for ($i = 0; $i < $numOfRows; $i++) {
 }
 foreach ($productImageMap as $productId => $imageNames) {
         $implodedNames = implode(",", $imageNames);
-        Migration_Index_View::ExecuteQuery('UPDATE vtiger_products SET imagename = ? WHERE productid = ?',array($implodedNames,$productId));
+        Migration_Index_View::ExecuteQuery('UPDATE jo_products SET imagename = ? WHERE productid = ?',array($implodedNames,$productId));
 }
 echo 'updating image information for products table is completed';
 
-$ContactIdSql = 'SELECT contactid,name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
-                                        vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid INNER JOIN vtiger_contactdetails ON
-                                        vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid';
+$ContactIdSql = 'SELECT contactid,name FROM jo_seattachmentsrel INNER JOIN jo_attachments ON
+                                        jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid INNER JOIN jo_contactdetails ON
+                                        jo_contactdetails.contactid = jo_seattachmentsrel.crmid';
 $contactIds = $adb->pquery($ContactIdSql,array());
 $numOfRows = $adb->num_rows($contactIds);
 
 for ($i = 0; $i < $numOfRows; $i++) {
         $contactId = $adb->query_result($contactIds, $i, "contactid");
         $imageName = decode_html($adb->query_result($contactIds, $i, "name"));
-        Migration_Index_View::ExecuteQuery('UPDATE vtiger_contactdetails SET imagename = ? WHERE contactid = ?',array($imageName,$contactId));
+        Migration_Index_View::ExecuteQuery('UPDATE jo_contactdetails SET imagename = ? WHERE contactid = ?',array($imageName,$contactId));
 }
 echo 'updating image information for contacts table is completed';
 
 //Updating actions for PriceBooks related list in Products and Services
 $productsTabId = getTabId('Products');
 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_relatedlists SET actions=? WHERE label=? and tabid=? ",array('ADD,SELECT', 'PriceBooks', $productsTabId));
+Migration_Index_View::ExecuteQuery("UPDATE jo_relatedlists SET actions=? WHERE label=? and tabid=? ",array('ADD,SELECT', 'PriceBooks', $productsTabId));
 echo '<br>Updated PriceBooks related list actions for products and services';
 
-$adb->pquery("CREATE TABLE IF NOT EXISTS vtiger_schedulereports(
+$adb->pquery("CREATE TABLE IF NOT EXISTS jo_schedulereports(
             reportid INT(10),
             scheduleid INT(3),
             recipients TEXT,
@@ -787,24 +787,24 @@ $adb->pquery("CREATE TABLE IF NOT EXISTS vtiger_schedulereports(
             next_trigger_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
             ENGINE=InnoDB DEFAULT CHARSET=utf8;", array());
 
-Vtiger_Cron::register('ScheduleReports', 'cron/modules/Reports/ScheduleReports.service', 900);
+Head_Cron::register('ScheduleReports', 'cron/modules/Reports/ScheduleReports.service', 900);
 
-Migration_Index_View::ExecuteQuery('UPDATE vtiger_cron_task set description = ?  where name = "ScheduleReports" ', array("Recommended frequency for ScheduleReports is 15 mins"));
-Migration_Index_View::ExecuteQuery('UPDATE vtiger_cron_task set module = ? where name = "ScheduleReports" ', array("Reports"));
+Migration_Index_View::ExecuteQuery('UPDATE jo_cron_task set description = ?  where name = "ScheduleReports" ', array("Recommended frequency for ScheduleReports is 15 mins"));
+Migration_Index_View::ExecuteQuery('UPDATE jo_cron_task set module = ? where name = "ScheduleReports" ', array("Reports"));
 echo '<br>Enabled Scheduled reports feature';
 
 /**
 * To add defaulteventstatus and defaultactivitytype fields to Users Module
 * Save 2 clicks usability feature
 */
-require_once 'vtlib/Vtiger/Module.php';
-$module = Vtiger_Module::getInstance('Users');
+require_once 'vtlib/Head/Module.php';
+$module = Head_Module::getInstance('Users');
   if ($module) {
-      $blockInstance = Vtiger_Block::getInstance('LBL_CALENDAR_SETTINGS', $module);
+      $blockInstance = Head_Block::getInstance('LBL_CALENDAR_SETTINGS', $module);
       if ($blockInstance) {
-          $desField = Vtiger_Field::getInstance('defaulteventstatus', $module);
+          $desField = Head_Field::getInstance('defaulteventstatus', $module);
           if(!$desField) {
-          $fieldInstance = new Vtiger_Field();
+          $fieldInstance = new Head_Field();
           $fieldInstance->name = 'defaulteventstatus';
           $fieldInstance->label = 'Default Event Status';
           $fieldInstance->uitype = 15;
@@ -814,9 +814,9 @@ $module = Vtiger_Module::getInstance('Users');
           $blockInstance->addField($fieldInstance);
           $fieldInstance->setPicklistValues(Array('Planned','Held','Not Held'));
           }
-          $datField = Vtiger_Field::getInstance('defaultactivitytype', $module);
+          $datField = Head_Field::getInstance('defaultactivitytype', $module);
           if(!$datField) {
-          $fieldInstance1 = new Vtiger_Field();
+          $fieldInstance1 = new Head_Field();
           $fieldInstance1->name = 'defaultactivitytype';
           $fieldInstance1->label = 'Default Activity Type';
           $fieldInstance1->uitype = 15;
@@ -832,12 +832,12 @@ $module = Vtiger_Module::getInstance('Users');
 //84 ends
   
 //85 starts
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_account ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_contactdetails ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_potential ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
-Migration_Index_View::ExecuteQuery('Update vtiger_account SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
-Migration_Index_View::ExecuteQuery('Update vtiger_contactdetails SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
-Migration_Index_View::ExecuteQuery('Update vtiger_potential SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_account ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_contactdetails ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_potential ALTER isconvertedfromlead SET DEFAULT ?', array('0'));
+Migration_Index_View::ExecuteQuery('Update jo_account SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
+Migration_Index_View::ExecuteQuery('Update jo_contactdetails SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
+Migration_Index_View::ExecuteQuery('Update jo_potential SET isconvertedfromlead = ? where isconvertedfromlead is NULL',array('0'));
 
 //85 ends
 
@@ -846,18 +846,18 @@ Migration_Index_View::ExecuteQuery('Update vtiger_potential SET isconvertedfroml
 //86 ends
 
 //87 starts
-$result = $adb->pquery('SELECT 1 FROM vtiger_currencies WHERE currency_name = ?', array('Haiti, Gourde'));
+$result = $adb->pquery('SELECT 1 FROM jo_currencies WHERE currency_name = ?', array('Haiti, Gourde'));
 if(!$adb->num_rows($result)) {
-                    Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
-                    array($adb->getUniqueID('vtiger_currencies'), 'Haiti, Gourde', 'HTG', 'G'));
+                    Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
+                    array($adb->getUniqueID('jo_currencies'), 'Haiti, Gourde', 'HTG', 'G'));
 }
 //87 ends   
 
 //88 starts
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_currencies SET currency_symbol=? WHERE currency_code=?", array('₹','INR'));
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_currency_info SET currency_symbol=? WHERE currency_code=?", array('₹','INR'));
+Migration_Index_View::ExecuteQuery("UPDATE jo_currencies SET currency_symbol=? WHERE currency_code=?", array('₹','INR'));
+Migration_Index_View::ExecuteQuery("UPDATE jo_currency_info SET currency_symbol=? WHERE currency_code=?", array('₹','INR'));
 
-Migration_Index_View::ExecuteQuery('UPDATE vtiger_projecttaskstatus set presence = 0 where projecttaskstatus in (?,?,?,?,?)',
+Migration_Index_View::ExecuteQuery('UPDATE jo_projecttaskstatus set presence = 0 where projecttaskstatus in (?,?,?,?,?)',
                     array('Open','In Progress','Completed','Deferred','Canceled'));
 echo '<br> made projecttaskstatus picklist values as non editable';
 
@@ -878,7 +878,7 @@ $blockIds = array();
 $blockIds[] = getBlockId($usersTabId, 'LBL_USERLOGIN_ROLE');
 $blockIds[] = getBlockId($usersTabId, 'LBL_CALENDAR_SETTINGS');
 
-$updateQuery = "UPDATE vtiger_field SET sequence = CASE fieldname ";
+$updateQuery = "UPDATE jo_field SET sequence = CASE fieldname ";
 foreach($userFields as $fieldName) {
         if($fieldName == 'dayoftheweek') {
                 $sequence = 0;
@@ -893,7 +893,7 @@ echo "<br>User Fields Sequence Updated";
 
 // updating Emails module in sharing access rules
 $EmailsTabId = getTabId('Emails');
-$query = "SELECT tabid FROM vtiger_def_org_share";
+$query = "SELECT tabid FROM jo_def_org_share";
 $result = $adb->pquery($query, array());
 $resultCount = $adb->num_rows($result);
 $exist = false;
@@ -907,8 +907,8 @@ for($i=0; $i<$resultCount;$i++){
 }
 
 if(!$exist){
-        $ruleid = $adb->getUniqueID('vtiger_def_org_share');
-        $shareaccessquery = "INSERT INTO vtiger_def_org_share VALUES(?,?,?,?)";
+        $ruleid = $adb->getUniqueID('jo_def_org_share');
+        $shareaccessquery = "INSERT INTO jo_def_org_share VALUES(?,?,?,?)";
         $result = Migration_Index_View::ExecuteQuery($shareaccessquery, array($ruleid, $EmailsTabId, 2, 0));
         echo 'Emails Sharing Access entry is added';
 }
@@ -927,15 +927,15 @@ echo "<br>";
 //91 ends
 
 //92 starts
-$result = $adb->pquery('SELECT max(templateid) AS maxtemplateid FROM vtiger_emailtemplates', array());
-Migration_Index_View::ExecuteQuery('UPDATE vtiger_emailtemplates_seq SET id = ?', array(1 + ((int)$adb->query_result($result, 0, 'maxtemplateid'))));
+$result = $adb->pquery('SELECT max(templateid) AS maxtemplateid FROM jo_emailtemplates', array());
+Migration_Index_View::ExecuteQuery('UPDATE jo_emailtemplates_seq SET id = ?', array(1 + ((int)$adb->query_result($result, 0, 'maxtemplateid'))));
 
- $result = $adb->pquery("SELECT 1 FROM vtiger_eventhandlers WHERE event_name=? AND handler_class=?",
-                                    array('vtiger.entity.aftersave','Vtiger_RecordLabelUpdater_Handler'));
+ $result = $adb->pquery("SELECT 1 FROM jo_eventhandlers WHERE event_name=? AND handler_class=?",
+                                    array('vtiger.entity.aftersave','Head_RecordLabelUpdater_Handler'));
 if($adb->num_rows($result) <= 0) {
     $lastMaxCRMId = 0;
     do {
-        $rs = $adb->pquery("SELECT crmid,setype FROM vtiger_crmentity WHERE crmid > ? LIMIT 500", array($lastMaxCRMId));
+        $rs = $adb->pquery("SELECT crmid,setype FROM jo_crmentity WHERE crmid > ? LIMIT 500", array($lastMaxCRMId));
         if (!$adb->num_rows($rs)) {
             break;
         }
@@ -956,7 +956,7 @@ if($adb->num_rows($result) <= 0) {
             if ($labelInfo) {
                 $label = html_entity_decode($labelInfo[$row['crmid']],ENT_QUOTES);
 
-                Migration_Index_View::ExecuteQuery('UPDATE vtiger_crmentity SET label=? WHERE crmid=? AND setype=?',
+                Migration_Index_View::ExecuteQuery('UPDATE jo_crmentity SET label=? WHERE crmid=? AND setype=?',
                             array($label, $row['crmid'], $row['setype']));
             }
 
@@ -968,12 +968,12 @@ if($adb->num_rows($result) <= 0) {
         unset($rs);
     } while(true);
 
-    $homeModule = Vtiger_Module::getInstance('Home');
-    Vtiger_Event::register($homeModule, 'vtiger.entity.aftersave', 'Vtiger_RecordLabelUpdater_Handler', 'modules/Vtiger/handlers/RecordLabelUpdater.php');
+    $homeModule = Head_Module::getInstance('Home');
+    Head_Event::register($homeModule, 'vtiger.entity.aftersave', 'Head_RecordLabelUpdater_Handler', 'modules/Head/handlers/RecordLabelUpdater.php');
                 echo "Record Update Handler was updated successfully";
 }
 // To update the Campaign related status value in database as in language file
-$updateQuery = "update vtiger_campaignrelstatus set campaignrelstatus=? where campaignrelstatus=?";
+$updateQuery = "update jo_campaignrelstatus set campaignrelstatus=? where campaignrelstatus=?";
 Migration_Index_View::ExecuteQuery($updateQuery,array('Contacted - Unsuccessful' , 'Contacted - Unsuccessful'));
 echo 'Campaign related status value is updated';
 //92 ends
@@ -982,15 +982,15 @@ echo 'Campaign related status value is updated';
 //93 ends
 
 //94 starts
-$result = $adb->pquery('SELECT 1 FROM vtiger_currencies WHERE currency_name = ?', array('Libya, Dinar'));
+$result = $adb->pquery('SELECT 1 FROM jo_currencies WHERE currency_name = ?', array('Libya, Dinar'));
 if(!$adb->num_rows($result)) {
-        Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
-        array($adb->getUniqueID('vtiger_currencies'), 'Libya, Dinar', 'LYD', 'LYD'));
+        Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid, currency_name, currency_code, currency_symbol) VALUES(?, ?, ?, ?)',
+        array($adb->getUniqueID('jo_currencies'), 'Libya, Dinar', 'LYD', 'LYD'));
 }
 
 //Start: Customer - Feature #17656 Allow users to add/remove date format with the date fields in workflow send mail task.
-$fieldResult = $adb->pquery('SELECT fieldname, name, typeofdata FROM vtiger_field
-                                INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE typeofdata LIKE ?', array('D%'));
+$fieldResult = $adb->pquery('SELECT fieldname, name, typeofdata FROM jo_field
+                                INNER JOIN jo_tab ON jo_tab.tabid = jo_field.tabid WHERE typeofdata LIKE ?', array('D%'));
 
 $dateFieldsList = $dateTimeFieldsList = array();
 while ($rowData = $adb->fetch_array($fieldResult)) {
@@ -1018,15 +1018,15 @@ foreach ($dateTimeFieldsList as $moduleName => $fieldNamesList) {
 }
 
 $taskIdsList = array();
-$result = $adb->pquery('SELECT task_id, module_name FROM com_vtiger_workflowtasks
-                        INNER JOIN com_vtiger_workflows ON com_vtiger_workflows.workflow_id = com_vtiger_workflowtasks.workflow_id
+$result = $adb->pquery('SELECT task_id, module_name FROM com_jo_workflowtasks
+                        INNER JOIN com_jo_workflows ON com_jo_workflows.workflow_id = com_jo_workflowtasks.workflow_id
                         WHERE task LIKE ?', array('%VTEmailTask%'));
 while ($rowData = $adb->fetch_array($result)) {
         $taskIdsList[$rowData['task_id']] = $rowData['module_name'];
 }
 
 $dateFormat = '($_DATE_FORMAT_)';
-$timeZone = '($(general : (__VtigerMeta__) usertimezone))';
+$timeZone = '($(general : (__HeadMeta__) usertimezone))';
 foreach ($taskIdsList as $taskId => $taskModuleName) {
         $tm = new VTTaskManager($adb);
         $task = $tm->retrieveTask($taskId);
@@ -1034,7 +1034,7 @@ foreach ($taskIdsList as $taskId => $taskModuleName) {
         $emailTask = new VTEmailTask();
         $properties = get_object_vars($task);
         foreach ($properties as $propertyName => $propertyValue) {
-                $propertyValue = str_replace('$(general : (__VtigerMeta__) date)', "(general : (__VtigerMeta__) date) $dateFormat", $propertyValue);
+                $propertyValue = str_replace('$(general : (__HeadMeta__) date)', "(general : (__HeadMeta__) date) $dateFormat", $propertyValue);
 
                 foreach ($dateFields as $fieldName) {
                         if ($taskModuleName === 'Events' && $fieldName === 'due_date') {
@@ -1069,8 +1069,8 @@ foreach ($taskIdsList as $taskId => $taskModuleName) {
 
 global $root_directory;
 
-// To update vtiger_modcomments table for permormance issue
-$datatypeQuery = "ALTER TABLE vtiger_modcomments MODIFY COLUMN related_to int(19)";
+// To update jo_modcomments table for permormance issue
+$datatypeQuery = "ALTER TABLE jo_modcomments MODIFY COLUMN related_to int(19)";
 $dtresult = Migration_Index_View::ExecuteQuery($datatypeQuery, array());
 if($dtresult){
 echo 'ModComments related_to field Datatype updated';
@@ -1078,7 +1078,7 @@ echo 'ModComments related_to field Datatype updated';
 echo 'Failed to update Modcomments Datatype';
 }
 echo '</br>';
-$indexQuery = "ALTER TABLE vtiger_modcomments ADD INDEX relatedto_idx (related_to)";
+$indexQuery = "ALTER TABLE jo_modcomments ADD INDEX relatedto_idx (related_to)";
 $indexResult = Migration_Index_View::ExecuteQuery($indexQuery, array());
 if($indexResult){
 echo 'Index added on ModComments';
@@ -1087,26 +1087,26 @@ echo 'Failed to add index on ModComments';
 }
 // End
 
-$maxActionIdResult = $adb->pquery('SELECT MAX(actionid) AS maxid FROM vtiger_actionmapping', array());
+$maxActionIdResult = $adb->pquery('SELECT MAX(actionid) AS maxid FROM jo_actionmapping', array());
 $maxActionId = $adb->query_result($maxActionIdResult, 0, 'maxid');
-Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_actionmapping(actionid, actionname, securitycheck) VALUES(?,?,?)', array($maxActionId+1 ,'Print', '0'));
-echo "<br> added print to vtiger_actionnmapping";
-$module = Vtiger_Module_Model::getInstance('Reports');
+Migration_Index_View::ExecuteQuery('INSERT INTO jo_actionmapping(actionid, actionname, securitycheck) VALUES(?,?,?)', array($maxActionId+1 ,'Print', '0'));
+echo "<br> added print to jo_actionnmapping";
+$module = Head_Module_Model::getInstance('Reports');
 $module->enableTools(Array('Print', 'Export'));
 echo "<br> enabled Print and export";
 
 //94 ends
 
 //95 starts
-Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_webforms MODIFY COLUMN description TEXT',array());
-require_once 'vtlib/Vtiger/Module.php';
-$module = Vtiger_Module::getInstance('Users');
+Migration_Index_View::ExecuteQuery('ALTER TABLE jo_webforms MODIFY COLUMN description TEXT',array());
+require_once 'vtlib/Head/Module.php';
+$module = Head_Module::getInstance('Users');
 if ($module) {
-    $blockInstance = Vtiger_Block::getInstance('LBL_CALENDAR_SETTINGS', $module);
+    $blockInstance = Head_Block::getInstance('LBL_CALENDAR_SETTINGS', $module);
     if ($blockInstance) {
-        $hideCompletedField = Vtiger_Field::getInstance('hidecompletedevents', $module);
+        $hideCompletedField = Head_Field::getInstance('hidecompletedevents', $module);
         if(!$hideCompletedField){
-            $fieldInstance = new Vtiger_Field();
+            $fieldInstance = new Head_Field();
             $fieldInstance->name = 'hidecompletedevents';
             $fieldInstance->label = 'LBL_HIDE_COMPLETED_EVENTS';
             $fieldInstance->uitype = 56;
@@ -1121,7 +1121,7 @@ if ($module) {
     }
 }
 
-$entityModulesModels = Vtiger_Module_Model::getEntityModules();
+$entityModulesModels = Head_Module_Model::getEntityModules();
 $modules = array();
 if($entityModulesModels){
     foreach($entityModulesModels as $model){
@@ -1130,16 +1130,16 @@ if($entityModulesModels){
 }
 
 foreach($modules as $module){
-    $moduleInstance = Vtiger_Module::getInstance($module);
+    $moduleInstance = Head_Module::getInstance($module);
     if($moduleInstance){
-        $result = Migration_Index_View::ExecuteQuery("select blocklabel from vtiger_blocks where tabid=? and sequence = ?", array($moduleInstance->id, 1));
+        $result = Migration_Index_View::ExecuteQuery("select blocklabel from jo_blocks where tabid=? and sequence = ?", array($moduleInstance->id, 1));
         $block = $adb->query_result($result,0,'blocklabel');
         if($block){
-            $blockInstance = Vtiger_Block::getInstance($block, $moduleInstance);
-            $field = new Vtiger_Field();
+            $blockInstance = Head_Block::getInstance($block, $moduleInstance);
+            $field = new Head_Field();
             $field->name = 'created_user_id';
             $field->label = 'Created By';
-            $field->table = 'vtiger_crmentity';
+            $field->table = 'jo_crmentity';
             $field->column = 'smcreatorid';
             $field->uitype = 52;
             $field->typeofdata = 'V~O';
@@ -1155,12 +1155,12 @@ foreach($modules as $module){
         echo '<br>';
     }
 }
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET presence=0 WHERE fieldname='unit_price' and columnname='unit_price'", array());
-Migration_Index_View::ExecuteQuery("ALTER TABLE vtiger_portal ADD createdtime datetime", array());
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET presence=0 WHERE fieldname='unit_price' and columnname='unit_price'", array());
+Migration_Index_View::ExecuteQuery("ALTER TABLE jo_portal ADD createdtime datetime", array());
 
-$adb->query("CREATE TABLE IF NOT EXISTS vtiger_calendar_default_activitytypes (id INT(19), module VARCHAR(50), fieldname VARCHAR(50), defaultcolor VARCHAR(50));");
+$adb->query("CREATE TABLE IF NOT EXISTS jo_calendar_default_activitytypes (id INT(19), module VARCHAR(50), fieldname VARCHAR(50), defaultcolor VARCHAR(50));");
 
-$result = Migration_Index_View::ExecuteQuery('SELECT * FROM vtiger_calendar_default_activitytypes', array());
+$result = Migration_Index_View::ExecuteQuery('SELECT * FROM jo_calendar_default_activitytypes', array());
 if ($adb->num_rows($result) <= 0) {
         $calendarViewTypes = array('Events' => array('Events'=>'#17309A'),
                                                         'Calendar' => array('Tasks'=>'#3A87AD'),
@@ -1174,16 +1174,16 @@ if ($adb->num_rows($result) <= 0) {
 
         foreach($calendarViewTypes as $module=>$viewInfo) {
                 foreach($viewInfo as $fieldname=>$color) {
-                        Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)', array($adb->getUniqueID('vtiger_calendar_default_activitytypes'), $module, $fieldname, $color));
+                        Migration_Index_View::ExecuteQuery('INSERT INTO jo_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)', array($adb->getUniqueID('jo_calendar_default_activitytypes'), $module, $fieldname, $color));
                 }
         }
         echo '<br>Default Calendar view types added to the table.<br>';
 }
-$adb->query("CREATE TABLE IF NOT EXISTS vtiger_calendar_user_activitytypes (id INT(19), defaultid INT(19), userid INT(19), color VARCHAR(50), visible INT(19) default 1);");
+$adb->query("CREATE TABLE IF NOT EXISTS jo_calendar_user_activitytypes (id INT(19), defaultid INT(19), userid INT(19), color VARCHAR(50), visible INT(19) default 1);");
 
-$result = Migration_Index_View::ExecuteQuery('SELECT * FROM vtiger_calendar_user_activitytypes', array());
+$result = Migration_Index_View::ExecuteQuery('SELECT * FROM jo_calendar_user_activitytypes', array());
 if ($adb->num_rows($result) <= 0) {
-    $queryResult = Migration_Index_View::ExecuteQuery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', array());
+    $queryResult = Migration_Index_View::ExecuteQuery('SELECT id, defaultcolor FROM jo_calendar_default_activitytypes', array());
     $numRows = $adb->num_rows($queryResult);
     for ($i = 0; $i < $numRows; $i++) {
             $row = $adb->query_result_rowdata($queryResult, $i);
@@ -1193,24 +1193,24 @@ if ($adb->num_rows($result) <= 0) {
     $allUsers = Users_Record_Model::getAll(true);
     foreach($allUsers as $userId=>$userModel) {
             foreach($activityIds as $activityId=>$color) {
-                   Migration_Index_View::ExecuteQuery('INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($adb->getUniqueID('vtiger_calendar_user_activitytypes'), $activityId, $userId, $color));
+                   Migration_Index_View::ExecuteQuery('INSERT INTO jo_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)', array($adb->getUniqueID('jo_calendar_user_activitytypes'), $activityId, $userId, $color));
             }
     }
     echo '<br>Default Calendar view types added to the table for all existing users';
 }
 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET quickcreate = ? WHERE tabid = 8 AND (fieldname = ? OR fieldname = ?);", array(0,"filename","filelocationtype"));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET quickcreate = ? WHERE tabid = 8 AND (fieldname = ? OR fieldname = ?);", array(0,"filename","filelocationtype"));
 
 //95 ends
 
 //96 starts
-    $entityModulesModels = Vtiger_Module_Model::getEntityModules();
+    $entityModulesModels = Head_Module_Model::getEntityModules();
     $fieldNameToDelete = 'created_user_id';
     if($entityModulesModels){
         foreach($entityModulesModels as $moduleInstance){
             if($moduleInstance){
                 $module = $moduleInstance->name;
-                $fieldInstance = Vtiger_Field::getInstance($fieldNameToDelete,$moduleInstance);
+                $fieldInstance = Head_Field::getInstance($fieldNameToDelete,$moduleInstance);
                 if($fieldInstance){
                     $fieldInstance->delete();
                     echo "<br>";
@@ -1231,26 +1231,26 @@ Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET quickcreate = ? WHER
 //97 starts
     $adb = PearDatabase::getInstance();
     $handlers = array('modules/FieldFormulas/VTFieldFormulasEventHandler.inc');
-    Migration_Index_View::ExecuteQuery('DELETE FROM vtiger_eventhandlers WHERE handler_path IN ('.generateQuestionMarks($handlers) .')', $handlers);
+    Migration_Index_View::ExecuteQuery('DELETE FROM jo_eventhandlers WHERE handler_path IN ('.generateQuestionMarks($handlers) .')', $handlers);
 
     //delete modtracker detail view links
-    Migration_Index_View::ExecuteQuery('DELETE FROM vtiger_links WHERE linktype = ? AND handler_class = ? AND linkurl like "javascript:ModTrackerCommon.showhistory%"',
+    Migration_Index_View::ExecuteQuery('DELETE FROM jo_links WHERE linktype = ? AND handler_class = ? AND linkurl like "javascript:ModTrackerCommon.showhistory%"',
                     array('DETAILVIEWBASIC', 'ModTracker'));
 
     //Added New field in mailmanager
-    Migration_Index_View::ExecuteQuery('ALTER TABLE vtiger_mail_accounts ADD COLUMN sent_folder VARCHAR(50)', array());
+    Migration_Index_View::ExecuteQuery('ALTER TABLE jo_mail_accounts ADD COLUMN sent_folder VARCHAR(50)', array());
     echo '<br>selected folder field added in mailmanager.<br>';
     
 //97 ends
     
 //Migrating PBXManager 5.4.0 to 6.x
 if(!defined('INSTALLATION_MODE')) {
-    $moduleInstance = Vtiger_Module_Model::getInstance('PBXManager');
+    $moduleInstance = Head_Module_Model::getInstance('PBXManager');
     if(!$moduleInstance){ 
        echo '<br>Installing PBX Manager starts<br>'; 
-       installVtlibModule('PBXManager', 'packages/vtiger/mandatory/PBXManager.zip'); 
+       installVtlibModule('PBXManager', 'packages/head/mandatory/PBXManager.zip'); 
     }else{ 
-        $result = $adb->pquery('SELECT server, port FROM vtiger_asterisk', array());
+        $result = $adb->pquery('SELECT server, port FROM jo_asterisk', array());
         $server = $adb->query_result($result, 0, 'server');
 
         $qualifiedModuleName = 'PBXManager';
@@ -1297,8 +1297,8 @@ if(!defined('INSTALLATION_MODE')) {
                 }
             }
         }
-            //Data migrate from old columns to new columns in vtiger_pbxmanager 
-            $query = 'SELECT * FROM vtiger_pbxmanager';
+            //Data migrate from old columns to new columns in jo_pbxmanager 
+            $query = 'SELECT * FROM jo_pbxmanager';
             $result = $adb->pquery($query, array());
             $params = array();
             $rowCount = $adb->num_rows($result);
@@ -1309,7 +1309,7 @@ if(!defined('INSTALLATION_MODE')) {
                 $timeofcall = $adb->query_result($result, $i, 'timeofcall');
                 $status = $adb->query_result($result, $i, 'status');
                 $customer = PBXManager_Record_Model::lookUpRelatedWithNumber($callfrom);
-                $userIdQuery = $adb->pquery('SELECT userid FROM vtiger_asteriskextensions WHERE asterisk_extension = ?', array($callto));
+                $userIdQuery = $adb->pquery('SELECT userid FROM jo_asteriskextensions WHERE asterisk_extension = ?', array($callto));
                 $user = $adb->query_result($userIdQuery, $i, 'userid');
                 if ($status == 'outgoing') {
                     $callstatus = 'outbound';
@@ -1317,18 +1317,18 @@ if(!defined('INSTALLATION_MODE')) {
                     $callstatus = 'inbound';
                 }
                 //Update query 
-                $adb->pquery('UPDATE vtiger_pbxmanager SET customer = ? AND user = ? AND totalduration = ? AND callstatus = ? WHERE pbxmanagerid = ?', array($customer, $user, $timeofcall, $callstatus, $pbxmanagerid));
+                $adb->pquery('UPDATE jo_pbxmanager SET customer = ? AND user = ? AND totalduration = ? AND callstatus = ? WHERE pbxmanagerid = ?', array($customer, $user, $timeofcall, $callstatus, $pbxmanagerid));
             }
 
             //Adding PBXManager PostUpdate API's 
             //Add user extension field 
 
-            $module = Vtiger_Module::getInstance('Users');
+            $module = Head_Module::getInstance('Users');
             if ($module) {
                 $module->initTables();
-                $blockInstance = Vtiger_Block::getInstance('LBL_MORE_INFORMATION', $module);
+                $blockInstance = Head_Block::getInstance('LBL_MORE_INFORMATION', $module);
                 if ($blockInstance) {
-                    $fieldInstance = new Vtiger_Field();
+                    $fieldInstance = new Head_Field();
                     $fieldInstance->name = 'phone_crm_extension';
                     $fieldInstance->label = 'CRM Phone Extension';
                     $fieldInstance->uitype = 11;
@@ -1338,11 +1338,11 @@ if(!defined('INSTALLATION_MODE')) {
             }
             echo '<br>Added PBXManager User extension field.<br>';
             //Query to fetch asterisk extension 
-            $extensionResult = $adb->pquery('SELECT userid, asterisk_extension FROM vtiger_asteriskextensions', array());
+            $extensionResult = $adb->pquery('SELECT userid, asterisk_extension FROM jo_asteriskextensions', array());
             for ($i = 0; $i < $adb->num_rows($extensionResult); $i++) {
                 $userId = $adb->query_result($extensionResult, 0, 'userid');
                 $extensionNumber = $adb->query_result($extensionResult, 0, 'asterisk_extension');
-                $adb->pquery('UPDATE vtiger_users SET phone_crm_extension = ? WHERE id = ?', array($extensionNumber, $userId));
+                $adb->pquery('UPDATE jo_users SET phone_crm_extension = ? WHERE id = ?', array($extensionNumber, $userId));
             }
             //Add PBXManager Links 
 
@@ -1351,40 +1351,40 @@ if(!defined('INSTALLATION_MODE')) {
                 'method' => 'checkLinkPermission');
             $headerScriptLinkType = 'HEADERSCRIPT';
             $incomingLinkLabel = 'Incoming Calls';
-            Vtiger_Link::addLink(0, $headerScriptLinkType, $incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
+            Head_Link::addLink(0, $headerScriptLinkType, $incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
             echo '<br>Added PBXManager links<br>';
 
             //Add settings links 
 
             $adb = PearDatabase::getInstance();
-            $integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
+            $integrationBlock = $adb->pquery('SELECT * FROM jo_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
             $integrationBlockCount = $adb->num_rows($integrationBlock);
 
             // To add Block 
             if ($integrationBlockCount > 0) {
                 $blockid = $adb->query_result($integrationBlock, 0, 'blockid');
             } else {
-                $blockid = $adb->getUniqueID('vtiger_settings_blocks');
-                $sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_blocks", array());
+                $blockid = $adb->getUniqueID('jo_settings_blocks');
+                $sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM jo_settings_blocks", array());
                 if ($adb->num_rows($sequenceResult)) {
                     $sequence = $adb->query_result($sequenceResult, 0, 'sequence');
                 }
-                $adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
+                $adb->pquery("INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
             }
 
             // To add a Field 
-            $fieldid = $adb->getUniqueID('vtiger_settings_field');
-            $adb->pquery("INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active) 
+            $fieldid = $adb->getUniqueID('jo_settings_field');
+            $adb->pquery("INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active) 
                         VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', '', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
 
             echo '<br>Added PBXManager settings links<br>';
 
             //Add module related dependencies 
 
-            $pbxmanager = Vtiger_Module::getInstance('PBXManager');
+            $pbxmanager = Head_Module::getInstance('PBXManager');
             $dependentModules = array('Contacts', 'Leads', 'Accounts');
             foreach ($dependentModules as $module) {
-                $moduleInstance = Vtiger_Module::getInstance($module);
+                $moduleInstance = Head_Module::getInstance($module);
                 $moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'get_dependents_list');
             }
 
@@ -1393,24 +1393,24 @@ if(!defined('INSTALLATION_MODE')) {
             //Add action mapping 
 
             $adb = PearDatabase::getInstance();
-            $module = new Vtiger_Module();
+            $module = new Head_Module();
             $moduleInstance = $module->getInstance('PBXManager');
 
             //To add actionname as ReceiveIncomingcalls 
-            $maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+            $maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM jo_actionmapping', array());
             if ($adb->num_rows($maxActionIdresult)) {
                 $actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
             }
-            $adb->pquery('INSERT INTO vtiger_actionmapping 
+            $adb->pquery('INSERT INTO jo_actionmapping 
                                  (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'ReceiveIncomingCalls', 0));
             $moduleInstance->enableTools('ReceiveIncomingcalls');
 
             //To add actionname as MakeOutgoingCalls 
-            $maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+            $maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM jo_actionmapping', array());
             if ($adb->num_rows($maxActionIdresult)) {
                 $actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
             }
-            $adb->pquery('INSERT INTO vtiger_actionmapping 
+            $adb->pquery('INSERT INTO jo_actionmapping 
                                  (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'MakeOutgoingCalls', 0));
             $moduleInstance->enableTools('MakeOutgoingCalls');
 
@@ -1436,8 +1436,8 @@ if(!defined('INSTALLATION_MODE')) {
 
             echo 'Added PBXManager lookup events';
 
-            //Existing Asterisk extension block removed from vtiger_users if exist 
-            $moduleInstance = Vtiger_Module_Model::getInstance('Users');
+            //Existing Asterisk extension block removed from jo_users if exist 
+            $moduleInstance = Head_Module_Model::getInstance('Users');
             $fieldInstance = $moduleInstance->getField('asterisk_extension');
 
             if (!empty($fieldInstance)) {
@@ -1454,48 +1454,48 @@ if(!defined('INSTALLATION_MODE')) {
 
 //Hiding previous PBXManager fields. 
 $tabId = getTabid('PBXManager');
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "callfrom"));
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "callto"));
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "timeofcall"));
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "status"));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "callfrom"));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "callto"));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "timeofcall"));
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET presence=? WHERE tabid=? AND fieldname=?;", array(1, $tabId, "status"));
 echo '<br>Hiding previous PBXManager fields done.<br>'; 
 //PBXManager porting ends.
 
 //Making document module fields masseditable
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"notes_title")); 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"assigned_user_id")); 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"notecontent")); 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"fileversion")); 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"filestatus")); 
-Migration_Index_View::ExecuteQuery("UPDATE vtiger_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"folderid")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"notes_title")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"assigned_user_id")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"notecontent")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"fileversion")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"filestatus")); 
+Migration_Index_View::ExecuteQuery("UPDATE jo_field SET masseditable = ? WHERE tabid = 8 AND fieldname = ?;", array(1,"folderid")); 
 
 //Add Vat ID to Company Details 
-Vtiger_Utils::AddColumn('vtiger_organizationdetails', 'vatid', 'VARCHAR(100)');
+Head_Utils::AddColumn('jo_organizationdetails', 'vatid', 'VARCHAR(100)');
 
-//Add Column trial for vtiger_tab table if not exists
-$result = $adb->pquery("SHOW COLUMNS FROM vtiger_tab LIKE ?", array('trial'));
+//Add Column trial for jo_tab table if not exists
+$result = $adb->pquery("SHOW COLUMNS FROM jo_tab LIKE ?", array('trial'));
 if (!($adb->num_rows($result))) {
-    $adb->pquery("ALTER TABLE vtiger_tab ADD trial INT(1) NOT NULL DEFAULT 0",array());
+    $adb->pquery("ALTER TABLE jo_tab ADD trial INT(1) NOT NULL DEFAULT 0",array());
 }
 
 ##--http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7635--##
 //Avoid premature deletion of activity related records
 $moduleArray = array('Accounts', 'Leads', 'HelpDesk', 'Campaigns', 'Potentials', 'PurchaseOrder', 'SalesOrder', 'Quotes', 'Invoice');
-$relatedToQuery = "SELECT fieldid FROM vtiger_field WHERE tabid=? AND fieldname=?";
-$calendarInstance = Vtiger_Module::getInstance('Calendar');
+$relatedToQuery = "SELECT fieldid FROM jo_field WHERE tabid=? AND fieldname=?";
+$calendarInstance = Head_Module::getInstance('Calendar');
 $tabId = $calendarInstance->getId();
 $result = $adb->pquery($relatedToQuery, array($tabId, 'parent_id'));
 $fieldId = $adb->query_result($result,0, 'fieldid');
-$insertQuery = "INSERT INTO vtiger_fieldmodulerel (fieldid,module,relmodule,status,sequence) VALUES(?,?,?,?,?)";
+$insertQuery = "INSERT INTO jo_fieldmodulerel (fieldid,module,relmodule,status,sequence) VALUES(?,?,?,?,?)";
 $relModule = 'Calendar';
 foreach ($moduleArray as $module) {
     $adb->pquery($insertQuery, array($fieldId, $module, $relModule, NULL, NULL));
 }
 //For contacts the fieldname is contact_id
-$contactsRelatedToQuery = "SELECT fieldid FROM vtiger_field WHERE tabid=? AND fieldname=?";
+$contactsRelatedToQuery = "SELECT fieldid FROM jo_field WHERE tabid=? AND fieldname=?";
 $contactsResult = $adb->pquery($contactsRelatedToQuery, array($tabId, 'contact_id'));
 $contactsFieldId = $adb->query_result($contactsResult,0, 'fieldid');
-$insertContactsQuery = "INSERT INTO vtiger_fieldmodulerel (fieldid,module,relmodule,status,sequence) VALUES(?,?,?,?,?)";
+$insertContactsQuery = "INSERT INTO jo_fieldmodulerel (fieldid,module,relmodule,status,sequence) VALUES(?,?,?,?,?)";
 $module = 'Contacts';
 $adb->pquery($insertContactsQuery, array($contactsFieldId, $module, $relModule, NULL, NULL));
 
@@ -1504,16 +1504,16 @@ $adb->pquery($insertContactsQuery, array($contactsFieldId, $module, $relModule, 
 
 //Adding is_owner to existing vtiger users
 
-$usersModuleInstance = Vtiger_Module::getInstance('Users');
-$usersBlockInstance = Vtiger_Block::getInstance('LBL_USERLOGIN_ROLE', $usersModuleInstance);
+$usersModuleInstance = Head_Module::getInstance('Users');
+$usersBlockInstance = Head_Block::getInstance('LBL_USERLOGIN_ROLE', $usersModuleInstance);
 
-$usersFieldInstance = Vtiger_Field::getInstance('is_owner', $usersModuleInstance);
+$usersFieldInstance = Head_Field::getInstance('is_owner', $usersModuleInstance);
 if (!$usersFieldInstance) {
-    $field = new Vtiger_Field();
+    $field = new Head_Field();
     $field->name = 'is_owner';
     $field->label = 'Account Owner';
     $field->column = 'is_owner';
-    $field->table = 'vtiger_users';
+    $field->table = 'jo_users';
     $field->uitype = 1;
     $field->typeofdata = 'V~O';
     $field->readonly = '0';
@@ -1528,11 +1528,11 @@ if (!$usersFieldInstance) {
 
 //Setting up is_owner for every admin user of CRM
 $adb = PearDatabase::getInstance();
-$idResult = $adb->pquery('SELECT id FROM vtiger_users WHERE is_admin = ? AND status=?', array('on', 'Active'));
+$idResult = $adb->pquery('SELECT id FROM jo_users WHERE is_admin = ? AND status=?', array('on', 'Active'));
 if ($adb->num_rows($idResult) > 0) {
     for($i = 0;$i<=$adb->num_rows($idResult);$i++) {
         $userid = $adb->query_result($idResult, $i, 'id');
-        $adb->pquery('UPDATE vtiger_users SET is_owner=? WHERE id=?', array(1, $userid));
+        $adb->pquery('UPDATE jo_users SET is_owner=? WHERE id=?', array(1, $userid));
         echo '<br>Account Owner Informnation saved in vtiger';
         //Recreate user prvileges
         createUserPrivilegesfile($userId);
@@ -1543,13 +1543,13 @@ if ($adb->num_rows($idResult) > 0) {
     }
     
 //Reports Chart Supported
-Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS vtiger_reporttype(
+Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_reporttype(
                         reportid INT(10),
                         data text,
 						PRIMARY KEY (`reportid`),
-						CONSTRAINT `fk_1_vtiger_reporttype` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE)
+						CONSTRAINT `fk_1_jo_reporttype` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE)
                         ENGINE=InnoDB DEFAULT CHARSET=utf8;", array()); 
 
 //Configuration Editor fix
-$sql = "UPDATE vtiger_settings_field SET name = ? WHERE name = ?";
+$sql = "UPDATE jo_settings_field SET name = ? WHERE name = ?";
 Migration_Index_View::ExecuteQuery($sql,array('LBL_CONFIG_EDITOR', 'Configuration Editor'));

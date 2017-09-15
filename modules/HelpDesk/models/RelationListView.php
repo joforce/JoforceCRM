@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class HelpDesk_RelationListView_Model extends Vtiger_RelationListView_Model {
+class HelpDesk_RelationListView_Model extends Head_RelationListView_Model {
 
 	public function getCreateViewUrl() {
 		$createViewUrl = parent::getCreateViewUrl();

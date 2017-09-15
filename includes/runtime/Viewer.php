@@ -11,9 +11,9 @@
 
 vimport ('~/libraries/Smarty/libs/SmartyBC.class.php');
 
-class Vtiger_Viewer extends SmartyBC {
+class Head_Viewer extends SmartyBC {
 
-	const DEFAULTLAYOUT = 'v7';
+	const DEFAULTLAYOUT = '';
 	const DEFAULTTHEME  = 'softed';
 	static $currentLayout;
 	
@@ -126,7 +126,7 @@ class Vtiger_Viewer extends SmartyBC {
 				$baseModuleName = $moduleHierarchyParts[0];
 				$fallBackOrder = array (
 					"$actualModuleName",
-					"$baseModuleName/Vtiger"
+					"$baseModuleName/Head"
 				);
 
 				foreach($fallBackOrder as $fallBackModuleName) {
@@ -137,7 +137,7 @@ class Vtiger_Viewer extends SmartyBC {
 					}
 				}
 			}
-			return "modules/Vtiger/$templateName";
+			return "modules/Head/$templateName";
 		}
 	}
 	
@@ -186,7 +186,7 @@ class Vtiger_Viewer extends SmartyBC {
 	/**
 	 * Static function to get the Instance of the Class Object
 	 * @param <String> $media Layout/Media
-	 * @return Vtiger_Viewer instance
+	 * @return Head_Viewer instance
 	 */
 	static function getInstance($media='') {
 		$instance = new self($media);
@@ -196,18 +196,18 @@ class Vtiger_Viewer extends SmartyBC {
 }
 
 function vtemplate_path($templateName, $moduleName='') {
-	$viewerInstance = Vtiger_Viewer::getInstance();
+	$viewerInstance = Head_Viewer::getInstance();
 	$args = func_get_args();
 	return call_user_func_array(array($viewerInstance, 'getTemplatePath'), $args);
 }
 
 /**
- * Generated cache friendly resource URL linked with version of Vtiger
+ * Generated cache friendly resource URL linked with version of Head
  */
 function vresource_url($url) {
-    global $vtiger_current_version;
+    global $jo_current_version;
     if (stripos($url, '://') === false) {
-        $url = $url .'?v='.$vtiger_current_version;
+        $url = $url .'?v='.$jo_current_version;
     }
     return $url;
 }

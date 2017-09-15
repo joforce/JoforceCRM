@@ -105,7 +105,7 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 			'fieldname' => 'listprice',
 			'fieldlabel'=> 'List Price',
 			'columnname'=> 'listprice',
-			'tablename'	=> 'vtiger_pricebookproductrel',
+			'tablename'	=> 'jo_pricebookproductrel',
 			'uitype'	=> 72,
 			'typeofdata'=> 'Currency',
 			'presence'	=> 0,
@@ -173,7 +173,7 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
                 $endTime = $valueArray['calendar_end_time'];
                 if(empty($endTime)) {
                     $recordId = $valueArray['calendar_id'];
-                    $endTime = getSingleFieldValue('vtiger_activity', 'time_end', 'activityid', $recordId);
+                    $endTime = getSingleFieldValue('jo_activity', 'time_end', 'activityid', $recordId);
                 }
                 $date = new DateTimeField($value.' '.$endTime);
                 $fieldvalue = $date->getDisplayDate();
@@ -197,7 +197,7 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 		} else {
 			$userModel = Users_Privileges_Model::getCurrentUserModel();
 			if($userModel->get('hour_format') == '12'){
-				$value = Vtiger_Time_UIType::getTimeValueInAMorPM($value);
+				$value = Head_Time_UIType::getTimeValueInAMorPM($value);
 			}
 			$fieldvalue = $value;
 		}
@@ -290,13 +290,13 @@ function transformAdvFilterListToDBFormat($advFilterList) {
 
             if($fieldType == 'currency') {
                 if($field->getUIType() == '72') {
-                    $advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
+                    $advFilterValue = Head_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
                 } else {
-                    $advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue);
+                    $advFilterValue = Head_Currency_UIType::convertToDBFormat($advFilterValue);
                 }
             }
 
-            $specialDateConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
+            $specialDateConditions = Head_Functions::getSpecialDateTimeCondtions();
             $tempVal = explode(",",$advFilterValue);
             if(($columnInfo[4] == 'D' || ($columnInfo[4] == 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
                             ($columnInfo[4] == 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' ) && !in_array($advFilterComparator, $specialDateConditions)) {
@@ -311,7 +311,7 @@ function transformAdvFilterListToDBFormat($advFilterList) {
                             $date = new DateTimeField($values[0]);
                             $val[$i] = $date->getDBInsertDateValue();
                         } elseif($fieldType == 'time') {
-                            $val[$i] = Vtiger_Time_UIType::getTimeValueWithSeconds($tempVal[$i]);
+                            $val[$i] = Head_Time_UIType::getTimeValueWithSeconds($tempVal[$i]);
                         } else {
                             $val[$i] = $date->getDBInsertTimeValue();
                         }
@@ -341,7 +341,7 @@ function getReportSearchCondition($searchParams, $filterId) {
 			$fieldName = $condition[0];
 			$searchValue = $condition[2];
 			if ($fieldName == 'reportname' || $fieldName == 'description') {
-				$conditionQuery .= " vtiger_report.$fieldName LIKE ? ";
+				$conditionQuery .= " jo_report.$fieldName LIKE ? ";
 				array_push($params, "%$searchValue%");
 			} else if ($fieldName == 'reporttype' || $fieldName == 'foldername' || $fieldName == 'owner') {
 				$searchValue = explode(',', $searchValue);
@@ -351,13 +351,13 @@ function getReportSearchCondition($searchParams, $filterId) {
 				if ($fieldName == 'reporttype' && in_array('tabular', $searchValue)) {
 					array_push($searchValue, 'summary');
 				}
-				$conditionQuery .= " vtiger_report.$fieldName IN (".generateQuestionMarks($searchValue).") ";
+				$conditionQuery .= " jo_report.$fieldName IN (".generateQuestionMarks($searchValue).") ";
 				foreach ($searchValue as $value) {
 					array_push($params, $value);
 				}
 			} else if ($fieldName == 'primarymodule') {
 				$searchValue = explode(',', $searchValue);
-				$conditionQuery .= " vtiger_reportmodules.$fieldName IN (".generateQuestionMarks($searchValue).") ";
+				$conditionQuery .= " jo_reportmodules.$fieldName IN (".generateQuestionMarks($searchValue).") ";
 				foreach ($searchValue as $value) {
 					array_push($params, $value);
 				}

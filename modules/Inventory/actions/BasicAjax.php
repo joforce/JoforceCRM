@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Inventory_BasicAjax_Action extends Vtiger_BasicAjax_Action {
+class Inventory_BasicAjax_Action extends Head_BasicAjax_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
 
@@ -19,7 +19,7 @@ class Inventory_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 		$parentModuleName = $request->get('parent_module');
 		$relatedModule = $request->get('module');
 
-		$searchModuleModel = Vtiger_Module_Model::getInstance($searchModule);
+		$searchModuleModel = Head_Module_Model::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);
 
 		//Supporting sequence based search in updation of Inventory record
@@ -29,7 +29,7 @@ class Inventory_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 			$isLineItem = true;
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordId => $recordModel) {
-					$records[$moduleName][$recordId] = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+					$records[$moduleName][$recordId] = Head_Record_Model::getInstanceById($recordId, $moduleName);
 				}
 			}
 
@@ -60,7 +60,7 @@ class Inventory_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

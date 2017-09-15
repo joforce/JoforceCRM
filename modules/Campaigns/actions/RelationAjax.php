@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
+class Campaigns_RelationAjax_Action extends Head_RelationAjax_Action {
 
 	public function __construct() {
 		parent::__construct();
@@ -19,18 +19,18 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 
 	/**
 	 * Function to add relations using related module viewid
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	public function addRelationsFromRelatedModuleViewId(Vtiger_Request $request) {
+	public function addRelationsFromRelatedModuleViewId(Head_Request $request) {
 		$sourceRecordId = $request->get('sourceRecord');
 		$relatedModuleName = $request->get('relatedModule');
 
 		$viewId = $request->get('viewId');
 		if ($viewId) {
-			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+			$sourceModuleModel = Head_Module_Model::getInstance($request->getModule());
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModuleName);
 
-			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+			$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			$emailEnabledModulesInfo = $relationModel->getEmailEnabledModulesInfoForDetailView();
 
 			if (array_key_exists($relatedModuleName, $emailEnabledModulesInfo)) {
@@ -50,7 +50,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 					$relatedRecordIdsList[] = $db->query_result($result, $i, $fieldName);
 				}
 				if(empty($relatedRecordIdsList)){
-					$response = new Vtiger_Response();
+					$response = new Head_Response();
 					$response->setResult(array(false));
 					$response->emit();
 				} else{
@@ -64,19 +64,19 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 
 	/**
 	 * Function to update Relation status
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	public function updateStatus(Vtiger_Request $request) {
+	public function updateStatus(Head_Request $request) {
 		$relatedModuleName = $request->get('relatedModule');
 		$relatedRecordId = $request->get('relatedRecord');
 		$status = $request->get('status');
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 
 		if ($relatedRecordId && $status && $status < 5) {
-			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+			$sourceModuleModel = Head_Module_Model::getInstance($request->getModule());
+			$relatedModuleModel = Head_Module_Model::getInstance($relatedModuleName);
 
-			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+			$relationModel = Head_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			$relationModel->updateStatus($request->get('sourceRecord'), array($relatedRecordId => $status));
 
 			$response->setResult(array(true));

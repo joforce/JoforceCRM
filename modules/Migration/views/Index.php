@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Migration_Index_View extends Vtiger_View_Controller {
+class Migration_Index_View extends Head_View_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -18,11 +18,11 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		$this->exposeMethod('applyDBChanges');
 	}
 
-	public function checkPermission(Vtiger_Request $request){
+	public function checkPermission(Head_Request $request){
 		return true;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		// Override error reporting to production mode
 		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT); 
 
@@ -32,7 +32,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		}
 	}
 
-	protected function step1(Vtiger_Request $request) {
+	protected function step1(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 
@@ -40,7 +40,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		$viewer->view('MigrationStep1.tpl', $moduleName);
 	}
 
-	protected function step2(Vtiger_Request $request){
+	protected function step2(Head_Request $request){
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 
@@ -49,20 +49,20 @@ class Migration_Index_View extends Vtiger_View_Controller {
 	}
 
 
-	public function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Head_Request $request, $display = true) {
 		$viewer = $this->getViewer($request);
 		$selectedModule = $request->getModule();
 		$viewer->assign('MODULE', $selectedModule);
 		parent::preProcess($request, false);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->view('MigrationPostProcess.tpl', $moduleName);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = array();
 		$cssFileNames = array(
 			'~/layouts/vlayout/modules/Migration/css/style.css',
@@ -75,13 +75,13 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		return $headerCssInstances;
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = array();
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Popup',
-			"modules.Vtiger.resources.List",
+			'modules.Head.resources.Popup',
+			"modules.Head.resources.List",
 			"modules.$moduleName.resources.Index"
 			);
 
@@ -130,7 +130,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		}
 
 		//update vtiger version in db
-		$migrationModuleModel->updateVtigerVersion();
+		$migrationModuleModel->updateHeadVersion();
 		// To carry out all the necessary actions after migration
 		$migrationModuleModel->postMigrateActivities();
 	}
@@ -151,9 +151,9 @@ class Migration_Index_View extends Vtiger_View_Controller {
 
 	public static function insertSelectQuery() {
 		global $adb;
-		$genQueryId = $adb->getUniqueID("vtiger_selectquery");
+		$genQueryId = $adb->getUniqueID("jo_selectquery");
 		if ($genQueryId != "") {
-			$iquerysql = "insert into vtiger_selectquery (QUERYID,STARTINDEX,NUMOFOBJECTS) values (?,?,?)";
+			$iquerysql = "insert into jo_selectquery (QUERYID,STARTINDEX,NUMOFOBJECTS) values (?,?,?)";
 			self::ExecuteQuery($iquerysql, array($genQueryId, 0, 0));
 		}
 		return $genQueryId;
@@ -162,7 +162,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 	public static function insertSelectColumns($queryid, $columnname) {
 		if ($queryid != "") {
 			for ($i = 0; $i < count($columnname); $i++) {
-				$icolumnsql = "insert into vtiger_selectcolumn (QUERYID,COLUMNINDEX,COLUMNNAME) values (?,?,?)";
+				$icolumnsql = "insert into jo_selectcolumn (QUERYID,COLUMNINDEX,COLUMNNAME) values (?,?,?)";
 				self::ExecuteQuery($icolumnsql, array($queryid, $i, $columnname[$i]));
 			}
 		}
@@ -170,7 +170,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 
 	public static function insertReports($queryid, $folderid, $reportname, $description, $reporttype) {
 		if ($queryid != "") {
-			$ireportsql = "insert into vtiger_report (REPORTID,FOLDERID,REPORTNAME,DESCRIPTION,REPORTTYPE,QUERYID,STATE) values (?,?,?,?,?,?,?)";
+			$ireportsql = "insert into jo_report (REPORTID,FOLDERID,REPORTNAME,DESCRIPTION,REPORTTYPE,QUERYID,STATE) values (?,?,?,?,?,?,?)";
 			$ireportparams = array($queryid, $folderid, $reportname, $description, $reporttype, $queryid, 'SAVED');
 			self::ExecuteQuery($ireportsql, $ireportparams);
 		}
@@ -178,7 +178,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 
 	public static function insertReportModules($queryid, $primarymodule, $secondarymodule) {
 		if ($queryid != "") {
-			$ireportmodulesql = "insert into vtiger_reportmodules (REPORTMODULESID,PRIMARYMODULE,SECONDARYMODULES) values (?,?,?)";
+			$ireportmodulesql = "insert into jo_reportmodules (REPORTMODULESID,PRIMARYMODULE,SECONDARYMODULES) values (?,?,?)";
 			self::ExecuteQuery($ireportmodulesql, array($queryid, $primarymodule, $secondarymodule));
 		}
 	}
@@ -187,12 +187,12 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		if ($queryid != "") {
 			$columnIndexArray = array();
 			foreach ($filters as $i => $filter) {
-				$irelcriteriasql = "insert into vtiger_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE) values (?,?,?,?,?)";
+				$irelcriteriasql = "insert into jo_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE) values (?,?,?,?,?)";
 				self::ExecuteQuery($irelcriteriasql, array($queryid, $i, $filter['columnname'], $filter['comparator'], $filter['value']));
 				$columnIndexArray[] = $i;
 			}
 			$conditionExpression = implode(' and ', $columnIndexArray);
-			self::ExecuteQuery('INSERT INTO vtiger_relcriteria_grouping VALUES(?,?,?,?)', array(1, $queryid, '', $conditionExpression));
+			self::ExecuteQuery('INSERT INTO jo_relcriteria_grouping VALUES(?,?,?,?)', array(1, $queryid, '', $conditionExpression));
 		}
 	}
 	

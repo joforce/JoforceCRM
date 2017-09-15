@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Folder_Action extends Vtiger_Action_Controller {
+class Documents_Folder_Action extends Head_Action_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Documents_Folder_Action extends Vtiger_Action_Controller {
 		$this->exposeMethod('delete');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView')) {
@@ -25,7 +25,7 @@ class Documents_Folder_Action extends Vtiger_Action_Controller {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -58,7 +58,7 @@ class Documents_Folder_Action extends Vtiger_Action_Controller {
 			$folderModel->save();
 			$result = array('success'=>true, 'message'=>vtranslate('LBL_FOLDER_SAVED', $moduleName), 'info'=>$folderModel->getInfoArray());
 
-			$response = new Vtiger_Response();
+			$response = new Head_Response();
 			$response->setResult($result);
 			$response->emit();
 		}
@@ -80,12 +80,12 @@ class Documents_Folder_Action extends Vtiger_Action_Controller {
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

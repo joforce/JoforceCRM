@@ -64,22 +64,22 @@ class RelatedModuleMeta {
 	private function getRelationMetaInfo($relationId) {
 		switch($relationId) {
 			case $this->CAMPAIGNCONTACTREL: return array(
-					'relationTable' => 'vtiger_campaigncontrel',
+					'relationTable' => 'jo_campaigncontrel',
 					'Campaigns' => 'campaignid',
 					'Contacts' => 'contactid'
 				);
 			case $this->PRODUCTINVOICEREL: return array(
-					'relationTable' => 'vtiger_inventoryproductrel',
+					'relationTable' => 'jo_inventoryproductrel',
 					'Products' => 'productid',
 					'Invoice' => 'id'
 				);
 			case $this->PRODUCTQUOTESREL: return array(
-					'relationTable' => 'vtiger_inventoryproductrel',
+					'relationTable' => 'jo_inventoryproductrel',
 					'Products' => 'productid',
 					'Quotes' => 'id'
 				);
 			case $this->PRODUCTPURCHASEORDERREL: return array(
-					'relationTable' => 'vtiger_inventoryproductrel',
+					'relationTable' => 'jo_inventoryproductrel',
 					'Products' => 'productid',
 					'PurchaseOrder' => 'id'
 				);

@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
+class Settings_LayoutEditor_Block_Model extends Head_Block_Model {
 
     public function isActionsAllowed() {
         if(strtolower($this->module->name) == 'events' && $this->get('label') == 'LBL_INVITE_USER_BLOCK') {
@@ -49,7 +49,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
         $fieldIdList = array();
         $db = PearDatabase::getInstance();
 
-        $query = 'UPDATE vtiger_field SET ';
+        $query = 'UPDATE jo_field SET ';
         $query .=' sequence= CASE ';
         foreach($blockFieldSequence as $newFieldSequence ) {
 			$fieldId = $newFieldSequence['fieldid'];
@@ -75,7 +75,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
         $db->pquery($query, array($fieldIdList));
         
         // Clearing cache
-        Vtiger_Cache::flushModuleandBlockFieldsCache($moduleModel);
+        Head_Cache::flushModuleandBlockFieldsCache($moduleModel);
     }
 
     public static function getInstance($value, $moduleInstance = false) {
@@ -85,11 +85,11 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
 	}
 
 	/**
-	 * Function to retrieve block instance from Vtiger_Block object
-	 * @param Vtiger_Block $blockObject - vtlib block object
-	 * @return Vtiger_Block_Model
+	 * Function to retrieve block instance from Head_Block object
+	 * @param Head_Block $blockObject - vtlib block object
+	 * @return Head_Block_Model
 	 */
-	public static function getInstanceFromBlockObject(Vtiger_Block $blockObject) {
+	public static function getInstanceFromBlockObject(Head_Block $blockObject) {
 		$objectProperties = get_object_vars($blockObject);
 		$blockModel = new self();
 		foreach($objectProperties as $properName=>$propertyValue) {
@@ -101,7 +101,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
     /**
 	 * Function to retrieve block instances for a module
 	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of Vtiger_Block_Model
+	 * @return <array> - list of Head_Block_Model
 	 */
 	public static function getAllForModule($moduleModel) {
 		$blockObjects = parent::getAllForModule($moduleModel);

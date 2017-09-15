@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAjax_View {
+Class Settings_ModuleManager_ModuleExport_Action extends Settings_Head_IndexAjax_View {
 	
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('exportModule');
 	}
     
-    function process(Vtiger_Request $request) {
+    function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,17 +24,17 @@ Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 		}
 	}
     
-    protected function exportModule(Vtiger_Request $request) {
+    protected function exportModule(Head_Request $request) {
         $moduleName = $request->get('forModule');
 		
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';
 			return;
 		}
 
-		$package = new Vtiger_PackageExport();
+		$package = new Head_PackageExport();
 		$package->export($moduleModel, '', sprintf("%s-%s.zip", $moduleModel->get('name'), $moduleModel->get('version')), true);
     }
 	

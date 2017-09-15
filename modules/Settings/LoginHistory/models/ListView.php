@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Model {
+class Settings_LoginHistory_ListView_Model extends Settings_Head_ListView_Model {
 
 	/**
 	 * Funtion to get the Login history basic query
@@ -16,10 +16,10 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 	 */
     public function getBasicListQuery() {
         $module = $this->getModule();
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 		
-		$query = "SELECT login_id, $userNameSql AS user_name, user_ip, logout_time, login_time, vtiger_loginhistory.status FROM $module->baseTable 
-				INNER JOIN vtiger_users ON vtiger_users.user_name = $module->baseTable.user_name";
+		$query = "SELECT login_id, $userNameSql AS user_name, user_ip, logout_time, login_time, jo_loginhistory.status FROM $module->baseTable 
+				INNER JOIN jo_users ON jo_users.user_name = $module->baseTable.user_name";
 		
 		$search_key = $this->get('search_key');
 		$value = $this->get('search_value');
@@ -44,7 +44,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$db = PearDatabase::getInstance();
 
 		$module = $this->getModule();
-		$listQuery = "SELECT count(*) AS count FROM $module->baseTable INNER JOIN vtiger_users ON vtiger_users.user_name = $module->baseTable.user_name";
+		$listQuery = "SELECT count(*) AS count FROM $module->baseTable INNER JOIN jo_users ON jo_users.user_name = $module->baseTable.user_name";
 
 		$search_key = $this->get('search_key');
 		$value = $this->get('search_value');

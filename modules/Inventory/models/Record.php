@@ -12,7 +12,7 @@
 /**
  * Inventory Record Model Class
  */
-class Inventory_Record_Model extends Vtiger_Record_Model {
+class Inventory_Record_Model extends Head_Record_Model {
 
 	function getCurrencyInfo() {
 		$moduleName = $this->getModuleName();
@@ -218,7 +218,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	/**
 	 * Function to set record module field values
 	 * @param parent record model
-	 * @return <Model> returns Vtiger_Record_Model
+	 * @return <Model> returns Head_Record_Model
 	 */
 	function setRecordFieldValues($parentRecordModel) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -248,10 +248,10 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function to set data of parent record model to this record
-	 * @param Vtiger_Record_Model $parentRecordModel
+	 * @param Head_Record_Model $parentRecordModel
 	 * @return Inventory_Record_Model
 	 */
-	public function setParentRecordData(Vtiger_Record_Model $parentRecordModel) {
+	public function setParentRecordData(Head_Record_Model $parentRecordModel) {
 		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = $parentRecordModel->getModuleName();
 
@@ -261,7 +261,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		foreach ($fieldMappingList as $fieldMapping) {
 			$parentField = $fieldMapping['parentField'];
 			$inventoryField = $fieldMapping['inventoryField'];
-			$fieldModel = Vtiger_Field_Model::getInstance($parentField, Vtiger_Module_Model::getInstance($moduleName));
+			$fieldModel = Head_Field_Model::getInstance($parentField, Head_Module_Model::getInstance($moduleName));
 			if ($fieldModel && $fieldModel->getPermissions()) {
 				$data[$inventoryField] = $parentRecordModel->get($parentField);
 			} else {
@@ -295,7 +295,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		$recordId = $this->getId();
 		$moduleName = $this->getModuleName();
 
-		$controllerClassName = "Vtiger_". $moduleName ."PDFController";
+		$controllerClassName = "Head_". $moduleName ."PDFController";
 
 		$controller = new $controllerClassName($moduleName);
 		$controller->loadRecord($recordId);
@@ -313,10 +313,10 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		$moduleName = $this->getModuleName();
 		if ($moduleName == 'Quotes') {
 			vimport("~~/modules/$moduleName/QuotePDFController.php");
-			$controllerClassName = "Vtiger_QuotePDFController";
+			$controllerClassName = "Head_QuotePDFController";
 		} else {
 			vimport("~~/modules/$moduleName/$moduleName" . "PDFController.php");
-			$controllerClassName = "Vtiger_" . $moduleName . "PDFController";
+			$controllerClassName = "Head_" . $moduleName . "PDFController";
 		}
 
 		$recordId = $this->getId();
@@ -333,11 +333,11 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 	/**
 	 * Function to get related line items of parent record
-	 * @param <Vtiger_Record_Model> $parentRecordModel
+	 * @param <Head_Record_Model> $parentRecordModel
 	 * @return <Array>
 	 */
 	public function getParentRecordRelatedLineItems($parentRecordModel) {
-		$userCurrencyInfo = Vtiger_Util_Helper::getUserCurrencyInfo();
+		$userCurrencyInfo = Head_Util_Helper::getUserCurrencyInfo();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currencyId = $currentUserModel->get('currency_id');
 		$numOfCurrencyDecimals = $currentUserModel->get('no_of_currency_decimals');
@@ -398,7 +398,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 			$recordId = $this->getId();
 			if ($recordId) {
 				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT * FROM vtiger_inventorychargesrel WHERE recordid = ?', array($recordId));
+				$result = $db->pquery('SELECT * FROM jo_inventorychargesrel WHERE recordid = ?', array($recordId));
 				while ($rowData = $db->fetch_array($result)) {
 					$this->chargesAndItsTaxes = Zend_Json::decode(html_entity_decode($rowData['charges']));
 				}
@@ -426,7 +426,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 				$deductTaxNamesList[] = $taxInfo['taxname'];
 			}
 
-			$result = $db->pquery('SELECT '.implode(',', $deductTaxNamesList).' FROM vtiger_inventoryproductrel WHERE id = ?', array($record));
+			$result = $db->pquery('SELECT '.implode(',', $deductTaxNamesList).' FROM jo_inventoryproductrel WHERE id = ?', array($record));
 			foreach ($deductTaxes as $taxId => $taxInfo) {
 				$percent = $db->query_result($result, 0, $taxInfo['taxname']);
 				if ($percent !== NULL && $percent < 0) {

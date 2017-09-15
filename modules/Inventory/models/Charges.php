@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Inventory_Charges_Model extends Vtiger_Base_Model {
+class Inventory_Charges_Model extends Head_Base_Model {
 
-	const CHARGES_TABLE_NAME = 'vtiger_inventorycharges';
+	const CHARGES_TABLE_NAME = 'jo_inventorycharges';
 
 	public function getId() {
 		return $this->get('chargeid');
@@ -30,15 +30,15 @@ class Inventory_Charges_Model extends Vtiger_Base_Model {
 	}
 
 	public static function getCreateChargeUrl() {
-		return '?module=Vtiger&parent=Settings&view=TaxAjax&mode=editCharge';
+		return '?module=Head&parent=Settings&view=TaxAjax&mode=editCharge';
 	}
 
 	public function getEditChargeUrl() {
-		return '?module=Vtiger&parent=Settings&view=TaxAjax&mode=editCharge&chargeId='.$this->getId();
+		return '?module=Head&parent=Settings&view=TaxAjax&mode=editCharge&chargeId='.$this->getId();
 	}
 
 	public function getDeleteChargeUrl() {
-		return '?module=Vtiger&parent=Settings&action=TaxAjax&mode=deleteCharge&chargeId='.$this->getId();
+		return '?module=Head&parent=Settings&action=TaxAjax&mode=deleteCharge&chargeId='.$this->getId();
 	}
 
 	public function getSelectedRegions() {

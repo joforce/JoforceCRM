@@ -9,13 +9,13 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
+class Emails_MassSaveAjax_View extends Head_Footer_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('massSave');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save')) {
@@ -23,7 +23,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -33,9 +33,9 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 
 	/**
 	 * Function Sends/Saves mass emails
-	 * @param <Vtiger_Request> $request
+	 * @param <Head_Request> $request
 	 */
-	public function massSave(Vtiger_Request $request) {
+	public function massSave(Head_Request $request) {
 		global $upload_badext;
 		$adb = PearDatabase::getInstance();
 
@@ -47,23 +47,23 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		// This is either SENT or SAVED
 		$flag = $request->get('flag');
 
-		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+		$result = Head_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['file'];
 
 		$recordId = $request->get('record');
 
 		if(!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId,$moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId,$moduleName);
 			$recordModel->set('mode', 'edit');
 		}else{
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$recordModel->set('mode', '');
 		}
 
 		$parentEmailId = $request->get('parent_id',null);
 		$attachmentsWithParentEmail = array();
 		if(!empty($parentEmailId) && !empty ($recordId)) {
-			$parentEmailModel = Vtiger_Record_Model::getInstanceById($parentEmailId);
+			$parentEmailModel = Head_Record_Model::getInstanceById($parentEmailId);
 			$attachmentsWithParentEmail = $parentEmailModel->getAttachmentDetails();
 		}
 		$existingAttachments = $request->get('attachments',array());
@@ -163,8 +163,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 			foreach ($toMailInfo as $recordId => $emailValueList) {
 				$relatedModule = $recordModel->getEntityType($recordId);
 				if (!empty($relatedModule) && $relatedModule != 'Users') {
-					$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-					$relationModel = Vtiger_Relation_Model::getInstance($relatedModuleModel, $recordModel->getModule());
+					$relatedModuleModel = Head_Module_Model::getInstance($relatedModule);
+					$relationModel = Head_Relation_Model::getInstance($relatedModuleModel, $recordModel->getModule());
 					if ($relationModel) {
 						$relationModel->addRelation($recordId, $emailRecordId);
 					}
@@ -191,7 +191,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 
 					$binFile = sanitizeUploadFileName($file_name, $upload_badext);
 
-					$current_id = $adb->getUniqueID("vtiger_crmentity");
+					$current_id = $adb->getUniqueID("jo_crmentity");
 
 					$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 					$filetype = $existingAttachInfo['type'];
@@ -203,15 +203,15 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 
 					copy($oldFilePath, $newFilePath);
 
-					$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
+					$sql1 = "insert into jo_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
 					$params1 = array($current_id, $current_user->getId(), $ownerId, $moduleName . " Attachment", $recordModel->get('description'), $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql1, $params1);
 
-					$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
+					$sql2 = "insert into jo_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
 					$params2 = array($current_id, $filename, $recordModel->get('description'), $filetype, $upload_file_path);
 					$result = $adb->pquery($sql2, $params2);
 
-					$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
+					$sql3 = 'insert into jo_seattachmentsrel values(?,?)';
 					$adb->pquery($sql3, array($recordModel->getId(), $current_id));
 				}
 			}
@@ -219,7 +219,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 			if($flag == 'SENT') {
 				$status = $recordModel->send();
 				if ($status === true) {
-					// This is needed to set vtiger_email_track table as it is used in email reporting
+					// This is needed to set jo_email_track table as it is used in email reporting
 					$recordModel->setAccessCountValue();
 				} else {
 					$success = false;
@@ -243,10 +243,10 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 
 	/**
 	 * Function returns the record Ids selected in the current filter
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return integer
 	 */
-	public function getRecordsListFromRequest(Vtiger_Request $request) {
+	public function getRecordsListFromRequest(Head_Request $request) {
 		$cvId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
@@ -261,7 +261,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 			$sourceRecord = $request->get('sourceRecord');
 			$sourceModule = $request->get('sourceModule');
 			if ($sourceRecord && $sourceModule) {
-				$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+				$sourceRecordModel = Head_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 				return $sourceRecordModel->getSelectedIdsList($request->get('parentModule'), $excludedIds);
 			}
 
@@ -281,7 +281,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		return array();
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

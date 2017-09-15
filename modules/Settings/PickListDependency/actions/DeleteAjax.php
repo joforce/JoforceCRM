@@ -10,15 +10,15 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Index_Action {
+class Settings_PickListDependency_DeleteAjax_Action extends Settings_Head_Index_Action {
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         $sourceModule = $request->get('sourceModule');
         $sourceField = $request->get('sourcefield');
         $targetField = $request->get('targetfield');
         $recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);
         
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         try{
             $result = $recordModel->delete();
             $response->setResult(array('success', $result));
@@ -28,7 +28,7 @@ class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Inde
         $response->emit();
     }
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

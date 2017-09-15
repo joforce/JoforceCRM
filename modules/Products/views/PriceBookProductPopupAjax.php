@@ -11,11 +11,11 @@
 
 class Products_PriceBookProductPopupAjax_View extends Products_PriceBookProductPopup_View {
 
-	public function process (Vtiger_Request $request) {
+	public function process (Head_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);

@@ -12,7 +12,7 @@
 /**
  * Mass Edit Record Structure Model
  */
-class Inventory_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStructure_Model {
+class Inventory_MassEditRecordStructure_Model extends Head_MassEditRecordStructure_Model {
 
 	/**
 	 * Function to get the values in stuctured format

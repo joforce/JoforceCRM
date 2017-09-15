@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Settings_MenuEditor_EditAjax_View extends Settings_Vtiger_Index_View {
+class Settings_MenuEditor_EditAjax_View extends Settings_Head_Index_View {
 
 	public function __construct() {
 		parent::__construct();
 		$this->exposeMethod('showAddModule');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -24,7 +24,7 @@ class Settings_MenuEditor_EditAjax_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	function showAddModule(Vtiger_Request $request) {
+	function showAddModule(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$appName = $request->get('appname');

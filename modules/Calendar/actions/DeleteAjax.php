@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_DeleteAjax_Action extends Vtiger_DeleteAjax_Action {
+class Calendar_DeleteAjax_Action extends Head_DeleteAjax_Action {
 	
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$sourceModule = $request->get('sourceModule');
 		if (!$sourceModule) {
 			$sourceModule = $request->getModule();
@@ -33,18 +33,18 @@ class Calendar_DeleteAjax_Action extends Vtiger_DeleteAjax_Action {
 		}
 	}
 	
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$recurringEditMode = $request->get('recurringEditMode');
 		
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('recurringEditMode', $recurringEditMode);
 		$deletedRecords = $recordModel->delete();
 
 		$cvId = $request->get('viewname');
 		deleteRecordFromDetailViewNavigationRecords($recordId, $cvId, $moduleName);
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName, 'deletedRecords' => $deletedRecords));
 		$response->emit();
 	}

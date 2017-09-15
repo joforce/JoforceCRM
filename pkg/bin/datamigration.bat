@@ -40,7 +40,7 @@ echo set mysql_bundled=false>> mysql_params.bat
 echo set mysql_dir=%mysql_dir%>> mysql_params.bat
 echo
 rem set /P hi=bye
-echo set FOREIGN_KEY_CHECKS=0; > vtiger_4_2_dump.txt
+echo set FOREIGN_KEY_CHECKS=0; > jo_4_2_dump.txt
 set mysql_dir_4_2=%BINDIR%\..\mysql\bin
 echo mysql_dir again is %mysql_dir_4_2%
 echo
@@ -50,10 +50,10 @@ echo password is %diffmac_password%
 echo port is %diffmac_port%
 echo hostname is %diffmac_hostname%
 
-echo about to take the dump of the 4.0.1 db and put it to vtiger_4_2_dump.txt file
+echo about to take the dump of the 4.0.1 db and put it to jo_4_2_dump.txt file
 echo
 echo 
-"%mysql_dir_4_2%\mysqldump" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% vtigercrm4_0_1 >> vtiger_4_2_dump.txt
+"%mysql_dir_4_2%\mysqldump" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% vtigercrm4_0_1 >> jo_4_2_dump.txt
 IF ERRORLEVEL 1 (
 	 echo "Unable to take the vtiger CRM %version% database backup. vtigercrm database may be corrupted"
 	 goto exitmigration
@@ -193,13 +193,13 @@ goto startmysql
 echo  in dump4_0_1mysql method
 echo
 echo
-echo set FOREIGN_KEY_CHECKS=0; > vtiger_4_2_dump.txt
-"%mysql_dir%\bin\mysqldump" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm4_0_1 >> vtiger_4_2_dump.txt
+echo set FOREIGN_KEY_CHECKS=0; > jo_4_2_dump.txt
+"%mysql_dir%\bin\mysqldump" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm4_0_1 >> jo_4_2_dump.txt
 IF ERRORLEVEL 1 (
 	 echo "Unable to take the vtiger CRM %version% database backup. vtigercrm database may be corrupted"
 	 goto exitmigration
 )
-echo "Data dump taken successfully in vtiger_4_2_dump.txt"
+echo "Data dump taken successfully in jo_4_2_dump.txt"
 
 goto echodumpstatus4samemac
 
@@ -212,16 +212,16 @@ echo
 echo
 "%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% -e "create database vtigercrm_4_0_1_bkp"
 
-"%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% --force vtigercrm_4_0_1_bkp < vtiger_4_2_dump.txt
+"%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% --force vtigercrm_4_0_1_bkp < jo_4_2_dump.txt
 rem set /P hi=bye
 echo 'about to start the input from the DataMigration.php file '
 echo
 echo
 ..\php\php.exe -f ..\apache\htdocs\vtigerCRM\Migrate.php
-echo 'exporting the migrated data to the dump file migrated_vtiger_4_0_1_dump file'
+echo 'exporting the migrated data to the dump file migrated_jo_4_0_1_dump file'
 
-echo set FOREIGN_KEY_CHECKS=0; > migrated_vtiger_4_0_1_dump.txt
-"%mysql_dir%\bin\mysqldump" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm_4_0_1_bkp >> migrated_vtiger_4_0_1_dump.txt
+echo set FOREIGN_KEY_CHECKS=0; > migrated_jo_4_0_1_dump.txt
+"%mysql_dir%\bin\mysqldump" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm_4_0_1_bkp >> migrated_jo_4_0_1_dump.txt
 
 rem set /P hi=bye
 echo ' about to drop the vtigercrm_4_0_1_bkp database '
@@ -287,10 +287,10 @@ echo 'about to drop 4_2 db'
 "%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% -e "drop database vtigercrm4_2"
 echo 'about create if not exists drop 4_2 db'
 "%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% -e "create database if not exists vtigercrm4_2"
-echo 'about to force-dump data to the 4_2 db from the migrated_vtiger_4_0_1_dump file into the vtigercrm4_2 db'
+echo 'about to force-dump data to the 4_2 db from the migrated_jo_4_0_1_dump file into the vtigercrm4_2 db'
 echo
 echo
-"%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm4_2 --force < migrated_vtiger_4_0_1_dump.txt  2> migrate_log.txt
+"%mysql_dir%\bin\mysql" --user=%mysql_username% --password=%mysql_password% --port=%mysql_port% vtigercrm4_2 --force < migrated_jo_4_0_1_dump.txt  2> migrate_log.txt
 IF ERRORLEVEL 1 (
 	 echo "Unable to dump data into the vtiger CRM %version% database vtigercrm4_2. Check the migrate_log.txt in the %VTIGER_HOME% directory"
 	 goto exitmigration
@@ -346,9 +346,9 @@ echo mysql directory is %mysql_dir%
 
 echo created database vtigercrm_4_0_1_bkup 
 
-"%mysql_dir%\mysql" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% --force vtigercrm_4_0_1_bkp < vtiger_4_2_dump.txt
+"%mysql_dir%\mysql" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% --force vtigercrm_4_0_1_bkp < jo_4_2_dump.txt
 
-echo dumped data from the file vtiger_4_2_dump.txt into the vtigercrm_4_0_1_bkp database
+echo dumped data from the file jo_4_2_dump.txt into the vtigercrm_4_0_1_bkp database
 
 echo
 echo
@@ -360,10 +360,10 @@ echo
 echo
 ..\php\php.exe -f ..\apache\htdocs\vtigerCRM\Migrate.php
 
-echo set FOREIGN_KEY_CHECKS=0; > migrated_vtiger_4_0_1_dump.txt
+echo set FOREIGN_KEY_CHECKS=0; > migrated_jo_4_0_1_dump.txt
 
-"%mysql_dir%\mysqldump" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% vtigercrm_4_0_1_bkp >> migrated_vtiger_4_0_1_dump.txt
-echo dumped the database to migrated_vtiger_4_0_1_dump.txt file
+"%mysql_dir%\mysqldump" --host=%diffmac_hostname% --user=%diffmac_uname% --password=%diffmac_password% --port=%diffmac_port% vtigercrm_4_0_1_bkp >> migrated_jo_4_0_1_dump.txt
+echo dumped the database to migrated_jo_4_0_1_dump.txt file
 
 rem set /P hi=bye
 echo

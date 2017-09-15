@@ -187,7 +187,7 @@ if (window.jQuery)(function ($) {
 				// Create wrapper to hold our file list
 				MultiFile.wrapID = MultiFile.instanceKey;// + '_wrap'; // Wrapper ID?
                 
-                /*# Vtiger customization to support the modified bootstrap styled file input - Lohith #*/
+                /*# Head customization to support the modified bootstrap styled file input - Lohith #*/
                 if(MultiFile.E.closest('.fileUploadBtn').length) {
                     MultiFile.E.closest('.fileUploadBtn').wrap('<div class="MultiFile-wrap" id="' + MultiFile.wrapID + '"></div>');
                 } else {

@@ -12,10 +12,10 @@
 /*
  * Workflow Task Record Model Class
  */
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/VTTaskManager.inc';
+require_once 'modules/com_jo_workflow/include.inc';
+require_once 'modules/com_jo_workflow/VTTaskManager.inc';
 
-class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model {
+class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model {
 
 	const TASK_STATUS_ACTIVE = 1;
 

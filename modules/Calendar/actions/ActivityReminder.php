@@ -9,16 +9,16 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
+class Calendar_ActivityReminder_Action extends Head_Action_Controller{
 
 	function __construct() {
 		$this->exposeMethod('getReminders');
 		$this->exposeMethod('postpone');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
@@ -28,7 +28,7 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		if(!empty($mode) && $this->isMethodExposed($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -37,22 +37,22 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 
 	}
 
-	function getReminders(Vtiger_Request $request) {
+	function getReminders(Head_Request $request) {
 		$recordModels = Calendar_Module_Model::getCalendarReminder();
 		foreach($recordModels as $record) {
 			$records[] = $record->getDisplayableValues();
 			$record->updateReminderStatus();
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($records);
 		$response->emit();
 	}
 
-	function postpone(Vtiger_Request $request) {
+	function postpone(Head_Request $request) {
 		$recordId = $request->get('record');
 		$module = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $module);
+		$recordModel = Head_Record_Model::getInstanceById($recordId, $module);
 		$recordModel->updateReminderStatus(0);
 	}
 }

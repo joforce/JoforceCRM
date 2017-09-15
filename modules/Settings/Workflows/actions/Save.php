@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action {
+class Settings_Workflows_Save_Action extends Settings_Head_Basic_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
 		$moduleName = $request->get('module_name');
@@ -26,8 +26,8 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action {
 			$workflowModel->set('name', $summary);
 		}
 
-		require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
-		$response = new Vtiger_Response();
+		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+		$response = new Head_Response();
 		if (!empty($conditions) && is_array($conditions)) {
 			foreach ($conditions as $info) {
 				if (!empty($info['columns']) && is_array($info['columns'])) {
@@ -74,7 +74,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action {
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat.' '.$schtime;
-				$currentTime = Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
+				$currentTime = Head_Util_Helper::getActiveAdminCurrentDateTime();
 				if($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {
@@ -105,7 +105,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action {
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 }

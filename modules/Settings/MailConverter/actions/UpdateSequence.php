@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_MailConverter_UpdateSequence_Action extends Settings_Vtiger_Index_Action {
+class Settings_MailConverter_UpdateSequence_Action extends Settings_Head_Index_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 		$scannerId = $request->get('scannerId');
 
@@ -20,14 +20,14 @@ class Settings_MailConverter_UpdateSequence_Action extends Settings_Vtiger_Index
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$qualifiedModuleName = $request->getModule(false);
 		$scannerId = $request->get('scannerId');
 		$sequencesList = $request->get('sequencesList');
 
 		$scannerModel = Settings_MailConverter_Record_Model::getInstanceById($scannerId);
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if ($sequencesList) {
 			$scannerModel->updateSequence($sequencesList);
 			$response->setResult(vtranslate('LBL_SEQUENCE_UPDATED_SUCCESSFULLY', $qualifiedModuleName));
@@ -38,7 +38,7 @@ class Settings_MailConverter_UpdateSequence_Action extends Settings_Vtiger_Index
 		$response->emit();
 	}
         
-        public function validateRequest(Vtiger_Request $request) { 
+        public function validateRequest(Head_Request $request) { 
             $request->validateWriteAccess(); 
         } 
 }

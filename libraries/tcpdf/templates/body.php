@@ -6,7 +6,7 @@ $waterMarkPositions=array("30","180");
 $waterMarkRotate=array("45","50","180");
 $pdf->watermark( $status, $waterMarkPositions, $waterMarkRotate );
 
-include("libraries/tcpdf/pdfconfig.php");
+include("libraries/tcpdf/pdfconfig/config.php");
 
 // blow a bubble around the table
 $Bubble=array("10",$body_top,"170","$bottom");

@@ -9,19 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_ListView_Model extends Vtiger_ListView_Model {
+class Documents_ListView_Model extends Head_ListView_Model {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of Head_Link_Model instances
 	 */
 	public function getListViewLinks($linkParams) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		if($createPermission) {
@@ -45,11 +45,11 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 			$basicLinks = array(
 					array(
 							'linktype' => 'LISTVIEWBASIC',
-							'linklabel' => 'Vtiger',
+							'linklabel' => 'Head',
 							'linkurl' => $moduleModel->getCreateRecordUrl(),
 							'linkicon' => 'JoForce.png',
                             'linkdropdowns' => $vtigerDocumentTypes,
-                            'linkclass' => 'addDocumentToVtiger',
+                            'linkclass' => 'addDocumentToHead',
 					),
                     array(
                             'linktype' => 'LISTVIEWBASIC',
@@ -59,7 +59,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 					)
 			);
 			foreach($basicLinks as $basicLink) {
-				$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+				$links['LISTVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicLink);
 			}
 		}
 
@@ -68,16 +68,16 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 			$advancedLink = array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_EXPORT',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("'.$moduleModel->getExportUrl().'")',
+					'linkurl' => 'javascript:Head_List_Js.triggerExportAction("'.$moduleModel->getExportUrl().'")',
 					'linkicon' => ''
 			);
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = Head_Link_Model::getInstanceFromValues($advancedLink);
 		}
 
 		if($currentUserModel->isAdminUser()) {
 			$settingsLinks = $this->getSettingLinks();
 			foreach($settingsLinks as $settingsLink) {
-				$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
+				$links['LISTVIEWSETTING'][] = Head_Link_Model::getInstanceFromValues($settingsLink);
 			}
 		}
 		return $links;
@@ -86,35 +86,35 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  Head_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = Head_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
         
 		//Opensource fix to make documents module mass editable
         if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
             $massActionLink = array(
                     'linktype' => 'LISTVIEWMASSACTION',
                     'linklabel' => 'LBL_EDIT',
-                    'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module='.$moduleModel->get('name').'&view=MassActionAjax&mode=showMassEditForm");',
+                    'linkurl' => 'javascript:Head_List_Js.triggerMassEdit("index.php?module='.$moduleModel->get('name').'&view=MassActionAjax&mode=showMassEditForm");',
                     'linkicon' => ''
             );
-            $links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+            $links['LISTVIEWMASSACTION'][] = Head_Link_Model::getInstanceFromValues($massActionLink);
         }
         
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
+				'linkurl' => 'javascript:Head_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 
-			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = Head_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
 		$massActionLink = array(
@@ -124,15 +124,15 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 			'linkicon' => ''
 		);
 
-		$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		$links['LISTVIEWMASSACTION'][] = Head_Link_Model::getInstanceFromValues($massActionLink);
 
 		return $links;
 	}
 
     /**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param Head_Paging_Model $pagingModel
+	 * @return <Array> - Associative array of record id mapped to Head_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel) {
 
@@ -140,7 +140,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 
 		$moduleName = $this->getModule()->get('name');
 		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
@@ -181,8 +181,8 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 			$queryGenerator = $this->get('query_generator');
 			$fieldModels = $queryGenerator->getModuleFields();
 			$orderByFieldModel = $fieldModels[$orderBy];
-            if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE ||
-					$orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::OWNER_TYPE)){
+            if($orderByFieldModel && ($orderByFieldModel->getFieldDataType() == Head_Field_Model::REFERENCE_TYPE ||
+					$orderByFieldModel->getFieldDataType() == Head_Field_Model::OWNER_TYPE)){
                 $queryGenerator->addWhereField($orderBy);
             }
         }
@@ -203,7 +203,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 				}
 			}
             //allow source module to modify the query
-            $sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+            $sourceModuleModel = Head_Module_Model::getInstance($sourceModule);
             if(method_exists($sourceModuleModel, 'getQueryByModuleField')) {
                 $sourceOverrideQuery = $sourceModuleModel->getQueryByModuleField($moduleModel->getName(),$this->get('src_field'),$this->get('src_record'),$listQuery);
                 if(!empty($sourceOverrideQuery)) {
@@ -219,7 +219,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 			$listQuery .= ' ORDER BY '.$queryGenerator->getOrderByColumn($orderBy).' '.$sortOrder;
 		} else if(empty($orderBy) && empty($sortOrder)){
 			//List view will be displayed on recently created/modified records
-			$listQuery .= ' ORDER BY vtiger_crmentity.modifiedtime DESC';
+			$listQuery .= ' ORDER BY jo_crmentity.modifiedtime DESC';
 		}
 
 		$viewid = ListViewSession::getCurrentView($moduleName);

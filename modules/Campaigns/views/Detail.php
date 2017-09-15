@@ -9,19 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_Detail_View extends Vtiger_Detail_View {
+class Campaigns_Detail_View extends Head_Detail_View {
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param Head_Request $request
+	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-				'modules.Vtiger.resources.List',
+				'modules.Head.resources.List',
 				"modules.$moduleName.resources.List",
 				'modules.CustomView.resources.CustomView',
 				"modules.$moduleName.resources.CustomView",

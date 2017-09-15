@@ -11,9 +11,9 @@
 
 vimport ('~~/include/Webservices/Query.php');
 
-class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
+class Calendar_Feed_Action extends Head_BasicAjax_Action {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		if($request->get('mode') === 'batch') {
 			$feedsRequest = $request->get('feedsRequest',array());
 			$result = array();
@@ -90,7 +90,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 
 	protected function pullDetails($start, $end, &$result, $type, $fieldName, $color = null, $textColor = 'white', $conditions = '') {
 		global $site_URL;
-		$moduleModel = Vtiger_Module_Model::getInstance($type);
+		$moduleModel = Head_Module_Model::getInstance($type);
 		$nameFields = $moduleModel->getNameFields();
 		foreach($nameFields as $i => $nameField) {
 			$fieldInstance = $moduleModel->getField($nameField);
@@ -112,7 +112,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$query = $queryGenerator->getQuery();
 			$query.= " AND (($fieldsList[0] >= ? AND $fieldsList[1] < ?) OR ($fieldsList[1] >= ?)) ";
 			$params = array($start,$end,$start);
-			$query.= " AND vtiger_crmentity.smownerid IN (".generateQuestionMarks($userAndGroupIds).")";
+			$query.= " AND jo_crmentity.smownerid IN (".generateQuestionMarks($userAndGroupIds).")";
 			$params = array_merge($params, $userAndGroupIds);
 			$queryResult = $db->pquery($query, $params);
 
@@ -142,7 +142,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 					$params = array_merge($params,array($start,$end));
 				} 
 				$query .= ")";
-				$query.= " AND vtiger_crmentity.smownerid IN (".  generateQuestionMarks($userAndGroupIds).")";
+				$query.= " AND jo_crmentity.smownerid IN (".  generateQuestionMarks($userAndGroupIds).")";
 				$params = array_merge($params,$userAndGroupIds);
 				$queryResult = $db->pquery($query, $params);
 				$records = array();
@@ -259,11 +259,11 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+		$groupsIds = Head_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		require('user_privileges/user_privileges_'.$currentUser->id.'.php');
 		require('user_privileges/sharing_privileges_'.$currentUser->id.'.php');
 
-		$moduleModel = Vtiger_Module_Model::getInstance('Events');
+		$moduleModel = Head_Module_Model::getInstance('Events');
 		if($userid && !$isGroupId){
 			$focus = new Users();
 			$focus->id = $userid;
@@ -278,10 +278,10 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 		$queryGenerator->setFields(array('subject', 'eventstatus', 'visibility','date_start','time_start','due_date','time_end','assigned_user_id','id','activitytype','recurringtype'));
 		$query = $queryGenerator->getQuery();
 
-		$query.= " AND vtiger_activity.activitytype NOT IN ('Emails','Task') AND ";
+		$query.= " AND jo_activity.activitytype NOT IN ('Emails','Task') AND ";
 		$hideCompleted = $currentUser->get('hidecompletedevents');
 		if($hideCompleted)
-			$query.= "vtiger_activity.eventstatus != 'HELD' AND ";
+			$query.= "jo_activity.eventstatus != 'HELD' AND ";
 
 		if(!empty($conditions)) {
 			$conditions = Zend_Json::decode(Zend_Json::decode($conditions));
@@ -298,7 +298,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$params = array($eventUserId);
 		}
 
-		$query.= " AND vtiger_crmentity.smownerid IN (".  generateQuestionMarks($params).")";
+		$query.= " AND jo_crmentity.smownerid IN (".  generateQuestionMarks($params).")";
 		$queryResult = $db->pquery($query, $params);
 
 		while($record = $db->fetchByAssoc($queryResult)){
@@ -383,21 +383,21 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 		$user = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 
-		$moduleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$moduleModel = Head_Module_Model::getInstance('Calendar');
 		$userAndGroupIds = array_merge(array($user->getId()),$this->getGroupsIdsForUsers($user->getId()));
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $user);
 
 		$queryGenerator->setFields(array('activityid','subject', 'taskstatus','activitytype', 'date_start','time_start','due_date','time_end','id'));
 		$query = $queryGenerator->getQuery();
 
-		$query.= " AND vtiger_activity.activitytype = 'Task' AND ";
+		$query.= " AND jo_activity.activitytype = 'Task' AND ";
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$hideCompleted = $currentUser->get('hidecompletedevents');
 		if($hideCompleted)
-			$query.= "vtiger_activity.status != 'Completed' AND ";
+			$query.= "jo_activity.status != 'Completed' AND ";
 		$query.= " ((date_start >= '$start' AND due_date < '$end') OR ( due_date >= '$start'))";
 		$params = $userAndGroupIds;
-		$query.= " AND vtiger_crmentity.smownerid IN (".generateQuestionMarks($params).")";
+		$query.= " AND jo_crmentity.smownerid IN (".generateQuestionMarks($params).")";
 		$queryResult = $db->pquery($query,$params);
 
 		while($record = $db->fetchByAssoc($queryResult)){

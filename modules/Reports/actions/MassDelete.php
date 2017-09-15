@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_MassDelete_Action extends Vtiger_Mass_Action {
+class Reports_MassDelete_Action extends Head_Mass_Action {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 
@@ -21,15 +21,15 @@ class Reports_MassDelete_Action extends Vtiger_Mass_Action {
 		}
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$parentModule = 'Reports';
 		$recordIds = Reports_Record_Model::getRecordsListFromRequest($request);
 
@@ -46,7 +46,7 @@ class Reports_MassDelete_Action extends Vtiger_Mass_Action {
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		if (empty ($reportsDeleteDenied)) {
 			$response->setResult(array(vtranslate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
 		} else {

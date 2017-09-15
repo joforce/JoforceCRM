@@ -11,12 +11,12 @@
 
 class Users_Detail_View extends Users_PreferenceDetail_View {
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function preProcessSettings(Vtiger_Request $request) {
+	public function preProcessSettings(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -24,15 +24,15 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
 
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
+		$settingsModel = Settings_Head_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 
 		if(!empty($selectedMenuId)) {
-			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
+			$selectedMenu = Settings_Head_Menu_Model::getInstanceById($selectedMenuId);
+		} elseif(!empty($moduleName) && $moduleName != 'Head') {
+			$fieldItem = Settings_Head_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
 			if($fieldItem){
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+				$selectedMenu = Settings_Head_Menu_Model::getInstanceById($fieldItem->get('blockid'));
 				$fieldId = $fieldItem->get('fieldid');
 			} else {
 				reset($menuModels);
@@ -45,7 +45,7 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 			$selectedMenu = $menuModels[$firstKey];
 		}
         
-        //Specific change for Vtiger7
+        //Specific change for Head7
         $settingsMenItems = array();
         foreach($menuModels as $menuModel) {
             $menuItems = $menuModel->getMenuItems();
@@ -54,7 +54,7 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
             }
         }
         $viewer->assign('SETTINGS_MENU_ITEMS', $settingsMenItems);
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+        $moduleModel = Head_Module_Model::getInstance($moduleName);
         $this->setModuleInfo($request, $moduleModel);
         $viewer->assign('ACTIVE_BLOCK', array('block' => 'LBL_USER_MANAGEMENT', 
                                               'menu' => 'LBL_USERS'));
@@ -74,18 +74,18 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcessSettings(Vtiger_Request $request) {
+	public function postProcessSettings(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Head_Request $request) {
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -93,12 +93,12 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		parent::process($request);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Index'
+			'modules.Settings.Head.resources.Index'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -108,7 +108,7 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
+	 * @param Head_Record_Model record model
 	 * @return <boolean> true/false
 	 */
 	function isAjaxEnabled($recordModel) {
@@ -118,7 +118,7 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		return $recordModel->isEditable();
 	}
 
-	public function getPageTitle(Vtiger_Request $request) {
+	public function getPageTitle(Head_Request $request) {
 		return vtranslate($request->getModule(), $request->getModule());
 	}
 }

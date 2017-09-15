@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Leads_Field_Model extends Vtiger_Field_Model {
+class Settings_Leads_Field_Model extends Head_Field_Model {
 
 	/**
 	 * Function to get field data type

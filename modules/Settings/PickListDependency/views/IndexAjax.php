@@ -16,15 +16,15 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
         $this->exposeMethod('getDependencyGraph');
     }
     
-    public function preProcess(Vtiger_Request $request) {
+    public function preProcess(Head_Request $request) {
         return true;
     }
     
-    public function postProcess(Vtiger_Request $request) {
+    public function postProcess(Head_Request $request) {
         return true;
     }
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
         $mode = $request->getMode();
 
 		if($mode){

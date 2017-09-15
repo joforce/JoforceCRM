@@ -16,7 +16,7 @@ class Install_Utils_Model {
 	 * @var <Array>
 	 */
 	public static $writableFilesAndFolders = array (
-		'Configuration File' => './config.inc.php',
+		'Configuration File' => './config/config.inc.php',
 		'Tabdata File' => './tabdata.php',
 		'Parent Tabdata File' => './parent_tabdata.php',
 		'Cache Directory' => './cache/',
@@ -155,7 +155,7 @@ class Install_Utils_Model {
 	 * @return <Array>
 	 */
 	public static function getDefaultPreInstallParameters() {
-		include 'config.db.php';
+		include 'config/config.db.php';
 		
 		$parameters = array(
 			'db_hostname' => '',
@@ -387,7 +387,7 @@ class Install_Utils_Model {
 				if(@$conn->Connect($db_hostname, $db_username, $db_password, $db_name)) {
 					$db_exist_status = true;
 					if(!$db_utf8_support) {
-						$db_utf8_support = Vtiger_Util_Helper::checkDbUTF8Support($conn);
+						$db_utf8_support = Head_Util_Helper::checkDbUTF8Support($conn);
 					}
 				}
 				$conn->Close();
@@ -424,11 +424,11 @@ class Install_Utils_Model {
 	 * Function installs all the available modules
 	 */
 	public static function installModules() {
-		require_once('vtlib/Vtiger/Package.php');
-		require_once('vtlib/Vtiger/Module.php');
+		require_once('vtlib/Head/Package.php');
+		require_once('vtlib/Head/Module.php');
 		require_once('include/utils/utils.php');
 
-		$moduleFolders = array('packages/vtiger/mandatory', 'packages/vtiger/optional', 'packages/vtiger/marketplace');
+		$moduleFolders = array('packages/head/mandatory', 'packages/head/optional', 'packages/head/marketplace');
 		foreach($moduleFolders as $moduleFolder) {
 			if ($handle = opendir($moduleFolder)) {
 				while (false !== ($file = readdir($handle))) {
@@ -440,10 +440,10 @@ class Install_Utils_Model {
 					$packageName = implode("",$packageNameParts);
 					if (!empty($packageName)) {
 						$packagepath = "$moduleFolder/$file";
-						$package = new Vtiger_Package();
+						$package = new Head_Package();
 						$module = $package->getModuleNameFromZip($packagepath);
 						if($module != null) {
-							$moduleInstance = Vtiger_Module::getInstance($module);
+							$moduleInstance = Head_Module::getInstance($module);
 							if($moduleInstance) {
 								updateVtlibModule($module, $packagepath);
 							} else {

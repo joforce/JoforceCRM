@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
+Class Users_PreferenceEdit_View extends Head_Edit_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($record, $moduleName);
 			if($recordModel->get('status') != 'Active') {
 				throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
 			}
@@ -28,25 +28,25 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request) {
+	function preProcessTplName(Head_Request $request) {
 		return 'UserEditViewPreProcess.tpl';
 	}
 
 
-	public function preProcess (Vtiger_Request $request, $display=true) {
+	public function preProcess (Head_Request $request, $display=true) {
 		if($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
 			$qualifiedModuleName = $request->getModule(false);
-			$menuModelsList = Vtiger_Menu_Model::getAll(true);
+			$menuModelsList = Head_Menu_Model::getAll(true);
 			$selectedModule = $request->getModule();
 			$moduleName = $selectedModule;
-			$menuStructure = Vtiger_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
+			$menuStructure = Head_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
 
 			// Order by pre-defined automation process for QuickCreate.
-			uksort($menuModelsList, array('Vtiger_MenuStructure_Model', 'sortMenuItemsByProcess'));
+			uksort($menuModelsList, array('Head_MenuStructure_Model', 'sortMenuItemsByProcess'));
 
-			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+			$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 			$companyLogo = $companyDetails->getLogo();
 
 			$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -55,15 +55,15 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
 			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('MENUS', $menuModelsList);
-			$viewer->assign('QUICK_CREATE_MODULES', Vtiger_Menu_Model::getAllForQuickCreate());
+			$viewer->assign('QUICK_CREATE_MODULES', Head_Menu_Model::getAllForQuickCreate());
 			$viewer->assign('MENU_STRUCTURE', $menuStructure);
 			$viewer->assign('MENU_SELECTED_MODULENAME', $selectedModule);
 			$viewer->assign('MENU_TOPITEMS_LIMIT', $menuStructure->getLimit());
 			$viewer->assign('COMPANY_LOGO',$companyLogo);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+			$viewer->assign('SEARCHABLE_MODULES', Head_Module_Model::getSearchableModules());
 
-			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
+			$homeModuleModel = Head_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
@@ -73,22 +73,22 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
 			$viewer->assign('STYLES',$this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+			$viewer->assign('SKIN_PATH', Head_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
 			$viewer->assign('CURRENT_USER_MODEL', $currentUser);
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-			$viewer->assign('COMPANY_DETAILS_SETTINGS',new Settings_Vtiger_CompanyDetails_Model());
+			$viewer->assign('COMPANY_DETAILS_SETTINGS',new Settings_Head_CompanyDetails_Model());
 			$viewer->assign('SELECTED_MENU_CATEGORY', 'MARKETING');
 
-			$settingsModel = Settings_Vtiger_Module_Model::getInstance();
+			$settingsModel = Settings_Head_Module_Model::getInstance();
 			$menuModels = $settingsModel->getMenus();
 
 			if(!empty($selectedMenuId)) {
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-			} elseif(!empty($moduleName) && $moduleName != 'Vtiger') {
-				$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
+				$selectedMenu = Settings_Head_Menu_Model::getInstanceById($selectedMenuId);
+			} elseif(!empty($moduleName) && $moduleName != 'Head') {
+				$fieldItem = Settings_Head_Index_View::getSelectedFieldFromModule($menuModels,$moduleName);
 				if($fieldItem){
-					$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
+					$selectedMenu = Settings_Head_Menu_Model::getInstanceById($fieldItem->get('blockid'));
 					$fieldId = $fieldItem->get('fieldid');
 				} else {
 					reset($menuModels);
@@ -110,7 +110,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			}
 			$viewer->assign('SETTINGS_MENU_ITEMS', $settingsMenItems);
 
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 			$moduleFields = $moduleModel->getFields();
 			foreach($moduleFields as $fieldName => $fieldModel){
@@ -124,22 +124,22 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		}
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request) {
+	protected function preProcessDisplay(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		}
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
 		$viewer = $this->getViewer($request);
@@ -150,7 +150,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		parent::process($request);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.'.$moduleName.'.resources.PreferenceEdit';
@@ -159,9 +159,9 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		$jsFileNames = array(
 			"modules.Users.resources.Edit",
 			'modules.'.$moduleName.'.resources.PreferenceEdit',
-			"modules.Vtiger.resources.CkEditor",
-			'modules.Settings.Vtiger.resources.Index',
-			"~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js"
+			"modules.Head.resources.CkEditor",
+			'modules.Settings.Head.resources.Index',
+			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

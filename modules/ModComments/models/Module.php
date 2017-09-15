@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class ModComments_Module_Model extends Vtiger_Module_Model{
+class ModComments_Module_Model extends Head_Module_Model{
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of Head_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
 		$links = parent::getSideBarLinks($linkParams);
@@ -38,9 +38,9 @@ class ModComments_Module_Model extends Vtiger_Module_Model{
 	 * @return <Array>
 	 */
 	public function getSettingLinks(){
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
 
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$editWorkflowsImagePath = Head_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();
 
 
@@ -70,12 +70,12 @@ class ModComments_Module_Model extends Vtiger_Module_Model{
 		$rollupStatus = $request->get('rollup_status');
 		if (!$rollupid) {
 			$params = array($userid, $tabid, $rollupStatus);
-			$query = "INSERT INTO vtiger_rollupcomments_settings(userid, tabid, rollup_status)"
+			$query = "INSERT INTO jo_rollupcomments_settings(userid, tabid, rollup_status)"
 					. " VALUES(" . generateQuestionMarks($params) . ")";
 			$db->pquery($query, $params);
 			return ModComments_Module_Model::getRollupSettingsForUser($currentUserModel, $request->get('parent'));
 		} else {
-			$query = 'SELECT rollup_status FROM vtiger_rollupcomments_settings WHERE userid=? AND tabid=?';
+			$query = 'SELECT rollup_status FROM jo_rollupcomments_settings WHERE userid=? AND tabid=?';
 			$result = $db->pquery($query, array($userid, $tabid));
 			$rollup_status = $db->query_result($result, 0, 'rollup_status'); 
 			if($rollup_status == 1)
@@ -83,7 +83,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model{
 			else
 				$change_rollup_status = 1;
 			$params = array($change_rollup_status, $userid, $tabid);
-			$query = "UPDATE vtiger_rollupcomments_settings set rollup_status=?"
+			$query = "UPDATE jo_rollupcomments_settings set rollup_status=?"
 					. " WHERE userid=? AND tabid=?";
 			$db->pquery($query, $params);
 		}
@@ -96,7 +96,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model{
 		$userid = $currentUserModel->id;
 		$tabid = getTabid($modulename);
 
-		$query = 'SELECT rollupid, rollup_status FROM vtiger_rollupcomments_settings WHERE userid=? AND tabid=?';
+		$query = 'SELECT rollupid, rollup_status FROM jo_rollupcomments_settings WHERE userid=? AND tabid=?';
 		$result = $db->pquery($query, array($userid, $tabid));
 		$count = $db->num_rows($result);
 		$rollupSettings = array();

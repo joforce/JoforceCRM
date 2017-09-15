@@ -9,23 +9,23 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class CustomView_DeleteAjax_Action extends Vtiger_Action_Controller {
+class CustomView_DeleteAjax_Action extends Head_Action_Controller {
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Head_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Head_Request $request) {
 		return true;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
 
 		$customViewModel->delete();
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

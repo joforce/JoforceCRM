@@ -26,14 +26,14 @@ function vtws_convertPotential($entityvalues, $user) {
 		$entityvalues['transferRelatedRecordsTo'] = 'Project';
 	}
 
-	$potentialObject = VtigerWebserviceObject::fromName($adb, 'Potentials');
+	$potentialObject = HeadWebserviceObject::fromName($adb, 'Potentials');
 	$handlerPath = $potentialObject->getHandlerPath();
 	$handlerClass = $potentialObject->getHandlerClass();
 	require_once $handlerPath;
 
 	$potentialHandler = new $handlerClass($potentialObject, $user, $adb, $log);
 	$potentialInfo = vtws_retrieve($entityvalues['potentialId'], $user);
-	$sql = 'SELECT converted FROM vtiger_potential WHERE converted=1 AND potentialid=?';
+	$sql = 'SELECT converted FROM jo_potential WHERE converted=1 AND potentialid=?';
 	$potentialIdComponents = vtws_getIdComponents($entityvalues['potentialId']);
 	$result = $adb->pquery($sql, array($potentialIdComponents[1]));
 	if ($result === false) {
@@ -55,7 +55,7 @@ function vtws_convertPotential($entityvalues, $user) {
 	foreach ($availableModules as $entityName) {
 		if ($entityvalues['entities'][$entityName]['create']) {
 			$entityvalue = $entityvalues['entities'][$entityName];
-			$entityObject = VtigerWebserviceObject::fromName($adb, $entityvalue['name']);
+			$entityObject = HeadWebserviceObject::fromName($adb, $entityvalue['name']);
 			$handlerPath = $entityObject->getHandlerPath();
 			$handlerClass = $entityObject->getHandlerClass();
 
@@ -97,7 +97,7 @@ function vtws_convertPotential($entityvalues, $user) {
 function vtws_populateConvertPotentialEntities($entityvalue, $entity, $entityHandler, $potentialHandler, $potentialinfo) {
 	global $adb, $log;
 	$entityName = $entityvalue['name'];
-	$sql = 'SELECT * FROM vtiger_convertpotentialmapping';
+	$sql = 'SELECT * FROM jo_convertpotentialmapping';
 	$result = $adb->pquery($sql, array());
 	if ($adb->num_rows($result)) {
 		$column = 'potentialfid';
@@ -167,7 +167,7 @@ function vtws_updateConvertPotentialStatus($entityIds, $potentialId, $user) {
 	global $adb, $log;
 	$potentialIdComponents = vtws_getIdComponents($potentialId);
 	if ($entityIds['Project'] != '' || $entityIds['Contacts'] != '') {
-		$sql = 'UPDATE vtiger_potential SET converted=1 where potentialid=?';
+		$sql = 'UPDATE jo_potential SET converted=1 where potentialid=?';
 		$result = $adb->pquery($sql, array($potentialIdComponents[1]));
 		if ($result === false) {
 			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_POTENTIAL_CONVERTED, 'Failed mark potential converted');
@@ -175,7 +175,7 @@ function vtws_updateConvertPotentialStatus($entityIds, $potentialId, $user) {
 
 		//update the modifiedtime and modified by information for the record
 		$potentialModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		$crmentityUpdateSql = 'UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
+		$crmentityUpdateSql = 'UPDATE jo_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
 		$adb->pquery($crmentityUpdateSql, array($potentialModifiedTime, $user->id, $potentialIdComponents[1]));
 	}
 }

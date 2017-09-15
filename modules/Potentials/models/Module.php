@@ -9,12 +9,12 @@
  * Contributor(s): JoForce.com
  * ************************************************************************************/
 
-class Potentials_Module_Model extends Vtiger_Module_Model {
+class Potentials_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of Head_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
 		$parentQuickLinks = parent::getSideBarLinks($linkParams);
@@ -27,11 +27,11 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		);
 		
 		//Check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		$moduleModel = Head_Module_Model::getInstance('Dashboard');
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if($permission) {
-			$parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$parentQuickLinks['SIDEBARLINK'][] = Head_Link_Model::getInstanceFromValues($quickLink);
 		}
 		
 		return $parentQuickLinks;
@@ -69,11 +69,11 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
         
-		$result = $db->pquery('SELECT COUNT(*) count, vtiger_potential.sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						INNER JOIN vtiger_sales_stage ON vtiger_potential.sales_stage = vtiger_sales_stage.sales_stage 
-                        AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql . $dateFilterSql . ' AND vtiger_potential.sales_stage IN ('.  generateQuestionMarks($picklistvaluesmap).') 
-					    GROUP BY sales_stage ORDER BY vtiger_sales_stage.sortorderid', $params);
+		$result = $db->pquery('SELECT COUNT(*) count, jo_potential.sales_stage FROM jo_potential
+						INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
+						INNER JOIN jo_sales_stage ON jo_potential.sales_stage = jo_sales_stage.sales_stage 
+                        AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql . $dateFilterSql . ' AND jo_potential.sales_stage IN ('.  generateQuestionMarks($picklistvaluesmap).') 
+					    GROUP BY sales_stage ORDER BY jo_sales_stage.sortorderid', $params);
 		
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -101,12 +101,12 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
             $picklistvaluesmap = getAssignedPicklistValues("sales_stage",$currentUserModel->getRole(), $db);
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
-		$result = $db->pquery('SELECT COUNT(*) AS count, concat(first_name," ",last_name) as last_name, vtiger_potential.sales_stage, vtiger_groups.groupname FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
-						LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'
-						INNER JOIN vtiger_sales_stage ON vtiger_potential.sales_stage =  vtiger_sales_stage.sales_stage 
-                        WHERE vtiger_potential.sales_stage IN ('.  generateQuestionMarks($picklistvaluesmap).') GROUP BY smownerid, sales_stage ORDER BY vtiger_sales_stage.sortorderid', $params);
+		$result = $db->pquery('SELECT COUNT(*) AS count, concat(first_name," ",last_name) as last_name, jo_potential.sales_stage, jo_groups.groupname FROM jo_potential
+						INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid AND jo_crmentity.deleted = 0
+						LEFT JOIN jo_users ON jo_users.id=jo_crmentity.smownerid AND jo_users.status="ACTIVE"
+						LEFT JOIN jo_groups ON jo_groups.groupid=jo_crmentity.smownerid'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'
+						INNER JOIN jo_sales_stage ON jo_potential.sales_stage =  jo_sales_stage.sales_stage 
+                        WHERE jo_potential.sales_stage IN ('.  generateQuestionMarks($picklistvaluesmap).') GROUP BY smownerid, sales_stage ORDER BY jo_sales_stage.sortorderid', $params);
 
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -138,13 +138,13 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
             unset($picklistvaluesmap['Closed Won']);unset($picklistvaluesmap['Closed Lost']);
             foreach($picklistvaluesmap as $picklistValue) $params[] = $picklistValue;
         }
-		$result = $db->pquery('SELECT sum(amount) AS amount, concat(first_name," ",last_name) as last_name, vtiger_potential.sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
-						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).
-						'INNER JOIN vtiger_sales_stage ON vtiger_potential.sales_stage =  vtiger_sales_stage.sales_stage 
-						WHERE vtiger_potential.sales_stage IN ('.generateQuestionMarks($picklistvaluesmap).') 
-						GROUP BY smownerid, sales_stage ORDER BY vtiger_sales_stage.sortorderid', $params);
+		$result = $db->pquery('SELECT sum(amount) AS amount, concat(first_name," ",last_name) as last_name, jo_potential.sales_stage FROM jo_potential
+						INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
+						INNER JOIN jo_users ON jo_users.id=jo_crmentity.smownerid AND jo_users.status="ACTIVE"
+						AND jo_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).
+						'INNER JOIN jo_sales_stage ON jo_potential.sales_stage =  jo_sales_stage.sales_stage 
+						WHERE jo_potential.sales_stage IN ('.generateQuestionMarks($picklistvaluesmap).') 
+						GROUP BY smownerid, sales_stage ORDER BY jo_sales_stage.sortorderid', $params);
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
             $row['link'] = decode_html($row['sales_stage']);
@@ -172,10 +172,10 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['end'];
 		}
 		
-		$result = $db->pquery('SELECT sum(amount) amount, concat(first_name," ",last_name) as last_name,vtiger_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
-						AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE sales_stage = ? '.' '.$dateFilterSql.' GROUP BY smownerid', $params);
+		$result = $db->pquery('SELECT sum(amount) amount, concat(first_name," ",last_name) as last_name,jo_users.id as id,DATE_FORMAT(closingdate, "%d-%m-%Y") AS closingdate  FROM jo_potential
+						INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
+						INNER JOIN jo_users ON jo_users.id=jo_crmentity.smownerid AND jo_users.status="ACTIVE"
+						AND jo_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE sales_stage = ? '.' '.$dateFilterSql.' GROUP BY smownerid', $params);
 		$data = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -188,13 +188,13 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function returns Top Potentials
-	 * @return <Array of Vtiger_Record_Model>
+	 * @return <Array of Head_Record_Model>
 	 */
 	function getTopPotentials($pagingModel) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$query = "SELECT crmid, amount, potentialname, related_to FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
+		$query = "SELECT crmid, amount, potentialname, related_to FROM jo_potential
+						INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
 							AND deleted = 0 ".Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName())."
 						WHERE sales_stage NOT IN ('Closed Won', 'Closed Lost') AND amount > 0
 						ORDER BY amount DESC LIMIT ".$pagingModel->getStartIndex().", ".$pagingModel->getPageLimit()."";
@@ -202,7 +202,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 
 		$models = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
-			$modelInstance = Vtiger_Record_Model::getCleanInstance('Potentials');
+			$modelInstance = Head_Record_Model::getCleanInstance('Potentials');
 			$modelInstance->setId($db->query_result($result, $i, 'crmid'));
 			$modelInstance->set('amount', $db->query_result($result, $i, 'amount'));
 			$modelInstance->set('potentialname', $db->query_result($result, $i, 'potentialname'));
@@ -235,8 +235,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['end'];
 		}
 		
-		$result = $db->pquery('SELECT forecast_amount, DATE_FORMAT(closingdate, "%m-%d-%Y") AS closingdate FROM vtiger_potential
-					INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
+		$result = $db->pquery('SELECT forecast_amount, DATE_FORMAT(closingdate, "%m-%d-%Y") AS closingdate FROM jo_potential
+					INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
 					AND deleted = 0 AND smownerid = ? WHERE closingdate >= CURDATE() AND sales_stage NOT IN ("Closed Won", "Closed Lost")'.
 					' '.$closingdateFilterSql.$dateFilterSql,
 					$params);
@@ -254,25 +254,25 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	 * Function to get relation query for particular module with function name
 	 * @param <record> $recordId
 	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
+	 * @param Head_Module_Model $relatedModule
 	 * @return <String>
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationId) {
 		if ($functionName === 'get_activities') {
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 
-			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, vtiger_seactivityrel.crmid AS parent_id,
-						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
-						FROM vtiger_activity
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'
-								AND vtiger_seactivityrel.crmid = ".$recordId;
+			$query = "SELECT CASE WHEN (jo_users.user_name not like '') THEN $userNameSql ELSE jo_groups.groupname END AS user_name,
+						jo_crmentity.*, jo_activity.activitytype, jo_activity.subject, jo_activity.date_start, jo_activity.time_start,
+						jo_activity.recurringtype, jo_activity.due_date, jo_activity.time_end, jo_activity.visibility, jo_seactivityrel.crmid AS parent_id,
+						CASE WHEN (jo_activity.activitytype = 'Task') THEN (jo_activity.status) ELSE (jo_activity.eventstatus) END AS status
+						FROM jo_activity
+						INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_activity.activityid
+						LEFT JOIN jo_seactivityrel ON jo_seactivityrel.activityid = jo_activity.activityid
+						LEFT JOIN jo_cntactivityrel ON jo_cntactivityrel.activityid = jo_activity.activityid
+						LEFT JOIN jo_users ON jo_users.id = jo_crmentity.smownerid
+						LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid
+							WHERE jo_crmentity.deleted = 0 AND jo_activity.activitytype <> 'Emails'
+								AND jo_seactivityrel.crmid = ".$recordId;
 
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
@@ -301,8 +301,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
         }
 		$data = array();
 		foreach ($picklistValues as $key => $picklistValue) {
-			$result = $db->pquery('SELECT SUM(amount) AS amount FROM vtiger_potential
-								   INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
+			$result = $db->pquery('SELECT SUM(amount) AS amount FROM jo_potential
+								   INNER JOIN jo_crmentity ON jo_potential.potentialid = jo_crmentity.crmid
 								   AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).' WHERE sales_stage = ?', array($picklistValue));
 			$num_rows = $db->num_rows($result);
 			for($i=0; $i<$num_rows; $i++) {
@@ -331,9 +331,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		if (in_array($sourceModule, array('Products', 'Services'))) {
 			if ($sourceModule === 'Products') {
-				$condition = " vtiger_potential.potentialid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record')";
+				$condition = " jo_potential.potentialid NOT IN (SELECT crmid FROM jo_seproductsrel WHERE productid = '$record')";
 			} elseif ($sourceModule === 'Services') {
-				$condition = " vtiger_potential.potentialid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$condition = " jo_potential.potentialid NOT IN (SELECT relcrmid FROM jo_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM jo_crmentityrel WHERE relcrmid = '$record') ";
 			}
 
 			$pos = stripos($listQuery, 'where');
@@ -356,9 +356,9 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getSearchRecordsQuery($searchValue,$searchFields, $parentId=false, $parentModule=false) {
 		if($parentId && in_array($parentModule, array('Accounts', 'Contacts'))) {
-			$query = "SELECT ".implode(',',$searchFields)." FROM vtiger_crmentity
-						INNER JOIN vtiger_potential ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						WHERE deleted = 0 AND vtiger_potential.related_to = $parentId AND label like '%$searchValue%'";
+			$query = "SELECT ".implode(',',$searchFields)." FROM jo_crmentity
+						INNER JOIN jo_potential ON jo_potential.potentialid = jo_crmentity.crmid
+						WHERE deleted = 0 AND jo_potential.related_to = $parentId AND label like '%$searchValue%'";
 			return $query;
 		}
 		return parent::getSearchRecordsQuery($parentId, $parentModule);

@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Products_ProductsPopup_View extends Vtiger_Popup_View {
+class Products_ProductsPopup_View extends Head_Popup_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$qtyPerUnitField = $moduleModel->getField('qty_per_unit');
 
 		if (!$qtyPerUnitField || ($qtyPerUnitField && !$qtyPerUnitField->isEditable())) {
@@ -22,7 +22,7 @@ class Products_ProductsPopup_View extends Vtiger_Popup_View {
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
@@ -35,10 +35,10 @@ class Products_ProductsPopup_View extends Vtiger_Popup_View {
 		$viewer->view('ProductsPopup.tpl', $moduleName);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$qtyPerUnitField = $moduleModel->getField('qty_per_unit');
 
 		if (!$qtyPerUnitField || ($qtyPerUnitField && !$qtyPerUnitField->isEditable())) {
@@ -49,8 +49,8 @@ class Products_ProductsPopup_View extends Vtiger_Popup_View {
 
 		$jsFileNames = array(
 			"modules.$moduleName.resources.ProductRelatedProductBundles",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+			'modules.Head.resources.validator.BaseValidator',
+			'modules.Head.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		);
 
@@ -60,7 +60,7 @@ class Products_ProductsPopup_View extends Vtiger_Popup_View {
 		return $headerScriptInstances;
 	}
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		parent::initializeListViewContents($request, $viewer);
 		$sourceModule = $request->get('src_module');
 		if ($sourceModule && in_array($sourceModule, getInventoryModules())) {

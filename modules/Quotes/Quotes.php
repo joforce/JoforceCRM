@@ -26,17 +26,17 @@ class Quotes extends CRMEntity {
 	var $log;
 	var $db;
 
-	var $table_name = "vtiger_quotes";
+	var $table_name = "jo_quotes";
 	var $table_index= 'quoteid';
-	var $tab_name = Array('vtiger_crmentity','vtiger_quotes','vtiger_quotesbillads','vtiger_quotesshipads','vtiger_quotescf','vtiger_inventoryproductrel');
-	var $tab_name_index = Array('vtiger_crmentity'=>'crmid','vtiger_quotes'=>'quoteid','vtiger_quotesbillads'=>'quotebilladdressid','vtiger_quotesshipads'=>'quoteshipaddressid','vtiger_quotescf'=>'quoteid','vtiger_inventoryproductrel'=>'id');
+	var $tab_name = Array('jo_crmentity','jo_quotes','jo_quotesbillads','jo_quotesshipads','jo_quotescf','jo_inventoryproductrel');
+	var $tab_name_index = Array('jo_crmentity'=>'crmid','jo_quotes'=>'quoteid','jo_quotesbillads'=>'quotebilladdressid','jo_quotesshipads'=>'quoteshipaddressid','jo_quotescf'=>'quoteid','jo_inventoryproductrel'=>'id');
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_quotescf', 'quoteid');
-	var $entity_table = "vtiger_crmentity";
+	var $customFieldTable = Array('jo_quotescf', 'quoteid');
+	var $entity_table = "jo_crmentity";
 
-	var $billadr_table = "vtiger_quotesbillads";
+	var $billadr_table = "jo_quotesbillads";
 
 	var $object_name = "Quote";
 
@@ -46,10 +46,10 @@ class Quotes extends CRMEntity {
 
 	var $sortby_fields = Array('subject','crmid','smownerid','accountname','lastname');
 
-	// This is used to retrieve related vtiger_fields from form posts.
+	// This is used to retrieve related jo_fields from form posts.
 	var $additional_column_fields = Array('assigned_user_name', 'smownerid', 'opportunity_id', 'case_id', 'contact_id', 'task_id', 'note_id', 'meeting_id', 'call_id', 'email_id', 'parent_name', 'member_id' );
 
-	// This is the list of vtiger_fields that are in the lists.
+	// This is the list of jo_fields that are in the lists.
 	var $list_fields = Array(
 				//'Quote No'=>Array('crmentity'=>'crmid'),
 				// Module Sequence Numbering
@@ -88,13 +88,13 @@ class Quotes extends CRMEntity {
 				        'Quote Stage'=>'quotestage',
 				      );
 
-	// This is the list of vtiger_fields that are required.
+	// This is the list of jo_fields that are required.
 	var $required_fields =  array("accountname"=>1);
 
 	//Added these variables which are used as default order by and sortorder in ListView
 	var $default_order_by = 'crmid';
 	var $default_sort_order = 'ASC';
-	//var $groupTable = Array('vtiger_quotegrouprelation','quoteid');
+	//var $groupTable = Array('jo_quotegrouprelation','quoteid');
 
 	var $mandatory_fields = Array('subject','createdtime' ,'modifiedtime', 'assigned_user_id', 'quantity', 'listprice', 'productid');
 
@@ -134,7 +134,7 @@ class Quotes extends CRMEntity {
 		}
 
 		// Update the currency id and the conversion rate for the quotes
-		$update_query = "update vtiger_quotes set currency_id=?, conversion_rate=? where quoteid=?";
+		$update_query = "update jo_quotes set currency_id=?, conversion_rate=? where quoteid=?";
 		$update_params = array($this->column_fields['currency_id'], $this->column_fields['conversion_rate'], $this->id);
 		$adb->pquery($update_query, $update_params);
 	}
@@ -158,21 +158,21 @@ class Quotes extends CRMEntity {
 			$returnset = '&return_module=Quotes&return_action=CallRelatedList&return_id='.$id;
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "select vtiger_crmentity.*, vtiger_salesorder.*, vtiger_quotes.subject as quotename
-			, vtiger_account.accountname,case when (vtiger_users.user_name not like '') then
-			$userNameSql else vtiger_groups.groupname end as user_name
-		from vtiger_salesorder
-		inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid
-		left outer join vtiger_quotes on vtiger_quotes.quoteid=vtiger_salesorder.quoteid
-		left outer join vtiger_account on vtiger_account.accountid=vtiger_salesorder.accountid
-		left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-        LEFT JOIN vtiger_salesordercf ON vtiger_salesordercf.salesorderid = vtiger_salesorder.salesorderid
-        LEFT JOIN vtiger_invoice_recurring_info ON vtiger_invoice_recurring_info.start_period = vtiger_salesorder.salesorderid
-		LEFT JOIN vtiger_sobillads ON vtiger_sobillads.sobilladdressid = vtiger_salesorder.salesorderid
-		LEFT JOIN vtiger_soshipads ON vtiger_soshipads.soshipaddressid = vtiger_salesorder.salesorderid
-		left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-		where vtiger_crmentity.deleted=0 and vtiger_salesorder.quoteid = ".$id;
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "select jo_crmentity.*, jo_salesorder.*, jo_quotes.subject as quotename
+			, jo_account.accountname,case when (jo_users.user_name not like '') then
+			$userNameSql else jo_groups.groupname end as user_name
+		from jo_salesorder
+		inner join jo_crmentity on jo_crmentity.crmid=jo_salesorder.salesorderid
+		left outer join jo_quotes on jo_quotes.quoteid=jo_salesorder.quoteid
+		left outer join jo_account on jo_account.accountid=jo_salesorder.accountid
+		left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid
+        LEFT JOIN jo_salesordercf ON jo_salesordercf.salesorderid = jo_salesorder.salesorderid
+        LEFT JOIN jo_invoice_recurring_info ON jo_invoice_recurring_info.start_period = jo_salesorder.salesorderid
+		LEFT JOIN jo_sobillads ON jo_sobillads.sobilladdressid = jo_salesorder.salesorderid
+		LEFT JOIN jo_soshipads ON jo_soshipads.soshipaddressid = jo_salesorder.salesorderid
+		left join jo_users on jo_users.id=jo_crmentity.smownerid
+		where jo_crmentity.deleted=0 and jo_salesorder.quoteid = ".$id;
 		$log->debug("Exiting get_salesorder method ...");
 		return GetRelatedList('Quotes','SalesOrder',$focus,$query,$button,$returnset);
 	}
@@ -215,28 +215,28 @@ class Quotes extends CRMEntity {
 		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else
-		vtiger_groups.groupname end as user_name, vtiger_contactdetails.contactid,
-		vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_activity.*,
-		vtiger_seactivityrel.crmid as parent_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-		vtiger_crmentity.modifiedtime,vtiger_recurringevents.recurringtype
-		from vtiger_activity
-		inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid=
-		vtiger_activity.activityid
-		inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-		left join vtiger_cntactivityrel on vtiger_cntactivityrel.activityid=
-		vtiger_activity.activityid
-		left join vtiger_contactdetails on vtiger_contactdetails.contactid =
-		vtiger_cntactivityrel.contactid
-		left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-		left outer join vtiger_recurringevents on vtiger_recurringevents.activityid=
-		vtiger_activity.activityid
-		left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-		where vtiger_seactivityrel.crmid=".$id." and vtiger_crmentity.deleted=0 and
-			activitytype='Task' and (vtiger_activity.status is not NULL and
-			vtiger_activity.status != 'Completed') and (vtiger_activity.status is not NULL and
-			vtiger_activity.status != 'Deferred')";
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "SELECT case when (jo_users.user_name not like '') then $userNameSql else
+		jo_groups.groupname end as user_name, jo_contactdetails.contactid,
+		jo_contactdetails.lastname, jo_contactdetails.firstname, jo_activity.*,
+		jo_seactivityrel.crmid as parent_id,jo_crmentity.crmid, jo_crmentity.smownerid,
+		jo_crmentity.modifiedtime,jo_recurringevents.recurringtype
+		from jo_activity
+		inner join jo_seactivityrel on jo_seactivityrel.activityid=
+		jo_activity.activityid
+		inner join jo_crmentity on jo_crmentity.crmid=jo_activity.activityid
+		left join jo_cntactivityrel on jo_cntactivityrel.activityid=
+		jo_activity.activityid
+		left join jo_contactdetails on jo_contactdetails.contactid =
+		jo_cntactivityrel.contactid
+		left join jo_users on jo_users.id=jo_crmentity.smownerid
+		left outer join jo_recurringevents on jo_recurringevents.activityid=
+		jo_activity.activityid
+		left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid
+		where jo_seactivityrel.crmid=".$id." and jo_crmentity.deleted=0 and
+			activitytype='Task' and (jo_activity.status is not NULL and
+			jo_activity.status != 'Completed') and (jo_activity.status is not NULL and
+			jo_activity.status != 'Deferred')";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -256,24 +256,24 @@ class Quotes extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_history(".$id.") method ...");
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.status,
-			vtiger_activity.eventstatus, vtiger_activity.activitytype,vtiger_activity.date_start,
-			vtiger_activity.due_date,vtiger_activity.time_start, vtiger_activity.time_end,
-			vtiger_contactdetails.contactid,
-			vtiger_contactdetails.firstname,vtiger_contactdetails.lastname, vtiger_crmentity.modifiedtime,
-			vtiger_crmentity.createdtime, vtiger_crmentity.description, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-			from vtiger_activity
-				inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid=vtiger_activity.activityid
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				left join vtiger_cntactivityrel on vtiger_cntactivityrel.activityid= vtiger_activity.activityid
-				left join vtiger_contactdetails on vtiger_contactdetails.contactid= vtiger_cntactivityrel.contactid
-                                left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-				left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-				where vtiger_activity.activitytype='Task'
-  				and (vtiger_activity.status = 'Completed' or vtiger_activity.status = 'Deferred')
-	 	        	and vtiger_seactivityrel.crmid=".$id."
-                                and vtiger_crmentity.deleted = 0";
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "SELECT jo_activity.activityid, jo_activity.subject, jo_activity.status,
+			jo_activity.eventstatus, jo_activity.activitytype,jo_activity.date_start,
+			jo_activity.due_date,jo_activity.time_start, jo_activity.time_end,
+			jo_contactdetails.contactid,
+			jo_contactdetails.firstname,jo_contactdetails.lastname, jo_crmentity.modifiedtime,
+			jo_crmentity.createdtime, jo_crmentity.description, case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name
+			from jo_activity
+				inner join jo_seactivityrel on jo_seactivityrel.activityid=jo_activity.activityid
+				inner join jo_crmentity on jo_crmentity.crmid=jo_activity.activityid
+				left join jo_cntactivityrel on jo_cntactivityrel.activityid= jo_activity.activityid
+				left join jo_contactdetails on jo_contactdetails.contactid= jo_cntactivityrel.contactid
+                                left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid
+				left join jo_users on jo_users.id=jo_crmentity.smownerid
+				where jo_activity.activitytype='Task'
+  				and (jo_activity.status = 'Completed' or jo_activity.status = 'Deferred')
+	 	        	and jo_seactivityrel.crmid=".$id."
+                                and jo_crmentity.deleted = 0";
 		//Don't add order by, because, for security, one more condition will be added with this query in include/RelatedListView.php
 
 		$log->debug("Exiting get_history method ...");
@@ -297,7 +297,7 @@ class Quotes extends CRMEntity {
 		global $mod_strings;
 		global $app_strings;
 
-		$query = 'select vtiger_quotestagehistory.*, vtiger_quotes.quote_no from vtiger_quotestagehistory inner join vtiger_quotes on vtiger_quotes.quoteid = vtiger_quotestagehistory.quoteid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_quotes.quoteid where vtiger_crmentity.deleted = 0 and vtiger_quotes.quoteid = ?';
+		$query = 'select jo_quotestagehistory.*, jo_quotes.quote_no from jo_quotestagehistory inner join jo_quotes on jo_quotes.quoteid = jo_quotestagehistory.quoteid inner join jo_crmentity on jo_crmentity.crmid = jo_quotes.quoteid where jo_crmentity.deleted = 0 and jo_quotes.quoteid = ?';
 		$result=$adb->pquery($query, array($id));
 		$noofrows = $adb->num_rows($result);
 
@@ -360,64 +360,64 @@ class Quotes extends CRMEntity {
 	 */
 	function generateReportsSecQuery($module,$secmodule,$queryPlanner){
 		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityQuotes', array('vtiger_usersQuotes', 'vtiger_groupsQuotes', 'vtiger_lastModifiedByQuotes'));
-		$matrix->setDependency('vtiger_inventoryproductrelQuotes', array('vtiger_productsQuotes', 'vtiger_serviceQuotes'));
+		$matrix->setDependency('jo_crmentityQuotes', array('jo_usersQuotes', 'jo_groupsQuotes', 'jo_lastModifiedByQuotes'));
+		$matrix->setDependency('jo_inventoryproductrelQuotes', array('jo_productsQuotes', 'jo_serviceQuotes'));
 		
-		if (!$queryPlanner->requireTable('vtiger_quotes', $matrix)) {
+		if (!$queryPlanner->requireTable('jo_quotes', $matrix)) {
 			return '';
 		}
-        $matrix->setDependency('vtiger_quotes',array('vtiger_crmentityQuotes', "vtiger_currency_info$secmodule",
-				'vtiger_quotescf', 'vtiger_potentialRelQuotes', 'vtiger_quotesbillads','vtiger_quotesshipads',
-				'vtiger_inventoryproductrelQuotes', 'vtiger_contactdetailsQuotes', 'vtiger_accountQuotes',
-				'vtiger_invoice_recurring_info','vtiger_quotesQuotes','vtiger_usersRel1'));
+        $matrix->setDependency('jo_quotes',array('jo_crmentityQuotes', "jo_currency_info$secmodule",
+				'jo_quotescf', 'jo_potentialRelQuotes', 'jo_quotesbillads','jo_quotesshipads',
+				'jo_inventoryproductrelQuotes', 'jo_contactdetailsQuotes', 'jo_accountQuotes',
+				'jo_invoice_recurring_info','jo_quotesQuotes','jo_usersRel1'));
 
-		$query = $this->getRelationQuery($module,$secmodule,"vtiger_quotes","quoteid", $queryPlanner);
-		if ($queryPlanner->requireTable("vtiger_crmentityQuotes", $matrix)){
-			$query .= " left join vtiger_crmentity as vtiger_crmentityQuotes on vtiger_crmentityQuotes.crmid=vtiger_quotes.quoteid and vtiger_crmentityQuotes.deleted=0";
+		$query = $this->getRelationQuery($module,$secmodule,"jo_quotes","quoteid", $queryPlanner);
+		if ($queryPlanner->requireTable("jo_crmentityQuotes", $matrix)){
+			$query .= " left join jo_crmentity as jo_crmentityQuotes on jo_crmentityQuotes.crmid=jo_quotes.quoteid and jo_crmentityQuotes.deleted=0";
 		}
-		if ($queryPlanner->requireTable("vtiger_quotescf")){
-			$query .= " left join vtiger_quotescf on vtiger_quotes.quoteid = vtiger_quotescf.quoteid";
+		if ($queryPlanner->requireTable("jo_quotescf")){
+			$query .= " left join jo_quotescf on jo_quotes.quoteid = jo_quotescf.quoteid";
 		}
-		if ($queryPlanner->requireTable("vtiger_quotesbillads")){
-			$query .= " left join vtiger_quotesbillads on vtiger_quotes.quoteid=vtiger_quotesbillads.quotebilladdressid";
+		if ($queryPlanner->requireTable("jo_quotesbillads")){
+			$query .= " left join jo_quotesbillads on jo_quotes.quoteid=jo_quotesbillads.quotebilladdressid";
 		}
-		if ($queryPlanner->requireTable("vtiger_quotesshipads")){
-			$query .= " left join vtiger_quotesshipads on vtiger_quotes.quoteid=vtiger_quotesshipads.quoteshipaddressid";
+		if ($queryPlanner->requireTable("jo_quotesshipads")){
+			$query .= " left join jo_quotesshipads on jo_quotes.quoteid=jo_quotesshipads.quoteshipaddressid";
 		}
-		if ($queryPlanner->requireTable("vtiger_currency_info$secmodule")){
-			$query .= " left join vtiger_currency_info as vtiger_currency_info$secmodule on vtiger_currency_info$secmodule.id = vtiger_quotes.currency_id";
+		if ($queryPlanner->requireTable("jo_currency_info$secmodule")){
+			$query .= " left join jo_currency_info as jo_currency_info$secmodule on jo_currency_info$secmodule.id = jo_quotes.currency_id";
 		}
-		if ($queryPlanner->requireTable("vtiger_inventoryproductrelQuotes",$matrix)){
+		if ($queryPlanner->requireTable("jo_inventoryproductrelQuotes",$matrix)){
 		}
-		if ($queryPlanner->requireTable("vtiger_productsQuotes")){
-			$query .= " left join vtiger_products as vtiger_productsQuotes on vtiger_productsQuotes.productid = vtiger_inventoryproductreltmpQuotes.productid";
+		if ($queryPlanner->requireTable("jo_productsQuotes")){
+			$query .= " left join jo_products as jo_productsQuotes on jo_productsQuotes.productid = jo_inventoryproductreltmpQuotes.productid";
 		}
-		if ($queryPlanner->requireTable("vtiger_serviceQuotes")){
-			$query .= " left join vtiger_service as vtiger_serviceQuotes on vtiger_serviceQuotes.serviceid = vtiger_inventoryproductreltmpQuotes.productid";
+		if ($queryPlanner->requireTable("jo_serviceQuotes")){
+			$query .= " left join jo_service as jo_serviceQuotes on jo_serviceQuotes.serviceid = jo_inventoryproductreltmpQuotes.productid";
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsQuotes")){
-			$query .= " left join vtiger_groups as vtiger_groupsQuotes on vtiger_groupsQuotes.groupid = vtiger_crmentityQuotes.smownerid";
+		if ($queryPlanner->requireTable("jo_groupsQuotes")){
+			$query .= " left join jo_groups as jo_groupsQuotes on jo_groupsQuotes.groupid = jo_crmentityQuotes.smownerid";
 		}
-		if ($queryPlanner->requireTable("vtiger_usersQuotes")){
-			$query .= " left join vtiger_users as vtiger_usersQuotes on vtiger_usersQuotes.id = vtiger_crmentityQuotes.smownerid";
+		if ($queryPlanner->requireTable("jo_usersQuotes")){
+			$query .= " left join jo_users as jo_usersQuotes on jo_usersQuotes.id = jo_crmentityQuotes.smownerid";
 		}
-		if ($queryPlanner->requireTable("vtiger_usersRel1")){
-			$query .= " left join vtiger_users as vtiger_usersRel1 on vtiger_usersRel1.id = vtiger_quotes.inventorymanager";
+		if ($queryPlanner->requireTable("jo_usersRel1")){
+			$query .= " left join jo_users as jo_usersRel1 on jo_usersRel1.id = jo_quotes.inventorymanager";
 		}
-		if ($queryPlanner->requireTable("vtiger_potentialRelQuotes")){
-			$query .= " left join vtiger_potential as vtiger_potentialRelQuotes on vtiger_potentialRelQuotes.potentialid = vtiger_quotes.potentialid";
+		if ($queryPlanner->requireTable("jo_potentialRelQuotes")){
+			$query .= " left join jo_potential as jo_potentialRelQuotes on jo_potentialRelQuotes.potentialid = jo_quotes.potentialid";
 		}
-		if ($queryPlanner->requireTable("vtiger_contactdetailsQuotes")){
-			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsQuotes on vtiger_contactdetailsQuotes.contactid = vtiger_quotes.contactid";
+		if ($queryPlanner->requireTable("jo_contactdetailsQuotes")){
+			$query .= " left join jo_contactdetails as jo_contactdetailsQuotes on jo_contactdetailsQuotes.contactid = jo_quotes.contactid";
 		}
-		if ($queryPlanner->requireTable("vtiger_accountQuotes")){
-			$query .= " left join vtiger_account as vtiger_accountQuotes on vtiger_accountQuotes.accountid = vtiger_quotes.accountid";
+		if ($queryPlanner->requireTable("jo_accountQuotes")){
+			$query .= " left join jo_account as jo_accountQuotes on jo_accountQuotes.accountid = jo_quotes.accountid";
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByQuotes")){
-			$query .= " left join vtiger_users as vtiger_lastModifiedByQuotes on vtiger_lastModifiedByQuotes.id = vtiger_crmentityQuotes.modifiedby ";
+		if ($queryPlanner->requireTable("jo_lastModifiedByQuotes")){
+			$query .= " left join jo_users as jo_lastModifiedByQuotes on jo_lastModifiedByQuotes.id = jo_crmentityQuotes.modifiedby ";
 		}
-        if ($queryPlanner->requireTable("vtiger_createdbyQuotes")){
-			$query .= " left join vtiger_users as vtiger_createdbyQuotes on vtiger_createdbyQuotes.id = vtiger_crmentityQuotes.smcreatorid ";
+        if ($queryPlanner->requireTable("jo_createdbyQuotes")){
+			$query .= " left join jo_users as jo_createdbyQuotes on jo_createdbyQuotes.id = jo_crmentityQuotes.smcreatorid ";
 		}
 		return $query;
 	}
@@ -429,12 +429,12 @@ class Quotes extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"SalesOrder" =>array("vtiger_salesorder"=>array("quoteid","salesorderid"),"vtiger_quotes"=>"quoteid"),
-			"Calendar" =>array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_quotes"=>"quoteid"),
-			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_quotes"=>"quoteid"),
-			"Accounts" => array("vtiger_quotes"=>array("quoteid","accountid")),
-			"Contacts" => array("vtiger_quotes"=>array("quoteid","contactid")),
-			"Potentials" => array("vtiger_quotes"=>array("quoteid","potentialid")),
+			"SalesOrder" =>array("jo_salesorder"=>array("quoteid","salesorderid"),"jo_quotes"=>"quoteid"),
+			"Calendar" =>array("jo_seactivityrel"=>array("crmid","activityid"),"jo_quotes"=>"quoteid"),
+			"Documents" => array("jo_senotesrel"=>array("crmid","notesid"),"jo_quotes"=>"quoteid"),
+			"Accounts" => array("jo_quotes"=>array("quoteid","accountid")),
+			"Contacts" => array("jo_quotes"=>array("quoteid","contactid")),
+			"Potentials" => array("jo_quotes"=>array("quoteid","potentialid")),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -447,16 +447,16 @@ class Quotes extends CRMEntity {
 		if($return_module == 'Accounts' ) {
 			$this->trash('Quotes',$id);
 		} elseif($return_module == 'Potentials') {
-			$relation_query = 'UPDATE vtiger_quotes SET potentialid=? WHERE quoteid=?';
+			$relation_query = 'UPDATE jo_quotes SET potentialid=? WHERE quoteid=?';
 			$this->db->pquery($relation_query, array(null, $id));
 		} elseif($return_module == 'Contacts') {
-			$relation_query = 'UPDATE vtiger_quotes SET contactid=? WHERE quoteid=?';
+			$relation_query = 'UPDATE jo_quotes SET contactid=? WHERE quoteid=?';
 			$this->db->pquery($relation_query, array(null, $id));
 		} elseif($return_module == 'Documents') {
-            $sql = 'DELETE FROM vtiger_senotesrel WHERE crmid=? AND notesid=?';
+            $sql = 'DELETE FROM jo_senotesrel WHERE crmid=? AND notesid=?';
             $this->db->pquery($sql, array($id, $return_id));
         } elseif($return_module == 'Leads'){
-            $relation_query = 'UPDATE vtiger_quotes SET contactid=? WHERE quoteid=?';
+            $relation_query = 'UPDATE jo_quotes SET contactid=? WHERE quoteid=?';
             $this->db->pquery($relation_query, array(null, $id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id);
@@ -465,7 +465,7 @@ class Quotes extends CRMEntity {
 
 	function insertIntoEntityTable($table_name, $module, $fileid = '')  {
 		//Ignore relation table insertions while saving of the record
-		if($table_name == 'vtiger_inventoryproductrel') {
+		if($table_name == 'jo_inventoryproductrel') {
 			return;
 		}
 		parent::insertIntoEntityTable($table_name, $module, $fileid);
@@ -512,26 +512,26 @@ class Quotes extends CRMEntity {
 		$sql = getPermittedFieldsQuery("Quotes", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 		$fields_list .= getInventoryFieldsForExport($this->table_name);
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 
 		$query = "SELECT $fields_list FROM ".$this->entity_table."
-				INNER JOIN vtiger_quotes ON vtiger_quotes.quoteid = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_quotescf ON vtiger_quotescf.quoteid = vtiger_quotes.quoteid
-				LEFT JOIN vtiger_quotesbillads ON vtiger_quotesbillads.quotebilladdressid = vtiger_quotes.quoteid
-				LEFT JOIN vtiger_quotesshipads ON vtiger_quotesshipads.quoteshipaddressid = vtiger_quotes.quoteid
-				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
-				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_quotes.contactid
-				LEFT JOIN vtiger_potential ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-				LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_quotes.accountid
-				LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_quotes.currency_id
-				LEFT JOIN vtiger_users AS vtiger_inventoryManager ON vtiger_inventoryManager.id = vtiger_quotes.inventorymanager
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
+				INNER JOIN jo_quotes ON jo_quotes.quoteid = jo_crmentity.crmid
+				LEFT JOIN jo_quotescf ON jo_quotescf.quoteid = jo_quotes.quoteid
+				LEFT JOIN jo_quotesbillads ON jo_quotesbillads.quotebilladdressid = jo_quotes.quoteid
+				LEFT JOIN jo_quotesshipads ON jo_quotesshipads.quoteshipaddressid = jo_quotes.quoteid
+				LEFT JOIN jo_inventoryproductrel ON jo_inventoryproductrel.id = jo_quotes.quoteid
+				LEFT JOIN jo_products ON jo_products.productid = jo_inventoryproductrel.productid
+				LEFT JOIN jo_service ON jo_service.serviceid = jo_inventoryproductrel.productid
+				LEFT JOIN jo_contactdetails ON jo_contactdetails.contactid = jo_quotes.contactid
+				LEFT JOIN jo_potential ON jo_potential.potentialid = jo_quotes.potentialid
+				LEFT JOIN jo_account ON jo_account.accountid = jo_quotes.accountid
+				LEFT JOIN jo_currency_info ON jo_currency_info.id = jo_quotes.currency_id
+				LEFT JOIN jo_users AS jo_inventoryManager ON jo_inventoryManager.id = jo_quotes.inventorymanager
+				LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid
+				LEFT JOIN jo_users ON jo_users.id = jo_crmentity.smownerid";
 
 		$query .= $this->getNonAdminAccessControlQuery('Quotes',$current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
+		$where_auto = " jo_crmentity.deleted=0";
 
 		if($where != "") {
 			$query .= " where ($where) AND ".$where_auto;

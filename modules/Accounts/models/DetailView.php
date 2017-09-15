@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
+class Accounts_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -20,7 +20,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 	public function getDetailViewLinks($linkParams) {
 		global $site_URL;
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
+		$emailModuleModel = Head_Module_Model::getInstance('Emails');
 		$recordModel = $this->getRecord();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
@@ -29,11 +29,11 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
+				'linkurl' => 'javascript:Head_Detail_Js.triggerSendEmail("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showComposeEmailForm&step=step1","Emails");',
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
 		//TODO: update the database so that these separate handlings are not required
@@ -51,7 +51,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 		}
 		
 		$CalendarActionLinks = array();
-		$CalendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$CalendarModuleModel = Head_Module_Model::getInstance('Calendar');
 		if($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'CreateView')) {
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
@@ -68,16 +68,16 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 		}
 
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
+		$SMSNotifierModuleModel = Head_Module_Model::getInstance('SMSNotifier');
 		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("'.$site_URL.'index.php?module='.$this->getModule()->getName().
+				'linkurl' => 'javascript:Head_Detail_Js.triggerSendSms("'.$site_URL.'index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		
 		$moduleModel = $this->getModule();
@@ -85,14 +85,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("'.$site_URL.'index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
+				'linkurl' => 'javascript:Head_Detail_Js.triggerTransferOwnership("'.$site_URL.'index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
         foreach($CalendarActionLinks as $basicLink) {
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicLink);
 		}
 
 		return $linkModelList;

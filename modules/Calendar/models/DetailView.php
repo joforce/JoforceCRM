@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_DetailView_Model extends Vtiger_DetailView_Model {
+class Calendar_DetailView_Model extends Head_DetailView_Model {
 
 	/**
 	 * Function to get the detail view related links

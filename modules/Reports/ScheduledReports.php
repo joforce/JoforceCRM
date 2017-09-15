@@ -44,7 +44,7 @@ class VTScheduledReport extends Reports {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
 
 			if($cachedInfo == false) {
-				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
+				$result = $adb->pquery('SELECT * FROM jo_scheduled_reports WHERE reportid=?', array($this->id));
 
 				if($adb->num_rows($result) > 0) {
 					$reportScheduleInfo = $adb->raw_query_result_rowdata($result, 0);
@@ -122,9 +122,9 @@ class VTScheduledReport extends Reports {
 
 	public function sendEmail() {
 		global $currentModule;
-		require_once 'vtlib/Vtiger/Mailer.php';
+		require_once 'vtlib/Head/Mailer.php';
 
-		$vtigerMailer = new Vtiger_Mailer();
+		$vtigerMailer = new Head_Mailer();
 
 		$recipientEmails = $this->getRecipientEmails();
 		foreach($recipientEmails as $name => $email) {
@@ -252,7 +252,7 @@ class VTScheduledReport extends Reports {
 		$scheduledInterval = $this->scheduledInterval;
 		$nextTriggerTime = $this->getNextTriggerTime(); // Compute based on the frequency set
 
-		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->id));
+		$adb->pquery('UPDATE jo_scheduled_reports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->id));
 	}
 
 	public static function generateRecipientOption($type, $value, $name='') {
@@ -335,7 +335,7 @@ class VTScheduledReport extends Reports {
 	public static function getScheduledReports($adb, $user) {
 
 		$currentTime = date('Y-m-d H:i:s');
-		$result = $adb->pquery("SELECT * FROM vtiger_scheduled_reports
+		$result = $adb->pquery("SELECT * FROM jo_scheduled_reports
 									WHERE next_trigger_time = '' || next_trigger_time <= ?", array($currentTime));
 
 		$scheduledReports = array();
@@ -359,7 +359,7 @@ class VTScheduledReport extends Reports {
 	}
 
 	public static function runScheduledReports($adb) {
-		require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once 'modules/com_jo_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$adminUser = $util->adminUser();
 

@@ -9,10 +9,10 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport('~~/vtlib/Vtiger/Net/Client.php');
-vimport('~~/vtlib/Vtiger/Package.php');
+vimport('~~/vtlib/Head/Net/Client.php');
+vimport('~~/vtlib/Head/Package.php');
 
-class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
+class Settings_ModuleManager_Extension_Model extends Head_Base_Model {
 
 	STATIC $EXTENSION_LOOKUP_URL = false;
 	STATIC $EXTENSION_MANAGER_URL= false;
@@ -81,10 +81,10 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 
 	/**
 	 * Function to get package of this instance
-	 * @return <Vtiger_Package> package object
+	 * @return <Head_Package> package object
 	 */
 	public function getPackage() {
-		$packageModel = new Vtiger_Package();
+		$packageModel = new Head_Package();
 		$moduleName = $packageModel->getModuleNameFromZip(self::getUploadDirectory(). '/' .$this->getFileName());
 		if ($moduleName) {
 			return $packageModel;
@@ -96,13 +96,13 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 	 * Function to check whether it is compatible with vtiger or not
 	 * @return <boolean> true/false
 	 */
-	public function isVtigerCompatible() {
-		vimport('~~/vtlib/Vtiger/Version.php');
+	public function isHeadCompatible() {
+		vimport('~~/vtlib/Head/Version.php');
 		$vtigerVersion = $this->get('vtigerVersion');
 		$vtigerMaxVersion = $this->get('vtigerMaxVersion');
 
-		if ((Vtiger_Version::check($vtigerVersion, '>=') && $vtigerMaxVersion && Vtiger_Version::check($vtigerMaxVersion, '<'))
-				|| Vtiger_Version::check($vtigerVersion, '=')) {
+		if ((Head_Version::check($vtigerVersion, '>=') && $vtigerMaxVersion && Head_Version::check($vtigerMaxVersion, '<'))
+				|| Head_Version::check($vtigerVersion, '=')) {
 			return true;
 		}
 		return false;
@@ -114,7 +114,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 	 */
 	public function isAlreadyExists() {
 		$moduleName = $this->getName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if($moduleModel) {
 			return true;
 		}
@@ -127,7 +127,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 	 */
 	public function isUpgradable() {
 		$moduleName = $this->getName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
 			if ($moduleModel->get('version') < $this->get('pkgVersion')) {
 				return true;
@@ -143,7 +143,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 	public function installTrackDetails() {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-		$client = new Vtiger_Net_Client(self::getExtensionsManagerUrl() . '/api.php');
+		$client = new Head_Net_Client(self::getExtensionsManagerUrl() . '/api.php');
 		$client->setHeaders(array('Referer' => vglobal('site_URL')));
 
 		$params['operation'] = 'extensionTrack';
@@ -224,7 +224,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 		$extensionModelsList = array();
 		$extensionLookUpUrl = self::getExtensionsLookUpUrl();
 		if ($extensionLookUpUrl) {
-			$clientModel = new Vtiger_Net_Client($extensionLookUpUrl);
+			$clientModel = new Head_Net_Client($extensionLookUpUrl);
 			$xmlContent = $clientModel->doGet();
 
 			if (!$extensionModelsList && $xmlContent && !stripos($xmlContent, "<?xml")) {
@@ -250,7 +250,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 		$downloadURL = $extensions[$extensionId]->get('downloadURL');
 
 		if ($downloadURL) {
-			$clientModel = new Vtiger_Net_Client($downloadURL);
+			$clientModel = new Head_Net_Client($downloadURL);
 			file_put_contents($targetFileName, $clientModel->doGet());
 			return true;
 		}

@@ -61,11 +61,11 @@ class Install_ConfigFileUtils_Model {
 
 	function createConfigFile() {
 		/* open template configuration file read only */
-		$templateFilename = 'config.template.php';
+		$templateFilename = 'config/config.template.php';
 		$templateHandle = fopen($templateFilename, "r");
 		if($templateHandle) {
 			/* open include configuration file write only */
-			$includeFilename = 'config.inc.php';
+			$includeFilename = 'config/config.inc.php';
 	      	$includeHandle = fopen($includeFilename, "w");
 			if($includeHandle) {
 			   	while (!feof($templateHandle)) {
@@ -129,7 +129,7 @@ class Install_ConfigFileUtils_Model {
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-include('vtigerversion.php');
+include('version.php');
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -298,9 +298,9 @@ if(isset(\$default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 //Set the default layout 
-\$default_layout = 'v7';
+\$default_layout = '';
 
-include_once 'config.security.php';";
+include_once 'config/config.security.php';";
 		return $configFileContents;
 	}
 }

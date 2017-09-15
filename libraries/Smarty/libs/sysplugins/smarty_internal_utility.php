@@ -651,7 +651,7 @@ class Smarty_Internal_Utility {
                 "smarty_internal_compile_setfilter.php" => true,
                 "smarty_internal_compile_while.php" => true,
                 "smarty_internal_compilebase.php" => true,
-                "smarty_internal_config.php" => true,
+                "smarty_internal_config/config.php" => true,
                 "smarty_internal_config_file_compiler.php" => true,
                 "smarty_internal_configfilelexer.php" => true,
                 "smarty_internal_configfileparser.php" => true,

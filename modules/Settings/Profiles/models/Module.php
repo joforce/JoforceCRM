@@ -12,9 +12,9 @@
 /*
  * Settings Module Model Class
  */
-class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_Profiles_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_profile';
+	var $baseTable = 'jo_profile';
 	var $baseIndex = 'profileid';
 	var $listFields = array('profilename' => 'Name', 'description' => 'Description');
 
@@ -56,6 +56,6 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model {
 	 */
 	public static function getNonVisibleModulesList() {
         return array('ModTracker', 'Webmails', 'Users', 'Mobile', 'Integration', 'WSAPP', 'ConfigEditor',
-					'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip', 'CustomerPortal', 'Home', 'ExtensionStore');
+					'FieldFormulas', 'HeadBackup', 'CronTasks', 'Import', 'Tooltip', 'CustomerPortal', 'Home', 'ExtensionStore');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 //============================================================+
-// File name   : tcpdf_config.php
+// File name   : tcpdf_config/config.php
 // Begin       : 2004-06-11
 // Last Update : 2008-11-17
 //

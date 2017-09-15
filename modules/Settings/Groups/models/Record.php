@@ -14,7 +14,7 @@ require_once 'include/events/include.inc';
 /**
  * Roles Record Model Class
  */
-class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 
 	/**
 	 * Function to get the Id
@@ -97,25 +97,25 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 
 		if (empty($groupId)) {
 			$mode = '';
-			$groupId = $db->getUniqueId('vtiger_users');
+			$groupId = $db->getUniqueId('jo_users');
 			$this->setId($groupId);
 		}
 
 		if ($mode == 'edit') {
-			$sql = 'UPDATE vtiger_groups SET groupname=?, description=? WHERE groupid=?';
+			$sql = 'UPDATE jo_groups SET groupname=?, description=? WHERE groupid=?';
 			$params = array($this->getName(), $this->getDescription(), $groupId);
 		} else {
-			$sql = 'INSERT INTO vtiger_groups(groupid, groupname, description) VALUES (?,?,?)';
+			$sql = 'INSERT INTO jo_groups(groupid, groupname, description) VALUES (?,?,?)';
 			$params = array($groupId, $this->getName(), $this->getDescription());
 		}
 		$db->pquery($sql, $params);
 
 		$members = $this->get('group_members');
 		if (is_array($members)) {
-			$db->pquery('DELETE FROM vtiger_users2group WHERE groupid=?', array($groupId));
-			$db->pquery('DELETE FROM vtiger_group2grouprel WHERE groupid=?', array($groupId));
-			$db->pquery('DELETE FROM vtiger_group2role WHERE groupid=?', array($groupId));
-			$db->pquery('DELETE FROM vtiger_group2rs WHERE groupid=?', array($groupId));
+			$db->pquery('DELETE FROM jo_users2group WHERE groupid=?', array($groupId));
+			$db->pquery('DELETE FROM jo_group2grouprel WHERE groupid=?', array($groupId));
+			$db->pquery('DELETE FROM jo_group2role WHERE groupid=?', array($groupId));
+			$db->pquery('DELETE FROM jo_group2rs WHERE groupid=?', array($groupId));
 
 			$noOfMembers = count($members);
 			for ($i = 0; $i < $noOfMembers; ++$i) {
@@ -126,16 +126,16 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 					$memberId = $idComponents[1];
 
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
-						$db->pquery('INSERT INTO vtiger_users2group(userid, groupid) VALUES (?,?)', array($memberId, $groupId));
+						$db->pquery('INSERT INTO jo_users2group(userid, groupid) VALUES (?,?)', array($memberId, $groupId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
-						$db->pquery('INSERT INTO vtiger_group2grouprel(containsgroupid, groupid) VALUES (?,?)', array($memberId, $groupId));
+						$db->pquery('INSERT INTO jo_group2grouprel(containsgroupid, groupid) VALUES (?,?)', array($memberId, $groupId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLES) {
-						$db->pquery('INSERT INTO vtiger_group2role(roleid, groupid) VALUES (?,?)', array($memberId, $groupId));
+						$db->pquery('INSERT INTO jo_group2role(roleid, groupid) VALUES (?,?)', array($memberId, $groupId));
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-						$db->pquery('INSERT INTO vtiger_group2rs(roleandsubid, groupid) VALUES (?,?)', array($memberId, $groupId));
+						$db->pquery('INSERT INTO jo_group2rs(roleandsubid, groupid) VALUES (?,?)', array($memberId, $groupId));
 					}
 				}
 			}
@@ -229,16 +229,16 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
-		$query = 'UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=?';
+		$query = 'UPDATE jo_crmentity SET smownerid=? WHERE smownerid=?';
 		$params = array($transferGroupId, $groupId);
 		$db->pquery($query, $params);
 
-		if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+		if (Head_Utils::CheckTable('jo_customerportal_prefs')) {
+			$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 			$params = array($transferGroupId, 'defaultassignee', $groupId);
 			$db->pquery($query, $params);
 
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+			$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 			$params = array($transferGroupId, 'userid', $groupId);
 			$db->pquery($query, $params);
 		}
@@ -275,18 +275,18 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 
 		deleteGroupRelatedSharingRules($groupId);
 
-		$db->pquery('DELETE FROM vtiger_group2grouprel WHERE groupid=?', array($groupId));
-		$db->pquery('DELETE FROM vtiger_group2role WHERE groupid=?', array($groupId));
-		$db->pquery('DELETE FROM vtiger_group2rs WHERE groupid=?', array($groupId));
-		$db->pquery('DELETE FROM vtiger_users2group WHERE groupid=?', array($groupId));
-		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? AND setype='groups'", array($groupId));
+		$db->pquery('DELETE FROM jo_group2grouprel WHERE groupid=?', array($groupId));
+		$db->pquery('DELETE FROM jo_group2role WHERE groupid=?', array($groupId));
+		$db->pquery('DELETE FROM jo_group2rs WHERE groupid=?', array($groupId));
+		$db->pquery('DELETE FROM jo_users2group WHERE groupid=?', array($groupId));
+		$db->pquery("DELETE FROM jo_reportsharing WHERE shareid=? AND setype='groups'", array($groupId));
 
-		$db->pquery('DELETE FROM vtiger_groups WHERE groupid=?', array($groupId));
+		$db->pquery('DELETE FROM jo_groups WHERE groupid=?', array($groupId));
 	}
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
 	public function getRecordLinks() {
 
@@ -301,12 +301,12 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'".$this->getDeleteActionUrl()."')",
+				'linkurl' => "javascript:Settings_Head_List_Js.triggerDelete(event,'".$this->getDeleteActionUrl()."')",
 				'linkicon' => 'icon-trash'
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -332,7 +332,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	public static function getAll() {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM vtiger_groups';
+		$sql = 'SELECT * FROM jo_groups';
 		$params = array();
 		$result = $db->pquery($sql, $params);
 		$noOfGroups = $db->num_rows($result);
@@ -352,10 +352,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	public static function getInstance($value) {
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
-			$sql = 'SELECT * FROM vtiger_groups WHERE groupid = ?';
+		if (Head_Utils::isNumber($value)) {
+			$sql = 'SELECT * FROM jo_groups WHERE groupid = ?';
 		} else {
-			$sql = 'SELECT * FROM vtiger_groups WHERE groupname = ?';
+			$sql = 'SELECT * FROM jo_groups WHERE groupname = ?';
 		}
 		$params = array($value);
 		$result = $db->pquery($sql, $params);
@@ -371,7 +371,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
     */
    public static function getInstanceByName($name, $excludedRecordId = array()) {
        $db = PearDatabase::getInstance();
-       $sql = 'SELECT * FROM vtiger_groups WHERE groupname=?';
+       $sql = 'SELECT * FROM jo_groups WHERE groupname=?';
        $params = array($name);
 	   
        if(!empty($excludedRecordId)){

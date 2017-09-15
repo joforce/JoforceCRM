@@ -1,7 +1,7 @@
 <?php
-class Potentials_UpdateStage_Action extends Vtiger_Save_Action {
+class Potentials_UpdateStage_Action extends Head_Save_Action {
 
-        public function process(Vtiger_Request $request) {
+        public function process(Head_Request $request) {
 		global $adb;
 		$recordId = $request->get('recordId');
 		$stages_info = array('Prospecting', 'Qualification', 'Needs Analysis', 'Value Proposition', 'Id. Decision Makers', 'Perception Analysis', 'Proposal or Price Quote', 'Negotiation or Review', 'Closed Won', 'Closed Lost');
@@ -9,10 +9,10 @@ class Potentials_UpdateStage_Action extends Vtiger_Save_Action {
 		if($type == 'update'){
 			$stageId = $request->get('stage_id');
 			$sales_stage = $stages_info[$stageId - 1];
-			$adb->pquery('update vtiger_potential set sales_stage = ? where potentialid = ?', array($sales_stage, $recordId));
+			$adb->pquery('update jo_potential set sales_stage = ? where potentialid = ?', array($sales_stage, $recordId));
 		}
 		elseif($type == 'onload'){
-			$getSalesStage = $adb->pquery('select sales_stage from vtiger_potential where potentialid = ?', array($recordId));
+			$getSalesStage = $adb->pquery('select sales_stage from jo_potential where potentialid = ?', array($recordId));
 			$sales_stage = $adb->query_result($getSalesStage, 0, 'sales_stage');
 
 			$key = array_search ($sales_stage, $stages_info);
@@ -39,8 +39,8 @@ class Potentials_UpdateStage_Action extends Vtiger_Save_Action {
 				$html .= '<li id='.$id.'><a href="#" data-toggle="tab">'.$stages_info[$i].'</a></li>';
 
 		}
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		$response->setResult($html);
 		$response->emit();
 

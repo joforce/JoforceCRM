@@ -16,21 +16,21 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 
 	public function getCreateInvoiceUrl() {
         global $site_URL;
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
+		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 
 		return $site_URL.$invoiceModuleModel->getName()."/".$invoiceModuleModel->getEditViewName()."/".$this->getId();
 	}
 
 	public function getCreateSalesOrderUrl() {
         global $site_URL;
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
 
 		return $site_URL.$salesOrderModuleModel->getName()."/".$salesOrderModuleModel->getEditViewName()."/".$this->getId();
 	}
 
 	public function getCreatePurchaseOrderUrl() {
         global $site_URL;
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
 	}
 
@@ -41,7 +41,7 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 		$recordId = $this->getId();
 		$moduleName = $this->getModuleName();
 
-		$controller = new Vtiger_QuotePDFController($moduleName);
+		$controller = new Head_QuotePDFController($moduleName);
 		$controller->loadRecord($recordId);
 
 		$fileName = $moduleName.'_'.getModuleSequenceNumber($moduleName, $recordId);

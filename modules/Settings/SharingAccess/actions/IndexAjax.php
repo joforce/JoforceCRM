@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_View {
+Class Settings_SharingAccess_IndexAjax_Action extends Settings_Head_IndexAjax_View {
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('deleteRule');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -25,7 +25,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		}
 	}
 
-	public function saveRule(Vtiger_Request $request) {
+	public function saveRule(Head_Request $request) {
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -41,8 +41,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		$ruleModel->set('target_id', $request->get('target_id'));
 		$ruleModel->set('permission', $request->get('permission'));
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		try {
 			$ruleModel->save();
 		} catch (AppException $e) {
@@ -51,15 +51,15 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function deleteRule(Vtiger_Request $request) {
+	public function deleteRule(Head_Request $request) {
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		try {
 			$ruleModel->delete();
 		} catch (AppException $e) {
@@ -68,7 +68,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
     
-    public function validateRequest(Vtiger_Request $request) {
+    public function validateRequest(Head_Request $request) {
         $request->validateWriteAccess();
     }
 }

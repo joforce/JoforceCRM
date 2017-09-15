@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_DetailView_Model extends Vtiger_DetailView_Model {
+class Reports_DetailView_Model extends Head_DetailView_Model {
 	/**
 	 * Function to get the instance
 	 * @param <String> $moduleName - module name
 	 * @param <String> $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @return <Head_DetailView_Model>
 	 */
 	public static function getInstance($moduleName,$recordId) {
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = Head_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$recordModel = Reports_Record_Model::getCleanInstance($recordId, $moduleName);
 
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
@@ -68,7 +68,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
 
 		$linkModelList = array();
 		foreach($detailViewLinks as $detailViewLinkEntry) {
-			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
+			$linkModelList[] = Head_Link_Model::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
@@ -109,7 +109,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
         
         $linkModelList = array();
 		foreach($detailViewActions as $detailViewLinkEntry) {
-			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
+			$linkModelList[] = Head_Link_Model::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
@@ -117,7 +117,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
+	 * @return <Array> - List of widgets , where each widget is an Head_Link_Model
 	 */
 	public function getWidgets() {
 		$moduleModel = $this->getModule();
@@ -134,7 +134,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
 
 		$widgetLinks = array();
 		foreach ($widgets as $widgetDetails){
-			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
+			$widgetLinks[] = Head_Link_Model::getInstanceFromValues($widgetDetails);
 		}
 		return $widgetLinks;
 	}

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
+class Settings_MailConverter_Edit_View extends Settings_Head_Index_View {
 
 	function __construct() {
 		parent::__construct();
@@ -18,7 +18,7 @@ class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
 		$this->exposeMethod('step3');
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -26,7 +26,7 @@ class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Head_Request $request) {
 		parent::preProcess($request);
 		$recordId = $request->get('record');
 		$mode = $request->get('mode');
@@ -54,13 +54,13 @@ class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditHeader.tpl', $qualifiedModuleName);
 	}
 
-	public function step1(Vtiger_Request $request) {
+	public function step1(Head_Request $request) {
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request) {
+	public function step2(Head_Request $request) {
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$folders = Settings_MailConverter_Module_Model::getFolders($recordId);
@@ -76,7 +76,7 @@ class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function step3(Vtiger_Request $request) {
+	public function step3(Head_Request $request) {
 		$scannerId = $request->get('record');
 		$moduleName = $request->getModule();
 		$recordModel = Settings_MailConverter_RuleRecord_Model::getCleanInstance($scannerId);
@@ -101,7 +101,7 @@ class Settings_MailConverter_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(

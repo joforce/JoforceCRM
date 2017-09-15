@@ -14,18 +14,18 @@ if(defined('VTIGER_UPGRADE')) {
 //Start add new currency - 'CFP Franc or Pacific Franc' 
 global $adb;
 
-if (!Vtiger_Utils::CheckTable('vtiger_app2tab')) {
-    $adb->pquery("CREATE TABLE `vtiger_app2tab` (
+if (!Head_Utils::CheckTable('jo_app2tab')) {
+    $adb->pquery("CREATE TABLE `jo_app2tab` (
       `tabid` int(11) DEFAULT NULL,
       `appname` varchar(20) DEFAULT NULL,
       `sequence` int(11) DEFAULT NULL,
       `visible` tinyint(3) DEFAULT '1',
-       KEY `vtiger_app2tab_fk_tab` (`tabid`),
-       CONSTRAINT `vtiger_app2tab_fk_tab` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+       KEY `jo_app2tab_fk_tab` (`tabid`),
+       CONSTRAINT `jo_app2tab_fk_tab` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
        ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array());
 }
-if (!Vtiger_Utils::CheckTable('vtiger_portalinfo')) {
-    $adb->pquery("CREATE TABLE `vtiger_portalinfo` (
+if (!Head_Utils::CheckTable('jo_portalinfo')) {
+    $adb->pquery("CREATE TABLE `jo_portalinfo` (
       `id` int(11) NOT NULL,
       `user_name` varchar(50) DEFAULT NULL,
       `user_password` varchar(255) DEFAULT NULL,
@@ -36,65 +36,65 @@ if (!Vtiger_Utils::CheckTable('vtiger_portalinfo')) {
       `logout_time` datetime DEFAULT NULL,
       `isactive` int(1) DEFAULT NULL,
        PRIMARY KEY (`id`),
-       CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
+       CONSTRAINT `fk_1_jo_portalinfo` FOREIGN KEY (`id`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
        ) ENGINE=InnoDB DEFAULT CHARSET=latin1", array());
 }
-Vtiger_Utils::AddColumn('vtiger_portalinfo', 'cryptmode', 'varchar(20)');
-$adb->pquery("ALTER TABLE vtiger_portalinfo MODIFY COLUMN user_password varchar(255)", array());
+Head_Utils::AddColumn('jo_portalinfo', 'cryptmode', 'varchar(20)');
+$adb->pquery("ALTER TABLE jo_portalinfo MODIFY COLUMN user_password varchar(255)", array());
 
 //Updating existing users password to thier md5 hash
 $portalinfo_hasmore = true;
 do {
-	$result = $adb->pquery('SELECT id, user_password FROM vtiger_portalinfo WHERE cryptmode is null limit 1000', array());
+	$result = $adb->pquery('SELECT id, user_password FROM jo_portalinfo WHERE cryptmode is null limit 1000', array());
 	
 	$portalinfo_hasmore = false; // assume we are done.
 	while ($row = $adb->fetch_array($result)) {
 		$portalinfo_hasmore = true; // we found at-least one so there could be more.
 		
-		$enc_password = Vtiger_Functions::generateEncryptedPassword(decode_html($row['user_password']));
-		$adb->pquery('UPDATE vtiger_portalinfo SET user_password=?, cryptmode = ? WHERE id=?', array($enc_password, 'CRYPT', $row['id']));
+		$enc_password = Head_Functions::generateEncryptedPassword(decode_html($row['user_password']));
+		$adb->pquery('UPDATE jo_portalinfo SET user_password=?, cryptmode = ? WHERE id=?', array($enc_password, 'CRYPT', $row['id']));
 	}
 	
 } while ($portalinfo_hasmore);
 
 //Change column type of inventory line-item comment.
-$adb->pquery("ALTER TABLE vtiger_inventoryproductrel MODIFY COLUMN comment TEXT", array());
+$adb->pquery("ALTER TABLE jo_inventoryproductrel MODIFY COLUMN comment TEXT", array());
 
 
 // Initlize mailer_queue tables.
-include_once 'vtlib/Vtiger/Mailer.php';
-$mailer = new Vtiger_Mailer();
+include_once 'vtlib/Head/Mailer.php';
+$mailer = new Head_Mailer();
 $mailer->__initializeQueue();
 
 //set settings links, fixes translation issue on migrations from 5.x
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Users&parent=Settings&view=List' where name='LBL_USERS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Roles&parent=Settings&view=Index' where name='LBL_ROLES'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Profiles&parent=Settings&view=List' where name='LBL_PROFILES'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Groups&parent=Settings&view=List' where name='USERGROUPLIST'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=SharingAccess&parent=Settings&view=Index' where name='LBL_SHARING_ACCESS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=FieldAccess&parent=Settings&view=Index' where name='LBL_FIELDS_ACCESS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=LoginHistory&parent=Settings&view=List' where name='LBL_LOGIN_HISTORY_DETAILS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=ModuleManager&parent=Settings&view=List' where name='VTLIB_LBL_MODULE_MANAGER'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Picklist&view=Index' where name='LBL_PICKLIST_EDITOR'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=PickListDependency&view=List' where name='LBL_PICKLIST_DEPENDENCY_SETUP'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=MenuEditor&parent=Settings&view=Index' where name='LBL_MENU_EDITOR'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Settings&view=listnotificationschedulers&parenttab=Settings' where name='NOTIFICATIONSCHEDULERS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Settings&view=listinventorynotifications&parenttab=Settings' where name='INVENTORYNOTIFICATION'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Vtiger&view=CompanyDetails' where name='LBL_COMPANY_DETAILS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Vtiger&view=OutgoingServerDetail' where name='LBL_MAIL_SERVER_SETTINGS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Currency&view=List' where name='LBL_CURRENCY_SETTINGS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Vtiger&parent=Settings&view=TaxIndex' where name='LBL_TAX_SETTINGS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Settings&submodule=Server&view=ProxyConfig' where name='LBL_SYSTEM_INFO'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Vtiger&view=AnnouncementEdit' where name='LBL_ANNOUNCEMENT'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Settings&action=DefModuleView&parenttab=Settings' where name='LBL_DEFAULT_MODULE_VIEW'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=Vtiger&view=TermsAndConditionsEdit' where name='INVENTORYTERMSANDCONDITIONS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering' where name='LBL_CUSTOMIZE_MODENT_NUMBER'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?parent=Settings&module=MailConverter&view=List' where name='LBL_MAIL_SCANNER'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Workflows&parent=Settings&view=List' where name='LBL_LIST_WORKFLOWS'", array());
-$adb->pquery("Update vtiger_settings_field set linkto='index.php?module=Vtiger&parent=Settings&view=ConfigEditorDetail' where name='LBL_CONFIG_EDITOR'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Users&parent=Settings&view=List' where name='LBL_USERS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Roles&parent=Settings&view=Index' where name='LBL_ROLES'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Profiles&parent=Settings&view=List' where name='LBL_PROFILES'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Groups&parent=Settings&view=List' where name='USERGROUPLIST'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=SharingAccess&parent=Settings&view=Index' where name='LBL_SHARING_ACCESS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=FieldAccess&parent=Settings&view=Index' where name='LBL_FIELDS_ACCESS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=LoginHistory&parent=Settings&view=List' where name='LBL_LOGIN_HISTORY_DETAILS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=ModuleManager&parent=Settings&view=List' where name='VTLIB_LBL_MODULE_MANAGER'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Picklist&view=Index' where name='LBL_PICKLIST_EDITOR'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=PickListDependency&view=List' where name='LBL_PICKLIST_DEPENDENCY_SETUP'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=MenuEditor&parent=Settings&view=Index' where name='LBL_MENU_EDITOR'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Settings&view=listnotificationschedulers&parenttab=Settings' where name='NOTIFICATIONSCHEDULERS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Settings&view=listinventorynotifications&parenttab=Settings' where name='INVENTORYNOTIFICATION'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Head&view=CompanyDetails' where name='LBL_COMPANY_DETAILS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Head&view=OutgoingServerDetail' where name='LBL_MAIL_SERVER_SETTINGS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Currency&view=List' where name='LBL_CURRENCY_SETTINGS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Head&parent=Settings&view=TaxIndex' where name='LBL_TAX_SETTINGS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Settings&submodule=Server&view=ProxyConfig' where name='LBL_SYSTEM_INFO'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Head&view=AnnouncementEdit' where name='LBL_ANNOUNCEMENT'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Settings&action=DefModuleView&parenttab=Settings' where name='LBL_DEFAULT_MODULE_VIEW'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=Head&view=TermsAndConditionsEdit' where name='INVENTORYTERMSANDCONDITIONS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Head&parent=Settings&view=CustomRecordNumbering' where name='LBL_CUSTOMIZE_MODENT_NUMBER'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?parent=Settings&module=MailConverter&view=List' where name='LBL_MAIL_SCANNER'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Workflows&parent=Settings&view=List' where name='LBL_LIST_WORKFLOWS'", array());
+$adb->pquery("Update jo_settings_field set linkto='index.php?module=Head&parent=Settings&view=ConfigEditorDetail' where name='LBL_CONFIG_EDITOR'", array());
 
 // Extend description data-type (eg. allow large emails to be stored)
-$adb->pquery("ALTER TABLE vtiger_crmentity MODIFY COLUMN description MEDIUMTEXT", array());
+$adb->pquery("ALTER TABLE jo_crmentity MODIFY COLUMN description MEDIUMTEXT", array());
 
 }
 

@@ -8,13 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-include_once 'vtlib/Vtiger/Mailer.php';
+include_once 'vtlib/Head/Mailer.php';
 include_once 'include/simplehtmldom/simple_html_dom.php';
 include_once 'libraries/InStyle/InStyle.php';
 include_once 'libraries/ToAscii/ToAscii.php';
 include_once 'include/database/PearDatabase.php';
 
-class Emails_Mailer_Model extends Vtiger_Mailer {
+class Emails_Mailer_Model extends Head_Mailer {
 
 	public static function getInstance() {
 		return new self();
@@ -64,7 +64,7 @@ class Emails_Mailer_Model extends Vtiger_Mailer {
 
 	public static function retrieveMessageIdFromMailroom($crmId) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT messageid FROM vtiger_mailscanner_ids WHERE crmid=?', array($crmId));
+		$result = $db->pquery('SELECT messageid FROM jo_mailscanner_ids WHERE crmid=?', array($crmId));
 		return $db->query_result($result, 'messageid', 0);
 	}
 
@@ -86,7 +86,7 @@ class Emails_Mailer_Model extends Vtiger_Mailer {
 		$db = PearDatabase::getInstance();
 		$existingResult = array();
 		//Get existing refids for a given crm id and update new refids to the crmid
-		$existingResultObject = $db->pquery("SELECT refids FROM vtiger_mailscanner_ids WHERE crmid=? AND refids != 'null'", array($crmId));
+		$existingResultObject = $db->pquery("SELECT refids FROM jo_mailscanner_ids WHERE crmid=? AND refids != 'null'", array($crmId));
 		$num_rows = $db->num_rows($existingResultObject);
 		if ($num_rows > 0) {
 			$existingResult = json_decode($db->query_result($existingResultObject, 'refids', 0), true);
@@ -94,10 +94,10 @@ class Emails_Mailer_Model extends Vtiger_Mailer {
 			if (is_array($existingResult)) {
 				$existingResultValue = array_merge($existingResult, array($messageId));
 				$refIds = json_encode($existingResultValue);
-				$db->pquery("UPDATE vtiger_mailscanner_ids SET refids=? WHERE crmid=? ", array($refIds, $crmId));
+				$db->pquery("UPDATE jo_mailscanner_ids SET refids=? WHERE crmid=? ", array($refIds, $crmId));
 			}
 		} else {
-			$db->pquery("INSERT INTO vtiger_mailscanner_ids (messageid, crmid) VALUES(?,?)", array($messageId, $crmId));
+			$db->pquery("INSERT INTO jo_mailscanner_ids (messageid, crmid) VALUES(?,?)", array($messageId, $crmId));
 		}
 	}
 

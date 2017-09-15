@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Tags_ListView_Model extends Settings_Vtiger_ListView_Model {
+class Settings_Tags_ListView_Model extends Settings_Head_ListView_Model {
     
     public function getBasicListQuery() {
         $currentUser = Users_Record_Model::getCurrentUserModel();

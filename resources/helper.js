@@ -8,7 +8,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_Helper_Js",{
+jQuery.Class("Head_Helper_Js",{
 
 	checkServerConfigResponseCache : '',
 	/*
@@ -116,7 +116,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 			'selected_ids[]' : selectedIds,
 			'view' : 'ComposeEmail'
 		}
-		var emailsMassEditInstance = Vtiger_Helper_Js.getEmailMassEditInstance();
+		var emailsMassEditInstance = Head_Helper_Js.getEmailMassEditInstance();
 		emailsMassEditInstance.showComposeEmailForm(params);
 	},
 
@@ -125,22 +125,22 @@ jQuery.Class("Vtiger_Helper_Js",{
 	 */
 	getInternalMailer  : function(selectedId,fieldname,fieldmodule){
 		var module = 'Emails';
-		var cacheResponse = Vtiger_Helper_Js.checkServerConfigResponseCache;
+		var cacheResponse = Head_Helper_Js.checkServerConfigResponseCache;
 		var  checkServerConfigPostOperations = function (data) {
 			if(data == true){
-				Vtiger_Helper_Js.requestToShowComposeEmailForm(selectedId,fieldname,fieldmodule);
+				Head_Helper_Js.requestToShowComposeEmailForm(selectedId,fieldname,fieldmodule);
 			} else {
 				alert(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
 			}
 		}
 		if(cacheResponse === ''){
-			var checkServerConfig = Vtiger_Helper_Js.checkServerConfig(module);
+			var checkServerConfig = Head_Helper_Js.checkServerConfig(module);
 			checkServerConfig.then(function(data){
-				Vtiger_Helper_Js.checkServerConfigResponseCache = data;
-				checkServerConfigPostOperations(Vtiger_Helper_Js.checkServerConfigResponseCache);
+				Head_Helper_Js.checkServerConfigResponseCache = data;
+				checkServerConfigPostOperations(Head_Helper_Js.checkServerConfigResponseCache);
 			});
 		} else {
-			checkServerConfigPostOperations(Vtiger_Helper_Js.checkServerConfigResponseCache);
+			checkServerConfigPostOperations(Head_Helper_Js.checkServerConfigResponseCache);
 		}
 	},
 
@@ -218,7 +218,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		}
 		params.animation = "show";
 		params.title = app.vtranslate('JS_MESSAGE'),
-		Vtiger_Helper_Js.showPnotify(params);
+		Head_Helper_Js.showPnotify(params);
 	},
 
 	/*

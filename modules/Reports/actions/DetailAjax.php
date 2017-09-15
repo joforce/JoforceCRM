@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action{
+class Reports_DetailAjax_Action extends Head_BasicAjax_Action{
     
     public function __construct() {
         parent::__construct();
 		$this->exposeMethod('getRecordsCount');
 	}
     
-    public function process(Vtiger_Request $request) {
+    public function process(Head_Request $request) {
 		$mode = $request->get('mode');
 		if(!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -26,10 +26,10 @@ class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action{
     
     /**
 	 * Function to get related Records count from this relation
-	 * @param <Vtiger_Request> $request
+	 * @param <Head_Request> $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request) {
+	public function getRecordsCount(Head_Request $request) {
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportModel->setModule('Reports');
@@ -40,7 +40,7 @@ class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action{
         $countQuery = $reportModel->generateCountQuery($query);
 
         $count = $reportModel->getReportsCount($countQuery);
-        $response = new Vtiger_Response();
+        $response = new Head_Response();
         $response->setResult($count);
         $response->emit();
     }

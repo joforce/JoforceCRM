@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_Text_UIType extends Vtiger_Text_UIType {
+class Documents_Text_UIType extends Head_Text_UIType {
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value

@@ -10,16 +10,16 @@
  *
  ********************************************************************************/
 
-include_once 'vtlib/Vtiger/PDF/models/Model.php';
-include_once 'vtlib/Vtiger/PDF/inventory/HeaderViewer.php';
-include_once 'vtlib/Vtiger/PDF/inventory/FooterViewer.php';
-include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer.php';
-include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer2.php';
-include_once 'vtlib/Vtiger/PDF/viewers/PagerViewer.php';
-include_once 'vtlib/Vtiger/PDF/PDFGenerator.php';
+include_once 'vtlib/Head/PDF/models/Model.php';
+include_once 'vtlib/Head/PDF/inventory/HeaderViewer.php';
+include_once 'vtlib/Head/PDF/inventory/FooterViewer.php';
+include_once 'vtlib/Head/PDF/inventory/ContentViewer.php';
+include_once 'vtlib/Head/PDF/inventory/ContentViewer2.php';
+include_once 'vtlib/Head/PDF/viewers/PagerViewer.php';
+include_once 'vtlib/Head/PDF/PDFGenerator.php';
 include_once 'data/CRMEntity.php';
 
-class Vtiger_InventoryPDFController {
+class Head_InventoryPDFController {
 
 	protected $module;
 	protected $focus = null;
@@ -38,14 +38,14 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function getPDFGenerator() {
-		return new Vtiger_PDF_Generator();
+		return new Head_PDF_Generator();
 	}
 
 	function getContentViewer() {
 		if($this->focusColumnValue('hdnTaxType') == "individual") {
-			$contentViewer = new Vtiger_PDF_InventoryContentViewer();
+			$contentViewer = new Head_PDF_InventoryContentViewer();
 		} else {
-			$contentViewer = new Vtiger_PDF_InventoryTaxGroupContentViewer();
+			$contentViewer = new Head_PDF_InventoryTaxGroupContentViewer();
 		}
 		$contentViewer->setContentModels($this->buildContentModels());
 		$contentViewer->setSummaryModel($this->buildSummaryModel());
@@ -55,13 +55,13 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function getHeaderViewer() {
-		$headerViewer = new Vtiger_PDF_InventoryHeaderViewer();
+		$headerViewer = new Head_PDF_InventoryHeaderViewer();
 		$headerViewer->setModel($this->buildHeaderModel());
 		return $headerViewer;
 	}
 
 	function getFooterViewer() {
-		$footerViewer = new Vtiger_PDF_InventoryFooterViewer();
+		$footerViewer = new Head_PDF_InventoryFooterViewer();
 		$footerViewer->setModel($this->buildFooterModel());
 		$footerViewer->setLabelModel($this->buildFooterLabelModel());
 		$footerViewer->setOnLastPage();
@@ -69,7 +69,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function getPagerViewer() {
-		$pagerViewer = new Vtiger_PDF_PagerViewer();
+		$pagerViewer = new Head_PDF_PagerViewer();
 		$pagerViewer->setModel($this->buildPagermodel());
 		return $pagerViewer;
 	}
@@ -99,7 +99,7 @@ class Vtiger_InventoryPDFController {
 		foreach($associated_products as $productLineItem) {
 			++$productLineItemIndex;
 
-			$contentModel = new Vtiger_PDF_Model();
+			$contentModel = new Head_PDF_Model();
 
 			$discountPercentage  = 0.00;
 			$total_tax_percent = 0.00;
@@ -155,7 +155,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildContentLabelModel() {
-		$labelModel = new Vtiger_PDF_Model();
+		$labelModel = new Head_PDF_Model();
 		$labelModel->set('Code',      getTranslatedString('Product Code',$this->moduleName));
 		$labelModel->set('Name',      getTranslatedString('Product Name',$this->moduleName));
 		$labelModel->set('Quantity',  getTranslatedString('Quantity',$this->moduleName));
@@ -171,7 +171,7 @@ class Vtiger_InventoryPDFController {
 		$associated_products = $this->associated_products;
 		$final_details = $associated_products[1]['final_details'];
 
-		$summaryModel = new Vtiger_PDF_Model();
+		$summaryModel = new Head_PDF_Model();
 
 		$netTotal = $discount = $handlingCharges =  $handlingTaxes = 0;
 		$adjustment = $grandTotal = 0;
@@ -235,7 +235,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildHeaderModel() {
-		$headerModel = new Vtiger_PDF_Model();
+		$headerModel = new Head_PDF_Model();
 		$headerModel->set('title', $this->buildHeaderModelTitle());
 		$modelColumns = array($this->buildHeaderModelColumnLeft(), $this->buildHeaderModelColumnCenter(), $this->buildHeaderModelColumnRight());
 		$headerModel->set('columns', $modelColumns);
@@ -251,7 +251,7 @@ class Vtiger_InventoryPDFController {
 		global $adb;
 
 		// Company information
-		$result = $adb->pquery("SELECT * FROM vtiger_organizationdetails", array());
+		$result = $adb->pquery("SELECT * FROM jo_organizationdetails", array());
 		$num_rows = $adb->num_rows($result);
 		if($num_rows) {
 			$resultrow = $adb->fetch_array($result);
@@ -309,21 +309,21 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildFooterModel() {
-		$footerModel = new Vtiger_PDF_Model();
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, from_html($this->focusColumnValue('description')));
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, from_html($this->focusColumnValue('terms_conditions')));
+		$footerModel = new Head_PDF_Model();
+		$footerModel->set(Head_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, from_html($this->focusColumnValue('description')));
+		$footerModel->set(Head_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, from_html($this->focusColumnValue('terms_conditions')));
 		return $footerModel;
 	}
 
 	function buildFooterLabelModel() {
-		$labelModel = new Vtiger_PDF_Model();
-		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_LABEL_KEY, getTranslatedString('Description',$this->moduleName));
-		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_LABEL_KEY, getTranslatedString('Terms & Conditions',$this->moduleName));
+		$labelModel = new Head_PDF_Model();
+		$labelModel->set(Head_PDF_InventoryFooterViewer::$DESCRIPTION_LABEL_KEY, getTranslatedString('Description',$this->moduleName));
+		$labelModel->set(Head_PDF_InventoryFooterViewer::$TERMSANDCONDITION_LABEL_KEY, getTranslatedString('Terms & Conditions',$this->moduleName));
 		return $labelModel;
 	}
 
 	function buildPagerModel() {
-		$footerModel = new Vtiger_PDF_Model();
+		$footerModel = new Head_PDF_Model();
 		$footerModel->set('format', '-%s-');
 		return $footerModel;
 	}
@@ -333,7 +333,7 @@ class Vtiger_InventoryPDFController {
 	}
 
 	function buildWatermarkModel() {
-		$watermarkModel = new Vtiger_PDF_Model();
+		$watermarkModel = new Head_PDF_Model();
 		$watermarkModel->set('content', $this->getWatermarkContent());
 		return $watermarkModel;
 	}
@@ -368,7 +368,7 @@ class Vtiger_InventoryPDFController {
 		global $adb;
 		$currencyId = $this->focus->column_fields['currency_id'];
 		if(!empty($currencyId)) {
-			$result = $adb->pquery("SELECT currency_symbol FROM vtiger_currency_info WHERE id=?", array($currencyId));
+			$result = $adb->pquery("SELECT currency_symbol FROM jo_currency_info WHERE id=?", array($currencyId));
 			return decode_html($adb->query_result($result,0,'currency_symbol'));
 		}
 		return false;

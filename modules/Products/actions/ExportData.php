@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Products_ExportData_Action extends Vtiger_ExportData_Action {
+class Products_ExportData_Action extends Head_ExportData_Action {
 
 	var $allTaxes = array();
 	var $allRegions = array();

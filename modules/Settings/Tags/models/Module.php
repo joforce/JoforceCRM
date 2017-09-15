@@ -10,9 +10,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Tags_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_Tags_Module_Model extends Settings_Head_Module_Model {
 
-	var $baseTable = 'vtiger_freetags';
+	var $baseTable = 'jo_freetags';
 	var $baseIndex = 'id';
 	var $listFields = array('tag' => 'Tags', 'visibility' => 'Private/Public');
 	var $nameFields = array('tag');

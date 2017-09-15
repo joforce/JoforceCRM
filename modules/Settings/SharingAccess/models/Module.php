@@ -10,9 +10,9 @@
  *************************************************************************************/
 
 /**
- * Sharng Access Vtiger Module Model Class
+ * Sharng Access Head Module Model Class
  */
-class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
+class Settings_SharingAccess_Module_Model extends Head_Module_Model {
 
 	/**
 	 * Constants for mapping module's Sharing Access permissions editable
@@ -76,13 +76,13 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 	public function save() {
 		$db = PearDatabase::getInstance();
 
-		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
+		$sql = 'UPDATE jo_def_org_share SET permission = ? WHERE tabid = ?';
 		$params = array($this->get('permission'), $this->getId());
 		$db->pquery($sql, $params);
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * Static Function to get the instance of Head Module Model for the given id or name
 	 * @param mixed id or name of the module
 	 */
 	public static function getInstance($value) {
@@ -90,10 +90,10 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 		$instance = false;
 
 		$query = false;
-		if(Vtiger_Utils::isNumber($value)) {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.tabid=?';
+		if(Head_Utils::isNumber($value)) {
+			$query = 'SELECT * FROM jo_def_org_share INNER JOIN jo_tab ON jo_tab.tabid = jo_def_org_share.tabid WHERE jo_tab.tabid=?';
 		} else {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE name=?';
+			$query = 'SELECT * FROM jo_def_org_share INNER JOIN jo_tab ON jo_tab.tabid = jo_def_org_share.tabid WHERE name=?';
 		}
 		$result = $db->pquery($query, array($value));
 		if($db->num_rows($result)) {
@@ -107,15 +107,15 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * Static Function to get the instance of Head Module Model for all the modules
+	 * @return <Array> - List of Head Module Model or sub class instances
 	 */
 	public static function getAll($editable=false) {
 		$db = PearDatabase::getInstance();
 
 		$moduleModels = array();
 
-		$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.presence IN (0,2)';
+		$query = 'SELECT * FROM jo_def_org_share INNER JOIN jo_tab ON jo_tab.tabid = jo_def_org_share.tabid WHERE jo_tab.presence IN (0,2)';
 		$params = array();
 		if($editable) {
 			$query .= ' AND editstatus = ?';
@@ -135,8 +135,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * Static Function to get the instance of Head Module Model for all the modules
+	 * @return <Array> - List of Head Module Model or sub class instances
 	 */
 	public static function getDependentModules() {
 		$dependentModulesList = array();
@@ -152,7 +152,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', array(0));
+		$result = $db->pquery('SELECT id FROM jo_users WHERE deleted = ?', array(0));
 		$numOfRows = $db->num_rows($result);
 
 		for($i=0; $i<$numOfRows; $i++) {

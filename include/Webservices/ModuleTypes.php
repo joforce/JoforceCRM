@@ -40,15 +40,15 @@
 			}
 
 			if(!empty($fieldTypeList)) {
-				$sql = "SELECT distinct(vtiger_field.tabid) as tabid FROM vtiger_field LEFT JOIN vtiger_ws_fieldtype ON ".
-				"vtiger_field.uitype=vtiger_ws_fieldtype.uitype
-				 INNER JOIN vtiger_profile2field ON vtiger_field.fieldid = vtiger_profile2field.fieldid
-				 INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-				 INNER JOIN vtiger_role2profile ON vtiger_profile2field.profileid = vtiger_role2profile.profileid
-				 INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role2profile.roleid
-				 where vtiger_profile2field.visible=0 and vtiger_def_org_field.visible = 0
-				 and vtiger_field.presence in (0,2)
-				 and vtiger_user2role.userid=? and fieldtype in (".
+				$sql = "SELECT distinct(jo_field.tabid) as tabid FROM jo_field LEFT JOIN jo_ws_fieldtype ON ".
+				"jo_field.uitype=jo_ws_fieldtype.uitype
+				 INNER JOIN jo_profile2field ON jo_field.fieldid = jo_profile2field.fieldid
+				 INNER JOIN jo_def_org_field ON jo_def_org_field.fieldid = jo_field.fieldid
+				 INNER JOIN jo_role2profile ON jo_profile2field.profileid = jo_role2profile.profileid
+				 INNER JOIN jo_user2role ON jo_user2role.roleid = jo_role2profile.roleid
+				 where jo_profile2field.visible=0 and jo_def_org_field.visible = 0
+				 and jo_field.presence in (0,2)
+				 and jo_user2role.userid=? and fieldtype in (".
 				generateQuestionMarks($fieldTypeList).')';
 				$params = array();
 				$params[] = $user->id;
@@ -64,10 +64,10 @@
 
 				$params = $fieldTypeList;
 
-				$sql = "select name from vtiger_ws_entity inner join vtiger_ws_entity_tables on ".
-				"vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id inner join ".
-				"vtiger_ws_entity_fieldtype on vtiger_ws_entity_fieldtype.table_name=".
-				"vtiger_ws_entity_tables.table_name where fieldtype=(".
+				$sql = "select name from jo_ws_entity inner join jo_ws_entity_tables on ".
+				"jo_ws_entity.id=jo_ws_entity_tables.webservice_entity_id inner join ".
+				"jo_ws_entity_fieldtype on jo_ws_entity_fieldtype.table_name=".
+				"jo_ws_entity_tables.table_name where fieldtype=(".
 				generateQuestionMarks($fieldTypeList).')';
 				$result = $db->pquery($sql, $params);
 				$it = new SqlResultIterator($db, $result);
@@ -87,7 +87,7 @@
 			$accessibleEntities = array();
 			if(empty($fieldTypeList)) {
 				foreach($entities as $entity){
-					$webserviceObject = VtigerWebserviceObject::fromName($db,$entity);
+					$webserviceObject = HeadWebserviceObject::fromName($db,$entity);
 					$handlerPath = $webserviceObject->getHandlerPath();
 					$handlerClass = $webserviceObject->getHandlerClass();
 

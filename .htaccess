@@ -166,13 +166,13 @@ RewriteRule ^([^/]+)/(Settings)/([^/]+)/([^/]+)$  index.php?module=$1&parent=Set
 
 RewriteRule ^(Users)/(Settings)/(Detail|Edit)/([0-9]+)/([^/]+)$ index.php?module=$1&parent=$2&view=$3&record=$4&parentblock=$5 [NE,QSA]
 
-RewriteRule ^(Vtiger)/(Credits)/(Settings)$ index.php?module=$1&view=$2&parent=$3 [NE,QSA]
+RewriteRule ^(Head)/(Credits)/(Settings)$ index.php?module=$1&view=$2&parent=$3 [NE,QSA]
 
 RewriteRule ^(Settings)/([^/]+)/([^/]+)/([0-9]+)/([^/]+)$ index.php?parent=$1&module=$2&view=$3&block=$4&fieldid=$5 [NE,QSA]
 
-RewriteRule ^(Vtiger|Users|MailPlus|Workflows|ModuleManager|Profiles|Groups|Webforms|MenuEditor)/(Settings)/([^/]+)$ index.php?module=$1&parent=$2&view=$3 [NE,QSA]
+RewriteRule ^(Head|Users|MailPlus|Workflows|ModuleManager|Profiles|Groups|Webforms|MenuEditor)/(Settings)/([^/]+)$ index.php?module=$1&parent=$2&view=$3 [NE,QSA]
 
-RewriteRule ^(Vtiger)/(Settings)/(CompanyDetails)/([^/]+)/([^/]+)/([^/]+)$ index.php?module=$1&parent=$2&view=$3&block=$4&fieldid=$5&error=$6 [NE,QSA]
+RewriteRule ^(Head)/(Settings)/(CompanyDetails)/([^/]+)/([^/]+)/([^/]+)$ index.php?module=$1&parent=$2&view=$3&block=$4&fieldid=$5&error=$6 [NE,QSA]
 
 RewriteRule ^(Users)/(PreferenceDetail|PreferenceEdit)/([^/]+)/([^/]+)$ index.php?module=$1&view=$2&parent=$3&record=$4 [NE,QSA]
 
@@ -229,3 +229,8 @@ RewriteRule ^(AddressLookup)/(Settings)/(List)/([^/]+)/(check=([^/]+))$ index.ph
 
 RewriteRule ^(AddressLookup)/(Settings)/([^/]+)/([^/]+)/(error)$ index.php?module=AddressLookup&parent=Settings&view=$3&sourceModule=$4&error=1 [NE,QSA]
 
+<IfModule mod_headers.c>
+    Header set x-xss-protection "1; mode=block"
+    Header always set x-frame-options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>

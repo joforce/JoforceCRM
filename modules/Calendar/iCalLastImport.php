@@ -8,11 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-require_once 'vtlib/Vtiger/Utils.php';
+require_once 'vtlib/Head/Utils.php';
 
 class iCalLastImport {
 
-	var $tableName = 'vtiger_ical_import';
+	var $tableName = 'jo_ical_import';
 	var $fields = array('id', 'userid', 'entitytype', 'crmid');
 	var $fieldData = array();
 	
@@ -21,7 +21,7 @@ class iCalLastImport {
 
 	function clearRecords($userId) {
 		$adb = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable($this->tableName)) {
+		if(Head_Utils::CheckTable($this->tableName)) {
 			$adb->pquery('DELETE FROM '.$this->tableName .' WHERE userid = ?', array($userId));
 		}
 	}
@@ -39,8 +39,8 @@ class iCalLastImport {
 
 		if(count($this->fieldData) == 0) return;
 		
-		if(!Vtiger_Utils::CheckTable($this->tableName)) {
-			Vtiger_Utils::CreateTable(
+		if(!Head_Utils::CheckTable($this->tableName)) {
+			Head_Utils::CreateTable(
 				$this->tableName,
 				"(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
@@ -57,8 +57,8 @@ class iCalLastImport {
 
 	function undo($moduleName, $userId) {
 		$adb = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable($this->tableName)) {
-			$result = $adb->pquery('UPDATE vtiger_crmentity SET deleted=1 WHERE crmid IN
+		if(Head_Utils::CheckTable($this->tableName)) {
+			$result = $adb->pquery('UPDATE jo_crmentity SET deleted=1 WHERE crmid IN
 								(SELECT crmid FROM '.$this->tableName .' WHERE userid = ? AND entitytype = ?)',
 						array($userId, $moduleName));
 			return $adb->getAffectedRowCount($result);

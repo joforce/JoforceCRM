@@ -23,10 +23,10 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <Vtiger_Link_Model>
+	 * @return <Array> list of detail view link models <Head_Link_Model>
 	 */
 	public function getDetailViewLinks() {
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(Head_Link_Model::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_PotentialMapping_Js.triggerEdit("'. $this->getEditViewUrl() .'")',
@@ -36,10 +36,10 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <Vtiger_Link_Model>
+	 * @return <Array> list of mapping link models <Head_Link_Model>
 	 */
 	public function getMappingLinks() {
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(Head_Link_Model::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_PotentialMapping_Js.triggerDelete(event,"'. $this->getMappingDeleteUrl() .'")',
@@ -54,7 +54,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 	public function getMapping($editable = false) {
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM vtiger_convertpotentialmapping';
+			$query = 'SELECT * FROM jo_convertpotentialmapping';
 			if ($editable) {
 				$query .= ' WHERE editable = 1';
 			}
@@ -115,11 +115,11 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 		}
 
 		if ($deleteMappingsList) {
-			$db->pquery('DELETE FROM vtiger_convertpotentialmapping WHERE editable = 1 AND cfmid IN ('. generateQuestionMarks($deleteMappingsList) .')', $deleteMappingsList);
+			$db->pquery('DELETE FROM jo_convertpotentialmapping WHERE editable = 1 AND cfmid IN ('. generateQuestionMarks($deleteMappingsList) .')', $deleteMappingsList);
 		}
 
 		if ($createMappingsList) {
-			$insertQuery = 'INSERT INTO vtiger_convertpotentialmapping(potentialfid, projectfid) VALUES ';
+			$insertQuery = 'INSERT INTO jo_convertpotentialmapping(potentialfid, projectfid) VALUES ';
 
 			$count = count($createMappingsList);
 			for ($i=0; $i<$count; $i++) {
@@ -144,7 +144,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 			$potentialQuery		.= ' ELSE potentialfid END ';
 			$projectQuery	.= ' ELSE projectfid END ';
 
-			$db->pquery("UPDATE vtiger_convertpotentialmapping $potentialQuery, $projectQuery WHERE editable = ?", array(1));
+			$db->pquery("UPDATE jo_convertpotentialmapping $potentialQuery, $projectQuery WHERE editable = ?", array(1));
 		}
 	}
 
@@ -154,7 +154,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 	 */
 	public static function getRestrictedFieldIdsList() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_convertpotentialmapping WHERE editable = ?', array(0));
+		$result = $db->pquery('SELECT * FROM jo_convertpotentialmapping WHERE editable = ?', array(0));
 		$numOfRows = $db->num_rows($result);
 
 		$restrictedIdsList = array();
@@ -181,7 +181,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 	 */
 	public static function deleteMapping($mappingIdsList) {
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_convertpotentialmapping WHERE cfmid IN ('. generateQuestionMarks($mappingIdsList). ')', $mappingIdsList);
+		$db->pquery('DELETE FROM jo_convertpotentialmapping WHERE cfmid IN ('. generateQuestionMarks($mappingIdsList). ')', $mappingIdsList);
 	}
     
     /**

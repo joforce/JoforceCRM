@@ -9,6 +9,6 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Users_RecordStructure_Model extends Vtiger_RecordStructure_Model {
+class Users_RecordStructure_Model extends Head_RecordStructure_Model {
 
 }

@@ -9,11 +9,11 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
+class Campaigns_RelationListView_Model extends Head_RelationListView_Model {
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <Vtiger_Link_Model>
+	 * @return <Array> List of action models <Head_Link_Model>
 	 */
 	public function getLinks() {
 		$relatedLinks = parent::getLinks();
@@ -23,7 +23,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 		if (array_key_exists($relatedModuleName, $relationModel->getEmailEnabledModulesInfoForDetailView())) {
 			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($currentUserPriviligesModel->hasModulePermission(getTabid('Emails'))) {
-				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
+				$emailLink = Head_Link_Model::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail('index.php?module=$relatedModuleName&view=MassActionAjax&mode=showComposeEmailForm&step=step1','Emails');",
@@ -38,8 +38,8 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 
 	/**
 	 * Function to get list of record models in this relation
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @return <array> List of record models <Vtiger_Record_Model>
+	 * @param <Head_Paging_Model> $pagingModel
+	 * @return <array> List of record models <Head_Record_Model>
 	 */
 	public function getEntries($pagingModel) {
 		$relationModel = $this->getRelationModel();
@@ -57,7 +57,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$relatedRecordIdsList = array_keys($relatedRecordModelsList);
 
 			$query = "SELECT campaignrelstatus, $fieldName FROM $tableName
-						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = $tableName.campaignrelstatusid
+						INNER JOIN jo_campaignrelstatus ON jo_campaignrelstatus.campaignrelstatusid = $tableName.campaignrelstatusid
 						WHERE $fieldName IN (". generateQuestionMarks($relatedRecordIdsList).") AND campaignid = ?";
 			array_push($relatedRecordIdsList, $parentRecordModel->getId());
 

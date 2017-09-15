@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Products_MassActionAjax_View extends Vtiger_MassActionAjax_View {
+class Products_MassActionAjax_View extends Head_MassActionAjax_View {
 
-	public function initMassEditViewContents(Vtiger_Request $request) {
+	public function initMassEditViewContents(Head_Request $request) {
 		parent::initMassEditViewContents($request);
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$fieldInfo = array();
 		$fieldList = $moduleModel->getFields();
@@ -29,7 +29,7 @@ class Products_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 			$fieldInfo[$fieldName] = $fieldModel->getFieldInfo();
 		}
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 		$taxDetails = $recordModel->getTaxClassDetails();
 		foreach ($taxDetails as $taxkey => $taxInfo) {
 			$taxInfo['percentage'] = 0;

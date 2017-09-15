@@ -13,10 +13,10 @@ class Users_ForgotPassword_Handler {
 
 	public function changePassword($data){
 		global $site_URL;
-        $request = new Vtiger_Request($data);
+        $request = new Head_Request($data);
 		$userName = $request->get('username');
-        $viewer = Vtiger_Viewer::getInstance();
-		$companyModel = Vtiger_CompanyDetails_Model::getInstanceById();
+        $viewer = Head_Viewer::getInstance();
+		$companyModel = Head_CompanyDetails_Model::getInstanceById();
         $companyName = $companyModel->get('organizationname');
         $organisationDetails = $companyModel->getLogo();
         $logoTitle = $organisationDetails->get('title');
@@ -44,7 +44,7 @@ class Users_ForgotPassword_Handler {
 					'secret_hash' => $secretHash
 				)
 			);
-			$trackURL = Vtiger_ShortURL_Helper::generateURL($options);
+			$trackURL = Head_ShortURL_Helper::generateURL($options);
 			$shortURLID = explode('id=', $trackURL);
 			$viewer->assign('SHORTURL_ID', $shortURLID[1]);
 			$viewer->assign('SECRET_HASH', $secretHash);

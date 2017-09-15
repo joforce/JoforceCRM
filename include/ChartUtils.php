@@ -375,7 +375,7 @@ Class ChartUtils {
 			$dateField = false;
 			if ($single == 'D') {
 				$dateField = true;
-				$query = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=? ORDER BY sortid";
+				$query = "SELECT * FROM jo_reportgroupbycolumn WHERE reportid=? ORDER BY sortid";
 				$result = $adb->pquery($query, array($reportid));
 				$criteria = $adb->query_result($result, 0, 'dategroupbycriteria');
 			}
@@ -421,9 +421,9 @@ Class ChartUtils {
 					$groupByFields[] = $groupFieldValue;
 
 					if ($fieldname == 'currency_id' && in_array($module, $inventorymodules)) {
-						$tablename = 'vtiger_currency_info';
+						$tablename = 'jo_currency_info';
 					} elseif ($refenceModule == 'DocumentFolders' && $fieldname == 'folderid') {
-						$tablename = 'vtiger_attachmentsfolder';
+						$tablename = 'jo_attachmentsfolder';
 						$colname = 'foldername';
 					} else {
 						require_once "modules/$refenceModule/$refenceModule.php";
@@ -450,12 +450,12 @@ Class ChartUtils {
 						if ($single == 'DT') {
 							$esc_search_str = urlencode($groupFieldValue);
 							if (strtolower($fieldname) == 'modifiedtime' || strtolower($fieldname) == 'createdtime') {
-								$tablename = 'vtiger_crmentity';
+								$tablename = 'jo_crmentity';
 								$colname = $fieldname;
 							}
 						}
 						if ($fieldname == 'assigned_user_id') {
-							$tablename = 'vtiger_crmentity';
+							$tablename = 'jo_crmentity';
 							$colname = 'smownerid';
 						}
                         if ($fieldname == 'serviceid' && in_array($module, getInventoryModules())) {

@@ -12,21 +12,21 @@
 class Vendors extends CRMEntity {
 	var $log;
 	var $db;
-	var $table_name = "vtiger_vendor";
+	var $table_name = "jo_vendor";
 	var $table_index= 'vendorid';
-	var $tab_name = Array('vtiger_crmentity','vtiger_vendor','vtiger_vendorcf');
-	var $tab_name_index = Array('vtiger_crmentity'=>'crmid','vtiger_vendor'=>'vendorid','vtiger_vendorcf'=>'vendorid');
+	var $tab_name = Array('jo_crmentity','jo_vendor','jo_vendorcf');
+	var $tab_name_index = Array('jo_crmentity'=>'crmid','jo_vendor'=>'vendorid','jo_vendorcf'=>'vendorid');
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_vendorcf', 'vendorid');
+	var $customFieldTable = Array('jo_vendorcf', 'vendorid');
 	var $column_fields = Array();
 
         //Pavani: Assign value to entity_table
-        var $entity_table = "vtiger_crmentity";
+        var $entity_table = "jo_crmentity";
         var $sortby_fields = Array('vendorname','category');
 
-        // This is the list of vtiger_fields that are in the lists.
+        // This is the list of jo_fields that are in the lists.
 	var $list_fields = Array(
                                 'Vendor Name'=>Array('vendor'=>'vendorname'),
                                 'Phone'=>Array('vendor'=>'phone'),
@@ -53,7 +53,7 @@ class Vendors extends CRMEntity {
         var $required_fields =  array();
 
 	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
+	// Refers to jo_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
 
 	//Added these variables which are used as default order by and sortorder in ListView
@@ -114,18 +114,18 @@ class Vendors extends CRMEntity {
 			}
 		}
 
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode,
-					vtiger_products.commissionrate, vtiger_products.qty_per_unit, vtiger_products.unit_price,
-					vtiger_crmentity.crmid, vtiger_crmentity.smownerid,vtiger_vendor.vendorname
-			  		FROM vtiger_products
-			  		INNER JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_products.vendor_id
-			  		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid INNER JOIN vtiger_productcf
-				    ON vtiger_products.productid = vtiger_productcf.productid
-					LEFT JOIN vtiger_users
-						ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups
-						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			  		WHERE vtiger_crmentity.deleted = 0 AND vtiger_vendor.vendorid = $id";
+		$query = "SELECT jo_products.productid, jo_products.productname, jo_products.productcode,
+					jo_products.commissionrate, jo_products.qty_per_unit, jo_products.unit_price,
+					jo_crmentity.crmid, jo_crmentity.smownerid,jo_vendor.vendorname
+			  		FROM jo_products
+			  		INNER JOIN jo_vendor ON jo_vendor.vendorid = jo_products.vendor_id
+			  		INNER JOIN jo_crmentity ON jo_crmentity.crmid = jo_products.productid INNER JOIN jo_productcf
+				    ON jo_products.productid = jo_productcf.productid
+					LEFT JOIN jo_users
+						ON jo_users.id=jo_crmentity.smownerid
+					LEFT JOIN jo_groups
+						ON jo_groups.groupid = jo_crmentity.smownerid
+			  		WHERE jo_crmentity.deleted = 0 AND jo_vendor.vendorid = $id";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -174,8 +174,8 @@ class Vendors extends CRMEntity {
 		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.*, vtiger_purchaseorder.*,vtiger_vendor.vendorname from vtiger_purchaseorder inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_purchaseorder.purchaseorderid left outer join vtiger_vendor on vtiger_purchaseorder.vendorid=vtiger_vendor.vendorid LEFT JOIN vtiger_purchaseordercf ON vtiger_purchaseordercf.purchaseorderid = vtiger_purchaseorder.purchaseorderid LEFT JOIN vtiger_pobillads ON vtiger_pobillads.pobilladdressid = vtiger_purchaseorder.purchaseorderid LEFT JOIN vtiger_poshipads ON vtiger_poshipads.poshipaddressid = vtiger_purchaseorder.purchaseorderid  left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid where vtiger_crmentity.deleted=0 and vtiger_purchaseorder.vendorid=".$id;
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "select case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name,jo_crmentity.*, jo_purchaseorder.*,jo_vendor.vendorname from jo_purchaseorder inner join jo_crmentity on jo_crmentity.crmid=jo_purchaseorder.purchaseorderid left outer join jo_vendor on jo_purchaseorder.vendorid=jo_vendor.vendorid LEFT JOIN jo_purchaseordercf ON jo_purchaseordercf.purchaseorderid = jo_purchaseorder.purchaseorderid LEFT JOIN jo_pobillads ON jo_pobillads.pobilladdressid = jo_purchaseorder.purchaseorderid LEFT JOIN jo_poshipads ON jo_poshipads.poshipaddressid = jo_purchaseorder.purchaseorderid  left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid left join jo_users on jo_users.id=jo_crmentity.smownerid where jo_crmentity.deleted=0 and jo_purchaseorder.vendorid=".$id;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -203,18 +203,18 @@ class Vendors extends CRMEntity {
                 $fields_list = getFieldsListFromQuery($sql);
 
                 $query = "SELECT $fields_list FROM ".$this->entity_table."
-                                INNER JOIN vtiger_vendor
-                                        ON vtiger_crmentity.crmid = vtiger_vendor.vendorid
-                                LEFT JOIN vtiger_vendorcf
-                                        ON vtiger_vendorcf.vendorid=vtiger_vendor.vendorid
-                                LEFT JOIN vtiger_seattachmentsrel
-                                        ON vtiger_vendor.vendorid=vtiger_seattachmentsrel.crmid
-                                LEFT JOIN vtiger_attachments
-                                ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-                                LEFT JOIN vtiger_users
-                                        ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
+                                INNER JOIN jo_vendor
+                                        ON jo_crmentity.crmid = jo_vendor.vendorid
+                                LEFT JOIN jo_vendorcf
+                                        ON jo_vendorcf.vendorid=jo_vendor.vendorid
+                                LEFT JOIN jo_seattachmentsrel
+                                        ON jo_vendor.vendorid=jo_seattachmentsrel.crmid
+                                LEFT JOIN jo_attachments
+                                ON jo_seattachmentsrel.attachmentsid = jo_attachments.attachmentsid
+                                LEFT JOIN jo_users
+                                        ON jo_crmentity.smownerid = jo_users.id and jo_users.status='Active'
                                 ";
-                $where_auto = " vtiger_crmentity.deleted = 0 ";
+                $where_auto = " jo_crmentity.deleted = 0 ";
 
                  if($where != "")
                    $query .= "  WHERE ($where) AND ".$where_auto;
@@ -263,18 +263,18 @@ class Vendors extends CRMEntity {
 		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_contactdetails.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,vtiger_vendorcontactrel.vendorid,vtiger_account.accountname from vtiger_contactdetails
-				inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid
-				inner join vtiger_vendorcontactrel on vtiger_vendorcontactrel.contactid=vtiger_contactdetails.contactid
-				INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid
-				INNER JOIN vtiger_contactsubdetails ON vtiger_contactdetails.contactid = vtiger_contactsubdetails.contactsubscriptionid
-				INNER JOIN vtiger_customerdetails ON vtiger_contactdetails.contactid = vtiger_customerdetails.customerid
-				INNER JOIN vtiger_contactscf ON vtiger_contactdetails.contactid = vtiger_contactscf.contactid
-				left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-				left join vtiger_account on vtiger_account.accountid = vtiger_contactdetails.accountid
-				left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-				where vtiger_crmentity.deleted=0 and vtiger_vendorcontactrel.vendorid = ".$id;
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "SELECT case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name,jo_contactdetails.*, jo_crmentity.crmid, jo_crmentity.smownerid,jo_vendorcontactrel.vendorid,jo_account.accountname from jo_contactdetails
+				inner join jo_crmentity on jo_crmentity.crmid = jo_contactdetails.contactid
+				inner join jo_vendorcontactrel on jo_vendorcontactrel.contactid=jo_contactdetails.contactid
+				INNER JOIN jo_contactaddress ON jo_contactdetails.contactid = jo_contactaddress.contactaddressid
+				INNER JOIN jo_contactsubdetails ON jo_contactdetails.contactid = jo_contactsubdetails.contactsubscriptionid
+				INNER JOIN jo_customerdetails ON jo_contactdetails.contactid = jo_customerdetails.customerid
+				INNER JOIN jo_contactscf ON jo_contactdetails.contactid = jo_contactscf.contactid
+				left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid
+				left join jo_account on jo_account.accountid = jo_contactdetails.accountid
+				left join jo_users on jo_users.id=jo_crmentity.smownerid
+				where jo_crmentity.deleted=0 and jo_vendorcontactrel.vendorid = ".$id;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -295,11 +295,11 @@ class Vendors extends CRMEntity {
 		global $adb,$log;
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Products"=>"vtiger_products","PurchaseOrder"=>"vtiger_purchaseorder","Contacts"=>"vtiger_vendorcontactrel","Emails"=>"vtiger_seactivityrel");
+		$rel_table_arr = Array("Products"=>"jo_products","PurchaseOrder"=>"jo_purchaseorder","Contacts"=>"jo_vendorcontactrel","Emails"=>"jo_seactivityrel");
 
-		$tbl_field_arr = Array("vtiger_products"=>"productid","vtiger_vendorcontactrel"=>"contactid","vtiger_purchaseorder"=>"purchaseorderid","vtiger_seactivityrel"=>"activityid");
+		$tbl_field_arr = Array("jo_products"=>"productid","jo_vendorcontactrel"=>"contactid","jo_purchaseorder"=>"purchaseorderid","jo_seactivityrel"=>"activityid");
 
-		$entity_tbl_field_arr = Array("vtiger_products"=>"vendor_id","vtiger_vendorcontactrel"=>"vendorid","vtiger_purchaseorder"=>"vendorid","vtiger_seactivityrel"=>"crmid");
+		$entity_tbl_field_arr = Array("jo_products"=>"vendor_id","jo_vendorcontactrel"=>"vendorid","jo_purchaseorder"=>"vendorid","jo_seactivityrel"=>"crmid");
 
 		foreach($transferEntityIds as $transferId) {
 			foreach($rel_table_arr as $rel_module=>$rel_table) {
@@ -359,21 +359,21 @@ class Vendors extends CRMEntity {
 		}
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-			vtiger_activity.activityid, vtiger_activity.subject,
-			vtiger_activity.activitytype, vtiger_crmentity.modifiedtime,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start,vtiger_activity.time_start, vtiger_seactivityrel.crmid as parent_id
-			FROM vtiger_activity, vtiger_seactivityrel, vtiger_vendor, vtiger_users, vtiger_crmentity
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_seactivityrel.activityid = vtiger_activity.activityid
-				AND vtiger_vendor.vendorid = vtiger_seactivityrel.crmid
-				AND vtiger_users.id=vtiger_crmentity.smownerid
-				AND vtiger_crmentity.crmid = vtiger_activity.activityid
-				AND vtiger_vendor.vendorid = ".$id."
-				AND vtiger_activity.activitytype='Emails'
-				AND vtiger_crmentity.deleted = 0";
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query = "SELECT case when (jo_users.user_name not like '') then $userNameSql else jo_groups.groupname end as user_name,
+			jo_activity.activityid, jo_activity.subject,
+			jo_activity.activitytype, jo_crmentity.modifiedtime,
+			jo_crmentity.crmid, jo_crmentity.smownerid, jo_activity.date_start,jo_activity.time_start, jo_seactivityrel.crmid as parent_id
+			FROM jo_activity, jo_seactivityrel, jo_vendor, jo_users, jo_crmentity
+			LEFT JOIN jo_groups
+				ON jo_groups.groupid=jo_crmentity.smownerid
+			WHERE jo_seactivityrel.activityid = jo_activity.activityid
+				AND jo_vendor.vendorid = jo_seactivityrel.crmid
+				AND jo_users.id=jo_crmentity.smownerid
+				AND jo_crmentity.crmid = jo_activity.activityid
+				AND jo_vendor.vendorid = ".$id."
+				AND jo_activity.activitytype='Emails'
+				AND jo_crmentity.deleted = 0";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -397,13 +397,13 @@ class Vendors extends CRMEntity {
 
 		$query = "from $moduletable
 			inner join $modulecftable as $modulecftable on $modulecftable.$modulecfindex=$moduletable.$moduleindex
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex
-			left join vtiger_groups as vtiger_groups$module on vtiger_groups$module.groupid = vtiger_crmentity.smownerid
-			left join vtiger_users as vtiger_users".$module." on vtiger_users".$module.".id = vtiger_crmentity.smownerid
-			left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
-			left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid 
-            left join vtiger_users as vtiger_createdby".$module." on vtiger_createdby".$module.".id = vtiger_crmentity.smcreatorid 
-			left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentity.modifiedby ";
+			inner join jo_crmentity on jo_crmentity.crmid=$moduletable.$moduleindex
+			left join jo_groups as jo_groups$module on jo_groups$module.groupid = jo_crmentity.smownerid
+			left join jo_users as jo_users".$module." on jo_users".$module.".id = jo_crmentity.smownerid
+			left join jo_groups on jo_groups.groupid = jo_crmentity.smownerid
+			left join jo_users on jo_users.id = jo_crmentity.smownerid 
+            left join jo_users as jo_createdby".$module." on jo_createdby".$module.".id = jo_crmentity.smcreatorid 
+			left join jo_users as jo_lastModifiedByVendors on jo_lastModifiedByVendors.id = jo_crmentity.modifiedby ";
 		return $query;
 	}
 
@@ -417,30 +417,30 @@ class Vendors extends CRMEntity {
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityVendors",array("vtiger_usersVendors","vtiger_lastModifiedByVendors"));
-		if (!$queryplanner->requireTable('vtiger_vendor', $matrix)) {
+		$matrix->setDependency("jo_crmentityVendors",array("jo_usersVendors","jo_lastModifiedByVendors"));
+		if (!$queryplanner->requireTable('jo_vendor', $matrix)) {
 			return '';
 		}
-        $matrix->setDependency("vtiger_vendor",array("vtiger_crmentityVendors","vtiger_vendorcf","vtiger_email_trackVendors"));
-		$query = $this->getRelationQuery($module,$secmodule,"vtiger_vendor","vendorid", $queryplanner);
+        $matrix->setDependency("jo_vendor",array("jo_crmentityVendors","jo_vendorcf","jo_email_trackVendors"));
+		$query = $this->getRelationQuery($module,$secmodule,"jo_vendor","vendorid", $queryplanner);
 		// TODO Support query planner
-		if ($queryplanner->requireTable("vtiger_crmentityVendors",$matrix)){
-		    $query .=" left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0";
+		if ($queryplanner->requireTable("jo_crmentityVendors",$matrix)){
+		    $query .=" left join jo_crmentity as jo_crmentityVendors on jo_crmentityVendors.crmid=jo_vendor.vendorid and jo_crmentityVendors.deleted=0";
 		}
-		if ($queryplanner->requireTable("vtiger_vendorcf")){
-		    $query .=" left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid";
+		if ($queryplanner->requireTable("jo_vendorcf")){
+		    $query .=" left join jo_vendorcf on jo_vendorcf.vendorid = jo_crmentityVendors.crmid";
 		}
-		if ($queryplanner->requireTable("vtiger_email_trackVendors")){
-		    $query .=" LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid";
+		if ($queryplanner->requireTable("jo_email_trackVendors")){
+		    $query .=" LEFT JOIN jo_email_track AS jo_email_trackVendors ON jo_email_trackVendors.crmid = jo_vendor.vendorid";
 		}
-		if ($queryplanner->requireTable("vtiger_usersVendors")){
-		    $query .=" left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid";
+		if ($queryplanner->requireTable("jo_usersVendors")){
+		    $query .=" left join jo_users as jo_usersVendors on jo_usersVendors.id = jo_crmentityVendors.smownerid";
 		}
-		if ($queryplanner->requireTable("vtiger_lastModifiedByVendors")){
-		    $query .=" left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentityVendors.modifiedby ";
+		if ($queryplanner->requireTable("jo_lastModifiedByVendors")){
+		    $query .=" left join jo_users as jo_lastModifiedByVendors on jo_lastModifiedByVendors.id = jo_crmentityVendors.modifiedby ";
 		}
-        if ($queryplanner->requireTable("vtiger_createdbyVendors")){
-			$query .= " left join vtiger_users as vtiger_createdbyVendors on vtiger_createdbyVendors.id = vtiger_crmentityVendors.smcreatorid ";
+        if ($queryplanner->requireTable("jo_createdbyVendors")){
+			$query .= " left join jo_users as jo_createdbyVendors on jo_createdbyVendors.id = jo_crmentityVendors.smcreatorid ";
 		}
 		return $query;
 	}
@@ -452,10 +452,10 @@ class Vendors extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Products" =>array("vtiger_products"=>array("vendor_id","productid"),"vtiger_vendor"=>"vendorid"),
-			"PurchaseOrder" =>array("vtiger_purchaseorder"=>array("vendorid","purchaseorderid"),"vtiger_vendor"=>"vendorid"),
-			"Contacts" =>array("vtiger_vendorcontactrel"=>array("vendorid","contactid"),"vtiger_vendor"=>"vendorid"),
-			"Emails" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_vendor"=>"vendorid"),
+			"Products" =>array("jo_products"=>array("vendor_id","productid"),"jo_vendor"=>"vendorid"),
+			"PurchaseOrder" =>array("jo_purchaseorder"=>array("vendorid","purchaseorderid"),"jo_vendor"=>"vendorid"),
+			"Contacts" =>array("jo_vendorcontactrel"=>array("vendorid","contactid"),"jo_vendor"=>"vendorid"),
+			"Emails" => array("jo_seactivityrel"=>array("crmid","activityid"),"jo_vendor"=>"vendorid"),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -464,25 +464,25 @@ class Vendors extends CRMEntity {
 	function unlinkDependencies($module, $id) {
 		global $log;
 		//Deleting Vendor related PO.
-		$po_q = 'SELECT vtiger_crmentity.crmid FROM vtiger_crmentity
-			INNER JOIN vtiger_purchaseorder ON vtiger_crmentity.crmid=vtiger_purchaseorder.purchaseorderid
-			INNER JOIN vtiger_vendor ON vtiger_vendor.vendorid=vtiger_purchaseorder.vendorid
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_purchaseorder.vendorid=?';
+		$po_q = 'SELECT jo_crmentity.crmid FROM jo_crmentity
+			INNER JOIN jo_purchaseorder ON jo_crmentity.crmid=jo_purchaseorder.purchaseorderid
+			INNER JOIN jo_vendor ON jo_vendor.vendorid=jo_purchaseorder.vendorid
+			WHERE jo_crmentity.deleted=0 AND jo_purchaseorder.vendorid=?';
 		$po_res = $this->db->pquery($po_q, array($id));
 		$po_ids_list = array();
 		for($k=0;$k < $this->db->num_rows($po_res);$k++)
 		{
 			$po_id = $this->db->query_result($po_res,$k,"crmid");
 			$po_ids_list[] = $po_id;
-			$sql = 'UPDATE vtiger_crmentity SET deleted = 1 WHERE crmid = ?';
+			$sql = 'UPDATE jo_crmentity SET deleted = 1 WHERE crmid = ?';
 			$this->db->pquery($sql, array($po_id));
 		}
 		//Backup deleted Vendors related Potentials.
-		$params = array($id, RB_RECORD_UPDATED, 'vtiger_crmentity', 'deleted', 'crmid', implode(",", $po_ids_list));
-		$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
+		$params = array($id, RB_RECORD_UPDATED, 'jo_crmentity', 'deleted', 'crmid', implode(",", $po_ids_list));
+		$this->db->pquery('INSERT INTO jo_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
 
 		//Backup Product-Vendor Relation
-		$pro_q = 'SELECT productid FROM vtiger_products WHERE vendor_id=?';
+		$pro_q = 'SELECT productid FROM jo_products WHERE vendor_id=?';
 		$pro_res = $this->db->pquery($pro_q, array($id));
 		if ($this->db->num_rows($pro_res) > 0) {
 			$pro_ids_list = array();
@@ -490,26 +490,26 @@ class Vendors extends CRMEntity {
 			{
 				$pro_ids_list[] = $this->db->query_result($pro_res,$k,"productid");
 			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_products', 'vendor_id', 'productid', implode(",", $pro_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
+			$params = array($id, RB_RECORD_UPDATED, 'jo_products', 'vendor_id', 'productid', implode(",", $pro_ids_list));
+			$this->db->pquery('INSERT INTO jo_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
 		}
 		//Deleting Product-Vendor Relation.
-		$pro_q = 'UPDATE vtiger_products SET vendor_id = 0 WHERE vendor_id = ?';
+		$pro_q = 'UPDATE jo_products SET vendor_id = 0 WHERE vendor_id = ?';
 		$this->db->pquery($pro_q, array($id));
 
 		/*//Backup Contact-Vendor Relaton
-		$con_q = 'SELECT contactid FROM vtiger_vendorcontactrel WHERE vendorid = ?';
+		$con_q = 'SELECT contactid FROM jo_vendorcontactrel WHERE vendorid = ?';
 		$con_res = $this->db->pquery($con_q, array($id));
 		if ($this->db->num_rows($con_res) > 0) {
 			for($k=0;$k < $this->db->num_rows($con_res);$k++)
 			{
 				$con_id = $this->db->query_result($con_res,$k,"contactid");
-				$params = array($id, RB_RECORD_DELETED, 'vtiger_vendorcontactrel', 'vendorid', 'contactid', $con_id);
-				$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
+				$params = array($id, RB_RECORD_DELETED, 'jo_vendorcontactrel', 'vendorid', 'contactid', $con_id);
+				$this->db->pquery('INSERT INTO jo_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
 			}
 		}
 		//Deleting Contact-Vendor Relaton
-		$vc_sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=?';
+		$vc_sql = 'DELETE FROM jo_vendorcontactrel WHERE vendorid=?';
 		$this->db->pquery($vc_sql, array($id));*/
 
 		parent::unlinkDependencies($module, $id);
@@ -521,9 +521,9 @@ class Vendors extends CRMEntity {
 		if(!is_array($with_crmids)) $with_crmids = Array($with_crmids);
 		foreach($with_crmids as $with_crmid) {
 			if($with_module == 'Contacts')
-				$adb->pquery("insert into vtiger_vendorcontactrel values (?,?)", array($crmid, $with_crmid));
+				$adb->pquery("insert into jo_vendorcontactrel values (?,?)", array($crmid, $with_crmid));
 			elseif($with_module == 'Products')
-				$adb->pquery("update vtiger_products set vendor_id=? where productid=?", array($crmid, $with_crmid));
+				$adb->pquery("update jo_products set vendor_id=? where productid=?", array($crmid, $with_crmid));
 			else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}
@@ -535,7 +535,7 @@ class Vendors extends CRMEntity {
 		global $log;
 		if(empty($return_module) || empty($return_id)) return;
 		if($return_module == 'Contacts') {
-			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
+			$sql = 'DELETE FROM jo_vendorcontactrel WHERE vendorid=? AND contactid=?';
 			$this->db->pquery($sql, array($id,$return_id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id);

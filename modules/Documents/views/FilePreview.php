@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Documents_FilePreview_View extends Vtiger_IndexAjax_View {
+class Documents_FilePreview_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
@@ -19,7 +19,7 @@ class Documents_FilePreview_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -31,7 +31,7 @@ class Documents_FilePreview_View extends Vtiger_IndexAjax_View {
 		//supported by viewer js
 		$opendocumentFileTypes = array('odt','ods','odp','fodt');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId,$moduleName);
+		$recordModel = Head_Record_Model::getInstanceById($recordId,$moduleName);
 		$fileDetails = $recordModel->getFileDetails();
 
 		$fileContent = false;

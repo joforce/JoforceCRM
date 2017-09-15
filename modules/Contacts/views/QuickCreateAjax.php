@@ -9,14 +9,14 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Contacts_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
+class Contacts_QuickCreateAjax_View extends Head_QuickCreateAjax_View {
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $moduleModel);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+		$salutationFieldModel = Head_Field_Model::getInstance('salutationtype', $moduleModel);
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 		parent::process($request);
 	}

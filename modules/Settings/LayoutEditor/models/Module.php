@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
+class Settings_LayoutEditor_Module_Model extends Head_Module_Model {
 
 	public static $supportedModules = false;
 	const ONE_TO_ONE = '1:1';
@@ -20,7 +20,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return <Array of Head_Field_Model> - list of field models
 	 */
 	public function getFields() {
 		if(empty($this->fields)){
@@ -58,7 +58,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 	/**
 	 * Function returns all the blocks for the module
-	 * @return <Array of Vtiger_Block_Model> - list of block models
+	 * @return <Array of Head_Block_Model> - list of block models
 	 */
 	public function getBlocks() {
 		if(empty($this->blocks)) {
@@ -144,7 +144,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 			throw new Exception(vtranslate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 
-		$max_fieldid = $db->getUniqueID("vtiger_field");
+		$max_fieldid = $db->getUniqueID("jo_field");
 		$columnName = 'cf_'.$max_fieldid;
 		$custfld_fieldid = $max_fieldid;
 		$moduleName = $this->getName();
@@ -153,7 +153,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		if (isset($focus->customFieldTable)) {
 			$tableName=$focus->customFieldTable[0];
 		} else {
-			$tableName= 'vtiger_'.strtolower($moduleName).'cf';
+			$tableName= 'jo_'.strtolower($moduleName).'cf';
 		}
 
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
@@ -179,10 +179,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 		$defaultValue = $params['fieldDefaultValue'];
 		if(strtolower($fieldType) == 'date') {
-			$dateInstance = new Vtiger_Date_UIType();
+			$dateInstance = new Head_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		} else if (strtolower($fieldType) == 'time') {
-			$defaultValue = Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
+			$defaultValue = Head_Time_UIType::getTimeValueWithSeconds($defaultValue);
 		} else if (strtolower($fieldType) == 'currency') {
 			$defaultValue = CurrencyField::convertToDBFormat($defaultValue, null, true);
 		} else if (strtolower($fieldType) == 'decimal') {
@@ -194,10 +194,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		}
 		$fieldModel->set('defaultvalue', $defaultValue);
 
-		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
+		$blockModel = Head_Block_Model::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
-		// If the column failed to create then do not add entry to vtiger_field table
+		// If the column failed to create then do not add entry to jo_field table
 		if(!in_array($columnName, $db->getColumnNames($tableName))) {
 			throw new Exception(vtranslate('LBL_FIELD_COULD_NOT_BE_CREATED', 'Settings::LayoutEditor', $label), 513);
 		}
@@ -319,7 +319,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 			//Check for fiel exists in both calendar and events module
 			$tabId = array('9','16');
 		}
-		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN ('.  generateQuestionMarks($tabId).') AND fieldlabel=?';
+		$query = 'SELECT 1 FROM jo_field WHERE tabid IN ('.  generateQuestionMarks($tabId).') AND fieldlabel=?';
 		$result = $db->pquery($query, array($tabId,$fieldLabel));
 		return ($db->num_rows($result) > 0 ) ? true : false;
 	}
@@ -333,7 +333,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 
 	public static function getInstanceByName($moduleName) {
-		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleInstance = Head_Module_Model::getInstance($moduleName);
 		$objectProperties = get_object_vars($moduleInstance);
 		$selfInstance = new self();
 		foreach($objectProperties as $properName=>$propertyValue){
@@ -353,7 +353,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		$presence = array(0, 2);
 		$restrictedModules = array('Webmails', 'SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
 
-		$query = 'SELECT name FROM vtiger_tab WHERE
+		$query = 'SELECT name FROM jo_tab WHERE
 						presence IN ('. generateQuestionMarks($presence) .')
 						AND isentitytype = ?
 						AND name NOT IN ('. generateQuestionMarks($restrictedModules) .')';
@@ -433,7 +433,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 	public function getRelations() {
 		if($this->relations === null) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
+			$this->relations = Head_Relation_Model::getAllRelations($this, false);
 		}
 
 		// Contacts relation-tab is turned into custom block on DetailView.
@@ -455,7 +455,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
 	public function getRelationTypeFromRelationField($fieldModel) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT 1 FROM vtiger_relatedlists WHERE relationfieldid=?',array($fieldModel->getId()));
+		$result = $db->pquery('SELECT 1 FROM jo_relatedlists WHERE relationfieldid=?',array($fieldModel->getId()));
 		return ($db->num_rows($result) > 0) ? self::MANY_TO_ONE : self::ONE_TO_ONE;
 	}
 }

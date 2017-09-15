@@ -9,23 +9,23 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_List_View extends Settings_Vtiger_List_View {
+class Users_List_View extends Settings_Head_List_View {
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if(!$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Head'));
 		}
 	}
 
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
 			'modules.Users.resources.List',
 			"modules.Emails.resources.MassEdit",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js"
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -33,7 +33,7 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule(false));
@@ -42,7 +42,7 @@ class Users_List_View extends Settings_Vtiger_List_View {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	public function initializeListViewContents(Head_Request $request, Head_Viewer $viewer) {
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		$pageNumber = $request->get('page');
@@ -67,13 +67,13 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		if(empty($status))
 			$status = 'Active';
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = Head_ListView_Model::getInstance($moduleName, $cvId);
 
 		$linkParams = array('MODULE'=>$moduleName, 'ACTION'=>$request->get('view'), 'CVID'=>$cvId);
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 				$listViewModel->set('status', $status);
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
 		if(!empty($orderBy)) {
@@ -86,13 +86,13 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		$operator = $request->get('operator');
 
 		if($request->get('mode') == 'removeAlphabetSearch') {
-			Vtiger_ListView_Model::deleteParamsSession($moduleName.'_'.$cvId, array('search_key', 'search_value', 'operator'));
+			Head_ListView_Model::deleteParamsSession($moduleName.'_'.$cvId, array('search_key', 'search_value', 'operator'));
 			$searchKey = '';
 			$searchValue = '';
 			$operator = '';
 		}
 		if($request->get('mode') == 'removeSorting') {
-			Vtiger_ListView_Model::deleteParamsSession($listViewSessionKey, array('orderby', 'sortorder'));
+			Head_ListView_Model::deleteParamsSession($listViewSessionKey, array('orderby', 'sortorder'));
 			$orderBy = '';
 			$sortOrder = '';
 		}
@@ -179,9 +179,9 @@ class Users_List_View extends Settings_Vtiger_List_View {
 
 	/**
 	 * Function returns the number of records for the current filter
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function getRecordsCount(Vtiger_Request $request) {
+	function getRecordsCount(Head_Request $request) {
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		$count = $this->getListViewCount($request);
@@ -191,17 +191,17 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new Head_Response();
+		$response->setEmitType(Head_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 */
-	function getListViewCount(Vtiger_Request $request){
+	function getListViewCount(Head_Request $request){
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		if(empty($cvId)) {
@@ -211,7 +211,7 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = Head_ListView_Model::getInstance($moduleName, $cvId);
 		if(empty($tagParams)){
 			$tagParams = array();
 		}
@@ -236,9 +236,9 @@ class Users_List_View extends Settings_Vtiger_List_View {
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	function getPageCount(Vtiger_Request $request){
+	function getPageCount(Head_Request $request){
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 
@@ -248,13 +248,13 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		$result = array();
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
-		$response = new Vtiger_Response();
+		$response = new Head_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
-	 * Setting module related Information to $viewer (for Vtiger7)
+	 * Setting module related Information to $viewer (for Head7)
 	 * @param type $request
 	 * @param type $moduleModel
 	 */
@@ -269,12 +269,12 @@ class Users_List_View extends Settings_Vtiger_List_View {
 
 		$moduleBasicLinks = $moduleModel->getModuleBasicLinks();
 		foreach($moduleBasicLinks as $basicLink){
-			$basicLinks[] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$basicLinks[] = Head_Link_Model::getInstanceFromValues($basicLink);
 		}
 
 		$viewer = $this->getViewer($request);
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleModel->getName()); 
+		$listViewModel = Head_ListView_Model::getInstance($moduleModel->getName()); 
 		$linkParams = array('MODULE'=>$moduleModel->getName(), 'ACTION'=>$request->get('view')); 
 
 		if(!$this->listViewLinks){ 
@@ -287,13 +287,13 @@ class Users_List_View extends Settings_Vtiger_List_View {
 	}
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		return Head_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
+			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

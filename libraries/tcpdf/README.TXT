@@ -61,7 +61,7 @@ Main Features:
 
 Installation (full instructions on http://www.tcpdf.org):
 	1. copy the folder on your Web server
-	2. set your installation path on the config/tcpdf_config.php
+	2. set your installation path on the config/tcpdf_config/config.php
 	3. call the example/example_001.php page with your browser to see an example
 
 Source Code Documentation:

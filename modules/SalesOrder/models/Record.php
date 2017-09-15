@@ -16,14 +16,14 @@ class SalesOrder_Record_Model extends Inventory_Record_Model {
 
 	function getCreateInvoiceUrl() {
         global $site_URL;
-		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
+		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 
 		return $site_URL.$invoiceModuleModel->getName()."/".$invoiceModuleModel->getEditViewName()."/".$this->getId();
 	}
 
 	function getCreatePurchaseOrderUrl() {
         global $site_URL;
-		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
+		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
 		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
 	}
 

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
+class Reports_SaveAjax_View extends Head_IndexAjax_View {
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Head_Request $request) {
 		$record = $request->get('record');
 		if (!$record) {
 			throw new AppException('LBL_PERMISSION_DENIED');
@@ -27,7 +27,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Head_Request $request) {
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -40,7 +40,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
 		$page = $request->get('page');
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new Head_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', Reports_Detail_View::REPORT_LIMIT);
 
@@ -66,7 +66,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
 		$viewer->view('ReportContents.tpl', $moduleName);
 	}
 
-	public function validateRequest(Vtiger_Request $request) {
+	public function validateRequest(Head_Request $request) {
 		$request->validateWriteAccess();
 	}
 

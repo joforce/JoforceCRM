@@ -29,7 +29,7 @@ class QueryGenerator {
 	protected $groupType;
 	protected $whereFields;
 	/**
-	 * @var VtigerCRMObjectMeta
+	 * @var HeadCRMObjectMeta
 	 */
 	protected $meta;
 	/**
@@ -183,7 +183,7 @@ class QueryGenerator {
 		if ($this->customViewColumnList && is_array($this->customViewColumnList)) {
 			foreach ($this->customViewColumnList as $customViewColumnInfo) {
 				$details = explode(':', $customViewColumnInfo);
-			if(empty($details[2]) && $details[1] == 'crmid' && $details[0] == 'vtiger_crmentity') {
+			if(empty($details[2]) && $details[1] == 'crmid' && $details[0] == 'jo_crmentity') {
 					$name = 'id';
 					$this->customViewFields[] = $name;
 				} else {
@@ -250,7 +250,7 @@ class QueryGenerator {
 					// For Events "End Date & Time" field datatype should be DT. But, db will give D for due_date field
 					if($nameComponents[2] == 'due_date' && $nameComponents[3] == 'Events_End_Date_&_Time')
 						$nameComponents[4] = 'DT';
-					if(empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'vtiger_crmentity') {
+					if(empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'jo_crmentity') {
 						$name = $this->getSQLColumn('id');
 					} else {
 						$name = $nameComponents[2];
@@ -412,7 +412,7 @@ class QueryGenerator {
 					$sql = $this->getSQLColumn($timeField);
 				} else if ($field == 'taskstatus' || $field == 'eventstatus') {
 					//In calendar list view, Status value = Planned is not displaying
-					$sql = "CASE WHEN (vtiger_activity.status not like '') THEN vtiger_activity.status ELSE vtiger_activity.eventstatus END AS ";
+					$sql = "CASE WHEN (jo_activity.status not like '') THEN jo_activity.status ELSE jo_activity.eventstatus END AS ";
 					if ( $field == 'taskstatus') {
 						$sql .= "status";
 					} else {
@@ -455,35 +455,35 @@ class QueryGenerator {
 				foreach($moduleList as $module) {
 					if($module == 'Users' && $baseModule != 'Users') {
 						if($fieldName == 'created_user_id' || $fieldName == 'modifiedby') {
-							$tableJoinCondition[$fieldName]['vtiger_users'.$fieldName] = $field->getTableName().
-								".".$field->getColumnName()." = vtiger_users".$fieldName.".id";
-							$tableJoinMapping['vtiger_users'.$fieldName] = 'LEFT JOIN vtiger_users AS';
+							$tableJoinCondition[$fieldName]['jo_users'.$fieldName] = $field->getTableName().
+								".".$field->getColumnName()." = jo_users".$fieldName.".id";
+							$tableJoinMapping['jo_users'.$fieldName] = 'LEFT JOIN jo_users AS';
 							$i++;
 						} else {
-							$tableJoinCondition[$fieldName]['vtiger_users'.$fieldName] = $field->getTableName().
-									".".$field->getColumnName()." = vtiger_users".$fieldName.".id";
-							$tableJoinCondition[$fieldName]['vtiger_groups'.$fieldName] = $field->getTableName().
-									".".$field->getColumnName()." = vtiger_groups".$fieldName.".groupid";
-							$tableJoinMapping['vtiger_users'.$fieldName] = 'LEFT JOIN vtiger_users AS';
-							$tableJoinMapping['vtiger_groups'.$fieldName] = 'LEFT JOIN vtiger_groups AS';
+							$tableJoinCondition[$fieldName]['jo_users'.$fieldName] = $field->getTableName().
+									".".$field->getColumnName()." = jo_users".$fieldName.".id";
+							$tableJoinCondition[$fieldName]['jo_groups'.$fieldName] = $field->getTableName().
+									".".$field->getColumnName()." = jo_groups".$fieldName.".groupid";
+							$tableJoinMapping['jo_users'.$fieldName] = 'LEFT JOIN jo_users AS';
+							$tableJoinMapping['jo_groups'.$fieldName] = 'LEFT JOIN jo_groups AS';
 							$i++;
 						}
 					}
 				}
 
 				if($fieldName == 'roleid' && $baseModule == 'Users') {
-					$tableJoinMapping['vtiger_role'] = 'INNER JOIN';
-					$tableList['vtiger_role'] = 'vtiger_role';
+					$tableJoinMapping['jo_role'] = 'INNER JOIN';
+					$tableList['jo_role'] = 'jo_role';
 				}
 			} elseif($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				$tableList['jo_users'] = 'jo_users';
+				$tableList['jo_groups'] = 'jo_groups';
+				$tableJoinMapping['jo_users'] = 'LEFT JOIN';
+				$tableJoinMapping['jo_groups'] = 'LEFT JOIN';
 				if($fieldName == "created_user_id"){
-					$tableJoinCondition[$fieldName]['vtiger_users'.$fieldName] = $field->getTableName().
-							".".$field->getColumnName()." = vtiger_users".$fieldName.".id";
-					$tableJoinMapping['vtiger_users'.$fieldName] = 'LEFT JOIN vtiger_users AS';
+					$tableJoinCondition[$fieldName]['jo_users'.$fieldName] = $field->getTableName().
+							".".$field->getColumnName()." = jo_users".$fieldName.".id";
+					$tableJoinMapping['jo_users'.$fieldName] = 'LEFT JOIN jo_users AS';
 				}
 			}
 			$tableList[$field->getTableName()] = $field->getTableName();
@@ -506,8 +506,8 @@ class QueryGenerator {
 			// The table will not be present in tablesList and hence needs to be added to the list.
 			if(empty($tableList[$baseTable])) {
 				if($fieldName == 'tags') {
-						$tableList['vtiger_freetagged_objects'] = 'vtiger_freetagged_objects';
-						$tableJoinMapping['vtiger_freetagged_objects'] = 'INNER JOIN';
+						$tableList['jo_freetagged_objects'] = 'jo_freetagged_objects';
+						$tableJoinMapping['jo_freetagged_objects'] = 'INNER JOIN';
 				}else{
 					$tableList[$baseTable] = $field->getTableName();
 					$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
@@ -517,9 +517,9 @@ class QueryGenerator {
 				$moduleList = $this->referenceFieldInfoList[$fieldName];
 				// This is special condition as the data is not stored in the base table,
 				// If empty search is performed on this field then it fails to retrieve any information.
-				if($fieldName == 'parent_id' && $field->getTableName() == 'vtiger_seactivityrel') {
+				if($fieldName == 'parent_id' && $field->getTableName() == 'jo_seactivityrel') {
 					$tableJoinMapping[$field->getTableName()] = 'LEFT JOIN';
-				} else if($fieldName == 'contact_id' && $field->getTableName() == 'vtiger_cntactivityrel') {
+				} else if($fieldName == 'contact_id' && $field->getTableName() == 'jo_cntactivityrel') {
 					$tableJoinMapping[$field->getTableName()] = "LEFT JOIN";
 				} else {
 					$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
@@ -547,14 +547,14 @@ class QueryGenerator {
 				}
 
 				if($fieldName == 'roleid' && $baseModule == 'Users') {
-					$tableJoinMapping['vtiger_role'] = 'INNER JOIN';
-					$tableList['vtiger_role'] = 'vtiger_role';
+					$tableJoinMapping['jo_role'] = 'INNER JOIN';
+					$tableList['jo_role'] = 'jo_role';
 				}
 			} elseif($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				$tableList['jo_users'] = 'jo_users';
+				$tableList['jo_groups'] = 'jo_groups';
+				$tableJoinMapping['jo_users'] = 'LEFT JOIN';
+				$tableJoinMapping['jo_groups'] = 'LEFT JOIN';
 			} else {
 				$tableList[$field->getTableName()] = $field->getTableName();
 				$tableJoinMapping[$field->getTableName()] =
@@ -582,22 +582,22 @@ class QueryGenerator {
 			unset($tableList[$tableName]);
 		}
 		foreach ($tableList as $tableName) {
-			if($tableName == 'vtiger_users') {
+			if($tableName == 'jo_users') {
 				$field = $moduleFields[$ownerField];
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON ".$field->getTableName().".".
 					$field->getColumnName()." = $tableName.id";
-			} elseif($tableName == 'vtiger_groups') {
+			} elseif($tableName == 'jo_groups') {
 				$field = $moduleFields[$ownerField];
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON ".$field->getTableName().".".
 					$field->getColumnName()." = $tableName.groupid";
-			} elseif($tableName == 'vtiger_freetagged_objects') {
+			} elseif($tableName == 'jo_freetagged_objects') {
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.$baseTableIndex = $tableName.object_id ".
-						"INNER JOIN vtiger_freetags ON $tableName.tag_id = vtiger_freetags.id ";
-			} elseif($tableName == 'vtiger_role') {
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON vtiger_role.roleid = vtiger_user2role.roleid";
+						"INNER JOIN jo_freetags ON $tableName.tag_id = jo_freetags.id ";
+			} elseif($tableName == 'jo_role') {
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON jo_role.roleid = jo_user2role.roleid";
 			} else {
 				$tableCondition = $tableName.'.'.$moduleTableIndexList[$tableName];
-				if(Vtiger_Functions::isUserSpecificFieldTable($tableName, $this->getModule())) {
+				if(Head_Functions::isUserSpecificFieldTable($tableName, $this->getModule())) {
 					$tableCondition.=  ' AND '.$tableName.'.userid='.$this->user->id;
 				}
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.".
@@ -607,9 +607,9 @@ class QueryGenerator {
 
 		if( $this->meta->getTabName() == 'Documents') {
 			$tableJoinCondition['folderid'] = array(
-				'vtiger_attachmentsfolderfolderid'=>"$baseTable.folderid = vtiger_attachmentsfolderfolderid.folderid"
+				'jo_attachmentsfolderfolderid'=>"$baseTable.folderid = jo_attachmentsfolderfolderid.folderid"
 			);
-			$tableJoinMapping['vtiger_attachmentsfolderfolderid'] = 'INNER JOIN vtiger_attachmentsfolder';
+			$tableJoinMapping['jo_attachmentsfolderfolderid'] = 'INNER JOIN jo_attachmentsfolder';
 		}
 
 		foreach ($tableJoinCondition as $fieldName=>$conditionInfo) {
@@ -652,11 +652,11 @@ class QueryGenerator {
 				$tableName = $fieldObject->getTableName();
 				if(!in_array($tableName, $referenceFieldTableList)) {
 					if($referenceFieldObject->getFieldName() == 'parent_id' && ($this->getModule() == 'Calendar' || $this->getModule() == 'Events')) {
-						$sql .= ' LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid ';
+						$sql .= ' LEFT JOIN jo_seactivityrel ON jo_seactivityrel.activityid = jo_activity.activityid ';
 					}
 					//TODO : this will create duplicates, need to find a better way
 					if($referenceFieldObject->getFieldName() == 'contact_id' && ($this->getModule() == 'Calendar' || $this->getModule() == 'Events')) {
-						$sql .= ' LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid ';
+						$sql .= ' LEFT JOIN jo_cntactivityrel ON jo_cntactivityrel.activityid = jo_activity.activityid ';
 					}
 					$sql .= " LEFT JOIN ".$tableName.' AS '.$tableName.$conditionInfo['referenceField'].' ON
 							'.$tableName.$conditionInfo['referenceField'].'.'.$tableList[$tableName].'='.
@@ -772,28 +772,28 @@ class QueryGenerator {
 							$fieldGlue = ' OR';
 						}
 						if ($fieldName == 'roleid'){
-							$columnSql = 'vtiger_role.rolename';
+							$columnSql = 'jo_role.rolename';
 							$fieldSql .= "$fieldGlue trim($columnSql) $valueSql";
 							$fieldGlue = ' OR';
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
 					if($fieldName == 'created_user_id'){
-						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users$fieldName.first_name",'last_name'=>"vtiger_users$fieldName.last_name"), 'Users');
+						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"jo_users$fieldName.first_name",'last_name'=>"jo_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					}else{
-						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users.first_name",'last_name'=>"vtiger_users.last_name"), 'Users');
-						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or "."vtiger_groups.groupname $valueSql)";
+						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"jo_users.first_name",'last_name'=>"jo_users.last_name"), 'Users');
+						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or "."jo_groups.groupname $valueSql)";
 					}
 				} elseif($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					$operator = $conditionInfo['operator'];
 					if($fieldName == 'date_start') {
-						$dateFieldColumnName = 'vtiger_activity.date_start';
-						$timeFieldColumnName = 'vtiger_activity.time_start';
+						$dateFieldColumnName = 'jo_activity.date_start';
+						$timeFieldColumnName = 'jo_activity.time_start';
 					} else {
-						$dateFieldColumnName = 'vtiger_activity.due_date';
-						$timeFieldColumnName = 'vtiger_activity.time_end';
+						$dateFieldColumnName = 'jo_activity.due_date';
+						$timeFieldColumnName = 'jo_activity.time_end';
 					}
 					if($operator == 'bw') {
 						$values = explode(',', $value);
@@ -867,14 +867,14 @@ class QueryGenerator {
 						$fieldSql .= $conditionGlue .'('.$otherField->getTableName().'.'.$otherField->getColumnName() . ' '. $otherFieldValueSql .' '.$specialConditionForOtherField .'))';
 					else
 						$fieldSql .= ')';
-				}else if (Vtiger_Functions::isUserSpecificFieldTable($field->getTableName(), getTabModuleName($field->getTabId())) && $fieldName == "starred"
+				}else if (Head_Functions::isUserSpecificFieldTable($field->getTableName(), getTabModuleName($field->getTabId())) && $fieldName == "starred"
 						&& $conditionInfo['value'] != 1) {
 						// since not for all records you will have entry in starred field table. So for disabled (value 0) we need to check both 0 and null
 						$fieldSql .= "$fieldGlue (".$field->getTableName().'.'.$field->getColumnName().' '.$valueSql.' OR ';
 						$fieldSql .=                $field->getTableName().'.'.$field->getColumnName().' IS NULL)';
 				} else if($fieldName == "tags") {
-					$fieldSql .= " $fieldGlue ( vtiger_freetags.id " . $valueSql . ' AND '.
-							'( vtiger_freetagged_objects.tagger_id = ' . $this->user->id . ' OR vtiger_freetags.visibility = "public")) ';
+					$fieldSql .= " $fieldGlue ( jo_freetags.id " . $valueSql . ' AND '.
+							'( jo_freetagged_objects.tagger_id = ' . $this->user->id . ' OR jo_freetags.visibility = "public")) ';
 				} else {
 					if($fieldName == 'birthday' && !$this->isRelativeSearchOperators(
 							$conditionInfo['operator'])) {
@@ -1293,7 +1293,7 @@ class QueryGenerator {
 					$this->startGroup('');
 					foreach ($filtercolumns as $index=>$filter) {
 						$name = explode(':',$filter['columnname']);
-						if(empty($name[2]) && $name[1] == 'crmid' && $name[0] == 'vtiger_crmentity') {
+						if(empty($name[2]) && $name[1] == 'crmid' && $name[0] == 'jo_crmentity') {
 							$name = $this->getSQLColumn('id');
 						} else {
 							$name = $name[2];

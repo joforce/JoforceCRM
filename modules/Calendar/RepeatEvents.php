@@ -142,28 +142,28 @@ class Calendar_RepeatEvents {
 		
 		if($focus->column_fields['mode'] == 'edit') {
 			$childRecords = array();
-			$result = $adb->pquery("SELECT * FROM vtiger_activity_recurring_info WHERE activityid=?", array($parentId));
+			$result = $adb->pquery("SELECT * FROM jo_activity_recurring_info WHERE activityid=?", array($parentId));
 			$noofrows = $adb->num_rows($result);
 			$parentRecurringId = $parentId;
 			if($noofrows <= 0) {
-				$queryResult = $adb->pquery("SELECT * FROM vtiger_activity_recurring_info WHERE recurrenceid=?", array($parentId));
+				$queryResult = $adb->pquery("SELECT * FROM jo_activity_recurring_info WHERE recurrenceid=?", array($parentId));
 				if($adb->num_rows($queryResult) > 0) {
 					$parentRecurringId = $adb->query_result($queryResult, 0,"activityid");
-					$result = $adb->pquery("SELECT * FROM vtiger_activity_recurring_info WHERE activityid=?", array($parentRecurringId));
+					$result = $adb->pquery("SELECT * FROM jo_activity_recurring_info WHERE activityid=?", array($parentRecurringId));
 					$noofrows = $adb->num_rows($result);
 					
 					if($focus->column_fields['recurringEditMode'] == 'all') {
-						$parentModel = Vtiger_Record_Model::getInstanceById($parentId);
-						$parentResult = $adb->pquery("SELECT 1 FROM vtiger_activity_recurring_info WHERE recurrenceid=?", array($parentRecurringId));
+						$parentModel = Head_Record_Model::getInstanceById($parentId);
+						$parentResult = $adb->pquery("SELECT 1 FROM jo_activity_recurring_info WHERE recurrenceid=?", array($parentRecurringId));
 						if($adb->num_rows($parentResult) >= 1) {
-							$parentModel = Vtiger_Record_Model::getInstanceById($parentRecurringId);
+							$parentModel = Head_Record_Model::getInstanceById($parentRecurringId);
 						} else {
 							$recurringRecordsList = $parentModel->getRecurringRecordsList();
 							foreach($recurringRecordsList as $parent=>$childs) {
 								$parentRecurringId = $parent;
 								$recurringRecords = $childs;
 							}
-							$parentModel = Vtiger_Record_Model::getInstanceById($recurringRecords[0]);
+							$parentModel = Head_Record_Model::getInstanceById($recurringRecords[0]);
 						}
 						$_REQUEST['date_start'] = $parentModel->get('date_start');
 						$recurObj = getrecurringObjValue();
@@ -185,7 +185,7 @@ class Calendar_RepeatEvents {
 			
 			if(self::$recurringTypeChanged && $focus->column_fields['recurringEditMode'] == 'future') {
 				foreach($childRecords as $record) {
-					$adb->pquery("DELETE FROM vtiger_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
+					$adb->pquery("DELETE FROM jo_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
 				}
 				$parentRecurringId = $parentId;
 			}
@@ -202,7 +202,7 @@ class Calendar_RepeatEvents {
 						$updatedRecords[] = $recordId;
 						continue;
 					}
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$recordModel = Head_Record_Model::getInstanceById($recordId);
 					$recordModel->set('mode', 'edit');
 					if($focus->column_fields['recurringEditMode'] == 'future' && $recordModel->get('date_start') >= $eventStartDate) {
 						$startDateTimestamp = strtotime($startDate);
@@ -229,7 +229,7 @@ class Calendar_RepeatEvents {
 						$updatedRecords[] = $recordId;
 						$recordModel->save('Calendar');
 						if(self::$recurringTypeChanged) {
-							$adb->pquery("INSERT INTO vtiger_activity_recurring_info VALUES (?,?)", array($parentId, $recordId));
+							$adb->pquery("INSERT INTO jo_activity_recurring_info VALUES (?,?)", array($parentId, $recordId));
 						}
 					} else if($focus->column_fields['recurringEditMode'] == 'all') {
 						$startDateTimestamp = strtotime($startDate);
@@ -271,11 +271,11 @@ class Calendar_RepeatEvents {
 			if(self::$recurringDataChanged && !empty($deletingRecords)) {
 				foreach($deletingRecords as $record) {
 					//delete reocrd with that reocrdid
-					$recordModel = Vtiger_Record_Model::getInstanceById($record);
+					$recordModel = Head_Record_Model::getInstanceById($record);
 					if(!empty($parentRecurringId)) {
 						$parentId = $parentRecurringId;
 					} 
-					$adb->pquery("DELETE FROM vtiger_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentId, $record));
+					$adb->pquery("DELETE FROM jo_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentId, $record));
 					$recordModel->delete();
 				}
 			}
@@ -330,7 +330,7 @@ class Calendar_RepeatEvents {
 			$new_focus->save('Calendar');
 			$record = $new_focus->id;
 			
-			$adb->pquery("INSERT INTO vtiger_activity_recurring_info VALUES (?,?)", array($parentId, $record));
+			$adb->pquery("INSERT INTO jo_activity_recurring_info VALUES (?,?)", array($parentId, $record));
 
 		}
 	}
@@ -358,7 +358,7 @@ class Calendar_RepeatEvents {
 			$originalRecordId = $focus->column_fields['id'];
 			//If recurring Enabled, insert the entry only once for parent also
 			if(empty($recurObjDb) && self::$recurringDataChanged) {
-				$adb->pquery("INSERT INTO vtiger_activity_recurring_info VALUES (?,?)", array($originalRecordId, $originalRecordId));
+				$adb->pquery("INSERT INTO jo_activity_recurring_info VALUES (?,?)", array($originalRecordId, $originalRecordId));
 			}
 			self::repeat($focus, $recurObj);
 		} else if(empty($recurObj) && self::$recurringDataChanged) {
@@ -369,7 +369,7 @@ class Calendar_RepeatEvents {
     
 	static function deleteRepeatEvents($parentId) {
 		$adb = PearDatabase::getInstance();
-		$recordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$recordModel = Head_Record_Model::getCleanInstance('Events');
 		$recordModel->set('id', $parentId);
 		$recurringRecordsList = $recordModel->getRecurringRecordsList();
 		foreach($recurringRecordsList as $parent=>$childs) {
@@ -377,8 +377,8 @@ class Calendar_RepeatEvents {
 			$childRecords = $childs;
 		}
 		foreach($childRecords as $record) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$adb->pquery("DELETE FROM vtiger_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
+			$recordModel = Head_Record_Model::getInstanceById($record, $moduleName);
+			$adb->pquery("DELETE FROM jo_activity_recurring_info WHERE activityid=? AND recurrenceid=?", array($parentRecurringId, $record));
 			if($record == $parentId) {
 				continue;
 			}

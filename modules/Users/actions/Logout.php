@@ -9,18 +9,18 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Users_Logout_Action extends Vtiger_Action_Controller {
+class Users_Logout_Action extends Head_Action_Controller {
 	
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Head_Request $request) {
 		return true;
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Head_Request $request) {
 		//Redirect into the referer page
         global $site_URL;
 		$logoutURL = $this->getLogoutURL();
         session_regenerate_id(true);
-		Vtiger_Session::destroy();
+		Head_Session::destroy();
 		
 		//Track the logout History
 		$moduleName = $request->getModule();
@@ -37,10 +37,10 @@ class Users_Logout_Action extends Vtiger_Action_Controller {
 	}
 	
 	protected function getLogoutURL() {
-		$logoutUrl = Vtiger_Session::get('LOGOUT_URL');
+		$logoutUrl = Head_Session::get('LOGOUT_URL');
 		if (isset($logoutUrl) && !empty($logoutUrl)) {
 			return $logoutUrl;
 		}
-		return VtigerConfig::getOD('LOGIN_URL');
+		return HeadConfig::getOD('LOGIN_URL');
 	}
 }

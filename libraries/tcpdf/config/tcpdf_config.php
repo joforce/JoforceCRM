@@ -1,6 +1,6 @@
 <?php
 //============================================================+
-// File name   : tcpdf_config.php
+// File name   : tcpdf_config/config.php
 // Begin       : 2004-06-11
 // Last Update : 2010-09-24
 //
@@ -30,7 +30,7 @@
  */
 
 // If you define the constant K_TCPDF_EXTERNAL_CONFIG, the following settings will be ignored.
-//crm-now: from config.inc.php
+//crm-now: from config/config.inc.php
 global $root_directory, $site_URL;
 
 if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {

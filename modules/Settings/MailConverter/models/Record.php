@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
+class Settings_MailConverter_Record_Model extends Settings_Head_Record_Model {
 
 	/**
 	 * Function to get Id of this record instance
@@ -51,7 +51,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function hasRules() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT 1 FROM vtiger_mailscanner_rules WHERE scannerid = ?', array($this->getId()));
+		$result = $db->pquery('SELECT 1 FROM jo_mailscanner_rules WHERE scannerid = ?', array($this->getId()));
 		if ($db->num_rows($result)) {
 			return true;
 		}
@@ -117,7 +117,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 
 	/**
 	 * Function to get record links
-	 * @return <Array> List of link models <Vtiger_Link_Model>
+	 * @return <Array> List of link models <Head_Link_Model>
 	 */
 	public function getRecordLinks() {
 		$qualifiedModuleName = $this->getModule()->getName(true);
@@ -144,7 +144,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 
 		$links = array();
 		if ($this->hasRules()) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues(array(
+			$links[] = Head_Link_Model::getInstanceFromValues(array(
 					'linktype' => 'LISTVIEW',
 					'linklabel' => vtranslate('LBL_SCAN_NOW', $qualifiedModuleName),
 					'linkurl' => $this->getScanUrl(),
@@ -153,7 +153,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 
 		foreach($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -175,7 +175,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function delete() {
         vimport('~~modules/Settings/MailConverter/handlers/MailScannerInfo.php');
-        $scanner = new Vtiger_MailScannerInfo(trim($this->getName()));
+        $scanner = new Head_MailScannerInfo(trim($this->getName()));
 		$scanner->delete();
 	}
 
@@ -185,7 +185,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function save() {
         vimport('~~modules/Settings/MailConverter/handlers/MailScannerInfo.php');
-		$scannerLatestInfo = new Vtiger_MailScannerInfo(false, false);
+		$scannerLatestInfo = new Head_MailScannerInfo(false, false);
 		$fieldsList = $this->getModule()->getFields();
 		foreach ($fieldsList as $fieldName => $fieldModel) {
 			$scannerLatestInfo->$fieldName = $this->get($fieldName);
@@ -208,11 +208,11 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 
 		
 		$isConnected = true;
-		$scannerOldInfo = new Vtiger_MailScannerInfo($this->get('scannerOldName'));
+		$scannerOldInfo = new Head_MailScannerInfo($this->get('scannerOldName'));
 
 		if(!$scannerOldInfo->compare($scannerLatestInfo)) {
             vimport('~~modules/Settings/MailConverter/handlers/MailBox.php');
-			$mailBox = new Vtiger_MailBox($scannerLatestInfo);
+			$mailBox = new Head_MailBox($scannerLatestInfo);
 			$isConnected = $mailBox->connect();
 		}
 		if($isConnected) {
@@ -244,9 +244,9 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 		if ($isValid) {
 			vimport('~~modules/Settings/MailConverter/handlers/MailScannerInfo.php');
 			vimport('~~modules/Settings/MailConverter/handlers/MailScanner.php');
-			$scannerInfo = new Vtiger_MailScannerInfo($this->getName());
+			$scannerInfo = new Head_MailScannerInfo($this->getName());
 			/** Start the scanning. */
-			$scanner = new Vtiger_MailScanner($scannerInfo);
+			$scanner = new Head_MailScanner($scannerInfo);
 			$status = $scanner->performScanNow();
 			return $status;
 		}
@@ -259,7 +259,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function getFoldersList() {
         vimport('~~modules/Settings/MailConverter/handlers/MailBox.php');
-		$scannerInfo = new Vtiger_MailScannerInfo($this->getName());
+		$scannerInfo = new Head_MailScannerInfo($this->getName());
 		return $scannerInfo->getFolderInfo();
 	}
 
@@ -269,8 +269,8 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function getUpdatedFoldersList() {
         vimport('~~modules/Settings/MailConverter/handlers/MailBox.php');
-		$scannerInfo = new Vtiger_MailScannerInfo($this->getName());
-		$mailBox = new Vtiger_MailBox($scannerInfo);
+		$scannerInfo = new Head_MailScannerInfo($this->getName());
+		$mailBox = new Head_MailBox($scannerInfo);
 
 		if($mailBox->connect()) {
 			$folders = $mailBox->getFolders();
@@ -288,7 +288,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 		$db = PearDatabase::getInstance();
 		$foldersData = $this->get('foldersData');
 
-		$updateQuery = "UPDATE vtiger_mailscanner_folders SET enabled = CASE folderid ";
+		$updateQuery = "UPDATE jo_mailscanner_folders SET enabled = CASE folderid ";
 		foreach ($foldersData as $folderId => $enabled) {
 			$updateQuery .= " WHEN $folderId THEN $enabled ";
 		}
@@ -304,7 +304,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	public function updateSequence($sequencesList) {
 		$db = PearDatabase::getInstance();
 
-		$updateQuery = "UPDATE vtiger_mailscanner_rules SET sequence = CASE";
+		$updateQuery = "UPDATE jo_mailscanner_rules SET sequence = CASE";
 		foreach ($sequencesList as $sequence => $ruleId) {
 			$updateQuery .= " WHEN ruleid = $ruleId THEN $sequence ";
 		}
@@ -321,7 +321,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public static function getCleanInstance() {
 		$recordModel = new self();
-		return $recordModel->setModule(Settings_Vtiger_Module_Model::getInstance('Settings:MailConverter'));
+		return $recordModel->setModule(Settings_Head_Module_Model::getInstance('Settings:MailConverter'));
 	}
 
 	/**
@@ -331,7 +331,7 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public static function getInstanceById($recordId) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_mailscanner WHERE scannerid = ?', array($recordId));
+		$result = $db->pquery('SELECT * FROM jo_mailscanner WHERE scannerid = ?', array($recordId));
 		if ($db->num_rows($result)) {
 			$recordModel = self::getCleanInstance();
 			$recordModel->setData($db->query_result_rowdata($result));
@@ -346,9 +346,9 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public static function getAll() {
 		$db = PearDatabase::getInstance();
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:MailConverter');
+		$moduleModel = Settings_Head_Module_Model::getInstance('Settings:MailConverter');
 
-		$result = $db->pquery('SELECT * FROM vtiger_mailscanner', array());
+		$result = $db->pquery('SELECT * FROM jo_mailscanner', array());
 		$numOfRows = $db->num_rows($result);
 
 		$recordModelsList = array();
@@ -362,9 +362,9 @@ class Settings_MailConverter_Record_Model extends Settings_Vtiger_Record_Model {
 
 	public static function getCount() {
 		$db = PearDatabase::getInstance();
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:MailConverter');
+		$moduleModel = Settings_Head_Module_Model::getInstance('Settings:MailConverter');
 
-		$result = $db->pquery('SELECT 1 FROM vtiger_mailscanner', array());
+		$result = $db->pquery('SELECT 1 FROM jo_mailscanner', array());
 		$numOfRows = $db->num_rows($result);
 		return $numOfRows;
 	}

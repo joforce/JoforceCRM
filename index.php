@@ -11,11 +11,11 @@
 
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
-include_once 'config.php';
+include_once 'config/config.php';
 include_once 'include/Webservices/Relation.php';
 
-include_once 'vtlib/Vtiger/Module.php';
+include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
-$webUI = new Vtiger_WebUI();
-$webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));
+$webUI = new Head_WebUI();
+$webUI->process(new Head_Request($_REQUEST, $_REQUEST));

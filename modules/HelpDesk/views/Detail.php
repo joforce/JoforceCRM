@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class HelpDesk_Detail_View extends Vtiger_Detail_View {
+class HelpDesk_Detail_View extends Head_Detail_View {
 	
 	function __construct() {
 		parent::__construct();
@@ -19,12 +19,12 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 
 	/**
 	 * Function to get activities
-	 * @param Vtiger_Request $request
+	 * @param Head_Request $request
 	 * @return <List of activity models>
 	 */
-	public function getActivities(Vtiger_Request $request) {
+	public function getActivities(Head_Request $request) {
 		$moduleName = 'Calendar';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if($currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
@@ -35,12 +35,12 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 			if(empty ($pageNumber)) {
 				$pageNumber = 1;
 			}
-			$pagingModel = new Vtiger_Paging_Model();
+			$pagingModel = new Head_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('limit', 10);
 
 			if(!$this->record) {
-				$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+				$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 			}
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
