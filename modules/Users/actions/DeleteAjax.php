@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-vimport('~~/include/Webservices/Custom/DeleteUser.php');
+vimport('~~/includes/Webservices/Custom/DeleteUser.php');
 
 class Users_DeleteAjax_Action extends Head_Delete_Action {
 

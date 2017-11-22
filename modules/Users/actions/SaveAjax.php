@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-vimport('~~/include/Webservices/Custom/ChangePassword.php');
+vimport('~~/includes/Webservices/Custom/ChangePassword.php');
 
 class Users_SaveAjax_Action extends Head_SaveAjax_Action {
 

@@ -86,7 +86,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '_SITE_URL_';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = $site_URL.'/customerportal';
+$PORTAL_URL = $site_URL.'customerportal';
 // root directory path
 $root_directory = '_VT_ROOTDIR_';
 
@@ -118,8 +118,8 @@ $allow_exports = 'all';
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
 
 // full path to include directory including the trailing slash
-// includeDirectory default value = $root_directory..'include/
-$includeDirectory = $root_directory.'include/';
+// includeDirectory default value = $root_directory..'includes/
+$includeDirectory = $root_directory.'includes/';
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';

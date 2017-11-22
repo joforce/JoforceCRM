@@ -11,7 +11,7 @@
 include_once dirname(__FILE__) . '/ModCommentsCore.php';
 include_once dirname(__FILE__) . '/models/Comments.php';
 
-require_once 'include/utils/VtlibUtils.php';
+require_once 'includes/utils/VtlibUtils.php';
 
 class ModComments extends ModCommentsCore {
 

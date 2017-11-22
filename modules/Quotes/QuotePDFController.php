@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 	
-include_once 'include/InventoryPDFController.php';
+include_once 'includes/InventoryPDFController.php';
 
 class Head_QuotePDFController extends Head_InventoryPDFController{
 	function buildHeaderModelTitle() {

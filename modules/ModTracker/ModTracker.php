@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 include_once 'vtlib/Head/Event.php';
-include_once 'include/Webservices/GetUpdates.php';
+include_once 'includes/Webservices/GetUpdates.php';
 
 class ModTracker {
 

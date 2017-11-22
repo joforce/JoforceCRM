@@ -158,7 +158,7 @@ class VTPDFMaker_List_View extends Head_Index_View {
 			"modules.Head.resources.CkEditor",
 			//for vtiger7 
 			"modules.Head.resources.MergeRecords",
-			"~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js",
+			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js",
 			'modules.Head.resources.Tag',
 			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
 			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js"

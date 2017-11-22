@@ -148,6 +148,9 @@ class Head_Module_Model extends Head_Module {
 	 * @param Head_Record_Model $recordModel
 	 */
 	public function saveRecord(Head_Record_Model $recordModel) {
+		global $adb;
+                 $this->db = PearDatabase::getInstance();
+                $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
 		$moduleName = $this->get('name');
 		$focus = $recordModel->getEntity();
 		$fields = $focus->column_fields;

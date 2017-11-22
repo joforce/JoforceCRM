@@ -86,7 +86,45 @@ class Install_Index_view extends Head_View_Controller {
 
 	public function Step3(Head_Request $request) {
 		$viewer = $this->getViewer($request);
+		$php_Self = $_SERVER['PHP_SELF'];
+		$phpbase = str_replace('index.php','',$php_Self);
+		$server_type = $_SERVER['SERVER_SOFTWARE'];
+		$webServerName = explode('/', $server_type)[0];
 		$moduleName = $request->getModule();
+		$filename = '.htaccess';
+
+		if (file_exists($filename)) {
+			if (is_writable($filename)) {
+				$viewer->assign('HTACC_PER','File Permission is Ok');
+				$viewer->assign('HT_PER','true');
+			}
+			else {
+				$viewer->assign('HT_PER','false');
+				$viewer->assign('HTACC_PER','Please Provide the writable permission for .htaccess. That htaccess file placed in your root folder');
+
+			}
+		}else{
+			$viewer->assign('HT_PER','false');
+			$viewer->assign('HTACC_PER','Please create the .htaccess file in your Joforce root folder with writable permission.');
+		}
+		if($webServerName == 'nginx') {
+			$content .="\n location ". $phpbase ." {"."<br>";
+//			$content .=' if (!-e $request_filename){ rewrite ^'.$phpbase.'(.*)$ '.$phpbase.$php_Self.' last; '."<br>";
+			$content .=' if (!-e $request_filename){ rewrite ^'.$phpbase.'(.*)$ '.$php_Self.' last; '."<br>";
+			$content .= "\n } \n<br>";
+			$content .= "fastcgi_read_timeout 1800s; <br> fastcgi_send_timeout 1800s;";
+			$content .= "\n } \n<br>";
+			$viewer->assign('HTACC_PER',$content);
+			$viewer->assign('HT_PER','true');
+			$viewer->assign('SERVERTYPE','Nginx');
+			$viewer->assign('SERVERHEAD','Nginx configuration');
+
+		}
+		else {	
+			$viewer->assign('SERVERTYPE','.htaccess');
+			$viewer->assign('SERVERHEAD','File Permission Check');
+		}
+	
 		$viewer->assign('FAILED_FILE_PERMISSIONS', Install_Utils_Model::getFailedPermissionsFiles());
 		$viewer->assign('PHP_INI_CURRENT_SETTINGS', Install_Utils_Model::getCurrentDirectiveValue());
 		$viewer->assign('PHP_INI_RECOMMENDED_SETTINGS', Install_Utils_Model::getRecommendedDirectives());

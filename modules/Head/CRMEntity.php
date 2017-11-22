@@ -140,7 +140,7 @@ class Head_CRMEntity extends CRMEntity {
 	{
 		global $current_user,$currentModule;
 
-		include("include/utils/ExportUtils.php");
+		include("includes/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery('ServiceContracts', "detail_view");

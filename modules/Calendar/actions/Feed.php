@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport ('~~/include/Webservices/Query.php');
+vimport ('~~/includes/Webservices/Query.php');
 
 class Calendar_Feed_Action extends Head_BasicAjax_Action {
 
@@ -224,7 +224,7 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 	}
 
 	protected function getGroupsIdsForUsers($userId) {
-		vimport('~~/include/utils/GetUserGroups.php');
+		vimport('~~/includes/utils/GetUserGroups.php');
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

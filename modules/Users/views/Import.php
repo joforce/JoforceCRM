@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-vimport('~~/include/Webservices/Custom/DeleteUser.php');
+vimport('~~/includes/Webservices/Custom/DeleteUser.php');
 
 class Users_Import_View extends Head_Import_View {
     

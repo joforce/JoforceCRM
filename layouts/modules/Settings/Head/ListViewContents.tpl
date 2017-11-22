@@ -72,7 +72,7 @@
 							<tbody class="overflow-y">
 								{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 									<tr class="listViewEntries"  data-id="{$LISTVIEW_ENTRY->getId()}"
-										{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$SITEURL}{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
+										{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 										{if method_exists($LISTVIEW_ENTRY,'getRowInfo')}data-info="{Head_Util_Helper::toSafeHTML(ZEND_JSON::Encode($LISTVIEW_ENTRY->getRowInfo()))}"{/if}>
 										<td width="10%">
 											{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}

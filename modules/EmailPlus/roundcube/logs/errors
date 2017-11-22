@@ -1990,12 +1990,12 @@
 [25-Apr-2017 09:59:32 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [25-Apr-2017 09:59:32 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [25-Apr-2017 09:59:32 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[25-Apr-2017 09:59:32 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[25-Apr-2017 09:59:32 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[25-Apr-2017 09:59:32 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 09:59:32 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 09:59:32 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[25-Apr-2017 09:59:32 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[25-Apr-2017 09:59:32 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[25-Apr-2017 09:59:32 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[25-Apr-2017 09:59:32 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 09:59:32 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 09:59:32 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[25-Apr-2017 09:59:32 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [25-Apr-2017 09:59:32 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:620
 [25-Apr-2017 09:59:32 UTC] PHP  11. rcube_db->num_rows() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:440
 [25-Apr-2017 09:59:56 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET http://localhost/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
@@ -2009,12 +2009,12 @@
 [25-Apr-2017 10:00:14 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [25-Apr-2017 10:00:14 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [25-Apr-2017 10:00:14 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[25-Apr-2017 10:00:14 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[25-Apr-2017 10:00:14 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[25-Apr-2017 10:00:14 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 10:00:14 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 10:00:14 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[25-Apr-2017 10:00:14 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[25-Apr-2017 10:00:14 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[25-Apr-2017 10:00:14 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[25-Apr-2017 10:00:14 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 10:00:14 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 10:00:14 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[25-Apr-2017 10:00:14 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [25-Apr-2017 10:00:14 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:620
 [25-Apr-2017 10:00:14 UTC] PHP  11. rcube_db->num_rows() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:440
 [25-Apr-2017 10:02:26 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET http://localhost/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
@@ -2265,12 +2265,12 @@
 [25-Apr-2017 14:29:09 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [25-Apr-2017 14:29:09 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [25-Apr-2017 14:29:09 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[25-Apr-2017 14:29:09 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[25-Apr-2017 14:29:09 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[25-Apr-2017 14:29:09 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:29:09 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:29:09 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[25-Apr-2017 14:29:09 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[25-Apr-2017 14:29:09 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[25-Apr-2017 14:29:09 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[25-Apr-2017 14:29:09 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:29:09 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:29:09 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[25-Apr-2017 14:29:09 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [25-Apr-2017 14:29:09 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [25-Apr-2017 14:31:30 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET http://localhost/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
 [25-Apr-2017 14:31:38 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
@@ -2283,12 +2283,12 @@
 [25-Apr-2017 14:31:52 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [25-Apr-2017 14:31:52 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [25-Apr-2017 14:31:52 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[25-Apr-2017 14:31:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[25-Apr-2017 14:31:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[25-Apr-2017 14:31:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:31:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:31:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[25-Apr-2017 14:31:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[25-Apr-2017 14:31:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[25-Apr-2017 14:31:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[25-Apr-2017 14:31:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:31:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:31:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[25-Apr-2017 14:31:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [25-Apr-2017 14:31:52 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [25-Apr-2017 14:33:25 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET http://localhost/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
 [25-Apr-2017 14:33:30 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?server=ssl://imap.gmail.com&port=993)
@@ -2323,12 +2323,12 @@
 [25-Apr-2017 14:36:21 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [25-Apr-2017 14:36:21 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [25-Apr-2017 14:36:21 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[25-Apr-2017 14:36:21 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[25-Apr-2017 14:36:21 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[25-Apr-2017 14:36:21 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:36:21 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[25-Apr-2017 14:36:21 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[25-Apr-2017 14:36:21 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[25-Apr-2017 14:36:21 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[25-Apr-2017 14:36:21 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[25-Apr-2017 14:36:21 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:36:21 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[25-Apr-2017 14:36:21 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[25-Apr-2017 14:36:21 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [25-Apr-2017 14:36:21 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:534
 [25-Apr-2017 14:36:21 +0000]: <dkcfaf74> DB Error: [1064] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1 (SQL Query: select invoiceid, subject, invoicestatus, jo_products.productid, productname from jo_invoice inner join jo_inventoryproductrel on jo_inventoryproductrel.id = jo_invoice.invoiceid inner join jo_products on jo_products.productid = jo_inventoryproductrel.productid where invoiceid IN (select invoiceid from jo_invoice where contactid =  )) in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_db.php on line 539 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_caps=pdf%3D1%2Cflash%3D0%2Ctif%3D0&_uid=2060&_mbox=INBOX&_action=show)
 [25-Apr-2017 14:36:23 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_action=pagenav&_uid=2060&_mbox=INBOX&_remote=1&_unlock=loading1493130982826&_=1493130982536)
@@ -2415,12 +2415,12 @@
 [26-Apr-2017 05:06:42 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 05:06:42 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 05:06:42 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 05:06:42 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 05:06:42 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 05:06:42 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 05:06:42 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 05:06:42 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 05:06:42 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 05:06:42 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 05:06:42 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 05:06:42 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 05:06:42 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 05:06:42 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 05:06:42 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 05:06:42 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:534
 [26-Apr-2017 05:06:42 +0000]: <eekguq5p> DB Error: [1064] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1 (SQL Query: select invoiceid, subject, invoicestatus, jo_products.productid, productname from jo_invoice inner join jo_inventoryproductrel on jo_inventoryproductrel.id = jo_invoice.invoiceid inner join jo_products on jo_products.productid = jo_inventoryproductrel.productid where invoiceid IN (select invoiceid from jo_invoice where contactid =  )) in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_db.php on line 539 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_caps=pdf%3D1%2Cflash%3D0%2Ctif%3D0&_uid=2017&_mbox=INBOX&_action=show)
 [26-Apr-2017 05:06:43 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=addressbook&_action=photo&_email=mailtest%40smackcoders.com)
@@ -3029,12 +3029,12 @@
 [26-Apr-2017 09:32:29 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:32:29 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:32:29 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:32:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:32:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:32:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:32:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:32:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:32:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:32:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:32:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:32:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:32:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:32:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:32:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:32:29 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:32:29 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:32:29 UTC] PHP Warning:  Missing argument 2 for html::label(), called in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc on line 443 and defined in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/html.php on line 215
@@ -3042,12 +3042,12 @@
 [26-Apr-2017 09:32:29 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:32:29 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:32:29 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:32:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:32:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:32:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:32:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:32:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:32:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:32:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:32:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:32:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:32:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:32:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:32:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:32:29 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:32:29 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:32:29 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_action=pagenav&_uid=2054&_mbox=INBOX&_remote=1&_unlock=loading1493199149858&_=1493199149662)
@@ -3072,12 +3072,12 @@
 [26-Apr-2017 09:33:06 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:33:06 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:33:06 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:33:06 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:33:06 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:33:06 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:33:06 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:33:06 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:33:06 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:33:06 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:33:06 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:33:06 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:33:06 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:33:06 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:33:06 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:33:06 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:33:06 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:33:06 UTC] PHP Warning:  Missing argument 2 for html::label(), called in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc on line 443 and defined in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/html.php on line 215
@@ -3085,12 +3085,12 @@
 [26-Apr-2017 09:33:06 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:33:06 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:33:06 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:33:06 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:33:06 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:33:06 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:33:06 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:33:06 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:33:06 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:33:06 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:33:06 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:33:06 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:33:06 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:33:06 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:33:06 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:33:06 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:33:06 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:33:07 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_action=pagenav&_uid=2054&_mbox=INBOX&_remote=1&_unlock=loading1493199187704&_=1493199187386)
@@ -3113,12 +3113,12 @@
 [26-Apr-2017 09:34:29 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:34:29 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:34:29 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:34:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:34:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:34:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:34:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:29 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:34:29 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:34:29 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:29 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:29 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:29 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:34:29 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:34:29 +0000]: <eekguq5p> DB Error: [1064] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1 (SQL Query: select invoiceid, subject, invoicestatus, jo_products.productid, productname from jo_invoice inner join jo_inventoryproductrel on jo_inventoryproductrel.id = jo_invoice.invoiceid inner join jo_products on jo_products.productid = jo_inventoryproductrel.productid where invoiceid IN (select invoiceid from jo_invoice where contactid =  )) in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_db.php on line 539 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_caps=pdf%3D1%2Cflash%3D0%2Ctif%3D0&_uid=2060&_mbox=INBOX&_action=show)
 [26-Apr-2017 09:34:30 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=addressbook&_action=photo&_email=rajkumarm%40smackcoders.com)
@@ -3133,12 +3133,12 @@
 [26-Apr-2017 09:34:52 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:34:52 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:34:52 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:34:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:34:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:34:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:34:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:34:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:34:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:34:52 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:34:52 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:34:52 UTC] PHP Warning:  Missing argument 2 for html::label(), called in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc on line 443 and defined in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/html.php on line 215
@@ -3146,12 +3146,12 @@
 [26-Apr-2017 09:34:52 UTC] PHP   1. {main}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:0
 [26-Apr-2017 09:34:52 UTC] PHP   2. include_once() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/index.php:291
 [26-Apr-2017 09:34:52 UTC] PHP   3. rcmail_output_html->send() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:178
-[26-Apr-2017 09:34:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:478
-[26-Apr-2017 09:34:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:619
-[26-Apr-2017 09:34:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1004
-[26-Apr-2017 09:34:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
-[26-Apr-2017 09:34:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/include/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:52 UTC] PHP   4. rcmail_output_html->parse() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:478
+[26-Apr-2017 09:34:52 UTC] PHP   5. rcmail_output_html->parse_xml() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:619
+[26-Apr-2017 09:34:52 UTC] PHP   6. preg_replace_callback() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:52 UTC] PHP   7. rcmail_output_html->xml_command() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1004
+[26-Apr-2017 09:34:52 UTC] PHP   8. call_user_func:{/var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131}() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
+[26-Apr-2017 09:34:52 UTC] PHP   9. rcmail_mail_record_details() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/includes/rcmail_output_html.php:1131
 [26-Apr-2017 09:34:52 UTC] PHP  10. rcmail_mail_record_rel() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:535
 [26-Apr-2017 09:34:52 UTC] PHP  11. html::label() /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/steps/mail/show.inc:443
 [26-Apr-2017 09:34:54 +0000]: PHP Error: Failed to load plugin file /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/plugins/sender_details/sender_details.php in /var/www/html/vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/program/lib/Roundcube/rcube_plugin_api.php on line 173 (GET /vtiger7_0/vtiger7_5/modules/EmailPlus/roundcube/?_task=mail&_action=pagenav&_uid=2054&_mbox=INBOX&_remote=1&_unlock=loading1493199294187&_=1493199293928)

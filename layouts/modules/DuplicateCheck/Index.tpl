@@ -7,7 +7,7 @@
  * ********************************************************************************** */
 -->*}
 {literal}
-<link rel="stylesheet" type="text/css" href="layouts/v7/modules/DuplicateCheck/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="layouts/modules/DuplicateCheck/font-awesome/css/font-awesome.css" />
 <style type="text/css">
 .moveleft {
   float: left;

@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-require_once("include/utils/CommonUtils.php");
-require_once("include/events/SqlResultIterator.inc");
-require_once("include/events/VTWSEntityType.inc");
+require_once("includes/utils/CommonUtils.php");
+require_once("includes/events/SqlResultIterator.inc");
+require_once("includes/events/VTWSEntityType.inc");
 
 require_once("VTWorkflowApplication.inc");
 require_once("VTTaskManager.inc");

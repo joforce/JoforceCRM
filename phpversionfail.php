@@ -14,7 +14,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>vtiger CRM 5 - PHP Version Check</title>
-	<link href="include/install/install.css" rel="stylesheet" type="text/css">
+	<link href="includes/install/install.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="small cwPageBg" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
@@ -23,13 +23,13 @@
 	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>
 	<tr>
 		<td class="cwHeadBg" align=left>&nbsp;</td>
-		<td class="cwHeadBg" align=right><img src="include/install/images/vtigercrm5.gif" alt="vtiger CRM 5" title="vtiger CRM 5"></td>
+		<td class="cwHeadBg" align=right><img src="includes/install/images/vtigercrm5.gif" alt="vtiger CRM 5" title="vtiger CRM 5"></td>
 	</tr>
 	</table>
 
 	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>
 	<tr>
-		<td background="include/install/images/topInnerShadow.gif" align=left><img src="include/install/images/topInnerShadow.gif" ></td>
+		<td background="includes/install/images/topInnerShadow.gif" align=left><img src="includes/install/images/topInnerShadow.gif" ></td>
 	</tr>
 	</table>
 
@@ -51,18 +51,18 @@
 
 	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>
 	<tr>
-		<td background="include/install/images/topInnerShadow.gif" align=left><img src="include/install/images/topInnerShadow.gif" ></td>
+		<td background="includes/install/images/topInnerShadow.gif" align=left><img src="includes/install/images/topInnerShadow.gif" ></td>
 	</tr>
 	</table>
 
 	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>
 	<tr>
-		<td background="include/install/images/bottomGradient.gif"><img src="include/install/images/bottomGradient.gif"></td>
+		<td background="includes/install/images/bottomGradient.gif"><img src="includes/install/images/bottomGradient.gif"></td>
 	</tr>
 	</table>
 	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>
 	<tr>
-		<td align=center><img src="include/install/images/bottomShadow.jpg"></td>
+		<td align=center><img src="includes/install/images/bottomShadow.jpg"></td>
 	</tr>
 	</table>
     	<table border=0 cellspacing=0 cellpadding=0 width=80% align=center>

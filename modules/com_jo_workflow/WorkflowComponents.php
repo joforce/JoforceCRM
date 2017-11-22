@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ******************************************************************************/
-require_once("include/utils/CommonUtils.php");
-require_once 'include/Webservices/Utils.php';
-require_once 'include/Webservices/DescribeObject.php';
-require_once("include/Zend/Json.php");
+require_once("includes/utils/CommonUtils.php");
+require_once 'includes/Webservices/Utils.php';
+require_once 'includes/Webservices/DescribeObject.php';
+require_once("includes/Zend/Json.php");
 
 require_once 'modules/com_jo_workflow/expression_engine/VTExpressionsManager.inc';
 

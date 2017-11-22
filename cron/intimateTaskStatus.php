@@ -11,7 +11,7 @@ ini_set("include_path", "../");
 
 require('send_mail.php');
 require_once('config/config.php');
-require_once('include/utils/utils.php');
+require_once('includes/utils/utils.php');
 
 // Email Setup
 global $adb;

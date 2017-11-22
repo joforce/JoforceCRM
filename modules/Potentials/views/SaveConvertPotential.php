@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-vimport('~~/include/Webservices/ConvertPotential.php');
+vimport('~~/includes/Webservices/ConvertPotential.php');
 
 class Potentials_SaveConvertPotential_View extends Head_View_Controller {
 

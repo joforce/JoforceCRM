@@ -64,7 +64,7 @@ class Head_MailScannerInfo {
 	 * @access private
 	 */
 	function __crypt($password, $encrypt=true) {
-		require_once('include/utils/encryption.php');
+		require_once('includes/utils/encryption.php');
 		$cryptobj = new Encryption();
 		if($encrypt) return $cryptobj->encrypt(trim($password));
 		else return $cryptobj->decrypt(trim($password));

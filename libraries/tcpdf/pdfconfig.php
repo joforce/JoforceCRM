@@ -10,7 +10,7 @@
  *
 ********************************************************************************/
 
-//Following variables will be used in include/fpdf/templates/body.php
+//Following variables will be used in includes/fpdf/templates/body.php
 
 //where the bottom line starts. If you change this bottom then all related changes will be done automatically
 

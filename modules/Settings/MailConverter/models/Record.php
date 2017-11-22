@@ -164,7 +164,7 @@ class Settings_MailConverter_Record_Model extends Settings_Head_Record_Model {
 	 * @access private
 	 */
 	function __crypt($password, $encrypt=true) {
-		vimport('~~include/utils/encryption.php');
+		vimport('~~includes/utils/encryption.php');
 		$cryptobj = new Encryption();
 		if($encrypt) return $cryptobj->encrypt(trim($password));
 		else return $cryptobj->decrypt(trim($password));

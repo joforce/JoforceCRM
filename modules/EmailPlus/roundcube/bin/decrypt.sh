@@ -54,7 +54,7 @@
 
 define('INSTALL_PATH', realpath(__DIR__ .'/..') . '/');
 
-require INSTALL_PATH . 'program/include/clisetup.php';
+require INSTALL_PATH . 'program/includes/clisetup.php';
 
 if ($argc < 2) {
 	die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");

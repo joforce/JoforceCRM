@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
   font-family: 'OpenSans-Regular';
   src: url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.eot');
   src: url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.ttf') format('truetype'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.eot?#iefix') format('embedded-opentype'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.woff2') format('woff2'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.woff') format('woff'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.svg#svgFontName') format('svg');
@@ -8,19 +8,26 @@
   src: url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.eot');
   src: url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.ttf') format('truetype'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.eot?#iefix') format('embedded-opentype'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.woff2') format('woff2'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.woff') format('woff'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.svg#svgFontName') format('svg');
 }
+*/
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+/*@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");*/
+
 
 html{
     height:100%;
 }
 body{
-    font-family: 'OpenSans-Regular', "Trebuchet MS","Lucida Grande",Verdana;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: 'OpenSans-Regular', "Trebuchet MS","Lucida Grande",Verdana;*/
     /*background: #F5FAEE;/*#f1f6e8;*/
     /*background: #edeff0;/*#f1f6e8;*/
 
-    background: #edeff0 url('../images/bg.png');
-
+    /*background: #edeff0 url('../images/bg.png');*/
+     background: #2c3e50 url("../images/joforce-login-bg.png") !important;
+background:#ffffff;
     color : #555;
     height: 98%;
+    font-size:14px !important;
 }
 .page-container{
     width:70%;
@@ -52,15 +59,15 @@ body{
     *padding: 15px 0 0;
 }
 .welcome-image{
-    text-align: right;
-    padding-top: 5%;
+   /* text-align: right;
+    padding-top: 5%;*/
 }
 .alignCenter{
     text-align: center;
 }
-.welcome-div{
+/*.welcome-div{
     padding: 13% 0;
-}
+}*/
 .mig-div{
     padding: 10% 0;
 }
@@ -227,3 +234,342 @@ hr{
   border: 1px solid #7f3d9b;
 }
 
+
+
+
+/* new installation process css start */
+
+
+.main-container{
+    box-shadow:none !important;
+}
+
+
+.install-preprocess-top{
+margin-top:40px !important;
+}
+
+.install-logo{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.joforce-install-step p {
+    margin-top: 10px;
+    position: absolute;
+    text-align: left;
+    left:-8%;
+    width:90%;
+    font-size:14px;
+}
+.joforce-install-row {
+    display: table-row;
+}
+.joforce-install-section {
+    display: table;
+    /*width: 75%;*/
+    width: 97%;
+    position: relative;
+    margin-top:50px;
+
+
+}
+.joforce-install-row:before {
+    top: 15px;
+    /*top:24px;*/
+    bottom: 0 !important;
+    position: absolute  !important;
+    content: " "  !important;
+    /*width: 89%  !important;*/
+    width: 83%  !important;
+    height: 5px  !important;
+    background-color: #c5c7ca !important;
+    z-order: 0 !important;
+}
+.joforce-install-step {
+    display: table-cell !important;
+    text-align: center !important;
+    position: relative !important;
+   
+    
+}
+
+.joforce-install-circle {
+  /*background: #7f3d9b;*/
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  -moz-border-radius: 50% !important; 
+  -webkit-border-radius: 50% !important;
+  height:30px !important;
+  width:30px !important;
+    position: relative !important;
+    /*box-shadow: 0 0 0 5px #F5F7FA !important;*/
+    box-shadow: 0 0 0 5px #c5c7ca !important;
+    }
+
+.joforce-install-active{
+  box-shadow: 0 0 0 5px #7f3d9b !important;
+}
+.joforce-install-completed{
+    background-color:#7f3d9b !important;
+    box-shadow: 0 0 0 5px #7f3d9b !important;
+    border-color:#7f3d9b;
+    
+}
+.joforce-install-completed span{
+    color:#ffffff !important;
+}
+.joforce-install-row::after{
+  background-color: red !important;
+}
+
+.joforce-install-circle span{
+  position: relative !important;
+  top: 20% !important;
+  color:#333333;
+  transform: translateY(-30%) !important;
+  font-size:15px !important;
+  
+}
+.install-form-section hr{
+    /*border:1px solid #fff !important;*/
+}
+
+
+/*.joforce-install-heading h3{
+font-size:20px;
+}*/
+.joforce-install-heading h4{
+    font-weight: 400 !important;
+
+}
+
+.install-input, .install-select{
+    width:85% !important;
+}
+.install-info{
+    width:30%;
+}
+
+
+.install-form-section label{
+font-size:14px;
+font-weight:500 !important;
+color:#7d7d7d; 
+}
+
+
+.install-label-value{
+    font-size:14px;
+}
+
+.joforce-install-btn{
+    margin-top:10px !important;
+    margin-bottom:10px !important;
+}
+
+.install-configuration-step{
+width: 36.333% !important;
+}
+
+.install-language{
+   margin-top:30px; 
+   
+}
+
+.install-language span{
+font-size:15px;
+
+}
+
+/*custom css start*/
+
+.welcome-div{
+ padding:10% 10% 5%;
+
+}
+
+.config-table th{
+    background:none;
+    border-bottom:2px solid #eee;
+}
+
+.config-table{
+    border:none;
+    font-size:14px; 
+}
+
+.vtFooter p{
+    color:#ffffff;
+}
+
+/*custom css end*/
+
+
+/*form css*/
+
+.install-form-section input[type="text"].form-control, .install-form-section input[type="password"].form-control, .install-form-section textarea.form-control, .install-form-section select.form-control {
+  width: 85% !important;
+  /*color: #3b3c41;*/
+  transition: all 125ms ease-in-out;
+  background-color: #ffffff;
+  border-radius: 3px !important;
+  border: 1px solid #e1e1e3;
+  box-shadow: none;
+  /*height: 42px;*/
+  outline: none;
+  font-size: 15px; }
+.install-form-section input[type="text"].form-control:focus, .install-form-section input[type="password"].form-control:focus, .install-form-section textarea.form-control:focus, .install-form-section select.form-control:focus {
+    background-color: #ffffff;
+    border: 1px solid #7F3D9B;
+    box-shadow: none; }
+
+.install-form-section input.form-control[type="text"], .install-form-section input.form-control[type="password"]{
+  border-radius: 0;
+  height: 35px !important; }
+
+ .install-form-section textarea.form-control{
+
+    
+    height:80px;
+  }
+ .install-form-section select.form-control {
+
+    
+    height:35px;
+ }
+  
+
+
+.install-form-section input[type=checkbox]:checked::after, .install-form-section .checkbox input[type=checkbox]:checked::after, .install-form-section .checkbox-inline input[type=checkbox]:checked::after{
+    top:0px !important;
+    left:-2px !important;
+}
+
+.install-form-section input[type=radio], install-form-section .radio input[type=radio], .install-form-section .radio-inline input[type=radio], .install-form-section input[type=checkbox], .install-form-section .checkbox input[type=checkbox], .install-form-section .checkbox-inline input[type=checkbox]{
+    width:20px;
+    height:20px;
+}
+
+.install-form-section input[type=checkbox]:focus, .install-form-section .checkbox input[type=checkbox]:focus, .install-form-section .checkbox-inline input[type=checkbox]:focus{
+
+
+background-color: #ffffff;
+    border: 1px solid #7F3D9B;
+    box-shadow: none;
+}
+
+.select2-input{
+    width:100% !important;
+}
+
+.select2-drop.select2-drop-above.select2-drop-active{
+    border-top: 1px solid #7F3D9B !important;
+}
+
+.select2-drop-active{
+    border:1px solid #7F3D9B !important;
+}
+/*.select2-container .select2.install-select .select2-container-active:focus{
+background-color: #ffffff !important;
+    border: 1px solid #7F3D9B !important;
+    box-shadow: none !important;
+}
+*/
+.select2-container .select2-choice {
+    height: 34px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #fff;
+    background-image: none;
+    background: #fff;
+}
+
+.select2-container .select2-choice .select2-chosen { margin-top: 4px }
+.select2-container .select2-choice abbr { top: 13px }
+.select2-container .select2-choice,
+.select2-container .select2-choice .select2-arrow {
+    
+    -webkit-border-radius: 3px !important;
+    border-radius: 3px !important;
+    border-color: #ccc;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    background-color: #fafafa;
+    background-image: none;
+    background: #fafafa;
+    width: 22px;
+}
+
+.select2-container .select2-choice .select2-arrow b>span { margin: 4px 0 0 6px }
+.select2-container.select2-container-active .select2-choice { border-color: #7F3D9B }
+.select2-container.select2-dropdown-open .select2-choice { border-bottom-color: #7F3D9B }
+/*.select2-drop {
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+    
+}*/
+
+.select2-drop:not(.select2-drop-above) { margin-top: -3px }
+.select2-drop .select2-results { max-height: 300px }
+.select2-drop .select2-results li {
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.select2-search { margin: 4px 0 }
+.select2-search input,
+.select2-search input:focus {
+    background-color: #fff;
+    background-image: none;
+    background: #fff;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+   border: 1px solid #7F3D9B;
+}
+
+.select2-container.form-control {
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+
+.select2-results .select2-highlighted{
+    background:#7F3D9B;
+}
+
+
+/*padding css*/
+
+.joforce-install-row-bottom{
+    margin-bottom:80px;
+}
+
+.pl40{
+padding-left:40px !important;
+}
+.pl10{
+    padding-left:10px !important;
+
+}
+.mt30{
+margin-top:30px !important;
+}
+
+.ml40{
+    margin-left:40px !important;
+
+}
+.mr40{
+margin-right:40px !important;
+}
+
+
+/*new installtion process css end*/

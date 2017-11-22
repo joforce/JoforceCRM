@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <schema version="0.2">
-
+	<table name="jo_canonical">
+                 <field name="id" type="I" size="19">
+                        <key />
+                        <autoincrement/>
+                </field>
+                <field name="input_format" type="X"/>
+                <field name="output_format" type="X" />
+        <opt platform="mysql">Engine=InnoDB</opt>
+        </table>
 	<table name="jo_users">
 		<field name="id" type="I" >
 			<key />
@@ -1897,7 +1905,7 @@
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
 
-	<table name="jo_faq">
+<!--	<table name="jo_faq">
 		<field name="id" type="I" size="11">
 			<key />
 			<autoincrement />
@@ -1922,7 +1930,7 @@
 			<col>id</col>
 		</index>
 		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
+	</table> 
 
 	<table name="jo_faq" alter="true">
 		<constraint>ADD CONSTRAINT fk_1_jo_faq FOREIGN KEY (id) REFERENCES jo_crmentity(crmid) ON DELETE CASCADE</constraint>
@@ -1954,7 +1962,7 @@
 		<opt>Engine=InnoDB</opt>
 		<data>
 		</data>
-	</table>
+	</table> -->
 
 	<table name="jo_loginhistory">
 		<field name="login_id" type="I" size="11">
@@ -2456,7 +2464,7 @@
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
 
-	<table name="jo_faqcategories">
+<!--	<table name="jo_faqcategories">
 		<field name="faqcategories_id" type="I" size="19">
 			<key />
 			<autoincrement />
@@ -2507,7 +2515,7 @@
 		<data> 
 		</data> 
 	</table> 
-
+-->
 	<table name="jo_rating">
 		<field name="rating_id" type="I" size="19">
 			<key />
@@ -2524,7 +2532,7 @@
 		</field>
 		<field name="sortorderid" type="I" size="11"></field>
 		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
+	</table> 
 
 	<table name="jo_ticketcategories">
 		<field name="ticketcategories_id" type="I" size="19">
@@ -7393,5 +7401,5 @@
                 <data>
                 </data>
         </table>
-
+	
 </schema>

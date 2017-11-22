@@ -10,7 +10,7 @@
   *
  ********************************************************************************/
 
-require_once('include/utils/utils.php');
+require_once('includes/utils/utils.php');
 
 class RecurringInvoiceHandler extends VTEventHandler {
 	public function handleEvent($handlerType, $entityData){

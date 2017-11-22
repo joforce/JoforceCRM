@@ -18,7 +18,7 @@ header('Cache-Control: private', false);
 chdir(dirname(__FILE__). '/../../../');
 
 require_once 'includes/Loader.php';
-require_once 'include/utils/utils.php';
+require_once 'includes/utils/utils.php';
 
 vimport('includes.http.Request');
 vimport('includes.runtime.Globals');

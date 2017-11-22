@@ -102,7 +102,7 @@ Many performance improvements have happened internally. One notable
 improvement is that all compiled templates are now handled as PHP
 functions. This speeds up repeated templates tremendously, as each one
 calls an (in-memory) PHP function instead of performing another file
-include/scan.
+includes/scan.
 
 New Features
 

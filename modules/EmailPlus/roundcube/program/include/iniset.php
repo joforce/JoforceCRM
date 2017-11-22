@@ -2,7 +2,7 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/iniset.php                                            |
+ | program/includes/iniset.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2016, The Roundcube Dev Team                       |

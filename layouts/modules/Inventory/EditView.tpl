@@ -73,7 +73,7 @@
                     <div class="modal-overlay-footer">
                         <div class="row clearfix">
                             <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-                                <button class="btn btn-success saveButton" type="submit">Save</button>
+                                <button class="btn-default" type="submit">Save</button>
                                 <a class="cancelLink" href="javascript:history.back()" type="reset">Cancel</a>
                             </div>
                         </div>

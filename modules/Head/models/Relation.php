@@ -71,7 +71,7 @@ class Head_Relation_Model extends Head_Base_Model{
 	}
 
 	public function getListUrl($parentRecordModel) {
-		return '/'.$this->getParentModuleModel()->get('name').'/'.$this->get('modulename').
+		return $this->getParentModuleModel()->get('name').'/'.$this->get('modulename').
 				'/Detail/'.$parentRecordModel->getId().'/showRelatedList/'.$this->get('relation_id');
 	}
 

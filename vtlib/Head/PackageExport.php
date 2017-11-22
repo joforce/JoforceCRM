@@ -18,7 +18,7 @@ include_once('vtlib/Head/Cron.php');
  * @package vtlib
  */
 class Head_PackageExport {
-	var $_export_tmpdir = 'test/vtlib';
+	var $_export_tmpdir = 'cache/vtlib';
 	var $_export_modulexml_filename = null;
 	var $_export_modulexml_file = null;
 

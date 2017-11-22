@@ -9,8 +9,8 @@
  * ********************************************************************************** */
 
 require_once 'includes/main/WebUI.php';
-require_once 'include/utils/utils.php';
-require_once 'include/utils/VtlibUtils.php';
+require_once 'includes/utils/utils.php';
+require_once 'includes/utils/VtlibUtils.php';
 require_once 'modules/Emails/class.phpmailer.php';
 require_once 'modules/Emails/mail.php';
 require_once 'modules/Head/helpers/ShortURL.php';

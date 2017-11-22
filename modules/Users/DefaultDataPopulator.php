@@ -11,8 +11,8 @@
  * ****************************************************************************** */
 
 include_once('config.php');
-require_once('include/logging.php');
-require_once('include/utils/utils.php');
+require_once('includes/logging.php');
+require_once('includes/utils/utils.php');
 
 /** Class to populate the default required data during installation
  */
@@ -30,6 +30,8 @@ class DefaultDataPopulator extends CRMEntity {
 	function create_tables() {
 		global $app_strings;
 		global $adb;
+		$this->db->query('SET sql_mode = ""');
+                $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (3,'Home',0,1,'Home',0,1,0,null)");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (7,'Leads',0,4,'Leads',0,0,1,'Sales')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (6,'Accounts',0,5,'Accounts',0,0,1,'Sales')");
@@ -61,7 +63,7 @@ class DefaultDataPopulator extends CRMEntity {
 		//For addres lookup
 		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (31,'AddressLookup',0,-1,'Address Lookup',0,1,1,null)");
 		//For PDF Maker
-		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (32,'VTPDFMaker',0,-1,'PDF Maker',0,1,1,null)");
+		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (32,'VTPDFMaker',0,-1,'PDF Maker',0,1,0,null)");
 		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (33,'EmailPlus',0,-1,'Email Plus',0,1,1,null)");
 
 
@@ -1080,7 +1082,7 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Contacts") . ",'get_contacts',1,'Contacts',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Potentials") . ",'get_opportunities',2,'Potentials',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Quotes") . ",'get_quotes',3,'Quotes',0,'add','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("SalesOrder") . ",'get_salesorder',4,'Sales Order',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("SalesOrder") . ",'get_salesorder',4,'SalesOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Invoice") . ",'get_invoices',5,'Invoice',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Calendar") . ",'get_activities',6,'Activities',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Accounts") . "," . getTabid("Emails") . ",'get_emails',7,'Emails',0,'add','','','')");
@@ -1103,8 +1105,8 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("Emails") . ",'get_emails',3,'Emails',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("HelpDesk") . ",'get_tickets',4,'HelpDesk',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("Quotes") . ",'get_quotes',5,'Quotes',0,'add','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("PurchaseOrder") . ",'get_purchase_orders',6,'Purchase Order',0,'add','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("SalesOrder") . ",'get_salesorder',7,'Sales Order',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("PurchaseOrder") . ",'get_purchase_orders',6,'PurchaseOrder',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("SalesOrder") . ",'get_salesorder',7,'SalesOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("Products") . ",'get_products',8,'Products',0,'select','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("Calendar") . ",'get_history',9,'Activity History',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Contacts") . "," . getTabid("Documents") . ",'get_attachments',10,'Documents',0,'add,select','','','')");
@@ -1118,15 +1120,15 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . ",0,'get_stage_history',4,'Sales Stage History',0,'','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . "," . getTabid("Documents") . ",'get_attachments',5,'Documents',0,'add,select','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . "," . getTabid("Quotes") . ",'get_Quotes',6,'Quotes',0,'add','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . "," . getTabid("SalesOrder") . ",'get_salesorder',7,'Sales Order',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . "," . getTabid("SalesOrder") . ",'get_salesorder',7,'SalesOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Potentials") . "," . getTabid("Calendar") . ",'get_history',8,'Activity History',0,'','','','')");
 
 		//Inserting Product Related Lists
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("HelpDesk") . ",'get_tickets',1,'HelpDesk',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("Documents") . ",'get_attachments',3,'Documents',0,'add,select','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("Quotes") . ",'get_quotes',4,'Quotes',0,'add','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("PurchaseOrder") . ",'get_purchase_orders',5,'Purchase Order',0,'add', '', '', '')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("SalesOrder") . ",'get_salesorder',6,'Sales Order',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("PurchaseOrder") . ",'get_purchase_orders',5,'PurchaseOrder',0,'add', '', '', '')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("SalesOrder") . ",'get_salesorder',6,'SalesOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("Invoice") . ",'get_invoices',7,'Invoice',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("PriceBooks") . ",'get_product_pricebooks',8,'PriceBooks',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Products") . "," . getTabid("Leads") . ",'get_leads',9,'Leads',0,'select','','','')");
@@ -1152,12 +1154,12 @@ class DefaultDataPopulator extends CRMEntity {
 
 		// Inserting Vendor Related Lists
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Vendors") . ",14,'get_products',1,'Products',0,'add,select','','','')");
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Vendors") . ",21,'get_purchase_orders',2,'Purchase Order',0,'add','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Vendors") . ",21,'get_purchase_orders',2,'PurchaseOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Vendors") . ",4,'get_contacts',3,'Contacts',0,'select','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Vendors") . "," . getTabid("Emails") . ",'get_emails',4,'Emails',0,'add','','','')");
 
 		// Inserting Quotes Related Lists
-		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Quotes") . "," . getTabid("SalesOrder") . ",'get_salesorder',1,'Sales Order',0,'','','','')");
+		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Quotes") . "," . getTabid("SalesOrder") . ",'get_salesorder',1,'SalesOrder',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Quotes") . ",9,'get_activities',2,'Activities',0,'add','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Quotes") . "," . getTabid("Documents") . ",'get_attachments',3,'Documents',0,'add,select','','','')");
 		$this->db->query("insert into jo_relatedlists values(" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Quotes") . ",9,'get_history',4,'Activity History',0,'','','','')");
@@ -1253,7 +1255,7 @@ Thanks,
 
 		$adb->pquery('insert into jo_vtpdfmakersettings (id, version) values (1, ?)', array('0.1'));
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoices', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoices', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
                         <td style="width:50%;"> </td>
                 </tr><tr><td style="width:50%;">$company-organizationname$</td>
                         <td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
@@ -1299,7 +1301,7 @@ Thanks,
                 </tr></tbody></table><br /><br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo3OiJJbnZvaWNlIjtzOjExOiJwYWdlX2Zvcm1hdCI7czoyOiJBNCI7czoxNjoicGFnZV9vcmllbnRhdGlvbiI7czoxOiJQIjtzOjEwOiJtYXJnaW5fdG9wIjtzOjM6IjEwJSI7czoxMzoibWFyZ2luX2JvdHRvbSI7czozOiIxMCUiO3M6MTE6Im1hcmdpbl9sZWZ0IjtzOjM6IjEwJSI7czoxMjoibWFyZ2luX3JpZ2h0IjtzOjM6IjEwJSI7czoxMDoiZGV0YWlsdmlldyI7czoyOiJvbiI7czo4OiJsaXN0dmlldyI7czoyOiJvbiI7fQ==', '', '##Page##'));
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
                         <td style="width:50%;"> </td>
                 </tr><tr><td style="width:50%;">$company-organizationname$</td>
                         <td style="font-size:20px;width:50%;text-align:right;"><b>QUOTE</b></td>
@@ -1347,7 +1349,7 @@ Thanks,
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo2OiJRdW90ZXMiO3M6MTE6InBhZ2VfZm9ybWF0IjtzOjI6IkE0IjtzOjE2OiJwYWdlX29yaWVudGF0aW9uIjtzOjE6IlAiO3M6MTA6Im1hcmdpbl90b3AiO3M6MzoiMTAlIjtzOjEzOiJtYXJnaW5fYm90dG9tIjtzOjM6IjEwJSI7czoxMToibWFyZ2luX2xlZnQiO3M6MzoiMTAlIjtzOjEyOiJtYXJnaW5fcmlnaHQiO3M6MzoiMTAlIjtzOjEwOiJkZXRhaWx2aWV3IjtzOjI6Im9uIjtzOjg6Imxpc3R2aWV3IjtzOjI6Im9uIjt9', '', '##Page##'));
 
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'Purchase Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'Purchase Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
                         <td style="width:50%;"> </td>
                 </tr><tr><td style="width:50%;">$company-organizationname$</td>
                         <td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
@@ -1393,7 +1395,7 @@ Thanks,
                 </tr></tbody></table><br /><br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czoxMzoiUHVyY2hhc2VPcmRlciI7czoxMToicGFnZV9mb3JtYXQiO3M6MjoiQTQiO3M6MTY6InBhZ2Vfb3JpZW50YXRpb24iO3M6MToiUCI7czoxMDoibWFyZ2luX3RvcCI7czozOiIxMCUiO3M6MTM6Im1hcmdpbl9ib3R0b20iO3M6MzoiMTAlIjtzOjExOiJtYXJnaW5fbGVmdCI7czozOiIxMCUiO3M6MTI6Im1hcmdpbl9yaWdodCI7czozOiIxMCUiO3M6MTA6ImRldGFpbHZpZXciO3M6Mjoib24iO3M6ODoibGlzdHZpZXciO3M6Mjoib24iO30=', '', '##Page##'));
 
-	$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'Sales Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+	$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'Sales Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
                         <td style="width:50%;"> </td>
                 </tr><tr><td style="width:50%;">$company-organizationname$</td>
                         <td style="font-size:20px;width:50%;text-align:right;"><b>Sales Order</b></td>
@@ -1682,7 +1684,7 @@ Should any need arise,please do give us a call.';
 		$this->db->query("alter table jo_inventoryshippingrel add column shtax$shserviceid decimal(7,3) default NULL");
 
 		//version file is included here because without including this file version cannot be get
-		include('vtigerversion.php');
+		include('version.php');
 		$this->db->query("insert into jo_version values(" . $this->db->getUniqueID('jo_version') . ",'" . $jo_current_version . "','" . $jo_current_version . "')");
 
 		//Register default language English
@@ -1731,6 +1733,7 @@ Should any need arise,please do give us a call.';
 		}
 
 		$this->addDefaultLeadMapping();
+		$this->db->query('SET FOREIGN_KEY_CHECKS = 1');
 	}
 
 	function initWebservices() {
@@ -1744,7 +1747,7 @@ Should any need arise,please do give us a call.';
 		$operationMeta = array(
 			"login" => array(
 				"include" => array(
-					"include/Webservices/Login.php"
+					"includes/Webservices/Login.php"
 				),
 				"handler" => "vtws_login",
 				"params" => array(
@@ -1756,7 +1759,7 @@ Should any need arise,please do give us a call.';
 			),
 			"retrieve" => array(
 				"include" => array(
-					"include/Webservices/Retrieve.php"
+					"includes/Webservices/Retrieve.php"
 				),
 				"handler" => "vtws_retrieve",
 				"params" => array(
@@ -1767,7 +1770,7 @@ Should any need arise,please do give us a call.';
 			),
 			"create" => array(
 				"include" => array(
-					"include/Webservices/Create.php"
+					"includes/Webservices/Create.php"
 				),
 				"handler" => "vtws_create",
 				"params" => array(
@@ -1779,7 +1782,7 @@ Should any need arise,please do give us a call.';
 			),
 			"update" => array(
 				"include" => array(
-					"include/Webservices/Update.php"
+					"includes/Webservices/Update.php"
 				),
 				"handler" => "vtws_update",
 				"params" => array(
@@ -1790,7 +1793,7 @@ Should any need arise,please do give us a call.';
 			),
 			"delete" => array(
 				"include" => array(
-					"include/Webservices/Delete.php"
+					"includes/Webservices/Delete.php"
 				),
 				"handler" => "vtws_delete",
 				"params" => array(
@@ -1801,7 +1804,7 @@ Should any need arise,please do give us a call.';
 			),
 			"sync" => array(
 				"include" => array(
-					"include/Webservices/GetUpdates.php"
+					"includes/Webservices/GetUpdates.php"
 				),
 				"handler" => "vtws_sync",
 				"params" => array(
@@ -1813,7 +1816,7 @@ Should any need arise,please do give us a call.';
 			),
 			"query" => array(
 				"include" => array(
-					"include/Webservices/Query.php"
+					"includes/Webservices/Query.php"
 				),
 				"handler" => "vtws_query",
 				"params" => array(
@@ -1824,7 +1827,7 @@ Should any need arise,please do give us a call.';
 			),
 			"logout" => array(
 				"include" => array(
-					"include/Webservices/Logout.php"
+					"includes/Webservices/Logout.php"
 				),
 				"handler" => "vtws_logout",
 				"params" => array(
@@ -1835,7 +1838,7 @@ Should any need arise,please do give us a call.';
 			),
 			"listtypes" => array(
 				"include" => array(
-					"include/Webservices/ModuleTypes.php"
+					"includes/Webservices/ModuleTypes.php"
 				),
 				"handler" => "vtws_listtypes",
 				"params" => array(
@@ -1846,7 +1849,7 @@ Should any need arise,please do give us a call.';
 			),
 			"getchallenge" => array(
 				"include" => array(
-					"include/Webservices/AuthToken.php"
+					"includes/Webservices/AuthToken.php"
 				),
 				"handler" => "vtws_getchallenge",
 				"params" => array(
@@ -1857,7 +1860,7 @@ Should any need arise,please do give us a call.';
 			),
 			"describe" => array(
 				"include" => array(
-					"include/Webservices/DescribeObject.php"
+					"includes/Webservices/DescribeObject.php"
 				),
 				"handler" => "vtws_describe",
 				"params" => array(
@@ -1868,7 +1871,7 @@ Should any need arise,please do give us a call.';
 			),
 			"extendsession" => array(
 				"include" => array(
-					"include/Webservices/ExtendSession.php"
+					"includes/Webservices/ExtendSession.php"
 				),
 				"handler" => "vtws_extendSession",
 				'params' => array(),
@@ -1877,7 +1880,7 @@ Should any need arise,please do give us a call.';
 			),
 			'convertlead' => array(
 				"include" => array(
-					"include/Webservices/ConvertLead.php"
+					"includes/Webservices/ConvertLead.php"
 				),
 				"handler" => "vtws_convertlead",
 				"prelogin" => 0,
@@ -1892,7 +1895,7 @@ Should any need arise,please do give us a call.';
 			),
 			"revise" => array(
 				"include" => array(
-					"include/Webservices/Revise.php"
+					"includes/Webservices/Revise.php"
 				),
 				"handler" => "vtws_revise",
 				"params" => array(
@@ -1903,7 +1906,7 @@ Should any need arise,please do give us a call.';
 			),
 			"changePassword" => array(
 				"include" => array(
-					"include/Webservices/ChangePassword.php"
+					"includes/Webservices/ChangePassword.php"
 				),
 				"handler" => "vtws_changePassword",
 				"params" => array(
@@ -1917,7 +1920,7 @@ Should any need arise,please do give us a call.';
 			),
 			"deleteUser" => array(
 				"include" => array(
-					"include/Webservices/DeleteUser.php"
+					"includes/Webservices/DeleteUser.php"
 				),
 				"handler" => "vtws_deleteUser",
 				"params" => array(
@@ -1940,9 +1943,9 @@ Should any need arise,please do give us a call.';
 	}
 
 	function vtws_addEntityInfo() {
-		require_once 'include/Webservices/Utils.php';
+		require_once 'includes/Webservices/Utils.php';
 		$names = vtws_getModuleNameList();
-		$moduleHandler = array('file' => 'include/Webservices/HeadModuleOperation.php',
+		$moduleHandler = array('file' => 'includes/Webservices/HeadModuleOperation.php',
 			'class' => 'HeadModuleOperation');
 
 		foreach ($names as $tab) {
@@ -1963,8 +1966,8 @@ Should any need arise,please do give us a call.';
 		vtws_addDefaultActorTypeEntity('Groups', array('fieldNames' => 'groupname',
 			'indexField' => 'groupid', 'tableName' => 'jo_groups'));
 
-		require_once("include/Webservices/WebServiceError.php");
-		require_once 'include/Webservices/HeadWebserviceObject.php';
+		require_once("includes/Webservices/WebServiceError.php");
+		require_once 'includes/Webservices/HeadWebserviceObject.php';
 		$webserviceObject = HeadWebserviceObject::fromName($this->db, 'Groups');
 		$this->db->pquery("insert into jo_ws_entity_tables(webservice_entity_id,table_name) values
 			(?,?)", array($webserviceObject->getEntityId(), 'jo_groups'));
@@ -1981,7 +1984,7 @@ Should any need arise,please do give us a call.';
 		$this->db->pquery("insert into jo_ws_entity_tables(webservice_entity_id,table_name) values (?,?)", array($webserviceObject->getEntityId(), 'jo_attachmentsfolder'));
 
 		vtws_addActorTypeWebserviceEntityWithName(
-				'CompanyDetails', 'include/Webservices/HeadCompanyDetails.php', 'HeadCompanyDetails', array('fieldNames' => 'organizationname', 'indexField' => 'groupid', 'tableName' => 'jo_organizationdetails'));
+				'CompanyDetails', 'includes/Webservices/HeadCompanyDetails.php', 'HeadCompanyDetails', array('fieldNames' => 'organizationname', 'indexField' => 'groupid', 'tableName' => 'jo_organizationdetails'));
 		$webserviceObject = HeadWebserviceObject::fromName($this->db, 'CompanyDetails');
 		$this->db->pquery('INSERT INTO jo_ws_entity_tables(webservice_entity_id,table_name) VALUES (?,?)', array($webserviceObject->getEntityId(), 'jo_organizationdetails'));
 	}

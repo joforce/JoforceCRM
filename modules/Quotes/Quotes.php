@@ -274,7 +274,7 @@ class Quotes extends CRMEntity {
   				and (jo_activity.status = 'Completed' or jo_activity.status = 'Deferred')
 	 	        	and jo_seactivityrel.crmid=".$id."
                                 and jo_crmentity.deleted = 0";
-		//Don't add order by, because, for security, one more condition will be added with this query in include/RelatedListView.php
+		//Don't add order by, because, for security, one more condition will be added with this query in includes/RelatedListView.php
 
 		$log->debug("Exiting get_history method ...");
 		return getHistory('Quotes',$query,$id);
@@ -506,7 +506,7 @@ class Quotes extends CRMEntity {
 		global $current_user;
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
-		include("include/utils/ExportUtils.php");
+		include("includes/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("Quotes", "detail_view");

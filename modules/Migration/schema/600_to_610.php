@@ -12,7 +12,7 @@ if (!defined('VTIGER_UPGRADE'))
     die('Invalid entry point');
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'modules/com_jo_workflow/VTTaskManager.inc';
-include_once 'include/utils/utils.php';
+include_once 'includes/utils/utils.php';
 
 if(defined('VTIGER_UPGRADE')) {
         //Collating all module package updates here
@@ -148,13 +148,13 @@ if (!($adb->num_rows($result))) {
     $adb->pquery("ALTER TABLE com_jo_workflows ADD nexttrigger_time DATETIME", array());
 }
 
-Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_faqcf ( 
+/*Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_faqcf ( 
                                 faqid int(19), 
                                 PRIMARY KEY (faqid), 
                                 CONSTRAINT fk_1_jo_faqcf FOREIGN KEY (faqid) REFERENCES jo_faq(id) ON DELETE CASCADE 
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array()); 
 
-echo "FAQ cf created";
+echo "FAQ cf created";*/
 
 //73 starts
 $query = 'SELECT 1 FROM jo_currencies WHERE currency_name=?';

@@ -851,7 +851,7 @@ class Users_Record_Model extends Head_Record_Model {
 	 * @return <Array of Users>
 	 */
 	public function getAccessibleGroupUsers($groupId) {
-        vimport('~~/include/utils/GetGroupUsers.php');
+        vimport('~~/includes/utils/GetGroupUsers.php');
         $getGroupUsers = new GetGroupUsers();
         $getGroupUsers->getAllUsersInGroup($groupId);
         return $getGroupUsers->group_users;

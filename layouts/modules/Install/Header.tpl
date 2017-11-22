@@ -25,11 +25,7 @@
 			<link type='text/css' rel='stylesheet' href='layouts/lib/jquery/jquery-ui-1.11.3.custom/jquery-ui.css'/>
 			<link type='text/css' rel='stylesheet' href='layouts/lib/vt-icons/style.css'/>
 
-			{if strpos($V7_THEME_PATH,".less")!== false}
-				<link type="text/css" rel="stylesheet/less" href="{vresource_url($V7_THEME_PATH)}" media="screen" />
-			{else}
-				<link type="text/css" rel="stylesheet" href="{vresource_url($V7_THEME_PATH)}" media="screen" />
-			{/if}
+				<link type="text/css" rel="stylesheet" href="layouts/skins/style.css" media="screen" />
 
 			{foreach key=index item=cssModel from=$STYLES}
 				<link type="text/css" rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" media="{$cssModel->getMedia()}" />

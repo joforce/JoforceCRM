@@ -10,9 +10,9 @@
  *
  ********************************************************************************/
 
-require_once('include/utils/utils.php');
-require_once('include/logging.php');
-require_once('include/database/PearDatabase.php');
+require_once('includes/utils/utils.php');
+require_once('includes/logging.php');
+require_once('includes/database/PearDatabase.php');
 
 require_once('modules/Settings/MailConverter/handlers/MailScannerInfo.php');
 require_once('modules/Settings/MailConverter/handlers/MailBox.php');

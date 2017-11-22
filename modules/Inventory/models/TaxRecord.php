@@ -147,7 +147,7 @@ class Inventory_TaxRecord_Model extends Head_Base_Model {
 		}
 		$res = $adb->pquery($query, array());
 
-		vimport('~~/include/utils/utils.php');
+		vimport('~~/includes/utils/utils.php');
 
 		if ($this->isProductTax()) {
 			// TODO Review: if field addition is required in shipping-tax case too.
@@ -199,7 +199,7 @@ class Inventory_TaxRecord_Model extends Head_Base_Model {
 	}
 
 	public static function getProductTaxes() {
-		vimport('~~/include/utils/InventoryUtils.php');
+		vimport('~~/includes/utils/InventoryUtils.php');
 		$taxes = getAllTaxes();
 		$recordList = array();
 		foreach($taxes as $taxInfo) {
@@ -211,7 +211,7 @@ class Inventory_TaxRecord_Model extends Head_Base_Model {
 	}
 
 	public static function getChargeTaxes() {
-		vimport('~~/include/utils/InventoryUtils.php');
+		vimport('~~/includes/utils/InventoryUtils.php');
 		$taxes = getAllTaxes('all','sh');
 		$recordList = array();
 		foreach($taxes as $taxInfo) {

@@ -20,7 +20,7 @@
  * theme basis.
  ********************************************************************************/
 
-require_once('include/logging.php');
+require_once('includes/logging.php');
 global $app_strings;
 
 $log = LoggerManager::getLogger('layout_utils');	

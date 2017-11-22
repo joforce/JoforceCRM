@@ -38,7 +38,7 @@ class Head_Report_Model extends Reports {
 							WHERE jo_report.reportid = ?";
 				$params = array($reportId);
 
-				require_once('include/utils/GetUserGroups.php');
+				require_once('includes/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_'.$userId.'.php');
 
 				$userGroups = new GetUserGroups();

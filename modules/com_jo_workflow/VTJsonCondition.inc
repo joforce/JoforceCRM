@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once("include/Zend/Json.php");
+require_once("includes/Zend/Json.php");
 
 class VTJsonCondition {
 

@@ -10,7 +10,7 @@
  ************************************************************************************/
 include_once('vtlib/Head/Utils.php');
 include_once('modules/Users/Users.php');
-@include_once('include/events/include.inc');
+@include_once('includes/events/include.inc');
 
 /**
  * Provides API to work with vtiger CRM Eventing (available from vtiger 5.1)

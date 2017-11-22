@@ -26,13 +26,13 @@ class Install_Utils_Model {
 		'User Privileges Directory' => './user_privileges/',
 		'Modules Directory' => './modules/',
 		'Cron Modules Directory' => './cron/modules/',
-		'Vtlib Test Directory' => './test/vtlib/',
-		'Vtlib Test HTML Directory' => './test/vtlib/HTML',
-		'Mail Merge Template Directory' => './test/wordtemplatedownload/',
-		'Product Image Directory' => './test/product/',
-		'User Image Directory' => './test/user/',
-		'Contact Image Directory' => './test/contact/',
-		'Logo Directory' => './test/logo/',
+		'Vtlib Test Directory' => './cache/vtlib/',
+		'Vtlib Test HTML Directory' => './cache/vtlib/HTML',
+		'Mail Merge Template Directory' => './cache/wordtemplatedownload/',
+		'Product Image Directory' => './cache/product/',
+		'User Image Directory' => './cache/user/',
+		'Contact Image Directory' => './cache/contact/',
+		'Logo Directory' => './cache/logo/',
 		'Logs Directory' => './logs/',
 	);
 
@@ -43,7 +43,7 @@ class Install_Utils_Model {
 	public static function getFailedPermissionsFiles() {
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$failedPermissions = array();
-		require_once ('include/utils/VtlibUtils.php');
+		require_once ('includes/utils/VtlibUtils.php');
 		foreach ($writableFilesAndFolders as $index => $value) {
 			if (!vtlib_isWriteable($value)) {
 				$failedPermissions[$index] = $value;
@@ -125,10 +125,14 @@ class Install_Utils_Model {
 	 * @return <Array>
 	 */
 	public static function getSystemPreInstallParameters() {
+		$server_type = $_SERVER['SERVER_SOFTWARE'];
+                $webServerName = explode('/', $server_type)[0];		
 		$preInstallConfig = array();
 		// Name => array( System Value, Recommended value, supported or not(true/false) );
 		$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '5.4.0', (version_compare(phpversion(), '5.4.0', '>=')));
-        $preInstallConfig['LBL_MOD_REWRITE'] = array(in_array('mod_rewrite', apache_get_modules()), true, (in_array('mod_rewrite', apache_get_modules()) == true));
+		if($webServerName != 'nginx'){
+        		$preInstallConfig['LBL_MOD_REWRITE'] = array(in_array('mod_rewrite', apache_get_modules()), true, (in_array('mod_rewrite', apache_get_modules()) == true));
+		}
 		$preInstallConfig['LBL_IMAP_SUPPORT']	= array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
 		$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
                 if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.5.0') {
@@ -426,7 +430,7 @@ class Install_Utils_Model {
 	public static function installModules() {
 		require_once('vtlib/Head/Package.php');
 		require_once('vtlib/Head/Module.php');
-		require_once('include/utils/utils.php');
+		require_once('includes/utils/utils.php');
 
 		$moduleFolders = array('packages/head/mandatory', 'packages/head/optional', 'packages/head/marketplace');
 		foreach($moduleFolders as $moduleFolder) {

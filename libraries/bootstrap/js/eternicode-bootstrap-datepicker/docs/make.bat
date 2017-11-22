@@ -183,7 +183,7 @@ if "%1" == "doctest" (
 	if errorlevel 1 exit /b 1
 	echo.
 	echo.Testing of doctests in the sources finished, look at the ^
-results in %BUILDDIR%/doctest/output.txt.
+results in %BUILDDIR%/doccache/output.txt.
 	goto end
 )
 

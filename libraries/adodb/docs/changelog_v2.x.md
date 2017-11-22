@@ -471,7 +471,7 @@ $conn->Connect($dsn);
 
 ## 0.71 - 22 Nov 2000
 
-- Switched from using require_once to include/include_once for backward compatability with PHP 4.02 and earlier.
+- Switched from using require_once to includes/include_once for backward compatability with PHP 4.02 and earlier.
 
 ## 0.70 - 15 Nov 2000
 

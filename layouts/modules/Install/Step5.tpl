@@ -15,12 +15,56 @@
 
 	<div class="row main-container step5">
 		<div class="inner-container">
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-sm-10">
 					<h4>{vtranslate('LBL_CONFIRM_CONFIGURATION_SETTINGS','Install')}</h4>
 				</div>
 			</div>
-			<hr>
+			<hr> -->
+
+      <div class="col-sm-12 text-center">
+      <div class="logo install-logo">
+        <img src="{'logo.png'|vimage_path}"/>
+      </div>
+    </div>
+
+<!-- new section start -->
+
+<div class="joforce-install-section joforce-install-row-bottom col-md-offset-1">
+    <div class="joforce-install-row">
+      <div class="joforce-install-step">
+         <div class="joforce-install-circle joforce-install-completed"><span>1</span></div>
+         <p>{vtranslate('LBL_WELCOME_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step" id="step2">
+        <div class="joforce-install-circle joforce-install-completed"><span>2</span></div>
+        <p>{vtranslate('LBL_AGREE_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+       <div class="joforce-install-circle joforce-install-completed"><span>3</span></div>
+       <p>{vtranslate('LBL_PREREQUISITES_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+        <div class="joforce-install-circle joforce-install-completed"><span>4</span></div>
+        <p>{vtranslate('LBL_CONFIGURATION_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+         <div class="joforce-install-circle joforce-install-active"><span>5</span></div>
+         <p>{vtranslate('LBL_CONFIRM_CONFIGURATION_INSTALL','Install')}</p>
+      </div>
+      <!-- <div class="joforce-install-step">
+        <div class="joforce-install-circle"><span>6</span></div>
+        <p>{vtranslate('LBL_ONE_LAST_THING_INSTALL','Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+        <div class="joforce-install-circle"><span>7</span></div>
+        <p>{vtranslate('LBL_LOADING_PLEASE_WAIT_INSTALL','Install')}</p>
+      </div> -->
+    </div>
+  </div>
+
+<!-- new section end -->
+
 			{if $DB_CONNECTION_INFO['flag'] neq true}
 				<div class="offset2 row" id="errorMessage">
 					<div class="col-sm-10 col-sm-offset-1">
@@ -31,61 +75,52 @@
 					</div>
 				</div>
 			{/if}
-			<div class="offset2 row">
-				<div class="col-sm-10 col-sm-offset-1">
-					<table class="config-table input-table">
-						<thead>
-							<tr><th colspan="2">{vtranslate('LBL_DATABASE_INFORMATION','Install')}</th></tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{vtranslate('LBL_DATABASE_TYPE','Install')}<span class="no">*</span></td>
-								<td>{vtranslate('MySQL','Install')}</td>
-							</tr>
-							<tr>
-								<td>{vtranslate('LBL_DB_NAME','Install')}<span class="no">*</span></td>
-								<td>{$INFORMATION['db_name']}</td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="config-table input-table">
-						<thead>
-							<tr><th colspan="2">{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</th></tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{vtranslate('LBL_URL','Install')}<span class="no">*</span></td>
-								<td><a href="#">{$SITE_URL}</a></td>
-							</tr>
-							<tr>
-								<td>{vtranslate('LBL_CURRENCY','Install')}<span class="no">*</span></td>
-								<td>{$INFORMATION['currency_name']}</td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="config-table input-table">
-						<thead>
-							<tr><th colspan="2">{vtranslate('LBL_ADMIN_USER_INFORMATION','Install')}</th></tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{vtranslate('LBL_USERNAME','Install')}</td>
-								<td>{$INFORMATION['admin']}</td>
-							</tr>
-							<tr>
-								<td>{vtranslate('LBL_EMAIL','Install')}<span class="no">*</span></td>
-								<td>{$INFORMATION['admin_email']}</td>
-							</tr>
-							<tr>
-								<td>{vtranslate('LBL_TIME_ZONE','Install')}<span class="no">*</span></td>
-								<td>{$INFORMATION['timezone']}</td>
-							</tr>
-							<tr>
-								<td>{vtranslate('LBL_DATE_FORMAT','Install')}<span class="no">*</span></td>
-								<td>{$INFORMATION['dateformat']}</td>
-							</tr>
-						</tbody>
-					</table>
+			<div class="offset2 row install-form-section">
+				<div class="col-md-5 col-md-offset-1">
+				<section class="joforce-install-heading form-group">
+                                    <h4>{vtranslate('LBL_DATABASE_INFORMATION','Install')}</h4><hr class="install-hr">
+                                    </section>
+					<div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_DATABASE_TYPE','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{vtranslate('MySQL','Install')}</span>
+                     </div>
+                     <div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_DB_NAME','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{$INFORMATION['db_name']}</span>
+                     </div>  
+
+                     <section class="joforce-install-heading form-group mt30">
+                                    <h4>{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</h4><hr class="install-hr">
+                                    </section>
+					<div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</label>
+                        <span><a href="#">{$SITE_URL}</a></span>
+                     </div>  
+                     <div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_CURRENCY','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{$INFORMATION['currency_name']}</span>
+                     </div>  
+				</div>
+				<div class="col-md-4 col-md-offset-1">
+				<section class="joforce-install-heading form-group">
+                                    <h4>{vtranslate('LBL_ADMIN_USER_INFORMATION','Install')}</h4><hr class="install-hr">
+                                    </section>
+					<div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_USERNAME','Install')}</label>
+                        <span class="install-label-value">{$INFORMATION['admin']}</span>
+                     </div>  
+                     <div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_EMAIL','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{$INFORMATION['admin_email']}</span>
+                     </div>
+                     <div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_TIME_ZONE','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{$INFORMATION['timezone']}</span>
+                     </div>
+                     <div class="form-group">
+                        <label class="install-info">{vtranslate('LBL_DATE_FORMAT','Install')}<span class="no">*</span></label>
+                        <span class="install-label-value">{$INFORMATION['dateformat']}</span>
+                     </div>  
 				</div>
 			</div>
 			<div class="row offset2">

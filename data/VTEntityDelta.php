@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once 'include/events/VTEntityData.inc';
+require_once 'includes/events/VTEntityData.inc';
 
 class VTEntityDelta extends VTEventHandler {
 	private static $oldEntity;

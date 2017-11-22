@@ -24,7 +24,7 @@
 
 require_once('modules/Users/Users.php');
 require_once('modules/Users/CreateUserPrivilegeFile.php');
-require_once('include/logging.php');
+require_once('includes/logging.php');
 require_once('user_privileges/audit_trail.php');
 
 global $mod_strings, $default_charset;
@@ -63,7 +63,7 @@ if($focus->is_authenticated()) {
 	$Signin = $loghistory->user_login($focus->column_fields["user_name"],$usip,$intime);
 
 	//Security related entries start
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 
 	createUserPrivilegesfile($focus->id);
 
@@ -80,8 +80,8 @@ if($focus->is_authenticated()) {
 	//Enabled session variable for KCFINDER
 	$_SESSION['KCFINDER'] = array();
 	$_SESSION['KCFINDER']['disabled'] = false;
-	$_SESSION['KCFINDER']['uploadURL'] = "test/upload";
-	$_SESSION['KCFINDER']['uploadDir'] = "/test/upload";
+	$_SESSION['KCFINDER']['uploadURL'] = "cache/upload";
+	$_SESSION['KCFINDER']['uploadDir'] = "/cache/upload";
 	$deniedExts = implode(" ", $upload_badext);
 	$_SESSION['KCFINDER']['deniedExts'] = $deniedExts;
 

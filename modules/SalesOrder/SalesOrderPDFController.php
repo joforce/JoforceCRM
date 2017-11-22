@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-include_once 'include/InventoryPDFController.php';
+include_once 'includes/InventoryPDFController.php';
 include_once dirname(__FILE__). '/SalesOrderPDFHeaderViewer.php';
 class Head_SalesOrderPDFController extends Head_InventoryPDFController{
 	function buildHeaderModelTitle() {

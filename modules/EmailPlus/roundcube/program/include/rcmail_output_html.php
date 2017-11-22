@@ -2,7 +2,7 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_html.php                                |
+ | program/includes/rcmail_output_html.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2014, The Roundcube Dev Team                       |

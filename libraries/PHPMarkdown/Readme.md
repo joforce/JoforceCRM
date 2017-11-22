@@ -157,7 +157,7 @@ If you make a pull request that includes changes to the parser please add
 tests for what is being changed to [MDTest][] and make a pull request there 
 too.
 
- [MDTest]: https://github.com/michelf/mdtest/
+ [MDTest]: https://github.com/michelf/mdcache/
 
 
 Version History

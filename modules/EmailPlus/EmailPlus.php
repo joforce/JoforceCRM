@@ -21,7 +21,7 @@ class EmailPlus extends Head_CRMEntity {
 			// TODO Handle actions after this module is installed.
 			global $adb;
 			$moduleInstance = Head_Module::getInstance('EmailPlus');
-			$moduleInstance->addLink('HEADERSCRIPT', 'Check Server Details', 'layouts/v7/modules/EmailPlus/resources/checkServerInfo.js');
+			$moduleInstance->addLink('HEADERSCRIPT', 'Check Server Details', 'layouts/modules/EmailPlus/resources/checkServerInfo.js');
 			$adb->pquery("CREATE TABLE `rc_server_details` (
 						`user_id` int(20) NOT NULL,
 						`name` varchar(255) DEFAULT NULL,
@@ -202,7 +202,7 @@ class EmailPlus extends Head_CRMEntity {
                         $adb->pquery('delete from jo_links where linklabel = ?', array('Check Server Details'));
 		} else if($eventType == 'module.enabled') {
                         $moduleInstance = Head_Module::getInstance('EmailPlus');
-                        $moduleInstance->addLink('HEADERSCRIPT', 'Check Server Details', 'layouts/v7/modules/EmailPlus/resources/checkServerInfo.js');
+                        $moduleInstance->addLink('HEADERSCRIPT', 'Check Server Details', 'layouts/modules/EmailPlus/resources/checkServerInfo.js');
 		} else if($eventType == 'module.preuninstall') {
 			// TODO Handle actions when this module is about to be deleted.
 		} else if($eventType == 'module.preupdate') {

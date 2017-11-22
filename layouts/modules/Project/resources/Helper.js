@@ -12,7 +12,7 @@ jQuery.Class("VTPDFMaker_Helper_Js", {
 
 $(document).ready(function() {
     var site_url = jQuery('#joforce_site_url').val();
-    $('head').append('<link rel="stylesheet" href="'+site_url+'layouts/v7/modules/VTPDFMaker/public/css/font-awesome.css" type="text/css" />');
+    $('head').append('<link rel="stylesheet" href="'+site_url+'layouts/modules/VTPDFMaker/public/css/font-awesome.css" type="text/css" />');
     $('.pdfTabs li').click(function(){
         var id = $(this).attr('id');
         if(id == 'div1' ){

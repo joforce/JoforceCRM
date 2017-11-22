@@ -21,7 +21,7 @@
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery.ba-outside-events.min.js"></script>
 	<script type="text/javascript" src="{$SITEURL}libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/multiplefileupload/jquery_MultiFile.js"></script>
-    <script type="text/javascript" src="{$SITEURL}resources/jquery.additions.js"></script>
+    <script type="text/javascript" src="{$SITEURL}libraries/resources/jquery.additions.js"></script>
     <script type="text/javascript" src="{$SITEURL}layouts/lib/bootstrap-notify/bootstrap-notify.min.js"></script>
     <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/websockets/reconnecting-websocket.js"></script>
     <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery-play-sound/jquery.playSound.js"></script>

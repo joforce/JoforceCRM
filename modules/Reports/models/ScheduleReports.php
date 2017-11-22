@@ -146,7 +146,7 @@ class Reports_ScheduleReports_Model extends Head_Base_Model {
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
+				require_once 'includes/utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -342,7 +342,7 @@ class Reports_ScheduleReports_Model extends Head_Base_Model {
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
 		$companydetails = getCompanyDetails();
-		$logo = $site_URL.'/test/logo/'.$companydetails['logoname'];
+		$logo = $site_URL.'/cache/logo/'.$companydetails['logoname'];
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

@@ -229,7 +229,7 @@ if ( browser.chrome ) {
 jQuery.browser = browser;
 
 // Warn if the code tries to get jQuery.browser
-migrateWarnProp( jQuery, "browser", browser, "jQuery.browser is deprecated" );
+//migrateWarnProp( jQuery, "browser", browser, "jQuery.browser is deprecated" );
 
 jQuery.sub = function() {
 	function jQuerySub( selector, context ) {
@@ -445,7 +445,7 @@ jQuery.fn.toggle = function( fn, fn2 ) {
 };
 
 jQuery.fn.live = function( types, data, fn ) {
-	migrateWarn("jQuery.fn.live() is deprecated");
+//	migrateWarn("jQuery.fn.live() is deprecated");
 	if ( oldLive ) {
 		return oldLive.apply( this, arguments );
 	}

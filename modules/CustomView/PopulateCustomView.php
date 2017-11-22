@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
 *
  ********************************************************************************/
-require_once('include/database/PearDatabase.php');
+require_once('includes/database/PearDatabase.php');
 
 $customviews = Array(Array('viewname'=>'All',
 			   'setdefault'=>'1','setmetrics'=>'0','status'=>'0','userid'=>'1',

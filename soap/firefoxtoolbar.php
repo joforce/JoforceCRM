@@ -842,7 +842,7 @@ function GetPicklistValues($username,$sessionid,$tablename)
 	$user_id=$seed_user->retrieve_user_id($username);
 	$current_user=$seed_user;
 	$current_user->retrieve_entity_info($user_id,'Users');
-	require_once("include/utils/UserInfoUtil.php");
+	require_once("includes/utils/UserInfoUtil.php");
 	$roleid = fetchUserRole($user_id);
 	checkFileAccessForInclusion('user_privileges/user_privileges_'.$current_user->id.'.php');
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');

@@ -553,7 +553,7 @@ class Head_Util_Helper {
 	}
 
 	public static function getGroupsIdsForUsers($userId) {
-		vimport('~~/include/utils/GetUserGroups.php');
+		vimport('~~/includes/utils/GetUserGroups.php');
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);
@@ -1189,7 +1189,7 @@ class Head_Util_Helper {
 													$element['source'] = $source;
 												}
 												if (!function_exists(vtws_create)) {
-													include_once 'include/Webservices/Create.php';
+													include_once 'includes/Webservices/Create.php';
 												}
 												$entity = vtws_create($referenceModule, $element, $user);
 												$wsId = vtws_getIdComponents($entity['id']);

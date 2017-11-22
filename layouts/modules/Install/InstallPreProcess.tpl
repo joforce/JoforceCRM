@@ -9,16 +9,16 @@
 
 <input type="hidden" id="module" value="Install" />
 <input type="hidden" id="view" value="Index" />
-<div class="container-fluid page-container">
+<div class="container-fluid page-container install-preprocess-top">
 	<div class="row">
-		<div class="col-sm-6">
+		<!-- <div class="col-sm-12 text-center">
 			<div class="logo">
 				<img src="{'logo.png'|vimage_path}"/>
 			</div>
-		</div>
-		<div class="col-sm-6">
+		</div> -->
+		<!-- <div class="col-sm-6">
 			<div class="head pull-right">
 				<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
 			</div>
-		</div>
+		</div> -->
 	</div>

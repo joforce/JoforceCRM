@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport('~~/include/Webservices/Query.php');
+vimport('~~/includes/Webservices/Query.php');
 
 class Head_TooltipView_Model extends Head_DetailRecordStructure_Model {
 

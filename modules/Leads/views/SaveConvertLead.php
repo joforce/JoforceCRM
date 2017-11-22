@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-vimport('~~/include/Webservices/ConvertLead.php');
+vimport('~~/includes/Webservices/ConvertLead.php');
 
 class Leads_SaveConvertLead_View extends Head_View_Controller {
 

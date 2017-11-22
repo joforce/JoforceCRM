@@ -78,7 +78,7 @@ class VTSimpleTemplate{
 						if($referenceModule==="Users" && $entity->getModuleName()=="Groups"){
 							list($groupEntityId, $groupId) = vtws_getIdComponents($referenceId);
 
-							require_once('include/utils/GetGroupUsers.php');
+							require_once('includes/utils/GetGroupUsers.php');
 							$ggu = new GetGroupUsers();
 							$ggu->getAllUsersInGroup($groupId);
 

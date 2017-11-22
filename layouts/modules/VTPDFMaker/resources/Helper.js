@@ -68,7 +68,6 @@ $(document).ready(function() {
         first = first.split("/"+module)[0];
         var fullurl = url + first;
         view = second.split("/")[1];
-    }
         if (view == "Detail") {
 		var type = view;
                 var url = "index.php?module=VTPDFMaker&action=AddSideBar&moduleName=" + module+'&type='+type;
@@ -82,4 +81,5 @@ $(document).ready(function() {
                         return false;
                 });
 	}
+    }
 });

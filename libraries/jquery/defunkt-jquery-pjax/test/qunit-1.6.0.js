@@ -771,7 +771,7 @@ extend( QUnit, {
 // QUnit object, which is a deprecated way of using the callbacks.
 extend( QUnit.constructor.prototype, {
 	// Logging callbacks; all receive a single argument with the listed properties
-	// run test/logs.html for any related changes
+	// run cache/logs.html for any related changes
 	begin: registerLoggingCallback( "begin" ),
 	// done: { failed, passed, total, runtime }
 	done: registerLoggingCallback( "done" ),

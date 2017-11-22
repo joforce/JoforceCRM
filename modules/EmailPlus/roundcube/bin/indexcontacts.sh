@@ -21,7 +21,7 @@
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
-require_once INSTALL_PATH.'program/include/clisetup.php';
+require_once INSTALL_PATH.'program/includes/clisetup.php';
 ini_set('memory_limit', -1);
 
 rcmail_utils::indexcontacts();

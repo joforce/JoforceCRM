@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 require_once('modules/Emails/class.phpmailer.php');
-include_once('include/utils/CommonUtils.php');
+include_once('includes/utils/CommonUtils.php');
 include_once('config/config.inc.php');
-include_once('include/database/PearDatabase.php');
+include_once('includes/database/PearDatabase.php');
 include_once('vtlib/Head/Utils.php');
 include_once('vtlib/Head/Event.php');
 

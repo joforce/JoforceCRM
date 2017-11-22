@@ -9,9 +9,9 @@
  * Contributor(s): JoForce.com
 *
  ********************************************************************************/
-require_once('include/database/PearDatabase.php');
+require_once('includes/database/PearDatabase.php');
 require_once('data/CRMEntity.php');
-require_once('include/utils/UserInfoUtil.php');
+require_once('includes/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_strings,$mod_strings;
@@ -130,7 +130,7 @@ class Reports extends CRMEntity{
 				$ssql .= " where jo_report.reportid = ?";
 				$params = array($reportid);
 
-				require_once('include/utils/GetUserGroups.php');
+				require_once('includes/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_'.$current_user->id.'.php');
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
@@ -198,7 +198,7 @@ class Reports extends CRMEntity{
 	function updateModuleList($module) {
 		global $adb;
 		if (!isset($module)) return;
-		require_once('include/utils/utils.php');
+		require_once('includes/utils/utils.php');
 		$tabid = getTabid($module);
 		if ($module == 'Calendar') {
 			$tabid = array(9, 16);
@@ -464,7 +464,7 @@ class Reports extends CRMEntity{
 		global $mod_strings,$current_user;
 		$returndata = Array();
 		
-		require_once('include/utils/UserInfoUtil.php');
+		require_once('includes/utils/UserInfoUtil.php');
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=> 'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
 		$sql = "SELECT jo_report.*, jo_reportmodules.*, jo_reportfolder.folderid, jo_reportfolder.foldername,
@@ -496,7 +496,7 @@ class Reports extends CRMEntity{
 
 		if (strtolower($current_user->is_admin) != "on") {
 			require('user_privileges/user_privileges_'.$current_user->id.'.php');
-			require_once('include/utils/GetUserGroups.php');
+			require_once('includes/utils/GetUserGroups.php');
 			$userGroups = new GetUserGroups();
 			$userGroups->getAllUserGroups($current_user->id);
 			$user_groups = $userGroups->user_groups;
@@ -753,8 +753,9 @@ class Reports extends CRMEntity{
 				$sql.=" group by jo_field.fieldid order by sequence";
 		}
 		array_push($params, $skipTalbes);
-
-		$result = $adb->pquery($sql, $params);
+		if($module!='AddressLookup'&& $module!='EmailPlus' && $module!='DuplicateCheck'){
+                	$result = $adb->pquery($sql, $params);
+		}
 		$noofrows = $adb->num_rows($result);
 		for($i=0; $i<$noofrows; $i++)
 		{

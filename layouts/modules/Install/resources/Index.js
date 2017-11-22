@@ -17,6 +17,17 @@ jQuery.Class('Install_Index_Js', {}, {
 
 		jQuery('input[name="step4"]').on('click', function (e) {
 			var elements = jQuery('.no')
+			var htperm = jQuery('#htperm').val();
+			if(htperm == 'false') {
+				var msg = "Please create .htaccess file in your JoForce root folder and provide the writable access";
+                                if (confirm(msg)) {
+                                        return false;
+                                } else {
+                                        return false;
+                                }
+
+
+			}
 			if (elements.length > 0) {
 				var msg = "Some of the PHP Settings do not meet the recommended values. This might affect some of the features of JoForce. Are you sure, you want to proceed?";
 				if (confirm(msg)) {
@@ -38,13 +49,13 @@ jQuery.Class('Install_Index_Js', {}, {
 			var userName = jQuery('#root_user');
 			var password = jQuery('#root_password');
 			var classU = userName.attr('class');
-			if (classU == 'hide')
+			if (classU == 'hide form-group')
 				userName.removeClass('hide');
 			else
 				userName.addClass('hide');
 
 			var classP = password.attr('class');
-			if (classP == 'hide')
+			if (classP == 'hide form-group')
 				password.removeClass('hide');
 			else
 				password.addClass('hide');

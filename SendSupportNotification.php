@@ -19,9 +19,9 @@
  */
 
 
-require_once('include/utils/utils.php');
+require_once('includes/utils/utils.php');
 require("modules/Emails/mail.php");
-require_once('include/logging.php');
+require_once('includes/logging.php');
 require("config/config.php");
 
 

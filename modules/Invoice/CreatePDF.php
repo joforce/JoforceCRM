@@ -17,7 +17,7 @@ $controller->loadRecord(vtlib_purify($_REQUEST['record']));
 $invoice_no = getModuleSequenceNumber($currentModule,vtlib_purify($_REQUEST['record']));
 if(isset($_REQUEST['savemode']) && $_REQUEST['savemode'] == 'file') {
 	$id = vtlib_purify($_REQUEST['record']);
-	$filepath='test/product/'.$id.'_Invoice_'.$invoice_no.'.pdf';
+	$filepath='cache/product/'.$id.'_Invoice_'.$invoice_no.'.pdf';
 	$controller->Output($filepath,'F'); //added file name to make it work in IE, also forces the download giving the user the option to save
 } else {
 	$controller->Output('Invoice_'.$invoice_no.'.pdf', 'D');//added file name to make it work in IE, also forces the download giving the user the option to save

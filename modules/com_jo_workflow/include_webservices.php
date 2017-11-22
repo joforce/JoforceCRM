@@ -8,12 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once 'include/Webservices/Utils.php';
+require_once 'includes/Webservices/Utils.php';
 require_once("modules/Users/Users.php");
-require_once("include/Webservices/HeadCRMObject.php");
-require_once("include/Webservices/HeadCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
-require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
-require_once 'include/Webservices/ModuleTypes.php';
+require_once("includes/Webservices/HeadCRMObject.php");
+require_once("includes/Webservices/HeadCRMObjectMeta.php");
+require_once("includes/Webservices/DataTransform.php");
+require_once("includes/Webservices/WebServiceError.php");
+require_once 'includes/utils/utils.php';
+require_once 'includes/Webservices/ModuleTypes.php';
 ?>

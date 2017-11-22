@@ -30,9 +30,9 @@
  * Contributor(s): ______________________________________..
  ********************************************************************************/
 
-require_once('include/utils/UserInfoUtil.php');
-require_once 'include/utils/CommonUtils.php';
-require_once 'include/Webservices/Utils.php';
+require_once('includes/utils/UserInfoUtil.php');
+require_once 'includes/utils/CommonUtils.php';
+require_once 'includes/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
 require_once 'includes/runtime/Cache.php';
 
@@ -566,7 +566,7 @@ class Users extends CRMEntity {
 	}
 
 	function de_cryption($data) {
-		require_once('include/utils/encryption.php');
+		require_once('includes/utils/encryption.php');
 		$de_crypt = new Encryption();
 		if(isset($data)) {
 			$decrypted_password = $de_crypt->decrypt($data);
@@ -574,7 +574,7 @@ class Users extends CRMEntity {
 		return $decrypted_password;
 	}
 	function changepassword($newpassword) {
-		require_once('include/utils/encryption.php');
+		require_once('includes/utils/encryption.php');
 		$en_crypt = new Encryption();
 		if( isset($newpassword)) {
 			$encrypted_password = $en_crypt->encrypt($newpassword);
@@ -1590,13 +1590,13 @@ class Users extends CRMEntity {
 
 		if ($file_size != 0 && in_array($file_type_val, $validFileFormats)) {
 			//Uploading the selected Image
-			move_uploaded_file($file['tmp_name'], 'test/logo/'.$logo_name);
+			move_uploaded_file($file['tmp_name'], 'cache/logo/'.$logo_name);
 
 			//Updating Database
 			$sql = 'UPDATE jo_organizationdetails SET logoname = ? WHERE organization_id = ?';
 			$params = array(decode_html($logo_name), '1');
 			$adb->pquery($sql, $params);
-			copy('test/logo/'.$logo_name, 'test/logo/application.ico');
+			copy('cache/logo/'.$logo_name, 'cache/logo/application.ico');
 		}
 	}
 
@@ -1645,7 +1645,7 @@ class Users extends CRMEntity {
 
    public function triggerAfterSaveEventHandlers() {
 	   global $adb;
-		require_once("include/events/include.inc");
+		require_once("includes/events/include.inc");
 
 		//In Bulk mode stop triggering events
 		if(!self::isBulkSaveMode()) {
@@ -1664,7 +1664,7 @@ class Users extends CRMEntity {
 
 	public function triggerBeforeSaveEventHandlers() {
 		global $adb;
-		require_once("include/events/include.inc");
+		require_once("includes/events/include.inc");
 
 		//In Bulk mode stop triggering events
 		if(!self::isBulkSaveMode()) {

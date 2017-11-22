@@ -250,7 +250,7 @@ $config['password_ldap_pwattr'] = 'userPassword';
 
 // LDAP password force replace
 // Force LDAP replace in cases where ACL allows only replace not read
-// See http://pear.php.net/package/Net_LDAP2/docs/latest/Net_LDAP2/Net_LDAP2_Entry.html#methodreplace
+// See http://pear.php.net/package/Net_LDAP2/docs/lacache/Net_LDAP2/Net_LDAP2_Entry.html#methodreplace
 // Default: true
 $config['password_ldap_force_replace'] = true;
 

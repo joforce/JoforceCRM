@@ -9,6 +9,6 @@
   * Contributor(s): JoForce.com
  *********************************************************************************/
 	
-	require_once('include/Ajax/CommonAjax.php');
+	require_once('includes/Ajax/CommonAjax.php');
 
 ?>

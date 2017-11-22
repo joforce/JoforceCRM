@@ -94,7 +94,7 @@ class VTSendNotificationTask extends VTEmailTask {
 
 			$referenceEntity = $entityCache->forId($entityOwnerId);
 			if($referenceEntity->getModuleName() === 'Groups') {
-				require_once('include/utils/GetGroupUsers.php');
+				require_once('includes/utils/GetGroupUsers.php');
 
 				$groupModel = new GetGroupUsers();
 				$groupModel->getAllUsersInGroup($ownerId);

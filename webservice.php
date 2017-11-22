@@ -18,18 +18,18 @@
 
 	//Overrides GetRelatedList : used to get related query
 	//TODO : Eliminate below hacking solution
-	include_once 'include/Webservices/Relation.php';
+	include_once 'includes/Webservices/Relation.php';
 
 	include_once 'vtlib/Head/Module.php';
 	include_once 'includes/main/WebUI.php';
 
 	require_once("libraries/HTTP_Session2/HTTP/Session2.php");
-	require_once 'include/Webservices/Utils.php';
-	require_once("include/Webservices/State.php");
-	require_once("include/Webservices/OperationManager.php");
-	require_once("include/Webservices/SessionManager.php");
-	require_once("include/Zend/Json.php");
-	require_once('include/logging.php');
+	require_once 'includes/Webservices/Utils.php';
+	require_once("includes/Webservices/State.php");
+	require_once("includes/Webservices/OperationManager.php");
+	require_once("includes/Webservices/SessionManager.php");
+	require_once("includes/Zend/Json.php");
+	require_once('includes/logging.php');
 
 	$API_VERSION = "0.22";
 

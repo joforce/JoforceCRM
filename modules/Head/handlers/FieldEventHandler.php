@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-require_once 'include/events/VTEventHandler.inc';
+require_once 'includes/events/VTEventHandler.inc';
 
 class FieldEventHandler extends VTEventHandler {
 

@@ -152,7 +152,7 @@ class PluginInstaller extends LibraryInstaller
 
         // read rcube version from iniset
         $rootdir = getcwd();
-        $iniset = @file_get_contents($rootdir . '/program/include/iniset.php');
+        $iniset = @file_get_contents($rootdir . '/program/includes/iniset.php');
         if (preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)?/', $iniset, $m)) {
             $rcubeVersion = $parser->normalize(str_replace('-git', '.999', $m[1]));
         } else {

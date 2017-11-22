@@ -22,12 +22,12 @@
  ********************************************************************************/
 
 include_once('config/config.php');
-require_once('include/logging.php');
+require_once('includes/logging.php');
 require_once('data/Tracker.php');
-require_once('include/utils/utils.php');
-require_once('include/utils/UserInfoUtil.php');
-require_once("include/Zend/Json.php");
-require_once 'include/RelatedListView.php';
+require_once('includes/utils/utils.php');
+require_once('includes/utils/UserInfoUtil.php');
+require_once("includes/Zend/Json.php");
+require_once 'includes/RelatedListView.php';
 
 class CRMEntity {
 
@@ -922,7 +922,7 @@ class CRMEntity {
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
-		require_once("include/events/include.inc");
+		require_once("includes/events/include.inc");
 
 		//In Bulk mode stop triggering events
 		if(!self::isBulkSaveMode()) {
@@ -1196,7 +1196,7 @@ class CRMEntity {
 		if($moduleName == '') {
 			$moduleName = $currentModule;
 		}
-		require_once('include/utils/UserInfoUtil.php');
+		require_once('includes/utils/UserInfoUtil.php');
 		foreach ($this->column_fields as $fieldname => $fieldvalue) {
 			$reset_value = false;
 			if (getFieldVisibilityPermission($moduleName, $current_user->id, $fieldname) != '0')
@@ -1228,7 +1228,7 @@ class CRMEntity {
 	 */
 	function initImportableFields($module) {
 		global $current_user, $adb;
-		require_once('include/utils/UserInfoUtil.php');
+		require_once('includes/utils/UserInfoUtil.php');
 
 		$skip_uitypes = array('4'); // uitype 4 is for Mod numbers
 		// Look at cache if the fields information is available.
@@ -1278,7 +1278,7 @@ class CRMEntity {
 		global $log, $current_user, $adb;
 
 		if(!self::isBulkSaveMode()) {
-			require_once("include/events/include.inc");
+			require_once("includes/events/include.inc");
 			$em = new VTEventsManager($adb);
 
 			// Initialize Event trigger cache
@@ -1382,7 +1382,7 @@ class CRMEntity {
 		$this->restoreRelatedRecords($module, $id);
 
 		//Event triggering code
-		require_once("include/events/include.inc");
+		require_once("includes/events/include.inc");
 		global $adb;
 		$em = new VTEventsManager($adb);
 

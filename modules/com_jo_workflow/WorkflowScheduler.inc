@@ -9,19 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-require_once ('include/events/VTEntityData.inc');
-require_once ('include/QueryGenerator/QueryGenerator.php');
-require_once ('include/Zend/Json.php');
-require_once ('include/utils/utils.php');
+require_once ('includes/events/VTEntityData.inc');
+require_once ('includes/QueryGenerator/QueryGenerator.php');
+require_once ('includes/Zend/Json.php');
+require_once ('includes/utils/utils.php');
 require_once ('modules/com_jo_workflow/VTWorkflowUtils.php');
 require_once ('modules/com_jo_workflow/VTWorkflowManager.inc');
 require_once ('modules/com_jo_workflow/VTTaskManager.inc');
 require_once ('modules/com_jo_workflow/VTTaskQueue.inc');
 require_once ('modules/com_jo_workflow/VTEntityCache.inc');
-require_once ('include/Webservices/WebserviceField.php');
-require_once ('include/Webservices/EntityMeta.php');
-require_once ('include/Webservices/HeadWebserviceObject.php');
-require_once ('include/Webservices/HeadCRMObject.php');
-require_once ('include/Webservices/HeadCRMObjectMeta.php');
-require_once ('include/Webservices/DataTransform.php');
-require_once ('include/Webservices/Retrieve.php');
+require_once ('includes/Webservices/WebserviceField.php');
+require_once ('includes/Webservices/EntityMeta.php');
+require_once ('includes/Webservices/HeadWebserviceObject.php');
+require_once ('includes/Webservices/HeadCRMObject.php');
+require_once ('includes/Webservices/HeadCRMObjectMeta.php');
+require_once ('includes/Webservices/DataTransform.php');
+require_once ('includes/Webservices/Retrieve.php');

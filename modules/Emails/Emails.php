@@ -447,7 +447,7 @@ class Emails extends CRMEntity {
 		global $current_user;
 		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
 
-		include("include/utils/ExportUtils.php");
+		include("includes/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("Emails", "detail_view");

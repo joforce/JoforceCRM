@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-include_once('include/utils/UserInfoUtil.php');
+include_once('includes/utils/UserInfoUtil.php');
 include_once('vtlib/Head/Utils.php');
 include_once('vtlib/Head/Profile.php');
 

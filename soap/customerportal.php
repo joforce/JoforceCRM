@@ -688,7 +688,7 @@ function get_tickets_list($input_array) {
 		return null;
 
 	require_once('modules/HelpDesk/HelpDesk.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 
 	global $adb,$log;
 	global $current_user;
@@ -1608,7 +1608,7 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
 {
 	checkFileAccessForInclusion('modules/'.$module.'/'.$module.'.php');
 	require_once('modules/'.$module.'/'.$module.'.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 	global $adb,$log,$current_user;
 	$log->debug("Entering customer portal function get_list_values");
 	$check = checkModuleActive($module);
@@ -2001,7 +2001,7 @@ function get_pdf($id,$block,$customerid,$sessionid)
 	$_REQUEST['record']= $id;
 	$_REQUEST['savemode']= 'file';
 	$sequenceNo = getModuleSequenceNumber($block, $id);
-	$filenamewithpath='test/product/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
+	$filenamewithpath='cache/product/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
 	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
 	unlink($filenamewithpath);
 
@@ -2040,8 +2040,8 @@ function get_salesorder_name($id)
 
 function get_invoice_detail($id,$module,$customerid,$sessionid)
 {
-	require_once('include/utils/UserInfoUtil.php');
-	require_once('include/utils/utils.php');
+	require_once('includes/utils/UserInfoUtil.php');
+	require_once('includes/utils/utils.php');
 
 	global $adb,$site_URL,$log,$current_user;
 	$log->debug("Entering customer portal function get_invoice_details $id - $module - $customerid - $sessionid");
@@ -2128,7 +2128,7 @@ function get_invoice_detail($id,$module,$customerid,$sessionid)
 function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
 {
 	require_once('modules/Products/Products.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 	global $current_user,$adb,$log;
 	$log->debug("Entering customer portal function get_product_list_values ..");
 	$check = checkModuleActive($modulename);
@@ -2265,8 +2265,8 @@ function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
 function get_details($id,$module,$customerid,$sessionid)
 {
 	global $adb,$log,$current_language,$default_language,$current_user;
-	require_once('include/utils/utils.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/utils.php');
+	require_once('includes/utils/UserInfoUtil.php');
 	$log->debug("Entering customer portal function get_details ..");
 
 	$user = new Users();
@@ -2907,7 +2907,7 @@ function get_documents($id,$module,$customerid,$sessionid)
 function get_project_components($id,$module,$customerid,$sessionid) {
 	checkFileAccessForInclusion("modules/$module/$module.php");
 	require_once("modules/$module/$module.php");
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 
 	global $adb,$log;
 	$log->debug("Entering customer portal function get_project_components ..");
@@ -2977,7 +2977,7 @@ function get_project_components($id,$module,$customerid,$sessionid) {
  */
 function get_project_tickets($id,$module,$customerid,$sessionid) {
 	require_once('modules/HelpDesk/HelpDesk.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 
 	global $adb,$log;
 	$log->debug("Entering customer portal function get_project_tickets ..");
@@ -3056,7 +3056,7 @@ function get_project_tickets($id,$module,$customerid,$sessionid) {
 function get_service_list_values($id,$modulename,$sessionid,$only_mine='true')
 {
 	require_once('modules/Services/Services.php');
-	require_once('include/utils/UserInfoUtil.php');
+	require_once('includes/utils/UserInfoUtil.php');
 	global $current_user,$adb,$log;
 	$log->debug("Entering customer portal Function get_service_list_values");
 	$check = checkModuleActive($modulename);

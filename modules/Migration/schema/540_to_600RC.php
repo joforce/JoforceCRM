@@ -10,11 +10,11 @@
  *********************************************************************************/
 if (!defined('VTIGER_UPGRADE')) die('Invalid entry point');
 
-vimport('~~include/utils/utils.php');
+vimport('~~includes/utils/utils.php');
 vimport('~~modules/com_jo_workflow/include.inc');
 vimport('~~modules/com_jo_workflow/tasks/VTEntityMethodTask.inc');
 vimport('~~modules/com_jo_workflow/VTEntityMethodManager.inc');
-vimport('~~include/Webservices/Utils.php');
+vimport('~~includes/Webservices/Utils.php');
 vimport('~~modules/Users/Users.php');
 
 if(defined('VTIGER_UPGRADE')) {
@@ -364,7 +364,7 @@ for($i=0; $i<count($inventoryModules); $i++) {
 }
 
 // Register a new actor type for LineItem API
-vtws_addActorTypeWebserviceEntityWithoutName('LineItem', 'include/Webservices/LineItem/HeadLineItemOperation.php', 'HeadLineItemOperation', array());
+vtws_addActorTypeWebserviceEntityWithoutName('LineItem', 'includes/Webservices/LineItem/HeadLineItemOperation.php', 'HeadLineItemOperation', array());
 
 $webserviceObject = HeadWebserviceObject::fromName($adb,'LineItem');
 Migration_Index_View::ExecuteQuery("INSERT INTO jo_ws_entity_tables(webservice_entity_id,table_name) VALUES (?,?)", array($webserviceObject->getEntityId(), 'jo_inventoryproductrel'));
@@ -385,7 +385,7 @@ Migration_Index_View::ExecuteQuery("INSERT INTO jo_ws_entity_fieldtype(fieldtype
 
 $adb->getUniqueID("jo_inventoryproductrel");
 Migration_Index_View::ExecuteQuery("UPDATE jo_inventoryproductrel_seq SET id=(select max(lineitem_id) from jo_inventoryproductrel);",array());
-Migration_Index_View::ExecuteQuery("UPDATE jo_ws_entity SET handler_path='include/Webservices/LineItem/HeadInventoryOperation.php',handler_class='HeadInventoryOperation' where name in ('Invoice','Quotes','PurchaseOrder','SalesOrder');",array());
+Migration_Index_View::ExecuteQuery("UPDATE jo_ws_entity SET handler_path='includes/Webservices/LineItem/HeadInventoryOperation.php',handler_class='HeadInventoryOperation' where name in ('Invoice','Quotes','PurchaseOrder','SalesOrder');",array());
 
 $purchaseOrderTabId = getTabid("PurchaseOrder");
 
@@ -397,14 +397,14 @@ Migration_Index_View::ExecuteQuery('UPDATE jo_field SET block=? where tabid=? an
 		array($invoiceTabIdAddressInformationBlockId,$invoiceTabId,$purchaseOrderAddressInformationBlockId));
 
 vtws_addActorTypeWebserviceEntityWithName('Tax',
-		'include/Webservices/LineItem/HeadTaxOperation.php',
+		'includes/Webservices/LineItem/HeadTaxOperation.php',
 		'HeadTaxOperation', array('fieldNames'=>'taxlabel', 'indexField'=>'taxid', 'tableName'=>'jo_inventorytaxinfo'), true);
 
 $webserviceObject = HeadWebserviceObject::fromName($adb,'Tax');
 Migration_Index_View::ExecuteQuery("INSERT INTO jo_ws_entity_tables(webservice_entity_id,table_name) VALUES (?,?)",array($webserviceObject->getEntityId(),'jo_inventorytaxinfo'));
 
 vtws_addActorTypeWebserviceEntityWithoutName('ProductTaxes',
-		'include/Webservices/LineItem/HeadProductTaxesOperation.php',
+		'includes/Webservices/LineItem/HeadProductTaxesOperation.php',
 		'HeadProductTaxesOperation', array());
 
 $webserviceObject = HeadWebserviceObject::fromName($adb,'ProductTaxes');
@@ -885,7 +885,7 @@ if(file_exists('modules/ModTracker/ModTrackerUtils.php')) {
 	}
 }
 
-$operationId = vtws_addWebserviceOperation('retrieve_inventory', 'include/Webservices/LineItem/RetrieveInventory.php', 'vtws_retrieve_inventory', 'GET');
+$operationId = vtws_addWebserviceOperation('retrieve_inventory', 'includes/Webservices/LineItem/RetrieveInventory.php', 'vtws_retrieve_inventory', 'GET');
 vtws_addWebserviceOperationParam($operationId, 'id', 'String', 1);
 
 $moduleInstance = Head_Module::getInstance('Events');
@@ -1187,7 +1187,7 @@ Migration_Index_View::ExecuteQuery($sqltimelogTable, array());
 
 $moduleName = 'PurchaseOrder';
 $emm = new VTEntityMethodManager($adb);
-$emm->addEntityMethod($moduleName,"UpdateInventory","include/InventoryHandler.php","handleInventoryProductRel");
+$emm->addEntityMethod($moduleName,"UpdateInventory","includes/InventoryHandler.php","handleInventoryProductRel");
 
 $vtWorkFlow = new VTWorkflowManager($adb);
 $poWorkFlow = $vtWorkFlow->newWorkFlow($moduleName);
@@ -2495,8 +2495,8 @@ Migration_Index_View::ExecuteQuery('ALTER TABLE jo_inventoryproductrel MODIFY co
 Migration_Index_View::ExecuteQuery('DELETE FROM jo_settings_field WHERE name=?', array('LBL_BACKUP_SERVER_SETTINGS'));
 
 // Changes ends as on 2013.11.29
-Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_faqcf ( 
+/*Migration_Index_View::ExecuteQuery("CREATE TABLE IF NOT EXISTS jo_faqcf ( 
                                 faqid int(19), 
                                 PRIMARY KEY (faqid), 
                                 CONSTRAINT fk_1_jo_faqcf FOREIGN KEY (faqid) REFERENCES jo_faq(id) ON DELETE CASCADE 
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array()); 
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array()); */

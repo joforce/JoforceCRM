@@ -10,10 +10,10 @@
 *
  ********************************************************************************/
 
-require_once('include/RelatedListView.php');
+require_once('includes/RelatedListView.php');
 require_once('modules/Contacts/Contacts.php');
 require_once('modules/Products/Products.php');
-require_once('include/utils/UserInfoUtil.php');
+require_once('includes/utils/UserInfoUtil.php');
 
 // functions added for group calendar	-Jaguar
 	/**

@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-require_once 'include/events/include.inc';
+require_once 'includes/events/include.inc';
 
 /**
  * Roles Record Model Class

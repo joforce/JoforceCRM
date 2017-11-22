@@ -11,7 +11,7 @@
 
 require_once 'modules/Reports/Reports.php';
 require_once 'modules/Reports/ReportRun.php';
-require_once 'include/Zend/Json.php';
+require_once 'includes/Zend/Json.php';
 
 class VTScheduledReport extends Reports {
 
@@ -99,7 +99,7 @@ class VTScheduledReport extends Reports {
 
 
 			if(!empty($recipientsInfo['groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
+				require_once 'includes/utils/GetGroupUsers.php';
 				foreach($recipientsInfo['groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);

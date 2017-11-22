@@ -1,6 +1,6 @@
 <?php
 
-include_once'../../../config.inc.php';
+include_once'../../../config/config.inc.php';
 /* Local configuration for Roundcube Webmail */
 $config['root_directory'] = $root_directory;
 $config['siteurl'] = $site_URL;

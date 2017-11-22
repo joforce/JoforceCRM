@@ -2,7 +2,7 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_utils.php                                      |
+ | program/includes/rcmail_utils.php                                      |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
  | Copyright (C) 2005-2015 The Roundcube Dev Team                        |

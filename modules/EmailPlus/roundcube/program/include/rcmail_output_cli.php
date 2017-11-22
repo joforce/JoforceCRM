@@ -2,7 +2,7 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_cli.php                                 |
+ | program/includes/rcmail_output_cli.php                                 |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
  | Copyright (C) 2005-2014 The Roundcube Dev Team                        |

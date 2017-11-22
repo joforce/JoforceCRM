@@ -58,7 +58,7 @@ class Emails_ViewInBrowser_Handler {
 			$urlParameters['applicationKey'] = $applicationKey;
 			$url = http_build_query($urlParameters);
 			$rlock = md5($url);
-			$viewInBrowserMergeTagURL = $site_URL . "/config/shorturl.php?id=$shorturlId&$url&rv=$rlock";
+			$viewInBrowserMergeTagURL = $site_URL . "shorturl.php?id=$shorturlId&$url&rv=$rlock";
 			$mergedDescription = str_replace(EmailTemplates_Module_Model::$BROWSER_MERGE_TAG, $viewInBrowserMergeTagURL, $description);
 			$htmlContent = getMergedDescription($mergedDescription, $recipientId, $parentModule);
 			header('Content-Type: text/html; charset=utf-8');

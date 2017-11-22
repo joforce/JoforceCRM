@@ -63,7 +63,7 @@ if(defined('VTIGER_UPGRADE')) {
 		}
 	}
 
-	$db->pquery('UPDATE jo_ws_entity SET handler_path=?, handler_class=? WHERE name IN("Products","Services")', array('include/Webservices/HeadProductOperation.php', 'HeadProductOperation'));
+	$db->pquery('UPDATE jo_ws_entity SET handler_path=?, handler_class=? WHERE name IN("Products","Services")', array('includes/Webservices/HeadProductOperation.php', 'HeadProductOperation'));
 	$db->pquery('UPDATE jo_def_org_share SET editstatus=? WHERE tabid=?', array(0, getTabid('Contacts')));
 	$db->pquery('UPDATE jo_settings_field SET name=? WHERE name=?', array('Configuration Editor', 'LBL_CONFIG_EDITOR'));
 	$db->pquery('UPDATE jo_links SET linktype=? WHERE linklabel=?', array('DETAILVIEW', 'LBL_SHOW_ACCOUNT_HIERARCHY'));
@@ -684,7 +684,7 @@ if(defined('VTIGER_UPGRADE')) {
 	$db->pquery($sql, array());
 
 	//To change the convert lead webserice operation parameters which was wrong earliear 
-	require_once 'include/Webservices/Utils.php';
+	require_once 'includes/Webservices/Utils.php';
 	$convertLeadOperationQueryRes = $db->pquery('SELECT operationid FROM jo_ws_operation WHERE name=?', array('convertlead'));
 	if (!$db->num_rows($convertLeadOperationQueryRes)) {
 		$operationId = $db->query_result($convertLeadOperationQueryRes, '0', 'operationid');
@@ -820,7 +820,7 @@ if(defined('VTIGER_UPGRADE')) {
 	 $relatedWebservicesOperations = array(
 		array(
 			'name' => 'relatedtypes',
-			'path' => 'include/Webservices/RelatedTypes.php',
+			'path' => 'includes/Webservices/RelatedTypes.php',
 			'method' => 'vtws_relatedtypes',
 			'type' => 'GET',
 			'params' => array(
@@ -829,7 +829,7 @@ if(defined('VTIGER_UPGRADE')) {
 		),
 		array(
 			'name' => 'retrieve_related',
-			'path' => 'include/Webservices/RetrieveRelated.php',
+			'path' => 'includes/Webservices/RetrieveRelated.php',
 			'method' => 'vtws_retrieve_related',
 			'type' => 'GET',
 			'params' => array(
@@ -840,7 +840,7 @@ if(defined('VTIGER_UPGRADE')) {
 		),
 		array(
 			'name' => 'query_related',
-			'path' => 'include/Webservices/QueryRelated.php',
+			'path' => 'includes/Webservices/QueryRelated.php',
 			'method' => 'vtws_query_related',
 			'type' => 'GET',
 			'params' => array(
@@ -2175,11 +2175,11 @@ if(defined('VTIGER_UPGRADE')) {
 		rename('modules/Head/resources', 'modules/Head/resources_650');
 	}
 
-    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('VTPDFMaker', 'include/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
+    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('VTPDFMaker', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
-    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('EmailPlus', 'include/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
+    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('EmailPlus', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
-   $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('ModComments', 'include/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
+   $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('ModComments', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('Settings/MailConverter/List','LBL_MAIL_SCANNER'));
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('ModTracker/BasicSettings/Settings/ModTracker','ModTracker'));

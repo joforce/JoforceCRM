@@ -63,7 +63,7 @@ Head_Edit_Js("VTPDFMaker_Edit_Js",{},{
 			    var site_url = url + first;
                             templatecontenttype = $('#textarea-type').val();
 			    var logo = $('#logo').val();
-                            CKEDITOR.instances[templatecontenttype].insertHtml('<img style="width:200px;" src="'+site_url+'/test/logo/'+logo+'">');
+                            CKEDITOR.instances[templatecontenttype].insertHtml('<img style="width:200px;" src="'+site_url+'/cache/logo/'+logo+'">');
 			}
 			else if(value != 'Select'){
                               templatecontenttype = $('#textarea-type').val();

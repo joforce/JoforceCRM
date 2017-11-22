@@ -9,10 +9,10 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 include_once 'vtlib/Head/Mailer.php';
-include_once 'include/simplehtmldom/simple_html_dom.php';
+include_once 'includes/simplehtmldom/simple_html_dom.php';
 include_once 'libraries/InStyle/InStyle.php';
 include_once 'libraries/ToAscii/ToAscii.php';
-include_once 'include/database/PearDatabase.php';
+include_once 'includes/database/PearDatabase.php';
 
 class Emails_Mailer_Model extends Head_Mailer {
 

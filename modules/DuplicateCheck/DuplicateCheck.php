@@ -46,18 +46,18 @@ class DuplicateCheck {
 			$count = $adb->num_rows($checkEntry);
 
             $entityId = $adb->getUniqueID("jo_ws_entity"); 
-            $adb->pquery('insert into jo_ws_entity (id, name, handler_path, handler_class, ismodule) values (?, ?, ?, ?, ?)', array($entityId, $moduleName, 'include/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
+            $adb->pquery('insert into jo_ws_entity (id, name, handler_path, handler_class, ismodule) values (?, ?, ?, ?, ?)', array($entityId, $moduleName, 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 		} 
 		else if($eventType == 'module.disabled') {
 			// TODO Handle actions before this module is being uninstalled.
 			$moduleInstance=Head_Module::getInstance($moduleName);
-                        $moduleInstance->deleteLink('HEADERSCRIPT', 'Duplicate Check', 'layouts/v7/modules/Settings/DuplicateCheck/jsresources/duplicatecheck.js');
-                        $moduleInstance->deleteLink('HEADERSCRIPT', 'Duplicate Check Quick Create', 'layouts/v7/modules/Settings/DuplicateCheck/jsresources/quickcreateduplicatecheck.js');
+                        $moduleInstance->deleteLink('HEADERSCRIPT', 'Duplicate Check', 'layouts/modules/Settings/DuplicateCheck/jsresources/duplicatecheck.js');
+                        $moduleInstance->deleteLink('HEADERSCRIPT', 'Duplicate Check Quick Create', 'layouts/modules/Settings/DuplicateCheck/jsresources/quickcreateduplicatecheck.js');
                 } else if($eventType == 'module.enabled') {
                         // TODO Handle actions before this module is being installed.
                         $moduleInstance=Head_Module::getInstance($moduleName);
-                        $moduleInstance->addLink('HEADERSCRIPT', 'Duplicate Check', 'layouts/v7/modules/Settings/DuplicateCheck/jsresources/duplicatecheck.js');
-                        $moduleInstance->addLink('HEADERSCRIPT', 'Duplicate Check Quick Create', 'layouts/v7/modules/Settings/DuplicateCheck/jsresources/quickcreateduplicatecheck.js');
+                        $moduleInstance->addLink('HEADERSCRIPT', 'Duplicate Check', 'layouts/modules/Settings/DuplicateCheck/jsresources/duplicatecheck.js');
+                        $moduleInstance->addLink('HEADERSCRIPT', 'Duplicate Check Quick Create', 'layouts/modules/Settings/DuplicateCheck/jsresources/quickcreateduplicatecheck.js');
 		} else if($eventType == 'module.preuninstall') {
 			// TODO Handle actions when this module is about to be deleted.
 		} else if($eventType == 'module.preupdate') {

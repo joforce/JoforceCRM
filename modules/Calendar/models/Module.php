@@ -182,12 +182,12 @@ class Calendar_Module_Model extends Head_Module_Model {
 			);
 		}
 
-		$quickWidgets[] = array(
+		/*$quickWidgets[] = array(
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_RECENTLY_MODIFIED',
 			'linkurl' => 'module='.$this->get('name').'&view=IndexAjax&mode=showActiveRecords',
 			'linkicon' => ''
-		);
+		);*/
 
 		foreach($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Head_Link_Model::getInstanceFromValues($quickWidget);

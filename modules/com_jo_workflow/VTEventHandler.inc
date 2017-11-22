@@ -8,23 +8,23 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once('include/events/SqlResultIterator.inc');
+require_once('includes/events/SqlResultIterator.inc');
 require_once('VTWorkflowManager.inc');
 require_once('VTEntityCache.inc');
 
-require_once 'include/Webservices/Utils.php';
+require_once 'includes/Webservices/Utils.php';
 require_once("modules/Users/Users.php");
-require_once("include/Webservices/HeadCRMObject.php");
-require_once("include/Webservices/HeadCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
-require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Retrieve.php');
-require_once('include/Webservices/Update.php');
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/HeadWebserviceObject.php';
+require_once("includes/Webservices/HeadCRMObject.php");
+require_once("includes/Webservices/HeadCRMObjectMeta.php");
+require_once("includes/Webservices/DataTransform.php");
+require_once("includes/Webservices/WebServiceError.php");
+require_once 'includes/utils/utils.php';
+require_once 'includes/Webservices/ModuleTypes.php';
+require_once('includes/Webservices/Retrieve.php');
+require_once('includes/Webservices/Update.php');
+require_once 'includes/Webservices/WebserviceField.php';
+require_once 'includes/Webservices/EntityMeta.php';
+require_once 'includes/Webservices/HeadWebserviceObject.php';
 require_once('VTWorkflowUtils.php');
 
 /*

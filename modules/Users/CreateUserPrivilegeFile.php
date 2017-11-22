@@ -11,10 +11,10 @@
 
 require_once('config/config.php');
 require_once('modules/Users/Users.php');
-require_once('include/utils/UserInfoUtil.php');
-require_once('include/utils/utils.php');
-require_once('include/utils/GetUserGroups.php');
-require_once('include/utils/GetGroupUsers.php');
+require_once('includes/utils/UserInfoUtil.php');
+require_once('includes/utils/utils.php');
+require_once('includes/utils/GetUserGroups.php');
+require_once('includes/utils/GetGroupUsers.php');
 
 
 /** Creates a file with all the user, user-role,user-profile, user-groups informations 

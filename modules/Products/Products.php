@@ -1089,7 +1089,7 @@ class Products extends CRMEntity {
 		global $log, $current_user;
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
-		include("include/utils/ExportUtils.php");
+		include("includes/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("Products", "detail_view");

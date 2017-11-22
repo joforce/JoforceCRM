@@ -9,8 +9,8 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-require_once('include/utils/utils.php');
-require_once('include/logging.php');
+require_once('includes/utils/utils.php');
+require_once('includes/logging.php');
 
 global $adb, $log;
 $log =& LoggerManager::getLogger('RecurringInvoice');
@@ -72,7 +72,7 @@ for($i=0; $i<$no_of_salesorder;$i++) {
 
 /* Function to create a new Invoice using the given Sales Order id */
 function createInvoice($salesorder_id, $recurringDate = false) {
-	require_once('include/utils/utils.php');
+	require_once('includes/utils/utils.php');
 	require_once('modules/SalesOrder/SalesOrder.php');
 	require_once('modules/Invoice/Invoice.php');
 	require_once('modules/Users/Users.php');

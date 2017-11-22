@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
 *
  ********************************************************************************/
-require_once('include/Zend/Json.php');
+require_once('includes/Zend/Json.php');
 if(isset($_REQUEST["record"]) && $_REQUEST['record']!='')
 {
 	$reportid = vtlib_purify($_REQUEST["record"]);

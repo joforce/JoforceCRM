@@ -47,7 +47,7 @@
                     <div class="templateName" title="{$TEMPLATE_NAME}" style="position: relative;margin-bottom: 5px;overflow: hidden;"><p class="ellipsis">{$TEMPLATE_NAME}</p></div>
                     <div class="thumbnail cursorPointer positionRel" data-value="{$TEMPLATE_ID}" data-label="{$TEMPLATE_NAME}" style='border: 1px solid #ddd;'>
                             <div class="imageDiv">
-                                <img src="{$SITEURL}test/template_imgfiles/{if !empty($TEMPLATE_PATH)}{$TEMPLATE_PATH}{else}default.png{/if}"  data-value="{$TEMPLATE_ID}" style="width:216px;height:277px;"/>
+                                <img src="{$SITEURL}cache/template_imgfiles/{if !empty($TEMPLATE_PATH)}{$TEMPLATE_PATH}{else}default.png{/if}"  data-value="{$TEMPLATE_ID}" style="width:216px;height:277px;"/>
                             <div class="hide" style="display: block; width: 100%;position: absolute;bottom:0;">
                                 <button class="btn btn-default previewTemplate" style="width:49%;" data-value="{$TEMPLATE_ID}" data-mode="templates" data-label="{$TEMPLATE_NAME}">
                                     <i class="fa fa-eye cursorPointer" title="Preview"></i>&nbsp;Preview

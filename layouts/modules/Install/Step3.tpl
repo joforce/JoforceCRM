@@ -14,12 +14,44 @@
 
 	<div class="main-container">
 		<div class="inner-container">
-			<div class="row">
-				<div class="col-sm-10">
-					<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
-				</div>
-			</div>
-			<hr>
+			<div class="col-sm-12 text-center">
+                        <div class="logo install-logo">
+                                <img src="{'logo.png'|vimage_path}"/>
+                        </div>
+                </div>
+
+<div class="joforce-install-section joforce-install-row-bottom col-md-offset-1">
+    <div class="joforce-install-row">
+      <div class="joforce-install-step">
+         <div class="joforce-install-circle joforce-install-completed"><span>1</span></div>
+         <p>{vtranslate('LBL_WELCOME_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step" id="step2">
+        <div class="joforce-install-circle joforce-install-completed"><span>2</span></div>
+        <p>{vtranslate('LBL_AGREE_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+       <div class="joforce-install-circle joforce-install-active"><span>3</span></div>
+       <p>{vtranslate('LBL_PREREQUISITES_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+        <div class="joforce-install-circle"><span>4</span></div>
+        <p>{vtranslate('LBL_CONFIGURATION_INSTALL', 'Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+         <div class="joforce-install-circle"><span>5</span></div>
+         <p>{vtranslate('LBL_CONFIRM_CONFIGURATION_INSTALL','Install')}</p>
+      </div>
+      <!-- <div class="joforce-install-step">
+        <div class="joforce-install-circle"><span>6</span></div>
+        <p>{vtranslate('LBL_ONE_LAST_THING_INSTALL','Install')}</p>
+      </div>
+      <div class="joforce-install-step">
+        <div class="joforce-install-circle"><span>7</span></div>
+        <p>{vtranslate('LBL_LOADING_PLEASE_WAIT_INSTALL','Install')}</p>
+      </div> -->
+    </div>
+  </div>
 			<div class="row">
 				<div class="row offset2">
 					
@@ -35,7 +67,18 @@
 				</div>
 				<div class="row offset2">
 					
-					<div class="col-sm-10 col-sm-offset-1">
+				<div class="col-sm-10 col-sm-offset-1">
+				<table class="config-table">
+				<input type="hidden" value="{$HT_PER}" name="htperm" id="htperm" />
+				<tr>
+				<th>{$SERVERHEAD}</th>
+				<th></th>
+				</tr>
+				<tr>
+				<td>{$SERVERTYPE}</td>
+				<td>{$HTACC_PER}</td>
+				</tr>
+				</table>
 						<table class="config-table">
 							<tr>
 								<th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th>

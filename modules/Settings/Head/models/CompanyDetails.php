@@ -17,7 +17,7 @@ class Settings_Head_CompanyDetails_Model extends Settings_Head_Module_Model {
 	var $baseIndex = 'organization_id';
 	var $listFields = array('organizationname');
 	var $nameFields = array('organizationname');
-	var $logoPath = 'test/logo/';
+	var $logoPath = 'cache/logo/';
 
 	var $fields = array(
 		'organizationname' => 'text',

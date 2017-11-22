@@ -29,7 +29,7 @@ class Head_ShortURL_Helper {
 		global $site_URL;
 		if (!isset($options['onetime'])) $options['onetime'] = 0;
 		$uid = self::generate($options);
-		return "$site_URL/config/shorturl.php?id=" . $uid;
+		return "$site_URL/shorturl.php?id=" . $uid;
 	}
 	
 	static function generate(array $options) {

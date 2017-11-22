@@ -33,7 +33,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		$db = PearDatabase::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$id = $db->getUniqueID("jo_$pickListFieldName");
-		vimport('~~/include/ComboUtil.php');
+		vimport('~~/includes/ComboUtil.php');
 		$picklist_valueid = getUniquePicklistID();
 		$tableName = 'jo_'.$pickListFieldName;
 		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM '.$tableName;
@@ -101,7 +101,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		$query = "UPDATE jo_field SET defaultvalue=? WHERE defaultvalue=? AND columnname=?";
 		$db->pquery($query, array($newValue, $oldValue, $columnName));
 
-		vimport('~~/include/utils/CommonUtils.php');
+		vimport('~~/includes/utils/CommonUtils.php');
 
 		$query = "UPDATE jo_picklist_dependency SET sourcevalue=? WHERE sourcevalue=? AND sourcefield=?";
 		$db->pquery($query, array($newValue, $oldValue, $pickListFieldName));
@@ -177,7 +177,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 					' WHERE '.$primaryKey.' IN ('.  generateQuestionMarks($valueToDeleteId).')';
 		$db->pquery($query,$valueToDeleteId);
 
-		vimport('~~/include/utils/CommonUtils.php');
+		vimport('~~/includes/utils/CommonUtils.php');
 		$tabId = getTabId($moduleName);
 		$query = 'DELETE FROM jo_picklist_dependency WHERE sourcevalue IN ('. generateQuestionMarks($pickListValues) .')'.
 				' AND sourcefield=?';

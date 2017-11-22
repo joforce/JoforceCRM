@@ -25,7 +25,7 @@
                         {assign var=NOIMAGE value=0}
                         {foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
                             {if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
-                                <img height="100%" width="100%"src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
+                                <img height="100%" width="100%"src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
                             {else}
                                 {assign var=NOIMAGE value=1}
                             {/if}

@@ -1,6 +1,6 @@
 <?php
 
-require_once('include/logging.php');
+require_once('includes/logging.php');
 /*
 $Id: nusoap.php,v 1.94 2005/08/04 01:27:42 snichol Exp $
 

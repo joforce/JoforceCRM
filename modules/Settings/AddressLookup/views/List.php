@@ -15,17 +15,17 @@ class Settings_AddressLookup_List_View extends Settings_Head_Index_View {
 
 		$sourceModule = "";
 		
-			if(!isset($_GET['sourceModule']))
+			if(!isset($_REQUEST['sourceModule']))
                 header("location:{$site_URL}AddressLookup/Settings/List/Campaigns");
 
-			if($_GET['success']){
+			if($_REQUEST['success']){
 			echo "<div style='height:20px; font-size:12px; margin-bottom:6px; padding:5px; height: 15px; length:100%; text-align: center; margin-left: 20%; margin-top:40px;margin-right:100px; display: inline-block;' class='pull-right fa fa-times-circle fa-2x alert alert-success notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Settings Saved Successfully </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
 		}
-			if($_GET['error']){
+			if($_REQUEST['error']){
 			echo "<div style='height:20px; font-size:12px; margin-bottom:6px;padding:5px; height: 15px; length:100%; text-align: center; margin-left: 20%; margin-top:40px; display: inline-block; margin-right:100px;' class='pull-right fa fa-times-circle fa-2x alert alert-danger notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Unfortunately Unsaved Changes </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
 		}
 
-			if($_GET['check']){
+			if($_REQUEST['check']){
 			echo "<div style='height:20px; font-size:12px; margin-bottom:6px;padding:5px; height: 15px; length:100%; text-align: center; margin-left: 20%; margin-top:40px; display: inline-block; margin-right:100px;' class='pull-right fa fa-times-circle fa-2x alert alert-danger notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Please select the module</span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
 		}	
 
@@ -129,7 +129,7 @@ class Settings_AddressLookup_List_View extends Settings_Head_Index_View {
                 $headerScriptInstances = parent::getHeaderScripts($request);
                 $moduleName = $request->getModule();
                 $jsFileNames = array(
-			"layouts.v7.modules.Settings.$moduleName.jsresources.AddressLookup.js",
+			"layouts.modules.Settings.$moduleName.jsresources.AddressLookup.js", //SMACKJOFORCE
                 );
                 $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
                 $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

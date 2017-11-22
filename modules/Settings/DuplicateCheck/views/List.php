@@ -134,7 +134,7 @@ class Settings_DuplicateCheck_List_View extends Settings_Head_Index_View {
 			'modules.Settings.Head.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Head.resources.$moduleName",
-            "~layouts/v7/lib/jquery/sadropdown.js",
+            "~layouts/lib/jquery/sadropdown.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

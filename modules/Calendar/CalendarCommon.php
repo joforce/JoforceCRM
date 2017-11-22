@@ -116,7 +116,7 @@ function addAcceptEventLink($body,$user_id,$recordModel) {
  */
 function getActivityDetails($description,$user_id,$from='',$recordModel=false) {
     global $log,$current_user;
-	require_once 'include/utils/utils.php';
+	require_once 'includes/utils/utils.php';
 	$log->debug("Entering getActivityDetails(".$description.") method ...");
 
 	// Show the start date and end date in the users date format and in his time zone
@@ -229,7 +229,7 @@ function generateIcsAttachment($record) {
     $firstName = $userModel->entity->column_fields['first_name'];
     $lastName = $userModel->entity->column_fields['last_name'];
     $email = $userModel->entity->column_fields['email1'];
-    $fp = fopen('test/upload/'.$fileName.'.ics', "w");
+    $fp = fopen('cache/upload/'.$fileName.'.ics', "w");
     fwrite($fp, "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\n");
     fwrite($fp, "ORGANIZER;CN=".$firstName." ".$lastName.":MAILTO:".$email."\n");
     fwrite($fp, "DTSTART:".date('Ymd\THis\Z', strtotime($record['st_date_time']))."\n");
@@ -239,7 +239,7 @@ function generateIcsAttachment($record) {
     fwrite($fp, "STATUS:CONFIRMED\nSUMMARY:".$record['subject']."\nEND:VEVENT\nEND:VCALENDAR");
     fclose($fp);
     
-    return 'test/upload/'.$fileName.'.ics';
+    return 'cache/upload/'.$fileName.'.ics';
 }
 
 ?>

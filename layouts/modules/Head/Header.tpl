@@ -34,11 +34,7 @@
         <input type="hidden" id="inventoryModules" value={ZEND_JSON::encode($INVENTORY_MODULES)}>
         
         {assign var=V7_THEME_PATH value=Head_Theme::getv7AppStylePath($SELECTED_MENU_CATEGORY)}
-        {if strpos($V7_THEME_PATH,".less")!== false}
-            <link type="text/css" rel="stylesheet/less" href="{$SITEURL}{vresource_url($V7_THEME_PATH)}" media="screen" />
-        {else}
-            <link type="text/css" rel="stylesheet" href="{$SITEURL}{vresource_url($V7_THEME_PATH)}" media="screen" />
-        {/if}
+            <link type="text/css" rel="stylesheet" href="{$SITEURL}layouts/skins/style.css" media="screen" />
         
         {foreach key=index item=cssModel from=$STYLES}
 			<link type="text/css" rel="{$cssModel->getRel()}" href="{$SITEURL}{vresource_url($cssModel->getHref())}" media="{$cssModel->getMedia()}" />

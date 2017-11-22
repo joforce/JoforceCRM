@@ -282,7 +282,7 @@ class Reports_Record_Model extends Head_Record_Model {
 			$params = array();
 			$sql = ' SELECT jo_report.reportid,jo_report.reportname FROM jo_report ';
 			require('user_privileges/user_privileges_'.$current_user->id.'.php');
-			require_once('include/utils/GetUserGroups.php');
+			require_once('includes/utils/GetUserGroups.php');
 			$userGroups = new GetUserGroups();
 			$userGroups->getAllUserGroups($current_user->id);
 			$user_groups = $userGroups->user_groups;

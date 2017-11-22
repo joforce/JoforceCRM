@@ -14,7 +14,7 @@ include_once 'vtlib/Head/Module.php';
 include_once 'vtlib/Head/Package.php';
 include_once 'includes/main/WebUI.php';
 
-include_once 'include/Webservices/Utils.php';
+include_once 'includes/Webservices/Utils.php';
 
 class Head_Tools_Console_Controller {
 	const PROMPT_ANY      = 1;

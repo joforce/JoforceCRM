@@ -20,7 +20,7 @@ class Settings_ModuleManager_Extension_Model extends Head_Base_Model {
 	var $fileName;
 
 	public static function getUploadDirectory($isChild = false) {
-		$uploadDir .= 'test/vtlib';
+		$uploadDir .= 'cache/vtlib';
 		if ($isChild) {
 			$uploadDir = '../'.$uploadDir;
 		}

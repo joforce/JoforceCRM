@@ -24,8 +24,8 @@
  ********************************************************************************/
 
 include_once('config/config.php');
-require_once('include/logging.php');
-require_once('include/database/PearDatabase.php');
+require_once('includes/logging.php');
+require_once('includes/database/PearDatabase.php');
 
 /** This class is used to track the recently viewed items on a per user basis.
  * It is intended to be called by each module when rendering the detail form.
@@ -145,8 +145,8 @@ $log->info("in  track view method ".$current_module);
             if($module_name == "" || $row[module_name] == $module_name)
             {
 		//Adding Security check
-		require_once('include/utils/utils.php');
-		require_once('include/utils/UserInfoUtil.php');
+		require_once('includes/utils/utils.php');
+		require_once('includes/utils/UserInfoUtil.php');
 		$entity_id = $row['item_id'];
 		$module = $row['module_name'];
 		//echo "module is ".$module."  id is      ".$entity_id;

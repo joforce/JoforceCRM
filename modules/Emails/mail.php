@@ -12,8 +12,8 @@
 
 
 require_once("modules/Emails/class.phpmailer.php");
-require_once 'include/utils/CommonUtils.php';
-require_once 'include/utils/VTCacheUtils.php';
+require_once 'includes/utils/CommonUtils.php';
+require_once 'includes/utils/VTCacheUtils.php';
 
 /**   Function used to send email
   *   $module 		-- current module
@@ -33,7 +33,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	global $root_directory;
 	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
-	$uploaddir = $root_directory ."/test/upload/";
+	$uploaddir = $root_directory ."/cache/upload/";
 
 	$adb->println("To id => '".$to_email."'\nSubject ==>'".$subject."'\nContents ==> '".$contents."'");
 
@@ -351,7 +351,7 @@ function addAttachment($mail,$filename,$record)
 	global $adb, $root_directory;
 	$adb->println("Inside the function addAttachment");
 	$adb->println("The file name is => '".$filename."'");
-	$completePath = $root_directory."test/upload/".$filename;
+	$completePath = $root_directory."cache/upload/".$filename;
 
 	//This is the file which has been selected in Email EditView
 		if(file_exists($completePath) && $filename != '')
@@ -381,7 +381,7 @@ function addAllAttachments($mail,$record)
 		$filepath = $adb->query_result($res,$i,'path');
 		$filewithpath = $root_directory.$filepath.$fileid."_".$filename;
 
-		//if the file is exist in test/upload directory then we will add directly
+		//if the file is exist in cache/upload directory then we will add directly
 		//else get the contents of the file and write it as a file and then attach (this will occur when we unlink the file)
 		if(is_file($filewithpath))
 		{
@@ -616,7 +616,7 @@ function getDefaultAssigneeEmailIds($groupId) {
 	global $adb;
 	$emails = Array();
 	if($groupId != '') {
-		require_once 'include/utils/GetGroupUsers.php';
+		require_once 'includes/utils/GetGroupUsers.php';
 		$userGroups = new GetGroupUsers();
 		$userGroups->getAllUsersInGroup($groupId);
 

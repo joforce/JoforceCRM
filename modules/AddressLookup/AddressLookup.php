@@ -51,14 +51,14 @@ class AddressLookup
 	protected function _registerLinks($moduleName) {
 		$thisModuleInstance = Head_Module::getInstance($moduleName);
 		if ($thisModuleInstance) {
-			$thisModuleInstance->addLink("HEADERSCRIPT", "Address Autofill", "layouts/v7/modules/Settings/AddressLookup/jsresources/AddressLookup.js");
+			$thisModuleInstance->addLink("HEADERSCRIPT", "Address Autofill", "layouts/modules/Settings/AddressLookup/jsresources/AddressLookup.js");
 		}
 	}
 
 	protected function _deregisterLinks($moduleName) {
 		$thisModuleInstance = Head_Module::getInstance($moduleName);
 		if ($thisModuleInstance) {
-			$thisModuleInstance->deleteLink("HEADERSCRIPT", "Address Autofill", "layouts/v7/modules/Settings/AddressLookup/jsresources/AddressLookup.js");
+			$thisModuleInstance->deleteLink("HEADERSCRIPT", "Address Autofill", "layouts/modules/Settings/AddressLookup/jsresources/AddressLookup.js");
 		}
 	}
 }

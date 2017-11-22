@@ -208,13 +208,13 @@ ul.dropdown-menu.profile-dropdown li{
 }
 
 .quickCreateContent .inputElement, .inputElement, .uploadview-content .inputElement.select2, #uploadToDriveContainer .inputElement.select2, .fieldBlockContainer .inputElement, .md-medium-text-input, .select2-container{
-  width:228px !important;
+ /* width:228px !important;*/
 }
 
 /*first name field*/
 
 #Leads_editView_fieldName_firstname, #Contacts_editView_fieldName_firstname{
-  width:140px !important;
+/*  width:140px !important; */
 }
 
 /*auto search field*/

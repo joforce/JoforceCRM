@@ -21,9 +21,9 @@ class VTPDFMaker {
 
 			include_once('vtlib/Head/Module.php');
 			$moduleInstance = Head_Module::getInstance('VTPDFMaker');
-			$moduleInstance->addLink('HEADERSCRIPT', 'HEADERSCRIPT', 'layouts/v7/modules/VTPDFMaker/resources/Helper.js');
+			$moduleInstance->addLink('HEADERSCRIPT', 'HEADERSCRIPT', 'layouts/modules/VTPDFMaker/resources/Helper.js');
 
-			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoices', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoices', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
 			<td style="width:50%;"> </td>
 		</tr><tr><td style="width:50%;">$company-organizationname$</td>
 			<td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
@@ -69,7 +69,7 @@ class VTPDFMaker {
 			<td>$pdt-total$</td>
 		</tr></tbody></table><br /><br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo3OiJJbnZvaWNlIjtzOjExOiJwYWdlX2Zvcm1hdCI7czoyOiJBNCI7czoxNjoicGFnZV9vcmllbnRhdGlvbiI7czoxOiJQIjtzOjEwOiJtYXJnaW5fdG9wIjtzOjM6IjEwJSI7czoxMzoibWFyZ2luX2JvdHRvbSI7czozOiIxMCUiO3M6MTE6Im1hcmdpbl9sZWZ0IjtzOjM6IjEwJSI7czoxMjoibWFyZ2luX3JpZ2h0IjtzOjM6IjEwJSI7czoxMDoiZGV0YWlsdmlldyI7czoyOiJvbiI7czo4OiJsaXN0dmlldyI7czoyOiJvbiI7fQ==', '', '##Page##'));
-			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
 			<td style="width:50%;"> </td>
 		</tr><tr><td style="width:50%;">$company-organizationname$</td>
 			<td style="font-size:20px;width:50%;text-align:right;"><b>QUOTE</b></td>
@@ -115,7 +115,7 @@ class VTPDFMaker {
 			<td>$pdt-total$</td>
 		</tr></tbody></table><br /><br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo2OiJRdW90ZXMiO3M6MTE6InBhZ2VfZm9ybWF0IjtzOjI6IkE0IjtzOjE2OiJwYWdlX29yaWVudGF0aW9uIjtzOjE6IlAiO3M6MTA6Im1hcmdpbl90b3AiO3M6MzoiMTAlIjtzOjEzOiJtYXJnaW5fYm90dG9tIjtzOjM6IjEwJSI7czoxMToibWFyZ2luX2xlZnQiO3M6MzoiMTAlIjtzOjEyOiJtYXJnaW5fcmlnaHQiO3M6MzoiMTAlIjtzOjEwOiJkZXRhaWx2aWV3IjtzOjI6Im9uIjtzOjg6Imxpc3R2aWV3IjtzOjI6Im9uIjt9', '', '##Page##'));
-			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'Purchase Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'Purchase Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
 			<td style="width:50%;"> </td>
 		</tr><tr><td style="width:50%;">$company-organizationname$</td>
 			<td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
@@ -161,7 +161,7 @@ class VTPDFMaker {
 			<td>$pdt-total$</td>
 		</tr></tbody></table><br /><br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czoxMzoiUHVyY2hhc2VPcmRlciI7czoxMToicGFnZV9mb3JtYXQiO3M6MjoiQTQiO3M6MTY6InBhZ2Vfb3JpZW50YXRpb24iO3M6MToiUCI7czoxMDoibWFyZ2luX3RvcCI7czozOiIxMCUiO3M6MTM6Im1hcmdpbl9ib3R0b20iO3M6MzoiMTAlIjtzOjExOiJtYXJnaW5fbGVmdCI7czozOiIxMCUiO3M6MTI6Im1hcmdpbl9yaWdodCI7czozOiIxMCUiO3M6MTA6ImRldGFpbHZpZXciO3M6Mjoib24iO3M6ODoibGlzdHZpZXciO3M6Mjoib24iO30=', '', '##Page##'));
-			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'Sales Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'test/logo/JoForce-Logo.png" width="200" /></td>
+			$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'Sales Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
 			<td style="width:50%;"> </td>
 		</tr><tr><td style="width:50%;">$company-organizationname$</td>
 			<td style="font-size:20px;width:50%;text-align:right;"><b>Sales Order</b></td>

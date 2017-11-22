@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-vimport('~~include/utils/RecurringType.php');
+vimport('~~includes/utils/RecurringType.php');
 
 class Calendar_Record_Model extends Head_Record_Model {
 

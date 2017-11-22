@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 include_once('config/config.inc.php');
-include_once('include/utils/utils.php');
+include_once('includes/utils/utils.php');
 
 /**
  * Provides few utility functions

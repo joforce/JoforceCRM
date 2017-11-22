@@ -10,8 +10,8 @@
  * ****************************************************************************** */
 
 require_once('data/CRMEntity.php');
-require_once('include/utils/utils.php');
-require_once 'include/Webservices/Utils.php';
+require_once('includes/utils/utils.php');
+require_once 'includes/Webservices/Utils.php';
 
 global $adv_filter_options;
 

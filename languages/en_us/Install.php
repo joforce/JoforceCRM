@@ -34,7 +34,7 @@ $languageStrings = array(
 	'LBL_IMAP_SUPPORT' => 'Imap Support',
     'LBL_MOD_REWRITE' => 'Mod rewrite',
 	'LBL_INSTALLATION_IN_PROGRESS'=>'Installation in progress',
-	'LBL_INSTALLATION_WIZARD' => 'Installation Wizard',
+	'LBL_INSTALLATION_WIZARD' => 'Installation Wizards',
 	'LBL_INSTALL_BUTTON' => 'Install',
 	'LBL_INSTALL_PREREQUISITES' => 'Installation prerequisites',
 	'LBL_MORE_INFORMATION' => 'More Information',
@@ -70,4 +70,11 @@ $languageStrings = array(
 	'LBL_MYSQLI_CONNECT_SUPPORT'=>'mysqli support',
 	'LBL_OPEN_SSL'=>'openssl support',
 	'LBL_CURL'=>'cURL support',
+	'LBL_WELCOME_INSTALL' => 'Welcome',
+	'LBL_AGREE_INSTALL' => 'Agreement',
+	'LBL_PREREQUISITES_INSTALL' => 'Prerequisites',
+	'LBL_CONFIGURATION_INSTALL' => 'Configuration',
+	'LBL_CONFIRM_CONFIGURATION_INSTALL' => 'Confirm Configuration',
+	
+	
 );

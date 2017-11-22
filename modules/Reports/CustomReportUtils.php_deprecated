@@ -10,8 +10,8 @@
  ************************************************************************************/
 
 require_once 'modules/Reports/ReportRun.php';
-require_once 'include/ChartUtils.php';
-require_once 'include/utils/CommonUtils.php';
+require_once 'includes/ChartUtils.php';
+require_once 'includes/utils/CommonUtils.php';
 
 Class CustomReportUtils {
 

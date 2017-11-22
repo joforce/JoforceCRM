@@ -82,7 +82,7 @@ class Head_Field extends Head_FieldBasic {
 		$sortid = 0; // TODO To be set per role
 		foreach($values as $value) {
 			$new_picklistvalueid = getUniquePicklistID();
-			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
+			$presence = 1; // 0 - readonly, Refer function in includes/ComboUtil.php
 			$new_id = $adb->getUniqueID($picklist_table);
             ++$sortid;
 			if (is_array($value)) {
@@ -134,7 +134,7 @@ class Head_Field extends Head_FieldBasic {
 		}
 
 		foreach($values as $value) {
-			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
+			$presence = 1; // 0 - readonly, Refer function in includes/ComboUtil.php
 			$new_id = $adb->getUniqueId($picklist_table);
 			if (is_array($value)) {
 				$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, sortorderid, presence, color) VALUES(?,?,?,?,?)", Array($new_id, $value[0], $sortid, $presence, $value[1]));

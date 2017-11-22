@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *********************************************************************************/
 
-require_once 'include/utils/utils.php';
+require_once 'includes/utils/utils.php';
 require_once 'modules/PickList/PickListUtils.php';
 
 class Head_DependencyPicklist {

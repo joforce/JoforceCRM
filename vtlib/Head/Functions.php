@@ -907,7 +907,7 @@ class Head_Functions {
 			"jo_products:vendor_id" => "V",
 			"jo_products:parentid" => "V",
 			//Faq Related Fields
-			"jo_faq:product_id" => "V",
+			//"jo_faq:product_id" => "V",
 			//Vendor Related Fields
 			"jo_vendor:email" => "V",
 			//Quotes Related Fields

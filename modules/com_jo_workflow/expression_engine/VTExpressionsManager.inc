@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ******************************************************************************/
-require_once("include/events/SqlResultIterator.inc");
+require_once("includes/events/SqlResultIterator.inc");
 class VTExpressionsManager{
 	function __construct($adb){
 		$this->adb = $adb;

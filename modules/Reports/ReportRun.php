@@ -16,13 +16,13 @@ global $log;
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
-require_once('include/database/PearDatabase.php');
+require_once('includes/database/PearDatabase.php');
 require_once('data/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
 require_once("vtlib/Head/Module.php");
 require_once('modules/Head/helpers/Util.php');
-require_once('include/RelatedListView.php');
+require_once('includes/RelatedListView.php');
 
 /*
  * Helper class to determine the associative dependency between tables.

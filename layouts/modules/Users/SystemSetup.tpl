@@ -266,7 +266,7 @@
 				<div class="row-fluid">
 					<div class="span6">
 						<div class="logo">
-							<img src="{$SITEURL}test/logo/JoForce-Logo.png" alt="Head Logo"/>
+							<img src="{$SITEURL}cache/logo/JoForce-Logo.png" alt="Head Logo"/>
 						</div>
 					</div>
 					<div class="span6"></div>

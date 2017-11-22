@@ -9,8 +9,8 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
-include_once 'include/Webservices/Revise.php';
-include_once 'include/Webservices/Retrieve.php';
+include_once 'includes/Webservices/Revise.php';
+include_once 'includes/Webservices/Retrieve.php';
 
 class InvoiceHandler extends VTEventHandler {
 

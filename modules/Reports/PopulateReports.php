@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ********************************************************************************/
-require_once('include/database/PearDatabase.php');
+require_once('includes/database/PearDatabase.php');
 //require_once('modules/Reports/CannedReports.php');
 global $adb;
 

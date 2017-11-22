@@ -9,8 +9,8 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-require_once 'include/utils/utils.php';
-require_once 'include/utils/CommonUtils.php';
+require_once 'includes/utils/utils.php';
+require_once 'includes/utils/CommonUtils.php';
 
 require_once 'includes/Loader.php';
 vimport ('includes.runtime.EntryPoint');

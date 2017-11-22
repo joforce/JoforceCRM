@@ -10,7 +10,7 @@
  *********************************************************************************** */
 
 include_once 'vtlib/Head/Utils.php';
-require_once('include/database/PearDatabase.php');
+require_once('includes/database/PearDatabase.php');
 
 /**
  * Provides API to work with Cron tasks

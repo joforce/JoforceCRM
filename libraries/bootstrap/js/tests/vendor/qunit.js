@@ -660,7 +660,7 @@ extend(QUnit, {
 	addEvent: addEvent,
 
 	// Logging callbacks; all receive a single argument with the listed properties
-	// run test/logs.html for any related changes
+	// run cache/logs.html for any related changes
 	begin: function() {},
 	// done: { failed, passed, total, runtime }
 	done: function() {},

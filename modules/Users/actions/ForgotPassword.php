@@ -10,14 +10,14 @@
  *************************************************************************************/
 chdir(dirname(__FILE__)."/../../../");
 
-include_once "include/utils/VtlibUtils.php";
-include_once "include/utils/CommonUtils.php";
+include_once "includes/utils/VtlibUtils.php";
+include_once "includes/utils/CommonUtils.php";
 include_once "includes/Loader.php";
 include_once 'includes/runtime/BaseModel.php';
 include_once 'includes/runtime/Viewer.php';
 include_once "includes/http/Request.php";
-include_once "include/Webservices/Custom/ChangePassword.php";
-include_once "include/Webservices/Utils.php";
+include_once "includes/Webservices/Custom/ChangePassword.php";
+include_once "includes/Webservices/Utils.php";
 include_once "includes/runtime/EntryPoint.php";
 
 class Users_ForgotPassword_Action {

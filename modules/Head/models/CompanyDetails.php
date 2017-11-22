@@ -24,7 +24,7 @@ class Head_CompanyDetails_Model extends Head_Base_Model {
 		$logoModel = new Head_Image_Model();
 		if(!empty($logoName)) {
 			$companyLogo = array();
-			$companyLogo['imagepath'] = $site_URL . "test/logo/$logoName";
+			$companyLogo['imagepath'] = $site_URL . "cache/logo/$logoName";
 			$companyLogo['alt'] = $companyLogo['title'] = $companyLogo['imagename'] = $logoName;
 			$logoModel->setData($companyLogo);
 		}

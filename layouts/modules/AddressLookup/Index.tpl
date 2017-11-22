@@ -7,7 +7,7 @@
  * ********************************************************************************** */
 -->*}
 
-<link rel="stylesheet" href="{$SITEURL}layouts/v7/modules/Settings/AddressLookup/font-awesome/css/font-awesome.css" type="text/css"/>
+<link rel="stylesheet" href="{$SITEURL}layouts/modules/Settings/AddressLookup/font-awesome/css/font-awesome.css" type="text/css"/>
 {literal}
 <style type="text/css">
 

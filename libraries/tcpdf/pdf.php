@@ -114,7 +114,7 @@ function addImage( $logo_name, $location=array('10','10','0','0') ) {
 		$y1 = $location[1];
 		$stretchx = $location[2];
 		$stretchy = $location[3];
-		$this->Image('test/logo/'.$logo_name,$x1,$y1,$stretchx,$stretchy);
+		$this->Image('cache/logo/'.$logo_name,$x1,$y1,$stretchx,$stretchy);
 	}
 }
 

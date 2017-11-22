@@ -17,7 +17,7 @@
 
 			<link REL="SHORTCUT ICON" HREF="layouts/skins/images/favicon.ico">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
-			<link rel="stylesheet" href="resources/styles.css" type="text/css" media="screen" />
+			<link rel="stylesheet" href="libraries/resources/styles.css" type="text/css" media="screen" />
 			<link rel="stylesheet" href="libraries/jquery/select2/select2.css" />
 			<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
 
