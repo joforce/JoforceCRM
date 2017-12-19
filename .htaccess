@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+ RewriteEngine On
+
+# Update rewrite base (for eg: if the installed url is https://www.mydomain.com/joforce, add "/joforce")
+ RewriteBase /joforce
+
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-d
+
+# Update rewrite rule (for eg: if the installed url is https://www.mydomain.com/joforce, add "/joforce/index.php")
+ RewriteRule . /joforce/index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c> 
+ Header set x-xss-protection '1; mode=block'
+ Header always set x-frame-options 'SAMEORIGIN' 
+ Header always set X-Content-Type-Options 'nosniff' 
+ <FilesMatch '\.(ico|jpg|jpeg|png|gif)$'> 
+  ExpiresDefault 'access plus 7 days' 
+ </FilesMatch>
+</IfModule> 
+
+<IfModule mod_deflate.c> 
+ AddOutputFilterByType DEFLATE text/css application/x-javascript text/x-component text/html text/plain text/xml application/javascript 
+ <IfModule mod_setenvif.c>
+  BrowserMatch ^Mozilla/4 gzip-only-text/html 
+  BrowserMatch ^Mozilla/4.0[678] no-gzip
+  BrowserMatch bMSIE !no-gzip !gzip-only-text/html 
+ </IfModule>
+</IfModule>
