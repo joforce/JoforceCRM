@@ -5,9 +5,10 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 
-{if $smarty.get.view eq 'Calendar' OR $smarty.get.view eq 'SharedCalendar'}
+{if $smarty.request.view eq 'Calendar' OR $smarty.request.view eq 'SharedCalendar'}
 <div class="sidebar-menu">
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
@@ -26,7 +27,7 @@
                     </div>
                     <hr style="margin: 5px 0;">
                     <div class="list-menu-content">
-                        <div id="{$SIDEBARWIDGET->get('linklabel')}" class="sidebar-widget-body activitytypes" style="max-height: 500px;">
+                        <div id="{$SIDEBARWIDGET->get('linklabel')}" class="sidebar-widget-body activitytypes" style="max-height: 100%;">
                             <div style="text-align:center;"><img src="{$SITEURL}layouts/skins/images/loading.gif"></div>
                         </div>
                     </div>

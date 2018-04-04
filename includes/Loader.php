@@ -30,7 +30,7 @@ class Head_Loader {
 		if(!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
-		// TO handle loading vtiger files
+		// TO handle loading joforce files
 		if (strpos($qualifiedName, '~~') === 0) {
 			$file = str_replace('~~', '', $qualifiedName);
 			$file = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR .'..' . DIRECTORY_SEPARATOR . $file;

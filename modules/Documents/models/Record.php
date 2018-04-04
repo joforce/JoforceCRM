@@ -23,7 +23,7 @@ class Documents_Record_Model extends Head_Record_Model {
         global $site_URL;
 		if ($this->get('filelocationtype') == 'I') {
 			$fileDetails = $this->getFileDetails();
-			return $site_URL. $this->getModuleName() .'/DownloadFile/'. $this->getId() .'/'. $fileDetails['attachmentsid'];
+			return $site_URL. $this->getModuleName() .'/action/DownloadFile/'. $this->getId() .'?fileid='. $fileDetails['attachmentsid'];
 		} else {
 			return $this->get('filename');
 		}

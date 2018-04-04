@@ -88,6 +88,7 @@ Head_List_Js("Head_ModuleList_Js", {}, {
 			aDeferred.resolve(res);
 			self.placeListContents(res);
 			app.event.trigger('post.listViewFilter.click', jQuery('.searchRow'));
+			// app.helper.registerTableAlignment();
 			app.helper.hideProgress();
 			self.markSelectedIdsCheckboxes();
 			self.registerDynamicListHeaders();
@@ -171,6 +172,7 @@ Head_List_Js("Head_ModuleList_Js", {}, {
 				moduleListInstance.registerEvents();
 			});
 			app.helper.hideProgress();
+			// app.helper.registerTableAlignment();
 		});
 
 	},
@@ -232,4 +234,14 @@ Head_List_Js("Head_ModuleList_Js", {}, {
 		this.registerEditLink();
 		this.registerDropdownPosition();
 	}
+});
+
+
+$(document).ready(function(){
+	$('#searchResults-container').ready(function(){
+		app.helper.registerTableAlignment();
+	});
+	$('#searchResults-container button.close').click(function(){
+		app.helper.registerTableAlignment();
+	});
 });

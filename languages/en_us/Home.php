@@ -23,8 +23,18 @@ $languageStrings = array(
 	'LTFAQ' => 'My Recent FAQs',
 	'UA' => 'Upcoming Activities',
 	'PA' => 'Pending Activities',
-    'Home'=> 'Dashboard',
+    	'Home'=> 'Dashboard',
 	'LBL_SAVE_ORDER'=>'Save Order',
 	'LBL_ADD_NEW_DASHBOARD'=>'Add new dashboard',
 	'LBL_MAX_CHARACTERS_ALLOWED_DASHBOARD' => 'Maximum 30 characters are allowed for dashboard name.',
-);
+        'LBL_MODULES' => 'Modules',
+        'LBL_JOFORCE' => 'JoForce',
+
+        // Blocks
+        'LBL_STUDIO' => 'Studio',
+        'LBL_COMMUNICATION_TEMPLATES' => 'Templates',
+        'LBL_USER_MANAGEMENT' => 'User & Access Control',
+        'LBL_ACCESS_MANAGEMENT' => 'Access Management',
+        'LBL_MODULE_MANAGER' => 'Module Management',
+        'LBL_NOTIFICATIONS' => 'Notifications',
+       );

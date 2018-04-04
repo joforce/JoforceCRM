@@ -88,17 +88,6 @@ $(document).ready(function() {
         }
     });
 
-    var url = document.location;
-    if (window.location.href.indexOf("view") > -1) {
-        var viewModeCaptured = /view=([^&]+)/.exec(url)[1];
-        view = viewModeCaptured ? viewModeCaptured : "myDefaultValue";
-        var module = app.getModuleName();
-        if (view == 'Detail' && (module == 'Contacts' || module == 'Leads' || module == 'Accounts')) {
-//            $('#' + module + '_detailView_basicAction_LBL_SEND_EMAIL').hide();
-  //          $('#' + module + '_detailView_basicAction_LBL_EDIT').after($('<span class="btn-group" style="position:relative;left:5px;"><button class="btn btn-lg" onclick="sendEmailPopup()"><strong>Send Email</strong></button></span>'));
-
-        }
-    }
     jQuery('.related').on('click', 'li', function(e, urlAttributes) {
         $(document).ajaxComplete(function(event, request, settings) {
             var relatedModule = $('.relatedModuleName').val();
@@ -131,22 +120,17 @@ function sendEmailPopup() {
     }
     AppConnector.request(urldata).then(
         function(data) {
-	    if(data.result == 'IoncubeNotAvailable'){
-		msg = 'IonCube Extension not available. Please install Ioncube Loader to continue';
-                Head_Helper_Js.showPnotify(msg, 'failure');
-
-	    }
-	    else if(data.result == 'Failed'){
-	        msg = "Please fill IMAP Configuration <a href = 'index.php?module=EmailPlus&view=ServerSettings'> HERE </a>";
-		Head_Helper_Js.showPnotify(msg, 'failure');
-	    }
-	    else{
+	        if(data.result == 'Failed'){
+	            msg = "Please fill IMAP Configuration <a href = 'index.php?module=EmailPlus&view=ServerSettings'> HERE </a>";
+		        Head_Helper_Js.showPnotify(msg, 'failure');
+	        }
+	        else    {
                 var emailId = data.result;
                 if (emailId == undefined) {
                     emailId = '';
-            }
-            var popupWinRef = window.open('modules/EmailPlus/roundcube/?_task=mail&_action=compose&_to=' + emailId + '&_extwin=1', '', 'width=900,height=650,resizable=0,scrollbars=1');
-	   }
+                }
+                var popupWinRef = window.open('modules/EmailPlus/roundcube/?_task=mail&_action=compose&_to=' + emailId + '&_extwin=1', '', 'width=900,height=650,resizable=0,scrollbars=1');
+	        }
         });
 }
 

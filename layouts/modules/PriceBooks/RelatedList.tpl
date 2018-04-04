@@ -1,25 +1,13 @@
 {*+**********************************************************************************
-* The contents of this file are subject to the vtiger CRM Public License Version 1.1
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is: vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-************************************************************************************}
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): JoForce.com
+ ************************************************************************************}
 {* modules/PriceBooks/views/Detail.php *}
-
-{* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is: vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-*
-********************************************************************************/
--->*}
 {strip}
     {if $RELATED_MODULE->get('name') neq 'Products' && $RELATED_MODULE->get('name') neq 'Services'}
         {include file='RelatedList.tpl'|vtemplate_path:'Head'}
@@ -59,7 +47,6 @@
                 </div>
             </div>
             <div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-                <div class="bottomscroll-div">
                     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                     <table id="listview-table"  class="table listview-table">
                         <thead>
@@ -141,7 +128,7 @@
                         {/foreach}
                     </table>
                 </div>
-            </div>
+            <div class="bottomscroll-div"></div>
             <script type="text/javascript">
                 var related_uimeta = (function() {
                     var fieldInfo  = {$RELATED_FIELDS_INFO};

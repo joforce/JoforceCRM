@@ -116,7 +116,7 @@
                                 {assign var=DATA_URL value=$RELATED_TO->getDetailViewUrl()}
                             {/if}
                         {/if}
-                        <tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}&app={$SELECTED_MENU_CATEGORY}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
+                        <tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
                             <td class = "listViewRecordActions">&nbsp;</td>
                             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                                 {assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

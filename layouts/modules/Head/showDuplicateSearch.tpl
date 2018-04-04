@@ -12,7 +12,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form class="form-horizontal" id="findDuplicate">
+        <form class="form-horizontal" id="findDuplicate" action="{$SITEURL}index.php">
             <input type='hidden' name='module' value='{$MODULE}' />
             <input type='hidden' name='view' value='FindDuplicates' />
             

@@ -59,7 +59,7 @@
                 {$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
             {/foreach}
         {/foreach}
-        <div style="border:1px solid #ccc;padding:2%;">
+        <div style="padding:2%;">
             <div class="row">
                 <h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
                 <br>
@@ -72,7 +72,7 @@
         <div class="modal-overlay-footer border1px clearfix">
             <div class="row clearfix">
                 <div class="textAlignCenter col-lg-12 col-md-12 col-sm-12 ">
-                    <button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-secondary backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
                     <button type="submit" class="btn btn-success" id="generateReport"><strong>{vtranslate('LBL_GENERATE_REPORT',$MODULE)}</strong></button>&nbsp;&nbsp;
                     <a class="cancelLink" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
                 </div>

@@ -40,6 +40,7 @@ class Reports_Detail_View extends Head_Index_View {
 
 	function preProcess(Head_Request $request) {
 		$viewer = $this->getViewer($request);
+		                
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);

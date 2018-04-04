@@ -377,7 +377,7 @@ if(defined('VTIGER_UPGRADE')) {
 
 	$reportModelHandler = array('path' => 'modules/Reports/models/Module.php', 'class' => 'Reports_Module_Model', 'method' => 'checkLinkAccess');
 	Head_Link::addLink($reportTabId, 'LISTVIEWBASIC', 'LBL_DETAIL_REPORT', 'javascript:Reports_List_Js.addReport("'.$reportModel->getCreateRecordUrl().'")', '', '0', $reportModelHandler, $parentLinkId);
-	Head_Link::addLink($reportTabId, 'LISTVIEWBASIC', 'LBL_CHARTS', 'javascript:Reports_List_Js.addReport("Reports/ChartEdit")', '', '0', $reportModelHandler, $parentLinkId);
+	Head_Link::addLink($reportTabId, 'LISTVIEWBASIC', 'LBL_CHARTS', 'javascript:Reports_List_Js.addReport("Reports/view/ChartEdit")', '', '0', $reportModelHandler, $parentLinkId);
 	Head_Link::addLink($reportTabId, 'LISTVIEWBASIC', 'LBL_ADD_FOLDER', 'javascript:Reports_List_Js.triggerAddFolder("'.$reportModel->getAddFolderUrl().'")', '', '0', $reportModelHandler);
 
 	$allFolders = Reports_Folder_Model::getAll();
@@ -1076,7 +1076,6 @@ if(defined('VTIGER_UPGRADE')) {
 	//Multiple attachment support for comments
 	$db->pquery('ALTER TABLE jo_seattachmentsrel DROP PRIMARY KEY', array());
 	$db->pquery('ALTER TABLE jo_seattachmentsrel ADD CONSTRAINT PRIMARY KEY (crmid,attachmentsid)', array());
-	$db->pquery('ALTER TABLE jo_seattachmentsrel ADD CONSTRAINT fk_2_jo_seattachmentsrel FOREIGN KEY (crmid) REFERENCES jo_crmentity(crmid) ON DELETE CASCADE', array());
 	$db->pquery('ALTER TABLE jo_project MODIFY COLUMN projectid INT(19) PRIMARY KEY');
 
 	if (!Head_Utils::CheckTable('jo_wsapp_logs_basic')) {
@@ -1167,9 +1166,6 @@ if(defined('VTIGER_UPGRADE')) {
 				transition_data VARCHAR(1000) NOT NULL)', true);
 	}
 
-	//Adding user specific field to Calendar table instead of events table
-	$db->pquery('UPDATE jo_field SET tablename=? WHERE tablename=?', array('jo_calendar_user_field', 'jo_events_user_field'));
-
 	//Invite users table mod to support status tracking
 	$columns = $db->getColumnNames('jo_invitees');
 	if (!in_array('status', $columns)) {
@@ -1185,11 +1181,6 @@ if(defined('VTIGER_UPGRADE')) {
 
 	foreach ($modules as $module) {
 		$moduleUserSpecificTable = Head_Functions::getUserSpecificTableName($module);
-		if (!Head_Utils::CheckTable($moduleUserSpecificTable)) {
-			Head_Utils::CreateTable($moduleUserSpecificTable,
-					'(`recordid` INT(25) NOT NULL,
-					`userid` INT(25) NOT NULL)', true);
-		}
 		$moduleInstance = Head_Module::getInstance($module);
 		if ($moduleInstance) {
 			$fieldInstance = Head_Field::getInstance('starred', $moduleInstance);
@@ -1373,7 +1364,7 @@ if(defined('VTIGER_UPGRADE')) {
 	}
 	//End
 
-	$result = $db->pquery('SELECT * FROM jo_module_dashboard_widgets', array());
+/*	$result = $db->pquery('SELECT * FROM jo_module_dashboard_widgets', array());
 	$num_rows = $db->num_rows($result);
 	for ($i=0; $i<$num_rows; $i++) {
 		$rowdata = $db->query_result_rowdata($result, $i);
@@ -1385,7 +1376,7 @@ if(defined('VTIGER_UPGRADE')) {
 			}
 		}
 	}
-
+*/
 	//Adding color column for jo_salutationtype.
 	$fieldResult = $db->pquery('SELECT fieldname FROM jo_field WHERE fieldname=? AND tabid NOT IN (?)', array('salutationtype', getTabid('Users')));
 	$fieldRows = $db->num_rows($fieldResult);
@@ -1473,8 +1464,8 @@ if(defined('VTIGER_UPGRADE')) {
 	$result = $db->pquery($query, array());
 
 	// For Google Synchronization
-	Head_Link::addLink(getTabid('Contacts'), 'EXTENSIONLINK', 'Google', 'Contacts/Extension/Google/Index');
-	Head_Link::addLink(getTabid('Calendar'), 'EXTENSIONLINK', 'Google', 'Calendar/Extension/Google/Index');
+	Head_Link::addLink(getTabid('Contacts'), 'EXTENSIONLINK', 'Google', 'Contacts/view/Extension?extensionModule=Google&extensionView=Index&mode=settings');
+	Head_Link::addLink(getTabid('Calendar'), 'EXTENSIONLINK', 'Google', 'Calendar/view/Extension?extensionModule=Google&extensionView=Index&mode=settings');
 	
 	//Add enabled column in jo_google_sync_settings
 	$colums = $db->getColumnNames('jo_google_sync_settings');
@@ -1613,16 +1604,6 @@ if(defined('VTIGER_UPGRADE')) {
 	}
 	//End: Tax Enhancements - Compound Taxes, Regional Taxes, Deducted Taxes, Other Charges
 
-	if (!Head_Utils::CheckTable('jo_app2tab')) {
-		Head_Utils::CreateTable('jo_app2tab', "(
-			`tabid` INT(11) DEFAULT NULL,
-			`appname` VARCHAR(20) DEFAULT NULL,
-			`sequence` INT(11) DEFAULT NULL,
-			`visible` TINYINT(3) DEFAULT '1',
-			CONSTRAINT `jo_app2tab_fk_tab` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-			)", true);
-	}
-
 	$restrictedModules = array('ModComments');
 	$appsList = array(	'SALES'		=> array('Potentials', 'Quotes', 'Contacts', 'Accounts'),
 						'PROJECT'	=> array('Project', 'ProjectTask', 'ProjectMilestone', 'Contacts', 'Accounts'));
@@ -1641,27 +1622,13 @@ if(defined('VTIGER_UPGRADE')) {
 				$modules[] = $moduleName;
 			}
 		}
-		foreach ($modules as $moduleName) {
+		
+		// have to rewrite "addModuleToApp()" function
+/*		foreach ($modules as $moduleName) {
 			if (!in_array($moduleName, $restrictedModules)) {
-				Settings_MenuEditor_Module_Model::addModuleToApp($moduleName, $app);
+				Settings_MenuManager_Module_Model::addModuleToApp($moduleName, $app);
 			}
-		}
-	}
-
-	$tabIdResult = $db->pquery('SELECT tabid FROM jo_app2tab WHERE appname=? AND tabid=?', array('SALES', getTabid('SMSNotifier')));
-	$existingTabId = $db->query_result($tabIdResult, 0, 'tabid');
-	if (!$existingTabId) {
-		$seqResult = $db->pquery('SELECT max(sequence) as sequence FROM jo_app2tab WHERE appname=?', array('SALES'));
-		$sequence = $db->query_result($seqResult, 0, 'sequence');
-		$db->pquery('INSERT INTO jo_app2tab(tabid,appname,sequence,visible) values(?,?,?,?)', array(getTabid('SMSNotifier'), 'SALES', $sequence+11, 1));
-	}
-
-	$tabIdResult = $db->pquery('SELECT tabid FROM jo_app2tab WHERE appname=? AND tabid=?', array('SUPPORT', getTabid('SMSNotifier')));
-	$existingTabId = $db->query_result($tabIdResult, 0, 'tabid');
-	if (!$existingTabId) {
-		$seqResult = $db->pquery('SELECT max(sequence) as sequence FROM jo_app2tab WHERE appname=?', array('SUPPORT'));
-		$sequence = $db->query_result($seqResult, 0, 'sequence');
-		$db->pquery('INSERT INTO jo_app2tab(tabid,appname,sequence,visible) values(?,?,?,?)', array(getTabid('SMSNotifier'), 'SUPPORT', $sequence+11, 1));
+		}*/
 	}
 
 	$result = $db->pquery('SELECT tabid,name FROM jo_tab', array());
@@ -1670,54 +1637,6 @@ if(defined('VTIGER_UPGRADE')) {
 		$moduleName = $row['name'];
 		$moduleTabIds[$moduleName] = $row['tabid'];
 	}
-
-	$defSequenceList = array(
-			'MARKETING'	=> array(	$moduleTabIds['Campaigns'],
-									$moduleTabIds['Leads'],
-									$moduleTabIds['Contacts'],
-									$moduleTabIds['Accounts'],
-			),
-			'SALES'		=> array(	$moduleTabIds['Potentials'],
-									$moduleTabIds['Quotes'],
-									$moduleTabIds['Invoice'],
-									$moduleTabIds['Products'],
-									$moduleTabIds['Services'],
-									$moduleTabIds['SMSNotifier'],
-									$moduleTabIds['Contacts'],
-									$moduleTabIds['Accounts']
-			),
-			'SUPPORT'	=> array(	$moduleTabIds['Faq'],
-//									$moduleTabIds['ServiceContracts'],
-//									$moduleTabIds['Assets'],
-									$moduleTabIds['SMSNotifier'],
-									$moduleTabIds['Contacts'],
-									$moduleTabIds['Accounts']
-			),
-			'INVENTORY'	=> array(	$moduleTabIds['Products'],
-									$moduleTabIds['Services'],
-									$moduleTabIds['PriceBooks'],
-									$moduleTabIds['Invoice'],
-									$moduleTabIds['SalesOrder'],
-									$moduleTabIds['PurchaseOrder'],
-									$moduleTabIds['Vendors'],
-									$moduleTabIds['Contacts'],
-									$moduleTabIds['Accounts']
-			),
-			'PROJECT'	=> array(	$moduleTabIds['Project'],
-									$moduleTabIds['ProjectTask'],
-									$moduleTabIds['ProjectMilestone'],
-									$moduleTabIds['Contacts'],
-									$moduleTabIds['Accounts']
-			)
-	);
-
-	foreach ($defSequenceList as $app => $sequence) {
-		foreach ($sequence as $seq => $moduleTabId) {
-			$params = array($moduleTabId, $app, $seq+1);
-			$db->pquery('UPDATE jo_app2tab SET sequence=? WHERE appname =? AND tabid=?', $params);
-		}
-	}
-
 	$leadsModuleInstance = Head_Module::getInstance('Leads');
 	$quotesModuleInstance = Head_Module::getInstance('Quotes');
 	$leadsModuleInstance->unsetRelatedList($quotesModuleInstance, 'Quotes', 'get_quotes');
@@ -1727,24 +1646,6 @@ if(defined('VTIGER_UPGRADE')) {
 	$query = 'SELECT 1 FROM jo_relatedlists WHERE tabid=? AND related_tabid =? AND name=? AND label=?';
 	$params = array($leadsTabId, $quotesTabId, 'get_quotes', 'Quotes');
 	$result = $db->pquery($query, $params);
-	if ($db->num_rows($result)) {
-		$menuEditorModuleModel = new Settings_MenuEditor_Module_Model();
-		$menuEditorModuleModel->addModuleToApp('Quotes', 'MARKETING');
-	}
-
-	$db->pquery('ALTER TABLE jo_cvstdfilter DROP PRIMARY KEY', array());
-	$db->pquery('ALTER TABLE jo_cvstdfilter DROP KEY cvstdfilter_cvid_idx', array());
-
-	$keyResult = $db->pquery("SHOW INDEX FROM jo_cvstdfilter WHERE key_name='fk_1_jo_cvstdfilter'", array());
-	if ($db->num_rows($keyResult)) {
-		$db->pquery('ALTER TABLE jo_cvstdfilter DROP FOREIGN KEY fk_1_jo_cvstdfilter', array());
-	}
-	$db->pquery('ALTER TABLE jo_cvstdfilter ADD CONSTRAINT fk_1_jo_cvstdfilter FOREIGN KEY (cvid) REFERENCES jo_customview(cvid) ON DELETE CASCADE', array());
-
-	$keyResult = $db->pquery("SHOW INDEX FROM jo_app2tab WHERE key_name='jo_app2tab_fk_tab'", array());
-	if (!$db->num_rows($keyResult)) {
-		$db->pquery('ALTER TABLE jo_app2tab ADD CONSTRAINT jo_app2tab_fk_tab FOREIGN KEY(tabid) REFERENCES jo_tab(tabid) ON DELETE CASCADE', array());
-	}
 
 	if (!Head_Utils::CheckTable('jo_convertpotentialmapping')) {
 		Head_Utils::CreateTable('jo_convertpotentialmapping',
@@ -1832,34 +1733,6 @@ if(defined('VTIGER_UPGRADE')) {
 
 	$db->pquery('DELETE FROM jo_links WHERE linktype=? AND handler_class=?', array('DETAILVIEWBASIC', 'Documents'));
 
-	$columns = $db->getColumnNames('jo_mailmanager_mailrecord');
-	if (!in_array('mfolder', $columns)) {
-		$db->pquery('ALTER TABLE jo_mailmanager_mailrecord ADD COLUMN mfolder VARCHAR(250)', array());
-		$duplicateResult = $db->pquery('SELECT muid FROM jo_mailmanager_mailrecord GROUP BY muid HAVING COUNT(muid) > ?', array('1'));
-		$noOfDuplicate = $db->num_rows($duplicateResult);
-		if ($noOfDuplicate) {
-			$duplicateMuid = array();
-			for ($i=0; $i<$noOfDuplicate; $i++) {
-				$duplicateMuid[] = $db->query_result($duplicateResult, $i, 'muid');
-			}
-			$db->pquery('DELETE FROM jo_mailmanager_mailrecord WHERE muid IN ('.generateQuestionMarks($duplicateMuid).')', $duplicateMuid);
-			$db->pquery('DELETE FROM jo_mailmanager_mailattachments WHERE muid IN ('.generateQuestionMarks($duplicateMuid).')', $duplicateMuid);
-		}
-	}
-
-	$columns = $db->getColumnNames('jo_mailscanner');
-	if (!in_array('scanfrom', $columns)) {
-		$db->pquery('ALTER TABLE jo_mailscanner ADD COLUMN scanfrom VARCHAR(10) DEFAULT "ALL"', array());
-	}
-
-	if (Head_Utils::CheckTable('jo_mailscanner_ids')) {
-		$columns = $db->getColumnNames('jo_mailscanner_ids');
-		if (!in_array('refids', $columns)) {
-			$db->pquery('ALTER TABLE jo_mailscanner_ids ADD COLUMN refids MEDIUMTEXT', array());
-		}
-		$db->pquery('ALTER TABLE jo_mailscanner_ids ADD INDEX messageids_crmid_idx(crmid)',array());
-	}
-
 	$result = $db->pquery('SELECT templateid FROM jo_emailtemplates ORDER BY templateid DESC LIMIT 1', array());
 	$db->pquery('UPDATE jo_emailtemplates_seq SET id=?', array($db->query_result($result, 0, 'templateid')));
 
@@ -1874,16 +1747,25 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?, ?, ?)', array($userManagementBlockId, 'LBL_USER_MANAGEMENT', 1));
 	}
 
-	$userManagementFields = array(	'LBL_USERS'					=> 'Users/Settings/List',
-									'LBL_ROLES'					=> 'Roles/Settings/Index',
-									'LBL_PROFILES'				=> 'Profiles/Settings/List',
-									'LBL_SHARING_ACCESS'		=> 'SharingAccess/Settings/Index',
-									'USERGROUPLIST'				=> 'Groups/Settings/List',
-									'LBL_LOGIN_HISTORY_DETAILS'	=> 'LoginHistory/Settings/List');
+	$userManagementFields = array(	'LBL_USERS'	=> 'Users/Settings/List',
+					'LBL_ROLES'	=> 'Roles/Settings/Index',
+					'LBL_PROFILES'	=> 'Profiles/Settings/List',
+					'LBL_SHARING_ACCESS'	=> 'SharingAccess/Settings/Index',
+					'USERGROUPLIST'		=> 'Groups/Settings/List',
+					'LBL_LOGIN_HISTORY_DETAILS'	=> 'LoginHistory/Settings/List');
+		
+	$userManagementIcons = array(
+					'LBL_USERS' => 'fa fa-user',
+					'LBL_ROLES' => 'fa fa-registered',
+					'LBL_PROFILES' => 'fa fa-user-plus',
+					'LBL_SHARING_ACCESS' => 'fa fa-share-alt',
+					'USERGROUPLIST' => 'fa fa-users',
+					'LBL_LOGIN_HISTORY_DETAILS' => 'fa fa-history'
+				    );
 
 	$userManagementSequence = 1;
 	foreach ($userManagementFields as $fieldName => $linkTo) {
-		$db->pquery('UPDATE jo_settings_field SET sequence=?, linkto=? WHERE name=? AND blockid=?', array($userManagementSequence++, $linkTo, $fieldName, $userManagementBlockId));
+		$db->pquery('UPDATE jo_settings_field SET sequence=?, iconpath=?, linkto=? WHERE name=? AND blockid=?', array($userManagementSequence++,$userManagementIcons[$fieldName] ,$linkTo, $fieldName, $userManagementBlockId));
 	}
 	//End:: user management block
 
@@ -1897,13 +1779,22 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?, ?, ?)', array($moduleManagerBlockId, 'LBL_MODULE_MANAGER', 2));
 	}
 
-	$moduleManagerFields = array(	'VTLIB_LBL_MODULE_MANAGER'		=> 'ModuleManager/Settings/List',
-									'LBL_EDIT_FIELDS'				=> 'LayoutEditor/Settings/Index',
-									'Labels Editor'					=> 'LanguageEditor/List',
-									'LBL_CUSTOMIZE_MODENT_NUMBER'	=> 'Head/Settings/CustomRecordNumbering');
+	$moduleManagerFields = array(	
+					'VTLIB_LBL_MODULE_MANAGER'	=> 'ModuleManager/Settings/List',
+					'LBL_EDIT_FIELDS'		=> 'LayoutEditor/Settings/Index',
+					'Labels Editor'			=> 'LanguageEditor/List',
+					'LBL_CUSTOMIZE_MODENT_NUMBER'	=> 'Head/Settings/CustomRecordNumbering'
+				);
+		
+	$moduleManagerFields_icons = array(
+					'VTLIB_LBL_MODULE_MANAGER'      => 'fa fa-chain',
+                                        'LBL_EDIT_FIELDS'               => 'fa fa-codepen',
+                                        'Labels Editor'                 => 'fa fa-edit',
+                                        'LBL_CUSTOMIZE_MODENT_NUMBER'   => 'fa fa-sort-numeric-desc'
+					);
 	$moduleManagerSequence = 1;
 	foreach ($moduleManagerFields as $fieldName => $linkTo) {
-		$db->pquery('UPDATE jo_settings_field SET sequence=?, linkto=?, blockid=? WHERE name=?', array($moduleManagerSequence++, $linkTo, $moduleManagerBlockId, $fieldName));
+		$db->pquery('UPDATE jo_settings_field SET sequence=?, linkto=?, iconpath=?, blockid=? WHERE name=?', array($moduleManagerSequence++, $linkTo, $moduleManagerFields_icons[$fieldName] ,$moduleManagerBlockId, $fieldName));
 	}
 	//End:: module manager block
 
@@ -1917,13 +1808,19 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?, ?, ?)', array($automationBlockId, 'LBL_AUTOMATION', 3));
 	}
 
-	$automationFields = array(	'Webforms'			=> 'Webforms/Settings/List',
-								'Scheduler'			=> 'CronTasks/Settings/List',
-								'LBL_LIST_WORKFLOWS'=> 'Workflows/Settings/List');
+	$automationFields = array(	'Webforms'	=> 'Webforms/Settings/List',
+					'Scheduler'	=> 'CronTasks/Settings/List',
+					'LBL_LIST_WORKFLOWS'=> 'Workflows/Settings/List');
+		
+	$automationFields_icons = array(
+					'Webforms'      => 'fa fa-file-zip-o',
+                                        'Scheduler'     => 'fa fa-clock-o',
+                                        'LBL_LIST_WORKFLOWS'=> 'fa fa-sitemap'
+					);
 
 	$automationSequence = 1;
 	foreach ($automationFields as $fieldName => $linkTo) {
-		$db->pquery('UPDATE jo_settings_field SET sequence=?, linkto=?, blockid=? WHERE name=?', array($automationSequence++, $linkTo, $automationBlockId, $fieldName));
+		$db->pquery('UPDATE jo_settings_field SET sequence=?, linkto=?, iconpath=? , blockid=? WHERE name=?', array($automationSequence++, $linkTo, $automationFields_icons[$fieldName], $automationBlockId, $fieldName));
 	}
 	//End:: automation block
 
@@ -1937,14 +1834,15 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?, ?, ?)', array($configurationBlockId, 'LBL_CONFIGURATION', 4));
 	}
 
-	$configurationFields = array(	'LBL_COMPANY_DETAILS'		=> 'Settings/Head/CompanyDetails',
-									'LBL_CUSTOMER_PORTAL'		=> 'CustomerPortal/Settings/Index',
-									'LBL_CURRENCY_SETTINGS'		=> 'Settings/Currency/List',
-									'LBL_MAIL_SERVER_SETTINGS'	=> 'Settings/Head/OutgoingServerDetail',
-									'Configuration Editor'		=> 'Head/Settings/ConfigEditorDetail',
-									'LBL_PICKLIST_EDITOR'		=> 'Settings/Picklist/Index',
-									'LBL_PICKLIST_DEPENDENCY'	=> 'Settings/PickListDependency/List',
-									'LBL_MENU_EDITOR'			=> 'MenuEditor/Settings/Index');
+	$configurationFields = array(	
+					'LBL_COMPANY_DETAILS'		=> 'Head/Settings/CompanyDetails',
+					'LBL_CUSTOMER_PORTAL'		=> 'CustomerPortal/Settings/Index',
+					'LBL_CURRENCY_SETTINGS'		=> 'Currency/Settings/List',
+					'LBL_MAIL_SERVER_SETTINGS'	=> 'Head/Settings/OutgoingServerDetail',
+					'Configuration Editor'		=> 'Head/Settings/ConfigEditorDetail',
+					'LBL_PICKLIST_EDITOR'		=> 'Picklist/Settings/Index',
+					'LBL_PICKLIST_DEPENDENCY'	=> 'PickListDependency/Settings/List',
+				);
 
 	$db->pquery('UPDATE jo_settings_field SET name=? WHERE name=?', array('LBL_PICKLIST_DEPENDENCY', 'LBL_PICKLIST_DEPENDENCY_SETUP'));
 	$configurationSequence = 1;
@@ -1963,15 +1861,19 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid, label, sequence) VALUES(?, ?, ?)', array($marketingSalesBlockId, 'LBL_MARKETING_SALES', 5));
 	}
 
-	$marketingSalesFields = array(	'LBL_LEAD_MAPPING'			=> 'Settings/Leads/MappingDetail',
-									'LBL_OPPORTUNITY_MAPPING'	=> 'Settings/Potentials/MappingDetail');
+	$marketingSalesFields = array(	'LBL_LEAD_MAPPING'	=> 'Leads/Settings/MappingDetail',
+					'LBL_OPPORTUNITY_MAPPING'	=> 'Potentials/Settings/MappingDetail');
 
+	$marketingSalesFields_icons = array (
+					'LBL_LEAD_MAPPING' => 'fa fa-exchange',
+					'LBL_OPPORTUNITY_MAPPING' => 'fa fa-map-signs'
+						);
 	$marketingSequence = 1;
 	foreach ($marketingSalesFields as $fieldName => $linkTo) {
 		$marketingFieldResult = $db->pquery('SELECT 1 FROM jo_settings_field WHERE name=?', array($fieldName));
 		if (!$db->num_rows($marketingFieldResult)) {
 			$updateQuery = 'INSERT INTO jo_settings_field(fieldid,blockid,name,iconpath,description,linkto,sequence,active,pinned) VALUES(?,?,?,?,?,?,?,?,?)';
-			$params = array($db->getUniqueID('jo_settings_field'), $marketingSalesBlockId, $fieldName, 'NULL', 'NULL', $linkTo, $marketingSequence++, 0, 1);
+			$params = array($db->getUniqueID('jo_settings_field'), $marketingSalesBlockId, $fieldName, $marketingSalesFields_icons[$fieldName], 'NULL', $linkTo, $marketingSequence++, 0, 1);
 			$db->pquery($updateQuery, $params);
 		}
 	}
@@ -1988,7 +1890,7 @@ if(defined('VTIGER_UPGRADE')) {
 	}
 
 	$inventoryFields = array(	'LBL_TAX_SETTINGS'				=> 'Head/Settings/TaxIndex',
-								'INVENTORYTERMSANDCONDITIONS'	=> 'Settings/Head/TermsAndConditionsEdit');
+								'INVENTORYTERMSANDCONDITIONS'	=> 'Head/Settings/TermsAndConditionsEdit');
 
 	$inventorySequence = 1;
 	foreach ($inventoryFields as $fieldName => $linkTo) {
@@ -2006,16 +1908,26 @@ if(defined('VTIGER_UPGRADE')) {
 		$db->pquery('INSERT INTO jo_settings_blocks(blockid,label,sequence) VALUES(?,?,?)', array($myPreferenceBlockId, 'LBL_MY_PREFERENCES', 7));
 	}
 
-	$myPreferenceFields = array(	'My Preferences'	=> 'Users/PreferenceDetail/Settings/1',
-									'Calendar Settings' => 'Users/Settings/Calendar/1',
-									'LBL_MY_TAGS'		=> 'Tags/Settings/List/1');
+	$myPreferenceFields = array(	
+					'My Preferences'	=> 'Users/Settings/PreferenceDetail/1',
+					'Calendar Settings' => 'Users/Settings/Calendar/1',
+					'LBL_MY_TAGS'		=> 'Tags/Settings/List/1',
+					'LBL_MENU_MANAGEMENT' => 'MenuManager/Settings/Index'
+				   );
+	
+	$mypreference_icon_array = array(
+						'My Preferences' => 'fa fa-user' ,
+						'Calendar Settings' => 'fa fa-calendar-check-o' ,
+						'LBL_MY_TAGS' => 'fa fa-tags' ,
+						'LBL_MENU_MANAGEMENT' => 'fa fa-bars'
+					);
 
 	$myPreferenceSequence = 1;
 	foreach ($myPreferenceFields as $fieldName => $linkTo) {
 		$myPrefFieldResult = $db->pquery('SELECT 1 FROM jo_settings_field WHERE name=?', array($fieldName));
 		if (!$db->num_rows($myPrefFieldResult)) {
 			$fieldQuery = 'INSERT INTO jo_settings_field(fieldid,blockid,name,iconpath,description,linkto,sequence,active,pinned) VALUES(?,?,?,?,?,?,?,?,?)';
-			$params = array($db->getUniqueID('jo_settings_field'), $myPreferenceBlockId, $fieldName, 'NULL', 'NULL', $linkTo, $myPreferenceSequence++, 0, 1);
+			$params = array($db->getUniqueID('jo_settings_field'), $myPreferenceBlockId, $fieldName, $mypreference_icon_array[$fieldName], 'NULL', $linkTo, $myPreferenceSequence++, 0, 1);
 			$db->pquery($fieldQuery, $params);
 		}
 	}
@@ -2049,7 +1961,7 @@ if(defined('VTIGER_UPGRADE')) {
 		$extFieldResult = $db->pquery('SELECT 1 FROM jo_settings_field WHERE name=?', array($fieldName));
 		if (!$db->num_rows($extFieldResult)) {
 			$fieldQuery = 'INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active, pinned) VALUES(?,?,?,?,?,?,?,?,?)';
-			$params = array($db->getUniqueID('jo_settings_field'), $extensionsBlockId, $fieldName, 'NULL', 'NULL', $linkTo, $extSequence++, 0, 1);
+			$params = array($db->getUniqueID('jo_settings_field'), $extensionsBlockId, $fieldName, 'fa fa-google', 'NULL', $linkTo, $extSequence++, 0, 1);
 			$db->pquery($fieldQuery, $params);
 		}
 	}
@@ -2168,33 +2080,33 @@ if(defined('VTIGER_UPGRADE')) {
 	}
     $getSeqId = $db->pquery('select id from jo_customview_seq', array());
     $seqId = $db->query_result($getSeqId, 0, 'id');
-    $db->pquery('insert into jo_customview values(?,?,?,?,?,?,?)', array($seqId+1, 'All', 1, 0, 'VTPDFMaker', 0,1));
+    $db->pquery('insert into jo_customview values(?,?,?,?,?,?,?)', array($seqId+1, 'All', 1, 0, 'PDFMaker', 0,1));
     $db->pquery('insert into jo_customview values(?,?,?,?,?,?,?)', array($seqId+2, 'All', 1, 0, 'EmailPlus', 0,1));
     $db->pquery('insert into jo_customview_seq values(?)', array($seqId+2));
 	if (is_dir('modules/Head/resources')) {
 		rename('modules/Head/resources', 'modules/Head/resources_650');
 	}
 
-    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('VTPDFMaker', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
+    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('PDFMaker', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
     $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('EmailPlus', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
    $db->pquery('insert into jo_ws_entity (name, handler_path, handler_class, ismodule) values (?, ?, ?, ?)', array('ModComments', 'includes/Webservices/HeadModuleOperation.php', 'HeadModuleOperation', 1));
 
-    $db->pquery('update jo_settings_field set linkto=? where name=?', array('Settings/MailConverter/List','LBL_MAIL_SCANNER'));
+    $db->pquery('update jo_settings_field set linkto=? where name=?', array('MailConverter/Settings/List','LBL_MAIL_SCANNER'));
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('ModTracker/BasicSettings/Settings/ModTracker','ModTracker'));
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('PBXManager/Settings/Index','LBL_PBXMANAGER'));
-    $db->pquery('update jo_settings_field set linkto=? where name=?', array('Settings/Server/ProxyConfig','LBL_SYSTEM_INFO'));
-    $db->pquery('update jo_settings_field set linkto=? where name=?', array('Settings/DefModuleView/Settings','LBL_DEFAULT_MODULE_VIEW'));
+    $db->pquery('update jo_settings_field set linkto=? where name=?', array('Server/Settings/ProxyConfig','LBL_SYSTEM_INFO'));
+    $db->pquery('update jo_settings_field set linkto=? where name=?', array('DefModuleView/Settings/Settings','LBL_DEFAULT_MODULE_VIEW'));
 
-   $db->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?, ?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), 6,'Module Studio', 'layouts/modules/Settings/ModuleDesigner/assets/images/ModuleDesigner.png', 'LBL_MODULEDESIGNER_DESCRIPTION', 'ModuleDesigner/Index/Settings', 3, 0, 0));
+   $db->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?, ?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), 6,'Module Studio', 'fa fa-edit', 'LBL_MODULEDESIGNER_DESCRIPTION', 'ModuleDesigner/Settings/Index', 3, 0, 0));
 
    $db->pquery('insert into jo_settings_blocks values (?,?,?)',array($db->getUniqueID('jo_settings_blocks'), 'LBL_JOFORCE', '11'));
    $getBlockId = $db->pquery('select blockid from jo_settings_blocks where label = ?', array('LBL_JOFORCE'));
    $blockId = $db->query_result($getBlockId, 0, 'blockid');
-   $db->pquery('insert into jo_settings_field values (?,?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), $blockId, 'Contributors', '', 'Contributors', 'Head/Credits/Settings',1, 0,0));
-   $db->pquery('insert into jo_settings_field values (?,?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), $blockId, 'License', '', 'License', 'Head/Settings/License',2, 0,0));
-
+   $db->pquery('insert into jo_settings_field values (?,?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), $blockId, 'Contributors', 'fa fa-plus-square', 'Contributors', 'Head/Settings/Credits',1, 0,0));
+   $db->pquery('insert into jo_settings_field values (?,?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), $blockId, 'License', 'fa fa-exclamation-triangle', 'License', 'Head/Settings/License',2, 0,0));
+   $db->pquery('insert into jo_settings_field values (?,?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), 4, 'Google Settings', 'fa fa-cogs', 'Google Synchronization', 'Google/Settings/GoogleSettings',12, 0,0));
 	//Update existing package modules
 	Install_Utils_Model::installModules();
 
@@ -2203,4 +2115,11 @@ if(defined('VTIGER_UPGRADE')) {
 
 	echo '<br>Successfully updated : <b>Head7</b><br>';
 
+// Delete from unwanted dashboard entry from the jo_dashboard_tabs
+   $db->pquery('delete from jo_dashboard_tabs where tabname = ?', array('Default'));
+
+//delete unwanted extension links from jo_links table
+   $db->pquery('DELETE from jo_links WHERE linklabel = ?', array('Google Contacts'));
+   $db->pquery('DELETE from jo_links WHERE linklabel = ?', array('Google Calendar'));
+	
 }

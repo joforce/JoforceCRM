@@ -189,20 +189,8 @@ class Reports_ChartDetail_View extends Head_Index_View {
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetail",
 			'~/libraries/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
-			'~/libraries/jquery/VtJqplotInterface.js',
-			'~/libraries/jquery/vtchart.js',
-            '~/libraries/chart-js/Chart.bundle.js',
+            "~/libraries/jquery/highchart/highcharts.js",
+            "~/libraries/jquery/highchart/highchart-funnel.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -217,13 +205,6 @@ class Reports_ChartDetail_View extends Head_Index_View {
 	 */
 	public function getHeaderCss(Head_Request $request) {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
-
-		$headerCss = array(
-			'~libraries/jquery/jqplot/jquery.jqplot.min.css'
-		);
-		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
-		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);
-		return $headerCssScriptInstances;
+        return $parentHeaderCssScriptInstances;
 	}
-
 }

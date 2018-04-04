@@ -17,21 +17,19 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 	public function getCreateInvoiceUrl() {
         global $site_URL;
 		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
-
-		return $site_URL.$invoiceModuleModel->getName()."/".$invoiceModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL . $invoiceModuleModel->getName()."/view/".$invoiceModuleModel->getEditViewName()."?quote_id=".$this->getId();
 	}
 
 	public function getCreateSalesOrderUrl() {
         global $site_URL;
 		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
-
-		return $site_URL.$salesOrderModuleModel->getName()."/".$salesOrderModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL.$salesOrderModuleModel->getName()."/view/".$salesOrderModuleModel->getEditViewName()."?quote_id=".$this->getId();
 	}
 
 	public function getCreatePurchaseOrderUrl() {
         global $site_URL;
 		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
-		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL.$purchaseOrderModuleModel->getName()."/view/".$purchaseOrderModuleModel->getEditViewName()."?quote_id=".$this->getId();
 	}
 
 	/**
@@ -47,5 +45,4 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 		$fileName = $moduleName.'_'.getModuleSequenceNumber($moduleName, $recordId);
 		$controller->Output($fileName.'.pdf', 'D');
 	}
-
 }

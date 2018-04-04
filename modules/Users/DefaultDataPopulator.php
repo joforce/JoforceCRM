@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  * ****************************************************************************** */
 
-include_once('config.php');
+include_once('config/config.php');
 require_once('includes/logging.php');
 require_once('includes/utils/utils.php');
 
@@ -51,7 +51,6 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (21,'PurchaseOrder',0,-1,'PurchaseOrder',0,0,1,'Inventory')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (22,'SalesOrder',0,-1,'SalesOrder',0,0,1,'Sales')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (23,'Invoice',0,-1,'Invoice',0,0,1,'Sales')");
-		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (24,'Rss',0,-1,'Rss',0,1,0,'Tools')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (25,'Reports',0,-1,'Reports',0,1,0,'Analytics')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (26,'Campaigns',0,-1,'Campaigns',0,0,1,'Marketing')");
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (27,'Portal',0,-1,'Portal',0,1,0,'Tools')");
@@ -59,12 +58,12 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (29,'Users',0,-1,'Users',0,1,0,null)");
 
 // For Duplicate Checking
-		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (30,'DuplicateCheck',0,-1,'Duplicate Check',0,1,1,null)");
+		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (30,'DuplicateCheck',0,-1,'Duplicate Check',0,1,0,null)");
 		//For addres lookup
-		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (31,'AddressLookup',0,-1,'Address Lookup',0,1,1,null)");
+		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (31,'AddressLookup',0,-1,'Address Lookup',0,1,0,null)");
 		//For PDF Maker
-		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (32,'VTPDFMaker',0,-1,'PDF Maker',0,1,0,null)");
-		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (33,'EmailPlus',0,-1,'Email Plus',0,1,1,null)");
+		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (32,'PDFMaker',0,-1,'PDF Maker',0,1,0,null)");
+		$this->db->query("insert into jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) values (33,'EmailPlus',0,-1,'Email Plus',0,1,0,null)");
 
 
 		// Populate the jo_blocks jo_table
@@ -935,7 +934,7 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'phone_home','jo_users',1,'11','phone_home','Home Phone',1,0,'',50,9,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'date_format','jo_users',1,'16','date_format','Date Format',1,0,'',30,12,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'signature','jo_users',1,'21','signature','Signature',1,0,'',250,13,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
-		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'description','jo_users',1,'21','description','Documents',1,0,'',250,14,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
+		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'description','jo_users',1,'21','description','Description',1,0,'',250,14,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'address_street','jo_users',1,'21','address_street','Street Address',1,0,'',250,1,$useraddressblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'address_city','jo_users',1,'1','address_city','City',1,0,'',100,3,$useraddressblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'address_state','jo_users',1,'1','address_state','State',1,0,'',100,5,$useraddressblock,1,'V~O',1,null,'BAS',1)");
@@ -956,6 +955,7 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'theme','jo_users',1,'31','theme','Theme',1,0,'',100,16,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'language','jo_users',1,'32','language','Language',1,0,'',100,17,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'reminder_interval','jo_users',1,'16','reminder_interval','Reminder Interval',1,0,'',100,1,$useradvanceblock,1,'V~O',1,null,'BAS',1)");
+		$this->db->query("insert into jo_field values(29, " . $this->db->getUniqueID("jo_field") . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Dashboard', 100, 20, $usermoreinfoblock ,1, 'V~O',1,0,'BAS', 1)");
 		//user Details End
 		// Updated Phone field uitype
 		$this->db->query("update jo_field set uitype='11' where fieldname='mobile' and tabid=" . getTabid('Leads'));
@@ -1196,9 +1196,6 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("INSERT INTO jo_relatedlists VALUES (" . $this->db->getUniqueID('jo_relatedlists') . ", " . getTabid("Accounts") . ", " . getTabid("Campaigns") . ", 'get_campaigns', 13, 'Campaigns', 0, 'select','','','')");
 		$this->db->query("INSERT INTO jo_relatedlists VALUES (" . $this->db->getUniqueID('jo_relatedlists') . ", " . getTabid("Campaigns") . ", " . getTabid("Accounts") . ", 'get_accounts', 5, 'Accounts', 0, 'add,select','','','')");
 
-		// Inserting Faq's Related Lists
-#		$this->db->query("insert into jo_relatedlists values (" . $this->db->getUniqueID('jo_relatedlists') . "," . getTabid("Faq") . "," . getTabid("Documents") . ",'get_attachments',1,'Documents',0,'add,select','','','')");
-
 		$this->db->query("insert into jo_notificationscheduler(schedulednotificationid,schedulednotificationname,active,notificationsubject,notificationbody,label) values (" . $this->db->getUniqueID("jo_notificationscheduler") . ",'LBL_TASK_NOTIFICATION_DESCRITPION',1,'Task Delay Notification','Tasks delayed beyond 24 hrs ','LBL_TASK_NOTIFICATION')");
 		$this->db->query("insert into jo_notificationscheduler(schedulednotificationid,schedulednotificationname,active,notificationsubject,notificationbody,label) values (" . $this->db->getUniqueID("jo_notificationscheduler") . ",'LBL_BIG_DEAL_DESCRIPTION' ,1,'Big Deal notification','Success! A big deal has been won! ','LBL_BIG_DEAL')");
 		$this->db->query("insert into jo_notificationscheduler(schedulednotificationid,schedulednotificationname,active,notificationsubject,notificationbody,label) values (" . $this->db->getUniqueID("jo_notificationscheduler") . ",'LBL_TICKETS_DESCRIPTION',1,'Pending Tickets notification','Ticket pending please ','LBL_PENDING_TICKETS')");
@@ -1253,195 +1250,443 @@ Thanks,
 
 //FOR PDF MAKER MODULE Entry
 
-		$adb->pquery('insert into jo_vtpdfmakersettings (id, version) values (1, ?)', array('0.1'));
+		$adb->pquery('insert into jo_pdfmakersettings (id, version) values (1, ?)', array('0.1'));
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoices', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;">$company-organizationname$</td>
-                        <td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
-                </tr><tr><td style="width:50%;">$company-address$</td>
-                        <td style="color:rgb(128,128,128);width:50%;text-align:right;">$invoice-invoice_no$</td>
-                </tr><tr><td style="width:50%;">$company-country$</td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;">$invoice-total$</td>
-                </tr><tr><td style="width:50%;"><span style="color:#A9A9A9;">Bill To</span><br />
-                        $invoice-accountid:accountname$</td>
-                        <td style="width:50%;text-align:right;"><span style="color:#808080;"><b>Invoice Date:</b></span>  $custom-currentdate$</td>
-                </tr></tbody></table>
- <br /><br />
-		<table border="1" cellpadding="1" cellspacing="1" class="layout" width="991"><tbody><tr><td><strong>Sno.</strong></td>
-                        <td><strong>Product Name</strong></td>
-                        <td><strong>Quantity</strong></td>
-                        <td><strong>List Price</strong></td>
-                        <td><strong>Total</strong></td>
-                </tr><tr><td colspan="5">$productblock_start$</td>
-                </tr><tr><td>$productblock_sno$</td>
-                        <td>$products-productname$</td>
-                        <td>$products-quantity$</td>
-                        <td>$products-listprice$</td>
-                        <td>$products-total$</td>
-                </tr><tr><td colspan="5">$productblock_end$</td>
-                </tr><tr><td colspan="4" rowspan="1">Items Total</td>
-                        <td>$pdt-subtotal$</td>
-                </tr><tr><td colspan="4" rowspan="1">Discount</td>
-                        <td>$pdt-discount_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Tax</td>
-                        <td>$pdt-tax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1"><span class="pull-right">Shipping & Handling Charges</span></td>
-                        <td>$pdt-s_h_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Taxes For Shipping and Handling</td>
-                        <td>$pdt-shtax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Adjustment</td>
-                        <td>$pdt-adjustment$</td>
-                </tr><tr><td colspan="4" rowspan="1">Grand Total</td>
-                        <td>$pdt-total$</td>
-                </tr></tbody></table><br /><br />
-', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo3OiJJbnZvaWNlIjtzOjExOiJwYWdlX2Zvcm1hdCI7czoyOiJBNCI7czoxNjoicGFnZV9vcmllbnRhdGlvbiI7czoxOiJQIjtzOjEwOiJtYXJnaW5fdG9wIjtzOjM6IjEwJSI7czoxMzoibWFyZ2luX2JvdHRvbSI7czozOiIxMCUiO3M6MTE6Im1hcmdpbl9sZWZ0IjtzOjM6IjEwJSI7czoxMjoibWFyZ2luX3JpZ2h0IjtzOjM6IjEwJSI7czoxMDoiZGV0YWlsdmlldyI7czoyOiJvbiI7czo4OiJsaXN0dmlldyI7czoyOiJvbiI7fQ==', '', '##Page##'));
+		$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(1, 'Invoice', 'Invoice', '', '
+			<table width="985">
+	<tbody>
+		<tr>
+			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;font-size:20px;text-align:right;">
+                        <h3>INVOICE</h3>
+                        </td>
+		</tr>
+		<tr>
+			<td style="width:50%;"><b>$company-organizationname$</b></td>
+			<td style="font-size:20px;width:50%;text-align:right;color:rgb(128,128,128);">$invoice-invoice_no$</td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-address$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-country$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;">$invoice-total$</td>
+		</tr>
+	</tbody>
+</table>
+<table width="985">
+        <tbody>
+                <tr>
+                        <td style="width:50%;"><span style="color:#A9A9A9;font-size:23px;">Bill To:</span>
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;">$company-organizationname$</td>
-                        <td style="font-size:20px;width:50%;text-align:right;"><b>QUOTE</b></td>
-                </tr><tr><td style="width:50%;">$company-address$</td>
-                        <td style="color:rgb(128,128,128);width:50%;text-align:right;">$quotes-quote_no$</td>
-                </tr><tr><td style="width:50%;">$company-country$</td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;">$quotes-total$</td>
-                </tr><tr><td style="width:50%;"><span style="color:#A9A9A9;">Bill To</span><br />
-                        $quotes-accountid:accountname$</td>
-                        <td style="width:50%;text-align:right;"><span style="color:#808080;"><b>Quote Date:</b></span>  $custom-currentdate$</td>
-                </tr></tbody></table>
- <br /><br />
- 
-<table border="1" cellpadding="1" cellspacing="1" class="layout" width="991"><tbody><tr><td><strong>Sno.</strong></td>
-                        <td><strong>Product Name</strong></td>
-                        <td><strong>Quantity</strong></td>
-                        <td><strong>List Price</strong></td>
-                        <td><strong>Total</strong></td>
-                </tr><tr><td colspan="5">$productblock_start$</td>
-                </tr><tr><td>$productblock_sno$</td>
-                        <td>$products-productname$</td>
-                        <td>$products-quantity$</td>
-                        <td>$products-listprice$</td>
-                        <td>$products-total$</td>
-                </tr><tr><td colspan="5">$productblock_end$</td>
-                </tr><tr><td colspan="4" rowspan="1">Items Total</td>
-                        <td>$pdt-subtotal$</td>
-                </tr><tr><td colspan="4" rowspan="1">Discount</td>
-                        <td>$pdt-discount_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Tax</td>
-                        <td>$pdt-tax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1"><span class="pull-right">Shipping & Handling Charges</span></td>
-                        <td>$pdt-s_h_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Taxes For Shipping and Handling</td>
-                        <td>$pdt-shtax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Adjustment</td>
-                        <td>$pdt-adjustment$</td>
-                </tr><tr><td colspan="4" rowspan="1">Grand Total</td>
-                        <td>$pdt-total$</td>
-                </tr></tbody></table><br /><br />
+                        <p style="font-size:23px;">$invoice-accountid:accountname$</p>
+
+                        <p style="font-size:23px;">$invoice-bill_street$</p>
+
+                        <p style="font-size:23px;">$invoice-bill_city$</p>
+
+                        <p style="font-size:23px;">$invoice-bill_country$</p>
+                        </td>
+                        <td style="text-align:right;width:100%;font-size:23px;">
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Sales Date:</b></span> $custom-currentdate$</p>
+
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Due Date:</b></span>$invoice-duedate$</p>
+                        </td>
+                </tr>
+        </tbody>
+</table>
+<br />
+
+<table border="0" cellpadding="1" cellspacing="1" class="layout" style="border-collapse:collapse;" width="991">
+	<tbody>
+		<tr style="background:#000;">
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Sno.</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Product Name</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Quantity</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>List Price</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Total</strong></font></td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_start$</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_sno$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-productname$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-quantity$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-listprice$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-total$</td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_end$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Items Total</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-subtotal$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Discount</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-discount_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Tax</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-tax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;"><span class="pull-right">Shipping &amp; Handling Charges</span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-s_h_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Taxes For Shipping and Handling</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-shtax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Adjustment</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-adjustment$</td>
+		</tr>
+		<tr style="height:10px;">
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Grand Total <span><b>( in </b><b>$invoice-currency_id$</b><b> )</b></span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-total$</td>
+		</tr>
+	</tbody>
+</table>
+<br />',1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo3OiJJbnZvaWNlIjtzOjExOiJwYWdlX2Zvcm1hdCI7czoyOiJBNCI7czoxNjoicGFnZV9vcmllbnRhdGlvbiI7czoxOiJQIjtzOjEwOiJtYXJnaW5fdG9wIjtzOjM6IjEwJSI7czoxMzoibWFyZ2luX2JvdHRvbSI7czozOiIxMCUiO3M6MTE6Im1hcmdpbl9sZWZ0IjtzOjM6IjEwJSI7czoxMjoibWFyZ2luX3JpZ2h0IjtzOjM6IjEwJSI7czoxMDoiZGV0YWlsdmlldyI7czoyOiJvbiI7czo4OiJsaXN0dmlldyI7czoyOiJvbiI7fQ==', '', '##Page##'));
+			$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(2, 'Quotes', 'Quotes', '', '
+			<table width="985">
+		<tbody>
+		<tr>
+			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;font-size:20px;text-align:right;">
+                        <h3>QUOTE</h3>
+                        </td>
+		</tr>
+		<tr>
+			<td style="width:50%;"><b>$company-organizationname$</b></td>
+			<td style="font-size:20px;width:50%;text-align:right;color:rgb(128,128,128);">$quotes-quote_no$</td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-address$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-country$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;">$quotes-total$</td>
+		</tr>
+	</tbody>
+</table>
+<table width="985">
+        <tbody>
+                <tr>
+                        <td style="width:50%;"><span style="color:#A9A9A9;font-size:23px;">Bill To:</span>
+
+                        <p style="font-size:23px;">$quotes-accountid:accountname$</p>
+
+                        <p style="font-size:23px;">$quotes-bill_street$</p>
+
+                        <p style="font-size:23px;">$quotes-bill_city$</p>
+
+                        <p style="font-size:23px;">$quotes-bill_country$</p>
+                        </td>
+                        <td style="text-align:right;width:100%;font-size:23px;">
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Quote Date:</b></span> $custom-currentdate$</p>
+
+                        </td>
+                </tr>
+        </tbody>
+</table>
+<br />
+
+<br />
+<table border="0" cellpadding="1" cellspacing="1" class="layout" width="991" style = "border-collapse: collapse;">
+	<tbody>
+		<tr style="background:#000;" >
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;"><font color="#fff"><strong>Sno.</strong></font></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;"><font color="#fff"><strong>Product Name</strong></font></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;"><font color="#fff"><strong>Quantity</strong></font></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;"><font color="#fff"><strong>List Price</strong></font></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;"><font color="#fff"><strong>Total</strong></font></td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom: 1px solid #ccc;padding: 4mm;">$productblock_start$</td>
+		</tr>
+		<tr>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$productblock_sno$</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$products-productname$</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$products-quantity$</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$products-listprice$</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$products-total$</td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom: 1px solid #ccc;padding: 4mm;">$productblock_end$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Items Total</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-subtotal$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Discount</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-discount_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Tax</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-tax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;"><span class="pull-right">Shipping &amp; Handling Charges</span></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-s_h_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Taxes For Shipping and Handling</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-shtax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Adjustment</td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-adjustment$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom: 1px solid #ccc;padding: 4mm;">Grand Total<span><b>( in </b><b>$quotes-currency_id$</b><b> )</b></span></td>
+			<td style="border-bottom: 1px solid #ccc;padding: 4mm;">$pdt-total$</td>
+		</tr>
+	</tbody>
+</table>
+<br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czo2OiJRdW90ZXMiO3M6MTE6InBhZ2VfZm9ybWF0IjtzOjI6IkE0IjtzOjE2OiJwYWdlX29yaWVudGF0aW9uIjtzOjE6IlAiO3M6MTA6Im1hcmdpbl90b3AiO3M6MzoiMTAlIjtzOjEzOiJtYXJnaW5fYm90dG9tIjtzOjM6IjEwJSI7czoxMToibWFyZ2luX2xlZnQiO3M6MzoiMTAlIjtzOjEyOiJtYXJnaW5fcmlnaHQiO3M6MzoiMTAlIjtzOjEwOiJkZXRhaWx2aWV3IjtzOjI6Im9uIjtzOjg6Imxpc3R2aWV3IjtzOjI6Im9uIjt9', '', '##Page##'));
+			$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'PurchaseOrder', '', '<table width="985">
+	<tbody>
+		<tr>
+			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;font-size:20px;text-align:right;">
+                        <h3>Purchase Order</h3>
+                        </td>
+		</tr>
+		<tr>
+			<td style="width:50%;"><b>$company-organizationname$</b></td>
+			<td style="font-size:20px;width:50%;text-align:right;color:rgb(128,128,128);">$purchaseorder-purchaseorder_no$</td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-address$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-country$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;">$purchaseorder-total$</td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<table width="985">
+        <tbody>
+                <tr>
+                        <td style="width:50%;"><span style="color:#A9A9A9;font-size:23px;">Bill To:</span>
+
+                        <p style="font-size:23px;">$purchaseorder-vendorid:vendorname$</p>
+
+                        <p style="font-size:23px;">$purchaseorder-bill_street$</p>
+
+                        <p style="font-size:23px;">$purchaseorder-bill_city$</p>
+
+                        <p style="font-size:23px;">$purchaseorder-bill_country$</p>
+                        </td>
+                        <td style="text-align:right;width:100%;font-size:23px;">
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Purchase Date:</b></span> $custom-currentdate$</p>
+
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Due Date:</b></span> $purchaseorder-duedate$</p>
+                        </td>
+                </tr>
+        </tbody>
+</table>
+<br />
 
 
-		$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'Purchase Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;">$company-organizationname$</td>
-                        <td style="font-size:20px;width:50%;text-align:right;"><b>INVOICE</b></td>
-                </tr><tr><td style="width:50%;">$company-address$</td>
-                        <td style="color:rgb(128,128,128);width:50%;text-align:right;">$purchaseorder-purchaseorder_no$</td>
-                </tr><tr><td style="width:50%;">$company-country$</td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;">$purchaseorder-total$</td>
-                </tr><tr><td style="width:50%;"><span style="color:#A9A9A9;">Bill To</span><br />
-                        $purchaseorder-vendorid:vendorname$</td>
-                        <td style="width:50%;text-align:right;"><span style="color:#808080;"><b>Purchase Order Date:</b></span>  $custom-currentdate$</td>
-                </tr></tbody></table>
- <br /><br />
-<table border="1" cellpadding="1" cellspacing="1" class="layout" width="991"><tbody><tr><td><strong>Sno.</strong></td>
-                        <td><strong>Product Name</strong></td>
-                        <td><strong>Quantity</strong></td>
-                        <td><strong>List Price</strong></td>
-                        <td><strong>Total</strong></td>
-                </tr><tr><td colspan="5">$productblock_start$</td>
-                </tr><tr><td>$productblock_sno$</td>
-                        <td>$products-productname$</td>
-                        <td>$products-quantity$</td>
-                        <td>$products-listprice$</td>
-                        <td>$products-total$</td>
-                </tr><tr><td colspan="5">$productblock_end$</td>
-                </tr><tr><td colspan="4" rowspan="1">Items Total</td>
-                        <td>$pdt-subtotal$</td>
-                </tr><tr><td colspan="4" rowspan="1">Discount</td>
-                        <td>$pdt-discount_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Tax</td>
-                        <td>$pdt-tax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1"><span class="pull-right">Shipping & Handling Charges</span></td>
-                        <td>$pdt-s_h_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Taxes For Shipping and Handling</td>
-                        <td>$pdt-shtax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Adjustment</td>
-                        <td>$pdt-adjustment$</td>
-                </tr><tr><td colspan="4" rowspan="1">Grand Total</td>
-                        <td>$pdt-total$</td>
-                </tr></tbody></table><br /><br />
+<table border="0" cellpadding="1" cellspacing="1" class="layout" style="border-collapse:collapse;" width="991">
+	<tbody>
+		<tr style="background:#000;">
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Sno.</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Product Name</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Quantity</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>List Price</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Total</strong></font></td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_start$</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_sno$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-productname$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-quantity$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-listprice$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-total$</td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_end$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Items Total</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-subtotal$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Discount</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-discount_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Tax</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-tax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1"><span class="pull-right" style="border-bottom:1px solid #ccc;padding:4mm;">Shipping &amp; Handling Charges</span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-s_h_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Taxes For Shipping and Handling</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-shtax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Adjustment</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-adjustment$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Grand Total<span><b>( in </b> <b>$purchaseorder-currency_id$</b> <b> ) </b></span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-total$</td>
+		</tr>
+	</tbody>
+</table>
+<br />
 ', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czoxMzoiUHVyY2hhc2VPcmRlciI7czoxMToicGFnZV9mb3JtYXQiO3M6MjoiQTQiO3M6MTY6InBhZ2Vfb3JpZW50YXRpb24iO3M6MToiUCI7czoxMDoibWFyZ2luX3RvcCI7czozOiIxMCUiO3M6MTM6Im1hcmdpbl9ib3R0b20iO3M6MzoiMTAlIjtzOjExOiJtYXJnaW5fbGVmdCI7czozOiIxMCUiO3M6MTI6Im1hcmdpbl9yaWdodCI7czozOiIxMCUiO3M6MTA6ImRldGFpbHZpZXciO3M6Mjoib24iO3M6ODoibGlzdHZpZXciO3M6Mjoib24iO30=', '', '##Page##'));
+			$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'SalesOrder', '', '
+			<table width="985">
+	<tbody>
+		<tr>
+			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;font-size:20px;text-align:right;">
+			<h3>Sales Order</h3>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%;"><b>$company-organizationname$</b></td>
+			<td style="font-size:20px;width:50%;text-align:right;color:rgb(128,128,128);">$salesorder-salesorder_no$</td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-address$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;">$company-country$</td>
+			<td style="width:50%;"></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;"><span style="font-size:15px;"><b>Balance Due</b></span></td>
+		</tr>
+		<tr>
+			<td style="width:50%;"></td>
+			<td style="text-align:right;width:50%;">$salesorder-total$</td>
+		</tr>
+	</tbody>
+</table>
 
-	$adb->pquery("insert into jo_vtpdfmaker values(?,?,?,?,?,?,?,?,?)", array(4, 'SalesOrder', 'Sales Orders', '', '<table width="985"><tbody><tr><td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;">$company-organizationname$</td>
-                        <td style="font-size:20px;width:50%;text-align:right;"><b>Sales Order</b></td>
-                </tr><tr><td style="width:50%;">$company-address$</td>
-                        <td style="color:rgb(128,128,128);width:50%;text-align:right;">$salesorder-salesorder_no$</td>
-                </tr><tr><td style="width:50%;">$company-country$</td>
-                        <td style="width:50%;"> </td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;"><span style="font-size:12px;"><b>Balance Due</b></span></td>
-                </tr><tr><td style="width:50%;"> </td>
-                        <td style="text-align:right;width:50%;">$salesorder-total$</td>
-                </tr><tr><td style="width:50%;"><span style="color:#A9A9A9;">Bill To</span><br />
-                        $salesorder-accountid:accountname$</td>
-                        <td style="width:50%;text-align:right;"><span style="color:#808080;"><b>Invoice Date:</b></span>  $custom-currentdate$</td>
-                </tr></tbody></table>
- <br /><br />
-<table border="1" cellpadding="1" cellspacing="1" class="layout" width="991"><tbody><tr><td><strong>Sno.</strong></td>
-                        <td><strong>Product Name</strong></td>
-                        <td><strong>Quantity</strong></td>
-                        <td><strong>List Price</strong></td>
-                        <td><strong>Total</strong></td>
-                </tr><tr><td colspan="5">$productblock_start$</td>
-                </tr><tr><td>$productblock_sno$</td>
-                        <td>$products-productname$</td>
-                        <td>$products-quantity$</td>
-                        <td>$products-listprice$</td>
-                        <td>$products-total$</td>
-                </tr><tr><td colspan="5">$productblock_end$</td>
-                </tr><tr><td colspan="4" rowspan="1">Items Total</td>
-                        <td>$pdt-subtotal$</td>
-                </tr><tr><td colspan="4" rowspan="1">Discount</td>
-                        <td>$pdt-discount_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Tax</td>
-                        <td>$pdt-tax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1"><span class="pull-right">Shipping & Handling Charges</span></td>
-                        <td>$pdt-s_h_amount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Taxes For Shipping and Handling</td>
-                        <td>$pdt-shtax_totalamount$</td>
-                </tr><tr><td colspan="4" rowspan="1">Adjustment</td>
-                        <td>$pdt-adjustment$</td>
-                </tr><tr><td colspan="4" rowspan="1">Grand Total</td>
-                        <td>$pdt-total$</td>
-                </tr></tbody></table><br /><br />', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czoxMDoiU2FsZXNPcmRlciI7czoxMToicGFnZV9mb3JtYXQiO3M6MjoiQTQiO3M6MTY6InBhZ2Vfb3JpZW50YXRpb24iO3M6MToiUCI7czoxMDoibWFyZ2luX3RvcCI7czozOiIxMCUiO3M6MTM6Im1hcmdpbl9ib3R0b20iO3M6MzoiMTAlIjtzOjExOiJtYXJnaW5fbGVmdCI7czozOiIxMCUiO3M6MTI6Im1hcmdpbl9yaWdodCI7czozOiIxMCUiO3M6MTA6ImRldGFpbHZpZXciO3M6Mjoib24iO3M6ODoibGlzdHZpZXciO3M6Mjoib24iO30=', '', '##Page##'));
+<table width="985">
+	<tbody>
+		<tr>
+			<td style="width:50%;"><span style="color:#A9A9A9;font-size:23px;">Bill To:</span>
+
+			<p style="font-size:23px;">$salesorder-accountid:accountname$</p>
+
+			<p style="font-size:23px;">$salesorder-bill_street$</p>
+
+			<p style="font-size:23px;">$salesorder-bill_city$</p>
+
+			<p style="font-size:23px;">$salesorder-bill_country$</p>
+			</td>
+			<td style="text-align:right;width:100%;font-size:23px;">
+			<p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Invoice Date:</b></span> $custom-currentdate$</p>
+
+			<p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Due Date:</b></span>$salesorder-duedate$</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<table border="0" cellpadding="1" cellspacing="1" class="layout" style="border-collapse:collapse;" width="991">
+	<tbody>
+		<tr style="background:#000;">
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Sno.</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Product Name</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Quantity</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>List Price</strong></font></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;"><font color="#ffffff"><strong>Total</strong></font></td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_start$</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_sno$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-productname$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-quantity$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-listprice$</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$products-total$</td>
+		</tr>
+		<tr>
+			<td colspan="5" style="border-bottom:1px solid #ccc;padding:4mm;">$productblock_end$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Items Total</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-subtotal$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Discount</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-discount_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Tax</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-tax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;"><span class="pull-right">Shipping &amp; Handling Charges</span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-s_h_amount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Taxes For Shipping and Handling</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-shtax_totalamount$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Adjustment</td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-adjustment$</td>
+		</tr>
+		<tr>
+			<td colspan="4" rowspan="1" style="border-bottom:1px solid #ccc;padding:4mm;">Grand Total<span><b>( in </b><b>$salesorder-currency_id$</b><b> )</b></span></td>
+			<td style="border-bottom:1px solid #ccc;padding:4mm;">$pdt-total$</td>
+		</tr>
+	</tbody>
+</table>
+<br />
+', 1, 'YTo5OntzOjk6ImZpbGVfbmFtZSI7czoxMDoiU2FsZXNPcmRlciI7czoxMToicGFnZV9mb3JtYXQiO3M6MjoiQTQiO3M6MTY6InBhZ2Vfb3JpZW50YXRpb24iO3M6MToiUCI7czoxMDoibWFyZ2luX3RvcCI7czozOiIxMCUiO3M6MTM6Im1hcmdpbl9ib3R0b20iO3M6MzoiMTAlIjtzOjExOiJtYXJnaW5fbGVmdCI7czozOiIxMCUiO3M6MTI6Im1hcmdpbl9yaWdodCI7czozOiIxMCUiO3M6MTA6ImRldGFpbHZpZXciO3M6Mjoib24iO3M6ODoibGlzdHZpZXciO3M6Mjoib24iO30=', '', '##Page##'));
 
 
-	$adb->pquery('insert into jo_vtpdfmaker_seq values(?)', array(4));
+	$adb->pquery('insert into jo_pdfmaker_seq values(?)', array(4));
 
 		//For Duplicate Check module
 		 // inserting values into settings table
@@ -1949,7 +2194,7 @@ Should any need arise,please do give us a call.';
 			'class' => 'HeadModuleOperation');
 
 		foreach ($names as $tab) {
-			if (in_array($tab, array('Rss', 'Webmails', 'Recyclebin'))) {
+			if (in_array($tab, array('Webmails', 'Recyclebin'))) {
 				continue;
 			}
 			$entityId = $this->db->getUniqueID("jo_ws_entity");
@@ -2106,32 +2351,27 @@ Should any need arise,please do give us a call.';
 		global $adb;
 
 		//icons for all fields
-		$icons = array("ico-users.gif",
-			"ico-roles.gif",
-			"ico-profile.gif",
-			"ico-groups.gif",
-			"shareaccess.gif",
-			"orgshar.gif",
-			"set-IcoLoginHistory.gif",
-			"vtlib_modmng.gif",
-			"picklist.gif",
-			"picklistdependency.gif",
-			"menueditor.png",
-			"notification.gif",
-			"inventory.gif",
-			"company.gif",
-			"ogmailserver.gif",
-			"currency.gif",
-			"taxConfiguration.gif",
-			"system.gif",
+		$icons = array(
+			"fa fa-user",
+			"fa fa-registered",
+			"fa fa-user-plus",
+			"fa fa-users",
+			"fa fa-share-alt",
+			"fa fa-history",
+			"fa fa-chain",
+			"fa fa-file-text-o",
+			"fa fa-list",
+			"fa fa-building-o",
+			"fa fa-server",
+			"fa fa-usd",
+			"fa fa-money",
 			"announ.gif",
-			"set-IcoTwoTabConfig.gif",
-			"terms.gif",
-			"settingsInvNumber.gif",
-			"mailScanner.gif",
-			"settingsWorkflow.png",
-			"migrate.gif",
-			"Cron.png");
+			"fa fa-info-circle",
+			"fa fa-sort-numeric-desc",
+			"fa fa-envelope-o",
+			"fa fa-sitemap",
+			"fa fa-pencil-square-o",
+			"fa fa-clock-o");
 
 		//labels for blocks
 		$blocks = array(
@@ -2142,26 +2382,21 @@ Should any need arise,please do give us a call.';
 			);
 
 		//field names
-		$names = array('LBL_USERS',
+		$names = array(
+			'LBL_USERS',
 			'LBL_ROLES',
 			'LBL_PROFILES',
 			'USERGROUPLIST',
 			'LBL_SHARING_ACCESS',
-			'LBL_FIELDS_ACCESS',
 			'LBL_LOGIN_HISTORY_DETAILS',
 			'VTLIB_LBL_MODULE_MANAGER',
 			'LBL_PICKLIST_EDITOR',
 			'LBL_PICKLIST_DEPENDENCY_SETUP',
-			'LBL_MENU_EDITOR',
-			'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION',
 			'LBL_COMPANY_DETAILS',
 			'LBL_MAIL_SERVER_SETTINGS',
 			'LBL_CURRENCY_SETTINGS',
 			'LBL_TAX_SETTINGS',
-			'LBL_SYSTEM_INFO',
 			'LBL_ANNOUNCEMENT',
-			'LBL_DEFAULT_MODULE_VIEW',
 			'INVENTORYTERMSANDCONDITIONS',
 			'LBL_CUSTOMIZE_MODENT_NUMBER',
 			'LBL_MAIL_SCANNER',
@@ -2171,26 +2406,21 @@ Should any need arise,please do give us a call.';
 			);
 
 
-		$name_blocks = array('LBL_USERS' => 'LBL_USER_MANAGEMENT',
+		$name_blocks = array(
+			'LBL_USERS' => 'LBL_USER_MANAGEMENT',
 			'LBL_ROLES' => 'LBL_USER_MANAGEMENT',
 			'LBL_PROFILES' => 'LBL_USER_MANAGEMENT',
 			'USERGROUPLIST' => 'LBL_USER_MANAGEMENT',
 			'LBL_SHARING_ACCESS' => 'LBL_USER_MANAGEMENT',
-			'LBL_FIELDS_ACCESS' => 'LBL_USER_MANAGEMENT',
 			'LBL_LOGIN_HISTORY_DETAILS' => 'LBL_USER_MANAGEMENT',
 			'VTLIB_LBL_MODULE_MANAGER' => 'LBL_STUDIO',
 			'LBL_PICKLIST_EDITOR' => 'LBL_STUDIO',
 			'LBL_PICKLIST_DEPENDENCY_SETUP' => 'LBL_STUDIO',
-			'LBL_MENU_EDITOR' => 'LBL_STUDIO',
-			'NOTIFICATIONSCHEDULERS' => 'LBL_COMMUNICATION_TEMPLATES',
-			'INVENTORYNOTIFICATION' => 'LBL_COMMUNICATION_TEMPLATES',
 			'LBL_COMPANY_DETAILS' => 'LBL_COMMUNICATION_TEMPLATES',
 			'LBL_MAIL_SERVER_SETTINGS' => 'LBL_OTHER_SETTINGS',
 			'LBL_CURRENCY_SETTINGS' => 'LBL_OTHER_SETTINGS',
 			'LBL_TAX_SETTINGS' => 'LBL_OTHER_SETTINGS',
-			'LBL_SYSTEM_INFO' => 'LBL_OTHER_SETTINGS',
 			'LBL_ANNOUNCEMENT' => 'LBL_OTHER_SETTINGS',
-			'LBL_DEFAULT_MODULE_VIEW' => 'LBL_OTHER_SETTINGS',
 			'INVENTORYTERMSANDCONDITIONS' => 'LBL_OTHER_SETTINGS',
 			'LBL_CUSTOMIZE_MODENT_NUMBER' => 'LBL_OTHER_SETTINGS',
 			'LBL_MAIL_SCANNER' => 'LBL_OTHER_SETTINGS',
@@ -2201,26 +2431,21 @@ Should any need arise,please do give us a call.';
 
 
 		//description for fields
-		$description = array('LBL_USER_DESCRIPTION',
-			'LBL_ROLE_DESCRIPTION',
+		$description = array(
+			'LBL_USER_DESCRIPTION',
+			'LBL_ROLE_DESCRIPTION', 
 			'LBL_PROFILE_DESCRIPTION',
 			'LBL_GROUP_DESCRIPTION',
 			'LBL_SHARING_ACCESS_DESCRIPTION',
-			'LBL_SHARING_FIELDS_DESCRIPTION',
 			'LBL_LOGIN_HISTORY_DESCRIPTION',
 			'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION',
 			'LBL_PICKLIST_DESCRIPTION',
 			'LBL_PICKLIST_DEPENDENCY_DESCRIPTION',
-			'LBL_MENU_DESC',
-			'LBL_NOTIF_SCHED_DESCRIPTION',
-			'LBL_INV_NOTIF_DESCRIPTION',
 			'LBL_COMPANY_DESCRIPTION',
 			'LBL_MAIL_SERVER_DESCRIPTION',
 			'LBL_CURRENCY_DESCRIPTION',
 			'LBL_TAX_DESCRIPTION',
-			'LBL_SYSTEM_DESCRIPTION',
 			'LBL_ANNOUNCEMENT_DESCRIPTION',
-			'LBL_DEFAULT_MODULE_VIEW_DESC',
 			'LBL_INV_TANDC_DESCRIPTION',
 			'LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION',
 			'LBL_MAIL_SCANNER_DESCRIPTION',
@@ -2234,24 +2459,18 @@ Should any need arise,please do give us a call.';
 			'Profiles/Settings/List',
 			'Groups/Settings/List',
 			'SharingAccess/Settings/Index',
-			'FieldAccess/Settings/Index',
 			'LoginHistory/Settings/List',
 			'ModuleManager/Settings/List',
-			'Settings/Picklist/Index',
-			'Settings/PickListDependency/List',
-			'MenuEditor/Settings/Index',
-			'Settings/listnotificationschedulers/Settings',
-			'Settings/listinventorynotifications/Settings',
-			'Settings/Head/CompanyDetails',
-			'Settings/Head/OutgoingServerDetail',
-			'Settings/Currency/List',
+			'Picklist/Settings/Index',
+			'PickListDependency/Settings/List',
+			'Head/Settings/CompanyDetails',
+			'Head/Settings/OutgoingServerDetail',
+			'Currency/Settings/List',
 			'Head/Settings/TaxIndex',
-			'Settings/Server/ProxyConfig',
-			'Settings/Head/AnnouncementEdit',
-			'Settings/DefModuleView/Settings',
-			'Settings/Head/TermsAndConditionsEdit',
+			'Head/Settings/AnnouncementEdit',
+			'Head/Settings/TermsAndConditionsEdit',
 			'Head/Settings/CustomRecordNumbering',
-			'Settings/MailConverter/List',
+			'MailConverter/Settings/List',
 			'Workflows/Settings/List',
 			'Head/Settings/ConfigEditorDetail',
 			'CronTasks/Settings/List'
@@ -2272,15 +2491,6 @@ Should any need arise,please do give us a call.';
 			$adb->query("insert into jo_settings_field (fieldid, blockid, name, iconpath, description, linkto, sequence) values (" . $adb->getUniqueID('jo_settings_field') . ", " . getSettingsBlockId($name_blocks[$names[$i]]) . ", '$names[$i]', '$icons[$i]', '$description[$i]', '$links[$i]', $seq)");
 		}
 
-		// for Workflow in settings page of every module
-		$module_manager_id = getSettingsBlockId('LBL_MODULE_MANAGER');
-		$result = $adb->pquery("SELECT max(sequence) AS maxseq FROM jo_settings_field WHERE blockid = ?", array($module_manager_id));
-		$maxseq = $adb->query_result($result, 0, 'maxseq');
-		if ($maxseq < 0 || $maxseq == NULL) {
-			$maxseq = 1;
-		}
-		$adb->pquery("INSERT INTO jo_settings_field (fieldid, blockid, name, iconpath, description, linkto, sequence) VALUES (?,?,?,?,?,?,?)", array($adb->getUniqueID('jo_settings_field'), $module_manager_id, 'LBL_WORKFLOW_LIST', 'settingsWorkflow.png', 'LBL_AVAILABLE_WORKLIST_LIST', 'index.php?module=com_jo_workflow&action=workflowlist', $maxseq));
-
 		//hide the system details tab for now
 		$adb->query("update jo_settings_field set active=1 where name='LBL_SYSTEM_INFO'");
 
@@ -2295,7 +2505,7 @@ $fieldid = $adb->getUniqueID('jo_settings_field');
 			}
 		}
 		$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Duplicate Check', 'duplicatecheck.png', 'DuplicateCheck',
+				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Duplicate Check', 'fa fa-copy', 'DuplicateCheck',
 					'DuplicateCheck/Settings/List', $seq));
 
 		$fieldid = $adb->getUniqueID('jo_settings_field');
@@ -2309,7 +2519,7 @@ $fieldid = $adb->getUniqueID('jo_settings_field');
                                 }
                         }
                         $adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-                                VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Address Lookup', 'addreslookup.png', 'Auto Fill the address fields in each module',
+                                VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Address Lookup', 'fa fa-search-plus', 'Auto Fill the address fields in each module',
                                         'AddressLookup/Settings/List', $seq));
 
 

@@ -153,6 +153,10 @@ $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
 $labels['moreactions']      = 'More actions...';
+$labels['markallread']      = 'Mark all as read';
+$labels['folders-cur']      = 'Selected folder only';
+$labels['folders-sub']      = 'Selected folder and its subfolders';
+$labels['folders-all']      = 'All folders';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
@@ -199,6 +203,13 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
+$labels['layout'] = 'Layout';
+$labels['layoutwidescreen'] = 'Widescreen';
+$labels['layoutdesktop'] = 'Desktop';
+$labels['layoutlist'] = 'List';
+$labels['layoutwidescreendesc'] = 'Widescreen (3-column view)';
+$labels['layoutdesktopdesc'] = 'Desktop (wide list and mail preview below)';
+$labels['layoutlistdesc'] = 'List (no mail preview)';
 
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
@@ -262,6 +273,7 @@ $labels['keyid']          = 'Key ID';
 $labels['keylength']      = 'Bits';
 $labels['keyexpired']     = 'Expired';
 $labels['keyrevoked']     = 'Revoked';
+$labels['bccinstead']     = 'Use Bcc';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
@@ -290,6 +302,7 @@ $labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 $labels['togglecomposeoptions'] = 'Toggle composition options';
+$labels['attachmentrename']  = 'Rename attachment';
 
 $labels['low']     = 'Low';
 $labels['lowest']  = 'Lowest';
@@ -359,6 +372,7 @@ $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
 $labels['printcontact'] = 'Print contact';
+$labels['qrcode'] = 'QR Code';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
@@ -527,7 +541,7 @@ $labels['replyandforwardonly'] = 'replies and forwards only';
 $labels['insertsignature'] = 'Insert signature';
 $labels['sigbelow'] = 'Place signature below the quoted message';
 $labels['sigseparator'] = 'Force standard separator in signatures';
-$labels['previewpanemarkread']  = 'Mark previewed messages as read';
+$labels['automarkread']  = 'Mark messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
@@ -664,10 +678,8 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
-$labels['contacts'] = 'Contacts';
-$labels['accounts'] = 'Accounts';
-$labels['leads'] = 'Leads';
+
 $labels['FromDesktop'] = 'Attach from desktop';
 $labels['FromCRM'] = 'Attach from CRM';
-$labels['convertadd'] = 'Convert address';
+
 ?>

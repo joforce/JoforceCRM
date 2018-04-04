@@ -162,7 +162,6 @@ $result = $adb->pquery($query, array('Sudanese Pound'));
 if($adb->num_rows($result) <= 0){
     //Inserting Currency Sudanese Pound to jo_currencies
     Migration_Index_View::ExecuteQuery('INSERT INTO jo_currencies (currencyid,currency_name,currency_code,currency_symbol) VALUES ('.$adb->getUniqueID("jo_currencies").',"Sudanese Pound","SDG","£")',array());
-    Head_Utils::AddColumn('jo_mailmanager_mailattachments', 'cid', 'VARCHAR(100)');
 }
 //73 ends
 
@@ -678,8 +677,8 @@ $query = 'SELECT max(sequence) as maxsequence FROM jo_relatedlists where tabid =
 $result = $adb->pquery($query, array($contactTabId));
 $sequence = $adb->query_result($result, 0 ,'maxsequence');
 
-$query = 'INSERT INTO jo_relatedlists VALUES(?,?,?,?,?,?,?,?)';
-$result = Migration_Index_View::ExecuteQuery($query, array($relationId, $contactTabId,$vendorTabId,'get_vendors',($sequence+1),'Vendors',0,$actions));
+$query = 'INSERT INTO jo_relatedlists VALUES(?,?,?,?,?,?,?,?,?,?,?)';
+$result = Migration_Index_View::ExecuteQuery($query, array($relationId, $contactTabId,$vendorTabId,'get_vendors',($sequence+1),'Vendors',0,$actions,null,null,null));
 
 //Schema changes for jo_troubletickets hours & days column
 Migration_Index_View::ExecuteQuery('UPDATE jo_field set typeofdata=? WHERE fieldname IN(?,?) AND tablename = ?', array('N~O', 'hours', 'days', 'jo_troubletickets'));
@@ -1237,10 +1236,6 @@ Migration_Index_View::ExecuteQuery("UPDATE jo_field SET quickcreate = ? WHERE ta
     Migration_Index_View::ExecuteQuery('DELETE FROM jo_links WHERE linktype = ? AND handler_class = ? AND linkurl like "javascript:ModTrackerCommon.showhistory%"',
                     array('DETAILVIEWBASIC', 'ModTracker'));
 
-    //Added New field in mailmanager
-    Migration_Index_View::ExecuteQuery('ALTER TABLE jo_mail_accounts ADD COLUMN sent_folder VARCHAR(50)', array());
-    echo '<br>selected folder field added in mailmanager.<br>';
-    
 //97 ends
     
 //Migrating PBXManager 5.4.0 to 6.x
@@ -1375,7 +1370,7 @@ if(!defined('INSTALLATION_MODE')) {
             // To add a Field 
             $fieldid = $adb->getUniqueID('jo_settings_field');
             $adb->pquery("INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active) 
-                        VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', '', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
+                        VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', 'fa fa-phone', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
 
             echo '<br>Added PBXManager settings links<br>';
 

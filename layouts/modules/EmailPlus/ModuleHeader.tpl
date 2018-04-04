@@ -23,7 +23,7 @@
 						{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrlWithAllFilter()}
 					{/if}
 				{/if}
-				<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}/{$SELECTED_MENU_CATEGORY}'><h4 class="module-title pull-left text-uppercase"> {vtranslate($MODULE, $MODULE)} </h4>&nbsp;&nbsp;</a>
+				<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title pull-left text-uppercase"> {vtranslate($MODULE, $MODULE)} </h4>&nbsp;&nbsp;</a>
 				{if $smarty.session.lvs.$MODULE.viewname}
 					{assign var=VIEWID value=$smarty.session.lvs.$MODULE.viewname}
 				{/if}
@@ -36,7 +36,7 @@
 							{/if}
 						{/foreach}
 					{/foreach}
-					<p class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a href='{$MODULE_MODEL->getListViewUrl()}/{$VIEWID}/{$SELECTED_MENU_CATEGORY}'>&nbsp;&nbsp;{$CVNAME}&nbsp;&nbsp;</a> </p>
+					<!-- <p class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a href='{$MODULE_MODEL->getListViewUrl()}/{$VIEWID}/{$SELECTED_MENU_CATEGORY}'>&nbsp;&nbsp;{$CVNAME}&nbsp;&nbsp;</a> </p> -->
 				{/if}
 				{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 				{if $RECORD and $smarty.request.view eq 'Edit'}
@@ -51,34 +51,7 @@
 			<div class="col-lg-5 col-md-5 pull-right">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
-						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
-							{if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}
-								<li>
-									<button id="{$MODULE}_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" 
-											{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}  
-												onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
-											{else}
-												onclick="Head_Import_Js.triggerImportAction('{$BASIC_ACTION->getUrl()}')"
-											{/if}>
-										<div class="fa {$BASIC_ACTION->getIcon()}" aria-hidden="true"></div>&nbsp;&nbsp;
-										{vtranslate($BASIC_ACTION->getLabel(), $MODULE)}
-									</button>
-								</li>
-							{else}
-								<li>
-									<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" 
-											{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}  
-												onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
-											{else} 
-												onclick='window.location.href = "{$BASIC_ACTION->getUrl()}&app={$SELECTED_MENU_CATEGORY}"'
-											{/if}>
-										<div class="fa {$BASIC_ACTION->getIcon()}" aria-hidden="true"></div>&nbsp;&nbsp;
-										{vtranslate($BASIC_ACTION->getLabel(), $MODULE)}
-									</button>
-								</li>
-							{/if}
-						{/foreach}
-				                <button class='btn btn-primary' style='position:relative;top:5px;' onclick="location.href='{$SITEURL}EmailPlus/ServerSettings';">{vtranslate('Server Settings', $MODULE_NAME)}</button>
+				                <button class='btn btn-primary' style='position:relative;top:3px;' onclick="location.href='{$SITEURL}EmailPlus/view/ServerSettings';">{vtranslate('Settings', $MODULE_NAME)}</button>
 						{if $MODULE_SETTING_ACTIONS|@count gt 0}
 							<li>
 								<div class="settingsIcon">

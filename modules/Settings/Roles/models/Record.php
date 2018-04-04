@@ -207,7 +207,7 @@ class Settings_Roles_Record_Model extends Settings_Head_Record_Model {
 	 */
 	public function getCreateChildUrl() {
         global $site_URL;
-		return $site_URL.'Roles/Settings/Edit/'.$this->getId().'/create';
+		return $site_URL.'Roles/Settings/Edit?parent_roleid=' . $this->getId();
 	}
 
 	/**

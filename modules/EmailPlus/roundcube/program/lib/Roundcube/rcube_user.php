@@ -188,14 +188,16 @@ class rcube_user
         $a_user_prefs = $plugin['prefs'];
         $old_prefs    = $plugin['old'];
         $config       = $this->rc->config;
+        $defaults     = $config->all();
 
         // merge (partial) prefs array with existing settings
         $this->prefs = $save_prefs = $a_user_prefs + $old_prefs;
         unset($save_prefs['language']);
 
         // don't save prefs with default values if they haven't been changed yet
+        // Warning: we use result of rcube_config::all() here instead of just get() (#5782)
         foreach ($a_user_prefs as $key => $value) {
-            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key)))) {
+            if ($value === null || (!isset($old_prefs[$key]) && $value === $defaults[$key])) {
                 unset($save_prefs[$key]);
             }
         }
@@ -252,7 +254,7 @@ class rcube_user
 
         // generate a random hash and store it in user prefs
         if (empty($prefs['client_hash'])) {
-            $prefs['client_hash'] = md5($this->data['username'] . mt_rand() . $this->data['mail_host']);
+            $prefs['client_hash'] = rcube_utils::random_bytes(16);
             $this->save_prefs(array('client_hash' => $prefs['client_hash']));
         }
 
@@ -399,7 +401,7 @@ class rcube_user
 
         $sql = "INSERT INTO ".$this->db->table_name('identities', true).
             " (`changed`, ".join(', ', $insert_cols).")".
-            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
@@ -503,10 +505,10 @@ class rcube_user
 
             $this->db->query(
                 "UPDATE " . $this->db->table_name('users', true)
-                    . " SET `failed_login` = " . $this->db->fromunixtime($failed_login->format('U'))
+                    . " SET `failed_login` = ?"
                     . ", `failed_login_counter` = " . ($counter ?: "`failed_login_counter` + 1")
                 . " WHERE `user_id` = ?",
-                $this->ID);
+                $failed_login, $this->ID);
         }
     }
 
@@ -832,7 +834,7 @@ class rcube_user
 
         $sql = "INSERT INTO ".$this->db->table_name('searches', true)
             ." (".join(', ', $insert_cols).")"
-            ." VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+            ." VALUES (".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));

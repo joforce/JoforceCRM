@@ -121,23 +121,7 @@ $customviews = Array(Array('viewname'=>'All',
 
 		    Array('viewname'=>'All',
                           'setdefault'=>'1','setmetrics'=>'0','status'=>'0','userid'=>'1',
-                          'cvmodule'=>'Faq','stdfilterid'=>'','advfilterid'=>''),
-
-		    Array('viewname'=>'All',
-                          'setdefault'=>'1','setmetrics'=>'0','status'=>'0','userid'=>'1',
                           'cvmodule'=>'Campaigns','stdfilterid'=>'','advfilterid'=>''),
-
-		    Array('viewname'=>'All',
-                          'setdefault'=>'1','setmetrics'=>'0','status'=>'0','userid'=>'1',
-			  'cvmodule'=>'Webmails','stdfilterid'=>'','advfilterid'=>''),
-
-		    Array('viewname'=>'Drafted FAQ',
-                          'setdefault'=>'0','setmetrics'=>'0','status'=>'3','userid'=>'1',
-                          'cvmodule'=>'Faq','stdfilterid'=>'','advfilterid'=>'8'),
-
-		    Array('viewname'=>'Published FAQ',
-                          'setdefault'=>'0','setmetrics'=>'0','status'=>'3','userid'=>'1',
-			  'cvmodule'=>'Faq','stdfilterid'=>'','advfilterid'=>'9'),
 
 	            Array('viewname'=>'Open Purchase Orders',
                           'setdefault'=>'0','setmetrics'=>'0','status'=>'3','userid'=>'1',
@@ -158,9 +142,6 @@ $customviews = Array(Array('viewname'=>'All',
 	            Array('viewname'=>'Pending Sales Orders',
                           'setdefault'=>'0','setmetrics'=>'0','status'=>'3','userid'=>'1',
                           'cvmodule'=>'SalesOrder','stdfilterid'=>'','advfilterid'=>'14'),
-              Array('viewname'=>'All',
-                          'setdefault'=>'1','setmetrics'=>'0','status'=>'0','userid'=>'1','cvmodule'=>'VTPDFMaker'
-      ),
 		    );
 
 
@@ -352,15 +333,6 @@ $cvcolumns = Array(Array('jo_leaddetails:lead_no:lead_no:Leads_Lead_No:V',
                         'jo_vendor:category:category:Vendors_Category:V'),
 
 
-
-
-		 Array(//'jo_faq:id::Faq_FAQ_Id:I',
-		 		'jo_faq:faq_no:faq_no:Faq_Faq_No:V',
-		       'jo_faq:question:question:Faq_Question:V',
-		       'jo_faq:category:faqcategories:Faq_Category:V',
-		       'jo_faq:product_id:product_id:Faq_Product_Name:I',
-		       'jo_crmentity:createdtime:createdtime:Faq_Created_Time:DT',
-                       'jo_crmentity:modifiedtime:modifiedtime:Faq_Modified_Time:DT'),
 		      //this sequence has to be maintained
 		 Array('jo_campaign:campaign_no:campaign_no:Campaigns_Campaign_No:V',
 		 		'jo_campaign:campaignname:campaignname:Campaigns_Campaign_Name:V',
@@ -375,19 +347,6 @@ $cvcolumns = Array(Array('jo_leaddetails:lead_no:lead_no:Leads_Lead_No:V',
 		       'from:fromname:fromname:From:N',
 		       'to:tpname:toname:To:N',
 		       'body:body:body:Body:V'),
-
-		 Array ('jo_faq:question:question:Faq_Question:V',
-		 	'jo_faq:status:faqstatus:Faq_Status:V',
-			'jo_faq:product_id:product_id:Faq_Product_Name:I',
-			'jo_faq:category:faqcategories:Faq_Category:V',
-			'jo_crmentity:createdtime:createdtime:Faq_Created_Time:DT'),
-
-		 Array( 'jo_faq:question:question:Faq_Question:V',
-			 'jo_faq:answer:faq_answer:Faq_Answer:V',
-			 'jo_faq:status:faqstatus:Faq_Status:V',
-			 'jo_faq:product_id:product_id:Faq_Product_Name:I',
-			 'jo_faq:category:faqcategories:Faq_Category:V',
-			 'jo_crmentity:createdtime:createdtime:Faq_Created_Time:DT'),
 
 		 Array(	 'jo_purchaseorder:subject:subject:PurchaseOrder_Subject:V',
 			 'jo_purchaseorder:postatus:postatus:PurchaseOrder_Status:V',
@@ -496,20 +455,6 @@ $cvadvfilters = Array(
                             Array('columnname'=>'jo_quotes:quotestage:quotestage:Quotes_Quote_Stage:V',
                                   'comparator'=>'e',
                                   'value'=>'Rejected'
-                                 )
-			 ),
-
-			Array(
-                          Array('columnname'=>'jo_faq:status:faqstatus:Faq_Status:V',
-                                'comparator'=>'e',
-                                 'value'=>'Draft'
-                                 )
-			 ),
-
-			Array(
-                          Array('columnname'=>'jo_faq:status:faqstatus:Faq_Status:V',
-                                'comparator'=>'e',
-                                 'value'=>'Published'
                                  )
 			 ),
 

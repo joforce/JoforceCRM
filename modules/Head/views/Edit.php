@@ -52,10 +52,11 @@ Class Head_Edit_View extends Head_Index_View {
 		$viewer->assign('MODULE_SETTING_ACTIONS', $settingLinks);
 	}
 
-	function preProcess(Head_Request $request, $display=true) { 
-		//Head7 - TO show custom view name in Module Header
+	function preProcess(Head_Request $request, $display=true) {
+		global $current_user;
 		$viewer = $this->getViewer ($request); 
-		$moduleName = $request->getModule(); 
+		
+	        $moduleName = $request->getModule();
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName)); 
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$record = $request->get('record'); 
@@ -85,14 +86,15 @@ Class Head_Edit_View extends Head_Index_View {
 					}
 				}
 			}  
-		}else if(!empty($record)) {
-			$recordModel = $this->record?$this->record:Head_Record_Model::getInstanceById($record, $moduleName);
+		} else if(!empty($record)) {
+			$recordModel = $this->record ? $this->record : Head_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$recordModel = Head_Record_Model::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 		}
+
 		if(!$this->record){
 			$this->record = $recordModel;
 		}
@@ -116,7 +118,6 @@ Class Head_Edit_View extends Head_Index_View {
 				// Convert the incoming user-picked time to GMT time 
 				// which will get re-translated based on user-time zone on EditForm 
 				$fieldValue = DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i"); 
-
 			}
 
 			if ($moduleName == 'Calendar' && empty($record) && $fieldName == 'date_start' && !empty($fieldValue)) { 

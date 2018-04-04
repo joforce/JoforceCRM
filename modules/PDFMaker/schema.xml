@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>jo_pdfmaker</name>
+			<sql><![CDATA[CREATE TABLE `jo_pdfmaker`(
+   `pdfmakerid` int(11) NOT NULL,
+   `name` varchar(255) NOT NULL,
+   `module` varchar(255) NOT NULL,
+   `description` text DEFAULT NULL,
+   `body` longblob DEFAULT NULL,
+   `status` int(2) DEFAULT NULL,
+   `settings` text DEFAULT NULL,
+   `header` longblob,
+   `footer` longblob,
+  PRIMARY KEY (`pdfmakerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+		</table>
+		<table>
+			<name>jo_pdfmaker_seq</name>
+			<sql><![CDATA[CREATE TABLE `jo_pdfmaker_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+		</table>
+	</tables>
+</schema>

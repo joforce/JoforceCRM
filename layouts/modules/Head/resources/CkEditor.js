@@ -47,26 +47,25 @@ jQuery.Class("Head_CkEditor_Js",{},{
         var ckEditorInstnace = this.getCkEditorInstanceFromName();
         return ckEditorInstnace.document.getBody().getText();
     },
+
 	/*
 	 * Function to load CkEditor
 	 * @params : element: element on which CkEditor has to be loaded, config: custom configurations for ckeditor
 	 */
-	loadCkEditor : function(element,customConfig){
+	loadCkEditor : function(element, customConfig)   {
 		
 		this.setElement(element);
 		var instance = this.getCkEditorInstanceFromName();
 		var elementName = this.getElementId();
 		var config = {}
         
-		if(typeof customConfig != 'undefined'){
+		if(typeof customConfig != 'undefined')  {
 			var config = jQuery.extend(config,customConfig);
 		}
-		if(instance)
-		{
+
+		if(instance)    {
 			CKEDITOR.remove(instance);
 		}
-		
-		
     
 		CKEDITOR.replace( elementName,config);
 	},

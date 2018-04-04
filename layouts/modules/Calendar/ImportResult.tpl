@@ -49,8 +49,8 @@
 			<div class="modal-overlay-footer border1px clearfix">
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
-						<button class="btn btn-danger" onclick="return Head_Import_Js.undoImport('index.php?module={$MODULE}&view=Import&mode=undoIcalImport');"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong></button>
-						&nbsp;&nbsp;&nbsp;<button class="btn btn-success" onclick="location.href='index.php?module={$MODULE}&view=List'" ><strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong></button>
+						<button class="btn btn-danger" onclick="return Head_Import_Js.undoImport('{$SITEURL}{$MODULE}/view/Import/mode/undoIcalImport');"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong></button>
+						&nbsp;&nbsp;&nbsp;<button class="btn btn-success" onclick="location.href='{$SITEURL}{$MODULE}/view/List'" ><strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong></button>
 					</div>
 				</div>
 		</div>

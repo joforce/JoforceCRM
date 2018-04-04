@@ -93,7 +93,7 @@
                      </div>
                   </div>
                </div>
-				<div class="modal-overlay-footer clearfix" style="margin-left: 230px; border-left-width: 0px;">
+				<div class="modal-overlay-footer clearfix">
 					<div class="row clearfix">
 						<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 							<button type="submit" class="btn btn-success" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;

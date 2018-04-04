@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row" style="width:540px;">
-		<div style="float: left;margin-top: 7px; padding-left:15px;">
+	<div class="row" style="width:600px;">
+		 <div style="float: left;margin-top: 7px; padding-left:15px;">
 			{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes' && !$smarty.request.isDuplicate}
 				<input type="hidden" class="recurringEdit" value="true" />
 			{/if}
@@ -37,8 +37,8 @@
 				</span>
 				<span>
 					<span class="alignMiddle displayInlineBlock">&nbsp;&nbsp;{vtranslate('LBL_UNTIL', $MODULE)}</span>
-					<span class="input-group date pull-right inputElement">
-						<input type="text" id="calendar_repeat_limit_date" class="dateField input-small form-control" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
+					<span class="input-group date pull-right">
+						<input type="text" id="calendar_repeat_limit_date" class="dateField input-small form-control inputElement" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
 							   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
 							   data-rule-date="true" data-rule-required="true"/>
 						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>

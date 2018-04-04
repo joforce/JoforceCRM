@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="col-lg-6 detailViewButtoncontainer">
+    <div class="col-lg-7 detailViewButtoncontainer">
         <div class="pull-right btn-toolbar joforce-detailview-btn">
             <div class="btn-group">
             {assign var=STARRED value=$RECORD->get('starred')}
             {if $MODULE_MODEL->isStarredEnabled()}
-                <button class="btn btn-default markStar {if $STARRED} active {/if}" id="starToggle" style="width:100px;">
+                <button class="btn btn-default markStar {if $STARRED} active {/if}" id="starToggle">
                     <div class='starredStatus' title="{vtranslate('LBL_STARRED', $MODULE)}">
                         <div class='unfollowMessage'>
                             <i class="fa fa-star-o"></i> &nbsp;{vtranslate('LBL_UNFOLLOW',$MODULE)}
@@ -32,7 +32,7 @@
             {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
                 <button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
                         {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
-                            onclick="window.location.href = '{if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'Add Project Task'}{$SITEURL}{/if}{$DETAIL_VIEW_BASIC_LINK->getUrl()}/{$SELECTED_MENU_CATEGORY}'"
+                            onclick="window.location.href = '{if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'Add Project Task'}{$SITEURL}{/if}{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
                         {else}
                             onclick="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"
                         {/if}
@@ -56,7 +56,7 @@
                                 {if $DETAIL_VIEW_LINK->getUrl()|strstr:"javascript"} 
                                     <a href='{$DETAIL_VIEW_LINK->getUrl()}'>{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
                                 {else}
-                                    <a href='{$DETAIL_VIEW_LINK->getUrl()}/{$SELECTED_MENU_CATEGORY}' >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+                                    <a href='{$DETAIL_VIEW_LINK->getUrl()}' >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
                                 {/if}
                             </li>
                         {/if}
@@ -66,10 +66,10 @@
             </div>
             {if !{$NO_PAGINATION}}
             <div class="btn-group pull-right">
-                <button class="btn btn-default " id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$PREVIOUS_RECORD_URL}/{$SELECTED_MENU_CATEGORY}'" {/if} >
+                <button class="btn-paginate" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$PREVIOUS_RECORD_URL}'" {/if} >
                     <i class="fa fa-chevron-left"></i>
                 </button>
-                <button class="btn btn-default  " id="detailViewNextRecordButton"{if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$NEXT_RECORD_URL}/{$SELECTED_MENU_CATEGORY}'" {/if}>
+                <button class="btn-paginate" id="detailViewNextRecordButton"{if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$NEXT_RECORD_URL}'" {/if}>
                     <i class="fa fa-chevron-right"></i>
                 </button>
             </div>

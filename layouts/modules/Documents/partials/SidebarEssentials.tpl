@@ -9,11 +9,10 @@
 <div class="sidebar-menu sidebar-menu-full">
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
-            <div class="sidebar-header clearfix">
-                <h5 class="pull-left">Lists </h5>
-                <button id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="btn btn-default pull-right sidebar-btn">
-                    <span class="fa fa-plus" aria-hidden="true"></span>
-                </button> 
+	    <div class="sidebar-header clearfix">
+                <h5 class="pull-left">{vtranslate('LBL_LISTS',$MODULE)}</h5>
+                <span id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="pull-right sidebar-btn new-list" title="{vtranslate('LBL_CREATE_LIST',$MODULE)}">+{vtranslate('LBL_CREATE_NEW', 'Head')}
+                </span> 
             </div>
             <hr>
             <div>
@@ -99,9 +98,7 @@
                 <div class="list-group">
                     <div class="sidebar-header clearfix">
                         <h5 class="pull-left">{vtranslate('LBL_FOLDERS',$MODULE)}</h5>
-                        <button id="createFolder" class="btn btn-default pull-right sidebar-btn">
-                            <span class="fa fa-plus" aria-hidden="true"></span>
-                        </button>
+                        <span id="createFolder" class="pull-right sidebar-btn">+{vtranslate('LBL_CREATE_NEW', 'Head')}</span>
                     </div>
                     <hr>
                     <div>

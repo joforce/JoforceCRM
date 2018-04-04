@@ -48,7 +48,7 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 */
 	public function getCalendarViewUrl() {
         global $site_URL;
-		return $site_URL.$this->get('name').'/'.$this->getCalendarViewName();
+		return $site_URL.$this->get('name').'/view/'.$this->getCalendarViewName();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 */
 	public function getCreateEventRecordUrl() {
         global $site_URL;
-		return $site_URL.$this->get('name').'/'.$this->getEditViewName().'/Events';
+		return $site_URL.$this->get('name').'/view/'.$this->getEditViewName().'/mode/Events';
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 */
 	public function getCreateTaskRecordUrl() {
         global $site_URL;
-		return $site_URL.$this->get('name').'/'.$this->getEditViewName().'/Calendar';
+		return $site_URL.$this->get('name').'/view/'.$this->getEditViewName().'/mode/Calendar';
 	}
 
 	/**
@@ -274,7 +274,8 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 * @return <String> - url
 	 */
 	public function getDetailViewUrl($id) {
-		return 'index.php?module=Calendar&view='.$this->getDetailViewName().'&record='.$id;
+	    global $site_URL;
+	    return $site_URL . 'Calendar/view/' . $this->getDetailViewName() . '/' . $id;
 	}
 
 	/**
@@ -689,7 +690,7 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 */
 	public function getSharedCalendarViewUrl() {
         global $site_URL;
-		return $site_URL.$this->get('name').'/SharedCalendar';
+		return $site_URL.$this->get('name').'/view/SharedCalendar';
 	}
 
 	/**
@@ -927,20 +928,20 @@ class Calendar_Module_Model extends Head_Module_Model {
 			$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_FIELDS',
-					'linkurl' => 'Settings/LayoutEditor',
+					'linkurl' => 'LayoutEditor/Settings/source',
 					'linkicon' => Head_Theme::getImagePath('LayoutEditor.gif')
 			);
 
 			 $settingLinks[] = array( 
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_WORKFLOWS',
-					'linkurl' => 'Settings/Workflows/List',
+					'linkurl' => 'Workflows/Settings/List/source',
 					'linkicon' => ''
 			);
 			$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
-					'linkurl' => 'Settings/Picklist/Index/'.$this->getName(),
+					'linkurl' => 'Picklist/Settings/Index/source/'.$this->getName(),
 					'linkicon' => ''
 			);
 		}

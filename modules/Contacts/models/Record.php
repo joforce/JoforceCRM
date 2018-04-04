@@ -17,7 +17,7 @@ class Contacts_Record_Model extends Head_Record_Model {
 	 */
 	function getCreateEventUrl() {
 		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl().'/'.$this->getId();
+		return $calendarModuleModel->getCreateEventRecordUrl().'?contact_id='.$this->getId();
 	}
 
 	/**
@@ -26,7 +26,7 @@ class Contacts_Record_Model extends Head_Record_Model {
 	 */
 	function getCreateTaskUrl() {
 		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl().'/'.$this->getId();
+		return $calendarModuleModel->getCreateTaskRecordUrl().'?contact_id='.$this->getId();
 	}
 
 
@@ -55,5 +55,4 @@ class Contacts_Record_Model extends Head_Record_Model {
 				array('parentField'=>'otherpobox', 'inventoryField'=>'ship_pobox', 'defaultValue'=>'')
 		);
 	}
-
 }

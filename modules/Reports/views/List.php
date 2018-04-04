@@ -33,7 +33,7 @@ class Reports_List_View extends Head_Index_View {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
-
+	
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new Reports_ListView_Model();
 		$listViewModel->set('module', $moduleModel);

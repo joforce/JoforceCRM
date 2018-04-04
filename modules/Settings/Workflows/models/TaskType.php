@@ -35,11 +35,13 @@ class Settings_Workflows_TaskType_Model extends Head_Base_Model {
 	}
 
 	public function getEditViewUrl() {
-		return '?module=Workflows&parent=Settings&view=EditTask&type='.$this->getName();
+        global $site_URL;
+        return $site_URL . 'Workflows/Settings/EditTask?type=' . $this->getName();
 	}
     
     public function getV7EditViewUrl() {
-		return '?module=Workflows&parent=Settings&view=EditV7Task&type='.$this->getName();
+        global $site_URL;
+        return $site_URL . 'Workflows/Settings/EditV7Task?type=' . $this->getName();
 	}
 
 	public static function getInstanceFromClassName($taskClass) {

@@ -16,22 +16,24 @@
 			<h4 class='fieldBlockHeader'>{vtranslate('LBL_INVITE_USER_BLOCK', $MODULE)}</h4>
 			<hr>
 			<table class="table table-borderless">
-				<tr>
-					<td class="fieldLabel alignMiddle">{vtranslate('LBL_INVITE_PEOPLE',$MODULE)}</td>
-					<td class="fieldValue">
-						<select id="selectedUsers" class="select2 inputElement" multiple name="selectedusers[]">
-							{foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
-								{if $USER_ID eq $CURRENT_USER->getId()}
-									{continue}
-								{/if}
-								<option value="{$USER_ID}" {if in_array($USER_ID,$INVITIES_SELECTED)}selected{/if}>
-									{$USER_NAME}
-								</option>
-							{/foreach}
-						</select>
-					</td>
-					<td></td><td></td>
-				</tr>
+				<div class="col-lg-12">
+                                        <div class="col-lg-3 pr0"><div class="fieldLabel alignMiddle">{vtranslate('LBL_INVITE_PEOPLE',$MODULE)}</div></div>
+                                        <div class="col-lg-3 pl0">
+                                        <div class="fieldValue">
+                                                <select id="selectedUsers" class="select2 inputElement" multiple name="selectedusers[]">
+                                                        {foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
+                                                                {if $USER_ID eq $CURRENT_USER->getId()}
+                                                                        {continue}
+                                                                {/if}
+                                                                <option value="{$USER_ID}" {if in_array($USER_ID,$INVITIES_SELECTED)}selected{/if}>
+                                                                        {$USER_NAME}
+                                                                </option>
+                                                        {/foreach}
+                                                </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6"></div><div class="col-lg-6"></div>
+                                </div>
 			</table>
 			<input type="hidden" name="recurringEditMode" value="" />
 			<!--Confirmation modal for updating Recurring Events-->

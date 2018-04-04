@@ -1,18 +1,18 @@
 {*+**********************************************************************************
-* The contents of this file are subject to the vtiger CRM Public License Version 1.1
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is: vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-************************************************************************************}
-
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): JoForce.com
+ ************************************************************************************}
 {strip}
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$SITEURL}{$jsModel->getSrc()}"></script>
 	{/foreach}
 	<div class="modal-dialog modal-lg">
-		<div class="modal-content" style='width: 525px;left:23%;'>
+		<div class="modal-content">
 			<form class="form-horizontal recordEditView" id="QuickCreate" name="QuickCreate" method="post" action="index.php">
 				{if $MODE eq 'edit' && !empty($RECORD_ID)}
 					{assign var=HEADER_TITLE value={vtranslate('LBL_EDITING', $MODULE)}|cat:" "|cat:{vtranslate('SINGLE_'|cat:$MODULE, $MODULE)}}
@@ -85,23 +85,23 @@
 						</div>
 
 						<table class="massEditTable table no-border">
-							<tr>
+							<div class="col-lg-12">
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 									{if $FIELD_NAME eq 'subject' || $FIELD_NAME eq 'date_start' || $FIELD_NAME eq 'due_date'}
-									</tr>{continue}
+									</div>{continue}
 								{/if}
 								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 								{assign var="referenceList" value=$FIELD_MODEL->getReferenceList()}
 								{assign var="referenceListCount" value=count($referenceList)}
 								{if $FIELD_MODEL->get('uitype') eq "19"}
 									{if $COUNTER eq '1'}
-										<td></td><td></td></tr><tr>
+										<div class="col-lg-6"></div><div class="col-lg-6"></div></div><div class="col-lg-12">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
-								</tr><tr>
-									<td class='fieldLabel col-lg-3'>
-										{if $isReferenceField neq "reference"}<label class="muted pull-right">{/if}
+								</div><div class="col-lg-12">
+									<div class='fieldLabel col-lg-4 pr0 pl0' style="border-bottom: 1px solid #e8e8e8;padding-bottom: 3px;">
+										{if $isReferenceField neq "reference"}<label class="muted">{/if}
 											{if $isReferenceField eq "reference"}
 												{if $referenceListCount > 1}
 													{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -117,18 +117,18 @@
 														</select>
 													</span>
 												{else}
-													<label class="muted pull-right">{vtranslate($FIELD_MODEL->get('label'), $MODULE)} &nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}</label>
+													<label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)} &nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}</label>
 												{/if}
 											{else}
-												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
 											{/if}
 											{if $isReferenceField neq "reference"}</label>{/if}
-									</td>
-									<td class="fieldValue col-lg-9" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									</div>
+									<div class="fieldValue col-lg-8 pl0 pr0" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-									</td>
+									</div>
 								{/foreach}
-							</tr>
+							</div>
 						</table>
 					</div>
 				</div>

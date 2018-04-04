@@ -62,7 +62,7 @@ function fetchUserGroupids($userid)
 	global $adb;
 		$focus = new GetUserGroups();
 		$focus->getAllUserGroups($userid);
-		//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
+		//Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
 		$groupidlists = implode(",",$focus->user_groups);
 	$log->debug("Exiting fetchUserGroupids method ...");
 		return $groupidlists;

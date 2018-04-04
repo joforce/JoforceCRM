@@ -68,6 +68,8 @@ class ModComments_Module_Model extends Head_Module_Model{
 		$tabid = getTabid($request->get('parent'));
 		$rollupid = $request->get('rollupid');
 		$rollupStatus = $request->get('rollup_status');
+		$rollupSettings = array('rollupid' => $rollupid, 'rollup_status' => $rollupStatus);
+
 		if (!$rollupid) {
 			$params = array($userid, $tabid, $rollupStatus);
 			$query = "INSERT INTO jo_rollupcomments_settings(userid, tabid, rollup_status)"
@@ -75,19 +77,12 @@ class ModComments_Module_Model extends Head_Module_Model{
 			$db->pquery($query, $params);
 			return ModComments_Module_Model::getRollupSettingsForUser($currentUserModel, $request->get('parent'));
 		} else {
-			$query = 'SELECT rollup_status FROM jo_rollupcomments_settings WHERE userid=? AND tabid=?';
-			$result = $db->pquery($query, array($userid, $tabid));
-			$rollup_status = $db->query_result($result, 0, 'rollup_status'); 
-			if($rollup_status == 1)
-				$change_rollup_status = 0;
-			else
-				$change_rollup_status = 1;
-			$params = array($change_rollup_status, $userid, $tabid);
+			$params = array($rollupStatus, $userid, $tabid);
 			$query = "UPDATE jo_rollupcomments_settings set rollup_status=?"
 					. " WHERE userid=? AND tabid=?";
 			$db->pquery($query, $params);
 		}
-		$rollupSettings = array('rollupid' => $rollupid, 'rollup_status' => $change_rollup_status);
+
 		return $rollupSettings;
 	}
 

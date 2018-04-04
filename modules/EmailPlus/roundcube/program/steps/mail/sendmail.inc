@@ -12,9 +12,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Compose a new mail message with all headers and attachments         |
- |   and send it using the PEAR::Net_SMTP class or with PHP mail()       |
- |                                                                       |
+ |   Compose a new mail message and send it or store as draft            |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -44,9 +42,7 @@ if (!isset($COMPOSE['id'])) {
 }
 
 if (!$savedraft) {
-    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc'])
-        && empty($_POST['_subject']) && $_POST['_message']
-    ) {
+    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && $_POST['_message']) {
         $OUTPUT->show_message('sendingfailed', 'error');
         $OUTPUT->send('iframe');
     }
@@ -62,11 +58,6 @@ if (!$savedraft) {
 
 
 /****** compose message ********/
-
-if (empty($COMPOSE['param']['message-id'])) {
-    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id();
-}
-$message_id = $COMPOSE['param']['message-id'];
 
 // set default charset
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
@@ -106,11 +97,14 @@ if (is_numeric($from)) {
     }
 }
 // ... if there is no identity record, this might be a custom from
-else if ($from_string = rcmail_email_input_format($from)) {
-    if (preg_match('/(\S+@\S+)/', $from_string, $m))
-        $from = trim($m[1], '<>');
-    else
-        $from = null;
+else if (($from_string = rcmail_email_input_format($from))
+    && preg_match('/(\S+@\S+)/', $from_string, $m)
+) {
+    $from = trim($m[1], '<>');
+}
+// ... otherwise it's empty or invalid
+else {
+    $from = null;
 }
 
 // check 'From' address (identity may be incomplete)
@@ -122,6 +116,11 @@ if (!$savedraft && !$saveonly && empty($from)) {
 if (!$from_string && $from) {
     $from_string = $from;
 }
+
+if (empty($COMPOSE['param']['message-id'])) {
+    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id($from);
+}
+$message_id = $COMPOSE['param']['message-id'];
 
 // compose headers array
 $headers = array();
@@ -171,10 +170,11 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
 $dont_override = (array) $RCMAIL->config->get('dont_override');
 $mdn_enabled   = in_array('mdn_default', $dont_override) ? $RCMAIL->config->get('mdn_default') : !empty($_POST['_mdn']);
 $dsn_enabled   = in_array('dsn_default', $dont_override) ? $RCMAIL->config->get('dsn_default') : !empty($_POST['_dsn']);
+$subject       = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
 
-// add subject
-$headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
-
+if (strlen($subject)) {
+    $headers['Subject'] = $subject;
+}
 if (!empty($identity_arr['organization'])) {
     $headers['Organization'] = $identity_arr['organization'];
 }
@@ -189,11 +189,17 @@ if ($hdr = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, 
 }
 
 // remember reply/forward UIDs in special headers
-if (!empty($COMPOSE['reply_uid']) && $savedraft) {
-    $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $COMPOSE['reply_uid']);
-}
-else if (!empty($COMPOSE['forward_uid']) && $savedraft) {
-    $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => rcube_imap_generic::compressMessageSet($COMPOSE['forward_uid']));
+if ($savedraft) {
+    // Note: We ignore <UID>.<PART> forwards/replies here
+    if (($uid = $COMPOSE['reply_uid']) && !preg_match('/^\d+\.[0-9.]+$/', $uid)) {
+        $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $uid);
+    }
+    else if (!empty($COMPOSE['forward_uid'])
+        && ($uid = rcube_imap_generic::compressMessageSet($COMPOSE['forward_uid']))
+        && !preg_match('/^\d+[0-9.]+$/', $uid)
+    ) {
+        $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $uid);
+    }
 }
 
 if (!empty($COMPOSE['reply_msgid'])) {
@@ -362,9 +368,7 @@ $MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
-if (is_array($COMPOSE['attachments']) && $RCMAIL->config->get('smtp_server')
-  && ($mem_limit = parse_bytes(ini_get('memory_limit')))
-) {
+if (is_array($COMPOSE['attachments']) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
     $memory = 0;
     foreach ($COMPOSE['attachments'] as $id => $attachment) {
         $memory += $attachment['size'];
@@ -531,7 +535,7 @@ if (!$savedraft && !$saveonly) {
     $smtp_opts['dsn'] = $dsn_enabled;
 
     $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
-        $smtp_error, $mailbody_file, $smtp_opts);
+        $smtp_error, $mailbody_file, $smtp_opts, true);
 
     // return to compose page if sending failed
     if (!$sent) {
@@ -552,68 +556,7 @@ if (!$savedraft && !$saveonly) {
 
         $OUTPUT->send('iframe');
     }
-    if($sent){
 
-        $RC = rcube::get_instance();
-        $DB = rcube_db::factory($RC->config->get('db_dsnw'));
-
-        $DB->set_debug((bool)$RC->config->get('sql_debug'));
-
-        // Connect to database
-
-        $DB->db_connect('w');
-
-        if(!$DB->is_connected())
-
-            die("Cannot able to get outgoing server details");
-	else{
-		$res = $DB->query("select * from jo_crmentity_seq");
-		$rows = $DB->fetch_assoc($res);
-		$date_var = date("Y-m-d H:i:s");
-		$crmid = $rows['id']+1;
-		$split_mail = explode('<', $mailto);
-		$split_mail1 = $split_mail[1];
-		$split_val = explode('>', $split_mail1);
-		$mail_to = trim($split_val[0]);
-		if(empty($mail_to)){
-			$mail_to = trim($mailto);
-		}
-		$getUserId = $DB->query("select jo_user_id from users where username = '$from'");
-		$getUser = $DB->fetch_assoc($getUserId);
-		$userId = $getUser['jo_user_id'];
-		$module_table = array('contactid' => 'jo_contactdetails', 'leadid' => 'jo_leaddetails', 'vendorid' => 'jo_vendor', 'accountid' => 'jo_account');
-		$recordId = '';
-		foreach($module_table as $key => $single_value){
-			if($single_value == 'jo_account')
-				$value = $DB->query("select $key from $single_value where email1 = '$mail_to'");
-			else 
-				$value = $DB->query("select $key from $single_value where email = '$mail_to'");
-			$getValue = $DB->num_rows($value);
-			if($getValue > 0){
-				$record = $DB->fetch_assoc($value);
-				$recordId = $record[$key];
-				break;
-			}
-		}
-
-		$sql = "insert into jo_emaildetails(emailid, from_email, to_email, cc_email, bcc_email,assigned_user_email ,idlists ,email_flag) values (?,?,?,?,?,?,?,?)";
-		$params = array($crmid, $from, '["'.$mail_to.'"]', '["'.$mailcc.'"]', '["'.$mailbcc.'"]', '', $recordId.'@1|', 'SENT');
-		$DB->query($sql, $params);
-		$sql1 = "insert into jo_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
-		$params1 = array($crmid,  $userId,  $userId, 'Emails', $message_body, $date_var, $date_var);
-		$DB->query($sql1, $params1);
-		$sql2 = "insert into jo_activity (activityid, subject, semodule, activitytype, date_start, due_date, time_start, time_end,  sendnotification, duration_hours, duration_minutes, status, eventstatus, priority, location, notime, visibility, recurringtype) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		$params2 = array($crmid, $headers['Subject'], '', 'Emails', date('Y-m-d'), NULL, date('H:i'), NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL,0, 'all', NULL);
-		$DB->query($sql2, $params2);
-		$sql3 = "update jo_crmentity_seq set id = ?";
-		$params3 = array($crmid);
-		$DB->query($sql3, $params3);
-		$sql4 = "insert into jo_seactivityrel (crmid, activityid) values(?, ?)";
-		$params4 = array($recordId, $crmid);
-		$DB->query($sql4, $params4);
-
-	}
-    }
     // save message sent time
     if ($sendmail_delay) {
         $RCMAIL->user->save_prefs(array('last_message_time' => time()));
@@ -622,12 +565,18 @@ if (!$savedraft && !$saveonly) {
     // set replied/forwarded flag
     if ($COMPOSE['reply_uid']) {
         foreach (rcmail::get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
-            $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
+            // skip <UID>.<PART> replies
+            if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
+                $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
+            }
         }
     }
     else if ($COMPOSE['forward_uid']) {
         foreach (rcmail::get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
-            $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
+            // skip <UID>.<PART> forwards
+            if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
+                $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
+            }
         }
     }
 }
@@ -947,9 +896,6 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
             $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
             $result[] = format_email_recipient($address, $name);
             $item     = $address;
-        }
-        else if (trim($item)) {
-            continue;
         }
 
         // check address format

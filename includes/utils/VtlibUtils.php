@@ -670,11 +670,9 @@ function vtlib_purify($input, $ignore=false) {
 			if(empty($use_charset)) $use_charset = 'UTF-8';
 			if(empty($use_root_directory)) $use_root_directory = dirname(__FILE__) . '/../..';
 
-			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
-
-			$config = HTMLPurifier_Config::createDefault();
-			$config->set('Core', 'Encoding', $use_charset);
-			$config->set('Cache', 'SerializerPath', "$use_root_directory/cache/vtlib");
+            $config = HTMLPurifier_Config::createDefault();
+            $config->set('Core.Encoding', $use_charset);
+            $config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}

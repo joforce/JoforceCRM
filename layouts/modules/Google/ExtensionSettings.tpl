@@ -19,6 +19,8 @@
         <input type="hidden" name="action" value="SaveSyncSettings" />
         <input type="hidden" name="sourceModule" value="{$SOURCEMODULE}" />
         <input type="hidden" name="parent" value="{$PARENT}">
+        <input type="hidden" name="block" value="{$BLOCKID}">
+        <input type="hidden" name="fieldid" value="{$FIELDID}">
         <div class="row">
             <div class="col-sm-12 col-xs-12">
                <table class="listview-table table-bordered" align="center">
@@ -82,7 +84,7 @@
             <div id="scroller_wrapper" class="bottom-fixed-scroll">
                 <div id="scroller" class="scroller-div"></div>
             </div>
-            <div class="col-sm-2 col-xs-2">
+            <div class="col-sm-2 col-xs-12">
             </div>
         </div>
         <br>
@@ -94,8 +96,11 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-sm-3 col-xs-3">
-                        <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='{$SITEURL}index.php?module={$MODULE}&view=List&operation=sync&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i>{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULE)}</a>
+                    <div class="col-sm-3 col-xs-12">
+                        <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='{$SITEURL}index.php?module={$MODULE}&view=List&operation=sync&sourcemodule={$SOURCEMODULE}'>
+				<i class="fa fa-google-plus"></i>
+				<span class="ml30">{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULE)}</span>
+			</a>
                     </div>
                 </div>
             {else}
@@ -107,19 +112,19 @@
                 <br>
                 {if $USER_EMAIL}
                     <div class="row">
-                        <div class="col-sm-3 col-xs-3">
+                        <div class="col-sm-3 col-xs-12">
                             <h5 class="module-title pull-left fieldLabel"> {vtranslate('LBL_GOOGLE_ACCOUNT_SYNCED_WITH', $MODULE)}  </h5>
                         </div>
-                        <div class="col-sm-4 col-xs-4">
+                        <div class="col-sm-4 col-xs-12">
                             <input class="listSearchContributor col-sm-12 col-xs-12" type="text" value="{$USER_EMAIL}" disabled="disabled" style="height: 30px;">
                         </div>
                     </div>
                 {/if}
                 <div class="row" style="margin-top: 10px;">
-                    <div class="col-sm-3 col-xs-3">
+                    <div class="col-sm-3 col-xs-12">
                         &nbsp;
                     </div>
-                    <div class="col-sm-3 col-xs-3">
+                    <div class="col-sm-3 col-xs-12">
                         <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULE}&view=List&operation=changeUser&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i> {vtranslate('LBL_CHANGE_USER', $MODULE)} </a>
                     </div>
                 </div>

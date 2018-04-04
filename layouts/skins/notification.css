@@ -1,0 +1,284 @@
+/* Notification styles */
+body {
+  background: #f8f8f8; 
+  overflow-x: hidden;
+}
+.joforce-box {
+  margin: 0; padding: 0;
+  margin: 20px 0;
+  height: 100%;
+  overflow: hidden;
+}
+.joforce-dash{
+  width: 100%;  background: #fff; overflow-x:auto; 
+}
+.joforce-dash-container{
+  margin:auto; position: relative;
+  width: 785px; height: 510px;
+  background: url('images/notification/dashboard.png');
+  background-repeat:no-repeat;
+  background-size: 650px 500px;
+}
+
+.dash-widgets{
+  margin-bottom: 5px;
+}
+.dash-widgets li {
+  display: inline-block;
+  text-align: center;
+}
+.dash-widgets li:hover  .dash-widgets li span{
+  font-weight: bold;
+}
+.dash-icons {     
+  text-align:center;
+  padding-bottom: 5px;
+}
+.dash-icons img{
+  width: 25px;
+  height: 25px;
+  margin: 0 auto;
+  text-align:center;
+}
+.dash-widgets-side{
+  position: absolute;
+  top: 85px; left: 640px;
+}
+.dash-widgets-side{
+  padding-left: 10px;
+}
+.dash-widgets-side li{
+  text-align: left;
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  font-size: 14px;
+  min-width: 100px;
+  margin-bottom: 38px;
+}
+.dash-widgets li {
+  float: left; text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  min-width: 100px;
+  font-size: 14px;
+}
+.dash-widgets li a , .dash-widgets-side li a{
+  text-decoration: none;
+  color:#333;
+}
+.dash-widgets li .count{
+  border-radius: 7px;
+  background: #EB5855;
+  position: absolute;
+  top: -5px; left: 50%;
+  line-height: 1.5;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  padding: 2px 5px;
+  line-height: 12px;
+  font-size: 13px;
+}
+
+.dash-widgets-side li .count{
+  border-radius: 7px;
+  background: #EB5855;
+  position: absolute;
+  top: -5px; left: 10px;
+  line-height: 1.5;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  padding: 2px 5px;
+  line-height: 12px;
+  font-size: 13px;
+}
+
+
+.dash-widgets li .count.zero,.dash-widgets-side li .count.zero{
+background: #656565;
+
+}
+
+.dash-widgets-side a.disable img{
+ opacity: 0.5;
+ filter: gray;
+ -webkit-filter: grayscale(1);
+ filter: grayscale(1);
+}
+.dash-widgets-side a.disable span{
+  color:#8a8a8a;
+}
+.dash-widgets-side a.disable{
+ cursor: default;
+ pointer-events: none;
+}
+.dash-widgets-side .dash-icons, .dash-widgets-side span{
+  display: inline-block;
+}
+.dash-widgets-side span{
+  margin-left: 10px;
+}
+@media only  screen and (max-width:480px){
+  .dash-widgets li{
+  }
+}
+.dash-widgets a.disable img{
+  opacity: 0.5;
+  filter: gray;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+.dash-widgets a.disable  span{
+  color:#8a8a8a;
+}
+.dash-widgets a.disable{
+  cursor: default;
+  pointer-events: none;
+}
+.dash-widgets li{
+  position: absolute;
+}
+.dash-leads{
+  top: 15px; left: 40px;
+}
+.dash-contacts{
+  top: 15px; left: 210px;
+}
+.dash-organizations{
+  top: 15px; left: 400px;
+}
+.dash-opportunities{
+  top: 140px; left: 210px;
+} 
+.dash-campaigns{
+  top: 140px; left: 400px;
+}
+.dash-products{
+ top: 220px;left: 25px;
+}
+.dash-services{
+ top: 310px; left: 25px;
+}
+.dash-quotes{
+  top: 250px;left: 185px;
+}
+.dash-sales-order{
+  top: 250px; left: 480px;
+}
+.dash-invoice{
+  top: 250px; left: 330px;
+}
+.dash-vendor{
+  top: 340px; left: 185px;
+}
+.dash-purchase-orders{
+  top: 340px; left: 330px;
+}
+.dash-project{
+  top: 430px;left: 25px;
+}
+.dash-milestone{
+  top: 430px; left: 185px;
+}
+.dash-projecttask{
+  top: 430px;left: 330px;
+}
+@media only screen and (max-width: 900px) {
+  .joforce-dash-aside{
+    float: none;
+    width: 100%;
+    margin-bottom: 30px;
+    height: auto;
+    background: #bfbdbd;
+    height: 90px;     
+  }
+  .joforce-dash-aside li{
+    margin-left: 5%;
+    display: inline-block;
+    height: 80px;
+    top: 20px;
+  }
+  .joforce-dash{
+    float: none;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .joforce-dash-container{
+    width: 870px; height: 710px;
+    background-repeat:no-repeat;
+    background-size: 824px 700px;
+  }
+  .dash-leads{
+    top: 25px; left: 80px;
+  }
+  .dash-contacts{
+    top: 25px;left: 290px;
+  }
+  .dash-organizations{
+    top: 25px; left: 530px;
+  }
+  .dash-opportunities{
+    top: 200px; left: 290px;
+  } 
+  .dash-campaigns{
+    top: 200px; left: 530px;
+  }
+  .dash-products{
+   top: 310px;left: 55px;
+ }
+ .dash-services{
+   top: 450px; left: 55px;
+ }
+ .dash-quotes{
+  top: 360px;left: 265px;
+}
+.dash-sales-order{
+  top: 360px; left: 600px;
+}
+.dash-invoice{
+  top: 360px; left: 440px;
+}
+.dash-vendor{
+  top: 470px; left: 260px;
+}
+.dash-purchase-orders{
+  top: 470px; left: 440px;
+}
+.dash-project{
+  top: 620px; left: 55px;
+}
+.dash-milestone{
+  top: 620px; left: 230px;
+}
+.dash-projecttask{
+  top: 620px;left: 440px;
+}
+
+
+.dash-widgets-side {
+  top: 120px; left: 820px;
+}
+.dash-widgets-side li {
+  margin-bottom: 68px;
+  min-width: 200px;
+}
+}
+
+@media only screen and (max-width: 768px) {
+
+.joforce-box {
+  margin-top: 30px !important;
+}
+
+}
+

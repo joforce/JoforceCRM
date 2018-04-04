@@ -23,7 +23,7 @@
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELDS}
 								<tr>
 									<td class="fieldLabel control-label" style="width:25%; padding-right:20px;"><label>{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}</label>
-									<td style="word-wrap:break-word;">
+									<td style="word-wrap:break-word;" style="fieldValue">
 										{assign var=FIELD_DATA_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{if $FIELD_DATA_TYPE eq 'picklist'}
 											{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPickListValues()}

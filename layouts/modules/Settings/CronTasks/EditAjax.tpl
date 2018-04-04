@@ -11,9 +11,10 @@
 {strip}
 	<div class="modal-dialog modelContainer">
 		{assign var=HEADER_TITLE value={vtranslate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}}
-		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+		
 		<div class="modal-content">
 			<form class="form-horizontal" id="cronJobSaveAjax" method="post" action="index.php">
+			{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" name="action" value="SaveAjax" />

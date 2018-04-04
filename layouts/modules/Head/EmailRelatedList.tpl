@@ -52,7 +52,6 @@
         </div>
                     
         <div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-            <div class="bottomscroll-div">
                 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                 <table id="listview-table"  class="table listview-table">
                     <thead>
@@ -135,6 +134,6 @@
                     {/foreach}
                 </table>
             </div>
-        </div>
+        <div class="bottomscroll-div"></div>
     </div>
 {/strip}

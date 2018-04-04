@@ -24,10 +24,12 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View {
     }
     
     public function getContents(Head_Request $request) {
+        global $site_URL;
         $this->initialize($request);
 		
         $qualifiedModuleName = $request->getModule(false);
         $viewer = $this->getViewer ($request);
+        $viewer->assign('SITEURL', $site_URL);
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
         $viewer->assign('SHOW_EXISTING_PROFILES', true);
         return $viewer->view('EditViewContents.tpl',$qualifiedModuleName,true);

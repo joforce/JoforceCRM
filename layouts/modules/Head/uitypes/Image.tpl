@@ -51,8 +51,8 @@
 		{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 			<div class="row" style="margin-top:5px;">
 				{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-					<span class="col-lg-6" name="existingImages"><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" width="400" height="250" ></span>
-					<span class="col-lg-3">
+					<span class="col-lg-12" name="existingImages"><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" width="400" height="250" ></span>
+					<span class="col-lg-12">
 						<span class="row">
 							<span class="col-lg-11">[{$IMAGE_INFO.name}]</span>
 							<span class="col-lg-1"><input type="button" id="file_{$ITER}" value="{vtranslate('LBL_DELETE','Head')}" class="imageDelete"></span>

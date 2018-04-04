@@ -15,6 +15,7 @@
                         if(empty($IsUpdated)){
                                 $adb->pquery('update users set jo_user_id = ? where username = ?', array($user_id, $account['email']));
                         }
+//                        echo"<pre>";print_r($account);die;
                         if ($account) {
                                 $url .= '?server='.$account['name'];
                                 $url .= '&port='.$account['port'];
@@ -29,7 +30,10 @@
                                                 }
                                         } else {                                        
                                                  $rc_pass = base64_decode($account['password']);
-                                                $rcl->login($account['email'], $rc_pass);
+                                                $result = $rcl->login($account['email'], $rc_pass);
+                                                if(empty($result)){
+                                                      $viewer->assign('FAILED', true);
+                                                }
                                         }
                                 } catch (RoundcubeLoginException $ex) {
                                         $log = vglobal('log');
@@ -37,7 +41,7 @@
                                 }
                         }
                         else
-                                 header('Location: '.$site_URL.'EmailPlus/ServerSettings');
+                                 header('Location: '.$site_URL.'EmailPlus/view/ServerSettings');
                 }
                 $viewer->assign('URL', $url);
                 $viewer->view('List.tpl', $moduleName);

@@ -39,7 +39,7 @@
 										{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}  
 											onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
 										{else} 
-											onclick='window.location.href = "{$BASIC_ACTION->getUrl()}/{$SELECTED_MENU_CATEGORY}"'
+											onclick='window.location.href = "{$BASIC_ACTION->getUrl()}"'
 										{/if}>
 									<div class="fa {$BASIC_ACTION->getIcon()}" aria-hidden="true"></div>&nbsp;&nbsp;
 									{vtranslate($BASIC_ACTION->getLabel(), $MODULE)}

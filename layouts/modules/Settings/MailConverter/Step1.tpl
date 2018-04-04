@@ -33,7 +33,7 @@
 									<td class="fieldLabel control-label" style="width:25%;">
 										<label>{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}{if $FIELD_MODEL->isMandatory()} <span class="redColor">*</span>{/if}</label>
 									</td>
-									<td style="word-wrap:break-word;">
+									<td style="word-wrap:break-word;" class="fieldValue">
 										{assign var=FIELD_DATA_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{if $FIELD_DATA_TYPE eq 'password'}
 											<input class="fieldValue inputElement" type="password" name="{$FIELD_MODEL->getName()}" {if $RECORD_EXISTS} value="{$RECORD_MODEL->get($FIELD_NAME)}" {/if}

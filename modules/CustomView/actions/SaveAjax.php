@@ -57,7 +57,7 @@ class CustomView_SaveAjax_Action extends CustomView_Save_Action {
 			 */
 			$listViewSessionKey = $customViewModel->getModule()->getName().'_'.$cvid;
 			Head_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
-			$response->setResult(array('message'=>vtranslate('List columns saved successfully',$request->getModule()), 'listviewurl'=>$customViewModel->getModule()->getListViewUrl().'/'.$cvid));
+			$response->setResult(array('message'=>vtranslate('List columns saved successfully',$request->getModule()), 'listviewurl'=>$customViewModel->getModule()->getListViewUrl().'/filter/'.$cvid));
 		} else {
 			$response->setError(vtranslate('Filter does not exist',$request->getModule()));
 		}

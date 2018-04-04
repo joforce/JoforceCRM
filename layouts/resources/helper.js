@@ -1042,5 +1042,48 @@ jQuery.Class("Head_Helper_Js",{
         var $parent = selector && $(selector);
 
         return $parent && $parent.length ? $parent : $this.parent();
-    }
+    },
+	
+	registerTableAlignment : function() {
+        $('.table-container .fixed-scroll-table').each(function(){
+		        var sw = $(window).width();
+                var tw = $(this).width();
+                $.fn.columnCount = function() {
+                   return $('th', $(this).closest('#listview-table.listview-table').find('thead')).length;
+                };
+                var colctr = $(this).find('#listview-table.listview-table').columnCount();
+                var tc = ((colctr-1)/2)-2;
+                var value = tw/tc;
+                var av = 300/tc;
+                var addvalue = value+av;
+                if(sw < tw){
+                        $(this).find('#listview-table.listview-table').css("width","100%");
+                }
+                else if(tc == 0){
+                        $(this).find('#listview-table.listview-table').addClass('listview-table-onerecords');
+                }
+                else if(tc == 1){
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '100%');
+                }
+                else if(tc == 2){
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '50%');
+                }
+                else if(tc == 3){
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '33.33%');
+                }
+                else if(tc == 4){
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '25%');
+                }
+                else if(tc == 5){
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '20%');
+                }
+                else if(tc == 6){
+                        $(this).find('#listview-table.listview-table').css("width","100%");
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '16.6%');
+                }
+                else{
+                        $(this).find('#listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
+                }
+	});
+}
 });

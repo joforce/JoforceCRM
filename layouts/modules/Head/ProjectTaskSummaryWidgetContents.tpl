@@ -36,9 +36,9 @@
 							{if $FIELD_MODEL->isViewableInDetailView()}
 							<div class="col-lg-6">
 								<div class="row">
-									<span class="col-lg-6">{$TASK_PROGRESS_HEADER} :</span>
+									<span class="col-lg-8">{$TASK_PROGRESS_HEADER} :</span>
 									{if $PERMISSIONS && $FIELD_MODEL->isEditable()}
-										<span class="col-lg-6">
+										<span class="col-lg-4">
 											<div class="dropdown pull-left">
 												<a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="fieldValue">{$RELATED_RECORD->getDisplayValue('projecttaskprogress')}</span>&nbsp;<b class="caret"></b></a>
 												<ul class="dropdown-menu widgetsList" data-recordid="{$RELATED_RECORD->getId()}" data-fieldname="projecttaskprogress" 
@@ -61,9 +61,9 @@
 							{if $FIELD_MODEL->isViewableInDetailView()}
 							<div class="col-lg-6">
 								<div class="row">
-									<span class="col-lg-6">{$TASK_STATUS_HEADER} :</span>
+									<span class="col-lg-8">{$TASK_STATUS_HEADER} :</span>
 									{if $PERMISSIONS && $FIELD_MODEL->isEditable()}
-										<span class="col-lg-6 nav nav-pills">
+										<span class="col-lg-4 nav nav-pills">
 											<div class="dropdown pull-left">
 												<a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="fieldValue">{$RELATED_RECORD->getDisplayValue('projecttaskstatus')}</span>&nbsp;<b class="caret"></b></a>
 												<ul class="dropdown-menu widgetsList pull-right" data-recordid="{$RELATED_RECORD->getId()}" data-fieldname="projecttaskstatus" 

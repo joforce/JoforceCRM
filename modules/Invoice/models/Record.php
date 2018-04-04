@@ -17,6 +17,6 @@ class Invoice_Record_Model extends Inventory_Record_Model {
 	public function getCreatePurchaseOrderUrl() {
         global $site_URL;
 		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
-		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL.$purchaseOrderModuleModel->getName()."/view/".$purchaseOrderModuleModel->getEditViewName()."?invoice_id=".$this->getId();
 	}
 }

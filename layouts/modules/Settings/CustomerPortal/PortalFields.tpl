@@ -40,12 +40,12 @@
 			<br>
 			<div class="row">
 				<div class="col-sm-12 addFieldsBlock">
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<select class="inputElement select2 addFields" name="addField_{$MODULE}" id="addField_{$MODULE}" multiple>
 							<option></option>
 						</select>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-6">
 						<button title="{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}" class="btn btn-default" id="addFieldButton_{$MODULE}">{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}</button>
 					</div>
 				</div>

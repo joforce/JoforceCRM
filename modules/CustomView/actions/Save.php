@@ -26,7 +26,7 @@ class CustomView_Save_Action extends Head_Action_Controller {
              */
             $listViewSessionKey = $sourceModuleName.'_'.$cvId;
             Head_ListView_Model::deleteParamsSession($listViewSessionKey,'list_headers');
-			$response->setResult(array('id'=>$cvId, 'listviewurl'=>$moduleModel->getListViewUrl().'/'.$cvId));
+			$response->setResult(array('id'=>$cvId, 'listviewurl'=>$moduleModel->getListViewUrl().'/filter/'.$cvId));
 		} else {
 			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
 		}
@@ -68,6 +68,7 @@ class CustomView_Save_Action extends Head_Action_Controller {
 		if(!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;
 		}
+
         if($request->has('sharelist')) {
             $customViewData['sharelist'] = $request->get('sharelist');
             if($customViewData['sharelist'] == '1')

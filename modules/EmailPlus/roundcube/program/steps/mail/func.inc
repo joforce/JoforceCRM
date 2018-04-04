@@ -83,7 +83,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $OUTPUT->set_env('threading', $threading);
     $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
     $OUTPUT->set_env('reply_all_mode', (int) $RCMAIL->config->get('reply_all_mode'));
-    $OUTPUT->set_env('preview_pane_mark_read', (int) $RCMAIL->config->get('preview_pane_mark_read'));
+    $OUTPUT->set_env('layout', $RCMAIL->config->get('layout') ?: 'widescreen');
 
     if ($RCMAIL->storage->get_capability('QUOTA')) {
         $OUTPUT->set_env('quota', true);
@@ -109,7 +109,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
             'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching',
             'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
-            'priority', 'withattachment', 'fileuploaderror');
+            'priority', 'withattachment', 'fileuploaderror', 'mark', 'markallread',
+            'folders-cur', 'folders-sub', 'folders-all', 'cancel');
     }
 }
 
@@ -119,6 +120,7 @@ $OUTPUT->add_handlers(array(
     'quotadisplay'        => array($RCMAIL, 'quota_display'),
     'messages'            => 'rcmail_message_list',
     'messagecountdisplay' => 'rcmail_messagecount_display',
+    'listmenulink'        => 'rcmail_options_menu_link',
     'mailboxname'         => 'rcmail_mailbox_name_display',
     'messageheaders'      => 'rcmail_message_headers',
     'messagefullheaders'  => 'rcmail_message_full_headers',
@@ -141,6 +143,7 @@ $RCMAIL->register_action_map(array(
     'expunge' => 'folders.inc',
     'purge'   => 'folders.inc',
     'remove-attachment'  => 'attachments.inc',
+    'rename-attachment'  => 'attachments.inc',
     'display-attachment' => 'attachments.inc',
     'upload'             => 'attachments.inc',
     'group-expand'       => 'autocomplete.inc',
@@ -356,13 +359,22 @@ function rcmail_message_list($attrib)
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
 
+    $listcols = $a_show_cols;
+
+    // Widescreen layout uses hardcoded list of columns
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
+        $listcols    = $a_show_cols;
+        array_shift($listcols);
+    }
+
     // set client env
     $OUTPUT->add_gui_object('messagelist', $attrib['id']);
     $OUTPUT->set_env('autoexpand_threads', intval($RCMAIL->config->get('autoexpand_threads')));
     $OUTPUT->set_env('sort_col', $_SESSION['sort_col']);
     $OUTPUT->set_env('sort_order', $_SESSION['sort_order']);
     $OUTPUT->set_env('messages', array());
-    $OUTPUT->set_env('listcols', $a_show_cols);
+    $OUTPUT->set_env('listcols', $listcols);
 
     $OUTPUT->include_script('list.js');
 
@@ -424,6 +436,11 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = array_unique($a_show_cols);
     $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
+    // Widescreen layout uses hardcoded list of columns
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
+    }
+
     // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
     // and list columns
     $plugin = $RCMAIL->plugins->exec_hook('messages_list',
@@ -432,6 +449,14 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = $plugin['cols'];
     $a_headers   = $plugin['messages'];
 
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        if (!$RCMAIL->storage->get_threading()) {
+            if (($idx = array_search('threads', $a_show_cols)) !== false) {
+                unset($a_show_cols[$idx]);
+            }
+        }
+    }
+
     $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
     // get name of smart From/To column in folder context
@@ -439,7 +464,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $smart_col = rcmail_message_list_smart_column_name();
     }
 
-    $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
+    $OUTPUT->command('set_message_coltypes', array_values($a_show_cols), $thead, $smart_col);
 
     if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
@@ -462,8 +487,9 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // loop through message headers
     foreach ($a_headers as $header) {
-        if (empty($header))
+        if (empty($header) || !$header->size) {
             continue;
+        }
 
         // make message UIDs unique by appending the folder name
         if ($multifolder) {
@@ -480,8 +506,10 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         foreach ($a_show_cols as $col) {
             $col_name = $col == 'fromto' ? $smart_col : $col;
 
-            if (in_array($col_name, array('from', 'to', 'cc', 'replyto')))
+            if (in_array($col_name, array('from', 'to', 'cc', 'replyto'))) {
                 $cont = rcmail_address_string($header->$col_name, 3, false, null, $header->charset);
+                if (empty($cont)) $cont = '&nbsp;'; // for widescreen mode
+            }
             else if ($col == 'subject') {
                 $cont = trim(rcube_mime::decode_header($header->$col, $header->charset));
                 if (!$cont) $cont = $RCMAIL->gettext('nosubject');
@@ -494,8 +522,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             else if ($col == 'folder') {
                 if ($last_folder !== $header->folder) {
                     $last_folder      = $header->folder;
-                    $last_folder_name = rcube_charset::convert($last_folder, 'UTF7-IMAP');
-                    $last_folder_name = $RCMAIL->localize_foldername($last_folder_name, true);
+                    $last_folder_name = $RCMAIL->localize_foldername($last_folder, true);
                     $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
                 }
 
@@ -518,6 +545,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             $a_msg_flags['has_children'] = $header->has_children;
         if ($header->unread_children)
             $a_msg_flags['unread_children'] = $header->unread_children;
+        if ($header->flagged_children)
+            $a_msg_flags['flagged_children'] = $header->flagged_children;
         if ($header->others['list-post'])
             $a_msg_flags['ml'] = 1;
         if ($header->priority)
@@ -565,22 +594,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
-        $inner   = $RCMAIL->gettext('listoptions');
-        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-            $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $RCMAIL->gettext('listoptions')));
-        }
-        $list_menu = html::a(array(
-            'href' => '#list-options',
-            'onclick' => $onclick,
-            'class' => 'listmenu',
-            'id' => 'listmenulink',
-            'title' => $RCMAIL->gettext('listoptions'),
-            'tabindex' => '0',
-        ), $inner);
-    }
-    else {
-        $list_menu = '';
+        $list_menu = rcmail_options_menu_link($attrib);
     }
 
     $cells = $coltypes = array();
@@ -608,7 +622,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
-            $col_name = $list_menu;
+            $col_name = (string) $list_menu;
             break;
         case 'fromto':
             $label    = $RCMAIL->gettext($smart_col);
@@ -645,8 +659,29 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     return $cells;
 }
 
+function rcmail_options_menu_link($attrib)
+{
+    global $RCMAIL;
+
+    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+    $inner   = $title = $RCMAIL->gettext('listoptions');
+
+    if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+        $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
+    }
+
+    return html::a(array(
+            'href'     => '#list-options',
+            'onclick'  => $onclick,
+            'class'    => 'listmenu',
+            'id'       => 'listmenulink',
+            'title'    => $title,
+            'tabindex' => '0',
+    ), $inner);
+}
+
 /**
- * return an HTML iframe for loading mail content
+ * Return an HTML iframe for loading mail content
  */
 function rcmail_messagecontent_frame($attrib)
 {
@@ -767,7 +802,7 @@ function rcmail_get_unseen_count($mbox_name)
  *
  * @param object rcube_message Message
  */
-function rcmail_check_safe(&$message)
+function rcmail_check_safe($message)
 {
     global $RCMAIL;
 
@@ -795,6 +830,8 @@ function rcmail_check_safe(&$message)
             break;
         }
     }
+
+    return !empty($message->is_safe);
 }
 
 /**
@@ -805,7 +842,7 @@ function rcmail_check_safe(&$message)
  * @param array  CID map replaces (inline images)
  * @return string Clean HTML
  */
-function rcmail_wash_html($html, $p, $cid_replaces)
+function rcmail_wash_html($html, $p, $cid_replaces = array())
 {
     global $REMOTE_OBJECTS;
 
@@ -858,6 +895,15 @@ function rcmail_wash_html($html, $p, $cid_replaces)
     // allow CSS styles, will be sanitized by rcmail_washtml_callback()
     if (!$p['skip_washer_style_callback']) {
         $washer->add_callback('style', 'rcmail_washtml_callback');
+    }
+
+    // modify HTML links to open a new window if clicked
+    if (!$p['skip_washer_link_callback']) {
+        $washer->add_callback('a', 'rcmail_washtml_link_callback');
+        $washer->add_callback('area', 'rcmail_washtml_link_callback');
+
+        if ($p['safe'])
+            $washer->add_callback('link', 'rcmail_washtml_link_callback');
     }
 
     // Remove non-UTF8 characters (#1487813)
@@ -919,7 +965,9 @@ function rcmail_print_body($body, $part, $p = array())
 
     // plaintext postprocessing
     if ($part->ctype_secondary == 'plain') {
-        $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
+        $flowed = $part->ctype_parameters['format'] == 'flowed';
+        $delsp = $part->ctype_parameters['delsp'] == 'yes';
+        $body = rcmail_plain_body($body, $flowed, $delsp);
     }
 
     // allow post-processing of the message body
@@ -937,9 +985,10 @@ function rcmail_print_body($body, $part, $p = array())
  *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body, $flowed = false)
+function rcmail_plain_body($body, $flowed = false, $delsp = false)
 {
-    $options   = array('flowed' => $flowed, 'wrap' => !$flowed, 'replacer' => 'rcmail_string_replacer');
+    $options   = array('flowed' => $flowed, 'wrap' => !$flowed, 'replacer' => 'rcmail_string_replacer',
+        'delsp' => $delsp);
     $text2html = new rcube_text2html($body, false, $options);
     $body      = $text2html->get_html();
 
@@ -969,7 +1018,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 
         // now check for evil strings like expression, behavior or url()
         if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
-            if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url(')) {
+            if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
                 $washtml->extlinks = true;
             }
             else {
@@ -1211,7 +1260,7 @@ function rcmail_message_body($attrib)
     if (!empty($MESSAGE->parts)) {
         foreach ($MESSAGE->parts as $part) {
             if ($part->type == 'headers') {
-                $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
+                $out .= html::div('message-partheaders', rcmail_message_headers(count($header_attrib) ? $header_attrib : null, $part->headers));
             }
             else if ($part->type == 'content') {
                 // unsupported (e.g. encrypted)
@@ -1251,36 +1300,30 @@ function rcmail_message_body($attrib)
                     rcmail_message_error($MESSAGE->uid);
                 }
 
-                // check if the message body is PGP encrypted
-                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
-                    $OUTPUT->set_env('is_pgp_content', '#message-part' . ($part_no + 1));
-                }
-
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
+                // Set attributes of the part container
+                $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+                $container_id     = $container_class . (++$part_no);
+                $container_attrib = array('class' => $container_class, 'id' => $container_id);
+
+                // Assign container ID to a global variable for use in rcmail_washtml_link_callback()
+                $GLOBALS['rcmail_html_container_id'] = $container_id;
+
+                // Parse the part content for display
                 $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
+                // check if the message body is PGP encrypted
+                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+                    $OUTPUT->set_env('is_pgp_content', '#' . $container_id);
+                }
+
                 if ($part->ctype_secondary == 'html') {
-                    $container_id = 'message-htmlpart' . (++$part_no);
-                    $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
-                    $div_attr     = array('class' => 'message-htmlpart', 'id' => $container_id);
-                    $style        = array();
-
-                    if (!empty($attrs)) {
-                        foreach ($attrs as $a_idx => $a_val)
-                            $style[] = $a_idx . ': ' . $a_val;
-                        if (!empty($style))
-                            $div_attr['style'] = implode('; ', $style);
-                    }
-
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
+                    $body = rcmail_html4inline($body, $container_id, 'rcmBody', $container_attrib, $safe_mode);
                 }
-                else {
-                    $container_id = 'message-part' . (++$part_no);
-                    $div_attr     = array('class' => 'message-part', 'id' => $container_id);
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
-                }
+
+                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
             }
         }
     }
@@ -1316,6 +1359,7 @@ function rcmail_message_body($attrib)
             if ($mimetype = rcmail_part_image_type($attach_prop)) {
                 // display thumbnails
                 if ($thumbnail_size) {
+                    $supported = in_array($mimetype, $client_mimetypes);
                     $show_link = array(
                         'href'    => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                         'onclick' => sprintf(
@@ -1323,7 +1367,8 @@ function rcmail_message_body($attrib)
                             rcmail_output::JS_OBJECT_NAME,
                             $attach_prop->mime_id)
                     );
-                    $out .= html::p('image-attachment',
+
+                    $out .= html::p(array('class' => 'image-attachment', 'style' => $supported ? '' : 'display:none'),
                         html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
                             html::img(array(
                                 'class' => 'image-thumbnail',
@@ -1331,12 +1376,13 @@ function rcmail_message_body($attrib)
                                 'title' => $attach_prop->filename,
                                 'alt'   => $attach_prop->filename,
                                 'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
+                                'onload' => $supported ? '' : '$(this).parents(\'p.image-attachment\').show()',
                             ))
                         ) .
                         html::span('image-filename', rcube::Q($attach_prop->filename)) .
                         html::span('image-filesize', rcube::Q($RCMAIL->message_part_size($attach_prop))) .
                         html::span('attachment-links',
-                            (in_array($mimetype, $client_mimetypes) ? html::a($show_link, $RCMAIL->gettext('showattachment')) . '&nbsp;' : '') .
+                            ($supported ? html::a($show_link, $RCMAIL->gettext('showattachment')) . '&nbsp;' : '') .
                                 html::a($show_link['href'] . '&_download=1', $RCMAIL->gettext('download'))
                         ) .
                         html::br(array('style' => 'clear:both'))
@@ -1367,17 +1413,22 @@ function rcmail_message_body($attrib)
 
 function rcmail_part_image_type($part)
 {
-    // Skip TIFF images if browser doesn't support this format...
-    $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
-    // until we can convert them to JPEG
-    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
+    $mimetype = strtolower($part->mimetype);
 
-    // Content-type regexp
-    $mime_regex = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';
+    // Skip TIFF/WEBP images if browser doesn't support this format
+    // ...until we can convert them to JPEG
+    $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tiff']);
+    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
+    $webp_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['webp']);
+    $webp_support = $webp_support || rcube_image::is_convertable('image/webp');
+
+    if ((!$tiff_support && $mimetype == 'image/tiff') || (!$webp_support && $mimetype == 'image/webp')) {
+        return;
+    }
 
     // Content-Type: image/*...
-    if (preg_match($mime_regex, $part->mimetype)) {
-        return rcmail_fix_mimetype($part->mimetype);
+    if (strpos($mimetype, 'image/') === 0) {
+        return rcmail_fix_mimetype($mimetype);
     }
 
     // Many clients use application/octet-stream, we'll detect mimetype
@@ -1395,9 +1446,12 @@ function rcmail_part_image_type($part)
         $types['tif']  = 'image/tiff';
         $types['tiff'] = 'image/tiff';
     }
+    if ($webp_support) {
+        $types['webp'] = 'image/webp';
+    }
 
     if ($part->filename
-        && preg_match('/^application\/octet-stream$/i', $part->mimetype)
+        && $mimetype == 'application/octet-stream'
         && preg_match('/\.([^.]+)$/i', $part->filename, $m)
         && ($extension = strtolower($m[1]))
         && isset($types[$extension])
@@ -1407,9 +1461,9 @@ function rcmail_part_image_type($part)
 }
 
 /**
- * modify a HTML message that it can be displayed inside a HTML page
+ * Modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=null, $allow_remote=false)
+function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=array(), $allow_remote=false)
 {
     $last_style_pos = 0;
     $cont_id        = $container_id . ($body_class ? ' div.'.$body_class : '');
@@ -1427,13 +1481,8 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
         $last_style_pos = $pos2 + strlen($styles) - $len;
     }
 
-    // modify HTML links to open a new window if clicked
-    $GLOBALS['rcmail_html_container_id'] = $container_id;
-    $body = preg_replace_callback('/<(a|link|area)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
-    unset($GLOBALS['rcmail_html_container_id']);
-
     $body = preg_replace(array(
-            // add comments arround html and other tags
+            // add comments around html and other tags
             '/(<!DOCTYPE[^>]*>)/i',
             '/(<\?xml[^>]*>)/i',
             '/(<\/?html[^>]*>)/i',
@@ -1461,41 +1510,48 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
         ),
         $body);
 
-    $attributes = array();
-
     // Handle body attributes that doesn't play nicely with div elements
     $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
+        $style = array();
         $attrs = $m[0];
 
         // Get bgcolor, we'll set it as background-color of the message container
         if ($m[1] && preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
-            $attributes['background-color'] = $mb[1];
+            $style['background-color'] = $mb[1];
             $attrs = preg_replace('/bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
         }
 
         // Get background, we'll set it as background-image of the message container
         if ($m[1] && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
-            $attributes['background-image'] = 'url('.$mb[1].')';
+            $style['background-image'] = 'url('.$mb[1].')';
             $attrs = preg_replace('/background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
         }
 
-        if (!empty($attributes)) {
+        if (!empty($style)) {
             $body = preg_replace($regexp, rtrim($attrs), $body, 1);
         }
 
         // handle body styles related to background image
-        if ($attributes['background-image']) {
+        if ($style['background-image']) {
             // get body style
             if (preg_match('/#'.preg_quote($cont_id, '/').'\s+\{([^}]+)}/i', $body, $m)) {
                 // get background related style
                 $regexp = '/(background-position|background-repeat)\s*:\s*([^;]+);/i';
-                if (preg_match_all($regexp, $m[1], $ma, PREG_SET_ORDER)) {
-                    foreach ($ma as $style) {
-                        $attributes[$style[1]] = $style[2];
+                if (preg_match_all($regexp, $m[1], $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $m) {
+                        $style[$m[1]] = $m[2];
                     }
                 }
             }
+        }
+
+        if (!empty($style)) {
+            foreach ($style as $idx => $val) {
+                $style[$idx] = $idx . ': ' . $val;
+            }
+
+            $attributes['style'] = implode('; ', $style);
         }
     }
     // make sure there's 'rcmBody' div, we need it for proper css modification
@@ -1508,19 +1564,18 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
 }
 
 /**
- * parse link (a, link, area) attributes and set correct target
+ * Parse link (a, link, area) attributes and set correct target
  */
-function rcmail_alter_html_link($matches)
+function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
 {
     global $RCMAIL;
 
-    $tag    = strtolower($matches[1]);
-    $attrib = html::parse_attrib_string($matches[2]);
-    $end    = '>';
+    $attrib = html::parse_attrib_string($attribs);
 
     // Remove non-printable characters in URL (#1487805)
-    if ($attrib['href'])
+    if ($attrib['href']) {
         $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
+    }
 
     if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
         $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
@@ -1531,8 +1586,9 @@ function rcmail_alter_html_link($matches)
     else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
         list($mailto, $url) = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
 
-        $url       = urldecode($url);
-        $mailto    = urldecode($mailto);
+        // #6020: use raw encoding for correct "+" character handling as specified in RFC6068
+        $url       = rawurldecode($url);
+        $mailto    = rawurldecode($mailto);
         $addresses = rcube_mime::decode_address_list($mailto, null, true);
         $mailto    = array();
 
@@ -1559,7 +1615,7 @@ function rcmail_alter_html_link($matches)
             $attrib['onclick'] = '';
         }
     }
-    else if (empty($attrib['href']) && !$attrib['name']) {
+    else if (empty($attrib['href']) && !isset($attrib['name'])) {
         $attrib['href']    = './#NOP';
         $attrib['onclick'] = 'return false';
     }
@@ -1576,11 +1632,11 @@ function rcmail_alter_html_link($matches)
     $allow = array('href','name','target','onclick','id','class','style','title',
         'rel','type','media','alt','coords','nohref','hreflang','shape');
 
-    return "<$tag" . html::attrib_string($attrib, $allow) . $end;
+    return html::tag($tag, $attrib, $content, $allow);
 }
 
 /**
- * decode address string and re-format it as HTML links
+ * Decode address string and re-format it as HTML links
  */
 function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, $default_charset=null, $title=null)
 {
@@ -1588,7 +1644,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 
     $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
 
-    if (!sizeof($a_parts)) {
+    if (!count($a_parts)) {
         return $input;
     }
 
@@ -1650,6 +1706,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             }
 
             if ($addicon && $_SESSION['writeable_abook']) {
+                $contact_detail = rcmail_output::JS_OBJECT_NAME;
                 $address .= html::a(array(
                         'href'    => "#add",
                         'title'   => $RCMAIL->gettext('addtoaddressbook'),
@@ -1658,24 +1715,69 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
                     html::img(array(
-                        'src' => $RCMAIL->output->abs_url($addicon, true),
-                        'alt' => "Add contact",
+                        'src'   => $RCMAIL->output->abs_url($addicon, true),
+                        'alt'   => "Add contact",
+                        'class' => 'noselect',
                 )));
+
+
+                $RC = rcube::get_instance();
+                $DB = rcube_db::factory($RC->config->get('db_dsnw'));
+                $DB->set_debug((bool)$RC->config->get('sql_debug'));
+
+                // Connect to database
+
+                $DB->db_connect('w');
+
+                // To get contact
+                $contact_info = $DB->query("select contactid from jo_contactdetails where email =  '$mailto' or secondaryemail = '$mailto'");
+                
+                $siteurl = $RCMAIL->config->get('siteurl');
+                $no_of_results = $DB->num_rows($contact_info);
+                if($no_of_results == 0){
+                // TODO - show an icon for to be added
+                    $address .= html::span(array(
+                            'title'   => 'Add contact to CRM',
+                            'class'   => 'quick-create-contact',
+                            'data-module-name'=> "Contacts",
+                            'data-contact-name' => $name,
+                            'data-contact-email' => $mailto,
+                            ),html::img(array(
+                                    'src' => sprintf("%smodules/EmailPlus/roundcube/skins/larry/images/add-contact.png", $siteurl),
+                                    'class' => 'quick-create-module',
+                                    'alt' => 'CRM',
+                                )
+                            )
+                        );
+                }else{
+                // TODO - show an icon for already added
+                    $address .= html::span(array(
+                            'title'   => 'Added contact to CRM',
+                            'data-module-name'=> "Contacts",
+                            'data-contact-name' => $name,
+                            'data-contact-email' => $mailto,
+                            ),html::img(array(
+                                    'src' => '',
+                                    'alt' => 'Added',
+                                )
+                            )
+                        );
+                } 
             }
         }
         else {
-            $address = '';
-            if ($name)
-                $address .= rcube::Q($name);
-            if ($mailto)
+            $address = $name ? rcube::Q($name) : '';
+            if ($mailto) {
                 $address = trim($address . ' ' . rcube::Q($name ? sprintf('<%s>', $mailto) : $mailto));
+            }
         }
 
         $address = html::span('adr', $address);
         $allvalues[] = $address;
 
-        if (!$moreadrs)
+        if (!$moreadrs) {
             $out .= ($out ? ', ' : '') . $address;
+        }
 
         if ($max && $j == $max && $c > $j) {
             if ($linked) {
@@ -1689,13 +1791,14 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     }
 
     if ($moreadrs) {
+        $label = rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs))));
+
         if ($PRINT_MODE) {
             $out .= ' ' . html::a(array(
                     'href'    => '#more',
                     'class'   => 'morelink',
                     'onclick' => '$(this).hide().next().show()',
-                ),
-                rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))))
+                ), $label)
                 . html::span(array('style' => 'display:none'), join(', ', $allvalues));
         }
         else {
@@ -1706,8 +1809,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                         rcmail_output::JS_OBJECT_NAME,
                         rcube::JQ(join(', ', $allvalues)),
                         rcube::JQ($title))
-                ),
-                rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))));
+                ), $label);
         }
     }
 
@@ -1826,7 +1928,7 @@ function rcmail_send_mdn($message, &$smtp_error)
             'From'       => $sender,
             'To'         => $message->headers->mdn_to,
             'Subject'    => $RCMAIL->gettext('receiptread') . ': ' . $message->subject,
-            'Message-ID' => $RCMAIL->gen_message_id(),
+            'Message-ID' => $RCMAIL->gen_message_id($identity['email']),
             'X-Sender'   => $identity['email'],
             'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
             'In-Reply-To' => $message->headers->messageID,
@@ -1861,7 +1963,7 @@ function rcmail_send_mdn($message, &$smtp_error)
         // SMTP options
         $options = array('mdn_use_from' => (bool) $RCMAIL->config->get('mdn_use_from'));
 
-        $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
+        $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options, true);
 
         if ($sent) {
             $RCMAIL->storage->set_flag($message->uid, 'MDNSENT');
@@ -1987,7 +2089,9 @@ function rcmail_fix_mimetype($name)
         'image/x-ms-bmp' => 'image/bmp', // #1490282
     );
 
-    if ($alias = $map[strtolower($name)]) {
+    $name = strtolower($name);
+
+    if ($alias = $map[$name]) {
         $name = $alias;
     }
     // Some versions of Outlook create garbage Content-Type:
@@ -2008,9 +2112,10 @@ function rcmail_attachment_name($attachment, $display = false)
 {
     global $RCMAIL;
 
-    $filename = $attachment->filename;
+    $filename = (string) $attachment->filename;
+    $filename = preg_replace('/[\x00-\x1F\x7F]/', '', $filename);
 
-    if ($filename === null || $filename === '') {
+    if ($filename === '') {
         if ($attachment->mimetype == 'text/html') {
             $filename = $RCMAIL->gettext('htmlmessage');
         }
@@ -2023,8 +2128,6 @@ function rcmail_attachment_name($attachment, $display = false)
             }
         }
     }
-
-    $filename = preg_replace('[\r\n]', '', $filename);
 
     // Display smart names for some known mimetypes
     if ($display) {
@@ -2119,46 +2222,18 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmImportform', 'buttons' => 'yes');
-
-    // Get filesize, enable upload progress bar
-    $max_filesize = $RCMAIL->upload_init();
-
-    $button    = new html_inputfield(array('type' => 'button'));
-    $fileinput = new html_inputfield(array(
-            'type'     => 'file',
-            'name'     => '_file[]',
-            'multiple' => 'multiple',
-            'accept'   => ".eml, .mbox, message/rfc822, text/*",
-    ));
-
-    $content = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
-        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
-        . html::div(null, $fileinput->show())
-        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-
-    if (rcube_utils::get_boolean($attrib['buttons'])) {
-        $content .= html::div('buttons',
-            $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()"))
-            . ' ' .
-            $button->show($RCMAIL->gettext('upload'), array(
-                'class'   => 'button mainaction',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('import-messages', this.form)"
-            )));
-    }
-
-    $out = $RCMAIL->output->form_tag(array(
-            'id'      => $attrib['id'].'Frm',
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data'
-        ),
-        $content);
-
-    $RCMAIL->output->add_gui_object('importform', $attrib['id'].'Frm');
     $RCMAIL->output->add_label('selectimportfile','importwait');
 
-    return html::div($attrib, $out);
+    $input_attr = array(
+        'multiple' => true,
+        'name'     => '_file[]',
+        'accept'   => ".eml, .mbox, message/rfc822, text/*",
+    );
+
+    $attrib['prefix'] = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'));
+
+    return $RCMAIL->upload_form($attrib, 'importform', 'import-messages', $input_attr);
 }
 
 /**
@@ -2225,41 +2300,50 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
         $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
         $filename = $params['filename'] ?: rcmail_attachment_name($part);
     }
-    else {
+    else if (is_object($message)) {
         // the whole message requested
-        $size = $message->size;
+        $size     = $message->size;
         $mimetype = 'message/rfc822';
         $filename = $params['filename'] ?: 'message_rfc822.eml';
     }
+    else if (is_string($message)) {
+        // the whole message requested
+        $size     = strlen($message);
+        $data     = $message;
+        $mimetype = $params['mimetype'];
+        $filename = $params['filename'];
+    }
 
-    // don't load too big attachments into memory
-    if (!rcube_utils::mem_check($size)) {
-        $temp_dir = unslashify($rcmail->config->get('temp_dir'));
-        $path     = tempnam($temp_dir, 'rcmAttmnt');
+    if (!isset($data)) {
+        // don't load too big attachments into memory
+        if (!rcube_utils::mem_check($size)) {
+            $temp_dir = unslashify($rcmail->config->get('temp_dir'));
+            $path     = tempnam($temp_dir, 'rcmAttmnt');
 
-        if ($fp = fopen($path, 'w')) {
-            if ($pid) {
-                // part body
-                $message->get_part_body($pid, false, 0, $fp);
+            if ($fp = fopen($path, 'w')) {
+                if ($pid) {
+                    // part body
+                    $message->get_part_body($pid, false, 0, $fp);
+                }
+                else {
+                    // complete message
+                    $storage->get_raw_body($message->uid, $fp);
+                }
+
+                fclose($fp);
             }
             else {
-                // complete message
-                $storage->get_raw_body($message->uid, $fp);
+                return false;
             }
-
-            fclose($fp);
+        }
+        else if ($pid) {
+            // part body
+            $data = $message->get_part_body($pid);
         }
         else {
-            return false;
+            // complete message
+            $data = $storage->get_raw_body($message->uid);
         }
-    }
-    else if ($pid) {
-        // part body
-        $data = $message->get_part_body($pid);
-    }
-    else {
-        // complete message
-        $data = $storage->get_raw_body($message->uid);
     }
 
     $attachment = array(
@@ -2270,7 +2354,7 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
         'data'       => $data,
         'path'       => $path,
         'size'       => $path ? filesize($path) : strlen($data),
-        'charset'    => $part ? $part->charset : null,
+        'charset'    => $part ? $part->charset : $params['charset'],
     );
 
     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
@@ -2299,4 +2383,39 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
     }
 
     return false;
+}
+
+// Return mimetypes supported by the browser
+function rcmail_supported_mimetypes()
+{
+    $rcmail = rcube::get_instance();
+
+    // mimetypes supported by the browser (default settings)
+    $mimetypes = (array) $rcmail->config->get('client_mimetypes');
+
+    // Remove unsupported types, which makes that attachment which cannot be
+    // displayed in a browser will be downloaded directly without displaying an overlay page
+    if (empty($_SESSION['browser_caps']['pdf']) && ($key = array_search('application/pdf', $mimetypes)) !== false) {
+        unset($mimetypes[$key]);
+    }
+
+    if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
+        unset($mimetypes[$key]);
+    }
+
+    foreach (array('tiff', 'webp') as $type) {
+        if (empty($_SESSION['browser_caps'][$type]) && ($key = array_search('image/' . $type, $mimetypes)) !== false) {
+            // can we convert it to jpeg?
+            if (!rcube_image::is_convertable('image/' . $type)) {
+                unset($mimetypes[$key]);
+            }
+        }
+    }
+
+    // @TODO: support mail preview for compose attachments
+    if ($rcmail->action != 'compose' && !in_array('message/rfc822', $mimetypes)) {
+        $mimetypes[] = 'message/rfc822';
+    }
+
+    return array_values($mimetypes);
 }

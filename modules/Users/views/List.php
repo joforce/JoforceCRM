@@ -34,7 +34,9 @@ class Users_List_View extends Settings_Head_List_View {
 	}
 
 	public function process(Head_Request $request) {
+		global $site_URL;
 		$viewer = $this->getViewer($request);
+		$viewer->assign('SITE_URL', $site_URL);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule(false));
 	}

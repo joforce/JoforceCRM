@@ -13,7 +13,7 @@
 			{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 				{$engagementEnabledModules = ['Accounts','Contacts','Leads']}
 				{if $MODULE_NAME|in_array:$engagementEnabledModules && (trim($RELATED_LINK->getLabel()) == 'LBL_UPDATES')}
-					{assign var=RELATEDLINK_URL value="$SITEURL"|cat:$MODULE_NAME|cat:"/Detail/"|cat:$RECORD->getId()|cat:"/showHistory/1"}
+					{assign var=RELATEDLINK_URL value="$SITEURL"|cat:$MODULE_NAME|cat:"/view/Detail/"|cat:$RECORD->getId()|cat:"/mode/showHistory?page=1"}
 					{assign var=RELATEDLINK_LABEL value="LBL_HISTORY"}
 					{assign var=RELATED_TAB_LABEL value="LBL_HISTORY"}
 				{else}
@@ -21,8 +21,8 @@
 					{assign var=RELATEDLINK_LABEL value=$RELATED_LINK->getLabel()}
 					{assign var=RELATED_TAB_LABEL value={vtranslate('SINGLE_'|cat:$MODULE_NAME, $MODULE_NAME)}|cat:" "|cat:$RELATEDLINK_LABEL}
 				{/if}
-				<li class="tab-item {if $RELATED_TAB_LABEL==$SELECTED_TAB_LABEL}active{/if}" data-url="{$RELATEDLINK_URL}/{$RELATED_TAB_LABEL}/{$SELECTED_MENU_CATEGORY}" data-label-key="{$RELATEDLINK_LABEL}" data-link-key="{$RELATED_LINK->get('linkKey')}" >
-					<a href="{$RELATEDLINK_URL}/{$RELATEDLINK_LABEL}/{$SELECTED_MENU_CATEGORY}" class="textOverflowEllipsis">
+				<li class="tab-item {if $RELATED_TAB_LABEL==$SELECTED_TAB_LABEL}active{/if}" data-url="{$RELATEDLINK_URL}" data-label-key="{$RELATEDLINK_LABEL}" data-link-key="{$RELATED_LINK->get('linkKey')}" >
+					<a href="{$RELATEDLINK_URL}" class="textOverflowEllipsis">
 						<span class="tab-label"><strong>{vtranslate($RELATEDLINK_LABEL,{$MODULE_NAME})}</strong></span>
 					</a>
 				</li>
@@ -43,9 +43,9 @@
 				{assign var=RELATEDMODULENAME value=$RELATED_LINK->getRelatedModuleName()}
 				{assign var=RELATEDFIELDNAME value=$RELATED_LINK->get('linkFieldName')}
 				{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(),$RELATEDMODULENAME)}
-				<li class="tab-item {if (trim($RELATED_LINK->getLabel())== trim($SELECTED_TAB_LABEL)) && ($RELATED_LINK->getId() == $SELECTED_RELATION_ID)}active{/if}"  data-url="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" data-label-key="{$RELATED_LINK->getLabel()}"
+				<li class="tab-item {if (trim($RELATED_LINK->getLabel())== trim($SELECTED_TAB_LABEL)) && ($RELATED_LINK->getId() == $SELECTED_RELATION_ID)}active{/if}"  data-url="{$SITEURL}{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}"
 					data-module="{$RELATEDMODULENAME}" data-relation-id="{$RELATED_LINK->getId()}" {if $RELATEDMODULENAME eq "ModComments"} title {else} title="{$DETAILVIEWRELATEDLINKLBL}"{/if} {if $RELATEDFIELDNAME}data-relatedfield ="{$RELATEDFIELDNAME}"{/if}>
-					<a href="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" class="textOverflowEllipsis" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="" >
+					<a href="{$SITEURL}{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" class="textOverflowEllipsis" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="" >
 						{if $RELATEDMODULENAME eq "ModComments"}
 							<span class="tab-label" ><strong>{$DETAILVIEWRELATEDLINKLBL}</strong></span>&nbsp;
 								{else}
@@ -68,9 +68,9 @@
 						{assign var=RELATEDMODULENAME value=$RELATED_LINK->getRelatedModuleName()}
 						{assign var=RELATEDFIELDNAME value=$RELATED_LINK->get('linkFieldName')}
 						{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(),$RELATEDMODULENAME)}
-						<li class="more-tab moreTabElement active"  data-url="{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" data-label-key="{$RELATED_LINK->getLabel()}"
+						<li class="more-tab moreTabElement active"  data-url="{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}"
 							data-module="{$RELATEDMODULENAME}" data-relation-id="{$RELATED_LINK->getId()}" {if $RELATEDMODULENAME eq "ModComments"} title {else} title="{$DETAILVIEWRELATEDLINKLBL}"{/if} {if $RELATEDFIELDNAME}data-relatedfield ="{$RELATEDFIELDNAME}"{/if}>
-							<a href="{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" class="textOverflowEllipsis" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="" >
+							<a href="{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}" class="textOverflowEllipsis" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="" >
 								{if $RELATEDMODULENAME eq "ModComments"}
 									<span class="tab-label" ><strong>{$DETAILVIEWRELATEDLINKLBL}</strong></span>&nbsp;
 								{else}  
@@ -90,7 +90,7 @@
 				<li class="dropdown related-tab-more-element">
 					<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">
 						<span class="tab-label"> 
-							<strong>{vtranslate("LBL_MORE",$MODULE_NAME)}</strong> &nbsp; <b class="fa fa-caret-down"></b>
+							<strong>{vtranslate("LBL_MORE",$MODULE_NAME)}</strong> &nbsp; <b class="caret"></b>
 						</span>
 					</a>
 					<ul class="dropdown-menu pull-right" id="relatedmenuList">
@@ -99,9 +99,9 @@
 							{assign var=RELATEDMODULENAME value=$RELATED_LINK->getRelatedModuleName()}
 							{assign var=RELATEDFIELDNAME value=$RELATED_LINK->get('linkFieldName')}
 							{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(),$RELATEDMODULENAME)}
-							<li class="more-tab {if (trim($RELATED_LINK->getLabel())== trim($SELECTED_TAB_LABEL)) && ($RELATED_LINK->getId() == $SELECTED_RELATION_ID)}active{/if}" data-url="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" data-label-key="{$RELATED_LINK->getLabel()}"
+							<li class="more-tab {if (trim($RELATED_LINK->getLabel())== trim($SELECTED_TAB_LABEL)) && ($RELATED_LINK->getId() == $SELECTED_RELATION_ID)}active{/if}" data-url="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}"
 								data-module="{$RELATEDMODULENAME}" title="" data-relation-id="{$RELATED_LINK->getId()}" {if $RELATEDFIELDNAME}data-relatedfield ="{$RELATEDFIELDNAME}"{/if}>
-								<a href="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}/{$SELECTED_MENU_CATEGORY}" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="">
+								<a href="{$SITEURL}{$RELATED_LINK->getUrl()}/{$RELATED_LINK->getLabel()}" displaylabel="{$DETAILVIEWRELATEDLINKLBL}" recordsCount="">
 									{if $RELATEDMODULENAME eq "ModComments"}
 										<span class="tab-label textOverflowEllipsis"><strong>{$DETAILVIEWRELATEDLINKLBL}</strong></span>&nbsp;
 									{else}  

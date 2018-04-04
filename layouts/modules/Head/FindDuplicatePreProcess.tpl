@@ -25,14 +25,4 @@
         </div>
     </div>
 	<div class="main-container main-container-{$MODULE}">
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div id="modnavigator" class="module-nav">
-			<div class="hidden-xs hidden-sm mod-switcher-container">
-				{include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-			</div>
-		</div>
-		<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
-			{include file="partials/SidebarEssentials.tpl"|vtemplate_path:$MODULE}
-		</div>
-		<div class="listViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="listViewContent">
-
+		<div class="listViewPageDiv content-area full-width" id="listViewContent">

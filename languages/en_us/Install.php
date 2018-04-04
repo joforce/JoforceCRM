@@ -59,7 +59,7 @@ $languageStrings = array(
 	'LBL_TRUE' => 'True',
 	'LBL_URL' => 'URL',
 	'LBL_USERNAME' => 'User Name',
-	'LBL_VTIGER7_SETUP_WIZARD_DESCRIPTION' => 'This wizard will guide you through the installation of JoForce',
+	'LBL_VTIGER7_SETUP_WIZARD_DESCRIPTION' => 'This wizard will guide you to configure your CRM and get you started quickly',
 	'LBL_WELCOME_TO_VTIGER7_SETUP_WIZARD' => 'Welcome to JoForce Setup Wizard',
 	'LBL_WELCOME' => 'Welcome',
 	'LBL_ZLIB_SUPPORT' => 'Zlib Support',
@@ -75,6 +75,8 @@ $languageStrings = array(
 	'LBL_PREREQUISITES_INSTALL' => 'Prerequisites',
 	'LBL_CONFIGURATION_INSTALL' => 'Configuration',
 	'LBL_CONFIRM_CONFIGURATION_INSTALL' => 'Confirm Configuration',
-	
-	
+	'LBL_JOFORCE_LICENSE_AGREEMENT' => 'JoForce License Agreement',
+	'LBL_FILE_PERMISSION_CHECK' => 'File Permission Check',
+	'LBL_INSTALLATION_SETTINGS' => 'Installation Settings',
+	'LBL_CHECK_INSTALLATION_SETTINGS' => 'Check Installation Settings'
 );

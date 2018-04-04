@@ -39,3 +39,18 @@ jQuery.Class("Head_Header_Js", {
     }
 },{
 });
+
+$(document).ready(function(){
+                $('.list-group .lists li.dropdown').hover(function(){
+                        $(this).children('i.hide-icon').toggle();
+                });
+
+                $('.dropdown-filter .btn-filter').click(function(){
+                    $('.filter-open').modal();
+                });
+                
+                $('.list-group .list-header').click(function(){
+                        $(this).closest('i').toggleClass('fa-chevron-right').toggleClass('fa-chevron-down');
+                        $(this).siblings('.lists').slideToggle();
+                });
+        });

@@ -66,7 +66,7 @@ class Settings_Profiles_Record_Model extends Settings_Head_Record_Model {
 	 */
 	public function getDuplicateViewUrl() {
         global $site_URL;
-		return $site_URL.'Profiles/Settings/CopyEdit/'.$this->getId();
+		return $site_URL . 'Profiles/Settings/Edit?from_record='.$this->getId();
 	}
 
 	/**

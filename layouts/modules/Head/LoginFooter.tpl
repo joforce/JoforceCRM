@@ -9,7 +9,7 @@
 
 <footer class="app-footer">
 	<p>
-		© Copyright {date('Y')} <a href="//www.joforce.com" target="_blank">JoForce.</a> All rights reserved. <br>
+	Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source project.</a>
 	</p>
 </footer>
 </div>

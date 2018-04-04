@@ -96,7 +96,9 @@ class Settings_MailConverter_Record_Model extends Settings_Head_Record_Model {
 	 * @return <String> Url
 	 */
 	public function getEditViewUrl() {
-		return $this->getDefaultUrl() . '/existing/Edit';
+        $moduleModel = $this->getModule();
+        return vglobal('site_URL').'index.php?module='.$moduleModel->getName().'&parent='.$moduleModel->getParentName().'&record='.$this->getId().'&create=existing&view=Edit';
+
 	}
 
 	public function  getCreateRuleRecordUrl() {
@@ -125,13 +127,13 @@ class Settings_MailConverter_Record_Model extends Settings_Head_Record_Model {
 			array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => vtranslate('LBL_EDIT', $qualifiedModuleName) . ' ' . vtranslate('MAILBOX', $qualifiedModuleName),
-				'linkurl' => "javascript:window.location.href = '" . $this->getEditViewUrl() . "/step1'",
+				'linkurl' => "javascript:window.location.href = '" . $this->getEditViewUrl() . "&mode=step1'",
 				'linkicon' => 'icon-pencil'
 			),
 			array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => vtranslate('LBL_SELECT_FOLDERS', $qualifiedModuleName),
-				'linkurl' => "javascript:window.location.href = '" . $this->getEditViewUrl() . "/step2'",
+				'linkurl' => "javascript:window.location.href = '" . $this->getEditViewUrl() . "&mode=step2'",
 				'linkicon' => 'icon-pencil'
 			),
 			array(

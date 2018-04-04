@@ -28,11 +28,6 @@
 <div class="container-fluid main-container">
 
     <div class="row">
-        <div id="modnavigator" class="module-nav detailViewModNavigator clearfix">
-            <div class="hidden-xs hidden-sm mod-switcher-container">
-                {include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-            </div>
-        </div>
         <div class="detailViewContainer viewContent clearfix">
             <div class="col-sm-12 col-xs-12 content-area">
                 {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}

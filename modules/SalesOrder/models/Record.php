@@ -18,13 +18,13 @@ class SalesOrder_Record_Model extends Inventory_Record_Model {
         global $site_URL;
 		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 
-		return $site_URL.$invoiceModuleModel->getName()."/".$invoiceModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL.$invoiceModuleModel->getName()."/view/".$invoiceModuleModel->getEditViewName()."?salesorder_id=".$this->getId();
 	}
 
 	function getCreatePurchaseOrderUrl() {
         global $site_URL;
 		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
-		return $site_URL.$purchaseOrderModuleModel->getName()."/".$purchaseOrderModuleModel->getEditViewName()."/".$this->getId();
+		return $site_URL.$purchaseOrderModuleModel->getName()."/view/".$purchaseOrderModuleModel->getEditViewName()."?salesorder_id=".$this->getId();
 	}
 
 }

@@ -15,29 +15,29 @@ class Inventory_List_View extends Head_List_View {
 	 * @param Head_Request $request
 	 * @return <Array> - List of Head_JsScript_Model instances
 	 */
-	function getHeaderScripts(Head_Request $request) {
-            	$headerScriptInstances = parent::getHeaderScripts($request);
+    function getHeaderScripts(Head_Request $request) {
+        $headerScriptInstances = parent::getHeaderScripts($request);
 
-		$moduleName = $request->getModule();
-		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
-		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
-		$moduleListFile = 'modules.'.$moduleName.'.resources.List';
-		unset($headerScriptInstances[$modulePopUpFile]);
-		unset($headerScriptInstances[$moduleEditFile]);
-		unset($headerScriptInstances[$moduleListFile]);
+        $moduleName = $request->getModule();
+        $modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
+        $moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
+        $moduleListFile = 'modules.'.$moduleName.'.resources.List';
+        unset($headerScriptInstances[$modulePopUpFile]);
+        unset($headerScriptInstances[$moduleEditFile]);
+        unset($headerScriptInstances[$moduleListFile]);
 
-		$jsFileNames = array(
-			'modules.Inventory.resources.Edit',
-			'modules.Inventory.resources.Popup',
-			'modules.Inventory.resources.List',
-		);
-		$jsFileNames[] = $modulePopUpFile;
-		$jsFileNames[] = $moduleEditFile;
-		$jsFileNames[] = $moduleListFile;
+        $jsFileNames = array(
+            'modules.Inventory.resources.Edit',
+            'modules.Inventory.resources.Popup',
+            'modules.Inventory.resources.List',
+        );
+        $jsFileNames[] = $modulePopUpFile;
+        $jsFileNames[] = $moduleEditFile;
+        $jsFileNames[] = $moduleListFile;
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+        return $headerScriptInstances;
 	}
 }
 ?>

@@ -32,7 +32,7 @@
                             <th>{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
                         </tr>
                         <tr>
-                            <td width="5%"><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>
+                            <td><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>
                             {foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
                                 <td><strong>{vtranslate($LABEL, $LABEL)}</strong></td>
                             {/foreach}

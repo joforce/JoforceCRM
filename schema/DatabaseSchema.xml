@@ -1,14 +1,5 @@
 <?xml version="1.0"?>
 <schema version="0.2">
-	<table name="jo_canonical">
-                 <field name="id" type="I" size="19">
-                        <key />
-                        <autoincrement/>
-                </field>
-                <field name="input_format" type="X"/>
-                <field name="output_format" type="X" />
-        <opt platform="mysql">Engine=InnoDB</opt>
-        </table>
 	<table name="jo_users">
 		<field name="id" type="I" >
 			<key />
@@ -85,6 +76,10 @@
 		<field name="lead_view" type="C" size="200">
 			<default value="Today" />
 		</field>
+		<field name="default_landing_page" type="C" size="200">
+			<default value="Dashboard" />
+		</field>
+
 		<field name="imagename" type="C" size="250" />
 		<field name="deleted" type="I" size="1">
 			<notnull />
@@ -595,7 +590,7 @@
 		</data>
 	</table>
 
-<!--	<table name="jo_portalinfo">
+	<table name="jo_portalinfo">
 		<field name="id" type="I" size="11">
 			<key />
 		</field>
@@ -608,15 +603,15 @@
 		<field name="logout_time" type="T" />
 		<field name="isactive" type="I" size="1" />
 		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>-->
+	</table>
 
-<!--	<table name="jo_portalinfo" alter="true">
+	<table name="jo_portalinfo" alter="true">
 		<constraint>ADD CONSTRAINT fk_1_jo_portalinfo FOREIGN KEY (id) REFERENCES jo_contactdetails(contactid) ON DELETE CASCADE</constraint>
 		<opt>Engine=InnoDB</opt>
 		<data>
 		</data>
 	</table>
--->
+
 	<table name="jo_customerdetails">
 		<field name="customerid" type="I" size="19">
 			<key />
@@ -1905,65 +1900,6 @@
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
 
-<!--	<table name="jo_faq">
-		<field name="id" type="I" size="11">
-			<key />
-			<autoincrement />
-		</field>
-		<field name="faq_no" type="C" size="100">
-			<notnull />
-			<unique />
-		</field>
-		<field name="product_id" type="C" size="100" />
-		<field name="question" type="X">
-			<notnull />
-		</field>
-		<field name="answer" type="X" />
-		<field name="category" type="C" size="200">
-			<notnull />
-		</field>
-		<field name="status" type="C" size="200">
-			<notnull />
-		</field>
-
-		<index name="faq_id_idx">
-			<col>id</col>
-		</index>
-		<opt platform="mysql">Engine=InnoDB</opt>
-	</table> 
-
-	<table name="jo_faq" alter="true">
-		<constraint>ADD CONSTRAINT fk_1_jo_faq FOREIGN KEY (id) REFERENCES jo_crmentity(crmid) ON DELETE CASCADE</constraint>
-		<opt>Engine=InnoDB</opt>
-		<data>
-		</data>
-	</table>
-
-	<table name="jo_faqcomments">
-		<field name="commentid" type="I" size="19">
-			<key />
-			<autoincrement />
-		</field>
-		<field name="faqid" type="I" size="19">
-		</field>
-		<field name="comments" type="X" />
-		<field name="createdtime" type="T">
-			<notnull />
-		</field>
-
-		<index name="faqcomments_faqid_idx">
-			<col>faqid</col>
-		</index>
-		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
-
-	<table name="jo_faqcomments" alter="true">
-		<constraint>ADD CONSTRAINT fk_1_jo_faqcomments FOREIGN KEY (faqid) REFERENCES jo_faq(id) ON DELETE CASCADE</constraint>
-		<opt>Engine=InnoDB</opt>
-		<data>
-		</data>
-	</table> -->
-
 	<table name="jo_loginhistory">
 		<field name="login_id" type="I" size="11">
 			<key />
@@ -2464,58 +2400,6 @@
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
 
-<!--	<table name="jo_faqcategories">
-		<field name="faqcategories_id" type="I" size="19">
-			<key />
-			<autoincrement />
-		</field>
-		<field name="faqcategories" type="C" size="200" />
-		<field name="presence" type="I" size="1">
-			<notnull />
-			<default value="1" />
-		</field>
-		<field name="picklist_valueid" type="I" size="19">
-			<notnull />
-			<default value="0" />
-		</field>
-		<field name="sortorderid" type="I" size="11"></field>
-		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
-
-	<table name="jo_faqstatus">
-		<field name="faqstatus_id" type="I" size="19">
-			<key />
-			<autoincrement />
-		</field>
-		<field name="faqstatus" type="C" size="200" />
-		<field name="presence" type="I" size="1">
-			<notnull />
-			<default value="1" />
-		</field>
-		<field name="picklist_valueid" type="I" size="19">
-			<notnull />
-			<default value="0" />
-		</field>
-		<field name="sortorderid" type="I" size="11"></field>
-		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
-
-	<table name="jo_faqcf"> 
-		<field name="faqid" type="I" size="19"> 
-			<key /> 
-			<default value="0" /> 
-		</field> 
-
-		<opt platform="mysql">Engine=InnoDB</opt> 
-	</table> 
-
-	<table name="jo_faqcf" alter="true"> 
-		<constraint>ADD CONSTRAINT fk_1_jo_faqcf FOREIGN KEY (faqid) REFERENCES jo_faq(id) ON DELETE CASCADE</constraint> 
-		<opt>Engine=InnoDB</opt> 
-		<data> 
-		</data> 
-	</table> 
--->
 	<table name="jo_rating">
 		<field name="rating_id" type="I" size="19">
 			<key />
@@ -5019,7 +4903,7 @@
 		<data>
 		</data>
 	</table>
-<!--	<table name="jo_portal">
+	<table name="jo_portal">
 		<field name="portalid" type="I" size="19">
 			<key />
 		</field>
@@ -5041,7 +4925,7 @@
 		</index>
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
--->
+
 	<table name="jo_soapservice">
 		<field name="id" type="I" size="19">
 			<default value="NULL" />
@@ -5719,28 +5603,6 @@
 		</data>
 	</table>
 
-<!--	<table name="jo_homerss">
-		<field name="stuffid" type="I" size="19">
-			<key />
-			<default value="0" />
-		</field>
-		<field name="url" type="C" size="100" />
-		<field name="maxentries" type="I" size="19" >
-			<notnull />
-		</field>
-		<index name="stuff_stuffid_idx">
-			<col>stuffid</col>
-		</index>
-		<opt platform="mysql">Engine=InnoDB</opt>
-	</table>
-
-	<table name="jo_homerss" alter="true">
-		<constraint>ADD CONSTRAINT fk_1_jo_homerss FOREIGN KEY (stuffid) REFERENCES jo_homestuff(stuffid) ON DELETE CASCADE</constraint>
-		<opt>Engine=InnoDB</opt>
-		<data>
-		</data>
-	</table>
--->
 	<table name="jo_homedashbd">
 		<field name="stuffid" type="I" size="19">
 			<key />
@@ -7018,8 +6880,8 @@
 
 
 <!-- PDF Maker table -->
-	<table name="jo_vtpdfmaker">
-		<field name="vtpdfmakerid" type="I" size="20">
+	<table name="jo_pdfmaker">
+		<field name="pdfmakerid" type="I" size="20">
 			<key />
 	<autoincrement />
 		</field>
@@ -7033,14 +6895,14 @@
 		<field name="footer" type="X"/>
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
-	<table name="jo_vtpdfmaker_seq">
+	<table name="jo_pdfmaker_seq">
 		<field name="accountid" type="I" size="19">
                 </field>
 
                 <opt platform="mysql">Engine=InnoDB</opt>	
 	</table>
 
-	<table name="jo_vtpdfmakersettings">
+	<table name="jo_pdfmakersettings">
 		<field name="id" type="I" size="19" >
 			<key />
 		</field>

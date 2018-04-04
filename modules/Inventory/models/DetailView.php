@@ -18,23 +18,30 @@ class Inventory_DetailView_Model extends Head_DetailView_Model {
 	 *					 array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams) {
+		global $site_URL, $adb;
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getmoduleName();
 
+		$recordId = $recordModel->getId();
+		$getPDFDetails = $adb->pquery('select * from jo_pdfmaker where name = ? and status = ?', array($moduleName, 1));
+                $tempId = $adb->query_result($getPDFDetails, 0, 'pdfmakerid');
+
+		$export_pdf_url = "index.php?module=PDFMaker&view=DownloadPDF&recordId=$recordId&selected_template=$tempId&sourceModule=$moduleName";
+
 		if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordModel->getId())) {
 			$detailViewLinks = array(
 					'linklabel' => vtranslate('LBL_EXPORT_TO_PDF', $moduleName),
-					'linkurl' => $recordModel->getExportPDFURL(),
+					'linkurl' => $export_pdf_url,
 					'linkicon' => ''
 						);
 			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($detailViewLinks);
 
 			$sendEmailLink = array(
-                'linklabel' => vtranslate('LBL_SEND_MAIL_PDF', $moduleName),
-                'linkurl' => 'javascript:Inventory_Detail_Js.sendEmailPDFClickHandler(\''.$recordModel->getSendEmailPDFUrl().'\')',
-                'linkicon' => ''
-            );
+			                'linklabel' => vtranslate('LBL_SEND_MAIL_PDF', $moduleName),
+                            'linkurl' => "javascript:PDFMaker_Helper_Js.sendEmail($recordId)",
+			                'linkicon' => ''
+				              );
 
             $linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($sendEmailLink);
 		}

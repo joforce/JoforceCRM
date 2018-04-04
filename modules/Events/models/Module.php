@@ -19,7 +19,8 @@ class Events_Module_Model extends Calendar_Module_Model {
 	 * @return <string> - url
 	 */
 	public function getListViewUrl() {
-		return 'index.php?module=Calendar&view='.$this->getListViewName();
+        global $site_URL;
+        return $site_URL . 'Calendar/view/' . $this->getListViewName();
 	}
 
    /**

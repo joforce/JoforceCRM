@@ -98,18 +98,19 @@ class Head_WebUI extends Head_EntryPoint {
 		
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password 
-		if($request->get('mode') != 'reset' && $request->get('action') != 'Login' && $request->get('mode') != 'fromMig')
-			require_once 'libraries/csrf-magic/csrf-magic.php';
+		if($request->get('mode') != 'reset' && $request->get('action') != 'Login' && $request->get('mode') != 'fromMig') {
+            require_once 'libraries/csrf-magic/csrf-magic.php';
+        }
 
 		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
 		
-		// Check we are being connected to on the right host and protocol
+		// Check we are being connected to the right host and protocol
 		global $site_URL;
 		$request_URL = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on')? 'https': 'http')."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-		if ($site_URL && stripos($request_URL, $site_URL) !== 0){
+		if ($site_URL && stripos($request_URL, $site_URL) !== 0)    {
 			header("Location: $site_URL",TRUE,301);
 			exit;
 		}
@@ -226,6 +227,7 @@ class Head_WebUI extends Head_EntryPoint {
 				$log->debug($e->getMessage().":".$e->getTraceAsString());
 
 				$viewer = new Head_Viewer();
+                $viewer->assign('SITEURL', $site_URL);
 				$viewer->assign('MESSAGE', $e->getMessage());
 				$viewer->view('OperationNotPermitted.tpl', 'Head');
 			} else {

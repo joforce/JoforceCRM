@@ -10,45 +10,46 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="settingsIndexPage col-lg-12 col-md-12 col-sm-12 joforce-bg">
-		<div><h4>{vtranslate('LBL_SUMMARY',$MODULE)}</h4></div>
-		<hr>
-		<div class="row">
-			<span class="col-lg-4 col-md-4 col-sm-4 settingsSummary">
-				<a href="{$SITEURL}Users/Settings/List">
-					<h2 class="summaryCount">{$USERS_COUNT}</h2> 
-					<p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_ACTIVE_USERS',$MODULE)}</p> 
-				</a>
-			</span>
-			<span class="col-lg-4 col-md-4 col-sm-4 settingsSummary">
-				<a href="{$SITEURL}Workflows/Settings/List/LBL_AUTOMATION">
-					<h2 class="summaryCount">{$ACTIVE_WORKFLOWS}</h2> 
-					<p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_WORKFLOWS_ACTIVE',$MODULE)}</p> 
-				</a>
-			</span>
-			<span class="col-lg-4 col-md-4 col-sm-4 settingsSummary">
-				<a href="{$SITEURL}ModuleManager/Settings/List">
-					<h2 class="summaryCount">{$ACTIVE_MODULES}</h2> 
-					<p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_MODULES',$MODULE)}</p>
-				</a>
-			</span>
-		</div>
-		<br><br>&nbsp;
-		<h4>{vtranslate('LBL_SETTINGS_SHORTCUTS',$MODULE)}</h4>
-		<hr>
-		<div id="settingsShortCutsContainer" style="min-height: 500px;">
-			<div class="col-lg-12">
-				{assign var=COUNTER value=0}
-				{foreach item=SETTINGS_SHORTCUT from=$SETTINGS_SHORTCUTS name=shortcuts}
-					{if $COUNTER eq 4}
-						</div><div class="col-lg-12">
-						{assign var=COUNTER value=1}
-					{else}
-						{assign var=COUNTER value=$COUNTER+1}
-					{/if}
-					{include file='SettingsShortCut.tpl'|@vtemplate_path:$MODULE}
-				{/foreach}
+	<div class="col-lg-12 col-sm-12 col-md-12 admin-settings mt40">
+	{foreach item=BLOCK_MENUS from=$SETTINGS_MENUS}
+        	{assign var=BLOCK_NAME value=$BLOCK_MENUS->getLabel()}
+                {assign var=BLOCK_MENU_ITEMS value=$BLOCK_MENUS->getMenuItems()}
+                {assign var=NUM_OF_MENU_ITEMS value= $BLOCK_MENU_ITEMS|@sizeof}
+                {if $NUM_OF_MENU_ITEMS gt 0}
+			<div>
+                        <p class="horizontal-hr"><span>{vtranslate($BLOCK_NAME ,$MODULE)}</span></p>
+			<ul class="settings-list">
+			{foreach item=MENUITEM from=$BLOCK_MENU_ITEMS}
+	                        {assign var=MENU value= $MENUITEM->get('name')}
+                                {assign var=MENU_LABEL value=$MENU}	
+				{assign var=ICON value=$MENUITEM->get('iconpath')}
+				{if empty($ICON)}
+					{assign var=ICON value="fa fa-cubes"}
+				{/if}
+                                {if $MENU eq 'LBL_EDIT_FIELDS'}
+        	                        {assign var=MENU_LABEL value='LBL_MODULE_CUSTOMIZATION'}
+                                {elseif $MENU eq 'LBL_TAX_SETTINGS'}
+                                        {assign var=MENU_LABEL value='LBL_TAX_MANAGEMENT'}
+                                {elseif $MENU eq 'INVENTORYTERMSANDCONDITIONS'}
+                                        {assign var=MENU_LABEL value='LBL_TERMS_AND_CONDITIONS'}
+                                {/if}
+
+                                {assign var=MENU_URL value=$MENUITEM->getUrl()}
+                                {assign var=USER_MODEL value=Users_Record_Model::getCurrentUserModel()}
+                                {if $MENU eq 'My Preferences'}
+                  	              {assign var=MENU_URL value=$USER_MODEL->getPreferenceDetailViewUrl()}
+                                {elseif $MENU eq 'Calendar Settings'}
+                                      {assign var=MENU_URL value=$USER_MODEL->getCalendarSettingsDetailViewUrl()}
+                                {/if}
+				<li>
+					<a href="{$MENU_URL}"><label><span><i class="{$ICON}" data-fieldid="{$MENUITEM->get('fieldid')}"></i></span></label>
+						<p>{vtranslate($MENU_LABEL,$QUALIFIED_MODULE)}</p>
+					</a>
+				</li>
+			{/foreach}
+			</ul>
 			</div>
-		</div>
+		{/if}
+	{/foreach}
 	</div>
 {/strip}

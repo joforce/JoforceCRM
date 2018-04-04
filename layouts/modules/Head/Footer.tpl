@@ -9,11 +9,12 @@
 ************************************************************************************}
 
 <footer class="app-footer">
-    <img class='pull-right' src='{$SITEURL}layouts/skins/images/JoForce-footer.png'></img>
-	<p>
-		© Copyright {date('Y')} <a href="//www.joforce.com" target="_blank">JoForce.</a> All rights reserved. <br>
-        Thanks to <a class="joforce-link" href='{$SITEURL}Head/Credits/Settings'> open source project.</a>
-	</p>
+    <a href="//www.joforce.com" target="_blank">
+	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
+    </a>
+    <p>
+	Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source project.</a>
+    </p>
 </footer>
 </div>
 <div id='overlayPage'>

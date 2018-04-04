@@ -203,3 +203,25 @@ jQuery(document).ready(function() {
 	var indexInstance = new Install_Index_Js();
 	indexInstance.registerEvents();
 });
+
+
+jQuery(document).ready(function(){
+	
+	$('#page3').ready(function(){
+		$('#page3 .gs-info .gs-wizard .gs-wizard-section li:nth-child(1)').removeClass('active').addClass('completed');
+		$('#page3 .gs-info .gs-wizard .gs-wizard-section li:nth-child(2)').addClass('active').removeClass('disabled');
+	});
+	$('#page4').ready(function(){
+		$('#page4 .gs-info .gs-wizard .gs-wizard-section li:nth-child(1)').removeClass('active').addClass('completed');
+		$('#page4 .gs-info .gs-wizard .gs-wizard-section li:nth-child(2)').addClass('completed').removeClass('disabled');
+		$('#page4 .gs-info .gs-wizard .gs-wizard-section li:nth-child(3)').addClass('active').removeClass('disabled');
+		if($('#htperm').val() == 'false')
+	                $('input[name=step4]').attr('disabled', true);
+	});
+	$('#page5').ready(function(){
+		$('#page5 .gs-info .gs-wizard .gs-wizard-section li:nth-child(1)').removeClass('active').addClass('completed');
+		$('#page5 .gs-info .gs-wizard .gs-wizard-section li:nth-child(2)').addClass('completed').removeClass('disabled');
+		$('#page5 .gs-info .gs-wizard .gs-wizard-section li:nth-child(3)').addClass('completed').removeClass('disabled');
+		$('#page5 .gs-info .gs-wizard .gs-wizard-section li:nth-child(4)').addClass('active').removeClass('disabled');
+	});	
+});

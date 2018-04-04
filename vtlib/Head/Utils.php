@@ -178,7 +178,7 @@ class Head_Utils {
 		if($suffixTableMeta !== false) {
 			if($suffixTableMeta === true) {
 				if($adb->isMySQL()) {
-					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
+					$suffixTableMeta = ' ENGINE=InnoDB ';
 				} else {
 					// TODO Handle other database types.
 				}

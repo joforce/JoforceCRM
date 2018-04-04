@@ -15,6 +15,7 @@
 
 	<div class="commentContainer commentsRelatedContainer container-fluid">
 		{if $IS_CREATABLE}
+			<div class="col-lg-8 col-lg-offset-2 mt30"> 
 			<div class="commentTitle row">
 				<div class="addCommentBlock">
 					<div class="commentTextArea">
@@ -85,6 +86,7 @@
 					<button class="btn btn-primary btn-sm saveComment" type="button" data-mode="edit"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
 					<a href="javascript:void(0);" class="cursorPointer closeCommentBlock cancelLink" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

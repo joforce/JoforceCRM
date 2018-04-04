@@ -26,9 +26,9 @@ class Head_Index_View extends Head_Basic_View {
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
+        $currentUser = Users_Record_Model::getCurrentUserModel();
 		if(!empty($moduleName)) {
 			$moduleModel = Head_Module_Model::getInstance($moduleName);
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			$viewer->assign('MODULE', $moduleName);
@@ -46,7 +46,7 @@ class Head_Index_View extends Head_Basic_View {
 			$this->setModuleInfo($request,$moduleModel);
 		}
 
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $currentUser);
 		$viewer->assign('REQUEST_INSTANCE', $request);
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		if($display) {
@@ -55,7 +55,7 @@ class Head_Index_View extends Head_Basic_View {
 	}
 
 	/**
-	 * Setting module related Information to $viewer (for Head7)
+	 * Setting module related Information to $viewer
 	 * @param type $request
 	 * @param type $moduleModel
 	 */

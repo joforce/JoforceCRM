@@ -31,7 +31,7 @@ class DuplicateCheck {
 				}
 			}
 			$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Duplicate Check', 'duplicatecheck.png', 'DuplicateCheck',
+				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Duplicate Check', 'fa fa-copy', 'DuplicateCheck',
 					'DuplicateCheck/Settings/List', $seq));
 			// inserting values into settings table
 			$modules = array('Contacts', 'Leads', 'Accounts', 'Potentials', 'Products', 'Services', 'HelpDesk', 'Project', 'ProjectTask', 'ProjectMilestone', 'Vendors', 'Calendar','Campaigns','Quotes','PurchaseOrder','SalesOrder','Invoice','PriceBooks','Documents','Emails','Events','Users','PBXManager','ModComments','SMSNotifier');

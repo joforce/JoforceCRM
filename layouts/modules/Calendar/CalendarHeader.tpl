@@ -11,7 +11,7 @@
 	<input type="hidden" name="is_record_creation_allowed" id="is_record_creation_allowed" value="{$IS_CREATE_PERMITTED}">
 	<div class="col-sm-12 col-xs-12 module-action-bar clearfix">
 		<div class="module-action-content clearfix coloredBorderTop">
-			<div class="col-lg-5 col-md-5">
+			<div class="col-lg-3 col-md-3">
 				<span>
 					{assign var="VIEW_HEADER_LABEL" value="LBL_CALENDAR_VIEW"}
 					{if $VIEW === 'SharedCalendar'}
@@ -20,19 +20,47 @@
 					<a href='javascript:void(0)'><h4 class="module-title pull-left"><span style="cursor: default;"> {strtoupper(vtranslate($VIEW_HEADER_LABEL, $MODULE))} </span></h4></a>
 				</span>
 			</div>
-			<div class="col-lg-7 col-md-7 pull-right">
+			<div class="col-lg-9 col-md-9">
+				{assign var="topMenus" value=$MENU_STRUCTURE->getTop()}
+				{assign var="moreMenus" value=$MENU_STRUCTURE->getMore()}
+
+				<div class="col-lg-6">
+				<div id="topbar-menu" class="topbar-menu text-center pt10">
+				        <ul style="list-style: none;">
+				                {foreach item=SIDE_BAR_LINK from=$QUICK_LINKS['SIDEBARLINK']}
+				                        {assign var=CURRENT_LINK_NAME value="List"}
+				                        {assign var=VIEW_ICON_CLASS value="vicon-calendarlist"}
+				                        {if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_CALENDAR_VIEW'}
+				                                {assign var=CURRENT_LINK_NAME value="Calendar"}
+				                                {assign var=VIEW_ICON_CLASS value="vicon-mycalendar"}
+				                        {else if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_SHARED_CALENDAR'}
+				                                {assign var=CURRENT_LINK_NAME value="SharedCalendar"}
+				                                {assign var=VIEW_ICON_CLASS value="vicon-sharedcalendar"}
+				                        {/if}
+			                        <li class="ml5 mr5 topbar-qtip {if $CURRENT_LINK_NAME eq $CURRENT_VIEW}active{/if}" title="{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}" style="display: inline-block;">
+                        			        <a href="{$SIDE_BAR_LINK->get('linkurl')}">
+			                                        <i class="{$VIEW_ICON_CLASS} mr5"></i>
+                        			                <!-- <span>{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}</span> -->
+			                                </a>
+                        			</li>
+				                {/foreach}
+				        </ul>
+				</div>
+				</div>
+
+				<div class="col-lg-6">			    
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{if $IS_CREATE_PERMITTED}
 							<li>
 								<button id="calendarview_basicaction_addevent" type="button" 
-										class="btn addButton btn-default module-buttons cursorPointer" 
+										class="btn addButton btn-secondary module-buttons cursorPointer" 
 										onclick='Calendar_Calendar_Js.showCreateEventModal();'>
 									<div class="fa fa-plus" aria-hidden="true"></div>&nbsp;&nbsp;
 									{vtranslate('LBL_ADD_EVENT', $MODULE)}
 								</button>
 								<button id="calendarview_basicaction_addtask" type="button" 
-										class="btn addButton btn-default module-buttons cursorPointer" 
+										class="btn addButton btn-secondary module-buttons cursorPointer" 
 										onclick='Calendar_Calendar_Js.showCreateTaskModal();'>
 									<div class="fa fa-plus" aria-hidden="true"></div>&nbsp;&nbsp;
 									{vtranslate('LBL_ADD_TASK', $MODULE)}
@@ -43,7 +71,7 @@
 							<li>
 								<div class="settingsIcon">
 									<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-										<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;&nbsp;{vtranslate('LBL_CUSTOMIZE', 'Reports')}&nbsp; <span class="caret"></span>
+										<span aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;&nbsp;{vtranslate('LBL_MORE', 'Reports')}&nbsp; <span class="caret"></span>
 									</button>
 									<ul class="detailViewSetting dropdown-menu">
 										{foreach item=SETTING from=$MODULE_SETTING_ACTIONS}
@@ -66,11 +94,12 @@
 										</li>
 									</ul>
 								</div>
+							    </div>
+							    </div>
 							</li>
 						{/if}
 					</ul>
 				</div>
-			</div>
 		</div>
 		{if $FIELDS_INFO neq null}
 			<script type="text/javascript">

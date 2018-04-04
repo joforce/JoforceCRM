@@ -31,6 +31,7 @@ class EmailPlus_List_View extends Head_Index_View
 
 			$viewer->assign('QUICK_LINKS', $linkModels);
 		}
+	
                 $viewer->assign('SERVER', $server_name);
                 $viewer->assign('email', $email);
                 $viewer->assign('password', $password);

@@ -53,10 +53,10 @@
 								{if $IS_CREATE_PERMITTED}
 									<div class="col-sm-3">
 										<div class="dropdown">
-											<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+											<button type="button" class="btn btn-secondary dropdown-toggle ml30" data-toggle="dropdown">
 												<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', $RELATED_MODULE_NAME)}&nbsp; <span class="caret"></span>
 											</button>
-											<ul class="dropdown-menu">
+											<ul class="dropdown-menu ml30">
 												<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', $RELATED_MODULE_NAME)}</li>
 												<li id="HeadAction">
 													<a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE}')">
@@ -98,7 +98,6 @@
     {/if}
     
     <div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-    <div class="bottomscroll-div">
         {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
         <table id="listview-table"  class="table listview-table">
             <thead>
@@ -227,7 +226,7 @@
                 </tr>
             {/foreach}
         </table>
-    </div>
+<div class="bottomscroll-div"></div>
 </div>
     <script type="text/javascript">
         var related_uimeta = (function() {

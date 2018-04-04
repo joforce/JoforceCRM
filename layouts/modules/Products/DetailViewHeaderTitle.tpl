@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="col-sm-6 col-lg-6 col-md-6">
+    <div class="col-sm-5 col-lg-5 col-md-5">
         <div class="record-header clearfix">
                 {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
             <div class="hidden-sm hidden-xs recordImage bgproducts app-{$SELECTED_MENU_CATEGORY}" {if $IMAGE_DETAILS|@count gt 1}style = "display:block"{/if}>

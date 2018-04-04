@@ -17,9 +17,9 @@
 {/if}
 <div class = "{$CLASS_VIEW_ACTION}">
     <div class="btn-group pull-right">
-        <button type="button" id="PreviousPageButton" class="btn btn-default joforce-enable" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if}><i class="fa fa-caret-left"></i></button>
+        <button type="button" id="PreviousPageButton" class="btn-paginate pull-left joforce-enable" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if}><i class="fa fa-chevron-left"></i></button>
         {if $SHOWPAGEJUMP}
-            <button type="button" id="PageJump" data-toggle="dropdown" class="btn btn-default">
+            <button type="button" id="PageJump" data-toggle="dropdown" class="btn-paginate">
                 <i class="fa fa-ellipsis-h icon" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
             </button>
             <ul class="{$CLASS_VIEW_BASIC_ACTION} dropdown-menu" id="PageJumpDropDown">
@@ -37,7 +37,7 @@
                 </li>
             </ul>
         {/if}
-        <button type="button" id="NextPageButton" class="btn btn-default joforce-enable" {if !$PAGING_MODEL->isNextPageExists()}disabled{/if}><i class="fa fa-caret-right"></i></button>
+        <button type="button" id="NextPageButton" class="btn-paginate pull-right joforce-enable" {if !$PAGING_MODEL->isNextPageExists()}disabled{/if}><i class="fa fa-chevron-right"></i></button>
     </div>
     <span class="pageNumbers  pull-right" style="position:relative;top:7px;">
         <span class="pageNumbersText">

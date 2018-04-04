@@ -334,7 +334,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
          var currentElement = jQuery(e.currentTarget);
          var url = currentElement.data('url') + '&module_name=' + jQuery('#module_name').val();
          app.helper.showProgress();
-         app.request.get({url:url}).then(function (error, data) {
+         app.request.get({url:url, full_url: true}).then(function (error, data) {
             app.helper.hideProgress();
             app.helper.loadPageContentOverlay(data).then(function(container) {
                 var container = jQuery(container);

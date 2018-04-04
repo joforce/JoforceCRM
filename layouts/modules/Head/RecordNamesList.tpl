@@ -10,4 +10,21 @@
 {* modules/Head/views/IndexAjax.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<DIV>TEMPLATE: layout/modules/Head/RecordNamesList.tpl</DIV>
+<div class="recordNamesList">
+        <div class="row-fluid">
+                <div class="">
+                        <ul class="nav nav-list">
+                                {foreach item=recordsModel from=$RECORDS}
+                                <li>
+                                        <a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>
+                                </li>
+                                {foreachelse}
+                                        <li style="text-align:center">{vtranslate('LBL_NO_RECORDS', $MODULE)}
+                                        </li>
+                                {/foreach}
+
+                        </ul>
+                </div>
+        </div>
+</div>
+

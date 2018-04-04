@@ -16,7 +16,7 @@
             <div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
                     <label class="fieldLabel ">{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </label>
                 </div>
-                <div class="fieldValue col-sm-3 col-xs-3">
+                <div class="fieldValue col-sm-3 col-xs-12">
                     <select class="select2 inputElement" id="pickListModules" name="pickListModules">
                         <option value="">{vtranslate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>
                         {foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}

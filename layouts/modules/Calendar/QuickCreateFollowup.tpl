@@ -39,15 +39,15 @@
 					</div>
 					<div class="col-sm-6 fieldValue">
 						<div>
-							<div class="input-group inputElement" style="margin-bottom: 3px">
-							<input type="text" class="dateField form-control" data-fieldname="followup_date_start" data-fieldtype="date" name="followup_date_start" data-date-format="{$dateFormat}"
+							<div class="input-group" style="margin-bottom: 3px">
+							<input type="text" class="inputElement dateField form-control" data-fieldname="followup_date_start" data-fieldtype="date" name="followup_date_start" data-date-format="{$dateFormat}"
 								value="{$currentDate}" data-rule-required="true" data-rule-greaterThanOrEqualToToday="true"/>
 							<span class="input-group-addon"><i class="fa fa-calendar "></i></span>
 							</div>
 						</div>
 						<div>
-							<div class="input-group inputElement time" >
-								<input type="text" data-format="{$timeformat}" class="timepicker-default form-control" value="{$currentTimeInHeadFormat}" name="followup_time_start"
+							<div class="input-group time" >
+								<input type="text" data-format="{$timeformat}" class="inputElement timepicker-default form-control" value="{$currentTimeInHeadFormat}" name="followup_time_start"
 								 data-rule-required="true" />
 								<span  class="input-group-addon">
 									<i  class="fa fa-clock-o"></i>

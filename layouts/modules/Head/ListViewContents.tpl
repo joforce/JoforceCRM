@@ -11,12 +11,9 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg">
+<div class="col-sm-12 col-xs-12 joforce-bg  pl0 pr0" style="width:100%; min-height: auto;">
 	{if $MODULE neq 'EmailTemplates' && $SEARCH_MODE_RESULTS neq true}
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Head')}">
-			<span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>
-		</div>
 	{/if}
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
@@ -48,47 +45,20 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content" class="table-container">
+	<div id="table-content" class="table-container" style="width:100%;">
+	<div class="fixed-scroll-table">
+
 		<form name='list' id='listedit' action='' onsubmit="return false;">
-			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table ">
+			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table" style="width: auto;">
 				<thead>
 					<tr class="listViewContentHeader">
 						<th>
 							{if !$SEARCH_MODE_RESULTS}
-					<div class="table-actions">
-						<div class="dropdown" style="float:left;">
-							<span class="input dropdown-toggle" data-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
-								<input class="listViewEntriesMainCheckBox" type="checkbox">
-							</span>
-						</div>
-						{if $MODULE_MODEL->isFilterColumnEnabled()}
-							<div id="listColumnFilterContainer">
-								<div class="listColumnFilter {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}disabled{/if}"  
-									 {if $CURRENT_CV_MODEL->isCvEditable()}
-										 title="{vtranslate('LBL_CLICK_HERE_TO_MANAGE_LIST_COLUMNS',$MODULE)}"
-									 {else}
-										 {if $CURRENT_CV_MODEL->get('viewname') eq 'All' and !$CURRENT_USER_MODEL->isAdminUser()} 
-											 title="{vtranslate('LBL_SHARED_LIST_NON_ADMIN_MESSAGE',$MODULE)}"
-										 {elseif !$CURRENT_CV_MODEL->isMine()}
-											 {assign var=CURRENT_CV_USER_ID value=$CURRENT_CV_MODEL->get('userid')}
-											 {if !Head_Functions::isUserExist($CURRENT_CV_USER_ID)}
-												 {assign var=CURRENT_CV_USER_ID value=Users::getActiveAdminId()}
-											 {/if}
-											 title="{vtranslate('LBL_SHARED_LIST_OWNER_MESSAGE',$MODULE, getUserFullName($CURRENT_CV_USER_ID))}"
-										 {/if}
-									 {/if}
-									 {if $MODULE eq 'Documents'}style="width: 10%;"{/if}
-									 data-toggle="tooltip" data-placement="bottom" data-container="body">
-									<i class="fa fa-th-large"></i>
-								</div>
-							</div>
-						{/if}
-						<i class="fa fa-search cursorPointer" id="joforce-table-search"></i>
-					</div>
-				{elseif $SEARCH_MODE_RESULTS}
-					{vtranslate('LBL_ACTIONS',$MODULE)}
-				{/if}
-				</th>
+								{include file="ListViewHeaderActionsLeft.tpl"|vtemplate_path:$MODULE}
+							{elseif $SEARCH_MODE_RESULTS}
+								{vtranslate('LBL_ACTIONS',$MODULE)}
+							{/if}
+						</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{if $SEARCH_MODE_RESULTS and ($LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist')}
 						{assign var=NO_SORTING value=1}
@@ -111,6 +81,13 @@
 							{/if}
 					</th>
 				{/foreach}
+					<th>
+                                        	{if !$SEARCH_MODE_RESULTS}
+                                                	{include file="ListViewHeaderActionsRight.tpl"|vtemplate_path:$MODULE}
+                                                {elseif $SEARCH_MODE_RESULTS}
+                                                        {vtranslate('LBL_ACTIONS',$MODULE)}
+                                                {/if}
+                                      	</th>
 				</tr>
 
 				{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
@@ -140,9 +117,9 @@
 							{assign var=DATA_ID value=$RELATED_TO->getId()}
 							{assign var=DATA_URL value=$RELATED_TO->getDetailViewUrl()}
 						{/if}
-						<tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}/{$SELECTED_MENU_CATEGORY}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
+						<tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
 							<td class = "listViewRecordActions">
-								{include file="ListViewRecordActions.tpl"|vtemplate_path:$MODULE}
+								{include file="ListViewRecordActionsLeft.tpl"|vtemplate_path:$MODULE}
 							</td>
 							{if ($LISTVIEW_ENTRY->get('document_source') eq 'Google Drive' && $IS_GOOGLE_DRIVE_ENABLED) || ($LISTVIEW_ENTRY->get('document_source') eq 'Dropbox' && $IS_DROPBOX_ENABLED)}
 						<input type="hidden" name="document_source_type" value="{$LISTVIEW_ENTRY->get('document_source')}">
@@ -158,7 +135,7 @@
 							<span class="fieldValue">
 								<span class="value">
 									{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
-										<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}/{$SELECTED_MENU_CATEGORY}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+										<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
 										{if $MODULE eq 'Products' &&$LISTVIEW_ENTRY->isBundle()}
 											&nbsp;-&nbsp;<i class="mute">{vtranslate('LBL_PRODUCT_BUNDLE', $MODULE)}</i>
 										{/if}
@@ -192,7 +169,7 @@
 													{assign var=PICKLIST_FIELD_ID value={$LISTVIEW_HEADER->getId()}}
 												{/if}
 											{/if}
-											<span {if !empty($LISTVIEW_ENTRY_VALUE)} class="picklist-color picklist-{$PICKLIST_FIELD_ID}-{Head_Util_Helper::convertSpaceToHyphen($LISTVIEW_ENTRY->getRaw($LISTVIEW_HEADERNAME))}" {/if}> {$LISTVIEW_ENTRY_VALUE} </span>
+                                            <span {if !empty($LISTVIEW_ENTRY_VALUE)} class="picklist-color picklist-{$PICKLIST_FIELD_ID}-{Head_Util_Helper::convertSpaceToHyphen($LISTVIEW_ENTRY_RAWVALUE)}" {/if}> {$LISTVIEW_ENTRY_VALUE} </span>
 										{else if $LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist'}
 											{assign var=MULTI_RAW_PICKLIST_VALUES value=explode('|##|',$LISTVIEW_ENTRY->getRaw($LISTVIEW_HEADERNAME))}
 											{assign var=MULTI_PICKLIST_VALUES value=explode(',',$LISTVIEW_ENTRY_VALUE)}
@@ -221,6 +198,9 @@
 							{/if}
 						</td>
 					{/foreach}
+						<td class = "listViewRecordActions">
+                                                	{include file="ListViewRecordActionsRight.tpl"|vtemplate_path:$MODULE}
+                                                </td>
 					</tr>
 				{/foreach}
 				{if $LISTVIEW_ENTRIES_COUNT eq '0'}
@@ -247,8 +227,57 @@
 				</tbody>
 			</table>
 		</form>
+		</div>
+		
 	</div>
+
 	<div id="scroller_wrapper" class="bottom-fixed-scroll">
 		<div id="scroller" class="scroller-div"></div>
 	</div>
+
+	<div class="quickviewcontent hide" id="quickviewcontent" style="width:32%;">
+	</div>
+
 </div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){	
+
+		$('.fixed-scroll-table').floatingScroll();		
+
+		var screenheight = $(window).height();
+		var alterheight = screenheight-168;
+		var testheight = document.getElementById("table-content").scrollHeight;
+
+		$('.fl-scrolls').css("top",alterheight+94).hide();
+
+		if (document.querySelector('.fixed-scroll-table') !== null) {
+			$('#page').css("min-height","auto");
+			$('.content-area').css("min-height","auto");
+			$('#table-content').css("height",alterheight);
+			$('.app-footer').css("width","100%").css("position","fixed").css("bottom","0px").css("z-index","1000");
+			$('.btn-paginate').click(function(){
+				location.reload();
+			});
+		}
+
+		if(testheight > alterheight){
+			$('.fl-scrolls').show();
+		}
+
+		$('.quickView').on('click',function(){
+			$('.fl-scrolls').css("width","68%");
+			$('.more-actions-right').addClass('quickview-more-actions');
+		});
+
+		$('.fixed-scroll-table table tbody tr.listViewEntries').click(function(){
+			$('#table-content').css("height",alterheight);
+			if (document.querySelector('.listViewEntries') !== null) {
+				$('#table-content').css("height",alterheight);
+			}
+		});
+		
+
+	});
+</script>

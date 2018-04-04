@@ -199,7 +199,6 @@ class VTSimpleTemplate{
 
 			case 'supportName'			: return $HELPDESK_SUPPORT_NAME;
 			case 'supportEmailId'		: return $HELPDESK_SUPPORT_EMAIL_ID;
-			case 'supportEmailid'		: return $HELPDESK_SUPPORT_EMAIL_ID;
 			case 'reports_to_id'		:   $ownerId = $this->getOwnerId();
 											$ownerObject = new Users();
 											$ownerObject->retrieveCurrentUserInfoFromFile($ownerId);

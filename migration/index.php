@@ -5,17 +5,21 @@ include_once("modules/Emails/mail.php");
 include_once('includes/logging.php');
 include_once('includes/http/Session.php');
 include_once('version.php');
-include_once('migration/MySQLSearchReplace.php');
+include_once('MySQLSearchReplace.php');
 include_once('config/config.inc.php');
 include_once('includes/utils/utils.php');
+
+require_once('vendor/autoload.php');
+//TODO : Eliminate below hacking solution
+include_once 'config/config.php';
+
+include_once 'vtlib/Head/Module.php';
+include_once 'includes/main/WebUI.php';
 global $adb, $dbconfig, $root_directory;
 global $log;
 global $site_URL;
 session_start();
-//echo '<pre>'; print_r($_POST); die;
-//error_reporting(E_ALL);
-//ini_set('display_errors','on');
-if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
+if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	//rename tables
 	$query = "show tables";
         $result = $adb->pquery($query, array());
@@ -51,193 +55,238 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 	foreach($freplace as $search => $replace){
 		$dbreplace = (new MySQLSearchReplace($config, $search, $replace))->startFindReplace();
 	}
-	//update tables
+	
+	$settings_field_name_array = array(
+					0 => 'LBL_USERS',
+					1 => 'LBL_ROLES',
+					2 => 'LBL_PROFILES',
+					3 => 'USERGROUPLIST',
+					4 => 'LBL_SHARING_ACCESS',
+					5 => 'LBL_LOGIN_HISTORY_DETAILS',
+					6 => 'VTLIB_LBL_MODULE_MANAGER',
+					7 => 'LBL_PICKLIST_EDITOR',
+					8 => 'LBL_PICKLIST_DEPENDENCY',
+					9 => 'LBL_COMPANY_DETAILS',
+					10 => 'LBL_MAIL_SERVER_SETTINGS',
+					11 => 'LBL_CURRENCY_SETTINGS',
+					12 => 'LBL_TAX_SETTINGS',
+					13 => 'INVENTORYTERMSANDCONDITIONS',
+					14 => 'LBL_CUSTOMIZE_MODENT_NUMBER',
+					15 => 'LBL_MAIL_SCANNER',
+					16 => 'LBL_LIST_WORKFLOWS',
+					17 => 'Configuration Editor',
+					18 => 'Scheduler',
+					19 => 'LBL_PBXMANAGER',
+					20 => 'ModTracker',
+					21 => 'LBL_CUSTOMER_PORTAL',
+					22 => 'Webforms',
+					23 => 'LBL_EDIT_FIELDS',
+					24 => 'LBL_LEAD_MAPPING',
+					25 => 'LBL_OPPORTUNITY_MAPPING',
+					26 => 'My Preferences',
+					27 => 'Calendar Settings',
+					28 => 'LBL_MY_TAGS',
+					29 => 'LBL_GOOGLE',
+					30 => 'Google Settings'
+					);
+	
+	$settings_field_link_array = array(
+				'LBL_USERS' => 'Users/Settings/List',
+				'LBL_ROLES' => 'Roles/Settings/Index',
+				'LBL_PROFILES' => 'Profiles/Settings/List',
+				'USERGROUPLIST' => 'Groups/Settings/List',
+				'LBL_SHARING_ACCESS' => 'SharingAccess/Settings/Index',
+				'LBL_LOGIN_HISTORY_DETAILS' => 'LoginHistory/Settings/List',
+				'VTLIB_LBL_MODULE_MANAGER' => 'ModuleManager/Settings/List',
+				'LBL_PICKLIST_EDITOR' => 'Picklist/Settings/Index',
+				'LBL_PICKLIST_DEPENDENCY' => 'PickListDependency/Settings/List',
+				'LBL_COMPANY_DETAILS' => 'Head/Settings/CompanyDetails',
+				'LBL_MAIL_SERVER_SETTINGS' => 'Head/Settings/OutgoingServerDetail',
+				'LBL_CURRENCY_SETTINGS' => 'Currency/Settings/List',
+				'LBL_TAX_SETTINGS' => 'Head/Settings/TaxIndex',
+				'INVENTORYTERMSANDCONDITIONS' => 'Head/Settings/TermsAndConditionsEdit',
+				'LBL_CUSTOMIZE_MODENT_NUMBER' => 'Head/Settings/CustomRecordNumbering',
+				'LBL_MAIL_SCANNER' => 'MailConverter/Settings/List',
+				'LBL_LIST_WORKFLOWS' => 'Workflows/Settings/List',
+				'Configuration Editor' => 'Head/Settings/ConfigEditorDetail',
+				'Scheduler' => 'CronTasks/Settings/List',
+				'LBL_PBXMANAGER' => 'PBXManager/Settings/Index',
+				'ModTracker' => 'ModTracker/BasicSettings/Settings/ModTracker',
+				'LBL_CUSTOMER_PORTAL' => 'CustomerPortal/Settings/Index',
+				'Webforms' => 'Webforms/Settings/List',
+				'LBL_EDIT_FIELDS' => 'LayoutEditor/Settings/Index',
+				'LBL_LEAD_MAPPING' => 'Leads/Settings/MappingDetail',
+				'LBL_OPPORTUNITY_MAPPING' => 'Potentials/Settings/MappingDetail',
+				'My Preferences' => 'Users/Settings/PreferenceDetail/1',
+				'Calendar Settings' => 'Users/Settings/Calendar/1',
+				'LBL_MY_TAGS' => 'Tags/Settings/List/1',
+				'LBL_GOOGLE' => 'Contacts/Settings/Extension/Google/Index/settings',
+				'Google Settings' => 'Google/Settings/GoogleSettings'
+					);
 
-
-	//create jo_canonical tables
-	$adb->pquery("
-		CREATE TABLE `jo_canonical` (
-	  	`id` int(19) NOT NULL AUTO_INCREMENT,
-		  `input_format` text,
-		  `output_format` text,
-		  PRIMARY KEY (id)
-		) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=latin1", array()
-	);
-
-	//create jo_canonical tables
-	$adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([0-9]+)/([^/]+)/([0-9]+)$','index.php?&module=$1&view=$2&viewname=$3&search_params=$4&nolistcache=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(List|Edit|DashBoard|Import|Export|Calendar|SharedCalendar|EditFolder)$','index.php?module=$1&view=$2')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Save|Delete|DeleteImage|ExportData|MassDelete|MassSave|NoteBook|ProcessDuplicates|TagCloud)$','index.php?module=$1&action=$2')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(List|Edit|DashBoard|Import|Export|Calendar|SharedCalendar|EditFolder)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&app=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail|Edit)/([0-9]+)$','index.php?module=$1&view=$2&record=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Detail|Edit)/([^/]+)/([0-9]+)$','index.php?view=$1&module=$2&record=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(List|Edit|Calendar)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&app=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Calendar)/(Edit)/(Calendar|Events)$','index.php?module=$1&view=$2&mode=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Home)/(DashBoard)/([0-9]+)$','index.php?module=$1&view=$2&tabid=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Home)/(DashBoard)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&app=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(PurchaseOrder)/(Edit)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=PurchaseOrder&view=Edit&invoice_id=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Invoice|PurchaseOrder)/(Edit)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=PurchaseOrder&view=Edit&salesorder_id=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(PurchaseOrder|Invoice|SalesOrder)/(Edit)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=PurchaseOrder&view=Edit&quote_id=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail|Edit|Calendar)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&record=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail|Edit|Calendar)/(Calendar)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&mode=Calendar&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail)/([^/]+)$','index.php?module=$1&view=$2&record=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(ExportPDF)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&action=$2&record=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(List)/([0-9]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&viewname=$3&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(List)/([0-9]+)$','index.php?module=$1&view=$2&viewname=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Contacts|Calendar)/(Extension)/(Google)/(Index)$','index.php?module=$1&view=Extension&extensionModule=Google&extensionView=Index')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Contacts|Calendar)/(Extension)/(Google)/(Index)/(settings)$','index.php?module=$1&view=Extension&extensionModule=Google&extensionView=Index&mode=settings')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Contacts|Calendar)/(Settings)/(Extension)/(Google)/(Index)/(settings)/([0-9]+)/([0-9]+)$','index.php?module=$1&parent=$2&view=Extension&extensionModule=Google&extensionView=Index&mode=settings&block=$7&fieldid=$8')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Contacts|Calendar)/(Settings)/(Extension)/(Google)/(Index)/(settings)$','index.php?module=$1&parent=$2&view=Extension&extensionModule=Google&extensionView=Index&mode=settings')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Contacts|Calendar)/(Extension)/(Google)/(Index)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=Extension&extensionModule=Google&extensionView=Index&app=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(Logout)$','index.php?module=$1&action=$2')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(ModuleManager)/(Settings)/(ModuleImport)/(importUserModuleStep1)$','index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Workflows)/(Settings)/(Edit)/(V7Edit)/([^/]+)$','index.php?module=Workflows&parent=Settings&view=Edit&mode=V7Edit&source_module=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Workflows)/(Settings)/(Edit)/(V7Edit)$','index.php?module=Workflows&parent=Settings&view=Edit&mode=V7Edit')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Workflows)/(Settings)/(Edit)/([^/]+)/([[^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$','index.php?module=Workflows&parent=Settings&view=Edit&record=$4&mode=V7Edit&returnmodule=Workflows&returnparent=Settings&returnpage=$8&returnview=$9')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Workflows)/(Settings)/(List)/([^/]+)/([[^/]+)/([^/]+)$','index.php?module=Workflows&parent=Settings&view=List&sourceModule=$4&page=$5&search_value=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/(GetPrintReport)/([^/]+)$','index.php?module=$1&view=$2&mode=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/(All)$','index.php?module=$1&view=$2&folder=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(Quote)$','index.php?module=$1&view=$2&quote_id=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/(Calendar)/([^/]+)/([^/]+)$','index.php?module=$1&parent=$2&view=$3&mode=$4&record=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/(Detail|Edit|Calendar)/([0-9]+)$','index.php?module=$1&parent=$2&view=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/(Detail|Edit)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&parent=$2&view=$3&record=$4&app=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail)/([^/]+)/(Edit)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&module=$3&view=$4&account_id=$5&contact_id=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail)/([^/]+)/(Edit)/([^/]+)$','index.php?module=$1&view=$2&module=$3&view=$4&salesorder_id=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(MergeRecord)/([^/]+)/([^/]+)','index.php?module=$1&view=$2&records=$3&triggerEventName=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Calendar)/([^/]+)/([^/])$','index.php?module=Calendar&view=$2&mode=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/(clearCorruptedData)$','index.php?module=$1&view=$2&mode=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Calendar)/([^/]+)/([^/]+)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=Calendar&view=$2&mode=$3&parent_id=$4&app=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit)/([^/]+)/([^/]+)/([^/]+)/(true)/([^/]+)$','index.php?module=$1&view=$2&mode=$3&sourceModule=$4&sourceRecord=$5&relationOperation=$6&parent_id=$7')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(CustomView)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&action=$2&sourceModule=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/(cancelImport)/([^/]+)','index.php?module=$1&view=$2&mode=cancelImport&import_id=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit)/([^/]+)/Copy/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=Edit&record=$3&isDuplicate=true&app=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit|ChartEdit)/([^/]+)/Copy$','index.php?module=$1&view=$2&record=$3&isDuplicate=true')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/(CopyEdit)/([0-9]+)','index.php?module=$1&parent=$2&view=Edit&from_record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Import)/([^/]+)/(index)','index.php?module=$1&view=Import&return_module=$2&return_action=index')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Import)/([^/]+)/(List)/([^/]+)/([^/]+)','index.php?module=$1&for_module=$2&view=$3&start=$4&foruser=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Import)/(undoImport)/([^/]+)','index.php?module=$1&view=Import&mode=undoImport&foruser=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(MergeRecord)/([^/]+)/([^/]+)','index.php?module=$1&view=MergeRecord&records=$3&triggerEventName=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(ProductsPopup)/([^/]+)/([^/]+)/([^/]+)/([^/]+)$','index.php?view=$1&module=$2&multi_select=$3&currency_id=$4&triggerEventName=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Documents)/(DownloadFile)/([^/]+)/([^/]+)$','index.php?module=$1&action=$2&record=$3&fieldid=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Documents)/([^/]+)/([^/]+)/([^/]+)/(true)$','index.php?module=$1&view=$2&sourceModule=$3&sourceRecord=$4&relationOperation=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(FindDuplicates)/([^/]+)/([^/]+)/([^/]+)','index.php?module=$1&view=FindDuplicates&fields=$3&ignoreEmpty=$4&saveButton=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Calendar)/([^/]+)/([^/]+)/(showDetailViewByMode)/([^/]+)$','index.php?module=$1&view=$2&record=$3&mode=$4&requestMode=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showDetailViewByMode)/([^/]+)$','index.php?module=$1&view=$2&record=$3&mode=$4&requestMode=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/([^/]+)/(Popup)/([^/]+)$','index.php?module=$1&src_module=$2&src_record=$3&multi_select=$4&view=$5&triggerEventName=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit)/(Contacts)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&sourceModule=$3&sourceRecord=$4&relationOperation=$5&contact_id=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit)/(Accounts)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&sourceModule=$3&sourceRecord=$4&relationOperation=$5&account_id=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Edit)/([^/]+)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&view=Edit&sourceRecord=$3&sourceModule=$4&potential_id=&5&relationOperation=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(true)/(Popup)/([^/]+)$','index.php?module=$1&src_module=$2&src_record=$3&multi_select=true&view=Popup&triggerEventName=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showDetailViewByMode)/([^/]+)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&record=$3&mode=showDetailViewByMode&requestMode=$5&tab_label=$6&app=$7')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Detail)/([0-9]+)/(showChart)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=Project&view=Detail&record=$3&mode=showChart&tab_label=$5&app=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showDetailViewByMode)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&record=$3&mode=showDetailViewByMode&requestMode=$5&tab_label=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(SendEmail)/(composeMailData)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&mode=$3&record=$4&triggerEventName=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showAllComments)/([^/]+)','index.php?module=$1&view=$2&record=$3&mode=showAllComments&tab_label=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showRecentActivities)/([^/]+)/([^/]+)','index.php?module=$1&view=$2&record=$3&mode=showRecentActivities&page=$5&tab_label=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/(showHistory)/([^/]+)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&view=$2&record=$3&mode=showHistory&page=$5&tab_label=$6&app=$7')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/([^/]+)/([^/]+)/(showRelatedList)/([0-9]+)/([^/]+)/(SALES|MARKETING|INVENTORY|SUPPORT|PROJECT)$','index.php?module=$1&relatedModule=$2&view=$3&record=$4&mode=showRelatedList&relationId=$6&tab_label=$7&app=$8')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Documents)/([^/]+)/([^/]+)/([^/]+)/(true)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&sourceModule=$3&sourceRecord=$4&relationOperation=$5&relatedcontact=$6&relatedorganization=$7&amount=$8')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(ModComments)/(DownloadFile)/([0-9]+)/([0-9]+)$','index.php?module=ModComments&action=DownloadFile&record=$3&fileid=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Reports)/(ChartEdit|ChartDetail)/([0-9]+)$','index.php?module=Reports&view=$2&record=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Reports)/(ChartEdit|ChartDetail)/([^/]+)$','index.php?module=Reports&view=$2&folder=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/([^/]+)/(MappingDetail)$','index.php?parent=$1&module=$2&view=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/([^/]+)/([^/]+)$','index.php?parent=$1&module=$2&sourceModule=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/(Picklist)/([^/]+)/([^/]+)$','index.php?parent=$1&module=$2&view=$3&source_module=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/([^/]+)/([^/]+)/([0-9]+)$','index.php?parent=$1&module=$2&view=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/([^/]+)/([^/]+)/([^/]+)$','index.php?parent=$1&module=$2&view=$3&sourceModule=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Roles)/(Settings)/(Edit)/([^/]+)$','index.php?module=$1&parent=$2&view=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/([^/]+)/([^/]+)$','index.php?module=$1&parent=Settings&view=$3&sourceModule=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(Settings)/(Detail|Edit)/([0-9]+)/([^/]+)$','index.php?module=$1&parent=$2&view=$3&record=$4&parentblock=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Head)/(Credits)/(Settings)$','index.php?module=$1&view=$2&parent=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Settings)/([^/]+)/([^/]+)/([0-9]+)/([^/]+)$','index.php?parent=$1&module=$2&view=$3&block=$4&fieldid=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Head|Users|MailPlus|Workflows|ModuleManager|Profiles|Groups|Webforms|MenuEditor)/(Settings)/([^/]+)$','index.php?module=$1&parent=$2&view=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Head)/(Settings)/(CompanyDetails)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&parent=$2&view=$3&block=$4&fieldid=$5&error=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(PreferenceDetail|PreferenceEdit)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&parent=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Roles)/(Settings)/(Edit)/([^/]+)$','index.php?module=$1&parent=$2&view=$3&record=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Roles)/(Settings)/(Edit)/([^/]+)/(create)$','index.php?module=$1&parent=$2&view=$3&parent_roleid=$4&mode=create')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/([^/]+)/(Settings)/([0-9]+)/([0-9]+)$','index.php?module=$1&view=$2&parent=$3&block=$4&fieldid=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/([^/]+)/([0-9]+)/([0-9]+)$','index.php?module=$1&parent=$2&view=$3&block=$4&fieldid=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Settings)/([^/]+)/([0-9]+)/([0-9]+)/([0-9]+)$','index.php?module=$1&parent=$2&view=$3&record=$4&block=$5&fieldid=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(MailConverter)/([^/]+)/([^/]+)/([^/]+)/(new)$','index.php?module=$1&parent=$2&view=$3&mode=$4&create=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(MailConverter)/([^/]+)/([^/]+)/([^/]+)/(new)/([0-9]+)$','index.php?module=$1&parent=$2&view=$3&mode=$4&create=$5&record=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(MailConverter)/(Settings)/([0-9]+)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=MailConverter&parent=Settings&record=$3&create=$4&view=$5&mode=$6')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Documents)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/(true)$','index.php?module=$1&view=$2&sourceModule=$3&return_action=$4&sourceRecord=$5&parent_id=$6&relationOperation=$7')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Export)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)$','index.php?module=$1&view=$2&selected_ids=$3&excluded_ids=$4&viewname=$5&page=$6&search_params=$7')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^value1=([^/]+)/value2=([^/]+)$','index.php?value1=$1&value2=$2')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(EmailTemplates)/(Settings)/(List)/([^/]+)$','index.php?module=EmailTemplates&parent=Settings&view=List&triggerEventName=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Popup)/(Documents)/(Emails)/(composeEmail)/([^/]+)$','index.php?view=Popup&module=Documents&src_module=Emails&src_field=composeEmail&triggerEventName=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^([^/]+)/(Emails)/(EmailsRelatedModulePopup)/([^/]+)$','index.php?module=$1&src_module=Emails&view=EmailsRelatedModulePopup&triggerEventName=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(EmailPlus)/([^/]+)$','index.php?module=$1&view=$2')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(DuplicateCheck)/(Settings)/(List)$','index.php?module=DuplicateCheck&parent=Settings&view=List')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(DuplicateCheck)/(Settings)/(List)/([^/]+)$','index.php?module=DuplicateCheck&parent=Settings&view=List&sourceModule=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(DuplicateCheck)/(Settings)/(List)/([^/]+)/(notify=([^/]+))$','index.php?module=DuplicateCheck&parent=Settings&view=List&sourceModule=$4&notify=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(Login)/(status=1)$','index.php?module=$1&view=$2&status=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(Login)/(statusError=1)$','index.php?module=$1&view=$2&statusError=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(Users)/(Login)/(fpError=1)$','index.php?module=$1&view=$2&fpError=$3')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/(List)$','index.php?module=AddressLookup&parent=Settings&view=List')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/(List)/([^/]+)$','index.php?module=AddressLookup&parent=Settings&view=List&sourceModule=$4')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/(List)/([0-9]+)/([0-9]+)$','index.php?module=AddressLookup&parent=Settings&view=List&block=$4&fieldid=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/(List)/([^/]+)/(success)$','index.php?module=AddressLookup&parent=Settings&view=List&sourceModule=$4&success=1')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/(List)/([^/]+)/(check=([^/]+))$','index.php?module=AddressLookup&parent=Settings&view=List&sourceModule=$4&check=$5')",array());
-	 $adb->pquery("INSERT INTO jo_canonical (input_format,output_format) values('^(AddressLookup)/(Settings)/([^/]+)/([^/]+)/(error)$','index.php?module=AddressLookup&parent=Settings&view=$3&sourceModule=$4&error=1')",array());
-	//insert jo_canonical tables
-	//insert jo_canonical tables	
-
+	$settings_field_icon_array = array(
+				'LBL_USERS' => 'fa fa-user',
+				'LBL_ROLES' => 'fa fa-registered',
+				'LBL_PROFILES' => 'fa fa-user-plus',
+				'USERGROUPLIST' => 'fa fa-users',
+				'LBL_SHARING_ACCESS' => 'fa fa-share-alt',
+				'LBL_LOGIN_HISTORY_DETAILS' => 'fa fa-history',
+				'VTLIB_LBL_MODULE_MANAGER' => 'fa fa-chain',
+				'LBL_PICKLIST_EDITOR' => 'fa fa-file-text-o',
+				'LBL_PICKLIST_DEPENDENCY' => 'fa fa-list',
+				'LBL_COMPANY_DETAILS' => 'fa fa-building-o',
+				'LBL_MAIL_SERVER_SETTINGS' => 'fa fa-server ',
+				'LBL_CURRENCY_SETTINGS' => 'fa fa-usd',
+				'LBL_TAX_SETTINGS' => 'fa fa-money',
+				'INVENTORYTERMSANDCONDITIONS' => 'fa fa-info-circle',
+				'LBL_CUSTOMIZE_MODENT_NUMBER' => 'fa fa-sort-numeric-desc',
+				'LBL_MAIL_SCANNER' => 'fa fa-envelope-o',
+				'LBL_LIST_WORKFLOWS' => 'fa fa-sitemap',
+				'Configuration Editor' => 'fa fa-pencil-square-o',
+				'Scheduler' => 'fa fa-clock-o',
+				'LBL_PBXMANAGER' => 'fa fa-phone',
+				'ModTracker' => 'set-IcoLoginHistory.gif',
+				'LBL_CUSTOMER_PORTAL' => 'fa fa-list-alt',
+				'Webforms' => 'fa fa-file-zip-o',
+				'LBL_EDIT_FIELDS' => 'fa fa-codepen',
+				'LBL_LEAD_MAPPING' => 'fa fa-exchange',
+				'LBL_OPPORTUNITY_MAPPING' => 'fa fa-map-signs',
+				'My Preferences' =>  'fa fa-user',
+				'Calendar Settings' => 'fa fa-calendar-check-o',
+				'LBL_MY_TAGS' => 'fa fa-tags',
+				'LBL_GOOGLE' => 'fa fa-google',
+				'Google Settings' => 'fa fa-cogs'
+					);
 	//update jo_settings_field tables 
-	$adb->pquery("update jo_settings_field set linkto='Users/Settings/List' where name='LBL_USERS'");
-	$adb->pquery("update jo_settings_field set linkto='Roles/Settings/Index' where name='LBL_ROLES'");
-	$adb->pquery(" update jo_settings_field set linkto='Profiles/Settings/List' where name='LBL_PROFILES'");
-	$adb->pquery(" update jo_settings_field set linkto='Groups/Settings/List' where name='USERGROUPLIST'");
-	$adb->pquery(" update jo_settings_field set linkto='SharingAccess/Settings/Index' where name='LBL_SHARING_ACCESS'");
-	$adb->pquery(" update jo_settings_field set linkto='LoginHistory/Settings/List' where name='LBL_LOGIN_HISTORY_DETAILS'");
-	$adb->pquery("update jo_settings_field set linkto='ModuleManager/Settings/List' where name='VTLIB_LBL_MODULE_MANAGER' ");
-	$adb->pquery("update jo_settings_field set linkto='Settings/Picklist/Index' where name='LBL_PICKLIST_EDITOR' ");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/PickListDependency/List' where name='LBL_PICKLIST_DEPENDENCY'");
-	$adb->pquery(" update jo_settings_field set linkto='MenuEditor/Settings/Index' where name='LBL_MENU_EDITOR'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Head/CompanyDetails' where name='LBL_COMPANY_DETAILS'");
-	$adb->pquery("update jo_settings_field set linkto='Settings/Head/OutgoingServerDetail' where name='LBL_MAIL_SERVER_SETTINGS' ");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Currency/List' where name='LBL_CURRENCY_SETTINGS'");
-	$adb->pquery(" update jo_settings_field set linkto='Head/Settings/TaxIndex' where name='LBL_TAX_SETTINGS'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Server/ProxyConfig' where name='LBL_SYSTEM_INFO'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/DefModuleView/Settings' where name='LBL_DEFAULT_MODULE_VIEW'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Head/TermsAndConditionsEdit' where name='INVENTORYTERMSANDCONDITION'");
-	$adb->pquery(" update jo_settings_field set linkto='Head/Settings/CustomRecordNumbering' where name='LBL_CUSTOMIZE_MODENT_NUMBER'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/MailConverter/List' where name='LBL_MAIL_SCANNER'");
-	$adb->pquery(" update jo_settings_field set linkto='Workflows/Settings/List' where name='LBL_LIST_WORKFLOWS'");
-	$adb->pquery(" update jo_settings_field set linkto='Head/Settings/ConfigEditorDetail' where name='Configuration Editor'");
-	$adb->pquery(" update jo_settings_field set linkto='CronTasks/Settings/List' where name='Scheduler'");
-	$adb->pquery(" update jo_settings_field set linkto='ModTracker/BasicSettings/Settings/ModTracker' where name='ModTracker'");
-	$adb->pquery("update jo_settings_field set linkto='PBXManager/Settings/Index' where name='LBL_PBXMANAGER' ");
-	$adb->pquery(" update jo_settings_field set linkto='CustomerPortal/Settings/Index' where name='LBL_CUSTOMER_PORTAL'");
-	$adb->pquery(" update jo_settings_field set linkto='Webforms/Settings/List' where name='Webforms'");
-	$adb->pquery(" update jo_settings_field set linkto='LayoutEditor/Settings/Index' where name='LBL_EDIT_FIELDS'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Leads/MappingDetail' where name='LBL_LEAD_MAPPING'");
-	$adb->pquery(" update jo_settings_field set linkto='Settings/Potentials/MappingDetail' where name='LBL_OPPORTUNITY_MAPPING'");
-	$adb->pquery(" update jo_settings_field set linkto='Users/PreferenceDetail/Settings/1' where name='My Preferences'");
-	$adb->pquery(" update jo_settings_field set linkto='Users/Settings/Calendar/1' where name='Calendar Settings'");
-	$adb->pquery(" update jo_settings_field set linkto='Tags/Settings/List/1' where name='LBL_MY_TAGS'");
-	$adb->pquery(" update jo_settings_field set linkto='Contacts/Settings/Extension/Google/Index/settings' where name='LBL_GOOGLE'");
+	foreach($settings_field_name_array as $field_name){
+		$adb->pquery("update jo_settings_field set linkto=? , iconpath = ? where name= ? ", array( $settings_field_link_array[$field_name], $settings_field_icon_array[$field_name], $field_name) );
+	}
+
 	$adb->pquery("delete from jo_settings_field where name='LBL_EXTENSION_STORE'",array());
+	$adb->pquery("delete from jo_settings_field where name='LBL_MENU_EDITOR'",array());
+	$adb->pquery("delete from jo_settings_field where name='LBL_DEFAULT_MODULE_VIEW'",array());
 
 	$adb->pquery("insert into jo_settings_blocks values(13,'LBL_JOFORCE',11)",array());
 	$fieldid = $adb->getUniqueID('jo_settings_field');
-	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,description,linkto,sequence) values(?,?,?,?,?,?)",array($fieldid,13,'Contributors','Contributors','Head/Credits/Settings',1));
+	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,13,'Contributors', 'fa fa-plus-square','Contributors','Head/Settings/Credits',1));
 	$fieldid = $adb->getUniqueID('jo_settings_field');
-	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,description,linkto,sequence) values(?,?,?,?,?,?)",array($fieldid,13,'License','License','Head/Settings/License',2));
+	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,13,'License','fa fa-exclamation-triangle','License','Head/Settings/License',2));
 
 	$fieldid = $adb->getUniqueID('jo_settings_field');
-	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,description,linkto,sequence) values(?,?,?,?,?,?)",array($fieldid,6,'Module Studio','Module Studio','ModuleDesigner/Index/Settings',3));
-
+	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,6,'Module Studio','fa fa-edit','Module Studio','ModuleDesigner/Settings/Index',3));
+	$fieldid = $adb->getUniqueID('jo_settings_field');
+	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)", array($fieldid, 11, 'LBL_MENU_MANAGEMENT','fa fa-bars', 'Menu management', 'MenuManager/Settings/Index', 4));
 	//Service Contracts workflow deletion
 	$adb->pquery("delete from jo_eventhandlers where handler_class='ServiceContractsHandler'",array());
 
 
 	$unwantedmodule =  array(
-		'Faq','ServiceContracts','Assets','SMSNotifier','ExtensionStore'
+		'Faq','ServiceContracts','Assets','SMSNotifier','ExtensionStore','Rss'
 	);
 	foreach($unwantedmodule as $key => $module){
 		$adb->pquery("delete from jo_tab  where name = ?",array($module));	
 	}
+
+	//add default landing page to users table and field table
+	$adb->pquery( "ALTER TABLE jo_users ADD COLUMN default_landing_page VARCHAR(200) DEFAULT 'Dashboard'", array() );
+	
+	$usermoreinfoblock = $adb->getUniqueID('jo_blocks');
+	$field_id = $adb->getUniqueID("jo_field");
+	$adb->pquery("insert into jo_field values(29, " . $field_id . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Dashboard', 100, 20, " .$usermoreinfoblock . " ,1, 'V~O',1,0,'BAS', 1, '',0, '', 0)", array() );
+
+	$adb->pquery( "UPDATE jo_users SET default_landing_page = 'Dashboard'", array() );
+	
+	// Delete from unwanted dashboard entry from the jo_dashboard_tabs
+        $adb->pquery('delete from jo_dashboard_tabs where tabname = ?', array('Default'));
+
+	//Delete unwanted checks
+	$handler_path_array =array( 0 => 'modules/Head/handlers/CheckDuplicateHandler.php',
+				    1 => 'modules/Head/handlers/CheckDuplicateHandler.php',
+				    2 => 'modules/Head/handlers/FollowRecordHandler.php'
+				);
+	foreach($handler_path_array as $handler_path) {
+		$adb->pquery("DELETE from jo_eventhandlers WHERE handler_path = ?", array($handler_path));
+	}
+
+        //delete unwanted extension links from jo_links table
+        $adb->pquery('DELETE from jo_links WHERE linklabel = ?', array('Google Contacts'));
+        $adb->pquery('DELETE from jo_links WHERE linklabel = ?', array('Google Calendar'));
+
+	 // Centralize user field table for easy query with context of user across module
+    	$generalUserFieldTable = 'jo_crmentity_user_field';
+    	if (!Head_Utils::CheckTable($generalUserFieldTable)) {
+        	Head_Utils::CreateTable($generalUserFieldTable,
+                	'(`recordid` INT(19) NOT NULL,
+	                `userid` INT(19) NOT NULL,
+        	        `starred` VARCHAR(100) DEFAULT NULL)', true);
+	}
+
+    	if (Head_Utils::CheckTable($generalUserFieldTable)) {
+        	$indexRes = $adb->pquery("SHOW INDEX FROM $generalUserFieldTable WHERE NON_UNIQUE=? AND KEY_NAME=?", array('1', 'record_user_idx'));
+        	if ($adb->num_rows($indexRes) < 2) {
+            		$adb->pquery('ALTER TABLE jo_crmentity_user_field ADD CONSTRAINT record_user_idx UNIQUE KEY(recordid, userid)', array());
+        	}
+
+        	$checkUserFieldConstraintExists = $adb->pquery('SELECT DISTINCT 1 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE table_name=? AND CONSTRAINT_SCHEMA=?', array($generalUserFieldTable, $adb->dbName));
+        	if ($adb->num_rows($checkUserFieldConstraintExists) < 1) {
+            		$adb->pquery('ALTER TABLE jo_crmentity_user_field ADD CONSTRAINT `fk_jo_crmentity_user_field_recordid` FOREIGN KEY (`recordid`) REFERENCES `jo_crmentity`(`crmid`) ON DELETE CASCADE', array());
+        	}
+    	}
+
+    	echo '<br>Succesfully centralize user field table for easy query with context of user across module<br>';
+	// Centralize user field table for easy query with context of user across module
+
+	$adb->pquery("UPDATE jo_field SET tablename = ? where fieldname = ?", array($generalUserFieldTable, 'starred'));
+
+	if (!Head_Utils::CheckTable('jo_mailscanner')) {
+		Head_Utils::CreateTable('jo_mailscanner', 
+				"(`scannerid` INT(11) NOT NULL AUTO_INCREMENT,
+				`scannername` VARCHAR(30) DEFAULT NULL,
+				`server` VARCHAR(100) DEFAULT NULL,
+				`protocol` VARCHAR(10) DEFAULT NULL,
+				`username` VARCHAR(255) DEFAULT NULL,
+				`password` VARCHAR(255) DEFAULT NULL,
+				`ssltype` VARCHAR(10) DEFAULT NULL,
+				`sslmethod` VARCHAR(30) DEFAULT NULL,
+				`connecturl` VARCHAR(255) DEFAULT NULL,
+				`searchfor` VARCHAR(10) DEFAULT NULL,
+				`markas` VARCHAR(10) DEFAULT NULL,
+				`isvalid` INT(1) DEFAULT NULL,
+				`scanfrom` VARCHAR(10) DEFAULT 'ALL',
+				`time_zone` VARCHAR(10) DEFAULT NULL,
+				PRIMARY KEY (`scannerid`)
+			  ) ENGINE=InnoDB DEFAULT CHARSET=utf8", true);
+	}
+
+	$updateModulesList = array(	'Project'		=> 'packages/head/optional/Projects.zip',
+								'Google'		=> 'packages/head/optional/Google.zip',
+								'ExtensionStore'=> 'packages/head/marketplace/ExtensionStore.zip');
+	foreach ($updateModulesList as $moduleName => $packagePath) {
+		$moduleInstance = Head_Module::getInstance($moduleName);
+		if($moduleInstance) {
+			updateVtlibModule($moduleName, $packagepath);
+		}
+	}
+
+    	if (!Head_Utils::CheckTable('jo_loginhistory')) {
+       		$adb->pquery("CREATE TABLE `jo_loginhistory` (
+                    `login_id` int(11) NOT NULL AUTO_INCREMENT,
+                    `user_name` varchar(255) DEFAULT NULL,
+                    `user_ip` varchar(25) NOT NULL,
+                    `logout_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                    `status` varchar(25) DEFAULT NULL,
+                    PRIMARY KEY (`login_id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1", array());
+    	}
+
+    include_once 'vtlib/Head/Module.php';
+    $moduleLists = 'MailManager';
+    $module = Head_Module::getInstance($moduleLists);
+    if ($module) $module->delete();
+
+	// Update the version of the joforce
+	$adb->pquery("UPDATE jo_version SET old_version = ? , current_version = ? where id =?", array( $jo_current_version, 1.3, 1 ));
 	//$adb->pquery(" ");
 	//Modules creation and updation
 
@@ -277,7 +326,8 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 	installVtlibModule('AddressLookup', 'packages/head/migrate/AddressLookup.zip');
 	installVtlibModule('DuplicateCheck', 'packages/head/migrate/DuplicateCheck.zip');
 	installVtlibModule('EmailPlus', 'packages/head/migrate/EmailPlus.zip');
-	installVtlibModule('VTPDFMaker', 'packages/head/migrate/VTPDFMaker.zip');
+	installVtlibModule('PDFMaker', 'packages/head/migrate/PDFMaker.zip');
+
 	//create htaccess file
 	crete_htacces_file();
         session_unset();
@@ -321,8 +371,8 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 						<div class="span12">
 							<div style = 'margin-left: 20%'>
                                 <br> <br>
-									<strong> Warning: </strong>Please note that it is not possible to revert back to Vtiger v7.0 after the upgrade to Joforce v1.2 <br>
-									So, it is important to take a backup of the Vtiger v7.0 files and database before upgrading.</p><br>
+									<strong> Warning: </strong>Please note that it is not possible to revert back to Vtiger v7.1 after the upgrade to Joforce v1.3 <br>
+									So, it is important to take a backup of the Vtiger v7.1 files and database before upgrading.</p><br>
 								<form action="index.php" method="POST">
 									<div><input type="checkbox" id="checkBox1" name="checkBox1"/><div class="chkbox"></div> Backup of source folder </div><br>
 									<div><input type="checkbox" id="checkBox4" name="checkBox4"/><div class="chkbox"></div> Backup of database </div><br>
@@ -377,14 +427,6 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 					}
                                                 return true;
                                         });
-
-					/*$('input[name="startMigration"]').click(function(){
-                        var confirm_migration = confirm('Are you sure you want to start the migration ?');
-                        if(!confirm_migration)  {
-							return false;
-						}
-						return true;
-					});*/
 				});
 				
 			</script>
@@ -443,7 +485,7 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 										
 									
 								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div>  <strong>You agree that you’ve backed up the necessary details before making any changes.</strong> </div><br><br>
-								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not responsible for any loss.</strong> </div><br>
+								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not responsible for any data loss.</strong> </div><br>
 									<br><br><br>
 									<div class="button-container">
 										<input type="submit" class="btn btn-large btn-primary" id="FinishMigration" name="FinishMigration" value="Start Migration" />
@@ -456,14 +498,6 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.2') {
 			</div>
 			<script>
 				$(document).ready(function(){
-
-                                        /*$('input[name="FinishMigration"]').click(function(){
-                                                if($("#checkBox1").is(':checked') == false || $("#checkBox2").is(':checked') == false || $("#checkBox3").is(':checked') == false  || $("#checkBox4").is(':checked') == false ){
-                                                        alert('Before starting migration, please take your database and source backup');
-                                                        return false;
-                                                }
-                                                return true;
-                                        });*/
 
 					$('input[name="FinishMigration"]').click(function(){
                         var confirm_migration = confirm('Are you sure you want to start the migration ?');

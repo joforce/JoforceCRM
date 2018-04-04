@@ -20,7 +20,7 @@
                         {if $MODULE_LIST|@count gt 0}
                             {foreach item=MODULEMODEL from=$MODULE_LIST}
                                 <li style="font-size:12px;" class='listViewFilter {if $MODULEMODEL->getName() eq $SOURCE_MODULE}active{/if} '>
-                                    <a class="filterName" href="index.php?module=RecycleBin&view=List&sourceModule={$MODULEMODEL->getName()}" >{vtranslate($MODULEMODEL->getName(), $MODULEMODEL->getName())}</a>
+                                    <a class="filterName" href="{$SITEURL}index.php?module=RecycleBin&view=List&sourceModule={$MODULEMODEL->getName()}" >{vtranslate($MODULEMODEL->getName(), $MODULEMODEL->getName())}</a>
                                 </li>
                             {/foreach}
                         {/if}

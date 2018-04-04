@@ -65,10 +65,10 @@
             <div class='col-lg-12 {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
                 <div class='col-lg-3' style='position:relative;top:5px;'>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
                 <div class='col-lg-2'>
-                    <div class="input-group inputElement date" style="margin-bottom: 3px">
+                    <div class="input-group date" style="margin-bottom: 3px">
                         {assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
                         {if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-                        <input style='width: 185px;' type="text" class="dateField form-control" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true" />
+                        <input style='width: 185px;' type="text" class="dateField form-control inputElement" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true" />
                         <span class="input-group-addon"><i class="fa fa-calendar "></i></span>
                     </div>
                 </div>
@@ -103,8 +103,8 @@
                     {vtranslate('LBL_AT_TIME', $MODULE)}<span class="redColor">*</span>
                 </div>
                 <div class='col-lg-2' id='schtime'>
-                    <div class='input-group inputElement time'>
-						<input type='text' class='timepicker-default form-control ui-timepicker-input' data-format='{$CURRENT_USER->get('hour_format')}' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-rule-required="true" data-rule-time="true" />
+                    <div class='input-group time'>
+						<input type='text' class='timepicker-default form-control ui-timepicker-input inputElement' data-format='{$CURRENT_USER->get('hour_format')}' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-rule-required="true" data-rule-time="true" />
 							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                     </div>
                 </div>

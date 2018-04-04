@@ -31,7 +31,6 @@
 
 		<div id="modnavigator" class="row module-nav">
 			<div class="hidden-xs hidden-sm mod-switcher-container">
-				{include file="modules/Head/partials/Menubar.tpl"}
 				{include file="modules/Head/partials/SidebarEssentials.tpl"}
 			</div>
 		</div>

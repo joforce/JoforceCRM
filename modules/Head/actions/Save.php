@@ -37,7 +37,10 @@ class Head_Save_Action extends Head_Action_Controller {
 	}
 
 	public function process(Head_Request $request) {
+		global $site_URL;
 		$recordModel = $this->saveRecord($request);
+		$save_status = $request->get('save_and_new');
+		$module_name = $request->get('module');
 		if ($request->get('returntab_label')){
 			$loadUrl = 'index.php?'.$request->getReturnURL();
 		} else if($request->get('relationOperation')) {
@@ -53,11 +56,11 @@ class Head_Save_Action extends Head_Action_Controller {
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
 		}
-		$appName = $request->get('appName');
-		if(strlen($appName) > 0){
-			$loadUrl = $loadUrl.$appName;
-		}
-		header("Location: $loadUrl");
+
+		if($save_status == 'true')
+			header ("Location: ".$site_URL.$module_name."/view/Edit");
+		else
+			header("Location: $loadUrl");
 	}
 
 	/**

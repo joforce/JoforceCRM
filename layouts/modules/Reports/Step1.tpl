@@ -21,19 +21,19 @@
         <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
         <input type="hidden" name="record" value="{$RECORD_ID}" />
         <input type=hidden id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
-        <div style="border:1px solid #ccc;padding:4%;">
+        <div style="padding:2%;">
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="red-border"></span></label>
+                    <div class="col-lg-4 pl0">
                         <input type="text" class="inputElement" data-rule-required="true" name="reportname" value="{$REPORT_MODEL->get('reportname')}"/>
                     </div>
                 </div>
             </div>
             <div class="row">		
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="red-border"></span></label>
+                    <div class="col-lg-4 pl0">
                         <select class="select2 col-lg-12 inputElement" name="folderid" data-rule-required="true">
                             {foreach item=REPORT_FOLDER from=$REPORT_FOLDERS}
                                 <option value="{$REPORT_FOLDER->getId()}" 
@@ -48,8 +48,8 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="red-border"></span></label>
+                    <div class="col-lg-4 pl0">
                         <select class="select2-container select2 col-lg-12 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
                                 {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
@@ -66,8 +66,8 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
+                    <div class="col-lg-4 pl0">
                         {assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
                         {assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
@@ -93,16 +93,16 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_DESCRIPTION',$MODULE)}</label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_DESCRIPTION',$MODULE)}</label>
+                    <div class="col-lg-4 pl0">
                         <textarea type="text" cols="50" rows="3" class="inputElement" name="description">{$REPORT_MODEL->get('description')}</textarea>
                     </div>
                 </div>	
             </div>
             <div class='row'>
                 <div class='form-group'>
-                    <label class='col-lg-3 control-label textAlignLeft'>{vtranslate('LBL_SHARE_REPORT',$MODULE)}</label>
-                    <div class='col-lg-4'>
+                    <label class='col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0'>{vtranslate('LBL_SHARE_REPORT',$MODULE)}</label>
+                    <div class='col-lg-4 pl0'>
                         <select id="memberList" class="col-lg-12 select2-container select2 members " multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $MODULE)}">
                             {foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                 <optgroup label="{$GROUP_LABEL}">

@@ -11,25 +11,6 @@
 
 class Leads_LeadsCreated_Dashboard extends Head_IndexAjax_View {
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param Head_Request $request
-	 * @return <Array> - List of Head_JsScript_Model instances
-	 */
-	function getHeaderScripts(Head_Request $request) {
-
-		$jsFileNames = array(
-//			'~/libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-//			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js'
-		);
-
-		$headerScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $headerScriptInstances;
-	}
-
 	public function process(Head_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

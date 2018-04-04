@@ -552,10 +552,13 @@
 		</div>
 	</li>
 
-	<div class="modal-dialog modal-content addBlockModal hide">
+	<div class="modal-dialog addBlockModal hide">
+		<div class="modal-content">
+
 		{assign var=HEADER_TITLE value={vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}}
-		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+		
 		<form class="form-horizontal addCustomBlockForm">
+		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 			<div class="modal-body">
 				<div class="form-group">
 					<label class="control-label fieldLabel col-sm-5">
@@ -581,6 +584,7 @@
 			</div>
 			{include file='ModalFooter.tpl'|@vtemplate_path:'Head'}
 		</form>
+	</div>
 	</div>
 	<div class="hide defaultValueIcon">
 		<img src="{$SITEURL}{vimage_path('DefaultValue.png')}" height=14 width=14>

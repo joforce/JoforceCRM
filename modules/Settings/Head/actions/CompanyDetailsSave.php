@@ -13,18 +13,36 @@
 class Settings_Head_CompanyDetailsSave_Action extends Settings_Head_Basic_Action {
 
 	public function process(Head_Request $request) {
+	    $succes = true;
+	    $message = vtranslate('Successfully updated');
 		$moduleModel = Settings_Head_CompanyDetails_Model::getInstance();
 		$reloadUrl = $moduleModel->getIndexViewUrl();
 
-		try{
-			$this->Save($request);
+		try {
+			$result = $this->Save($request);
 		} catch(Exception $e) {
 			if($e->getMessage() == "LBL_INVALID_IMAGE") {
 				$reloadUrl .= '&error=LBL_INVALID_IMAGE';
+				$succes = false;
+				$message = vtranslate('LBL_INVALID_IMAGE');
 			} else if($e->getMessage() == "LBL_FIELDS_INFO_IS_EMPTY") {
 				$reloadUrl = $moduleModel->getEditViewUrl() . '&error=LBL_FIELDS_INFO_IS_EMPTY';
+                $succes = false;
+                $message = vtranslate('LBL_FIELDS_INFO_IS_EMPTY');
 			}
 		}
+
+		if($request->isAjax())  {
+            $response = new Head_Response();
+            if($succes) {
+                $response->setResult(['success' => $succes, 'message' => $message, 'res' => $result]);
+            }
+            else    {
+                $response->setError(419, $message);
+            }
+            $response->emit(); die;
+        }
+
 		header('Location: ' . $reloadUrl);
 	}
 
@@ -77,16 +95,15 @@ class Settings_Head_CompanyDetailsSave_Action extends Settings_Head_Basic_Action
 			}
 			$moduleModel->save();
 		}
+
 		if ($saveLogo && $status) {
-			return ;
+			return $moduleModel->getLogoPath();
 		} else if (!$saveLogo) {
 			throw new Exception('LBL_INVALID_IMAGE',103);
-			//$reloadUrl .= '&error=';
 		} else {
 			throw new Exception('LBL_FIELDS_INFO_IS_EMPTY',103);
-			//$reloadUrl = $moduleModel->getEditViewUrl() . '&error=';
 		}
-		return;
+		return $moduleModel->getLogoPath();
 	}
 
 	public function validateRequest(Head_Request $request) {

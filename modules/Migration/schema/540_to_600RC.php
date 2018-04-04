@@ -1210,18 +1210,6 @@ $homeModule->addLink('DASHBOARDWIDGET', 'Tag Cloud', 'index.php?module=Home&view
 // Schema changed for capturing Dashboard widget positions
 Migration_Index_View::ExecuteQuery('ALTER TABLE jo_module_dashboard_widgets ADD COLUMN position VARCHAR(50)',array());
 
-$moduleInstance = Head_Module::getInstance('Contacts');
-if($moduleInstance) {
-	$moduleInstance->addLink('LISTVIEWSIDEBARWIDGET','Google Contacts',
-		'module=Google&view=List&sourcemodule=Contacts', '','', '');
-}
-
-$moduleInstance = Head_Module::getInstance('Calendar');
-if($moduleInstance) {
-	$moduleInstance->addLink('LISTVIEWSIDEBARWIDGET','Google Calendar',
-		'module=Google&view=List&sourcemodule=Calendar', '','', '');
-}
-
 Migration_Index_View::ExecuteQuery('ALTER TABLE jo_cvadvfilter MODIFY comparator VARCHAR(20)', array());
 Migration_Index_View::ExecuteQuery('UPDATE jo_cvadvfilter SET comparator = ? WHERE comparator = ?', array('next120days', 'next120day'));
 Migration_Index_View::ExecuteQuery('UPDATE jo_cvadvfilter SET comparator = ? WHERE comparator = ?', array('last120days', 'last120day'));

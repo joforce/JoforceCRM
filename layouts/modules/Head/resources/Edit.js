@@ -144,8 +144,12 @@ Head_Index_Js("Head_Edit_Js",{
                 if(e.isDefaultPrevented()) {
                     return false;
                 }
-				window.onbeforeunload = null;
+		window.onbeforeunload = null;
+		if($(this).data('savebtn'))
+			jQuery('[name="save_and_new"]').val('false');
+
                 editViewForm.find('.saveButton').attr('disabled',true);
+		editViewForm.find('#save-and-new-Button').attr('disabled',true);
                 return true;
             }
         });
@@ -317,6 +321,13 @@ Head_Index_Js("Head_Edit_Js",{
 				jQuery(e.currentTarget).addClass('ignore-validation');
             });
 	},
+	
+	registerSaveAndNewEvent : function() {
+		$("#save-and-new-Button").on('click', function() {
+			jQuery('[name="save_and_new"]').val('true');
+			this.registerValidation();
+		});
+	},
         
     /** 
      * Function to register Basic Events
@@ -331,7 +342,34 @@ Head_Index_Js("Head_Edit_Js",{
         this.registerClearReferenceSelectionEvent(form);
         this.registerReferenceCreate(form);
         this.referenceModulePopupRegisterEvent(form);
+	this.registerSaveAndNewEvent(form);
         this.registerPostReferenceEvent(this.getEditViewContainer());
+    },
+    registerClearReferenceSelectionEvent : function(contentHolder) {
+        var thisInstance = this;
+        if(typeof contentHolder === 'undefined') {
+                contentHolder = this.getContentHolder();
+        }
+        contentHolder.off('click', 'clearReferenceSelection');
+        contentHolder.on('click','.clearReferenceSelection',function(e){
+                e.preventDefault();
+                var element = jQuery(e.currentTarget);
+                var parentTdElement = element.closest('td');
+                if(parentTdElement.length == 0){
+                        parentTdElement = element.closest('.fieldValue');
+                }
+                var inputElement = parentTdElement.find('.inputElement');
+                var fieldName = parentTdElement.find('.sourceField').attr("name");
+
+                parentTdElement.find('.referencefield-wrapper').removeClass('selected');
+                inputElement.removeAttr("disabled").removeAttr('readonly');
+                inputElement.attr("value","");
+                inputElement.data('value','');
+                inputElement.val("");
+                parentTdElement.find('input[name="'+fieldName+'"]').val("");
+                element.addClass('hide');
+                element.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
+        });
     },
     proceedRegisterEvents : function(){
 		if(jQuery('.recordEditView').length > 0){

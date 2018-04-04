@@ -38,7 +38,7 @@ class AddressLookup
 				}
 			}
 			$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Address Lookup', 'addreslookup.png', 'Auto Fill the address fields in each module',
+				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Address Lookup', 'fa fa-search-plus', 'Auto Fill the address fields in each module',
 					'AddressLookup/Settings/List', $seq));
 		
 		} else if ($eventType == 'module.enabled') {

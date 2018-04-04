@@ -277,7 +277,7 @@ class Inventory_Record_Model extends Head_Record_Model {
 	 */
 	public function getExportPDFUrl() {
         global $site_URL;
-		return $site_URL.$this->getModuleName()."/ExportPDF/".$this->getId();
+		return $site_URL . $this->getModuleName() . "/action/ExportPDF/".$this->getId();
 	}
 
 	/**

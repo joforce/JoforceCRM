@@ -3,7 +3,7 @@
 
 define('INSTALL_PATH', getcwd() . '/' );
 
-require_once INSTALL_PATH . 'program/includes/clisetup.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
 $opts = rcube_utils::get_opt(array(

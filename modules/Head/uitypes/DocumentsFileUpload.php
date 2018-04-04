@@ -35,7 +35,7 @@ class Head_DocumentsFileUpload_UIType extends Head_Base_UIType {
 					$fileIdRes = $db->pquery('SELECT attachmentsid FROM jo_seattachmentsrel WHERE crmid = ?', array($recordId));
 					$fileId = $db->query_result($fileIdRes, 0, 'attachmentsid');
 					if($fileId){
-						$value = '<a href="'.$site_URL.'Documents/DownloadFile/'.$recordId.'/'.$fileId.'"'.
+						$value = '<a href="'.$site_URL.'Documents/action/DownloadFile/'.$recordId.'?fileid='.$fileId.'"'.
 									' title="'.	vtranslate('LBL_DOWNLOAD_FILE', 'Documents').'" >'.$value.'</a>';
 					}
 				} else {

@@ -77,12 +77,12 @@
 			<div class="row">
 				<span class="col-lg-6">
 					<div class="row">
-						<div class="col-lg-6">
-							<h3 class='fieldBlockHeader' style="margin-top:5px;">&nbsp;&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}</h3>
+						<div class="col-lg-6 pl25 pr0">
+							<h4 class='fieldBlockHeader' style="margin-top:5px;">&nbsp;&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
 						</div>
-						<div class="col-lg-6" style="top: 3px;">
+						<div class="col-lg-6 " style="top: 3px;">
 							{if $LINEITEM_FIELDS['region_id'] && $LINEITEM_FIELDS['region_id']->isEditable()}
-								<span class="pull-right">
+								<span class="">
 									<i class="fa fa-info-circle"></i>&nbsp;
 									<label>{vtranslate($LINEITEM_FIELDS['region_id']->get('label'), $MODULE)}</label>&nbsp;
 									<select class="select2" id="region_id" name="region_id" style="width: 164px;">
@@ -99,7 +99,7 @@
 						</div>
 					</div>
 				</span>
-				<div class="col-lg-3" style="top: 3px;">
+				<div class="col-lg-3 pr0 pl0" style="top: 3px;">
 					<center>
 						<i class="fa fa-info-circle"></i>&nbsp;
 						<label>{vtranslate('LBL_CURRENCY',$MODULE)}</label>&nbsp;
@@ -133,7 +133,7 @@
 						<input type="hidden" value="{$SELECTED_CURRENCY.currency_id}" id="selectedCurrencyId" />
 					</center>
 				</div>
-				<div class="col-lg-3" style="top: 3px;">
+				<div class="col-lg-3 pl0 pr25" style="top: 3px;">
 					<div style="float: right;">
 						<i class="fa fa-info-circle"></i>&nbsp;
 						<label>{vtranslate('LBL_TAX_MODE',$MODULE)}</label>&nbsp;
@@ -144,7 +144,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="lineitemTableContainer">
+			<div class="lineitemTableContainer pl25 pr25 mt30">
 				<table class="table table-bordered" id="lineItemTab">
 					<tr>
 						<td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
@@ -163,7 +163,7 @@
 						</td>
 						{if $PURCHASE_COST_EDITABLE}
 							<td>
-								<strong class="pull-right">{vtranslate({$LINEITEM_FIELDS['purchase_cost']->get('label')},$MODULE)}</strong>
+								<strong class="">{vtranslate({$LINEITEM_FIELDS['purchase_cost']->get('label')},$MODULE)}</strong>
 							</td>
 						{/if}
 						{if $LIST_PRICE_EDITABLE}
@@ -171,13 +171,13 @@
 								<strong>{vtranslate({$LINEITEM_FIELDS['listprice']->get('label')},$MODULE)}</strong>
 							</td>
 						{/if}
-						<td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
+						<td><strong class="">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
 							{if $MARGIN_EDITABLE && $PURCHASE_COST_EDITABLE}
 							<td>
-								<strong class="pull-right">{vtranslate({$LINEITEM_FIELDS['margin']->get('label')},$MODULE)}</strong>
+								<strong class="">{vtranslate({$LINEITEM_FIELDS['margin']->get('label')},$MODULE)}</strong>
 							</td>
 						{/if}
-						<td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
+						<td><strong class="">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
 					</tr>
 					<tr id="row0" class="hide lineItemCloneCopy" data-row-num="0">
 						{include file="partials/LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=0 data=[] IGNORE_UI_REGISTRATION=true}
@@ -197,7 +197,7 @@
 		</div>
 		<br>
 		<div>
-			<div>
+			<div class="pl25 pr25">
 				{if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
 					<div class="btn-toolbar">
 						<span class="btn-group">
@@ -227,19 +227,19 @@
 			</div>
 		</div>
 		<br>
-		<table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
+		<table class="table table-bordered blockContainer lineItemTable pl25 pr25" id="lineItemResult" style="width: 95%; margin:auto;">
 			<tr>
-				<td width="83%">
-					<div class="pull-right"><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
+				<td width="50%">
+					<div class=""><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
 				</td>
 				<td>
-					<div id="netTotal" class="pull-right netTotal">{if !empty($FINAL.hdnSubTotal)}{$FINAL.hdnSubTotal}{else}0{/if}</div>
+					<div id="netTotal" class=" netTotal">{if !empty($FINAL.hdnSubTotal)}{$FINAL.hdnSubTotal}{else}0{/if}</div>
 				</td>
 			</tr>
 			{if $DISCOUNT_AMOUNT_EDITABLE || $DISCOUNT_PERCENT_EDITABLE}
 				<tr>
-					<td width="83%">
-						<span class="pull-right">(-)&nbsp;
+					<td width="50%">
+						<span class="">(-)&nbsp;
 							<strong><a href="javascript:void(0)" id="finalDiscount">{vtranslate('LBL_OVERALL_DISCOUNT',$MODULE)}&nbsp;
 									<span id="overallDiscount">
 										{if $DISCOUNT_PERCENT_EDITABLE && $FINAL.discount_type_final eq 'percentage'}
@@ -254,7 +254,7 @@
 						</span>
 					</td>
 					<td>
-						<span id="discountTotal_final" class="pull-right discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
+						<span id="discountTotal_final" class=" discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
 
 						<!-- Popup Discount Div -->
 						<div id="finalDiscountUI" class="finalDiscountUI validCheck hide">
@@ -278,13 +278,13 @@
 									{if $DISCOUNT_PERCENT_EDITABLE}
 										<tr>
 											<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}</td>
-											<td><span class="pull-right">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" class="discount_percentage_final span1 pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
+											<td><span class="">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" class="discount_percentage_final span1  discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
 										</tr>
 									{/if}
 									{if $DISCOUNT_AMOUNT_EDITABLE}
 										<tr>
 											<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}</td>
-											<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" class="span1 pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+											<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" class="span1  discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
 										</tr>
 									{/if}
 								</tbody>
@@ -297,8 +297,8 @@
 			{if $SH_PERCENT_EDITABLE}
 				{assign var=CHARGE_AND_CHARGETAX_VALUES value=$FINAL.chargesAndItsTaxes}
 				<tr>
-					<td width="83%">
-						<span class="pull-right">(+)&nbsp;<strong><a href="javascript:void(0)" id="charges">{vtranslate('LBL_CHARGES',$MODULE)}</a></strong></span>
+					<td width="50%">
+						<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="charges">{vtranslate('LBL_CHARGES',$MODULE)}</a></strong></span>
 						<div id="chargesBlock" class="validCheck hide chargesBlock">
 							<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 								{foreach key=CHARGE_ID item=CHARGE_MODEL from=$INVENTORY_CHARGES}
@@ -325,25 +325,25 @@
 					</td>
 					<td>
 						<input type="hidden" class="lineItemInputBox" id="chargesTotal" name="shipping_handling_charge" value="{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}" />
-						<span id="chargesTotalDisplay" class="pull-right chargesTotalDisplay">{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
+						<span id="chargesTotalDisplay" class=" chargesTotalDisplay">{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
 					</td>
 				</tr>
 			{/if}
 			<tr>
-				<td width="83%">
-					<span class="pull-right"><strong>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE)} </strong></span>
+				<td width="50%">
+					<span class=""><strong>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE)} </strong></span>
 				</td>
 				<td>
 					{assign var=PRE_TAX_TOTAL value=$FINAL.preTaxTotal}
-					<span class="pull-right" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}</span>
+					<span class="" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}</span>
 					<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 				</td>
 			</tr>
 			<!-- Group Tax - starts -->
 
 			<tr id="group_tax_row" valign="top" class="{if $IS_INDIVIDUAL_TAX_TYPE}hide{/if}">
-				<td width="83%">
-					<span class="pull-right">(+)&nbsp;<strong><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></strong></span>
+				<td width="50%">
+					<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></strong></span>
 					<!-- Pop Div For Group TAX -->
 					<div class="hide finalTaxUI validCheck" id="group_tax_div">
 						<input type="hidden" class="popover_title" value="{vtranslate('LBL_GROUP_TAX',$MODULE)}" />
@@ -366,13 +366,13 @@
 					</div>
 					<!-- End Popup Div Group Tax -->
 				</td>
-				<td><span id="tax_final" class="pull-right tax_final">{if $FINAL.tax_totalamount}{$FINAL.tax_totalamount}{else}0{/if}</span></td>
+				<td><span id="tax_final" class=" tax_final">{if $FINAL.tax_totalamount}{$FINAL.tax_totalamount}{else}0{/if}</span></td>
 			</tr>
 			<!-- Group Tax - ends -->
 			{if $SH_PERCENT_EDITABLE}
 				<tr>
-					<td width="83%">
-						<span class="pull-right">(+)&nbsp;<strong><a href="javascript:void(0)" id="chargeTaxes">{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE)} </a></strong></span>
+					<td width="50%">
+						<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="chargeTaxes">{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE)} </a></strong></span>
 
 						<!-- Pop Div For Shipping and Handling TAX -->
 						<div id="chargeTaxesBlock" class="hide validCheck chargeTaxesBlock">
@@ -405,7 +405,7 @@
 														   data-rule-positive=true data-rule-inventory_percentage=true />&nbsp;%
 												</td>
 												<td style="text-align: right;" class="lineOnTop">
-													<input type="text" class="span1 chargeTaxValue cursorPointer pull-right chargeTax{$CHARGE_ID}{$CHARGE_TAX_ID}" size="5" value="0" readonly />&nbsp;
+													<input type="text" class="span1 chargeTaxValue cursorPointer  chargeTax{$CHARGE_ID}{$CHARGE_TAX_ID}" size="5" value="0" readonly />&nbsp;
 												</td>
 											</tr>
 										{/foreach}
@@ -417,12 +417,12 @@
 					</td>
 					<td>
 						<input type="hidden" id="chargeTaxTotalHidden" class="chargeTaxTotal" name="s_h_percent" value="{if $FINAL.shtax_totalamount}{$FINAL.shtax_totalamount}{else}0{/if}" />
-						<span class="pull-right" id="chargeTaxTotal">{if $FINAL.shtax_totalamount}{$FINAL.shtax_totalamount}{else}0{/if}</span>
+						<span class="" id="chargeTaxTotal">{if $FINAL.shtax_totalamount}{$FINAL.shtax_totalamount}{else}0{/if}</span>
 					</td>
 				</tr>
 				<tr>
-					<td width="83%">
-						<span class="pull-right">(-)&nbsp;<strong><a href="javascript:void(0)" id="deductTaxes">{vtranslate('LBL_DEDUCTED_TAXES',$MODULE)} </a></strong></span>
+					<td width="50%">
+						<span class="">(-)&nbsp;<strong><a href="javascript:void(0)" id="deductTaxes">{vtranslate('LBL_DEDUCTED_TAXES',$MODULE)} </a></strong></span>
 
 						<div id="deductTaxesBlock" class="hide validCheck deductTaxesBlock">
 							<table class="table table-nobordered popupTable">
@@ -435,7 +435,7 @@
 													   data-rule-positive=true data-rule-inventory_percentage=true />&nbsp;%
 											</td>
 											<td style="text-align: right;" class="lineOnTop">
-												<input type="text" class="span1 deductTaxValue cursorPointer pull-right" name="{$DEDUCTED_TAX_INFO['taxname']}_group_amount" size="5" readonly value="{$DEDUCTED_TAX_INFO['amount']}"/>&nbsp;
+												<input type="text" class="span1 deductTaxValue cursorPointer " name="{$DEDUCTED_TAX_INFO['taxname']}_group_amount" size="5" readonly value="{$DEDUCTED_TAX_INFO['amount']}"/>&nbsp;
 											</td>
 										</tr>
 									{/foreach}
@@ -444,14 +444,14 @@
 						</div>
 					</td>
 					<td>
-						<span class="pull-right" id="deductTaxesTotalAmount">{if $FINAL.deductTaxesTotalAmount}{$FINAL.deductTaxesTotalAmount}{else}0{/if}</span>
+						<span class="" id="deductTaxesTotalAmount">{if $FINAL.deductTaxesTotalAmount}{$FINAL.deductTaxesTotalAmount}{else}0{/if}</span>
 					</td>
 				</tr>
 			{/if}
 
 			<tr valign="top">
-				<td width="83%" >
-					<div class="pull-right">
+				<td width="50%" >
+					<div class="">
 						<strong>{vtranslate('LBL_ADJUSTMENT',$MODULE)}&nbsp;&nbsp;</strong>
 						<span>
 							<input type="radio" name="adjustmentType" option value="+" {if $FINAL.adjustment gte 0}checked{/if}>&nbsp;{vtranslate('LBL_ADD',$MODULE)}&nbsp;&nbsp;
@@ -462,23 +462,23 @@
 					</div>
 				</td>
 				<td>
-					<span class="pull-right">
+					<span class="">
 						<input id="adjustment" name="adjustment" type="text" data-rule-positive="true" class="lineItemInputBox form-control" value="{if $FINAL.adjustment lt 0}{abs($FINAL.adjustment)}{elseif $FINAL.adjustment}{$FINAL.adjustment}{else}0{/if}">
 					</span>
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="83%">
-					<span class="pull-right"><strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</strong></span>
+				<td width="50%">
+					<span class=""><strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</strong></span>
 				</td>
 				<td>
-					<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
+					<span id="grandTotal" name="grandTotal" class=" grandTotal">{$FINAL.grandTotal}</span>
 				</td>
 			</tr>
 			{if $MODULE eq 'Invoice' or $MODULE eq 'PurchaseOrder'}
 				<tr valign="top">
-					<td width="83%" >
-						<div class="pull-right">
+					<td width="50%" >
+						<div class="">
 							{if $MODULE eq 'Invoice'}
 								<strong>{vtranslate('LBL_RECEIVED',$MODULE)}</strong>
 							{else}
@@ -488,20 +488,20 @@
 					</td>
 					<td>
 						{if $MODULE eq 'Invoice'}
-							<span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
+							<span class=""><input id="received" name="received" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
 							{else}
-							<span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
+							<span class=""><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
 							{/if}
 					</td>
 				</tr>
 				<tr valign="top">
-					<td width="83%" >
-						<div class="pull-right">
+					<td width="50%" >
+						<div class="">
 							<strong>{vtranslate('LBL_BALANCE',$MODULE)}</strong>
 						</div>
 					</td>
 					<td>
-						<span class="pull-right"><input id="balance" name="balance" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('balance')}{else}0{/if}" readonly></span>
+						<span class=""><input id="balance" name="balance" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('balance')}{else}0{/if}" readonly></span>
 					</td>
 				</tr>
 			{/if}

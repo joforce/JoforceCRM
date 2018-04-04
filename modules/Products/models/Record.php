@@ -105,8 +105,7 @@ class Products_Record_Model extends Head_Record_Model {
 	function getCreateQuoteUrl() {
         global $site_URL;
 		$quotesModuleModel = Head_Module_Model::getInstance('Quotes');
-
-		return $site_URL."index.php?module=".$quotesModuleModel->getName()."&view=".$quotesModuleModel->getEditViewName()."&product_id=".$this->getId().
+		return $site_URL . $quotesModuleModel->getName() . "/view/" . $quotesModuleModel->getEditViewName() . "?product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
 	}
 
@@ -117,8 +116,7 @@ class Products_Record_Model extends Head_Record_Model {
 	function getCreateInvoiceUrl() {
         global $site_URL;
 		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
-
-		return $site_URL."index.php?module=".$invoiceModuleModel->getName()."&view=".$invoiceModuleModel->getEditViewName()."&product_id=".$this->getId().
+		return $site_URL . $invoiceModuleModel->getName() . "/view/" . $invoiceModuleModel->getEditViewName() . "?product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
 	}
 
@@ -129,8 +127,7 @@ class Products_Record_Model extends Head_Record_Model {
 	function getCreatePurchaseOrderUrl() {
         global $site_URL;
 		$purchaseOrderModuleModel = Head_Module_Model::getInstance('PurchaseOrder');
-
-		return $site_URL."index.php?module=".$purchaseOrderModuleModel->getName()."&view=".$purchaseOrderModuleModel->getEditViewName()."&product_id=".$this->getId().
+		return $site_URL . $purchaseOrderModuleModel->getName() . "/view/" . $purchaseOrderModuleModel->getEditViewName() . "?product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true&vendor_id=".$this->get('vendor_id');
 	}
 
@@ -141,8 +138,7 @@ class Products_Record_Model extends Head_Record_Model {
 	function getCreateSalesOrderUrl() {
         global $site_URL;
 		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
-
-		return $site_URL."index.php?module=".$salesOrderModuleModel->getName()."&view=".$salesOrderModuleModel->getEditViewName()."&product_id=".$this->getId().
+		return $site_URL . $salesOrderModuleModel->getName() . "/view/" . $salesOrderModuleModel->getEditViewName() . "?product_id=".$this->getId().
 				"&sourceModule=".$this->getModuleName()."&sourceRecord=".$this->getId()."&relationOperation=true";
 	}
 

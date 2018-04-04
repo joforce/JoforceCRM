@@ -8,11 +8,17 @@
  * Contributor(s): JoForce.com
  *************************************************************************************}
 {strip}
+{if count($TAGS[1]) gt 0}
     <div class="tagsContainer" id="tagCloud">
-		{foreach from=$TAGS[1] item=TAG_ID key=TAG_NAME}
-                    <div class=" textOverflowEllipsis col-sm-4" title="{$TAG_NAME}">
+	{foreach from=$TAGS[1] item=TAG_ID key=TAG_NAME}
+	        <div class=" textOverflowEllipsis col-sm-4" title="{$TAG_NAME}">
 			<a class="tagName cursorPointer" data-tagid="{$TAG_ID}" rel="{$TAGS[0][$TAG_NAME]}">{$TAG_NAME}</a>&nbsp;		
-                    </div>
-		{/foreach}
-	</div>
+                </div>
+	{/foreach}
+     </div>
+{else}
+        <span class="noDataMsg">
+                {vtranslate('LBL_NO')} {vtranslate('LBL_TAGS', $MODULE_NAME)} {vtranslate('LBL_MATCHED_THIS_CRITERIA')}
+        </span>
+{/if}
 {/strip}	

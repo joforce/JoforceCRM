@@ -204,98 +204,122 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
 
 
 Head_Pie_Widget_Js('Report_Piechart_Js', {}, {
+postInitializeCalls: function() {
+    var thisInstance = this;
+    var clickThrough = jQuery('input[name=clickthrough]', this.getContainer()).val();
+    if (clickThrough != '') {
+        thisInstance.getContainer().off('vtchartClick').on('vtchartClick', function(e, data) {
+            if (data.url)
+                thisInstance.openUrl(data.url);
+        });
+    }
+},
 
-    postInitializeCalls: function() {
-        var thisInstance = this;
-        var clickThrough = jQuery('input[name=clickthrough]', this.getContainer()).val();
-        if (clickThrough != '') {
-            thisInstance.getContainer().off('vtchartClick').on('vtchartClick', function(e, data) {
-                if (data.url)
-                    thisInstance.openUrl(data.url);
+postLoadWidget: function() {
+    if (!Reports_ChartDetail_Js.isEmptyData()) {
+        this.loadChart();
+    } else {
+        this.positionNoDataMsg();
+    }
+    this.postInitializeCalls();
+    this.restrictContentDrag();
+    var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
+    if (widgetContent.length) {
+        if (!jQuery('input[name=clickthrough]', this.getContainer()).val()) {
+            var adjustedHeight = this.getContainer().height() - 50;
+            app.helper.showVerticalScroll(widgetContent, {
+                'height': adjustedHeight
             });
         }
-    },
+        widgetContent.css({
+            height: widgetContent.height() - 100
+        });
+    }
+},
 
-    postLoadWidget: function() {
-        if (!Reports_ChartDetail_Js.isEmptyData()) {
-            this.loadChart();
-        } else {
-            this.positionNoDataMsg();
-        }
-        this.postInitializeCalls();
-        this.restrictContentDrag();
-        var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
-        if (widgetContent.length) {
-            if (!jQuery('input[name=clickthrough]', this.getContainer()).val()) {
-                var adjustedHeight = this.getContainer().height() - 50;
-                app.helper.showVerticalScroll(widgetContent, {
-                    'height': adjustedHeight
-                });
-            }
-            widgetContent.css({
-                height: widgetContent.height() - 100
-            });
-        }
-    },
+positionNoDataMsg: function() {
+    Reports_ChartDetail_Js.displayNoDataMessage();
+},
 
-    positionNoDataMsg: function() {
+getPlotContainer: function(useCache) {
+    if (typeof useCache == 'undefined') {
+        useCache = false;
+    }
+    if (this.plotContainer == false || !useCache) {
+        var container = this.getContainer();
+        this.plotContainer = jQuery('div[name="chartcontent"]', container);
+    }
+    return this.plotContainer;
+},
+
+init: function(parent) {
+    if (parent) {
+        this._super(parent);
+    } else {
+        this._super(jQuery('#reportContentsDiv'));
+    }
+},
+
+generateData: function() {
+    if (Reports_ChartDetail_Js.isEmptyData()) {
         Reports_ChartDetail_Js.displayNoDataMessage();
-    },
-
-    getPlotContainer: function(useCache) {
-        if (typeof useCache == 'undefined') {
-            useCache = false;
-        }
-        if (this.plotContainer == false || !useCache) {
-            var container = this.getContainer();
-            this.plotContainer = jQuery('div[name="chartcontent"]', container);
-        }
-        return this.plotContainer;
-    },
-
-    init: function(parent) {
-        if (parent) {
-            this._super(parent);
-        } else {
-            this._super(jQuery('#reportContentsDiv'));
-        }
-    },
-
-    generateData: function() {
-        if (Reports_ChartDetail_Js.isEmptyData()) {
-            Reports_ChartDetail_Js.displayNoDataMessage();
-            return false;
-        }
-
-        var jsonData = jQuery('input[name=data]', this.getContainer()).val();
-        var data = this.data = JSON.parse(jsonData);
-        var values = data['values'];
-
-        var chartData = [];
-        var chartDataName = [];
-        for (var i in values) {
-            chartData[i] = [];
-            chartDataName[i] = [],
-                chartDataName[i].push(data['labels'][i]);
-            chartData[i].push(values[i]);
-        }
-        return {
-            'chartData': chartData,
-            'labels': data['labels'],
-            'name': chartDataName,
-            'data_labels': data['data_labels'],
-            'data_type': data['data_type'],
-            'title': data['graph_label']
-        };
-    },
-
-    generateLinks: function() {
-        var jData = jQuery('input[name=data]', this.getContainer()).val();
-        var statData = JSON.parse(jData);
-        var links = statData['links'];
-        return links;
+        return false;
     }
 
+    var jsonData = jQuery('input[name=data]', this.getContainer()).val();
+    var data = this.data = JSON.parse(jsonData);
+    var chart_id = 'chartcontent';
+    var chart_data = [];
+
+    for (var index in data){
+        highchart_data = {
+            'name': data[index][0],
+            'y': parseInt(data[index][1]),
+            'links': data[index][2]
+        }
+        chart_data.push(highchart_data);
+    }
+    return {
+        'chartData': chart_data,
+    };
+},
+
+generateLinks: function() {
+    var jData = jQuery('input[name=data]', this.getContainer()).val();
+    var statData = JSON.parse(jData);
+    var links = statData['links'];
+    return links;
+},
+
+loadChart: function() {
+    var data= this.generateData();
+    var chart_data = data.chartData;
+    var myChart = $('#chartcontent').highcharts({
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function() {
+                            location.href = this.options.links;
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+//                name:'$',
+                colorByPoint: true,
+                data: chart_data,
+            }]
+        });
+    }
 });
 
 Head_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
@@ -407,6 +431,41 @@ Head_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
         };
     },
 
+
+    loadChart: function() {
+        var data= this.generateChartData();
+        var chart_data = data['chartData'];
+        var chart_id = data.id;
+        var myChart = $('#chartcontent').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: data['title'],
+            },
+            xAxis: {
+                categories: data['labels'],
+		crosshair: true,
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: data['data_labels']
+                }
+            },
+            plotOptions: {
+		column: {
+            		pointPadding: 0.2,
+            		borderWidth: 0
+       		 }
+            },
+            series: [{
+                name:'',
+                colorByPoint: true,
+                data: chart_data,
+            }]
+        });
+	},
     generateLinks: function() {
         var jData = jQuery('input[name=data]', this.getContainer()).val();
         var statData = JSON.parse(jData);
@@ -469,7 +528,7 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 
     },
 
-    loadChart: function() {
+/*    loadChart: function() {
         var data = this.generateChartData();
         var canvas_id = this.getContainer().find('canvas').attr('id');
         var canvas = document.getElementById(canvas_id);
@@ -513,14 +572,47 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
                 },
 
             }
+        });*/
+    loadChart: function() {
+        var data= this.generateChartData();
+
+        var chart_data = data['chartData'];
+        var chart_id = data.id;
+        var myChart = $('#chartcontent').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: data['title'],
+            },
+	    xAxis: {
+	        categories: data['labels'],
+    	    },
+	    yAxis: {
+	        min: 0,
+        	title: {
+	            text: data['data_labels']
+        	}
+    	    },	
+            plotOptions: {
+                series: {
+			stacking: 'normal'
+                }
+            },
+            series: [{
+                name:'',
+                colorByPoint: true,
+                data: chart_data,
+            }]
         });
 
-        canvas.onclick = function (evt) {
+
+/*        canvas.onclick = function (evt) {
             var activePoints = myHorizontalBarChart.getElementsAtEvent(evt);
             var firstPoint = activePoints[0];
             window.location.href= links[firstPoint._index];
         }
-
+*/
     }
 
 });
@@ -563,7 +655,61 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
             'title': data['graph_label']
         };
     },
+
     loadChart: function() {
+        var data= this.generateChartData();
+
+        var chart_data = data['chartData'];
+
+        var chart_id = data.id;
+        var myChart = $('#chartcontent').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: data['title'],
+            },
+            yAxis: {
+                title: {
+                    text: data['data_labels']
+                }
+            },
+	    legend: {
+        	layout: 'vertical',
+	        align: 'right',
+	        verticalAlign: 'middle'
+    	    },
+            plotOptions: {
+                series: {
+			 label: {
+		                connectorAllowed: true,
+            		},
+                }
+            },
+            series: [ {
+        name: data['labels'][1],
+        data: chart_data
+    }],
+
+	responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+        });
+	},
+
+    /* loadChart: function() {
         var data = this.generateChartData();
         var canvas_id = this.getContainer().find('canvas').attr('id');
         var canvas = document.getElementById(canvas_id);
@@ -621,6 +767,6 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
             window.location.href= links[firstPoint._index];
         }
 
-    }
+    } */
 
 });

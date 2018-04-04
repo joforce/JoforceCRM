@@ -37,6 +37,10 @@ Class Users_PreferenceEdit_View extends Head_Edit_View {
 		if($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
+			$user_id = $currentUser->id;
+	                $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
+        	        $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
+                	$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
 			$qualifiedModuleName = $request->getModule(false);
 			$menuModelsList = Head_Menu_Model::getAll(true);
 			$selectedModule = $request->getModule();
@@ -142,7 +146,7 @@ Class Users_PreferenceEdit_View extends Head_Edit_View {
 		$recordStructureInstance = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
-		$viewer = $this->getViewer($request);
+		$viewer = $this->getViewer($request);	
 		$viewer->assign("DAY_STARTS", Zend_Json::encode($dayStartPicklistValues));
 		$viewer->assign('TAG_CLOUD', $recordModel->getTagCloudStatus());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

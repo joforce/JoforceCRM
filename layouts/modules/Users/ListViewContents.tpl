@@ -82,7 +82,7 @@
 						</tr>
 					{/if}
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}/LBL_USER_MANAGEMENT' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
+						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 							<td class="listViewRecordActions">
 								{include file="ListViewRecordActions.tpl"|vtemplate_path:$MODULE}
 							</td>
@@ -99,7 +99,7 @@
 													{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 														{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 															<div class='col-lg-2'>
-																<img height="25px" width="25px" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
+																<img height="25px" width="25px" src="{$SITE_URL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 															</div>
 														{/if}
 													{/foreach}

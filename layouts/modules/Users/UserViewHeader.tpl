@@ -45,13 +45,13 @@
                 <div class="pull-right col-md-7">
                     <div class="btn-group pull-right">
                         {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
-                            <button class="btn btn-secondary {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'}{/if}" id="{$MODULE}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
+                            <button class="btn btn-default {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'}{/if}" id="{$MODULE}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
                                         onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'">
                                {vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE)}
                             </button>
                         {/foreach}
                         {if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-                            <button class="btn btn-secondary" data-toggle="dropdown" href="javascript:void(0);">
+                            <button class="btn btn-default" data-toggle="dropdown" href="javascript:void(0);">
                                 {vtranslate('LBL_MORE', $MODULE)}&nbsp;<i class="caret"></i>
                             </button>
                             <ul class="dropdown-menu pull-right">
@@ -59,11 +59,11 @@
                                     {if $DETAIL_VIEW_LINK->getLabel() eq "Delete"}
                                         {if $CURRENT_USER_MODEL->isAdminUser() && $CURRENT_USER_MODEL->getId() neq $RECORD->getId()}
                                             <li id="{$MODULE}_detailView_moreAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-                                            <a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
+                                            <a href="{$DETAIL_VIEW_LINK->getUrl()}">{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
                                         {/if}
                                     {else}
                                         <li id="{$MODULE}_detailView_moreAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-                                            <a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
+                                            <a href="{$DETAIL_VIEW_LINK->getUrl()}">{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
                                         </li>
                                     {/if}
                                 {/foreach}

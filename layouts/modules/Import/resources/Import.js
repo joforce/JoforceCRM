@@ -91,7 +91,16 @@ if (typeof (Head_Import_Js) == 'undefined') {
                     app.helper.loadPageContentOverlay(response);
                     app.helper.hideProgress();
                     if(!err){
-                        app.helper.showSuccessNotification({message:'Import Completed.'});
+                        if (jQuery('#scheduleImportStatus').length > 0) {
+                            app.event.one('post.overlayPageContent.hide', function(container) {
+                                clearTimeout(Head_Import_Js.timer);
+                                Head_Import_Js.isReloadStatusPageStopped = true;
+                            });
+                            Head_Import_Js.isReloadStatusPageStopped = false;
+                            Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 5000);
+                        } else {
+                            app.helper.showSuccessNotification({message:'Import Completed.'});
+                        }
                     }
                 });
             }
@@ -461,7 +470,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
 					app.helper.loadPageContentOverlay(response);
 					if (jQuery('#scheduleImportStatus').length > 0) {
 						if (!Head_Import_Js.isReloadStatusPageStopped) {
-							Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning(), 50000);
+							Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 50000);
 						}
 					}
 				}
@@ -621,7 +630,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
 					});
 
 					Head_Import_Js.isReloadStatusPageStopped = false;
-					Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning(), 5000);
+					Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 5000);
 				}
             });
         },

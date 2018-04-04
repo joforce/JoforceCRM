@@ -359,7 +359,7 @@ Head.Class('Documents_Index_Js', {
 	},
 
 	applyScrollToModal : function(modalContainer) {
-		app.helper.showVerticalScroll(modalContainer.find('.modal-body').css('max-height', '415px'), 
+		app.helper.showVerticalScroll(modalContainer.find('.modal-body').css('max-height', 'auto'), 
 		{'autoHideScrollbar': true});
 	},
 

@@ -1,0 +1,116 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div id="relatedInformation" class="relatedInformation">
+	<div id="left-pane-icons" class="left-pane-icons">
+	<!-- Organisation -->
+	<!-- Contact Summary -->
+		<ul class="nav nav-tabs" id="related-info">
+			<li class="active"><a data-toggle="tab" href="#detailedInfo"><i class="glyphicon glyphicon-list"></i></a></li>
+			<li><a data-toggle="tab" href="#eventsInfo"><i class="glyphicon glyphicon-calendar"></i></a></li>
+			<li><a data-toggle="tab" href="#opportunityInfo"><i class="glyphicon glyphicon-user"></i></a></li>
+			<li><a data-toggle="tab" href="#quotesInfo"><i class="glyphicon glyphicon-usd"></i></a></li>
+			<li><a data-toggle="tab" href="#salesorderInfo"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+			<li><a data-toggle="tab" href="#tasksInfo"><i class="glyphicon glyphicon-tasks"></i></a></li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div id="detailedInfo" class="detailed-info tab-pane fade in active">
+			<h5>Detailed Information</h5>
+			<p><i class="fa fa-building-o"></i> ' . $response[0]["accountname"] . '</p>
+			<p><i class="glyphicon glyphicon-user"></i> ' . $response[0]["firstname"] . " " . $response[0]['lastname'] . '</p>
+			<p><i class="fa fa-envelope"></i> ' . $response[0]["email"] . '</p>
+			<p><i class="fa fa-envelope-o"></i> ' . $response[0]["secondaryemail"] . '</p>
+			<p><i class="fa fa-phone-square"></i> ' . $response[0]["phone"] . '</p>
+			<p><i class="fa fa-phone"></i> ' . $response[0]["mobile"] . '</p>
+			<br>
+			<h5>Address</h5>
+			<div style="font-size:20px; float: left; padding: 0px 10px 0px 20px;"><i class="glyphicon glyphicon-picture"></i></div>
+			<div style="float:left;">
+				<p>' . $response[0]["mailingpobox"] . " " . $response[0]["mailingstreet"] . '</p>
+				<p>' . $response[0]["mailingcity"] . " " . $response[0]["mailingstate"] . " " . $response[0]["mailingcountry"] . " " . $response[0]["mailingzip"] . '</p>
+			</div>
+		</div>
+		<div id="eventsInfo" class="events-info tab-pane fade">
+			<h5>Tasks & Events</h5>
+		</div>
+		<div id="opportunityInfo" class="opportunity-info tab-pane fade">
+			<h5>Opportunities</h5>
+			<table class="table rel-info">
+			<thead>
+				<th>Name</th>
+				<th>Stage</th>
+				<th>Amount</th>
+			</thead>
+			<tbody>
+			foreach($opportunities as $opKey => $opVal) {
+			$html .= '<tr>
+				<td>' . $opVal["potentialname"] . '</td><td>' . $opVal["sales_stage"] . '</td><td>' . $opVal["amount"] . '</td>
+				</tr>';
+			}
+			$html .= '</tbody>
+			</table>
+</div>
+<div id="quotesInfo" class="quotes-info tab-pane fade">
+<h5>Quotes</h5>
+<table class="table">
+<thead>
+<th>Name</th>
+<th>Stage</th>
+<th>Amount</th>
+</thead>
+<tbody>';
+foreach($quotes as $quoKey => $quoVal) {
+	$html .= '<tr>
+		<td>' . $quoVal["subject"] . '</td><td>' . $quoVal["quotestage"] . '</td><td>' . $quoVal["total"] . '</td>
+		</tr>';
+}
+$html .= '</tbody>
+</table>
+</div>
+<div id="salesorderInfo" class="salesorder-info tab-pane fade">
+<h5>Orders</h5>
+<table class="table">
+<thead>
+<th>Name</th>
+<th>Stage</th>
+<th>Amount</th>
+</thead>
+<tbody>';
+foreach($salesOrders as $soKey => $soVal) {
+	$html .= '<tr>
+		<td>' . $soVal["subject"] . '</td><td>' . $soVal["sostatus"] . '</td><td>' . $soVal["total"] . '</td>
+		</tr>';
+}
+$html .= '</tbody>
+</table>
+</div>
+<div id="tasksInfo" class="tasks-info tab-pane fade">
+<h5>Trouble Tickets</h5>
+<table class="table">
+<thead>
+<th>Subject</th>
+<th>Status</th>
+</thead>
+<tbody>';
+foreach($troubleTickets as $trtKey => $trtVal) {
+	$html .= '<tr>
+		<td>' . $trtVal["title"] . '</td><td>' . $trtVal["status"] . '</td>
+		</tr>';
+}
+$html .= '</tbody>
+</table>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+function show_widget(id, tab) {
+	jQuery("#detailed-info").css("display", "none");
+	jQuery("#events-info").css("display", "none");
+	jQuery("#opportunity-info").css("display", "none");
+	jQuery("#quotes-info").css("display", "none");
+	jQuery("#salesorder-info").css("display", "none");
+	jQuery("#tasks-info").css("display", "none");
+	jQuery("#"+id).css("display", "block");
+	jQuery("#"+tab).css("background", "#fff");
+}
+</script>

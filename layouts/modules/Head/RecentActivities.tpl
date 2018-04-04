@@ -39,7 +39,7 @@
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
                                             {if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
                                                 <div class="update_icon">
-                                                    <img class="update_image" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
+                                                    <img class="update_image" src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
                                                 </div>
                                             {/if}
                                         {/foreach}
@@ -67,7 +67,7 @@
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
                                             {if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
                                                 <div class="update_icon">
-                                                    <img class="update_image" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
+                                                    <img class="update_image" src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
                                                 </div>
                                             {/if}
                                         {/foreach}
@@ -86,7 +86,7 @@
                                                             <span> &nbsp;{vtranslate('LBL_CHANGED')}</span>
                                                         </div>
                                                         <div class='update-from'><span class="field-name">{vtranslate('LBL_FROM')}</span>&nbsp;
-                                                            <em style="white-space:pre-line;" title="{strip_tags({Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))})}">{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</em>
+                                                            <span><em style="white-space:pre-line;" title="{strip_tags({Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))})}">{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</em></span>
                                                         </div>
                                                     {else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
                                                         &nbsp;(<del>{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> ) {vtranslate('LBL_IS_REMOVED')}</div>
@@ -96,7 +96,7 @@
                                                 &nbsp;{vtranslate('LBL_CHANGED')}</div>
                                             {/if}
                                             {if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-                                                <div class="update-to"><span class="field-name">{vtranslate('LBL_TO')}</span>&nbsp;<em style="white-space:pre-line;">{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))}</em>
+                                                <div class="update-to"><span class="field-name">{vtranslate('LBL_TO')}</span>&nbsp;<span><em style="white-space:pre-line;">{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))}</em></span>
                                                 </div>
                                             {/if}
                                             </div>

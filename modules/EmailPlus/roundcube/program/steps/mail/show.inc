@@ -164,8 +164,7 @@ $OUTPUT->add_handlers(array(
     'messageattachments' => 'rcmail_message_attachments',
     'mailboxname'        => 'rcmail_mailbox_name_display',
     'messageobjects'     => 'rcmail_message_objects',
-    'messagewidget'      => 'rcmail_message_widget',
-    'mailrecord'	 => 'rcmail_mail_record_details',
+    'messagewidget'     => 'rcmail_message_widget',
     'contactphoto'       => 'rcmail_message_contactphoto',
 ));
 
@@ -278,6 +277,22 @@ function rcmail_remote_objects_msg()
 
     return html::div($attrib, $msg);
 }
+
+// Mari added
+function is_contact($mail_id, $DB)
+{
+	// Check whether the given mail id is belonging to the user or not
+	if(filter_var($mail_id, FILTER_VALIDATE_EMAIL)){
+		// Check the mail id is belonging to the contact
+		$contact = $DB->query("select * from jo_contactdetails where email = '$mail_id'");
+		if($DB->num_rows($contact) >= 1)	
+			return true;
+	} else {
+		return false;
+	}		
+}
+
+
 function rcmail_remote_objects_widget()
 {
     global $MESSAGE, $RCMAIL;
@@ -285,9 +300,11 @@ function rcmail_remote_objects_widget()
     $attrib['id']    = 'remote-objects-widget';
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: block';
-
-	$sender = $MESSAGE->sender['mailto'];
+	
+	// Mari commented
+	//$sender = $MESSAGE->sender['mailto'];
 	$RC = rcube::get_instance();
+	
         $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 	$siteurl = $RCMAIL->config->get('siteurl');
         $DB->set_debug((bool)$RC->config->get('sql_debug'));
@@ -295,11 +312,23 @@ function rcmail_remote_objects_widget()
         // Connect to database
 
         $DB->db_connect('w');
-$msg = '';
-        if(!$DB->is_connected())
 
+	// Mari added
+	if(is_contact($MESSAGE->sender['mailto'], $DB) === true){
+		$sender = $MESSAGE->sender['mailto'];	
+	}else if(is_contact($MESSAGE->headers->from, $DB) === true){
+		$sender = $MESSAGE->headers->from;
+	}else if(is_contact($MESSAGE->headers->to, $DB) === true){
+		$sender = $MESSAGE->headers->to;
+	}else{
+		$sender = $MESSAGE->sender['mailto'];  // In case of there is no contact 
+	}
+
+
+$msg = '';
+        if(!$DB->is_connected()){
             die("Cannot able to get outgoing server details");
-        else{
+	}else{
 
 		// To get Organisation
 		 $res_org = $DB->query("select accountid,accountname from jo_account where accountid IN (select accountid from jo_contactdetails where email =  '$sender')");
@@ -325,19 +354,21 @@ $msg = '';
 	    
 		// To get Mobile number
   	    $res_mbl = $DB->query("select mobile,contactid,firstname,lastname from jo_contactdetails where email =  '$sender'");
+		
             $rows = $DB->num_rows($res_mbl);
             $res_mbl_data = $DB->fetch_array($res_mbl);
             $mbl = $res_mbl_data[0];
             $cntid = $res_mbl_data[1];
 	    $msg .= '' . html::tag('p','',"Contact : $mbl");
 
+
         // To get product details
         $res_prod = $DB->query("select invoiceid, subject, invoicestatus, jo_products.productid, productname from jo_invoice inner join jo_inventoryproductrel on jo_inventoryproductrel.id = jo_invoice.invoiceid inner join jo_products on jo_products.productid = jo_inventoryproductrel.productid where invoiceid IN (select invoiceid from jo_invoice where contactid = $cntid )");
         $prod_rows = $DB->num_rows($res_prod);
-        if(empty($prod_rows))
+	$msg .= '' . html::tag('p','',"Products : $prod_rows");
+        if(empty($prod_rows) || $prod_rows == 0){
                 $prod_rows = 0;
-        $msg .= '' . html::tag('p','',"Products : $prod_rows");
-        if($prod_rows >= 1){
+	}else if($prod_rows >= 1){
                 while($res_prod_data = $DB->fetch_array($res_prod))
                 {
                         $response1[] = $res_prod_data;
@@ -348,7 +379,8 @@ $msg = '';
                 foreach($response1 as $singleValue){
                         $invoiceid = $singleValue[0];
                         $title = $singleValue[1];
-                        $in_status = $singleValue[2];
+			// Mari altered the below line
+                        $in_status = (empty($singleValue[2])) ? 'Pending' : $singleValue[2];
                         $productid = $singleValue[3];
                         $productname = $singleValue[4];
                         $link     = html::a(array(
@@ -399,85 +431,8 @@ $msg = '';
 }
 	
     $RCMAIL->output->add_gui_object('remoteobjectswidget', $attrib['id']);
-
-    return html::div($attrib, $msg);
 }
 
-
-function rcmail_mail_record_rel()
-{
-    global $MESSAGE, $RCMAIL;
-
-    $attrib['id']    = 'remote-objects-widget';
-    $attrib['class'] = 'notice';
-    $attrib['style'] = 'display: block';
-
-//	$sender = $MESSAGE->sender['mailto'];
-  // $from = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
-	$folder = $MESSAGE->folder;
-	if($folder == '[Gmail]/Sent Mail'){
-	   $to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
-	   $sender = $to[1]['mailto']; 
-	}
-	else
-	        $sender = $MESSAGE->sender['mailto'];
-	
-	$RC = rcube::get_instance();
-        $DB = rcube_db::factory($RC->config->get('db_dsnw'));
-	$siteurl = $RCMAIL->config->get('siteurl');
-        $DB->set_debug((bool)$RC->config->get('sql_debug'));
-
-        // Connect to database
-
-        $DB->db_connect('w');
-	$msg = '';
-        if(!$DB->is_connected())
-
-            die("Cannot able to get outgoing server details");
-        else{
-	     $res = $DB->query("select firstname, lastname, email, contactid, setype from (select a.firstname, a.lastname, a.email, a.contactid, b.setype from jo_contactdetails a, jo_crmentity b where crmid = contactid and deleted = 0 and email = '$sender' union select a.firstname, a.lastname, a.email, a.leadid, b.setype from jo_leaddetails a , jo_crmentity b where crmid = leadid and deleted = 0 and a.email = '$sender' union select '', a.accountname, a.email1, a.accountid, b.setype from jo_account a, jo_crmentity b where crmid = accountid and deleted = 0 and a.email1 = '$sender') AS VALUE");
-
-            $rows = $DB->num_rows($res);
-
-	    if($rows >= 1){
-		    while($res_data = $DB->fetch_array($res))
-		    {
-			    $response[] = $res_data;
-		    }
-		    $msg = '<b>Related Records</b>';
-		    foreach($response as $singleValue){
-			    $name = $singleValue[0] . ' ' .$singleValue[1];
-			    $msg .= html::tag('br') . html::div(array('style' => 'display:flex') , html::tag('input', array('type' => 'radio', 'name' => 'vt_name', 'value' => $singleValue[3], 'checked' => 'checked')) 
-				    . html::a(array('href' => $siteurl."index.php?module=".$singleValue[4]."&view=Detail&record=".$singleValue[3], 'target' => '_blank'), $name)
-				    . '&nbsp;&nbsp;&nbsp;&nbsp;' . html::div('row', $singleValue[4]));
-
-		    }
-		    $select_from = new html_select(array('name' => 'create_record', 'id' => 'create_record'));
-		    $select_from->add('Add Ticket', 'HelpDesk', array('Add Contact'));
-		    $select_from->add('Add Event/To Do', 'Events', array('Add Contact'));
-		    $select_from->add('Add Comment', 'ModComments', array('Add Contact'));
-
-		    $out = $select_from->show();
-		    $msg .= $out;
-	    }
-	    else{
-		    $msg = 'No Related records'.'<br>';
-		    $select_from = new html_select(array('name' => 'create_record', 'id' => 'create_record'));
-		    $select_from->add('Add Contact', 'Contacts', array('Add Contact'));
-		    $select_from->add('Add Lead', 'Leads', array('Add Contact'));
-		    $select_from->add('Add Organization', 'Accounts', array('Add Contact'));
-		    $select_from->add('Add Ticket', 'HelpDesk', array('Add Contact'));
-		    $select_from->add('Add Event/To Do', 'Events', array('Add Contact'));
-		    $out = $select_from->show();
-		    $msg .= $out;
-	    }
-	}
-	
-    $RCMAIL->output->add_gui_object('remoteobjectswidget', $attrib['id']);
-
-    return html::div($attrib, $msg);
-
-}
 function rcmail_message_buttons()
 {
     global $RCMAIL, $MESSAGE;
@@ -531,24 +486,6 @@ function rcmail_message_widget($attrib)
     $content = array(
 //        rcmail_message_buttons(),
       rcmail_remote_objects_widget(),
-    );
-
-    $plugin = $RCMAIL->plugins->exec_hook('message_widget',
-        array('content' => $content));
-
-    $content = implode("\n", $plugin['content']);
-
-    return html::div($attrib, $content);
-}
-
-function rcmail_mail_record_details($attrib)
-{
-    global $RCMAIL, $MESSAGE;
-    if (!$attrib['id'])
-        $attrib['id'] = 'mailrecord_relationshipdetails';
-    $content = array(
-//        rcmail_message_buttons(),
-      rcmail_mail_record_rel(),
     );
 
     $plugin = $RCMAIL->plugins->exec_hook('message_widget',

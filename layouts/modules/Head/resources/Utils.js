@@ -315,3 +315,8 @@ var vtUtils = {
     }
 
 }
+
+$(document).on('click','#joforce-table-search', function() {
+    $(".searchRow").slideDown();
+    $(this).closest('.table-actions').hide();
+});

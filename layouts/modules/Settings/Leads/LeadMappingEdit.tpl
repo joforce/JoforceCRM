@@ -20,20 +20,20 @@
                             <table class="table listview-table-norecords" width="100%" id="convertLeadMapping">
                                 <tbody>
                                     <tr>
-                                        <th width="7%"></th>
-                                        <th width="15%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-                                        <th width="15%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-                                        <th colspan="3" width="70%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+                                        <th></th>
+                                        <th>{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
+                                        <th>{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
+                                        <th colspan="3" >{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
                                     </tr>
                                     <tr>
-                                        <td width="5%"><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>
+                                        <td><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>
                                         {foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
-                                            <td width="15%"><b>{vtranslate($LABEL, $LABEL)}</b></td>
+                                            <td><b>{vtranslate($LABEL, $LABEL)}</b></td>
                                         {/foreach}
                                     </tr>
                                     {foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
                                         <tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">
-                                            <td width="7%">
+                                            <td>
                                                 {if $MAPPING_ARRAY['editable'] eq 1}
                                                     {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
                                                         <div class="table-actions">
@@ -44,7 +44,7 @@
                                                     {/foreach}
                                                 {/if}
                                             </td>
-                                            <td width="10%">
+                                            <td>
                                                 <input type="hidden" name="mapping[{$smarty.foreach.mappingLoop.iteration}][mappingId]" value="{$MAPPING_ID}"/>
                                                 <select class="leadsFields select2 col-sm-12" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     {foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
@@ -56,8 +56,8 @@
                                                     {/foreach}
                                                 </select>
                                             </td>
-                                            <td width="10%" class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
-                                            <td width="10%">
+                                            <td class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
+                                            <td>
                                                 <select class="accountsFields select2 col-sm-12" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                         {foreach key=FIELD_TYPE item=FIELDS_INFO from=$ACCOUNTS_MODULE_MODEL->getFields()}
@@ -71,7 +71,7 @@
                                                         {/foreach}
                                                 </select>
                                             </td>
-                                            <td width="10%">
+                                            <td>
                                                 <select class="contactFields select2 col-sm-12" name="mapping[{$smarty.foreach.mappingLoop.iteration}][contact]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                     {foreach key=FIELD_TYPE item=FIELDS_INFO from=$CONTACTS_MODULE_MODEL->getFields()}
@@ -85,7 +85,7 @@
                                                     {/foreach}
                                                 </select>
                                             </td>
-                                            <td width="10%">
+                                            <td>
                                                 <select class="potentialFields select2 col-sm-12" name="mapping[{$smarty.foreach.mappingLoop.iteration}][potential]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                     {foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}
@@ -102,7 +102,7 @@
                                         </tr>
                                     {/foreach}
                                     <tr class="hide newMapping listViewEntries">
-                                        <td width="5%">
+                                        <td>
                                             {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
                                                 <div class="table-actions">
                                                     <span class="actionImages">
@@ -111,7 +111,7 @@
                                                 </div>
                                             {/foreach}
                                         </td>
-                                        <td width="10%">
+                                        <td>
                                             <select class="leadsFields newSelect col-sm-12">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
@@ -123,8 +123,8 @@
                                                 {/foreach}
                                             </select>
                                         </td>
-                                        <td width="10%" class="selectedFieldDataType"></td>
-                                        <td width="10%">
+                                        <td class="selectedFieldDataType"></td>
+                                        <td>
                                             <select class="accountsFields newSelect col-sm-12">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$ACCOUNTS_MODULE_MODEL->getFields()}
@@ -136,7 +136,7 @@
                                                 {/foreach}
                                             </select>
                                         </td>
-                                        <td width="10%">
+                                        <td>
                                             <select class="contactFields newSelect col-sm-12">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$CONTACTS_MODULE_MODEL->getFields()}
@@ -148,7 +148,7 @@
                                                 {/foreach}
                                             </select>
                                         </td>
-                                        <td width="10%">
+                                        <td>
                                             <select class="potentialFields newSelect col-sm-12">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}

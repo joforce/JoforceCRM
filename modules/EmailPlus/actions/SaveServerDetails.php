@@ -23,7 +23,7 @@ class EmailPlus_SaveServerDetails_Action extends Head_Save_Action
 		else{
 			$adb->pquery('insert into rc_server_details values(?, ?, ?, ?, ?, ?)', array($current_user->id, $server_name, $email, $password_encode, $account_type, $port));
 		}
-              header("Location: ".$site_URL."EmailPlus/List");
+              header("Location: ".$site_URL."EmailPlus/view/List");
 	}
 
 }

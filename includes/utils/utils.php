@@ -340,7 +340,7 @@ function set_default_config(&$defaults)
  */
 function decide_to_html() {
 	global $doconvert, $inUTF8, $default_charset;
- 	$action = $_REQUEST['action']; 
+    $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
  		     
     $inUTF8 = (strtoupper($default_charset) == 'UTF-8'); 
 
@@ -487,6 +487,16 @@ function getColumnFields($module)
 
 	$log->debug("Exiting getColumnFields method ...");
 	return $column_fld;
+}
+
+/**
+ * Clear user notification entry
+ */
+function clearUserNotification($user_id, $module_name)
+{
+	global $adb;
+	$adb->pquery('delete from jo_notification where module_name = ? and notifier_id = ?', array($module_name, $user_id));
+	return true;
 }
 
 /** Function to get a users's mail id
@@ -2462,6 +2472,227 @@ function deleteRecordFromDetailViewNavigationRecords($recordId, $cvId, $moduleNa
 		}
 		$_SESSION[$moduleName . '_DetailView_Navigation' . $cvId] = Zend_Json::encode($recordNavigationInfo);
 	}
+}
+
+/**
+ * Function to check if the module has the Detail view summary widget
+ */
+function getDetailViewSummaryWidget($moduleName){
+	global $adb;
+        $widget_arrayValues = [];
+        $tabId = getTabid($moduleName);
+        $linktype = 'DETAILVIEWSUMMARYWIDGET';
+        $getLinkId = $adb->pquery('select * from jo_links where tabid = ? and linktype = ?', array($tabId, $linktype));
+        while($fetchValues =$adb->fetch_array($getLinkId))
+                {
+                        array_push($widget_arrayValues, $fetchValues);
+                }
+	return $widget_arrayValues;
+}
+
+/**
+ * Function to get the field id of the given field label and blockid
+ **/
+function getSettingsFieldId($blockid, $field_label) {
+	global $adb;
+        $getLinkId = $adb->pquery('select fieldid from jo_settings_field where blockid = ? and name = ?', array($blockid, $field_label));
+        $fetchValues =$adb->fetch_array($getLinkId);
+        return $fetchValues['fieldid'];
+}
+
+
+/**
+ * Function to check if the module has the List view sidebar widget
+ */
+function getListViewSideBarWidget($moduleName){
+
+        global $adb;
+        $listview_widget_arrayValues = [];
+        $tabId = getTabid($moduleName);
+        $linktype = 'LISTVIEWSIDEBARWIDGET';
+        $getLinkId = $adb->pquery('select * from jo_links where tabid = ? and linktype = ?', array($tabId, $linktype));
+        while($fetchValues =$adb->fetch_array($getLinkId))
+                {
+                        array_push($listview_widget_arrayValues, $fetchValues);
+                }
+        return $listview_widget_arrayValues;
+}
+
+/**
+ * Function to get the starred records
+ */
+function getRecentlyStarred($user_specific_table){
+	global $adb;
+	$getStarred = $adb->pquery("SELECT crmid, label, modifiedtime FROM jo_crmentity INNER JOIN .$user_specific_table ON recordid = crmid and starred=1 ORDER BY modifiedtime limit 5;");
+	$starred_array = [];
+	while($fetchValues = $adb->fetch_array($getStarred))
+	{
+	array_push($starred_array, $fetchValues);
+	}
+	return $starred_array;
+}
+
+/**
+ * Function to get the sales stage array
+ */
+
+function getSalesStageArray() {
+	global $adb;
+	$sales_arrayValues = [];
+        $runQuery = $adb->pquery("SELECT * FROM jo_sales_stage");
+        while($fetchValues =$adb->fetch_array($runQuery))
+                {
+                        array_push($sales_arrayValues, $fetchValues);
+                }
+	$n = count($sales_arrayValues);
+        $sales_stage_ids = [];
+        $sales_stage_names = [];
+        $sales_array = [];
+        for($i = 0; $i<$n; $i++)
+                {
+                        array_push($sales_stage_ids, $sales_arrayValues[$i]['sales_stage_id']);
+                        array_push($sales_stage_names, vtranslate($sales_arrayValues[$i]['sales_stage'], 'Potentials'));
+                }
+        $sales_array = array_combine($sales_stage_ids, $sales_stage_names);
+	return $sales_array;
+}
+
+/**
+ * Function to get table row list view more actions
+ */
+function getListViewRowActions($moduleName){
+        global $adb;
+	$list_view_row_action = [];
+        $tabId = getTabid($moduleName);
+        $linktype = 'LISTVIEWRECORDACTION';
+        $getLinkId = $adb->pquery('select * from jo_links where tabid = ? and linktype = ?', array($tabId, $linktype));
+        while($fetchValues =$adb->fetch_array($getLinkId))
+                {
+                        array_push($list_view_row_action, $fetchValues);
+                }
+        return $list_view_row_action;
+
+}
+
+/**
+ * Function to get the permitted list view entry modules
+ */
+function getPermittedEntityModuleNames(){
+        global $adb;
+	$permitted_modules = getPermittedModuleNames();
+        $zero_entity_module_array = [];
+        $getZeroEntityModuleId = $adb->pquery('select name from jo_tab where isentitytype = ? and name != ?', array(0, "Dashboard"));
+        while($fetchValues =$adb->fetch_array($getZeroEntityModuleId))
+                {
+                        array_push($zero_entity_module_array, $fetchValues['name']);
+                }
+	
+	$permitted_entity_module_array = [];
+	
+	foreach($permitted_modules as $key => $module)
+		{
+		if(in_array($module, $zero_entity_module_array))
+			{
+			unset($permitted_modules[$key]);
+			}
+		}
+	array_push($permitted_modules, 'Home');
+	return array_values($permitted_modules);
+}	
+
+/**
+ * function to get the array of amin menu list
+ */
+function getMainMenuList($user_id){
+	if(file_exists("storage/menu/main_menu_".$user_id.".php"))
+        	{
+                        require( "storage/menu/main_menu_".$user_id.".php");
+                }
+        else
+                {
+                        require("storage/menu/default_main_menu.php");
+                }
+	return $main_menu_array;
+}
+
+/**
+ * function to get the array
+ */
+function getSectionList($user_id){
+	if(file_exists("storage/menu/sections_".$user_id.".php"))
+        	{
+                        require( "storage/menu/sections_".$user_id.".php");
+                }
+	else    
+                {
+                        require("storage/menu/default_sections.php");
+                }
+	return $section_array;
+}
+
+/**
+ * function to get sections and modules
+ */
+function getAppModuleList($user_id){
+	if(file_exists("storage/menu/module_apps_".$user_id.".php"))
+		{
+                        require( "storage/menu/module_apps_".$user_id.".php");
+                }
+        else
+                {
+                        require("storage/menu/default_module_apps.php");
+                }
+	return $app_menu_array;
+}
+
+/**
+ * Function to get all active users
+ */
+function getAllActiveUserIds() {
+	global $adb;
+	$user_array = [];
+	$query_result = $adb->pquery("SELECT id FROM jo_users WHERE status = ?", array('active'));
+	while($fetch_values = $adb->fetch_array($query_result))
+		{
+		array_push($user_array, $fetch_values['id']);
+		}
+	return $user_array;
+}
+
+/**
+ * Function to return the icons for the fields of the business modules
+ */
+function returnFieldIconsArray() {
+
+	$icons_array = array(
+		'firstname' => 'fa fa-male',
+		'lastname' => '',
+		'account_id' => 'fa fa-building',
+		'title' => 'fa fa-info-circle',
+		'assigned_user_id' => 'fa fa-user-secret',
+		'mailingcity' => 'fa fa-home',
+		'mailingcountry' => 'fa fa-map-marker',
+		'accountname' => 'fa fa-building',
+		'bill_city' => 'fa fa-home',
+		'bill_country' => 'fa fa-map-marker',
+		'company' => 'fa fa-building',
+		'leadsource' => 'fa fa-credit-card',
+		'website' => 'fa fa-globe',
+		'city' => 'fa fa-home',
+		'country' => 'fa fa-map-marker'
+			);
+	return $icons_array;
+
+}
+
+/**
+ * Function to return field names of the business icons
+ */
+
+function returnBusinessFieldArray() {
+	$business_field_array = array('firstname' ,'lastname' ,'account_id' ,'title' ,'assigned_user_id', 'mailingcity', 'mailingcountry', 'accountname', 'bill_city' ,'bill_country' ,'company', 'leadsource' , 'website', 'city' ,'country');
+
+	return $business_field_array;
 }
 
 ?>

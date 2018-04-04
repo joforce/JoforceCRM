@@ -34,7 +34,7 @@
 
 			<div class="relatedHeader">
 				<div class="btn-toolbar row">
-					<div class="col-lg-5 col-md-5 col-sm-5 btn-toolbar">
+					<div class="col-lg-6 col-md-6 col-sm-6 btn-toolbar">
 						{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 							<div class="btn-group">
 								{assign var=DROPDOWNS value=$RELATED_LINK->get('linkdropdowns')}
@@ -105,7 +105,6 @@
 				</div>
 			</div>
 			<div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-				<div class="bottomscroll-div">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 					<table id="listview-table"  class="table listview-table">
 						<thead>
@@ -209,8 +208,8 @@
 							</tr>
 						{/foreach}
 					</table>
-				</div>
 			</div>
+			<div class="bottomscroll-div"></div>
 		</div>
 
 		<script type="text/javascript">

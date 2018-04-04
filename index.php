@@ -8,15 +8,15 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-
+require_once('vendor/autoload.php');
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once 'config/config.php';
 include_once 'includes/Webservices/Relation.php';
+require_once('routes.php');
 
 include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
 $webUI = new Head_WebUI();
-include_once 'includes/main/Cannonical.php';
 $webUI->process(new Head_Request($_REQUEST, $_REQUEST));

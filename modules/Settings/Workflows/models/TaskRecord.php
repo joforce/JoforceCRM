@@ -49,11 +49,13 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model {
 	}
 
 	public function getEditViewUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=EditTask&type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
+	    global $site_URL;
+	    return $site_URL . 'Workflows/Settings/EditTask?type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
 	}
     
     public function getV7EditViewUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=EditV7Task&type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
+        global $site_URL;
+        return $site_URL . 'Workflows/Settings/EditV7Task?type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
 	}
 
 	public function getDeleteActionUrl() {

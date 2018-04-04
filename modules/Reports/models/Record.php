@@ -70,7 +70,7 @@ class Reports_Record_Model extends Head_Record_Model {
 		} else {
 			$view = $module->getDetailViewName();
 		}
-		return $site_URL.$this->getModuleName().'/'.$view.'/'.$this->getId();
+		return $site_URL.$this->getModuleName() . '/view/' . $view . '/' . $this->getId();
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Reports_Record_Model extends Head_Record_Model {
 		} else {
 			$view = $module->getEditViewName();
 		}
-		return $site_URL.$this->getModuleName().'/'.$view.'/'.$this->getId();
+		return $site_URL.$this->getModuleName() . '/view/' . $view . '/' . $this->getId();
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Reports_Record_Model extends Head_Record_Model {
 		} else {
 			$view = $module->getEditViewName();
 		}
-		return $site_URL.$this->getModuleName().'/'.$view.'/'.$this->getId().'/Copy';
+		return $site_URL.$this->getModuleName() . '/view/' . $view . '/' . $this->getId() . '/Duplicate/true';
 	}
 
 	/**

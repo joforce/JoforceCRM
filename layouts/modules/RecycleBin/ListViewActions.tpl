@@ -10,7 +10,7 @@
 -->*}
 
 {strip}
-	<div id="listview-actions" class="listview-actions-container">
+	<div id="listview-actions" class="listview-actions-container mt20 mb20">
 		<div class = "row">
 			<div class="btn-group col-md-4" role="group" aria-label="...">
 				<span class="recordDependentListActions" style="float: left;">
@@ -34,7 +34,7 @@
 					</span> 
 				{/foreach} 
 			</div>
-			<div class='col-md-5'>
+			<div class='col-md-4'>
 				<div class="hide messageContainer" style = "height:30px;">
 					<center><a id="selectAllMsgDiv" href="#">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount" value=""></span>)</a></center>
 				</div>

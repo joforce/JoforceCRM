@@ -19,32 +19,32 @@
                 <div name='massEditContent'>
                     <div class="modal-body ">
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5">
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('New Username', $MODULE)}&nbsp;
-                                <span class="redColor">*</span>
+                                <span class="red-border"></span>
                             </label>
-                            <div class="controls col-sm-6">
-                                <input type="text" name="new_username" data-rule-required="true" data-rule-email="true" data-rule-illegal="true"/>
+                            <div class="controls fieldValue col-sm-6 pl0">
+                                <input type="text" class="inputElement" name="new_username" data-rule-required="true" data-rule-email="true" data-rule-illegal="true"/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5">
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
-                                <span class="redColor">*</span>
+                                <span class="red-border"></span>
                             </label>
-                            <div class="controls col-xs-6">
-                                <input type="password" name="new_password" data-rule-required="true"/>
+                            <div class="controls fieldValue col-xs-6 pl0">
+                                <input type="password" class="inputElement" name="new_password" data-rule-required="true"/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5">
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
-                                <span class="redColor">*</span>
+                                <span class="red-border"></span>
                             </label>
-                            <div class="controls col-xs-6">
-                                <input type="password" name="confirm_password" data-rule-required="true"/>
+                            <div class="controls fieldValue col-xs-6 pl0">
+                                <input type="password" class="inputElement" name="confirm_password" data-rule-required="true"/>
                             </div>
                         </div>
                     </div>

@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************}
-
 {strip}
 	<!DOCTYPE html>
 	<html>
@@ -16,7 +15,6 @@
 			<link rel="SHORTCUT ICON" href="layouts/skins/images/favicon.ico">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 			<link type='text/css' rel='stylesheet' href='layouts/lib/todc/css/bootstrap.min.css'/>
 			<link type='text/css' rel='stylesheet' href='layouts/lib/todc/css/todc-bootstrap.min.css'/>
 			<link type='text/css' rel='stylesheet' href='layouts/lib/font-awesome/css/font-awesome.min.css'/>
@@ -26,6 +24,7 @@
 			<link type='text/css' rel='stylesheet' href='layouts/lib/vt-icons/style.css'/>
 
 				<link type="text/css" rel="stylesheet" href="layouts/skins/style.css" media="screen" />
+				<link type="text/css" rel="stylesheet" href="layouts/modules/Install/resources/css/custom.css" media="screen" />
 
 			{foreach key=index item=cssModel from=$STYLES}
 				<link type="text/css" rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" media="{$cssModel->getMedia()}" />
@@ -38,7 +37,7 @@
 			}
 			</style>
 
-			<script src="{vresource_url('layouts/lib/jquery/jquery.min.js')}"></script>
+            <script type="text/javascript" src="layouts/lib/app-min.js"></script>
 			<script type="text/javascript">
 				var _META = { 'module': "{$MODULE}", view: "{$VIEW}", 'parent': "{$PARENT_MODULE}" };
 				{if $EXTENSION_MODULE}

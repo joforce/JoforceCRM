@@ -29,6 +29,8 @@ Head.Class("Head_DashBoard_Js",{
 		var height = element.data('height');
 		Head_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
 		Head_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
+
+		element.closest('li').css({'display': 'none'});
 	},
 
 	addMiniListWidget: function(element, url) {
@@ -300,6 +302,7 @@ Head.Class("Head_DashBoard_Js",{
 				if(widgetChartContainer.length > 0){
 					widgetChartContainer.css("height",widget.height() - 60);
 				}
+                widgetChartContainer.html('');
 				Head_Widget_Js.getInstance(widget, widgetName);
 				widget.trigger(Head_Widget_Js.widgetPostResizeEvent);
 			  }

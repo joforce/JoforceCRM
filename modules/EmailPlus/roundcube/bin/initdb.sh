@@ -21,7 +21,7 @@
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
-require_once INSTALL_PATH . 'program/includes/clisetup.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
 $opts = rcube_utils::get_opt(array(

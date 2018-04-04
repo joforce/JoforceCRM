@@ -1658,13 +1658,13 @@ Head.Class("Calendar_Calendar_Js", {
 			viewRender: function (view, element) {
 				if (view.name === 'vtAgendaList') {
 					jQuery(".sidebar-essentials").addClass("hide");
-					jQuery(".content-area").addClass("full-width");
+					jQuery(".content-area").addClass("full-width").css("padding-left","10px");
 					jQuery(".essentials-toggle").addClass("hide");
 				} else {
 					jQuery(".essentials-toggle").removeClass("hide");
 					if (Calendar_Calendar_Js.sideBarEssentialsState === 'show') {
 						jQuery(".sidebar-essentials").removeClass("hide");
-						jQuery(".content-area").removeClass("full-width");
+						jQuery(".content-area").removeClass("full-width").css("padding-left","230px");
 					} else if (Calendar_Calendar_Js.sideBarEssentialsState === 'hidden') {
 						jQuery(".sidebar-essentials").addClass("hide");
 						jQuery(".content-area").addClass("full-width");

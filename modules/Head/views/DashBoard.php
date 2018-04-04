@@ -21,6 +21,7 @@ class Head_Dashboard_View extends Head_Index_View {
 	}
 
 	function preProcess(Head_Request $request, $display=true) {
+		global $current_user;
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -48,6 +49,16 @@ class Head_Dashboard_View extends Head_Index_View {
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
+                $viewer->assign('DASHBOARD_TABS', $dashboardTabs);
+                $viewer->assign('DASHBOARD_TABS_LIMIT', $dashBoardModel->dashboardTabLimit);
+                $viewer->assign('SELECTED_TAB',$tabid);
+		$viewer->assign('PRESENT_TAB', 'DASHBOARD');
+        if (self::$selectable_dashboards) {
+                        $viewer->assign('SELECTABLE_WIDGETS', self::$selectable_dashboards);
+                }
+                $viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
+                $viewer->assign('TABID',$tabid);
+		
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -122,21 +133,23 @@ class Head_Dashboard_View extends Head_Index_View {
 			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
 			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 			'~/libraries/jquery/VtJqplotInterface.js',
-                        '~/libraries/jquery/vtchart.js',
+            		'~/libraries/jquery/vtchart.js',
 			'~/libraries/chart-js/Chart.bundle.js',
-			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/gridster/jquery.gridster.min.js',
-                        '~/libraries/jquery/vtchart.js',
+			"~/libraries/jquery/highchart/highcharts.js",
+                        "~/libraries/jquery/highchart/highchart-funnel.js",
+			'~layouts/lib/jquery/gridster/jquery.gridster.min.js',
+            		'~/libraries/jquery/vtchart.js',
 			'~/libraries/chart-js/Chart.bundle.js',
 			'modules.Head.resources.DashBoard',
 			'modules.'.$moduleName.'.resources.DashBoard',
 			'modules.Head.resources.dashboards.Widget',
-			'~/layouts/'.Head_Viewer::getDefaultLayoutName().'/modules/Head/resources/Detail.js',
-			'~/layouts/'.Head_Viewer::getDefaultLayoutName().'/modules/Reports/resources/Detail.js',
-			'~/layouts/'.Head_Viewer::getDefaultLayoutName().'/modules/Reports/resources/ChartDetail.js',
+			'~/layouts/modules/Head/resources/Detail.js',
+			'~/layouts/modules/Reports/resources/Detail.js',
+			'~/layouts/modules/Reports/resources/ChartDetail.js',
 			"modules.Emails.resources.MassEdit",
 			"modules.Head.resources.CkEditor",
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/bootstrap-daterangepicker/moment.js",
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/bootstrap-daterangepicker/daterangepicker.js",
+			"~layouts/lib/bootstrap-daterangepicker/moment.js",
+			"~layouts/lib/bootstrap-daterangepicker/daterangepicker.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

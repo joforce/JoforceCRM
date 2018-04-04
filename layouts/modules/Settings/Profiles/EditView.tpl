@@ -38,21 +38,21 @@
 					</div>
 
 					<div name='editContent'>
-						<div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel"> 
+						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
 								<label>
-									<strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</strong>&nbsp;<span class="redColor">*</span>:&nbsp;
+									<strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</strong>&nbsp;<span class="red-border"></span>:&nbsp;
 								</label></div>
-							<div class="fieldValue col-lg-6 col-md-6 col-sm-6" > 
-								<input type="text" class="inputElement" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required="true" />
+							<div class="fieldValue col-lg-6 col-md-6 col-sm-6 pl0" style="width: 30% !important;"> 
+								<input type="text" class="inputElement" style="margin-top: 13px;" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required="true" />
 							</div>
 						</div>
 
-						<div class="row"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel"> 
+						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
 								<label>
 									<strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;:&nbsp;</strong>
 								</label></div>
-							<div class="fieldValue col-lg-6 col-md-6 col-sm-6">
-								<textarea name="description" class="inputElement" id="description" style="height:50px; resize: vertical;padding:5px 8px;">{$RECORD_MODEL->getDescription()}</textarea>
+							<div class="fieldValue col-lg-6 col-md-6 col-sm-6 pl0" style="width: 30% !important;">
+								<textarea name="description" class="inputElement" id="description" style="margin-top:13px; height:50px; resize: vertical;padding:5px 8px;">{$RECORD_MODEL->getDescription()}</textarea>
 							</div>
 						</div>
 						{include file='EditViewContents.tpl'|vtemplate_path:$QUALIFIED_MODULE}

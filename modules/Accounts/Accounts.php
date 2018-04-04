@@ -1140,7 +1140,7 @@ class Accounts extends CRMEntity {
 	* returns Account hierarchy in array format
 	*/
 	function getAccountHierarchy($id) {
-		global $log, $adb, $current_user;
+		global $log, $adb, $current_user, $site_URL;
         $log->debug("Entering getAccountHierarchy(".$id.") method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
@@ -1178,7 +1178,7 @@ class Accounts extends CRMEntity {
 					if ($colname == 'accountname') {
 						if ($account_id != $id) {
 							if($hasRecordViewAccess) {
-								$data = '<a href="index.php?module=Accounts&action=DetailView&record='.$account_id.'&parenttab='.$tabname.'">'.$data.'</a>';
+								$data = '<a href="' . $site_URL . 'Accounts/action/DetailView/'. $account_id . '?parenttab=' . $tabname .'">' . $data . '</a>'; 
 							} else {
 								$data = '<i>'.$data.'</i>';
 							}

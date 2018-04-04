@@ -25,7 +25,7 @@
 					{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 						{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
 							<span class="logo col-xs-2">
-								<img height="75px" width="75px" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
+								<img height="75px" width="75px" src="{$SITE_URL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
 							</span>
 						{/if}
 					{/foreach}
@@ -53,7 +53,7 @@
 								</button>
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-								<button class="btn btn-secondary" data-toggle="dropdown" href="javascript:void(0);">
+								<button class="btn module-buttons" data-toggle="dropdown" href="javascript:void(0);">
 									{vtranslate('LBL_MORE', $MODULE)}&nbsp;<i class="caret"></i>
 								</button>
 								<ul class="dropdown-menu pull-right">
@@ -61,12 +61,12 @@
 										{if $DETAIL_VIEW_LINK->getLabel() eq "Delete"}
 											{if $CURRENT_USER_MODEL->isAdminUser() && $CURRENT_USER_MODEL->getId() neq $RECORD->getId()}
 												<li id="{$MODULE}_detailView_moreAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-													<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
+													<a href="{$DETAIL_VIEW_LINK->getUrl()}">{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
 												</li>
 											{/if}
 										{else}
 											<li id="{$MODULE}_detailView_moreAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-												<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
+												<a href="{$DETAIL_VIEW_LINK->getUrl()}">{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE)}</a>
 											</li>
 										{/if}
 									{/foreach}

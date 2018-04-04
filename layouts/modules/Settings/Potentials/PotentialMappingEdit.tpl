@@ -20,18 +20,18 @@
                             <table class="table listview-table-norecords" width="100%" id="convertPotentialMapping">
                                 <tbody>
                                     <tr>
-                                        <th width="15%">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-                                        <th width="15%">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-                                        <th width="15%">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+                                        <th>{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
+                                        <th>{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
+                                        <th>{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
                                     </tr>
                                     <tr>
                                             {foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
-                                                    <td width="15%"><b>{vtranslate($LABEL, $LABEL)}</b></td>
+                                                    <td><b>{vtranslate($LABEL, $LABEL)}</b></td>
                                             {/foreach}
                                     </tr>
                                     {foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
                                         <tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">
-                                            <td width="15%">
+                                            <td>
                                                 <input type="hidden" name="mapping[{$smarty.foreach.mappingLoop.iteration}][mappingId]" value="{$MAPPING_ID}"/>
                                                 <select class="potentialFields select2" style="width:180px" name="mapping[{$smarty.foreach.mappingLoop.iteration}][potential]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     {foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}
@@ -43,8 +43,8 @@
                                                     {/foreach}
                                                 </select>
                                             </td>
-                                            <td width="15%" class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['Potentials']['fieldDataType'], $QUALIFIED_MODULE)}</td>
-                                            <td width="13%">
+                                            <td class="selectedFieldDataType">{vtranslate($MAPPING_ARRAY['Potentials']['fieldDataType'], $QUALIFIED_MODULE)}</td>
+                                            <td>
                                                 <select class="projectFields select2" style="width:180px" name="mapping[{$smarty.foreach.mappingLoop.iteration}][project]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
                                                     <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                     {foreach key=FIELD_TYPE item=FIELDS_INFO from=$PROJECT_MODULE_MODEL->getFields()}
@@ -61,7 +61,7 @@
                                         </tr>
                                     {/foreach}
                                     <tr class="hide newMapping listViewEntries">
-                                        <td width="15%">
+                                        <td>
                                             <select class="potentialFields newSelect" style="width:180px">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$POTENTIALS_MODULE_MODEL->getFields()}
@@ -75,8 +75,8 @@
                                                 {/foreach}
                                             </select>
                                         </td>
-                                        <td width="15%" class="selectedFieldDataType"></td>
-                                        <td width="13%">
+                                        <td class="selectedFieldDataType"></td>
+                                        <td>
                                             <select class="projectFields newSelect" style="width:180px">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
                                                 {foreach key=FIELD_TYPE item=FIELDS_INFO from=$PROJECT_MODULE_MODEL->getFields()}

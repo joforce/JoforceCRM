@@ -118,13 +118,12 @@ abstract class Head_View_Controller extends Head_Action_Controller {
 
 	function getViewer(Head_Request $request) {
 		if(!$this->viewer) {
-			global $jo_current_version, $jo_display_version, $onlyV7Instance, $site_URL;
+			global $jo_current_version, $jo_display_version, $site_URL;
 			$viewer = new Head_Viewer();
-	                $viewer->assign('SITEURL', $site_URL);
+			$viewer->assign('SITEURL', $site_URL);
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
-			$viewer->assign('VTIGER_VERSION', $jo_current_version);
-			$viewer->assign('VTIGER_DISPLAY_VERSION', $jo_display_version);
-            $viewer->assign('ONLY_V7_INSTANCE', $onlyV7Instance);
+			$viewer->assign('JOFORCE_VERSION', $jo_current_version);
+			$viewer->assign('JOFORCE_DISPLAY_VERSION', $jo_display_version);
 			$this->viewer = $viewer;
 		}
 		return $this->viewer;
@@ -152,28 +151,33 @@ abstract class Head_View_Controller extends Head_Action_Controller {
 		}
 	}
 
-	function preProcess(Head_Request $request, $display=true) {
-                global $site_URL;
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$viewer = $this->getViewer($request);
-                $viewer->assign('SITEURL', $site_URL);
-		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-		$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
-		$viewer->assign('STYLES',$this->getHeaderCss($request));
-		$viewer->assign('SKIN_PATH', Head_Theme::getCurrentUserThemePath());
-		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$viewer->assign('LANGUAGE', $currentUser->get('language'));
+    function preProcess(Head_Request $request, $display=true) {
+        global $site_URL, $current_user;
+        $currentUser = Users_Record_Model::getCurrentUserModel();
+        $viewer = $this->getViewer($request);
+        $viewer->assign('SITEURL', $site_URL);
+        $viewer->assign('PAGETITLE', $this->getPageTitle($request));
+        $viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
+        $viewer->assign('STYLES',$this->getHeaderCss($request));
+        $viewer->assign('SKIN_PATH', Head_Theme::getCurrentUserThemePath());
+        $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
+        $viewer->assign('LANGUAGE', $currentUser->get('language'));
+	
+	$user_id = $current_user->id;
+        $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
+        $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
+        $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
 
-		if ($request->getModule() != 'Install') {
-			$userCurrencyInfo = getCurrencySymbolandCRate($currentUser->get('currency_id'));
-			$viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
-		}
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+        if ($request->getModule() != 'Install') {
+            $userCurrencyInfo = getCurrencySymbolandCRate($currentUser->get('currency_id'));
+            $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+        }
+        $viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-		if($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
+        if($display) {
+            $this->preProcessDisplay($request);
+        }
+    }
 
 	protected function preProcessTplName(Head_Request $request) {
 		return 'Header.tpl';
@@ -196,7 +200,6 @@ abstract class Head_View_Controller extends Head_Action_Controller {
 			}
 		}*/
 	}
-
 
 	function postProcess(Head_Request $request) {
         $moduleName = $request->getModule();
@@ -263,6 +266,7 @@ abstract class Head_View_Controller extends Head_Action_Controller {
 					}
 				}
 			}
+
 		}
 		return $jsScriptInstances;
 	}

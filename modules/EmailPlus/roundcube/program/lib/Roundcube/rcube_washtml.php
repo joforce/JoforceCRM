@@ -76,7 +76,7 @@
  * - base URL support
  * - invalid HTML comments removal before parsing
  * - "fixing" unitless CSS values for XHTML output
- * - base url resolving
+ * - SVG and MathML support
  */
 
 /**
@@ -111,6 +111,15 @@ class rcube_washtml
         'feflood', 'fefunca', 'fefuncb', 'fefuncg', 'fefuncr', 'fegaussianblur',
         'feimage', 'femerge', 'femergenode', 'femorphology', 'feoffset',
         'fespecularlighting', 'fetile', 'feturbulence',
+        // MathML
+        'math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr',
+        'mmuliscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow',
+        'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd',
+        'mtext', 'mtr', 'munder', 'munderover', 'maligngroup', 'malignmark',
+        'mprescripts', 'semantics', 'annotation', 'annotation-xml', 'none',
+        'infinity', 'matrix', 'matrixrow', 'ci', 'cn', 'sep', 'apply',
+        'plus', 'minus', 'eq', 'power', 'times', 'divide', 'csymbol', 'root',
+        'bvar', 'lowlimit', 'uplimit',
     );
 
     /* Ignore these HTML tags and their content */
@@ -153,11 +162,24 @@ class rcube_washtml
         'visibility', 'vert-adv-y', 'version', 'vert-origin-x', 'vert-origin-y', 'word-spacing',
         'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2',
         'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan',
+        // MathML
+        'accent', 'accentunder', 'bevelled', 'close', 'columnalign', 'columnlines',
+        'columnspan', 'denomalign', 'depth', 'display', 'displaystyle', 'encoding', 'fence',
+        'frame', 'largeop', 'length', 'linethickness', 'lspace', 'lquote',
+        'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize',
+        'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign',
+        'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel',
+        'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator',
+        'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset',
+        'fontsize', 'fontweight', 'fontstyle', 'fontfamily', 'groupalign', 'edge', 'side',
     );
 
     /* Elements which could be empty and be returned in short form (<tag />) */
     static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
+        // MathML
+        'sep', 'infinity', 'in', 'plus', 'eq', 'power', 'times', 'divide', 'root',
+        'maligngroup', 'none', 'mprescripts',
     );
 
     /* State for linked objects in HTML */
@@ -235,6 +257,11 @@ class rcube_washtml
                         }
                     }
                     else if (!preg_match('/^(behavior|expression)/i', $val)) {
+                        // Set position:fixed to position:absolute for security (#5264)
+                        if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
+                            $val = 'absolute';
+                        }
+
                         // whitelist ?
                         $value .= ' ' . $val;
 
@@ -284,17 +311,17 @@ class rcube_washtml
                     }
                 }
 
-                if ($this->is_image_attribute($node->tagName, $key)) {
+                if ($this->is_image_attribute($node->nodeName, $key)) {
                     $out = $this->wash_uri($value, true);
                 }
-                else if ($this->is_link_attribute($node->tagName, $key)) {
+                else if ($this->is_link_attribute($node->nodeName, $key)) {
                     if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
                         $out = $value;
                     }
                 }
-                else if ($this->is_funciri_attribute($node->tagName, $key)) {
+                else if ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $val)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
@@ -381,7 +408,7 @@ class rcube_washtml
         return $attr == 'background'
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
-            || ($attr == 'src' && preg_match('/^(img|source)$/i', $tag))
+            || ($attr == 'src' && preg_match('/^(img|source|input|video|audio)$/i', $tag))
             || ($tag == 'image' && $attr == 'href'); // SVG
     }
 
@@ -427,14 +454,14 @@ class rcube_washtml
         do {
             switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
-                $tagName = strtolower($node->tagName);
+                $tagName = strtolower($node->nodeName);
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                 }
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $node->tagName;
+                    $dump .= '<' . $node->nodeName;
 
                     if ($tagName == 'svg') {
                         $xpath = new DOMXPath($node->ownerDocument);
@@ -444,6 +471,9 @@ class rcube_washtml
                             }
                         }
                     }
+                    else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                        $content = htmlspecialchars($content, ENT_QUOTES);
+                    }
 
                     $dump .= $this->wash_attribs($node);
 
@@ -451,14 +481,14 @@ class rcube_washtml
                         $dump .= ' />';
                     }
                     else {
-                        $dump .= '>' . $content . '</' . $node->tagName . '>';
+                        $dump .= '>' . $content . '</' . $node->nodeName . '>';
                     }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' not allowed -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' not allowed -->';
                 }
                 else {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' ignored -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' ignored -->';
                     $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
@@ -727,10 +757,9 @@ class rcube_washtml
      */
     protected function explode_style($style)
     {
-        $style = trim($style);
+        $pos = 0;
 
         // first remove comments
-        $pos = 0;
         while (($pos = strpos($style, '/*', $pos)) !== false) {
             $end = strpos($style, '*/', $pos+2);
 
@@ -742,6 +771,7 @@ class rcube_washtml
             }
         }
 
+        $style  = trim($style);
         $strlen = strlen($style);
         $result = array();
 

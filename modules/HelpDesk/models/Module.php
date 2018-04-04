@@ -42,6 +42,7 @@ class HelpDesk_Module_Model extends Head_Module_Model {
 	 * @return Array
 	 */
 	public function getSettingLinks() {
+		global $site_URL;
 		$settingsLinks = parent::getSettingLinks();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
@@ -49,7 +50,7 @@ class HelpDesk_Module_Model extends Head_Module_Model {
 			$settingsLinks[] = array(
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_MAILSCANNER',
-				'linkurl' =>'index.php?parent=Settings&module=MailConverter&view=List',
+				'linkurl' =>$site_URL.'MailConverter/Settings/List',
 				'linkicon' => ''
 			);
 		}

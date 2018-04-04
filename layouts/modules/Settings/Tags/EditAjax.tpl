@@ -9,7 +9,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="modal-dialog modal-content">
+    <div class="modal-dialog">
+    	<div class="modal-content">
         {assign var="HEADER_TITLE" value={vtranslate('LBL_ADD_NEW_TAG', $QUALIFIED_MODULE)}}
 		<form id="addTagSettings" method="POST">
 			{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
@@ -47,5 +48,6 @@
 			</div>
 			{include file='ModalFooter.tpl'|@vtemplate_path:'Head'}
 		</form>
+		</div>
 	</div>
 {/strip}

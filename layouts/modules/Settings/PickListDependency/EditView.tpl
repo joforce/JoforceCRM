@@ -22,8 +22,8 @@
                     <div class="editViewBody">
                         <div class="editViewContents">
                             <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-2">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-3">
+                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12">
                                     <select name="sourceModule" class="select2 form-control marginLeftZero">
                                         {foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
                                             {assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
@@ -39,8 +39,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-2">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-3">
+                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12">
                                 <select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" data-rule-required="true">
                                     <option value=''></option>
                                     {foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
@@ -50,8 +50,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-2">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-3">
+                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12">
                                     <select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" data-rule-required="true">
                                         <option value=''></option>
                                         {foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}

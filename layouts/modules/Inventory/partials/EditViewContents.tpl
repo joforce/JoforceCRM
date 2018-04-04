@@ -18,23 +18,26 @@
     {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
         {if $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}{continue}{/if}
          {if $BLOCK_FIELDS|@count gt 0}
-             <div class='fieldBlockContainer'>
-                     <h4 class='fieldBlockHeader'>{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
-                 <hr>
+             <div class='fieldBlockContainer p20'>
+                     <h4 class='fieldBlockHeader p15'><b>{vtranslate($BLOCK_LABEL, $MODULE)}</b></h4>
                  <table class="table table-borderless {if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION'} addressBlock{/if}">
                      {if ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION') and ($MODULE neq 'PurchaseOrder')}
-                        <tr>
-                            <td class="fieldLabel " name="copyHeader1">
+                        <div class="col-lg-12">
+                            <div class="col-lg-6 pl0 pr0">
+                            <div class="col-lg-5 pl0 pr0">
+                            <div class="fieldLabel " name="copyHeader1" style="border-bottom: none;">
                                 <label  name="togglingHeader">{vtranslate('LBL_BILLING_ADDRESS_FROM', $MODULE)}</label>
-                            </td>
-                            <td class="fieldValue" name="copyAddress1">
-                                <div class="radio">
+                            </div>
+                            </div>
+                            <div class="col-lg-7 pl0 pr0">
+                            <div class="fieldValue" name="copyAddress1">
+                                <div class="radio mr20" style="display: inline;">
                                     <label>
                                         <input type="radio" name="copyAddressFromRight" class="accountAddress" data-copy-address="billing" checked="checked">
                                         &nbsp;{vtranslate('SINGLE_Accounts', $MODULE)}
                                     </label>
                                 </div>
-                                <div class="radio">
+                                <div class="radio mr20" style="display: inline;">
                                     <label> 
                                         {if $MODULE eq 'Quotes'}
                                             <input type="radio" name="copyAddressFromRight" class="contactAddress" data-copy-address="billing" checked="checked">
@@ -45,30 +48,36 @@
                                         {/if}
                                     </label>
                                 </div>
-                                <div class="radio" name="togglingAddressContainerRight">
+                                <div class="radio mr20" name="togglingAddressContainerRight" style="display: inline;">
                                     <label>
                                         <input type="radio" name="copyAddressFromRight" class="shippingAddress" data-target="shipping" checked="checked">
                                         &nbsp;{vtranslate('Shipping Address', $MODULE)}
                                     </label>
                                 </div>
-                                <div class="radio hide" name="togglingAddressContainerLeft">
+                                <div class="radio hide mr20" name="togglingAddressContainerLeft" style="display: inline;">
                                     <label>
                                         <input type="radio" name="copyAddressFromRight"  class="billingAddress" data-target="billing" checked="checked">
                                         &nbsp;{vtranslate('Billing Address', $MODULE)}
                                     </label>
                                 </div>
-                            </td>
-                            <td class="fieldLabel" name="copyHeader2">
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-lg-6 pl0 pr0">
+                            <div class="col-lg-5 pl0 pr0">
+                            <div class="fieldLabel" name="copyHeader2" style="border-bottom: none;">
                                 <label  name="togglingHeader">{vtranslate('LBL_SHIPPING_ADDRESS_FROM', $MODULE)}</label>
-                            </td>
-                            <td class="fieldValue" name="copyAddress2">
-                                <div class="radio">
+                            </div>
+                            </div>
+                            <div class="col-lg-7 pl0 pr0">
+                            <div class="fieldValue" name="copyAddress2">
+                                <div class="radio mr20" style="display: inline;">
                                     <label>
                                         <input type="radio" name="copyAddressFromLeft" class="accountAddress" data-copy-address="shipping" checked="checked">
                                         &nbsp;{vtranslate('SINGLE_Accounts', $MODULE)}
                                     </label>
                                 </div>
-                                <div class="radio">
+                                <div class="radio mr20" style="display: inline;">
                                     <label>
                                         {if $MODULE eq 'Quotes'}
                                             <input type="radio" name="copyAddressFromLeft" class="contactAddress" data-copy-address="shipping" checked="checked">
@@ -79,22 +88,24 @@
                                         {/if}
                                     </label>
                                 </div>
-                                <div class="radio" name="togglingAddressContainerLeft">
+                                <div class="radio mr20" name="togglingAddressContainerLeft" style="display: inline;"> 
                                     <label>
                                         <input type="radio" name="copyAddressFromLeft" class="billingAddress" data-target="billing" checked="checked">
                                         &nbsp;{vtranslate('Billing Address', $MODULE)}
                                     </label>
                                 </div>
-                                <div class="radio hide" name="togglingAddressContainerRight">
+                                <div class="radio hide mr20" name="togglingAddressContainerRight" style="display: inline;">
                                     <label>
                                         <input type="radio" name="copyAddressFromLeft" class="shippingAddress" data-target="shipping" checked="checked">
                                         &nbsp;{vtranslate('Shipping Address', $MODULE)}
                                     </label>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
                     {/if}
-                     <tr>
+                     <div class="col-lg-12">
                      {assign var=COUNTER value=0}
                      {foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
                          {assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -103,18 +114,20 @@
                          {if $FIELD_MODEL->isEditable() eq true}
                              {if $FIELD_MODEL->get('uitype') eq "19"}
                                  {if $COUNTER eq '1'}
-                                     <td></td><td></td></tr><tr>
+                                     <div class="col-lg-3"></div><div class="col-lg-3"></div></div><div class="col-lg-12">
                                      {assign var=COUNTER value=0}
                                  {/if}
                              {/if}
                              {if $COUNTER eq 2}
-                                 </tr><tr>
+                                 </div><div class="col-lg-12">
                                  {assign var=COUNTER value=1}
                              {else}
                                  {assign var=COUNTER value=$COUNTER+1}
                              {/if}
-                             <td class="fieldLabel alignMiddle">
-                             {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+                            <div class="col-lg-6 col-sm-12 col-md-6 pr0 pl0">
+                            <div class="col-lg-4 col-sm-4 col-md-4 pr0 pl0">
+                             <div class="fieldLabel alignMiddle">
+                             {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
                              {if $isReferenceField eq "reference"}
                                  {if $refrenceListCount > 1}
                                      {assign var="REFERENCED_MODULE_ID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -134,23 +147,27 @@
                                  {vtranslate($FIELD_MODEL->get('label'), $MODULE)}
                              {/if}
                              &nbsp;&nbsp;
-                         </td>
-                         <td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+                         </div>
+                         </div>
+                         <div class="col-lg-7 pl0 pr0">
+                         <div class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
                              {if $FIELD_MODEL->getFieldDataType() eq 'image' || $FIELD_MODEL->getFieldDataType() eq 'file'}
                                  <div class='col-lg-4 col-md-4 redColor'>
                                      {vtranslate('LBL_NOTE_EXISTING_ATTACHMENTS_WILL_BE_REPLACED', $MODULE)}
                                  </div>
                              {/if}
                              {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-                         </td>
+                         </div>
+                         </div>
+                         </div>
                      {/if}
                      {/foreach}
                      {*If their are odd number of fields in edit then border top is missing so adding the check*}
                      {if $COUNTER is odd}
-                         <td></td>
-                         <td></td>
+                         <div class="col-lg-3"></div>
+                         <div class="col-lg-3"></div>
                      {/if}
-                     </tr>
+                     </div>
                  </table>
              </div>
          {/if}

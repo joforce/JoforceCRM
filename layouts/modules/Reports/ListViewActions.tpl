@@ -26,22 +26,7 @@
         {/foreach}
         <div class = "row">
             <div class="col-md-3">
-            <div class="btn-group listViewActionsContainer" role="group" aria-label="...">
-                {if $deleteAction}
-                    <button type="button" class="btn btn-default" id="{$MODULE}_listView_massAction_LBL_MOVE_REPORT" 
-                            onclick='Reports_List_Js.massMove("index.php?module=Reports&view=MoveReports")' title="{vtranslate('LBL_MOVE_REPORT', $MODULE)}" disabled="disabled">
-                        <i class="vicon-foldermove" style='font-size:13px;'></i>
-                    </button>
-                {/if}
-                {if $deleteAction}
-                    <button type="button" class="btn btn-default" id={$MODULE}_listView_massAction_{$deleteAction->getLabel()} 
-                            {if stripos($deleteAction->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$deleteAction->getUrl()|substr:strlen("javascript:")}'{else} href='{$deleteAction->getUrl()}' {/if} title="{vtranslate('LBL_DELETE', $MODULE)}" disabled="disabled">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                {/if}
-
-            </div>
-        </div>
+	    </div>
             <div class='col-md-6'>
                 <div class="hide messageContainer" style = "height:30px;">
                     <center><a id="selectAllMsgDiv" href="#">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount" value=""></span>)</a></center>

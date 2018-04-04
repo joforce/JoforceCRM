@@ -17,7 +17,7 @@ class Users_SaveCalendarSettings_Action extends Users_Save_Action {
 		
 		$recordModel->save();
 		$this->saveCalendarSharing($request);
-		header("Location: Calendar/Calendar");
+		header("Location: Calendar/view/Calendar");
 	}
 
 	/**

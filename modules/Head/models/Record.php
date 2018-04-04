@@ -139,12 +139,11 @@ class Head_Record_Model extends Head_Base_Model {
 	 * Function to get the Detail View url for the record
 	 * @return <String> - Record Detail View Url
 	 */
-	public function getDetailViewUrl() {
-                global $site_URL;
-		$module = $this->getModule();
-                return $site_URL . $this->getModuleName() . '/' . $module->getDetailViewName() . '/' . $this->getId();
-
-	}
+    public function getDetailViewUrl() {
+        global $site_URL;
+        $module = $this->getModule();
+        return $site_URL . $this->getModuleName() . '/view/' . $module->getDetailViewName() . '/' . $this->getId();
+    }
 
 	/**
 	 * Function to get the complete Detail View url for the record
@@ -156,7 +155,7 @@ class Head_Record_Model extends Head_Base_Model {
 		// If we don't send tab label then it will show full detail view, but it will select summary tab
 		$moduleName = $this->getModuleName();
 		$fullDetailViewLabel = vtranslate('SINGLE_'.$moduleName, $moduleName).' '. vtranslate('LBL_DETAILS', $moduleName);
-		return $site_URL.$moduleName.'/'.$module->getDetailViewName().'/'.$this->getId().'/showDetailViewByMode/full/'.$fullDetailViewLabel;
+		return $site_URL . $moduleName . '/view/' . $module->getDetailViewName() . '/' . $this->getId() . '/mode/showDetailViewByMode?requestMode=full&tab_label' . $fullDetailViewLabel;
 	}
 
 	/**
@@ -166,14 +165,14 @@ class Head_Record_Model extends Head_Base_Model {
 	public function getEditViewUrl() {
         global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/'.$module->getEditViewName().'/'.$this->getId();
+		return $site_URL.$this->getModuleName().'/view/'.$module->getEditViewName().'/'.$this->getId();
 
 	}
 
     public function getRelatedEditViewUrl() {
         global $site_URL;
         $module = $this->getModule(); 
-        return $site_URL.'index.php?module='.$this->getModuleName().'&view='.$module->getEditViewName().'&record='.$this->getId();
+        return $site_URL . $this->getModuleName().'/view/' . $module->getEditViewName() . '/' . $this->getId();
     }
 
 	/**
@@ -181,7 +180,7 @@ class Head_Record_Model extends Head_Base_Model {
 	 * @return <String> - Record Upadte view Url
 	 */
 	public function getUpdatesUrl() {
-		return $this->getDetailViewUrl()."&mode=showRecentActivities&page=1&tab_label=LBL_UPDATES";
+		return $this->getDetailViewUrl()."?mode=showRecentActivities&page=1&tab_label=LBL_UPDATES";
 	}
 
 	/**
@@ -189,8 +188,9 @@ class Head_Record_Model extends Head_Base_Model {
 	 * @return <String> - Record Delete Action Url
 	 */
 	public function getDeleteUrl() {
+	    global $site_URL;
 		$module = $this->getModule();
-		return 'index.php?module='.$this->getModuleName().'&action='.$module->getDeleteActionName().'&record='.$this->getId();
+		return $site_URL . 'index.php?module='.$this->getModuleName().'&action='.$module->getDeleteActionName().'&record='.$this->getId();
 	}
 
 	/**
@@ -391,8 +391,7 @@ class Head_Record_Model extends Head_Base_Model {
 	public function getDuplicateRecordUrl() {
 		global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/'.$module->getEditViewName().'/'.$this->getId().'/Copy';
-
+		return $site_URL.$this->getModuleName().'/view/'.$module->getEditViewName().'/'.$this->getId().'/Duplicate/true';
 	}
 
 	/**

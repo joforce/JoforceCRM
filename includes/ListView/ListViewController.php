@@ -285,7 +285,7 @@ class ListViewController {
 					$fileId = $db->query_result($fileIdRes,0,'attachmentsid');
 					if($fileName != '' && $status == 1) {
 						if($downloadType == 'I' ) {
-							$value = '<a href="'.$site_URL.'Documents/DownloadFile/'.$recordId.'/'.$fileId.'"'.
+							$value = '<a href="'.$site_URL.'Documents/action/DownloadFile/'.$recordId.'?fileid='.$fileId.'"'.
 									' title="'.	getTranslatedString('LBL_DOWNLOAD_FILE',$module).
 									'" >'.textlength_check($value).
 									'</a>';

@@ -99,7 +99,7 @@ class Head_ListAjax_View extends Head_List_View {
 		$viewer->view('ListColumnsEdit.tpl',$moduleName);
 	}
 
-	public function searchAll(Head_Request $request) {
+	public function searchAll(Head_Request $request, $for_mobile = false) {
 		$moduleName = $request->getModule();
 		$searchValue = $request->get('value');
 		$searchModule = $request->get('searchModule');
@@ -112,6 +112,17 @@ class Head_ListAjax_View extends Head_List_View {
 		$pagingModel->set('range', $range);
 		$pagingModel->set('limit', $pageLimit-1);
 
+		// For Mobile API, search for specific module
+		if(!empty($searchModule))   {
+		    $matchingRecords = [];
+            $searchableModules = Head_Module_Model::getSearchableModules();
+            if(array_key_exists($searchModule, $searchableModules)) {
+                $searchedRecords = Head_Record_Model::getSearchResult($searchValue, $searchModule);
+                $matchingRecords[$searchModule] = isset($searchedRecords[$searchModule]) ? $searchedRecords[$searchModule] : [];
+            }
+            return $matchingRecords;
+        }
+
 		$searchableModules = Head_Module_Model::getSearchableModules();
 		$matchingRecords = array();
 		foreach ($searchableModules as $searchModule => $searchModuleModel) {
@@ -120,6 +131,10 @@ class Head_ListAjax_View extends Head_List_View {
 				$matchingRecords[$searchModule] = $searchedRecords[$searchModule];
 			}
 		}
+
+		// Return if call is from Mobile API
+		if($for_mobile)
+		    return $matchingRecords;
 
 		$matchingRecordsList = array();
 		foreach ($matchingRecords as $module => $recordModelsList) {

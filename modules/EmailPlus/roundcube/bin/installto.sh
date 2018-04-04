@@ -21,7 +21,11 @@
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
-require_once INSTALL_PATH . 'program/includes/clisetup.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
+
+if (!function_exists('system')) {
+  rcube::raise_error("PHP system() function is required. Check disable_functions in php.ini.", false, true);
+}
 
 $target_dir = unslashify($_SERVER['argv'][1]);
 
@@ -29,7 +33,7 @@ if (empty($target_dir) || !is_dir(realpath($target_dir)))
   rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh <TARGET>", false, true);
 
 // read version from iniset.php
-$iniset = @file_get_contents($target_dir . '/program/includes/iniset.php');
+$iniset = @file_get_contents($target_dir . '/program/include/iniset.php');
 if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)/', $iniset, $m))
   rcube::raise_error("No valid Roundcube installation found at $target_dir", false, true);
 
@@ -42,7 +46,6 @@ echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
 $input = trim(fgets(STDIN));
 
 if (strtolower($input) == 'y') {
-  $err = false;
   echo "Copying files to target location...";
 
   // Save a copy of original .htaccess file (#1490623)
@@ -51,21 +54,21 @@ if (strtolower($input) == 'y') {
   }
 
   $dirs = array('program','installer','bin','SQL','plugins','skins');
-  if (is_dir(INSTALL_PATH . 'vendor') && !is_file(INSTALL_PATH . 'composer.json')) {
+  if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
     $dirs[] = 'vendor';
   }
   foreach ($dirs as $dir) {
     // @FIXME: should we use --delete for all directories?
-    $delete = in_array($dir, array('program', 'installer')) ? '--delete ' : '';
-    if (!system("rsync -avC " . $delete . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
-      $err = true;
-      break;
+    $delete  = in_array($dir, array('program', 'installer', 'vendor')) ? '--delete ' : '';
+    $command = "rsync -aC --out-format=%n " . $delete . INSTALL_PATH . "$dir/ $target_dir/$dir/";
+    if (system($command, $ret) === false || $ret > 0) {
+      rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
-  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
-    if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
-      $err = true;
-      break;
+  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
+    $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
+    if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
+      rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
 
@@ -96,13 +99,27 @@ if (strtolower($input) == 'y') {
       echo "done.\n\n";
   }
 
-  if (!$err) {
-    echo "Running update script at target...\n";
-    system("cd $target_dir && php bin/update.sh --version=$oldversion");
-    echo "All done.\n";
+  // check if js-deps are up-to-date
+  if (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
+    $jsdeps = json_decode(file_get_contents("$target_dir/jsdeps.json"));
+    $package = $jsdeps->dependencies[0];
+    $dest_file = $target_dir . '/' . $package->dest;
+    if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
+        echo "Installing JavaScript dependencies...";
+        system("cd $target_dir && bin/install-jsdeps.sh");
+        echo "done.\n\n";
+    }
   }
+  else {
+    echo "JavaScript dependencies installation skipped...\n";
+  }
+
+  echo "Running update script at target...\n";
+  system("cd $target_dir && php bin/update.sh --version=$oldversion");
+  echo "All done.\n";
 }
-else
+else {
   echo "Update cancelled. See ya!\n";
+}
 
 ?>

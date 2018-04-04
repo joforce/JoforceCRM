@@ -53,8 +53,10 @@ Head.Class('Head_ListSidebar_Js',{},{
         jQuery.each(scrollContainers,function(key,scroll){
             var scroll = jQuery(scroll);
             var listcontentHeight = scroll.find(".list-menu-content").height();
-            scroll.css("height",listcontentHeight);
-            scroll.perfectScrollbar({});
+	
+	//Temporarily commented for the issue of hiding the filter contents.
+//            scroll.css("height",listcontentHeight);
+//            scroll.perfectScrollbar({});
         })
         
         this.registerFilterSeach();
@@ -278,8 +280,8 @@ Head.Class('Head_ListSidebar_Js',{},{
                 jQuery.each(scrollContainers,function(key,scroll){
                     var scroll = jQuery(scroll);
                     var listcontentHeight = scroll.find(".list-menu-content").height();
-                    scroll.css("height",listcontentHeight);
-                    scroll.perfectScrollbar('update');
+//                    scroll.css("height",listcontentHeight);
+//                    scroll.perfectScrollbar('update');
                 });
             }
         });

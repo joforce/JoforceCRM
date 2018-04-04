@@ -848,7 +848,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			this.calculateUploadFileSize();
 			this.registerSaveDraftOrSendEmailEvent();
 			var isCkeditorApplied = jQuery('#description').data('isCkeditorApplied');
-			if(isCkeditorApplied != true){
+			if(isCkeditorApplied != true && jQuery('#description').length > 0)   {
 				this.loadCkEditor(jQuery('#description').data('isCkeditorApplied',true));
 			}
 			this.registerSelectEmailTemplateEvent();

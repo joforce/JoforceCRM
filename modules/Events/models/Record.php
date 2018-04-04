@@ -21,8 +21,9 @@ class Events_Record_Model extends Calendar_Record_Model {
 	 * @return <String> - Record Edit View Url
 	 */
 	public function getEditViewUrl() {
-		$module = $this->getModule();
-		return 'index.php?module=Calendar&view='.$module->getEditViewName().'&record='.$this->getId();
+        global $site_URL;
+        $module = $this->getModule();
+        return $site_URL . 'Calendar/view/'.$module->getEditViewName().'/'.$this->getId();
 	}
 
 	/**
@@ -30,8 +31,9 @@ class Events_Record_Model extends Calendar_Record_Model {
 	 * @return <String> - Record Delete Action Url
 	 */
 	public function getDeleteUrl() {
+        global $site_URL;
 		$module = $this->getModule();
-		return 'index.php?module=Calendar&action='.$module->getDeleteActionName().'&record='.$this->getId();
+		return $site_URL . 'index.php?module=Calendar&action='.$module->getDeleteActionName().'&record='.$this->getId();
 	}
 
 	/**
@@ -39,9 +41,9 @@ class Events_Record_Model extends Calendar_Record_Model {
      * @return <String>
      */
     public function getDuplicateRecordUrl(){
+        global $site_URL;
         $module = $this->getModule();
-		return 'index.php?module=Calendar&view='.$module->getEditViewName().'&record='.$this->getId().'&isDuplicate=true';
-
+        return $site_URL . 'Calendar/view/'.$module->getEditViewName().'/'.$this->getId().'/Duplicate/true';
     }
 
     public function getRelatedToContactIdList() {

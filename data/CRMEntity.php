@@ -86,7 +86,7 @@ class CRMEntity {
 			return;
 		}
 
-		$userSpecificTableIgnoredModules = array("SMSNotifier", "ModComments");
+		$userSpecificTableIgnoredModules = array("SMSNotifier", "ModComments", "PBXManager");
 		if(in_array($moduleName, $userSpecificTableIgnoredModules)) return;
 
 		$userSpecificTable = Head_Functions::getUserSpecificTableName($moduleName);

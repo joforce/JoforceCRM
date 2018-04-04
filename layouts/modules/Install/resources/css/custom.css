@@ -1,0 +1,357 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+/*  custom style for getting started page   */
+body {
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 14px !important; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto Slab", serif !important;
+  color: #000; }
+
+strong, b, th, p, label {
+  font-family: "Open Sans", sans-serif !important; }
+
+.carousel-inner .item h3 {
+  font-family: "Roboto Slab", serif !important;
+  color: #000; }
+
+table thead th {
+  color: #000 !important; }
+
+.form-group label {
+  color: #000 !important; }
+
+.btn {
+  font-weight: 400 !important;
+  font-family: "Open Sans", sans-serif !important; }
+
+html body {
+  background: #ffffff url("") !important; }
+
+#page {
+  padding-top: 0px; }
+  #page .install-preprocess-top {
+    margin-top: 0px !important; }
+
+.btn-primary, .btn-success {
+  background: #1C7C54 !important;
+  border-color: #1C7C54 !important; }
+  .btn-primary:hover, .btn-primary:active, .btn-success:hover, .btn-success:active {
+    background: #219162 !important; }
+
+.btn-default {
+  background: #ffffff !important;
+  border: 1px solid #ccc !important;
+  color: #292b2c !important; }
+  .btn-default:hover {
+    border-width: 1px !important;
+    background: #f6f6f6 !important;
+    border-color: #ccc !important;
+    color: #292b2c !important; }
+
+.joforce-install-step .joforce-install-active {
+  box-shadow: 0 0 0 5px #1C7C54 !important; }
+.joforce-install-step .joforce-install-circle {
+  background: #1C7C54; }
+.joforce-install-step .joforce-install-completed {
+  background: #1C7C54 !important;
+  box-shadow: 0 0 0 5px #1C7C54 !important;
+  border-color: #1C7C54 !important; }
+
+.page-container {
+  width: 100% !important;
+  position: relative;
+  min-width: 100px !important;
+  min-height: auto !important; }
+
+.show_licence {
+  color: #1C7C54; }
+  .show_licence:hover, .show_licence:focus {
+    color: #135238; }
+
+.welcome-div {
+  padding: 0% 5% 3% 5% !important; }
+  .welcome-div h3 {
+    margin-top: 0px; }
+
+.gs-info {
+  width: 30%;
+  float: left;
+  background: #f4f4f4;
+  position: fixed;
+  height: 100%;
+  color: #333;
+  text-align: center;
+  z-index: 10000;
+  border-right: 1px solid #f2f2f2; }
+  .gs-info .heading {
+    font-size: 15px;
+    margin-top: 10%;
+    text-transform: uppercase;
+    font-style: italic; }
+  .gs-info .info-footer {
+    position: absolute;
+    bottom: 30px; }
+    .gs-info .info-footer .social-icons {
+      margin-left: 25%; }
+      .gs-info .info-footer .social-icons li {
+        margin: 0px 5px;
+        list-style: none;
+        display: inline-block;
+        cursor: pointer; }
+        .gs-info .info-footer .social-icons li a {
+          font-size: 25px;
+          color: #333; }
+  .gs-info .gs-detail {
+    padding: 15px; }
+    .gs-info .gs-detail img {
+      width: 150px;
+      height: 150px; }
+  .gs-info .gs-wizard {
+    padding: 40px 20px 20px 20px;
+    margin-bottom: 10%; }
+    .gs-info .gs-wizard .gs-wizard-section {
+      padding: 0px;
+      list-style: none; }
+      .gs-info .gs-wizard .gs-wizard-section li {
+        display: block;
+        color: #333;
+        margin: 10px 10px;
+        font-size: 15px;
+        cursor: pointer;
+        text-align: left; }
+        .gs-info .gs-wizard .gs-wizard-section li a {
+          padding: 7px 13px;
+          display: inline-block; }
+          .gs-info .gs-wizard .gs-wizard-section li a:hover, .gs-info .gs-wizard .gs-wizard-section li a:focus {
+            color: #333; }
+          .gs-info .gs-wizard .gs-wizard-section li a .wiz-circle {
+            width: 40px;
+            height: 40px;
+            display: inline-table;
+            border: 1px solid lignten(#1C7C54, 30%);
+            border-radius: 50%;
+            background: #abecd1; }
+          .gs-info .gs-wizard .gs-wizard-section li a .wiz-text {
+            vertical-align: middle;
+            display: inline-table;
+            font-size: 18px;
+            position: relative;
+            bottom: 15px;
+            margin-left: 15px; }
+      .gs-info .gs-wizard .gs-wizard-section li.active {
+        margin-bottom: 19px; }
+        .gs-info .gs-wizard .gs-wizard-section li.active a .wiz-circle::before {
+          content: "\2022";
+          color: #1C7C54;
+          font-size: 25px;
+          position: relative;
+          left: 15px;
+          top: 1px; }
+        .gs-info .gs-wizard .gs-wizard-section li.active a .wiz-text {
+          bottom: 0px; }
+      .gs-info .gs-wizard .gs-wizard-section li.completed {
+        margin-bottom: 19px; }
+        .gs-info .gs-wizard .gs-wizard-section li.completed a .wiz-circle::after {
+          content: "\2714";
+          color: #1C7C54;
+          font-size: 25px;
+          position: relative;
+          left: 9px;
+          top: 3px; }
+        .gs-info .gs-wizard .gs-wizard-section li.completed a .wiz-text {
+          bottom: 1px; }
+      .gs-info .gs-wizard .gs-wizard-section li.disabled {
+        pointer-events: none; }
+
+.inner-container {
+  width: 70%;
+  float: right;
+  padding: 15px 2.5% 30px 2% !important; }
+  .inner-container .form-group {
+    position: relative; }
+    .inner-container .form-group span.no {
+      width: 22px;
+      position: absolute;
+      left: 0px;
+      border-bottom: 2px solid #f00;
+      top: 58px; }
+    .inner-container .form-group span.nos {
+      width: 22px;
+      position: absolute;
+      left: 0px;
+      border-bottom: 2px solid #f00;
+      top: 52px;
+      z-index: 1000; }
+    .inner-container .form-group span.no5 {
+      width: 22px;
+      position: absolute;
+      left: 0px;
+      border-bottom: 2px solid #f00;
+      top: 20px;
+      z-index: 1000; }
+
+.joforce-install-section {
+  width: 95% !important; }
+
+.vtFooter {
+  position: absolute;
+  left: 30%;
+  bottom: 20px; }
+  .vtFooter p {
+    color: #333 !important; }
+
+.install-logo {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important; }
+
+.mobile-view {
+  display: none; }
+
+.license {
+  height: 400px !important;
+  margin-top: 10% !important; }
+
+.install-form-section .install-configuration-step {
+  width: 40% !important; }
+.install-form-section .install-hr {
+  border: 1px dotted #999 !important; }
+
+#progressIndicator {
+  height: 100vh;
+  background: linear-gradient(#abbaab, #ffffff); }
+  #progressIndicator .inner-container {
+    width: 100% !important;
+    float: left !important; }
+    #progressIndicator .inner-container .inner-container {
+      float: none !important;
+      position: fixed;
+      left: 0% !important;
+      bottom: 5% !important; }
+      #progressIndicator .inner-container .inner-container .welcome-div {
+        padding: 0% 0% 0% !important; }
+
+.carousel {
+  background: #fff !important;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+  border: none !important;
+  height: 60vh; }
+  .carousel .carousel-inner .item p {
+    font-size: 15px;
+    margin-top: 30px; }
+  .carousel .carousel-inner .item img {
+    width: 100%;
+    height: 100%; }
+
+.row .joforce-install-btn {
+  margin-top: 4% !important; }
+
+/*  form section  */
+.install-form-section .install-configuration-step .install-input.form-control {
+  border: none !important;
+  border-bottom: 1px solid #e8e8e8 !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  background: none;
+  width: 100% !important; }
+  .install-form-section .install-configuration-step .install-input.form-control:hover {
+    border-color: #5d5d5d !important;
+    box-shadow: none; }
+  .install-form-section .install-configuration-step .install-input.form-control:focus {
+    border-color: #1C7C54 !important;
+    box-shadow: none !important; }
+.install-form-section .install-configuration-step .install-select.select2-container {
+  box-shadow: none !important;
+  border-bottom: 1px solid #e8e8e8 !important;
+  border-color: #e8e8e8 !important;
+  width: 100% !important; }
+  .install-form-section .install-configuration-step .install-select.select2-container .select2-choice {
+    height: 28px;
+    border: none;
+    border-bottom: 1px solid #e8e8e8;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    border-color: #e8e8e8 !important;
+    background: #fff !important; }
+    .install-form-section .install-configuration-step .install-select.select2-container .select2-choice:hover {
+      background: none;
+      border-color: #5d5d5d !important; }
+    .install-form-section .install-configuration-step .install-select.select2-container .select2-choice:focus {
+      border-color: #1C7C54;
+      box-shadow: none; }
+  .install-form-section .install-configuration-step .install-select.select2-container .select2-chosen, .install-form-section .install-configuration-step .install-select.select2-container .select2-choice > span:first-child {
+    padding: 0px 8px 10px 8px !important;
+    margin-top: 0px !important; }
+  .install-form-section .install-configuration-step .install-select.select2-container .select2-arrow {
+    background-color: transparent !important;
+    border: none; }
+  .install-form-section .install-configuration-step .install-select.select2-container .select2-drop-active {
+    border-color: #1C7C54 !important; }
+
+.select2-results .select2-highlighted {
+  background: #1C7C54 !important; }
+
+.select2-search input, .select2-search input:focus {
+  border-color: #1C7C54 !important; }
+
+.select2-drop.select2-drop-above.select2-drop-active {
+  border-color: #1C7C54 !important; }
+
+.select2-drop.select2-drop-active {
+  border-color: #1C7C54 !important; }
+
+.select2-drop-active {
+  border-color: #1C7C54 !important; }
+
+.select2-drop-active.select2-drop-above {
+  border-color: #1C7C54 !important; }
+
+/*   End form section   */
+@media screen and (max-width: 600px) {
+  .gs-info {
+    display: none; }
+
+  .button-container {
+    padding-right: 30px; }
+    .button-container .btn-next {
+      margin-bottom: 5px !important; }
+
+  .inner-container {
+    width: 100%; }
+
+  .vtFooter {
+    bottom: -45px;
+    left: 30%; }
+
+  .joforce-install-section {
+    left: 30px; }
+
+  .joforce-install-btn a .btn-primary {
+    margin-right: 0px !important; }
+
+  .install-form-section {
+    padding: 0px 10px; }
+    .install-form-section .install-configuration-step {
+      width: 100% !important;
+      padding: 0px 30px; }
+
+  .config-table {
+    padding: 0px 10px !important; }
+
+  .social-icons {
+    margin-left: 0% !important; }
+
+  #progressIndicator .inner-container {
+    display: block !important; }
+    #progressIndicator .inner-container .inner-container {
+      display: block !important;
+      float: none !important;
+      position: absolute;
+      left: 18% !important;
+      top: 20% !important; } }
+@media screen and (min-width: 601px) and (max-width: 1000px) {
+  .joforce-install-section {
+    left: 30px; } }
+
+/*# sourceMappingURL=custom.css.map */

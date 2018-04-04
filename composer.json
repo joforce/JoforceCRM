@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "^3.0",
+        "webonyx/graphql-php": "^0.11.5",
+        "tuupola/slim-jwt-auth": "^2.3",
+        "ezyang/htmlpurifier": "^4.9",
+        "google/apiclient": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Joforce\\": "api/graphql/Joforce/"
+        }
+    }
+}

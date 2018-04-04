@@ -15,7 +15,10 @@
             <div class="col-sm-6 col-xs-6">
                 <div class="pull-right">
                     <span class="module-title">
-                        <h3><a data-url="{$MODULE_MODEL->getExtensionSettingsUrl($SOURCE_MODULE)}" class="btn addButton btn-default settingsPage" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-cog"></span><strong> {vtranslate('LBL_SYNC_SETTINGS', $MODULE)} </strong></a></h3>
+                        <h3>
+<!--				<a data-url="{$MODULE_MODEL->getExtensionSettingsUrl($SOURCE_MODULE)}" class="btn addButton btn-default settingsPage" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-cog"></span><strong> {vtranslate('LBL_SYNC_SETTINGS', $MODULE)} </strong></a>-->
+				<a id="syncSetting" data-hint="log-list" data-syncmodule="{$SOURCE_MODULE}" title="{$SOURCE_MODULE} Sync Settings" class="btn addButton btn-default settingsPage" type="button"><span aria-hidden="true" class="fa fa-cog"></span><strong> {vtranslate('LBL_SYNC_SETTINGS', $MODULE)} </strong></a>
+			</h3>
                     </span>
                 </div>
             </div>

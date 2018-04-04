@@ -73,7 +73,11 @@ class Head_ListViewQuickPreview_View extends Head_Index_View {
 		}
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
-		$viewer->view('ListViewQuickPreview.tpl', $moduleName);
+		$mode = $request->get('mode');
+		if($mode == 'navigated-quickview')
+			$viewer->view('ListViewNavigatedQuickPreview.tpl', $moduleName);
+		else
+			$viewer->view('ListViewQuickPreview.tpl', $moduleName);
 	}
 
 	public function assignNavigationRecordIds($viewer, $recordId){

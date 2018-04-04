@@ -21,9 +21,9 @@
     {else}
         <div class="row form-group">
 			<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
-                <label class="fieldLabel"><strong>{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
+                <label class="fieldLabel">{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</label>
             </div>
-            <div class="col-sm-3 col-xs-3 fieldValue">
+            <div class="col-sm-3 col-xs-12 fieldValue">
                 <select class="select2 inputElement" id="modulePickList" name="modulePickList">
                     {foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
                         <option value="{$FIELD_MODEL->getId()}" {if $DEFAULT_FIELD eq $FIELD_MODEL->getName()} selected {/if}>{vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>

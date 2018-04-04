@@ -36,30 +36,6 @@ class Users_Login_View extends Head_View_Controller {
 	function process (Head_Request $request) {
 		$finalJsonData = array();
 
-/*		$modelInstance = Settings_ExtensionStore_Extension_Model::getInstance();
-		$news = $modelInstance->getNews();
-
-		if ($news && $news['result']) {
-			$jsonData = $news['result'];
-			$oldTextLength = vglobal('listview_max_textlength');
-			foreach ($jsonData as $blockData) {
-				if ($blockData['type'] === 'feature') {
-					$blockData['heading'] = "What's new in Head Cloud";
-				} else if ($blockData['type'] === 'news') {
-					$blockData['heading'] = "Latest News";
-					$blockData['image'] = '';
-				}
-
-				vglobal('listview_max_textlength', '80');
-				$blockData['displayTitle'] = textlength_check($blockData['title']);
-
-				vglobal('listview_max_textlength', '200');
-				$blockData['displaySummary'] = textlength_check($blockData['summary']);
-				$finalJsonData[$blockData['type']][] = $blockData;
-			}
-			vglobal('listview_max_textlength', $oldTextLength);
-		}
-*/
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DATA_COUNT', count($jsonData));
 		$viewer->assign('JSON_DATA', $finalJsonData);

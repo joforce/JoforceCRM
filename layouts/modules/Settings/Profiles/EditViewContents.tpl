@@ -10,7 +10,7 @@
 
 {if $SHOW_EXISTING_PROFILES}
 	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+		<script type="{$jsModel->getType()}" src="{$SITEURL}{$jsModel->getSrc()}"></script>
 	{/foreach}
 	<div class="form-group row">
 		<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
@@ -73,7 +73,7 @@
 		<h5>{vtranslate('LBL_EDIT_PRIVILEGES_OF_THIS_PROFILE',$QUALIFIED_MODULE)}</h5><br>
 	</div>
 </div>
-<div class="row">
+<div class="">
 	<div class="col-lg-1 col-md-1 col-sm-1"></div>
 	<div class=" col-lg-10 col-md-10 col-sm-10">
 		<table class="table table-bordered profilesEditView">

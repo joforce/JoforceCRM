@@ -41,7 +41,20 @@ class Users_UserSetup_View extends Head_Index_View {
 			$viewer->assign('TIME_ZONES', $userModuleModel->getTimeZonesList());
 			$viewer->assign('LANGUAGES', $userModuleModel->getLanguagesList());
 			$viewer->assign('USER_ID', $request->get('record'));
-			$viewer->view('UserSetup.tpl', $moduleName);
+			if($isFirstUser)    {
+			    // For Outgoing server
+                $systemDetailsModel = Settings_Head_Systems_Model::getInstanceFromServerType('email', 'OutgoingServer');
+                $viewer->assign('OUTGOING_SERVER_MODEL',$systemDetailsModel);
+
+			    // For Company Details
+                $moduleModel = Settings_Head_CompanyDetails_Model::getInstance();
+                $viewer->assign('COMPANY_DETAILS_MODULE_MODEL', $moduleModel);
+                $viewer->assign('QUALIFIED_MODULE', 'Settings:Head');
+			    $viewer->view('AdminUserSetup.tpl', $moduleName);
+            }
+            else {
+                $viewer->view('UserSetup.tpl', $moduleName);
+            }
 		} else {
 			if(isset($_SESSION['return_params'])) {
 				$return_params = urldecode($_SESSION['return_params']);

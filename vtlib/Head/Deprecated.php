@@ -149,11 +149,10 @@ class Head_Deprecated {
 		$php_self = $_SERVER['PHP_SELF'];
 		$php_self = str_replace('/migration','',$php_self);
 		$base = str_replace('/index.php','',$php_self);
-		if(empty($base)){
+		if(empty($base))    {
 			$base = '/';
 		}
 		$filename = '.htaccess';
-		$content = "\n";
 		$content .= "\n<IfModule mod_rewrite.c>\n";
 		$content .= "\nRewriteEngine On\n";
 		$content .= "\nRewriteBase ".$base."\n";
@@ -162,27 +161,10 @@ class Head_Deprecated {
 		$content .= "\nRewriteCond %{REQUEST_FILENAME} !-d\n";
 		$content .= "\nRewriteRule . ".$php_self." [L]\n";
 		$content .="\n</IfModule>\n";
-		$content .= "\n<IfModule mod_headers.c> \n";
-		$content .= "\nHeader set x-xss-protection '1; mode=block'\n";
-		$content .= "\nHeader always set x-frame-options 'SAMEORIGIN' \n";
-		$content .= "\nHeader always set X-Content-Type-Options 'nosniff' \n";
-		$content .= "\n<FilesMatch '\.(ico|jpg|jpeg|png|gif)$'> \n";
-		$content .= "\n ExpiresDefault 'access plus 7 days' \n";
-		$content .= "\n </FilesMatch>\n";
-		$content .= "\n </IfModule> \n";
-		$content .= "\n<IfModule mod_deflate.c> \n";
-		$content .= "\n AddOutputFilterByType DEFLATE text/css application/x-javascript text/x-component text/html text/plain text/xml application/javascript \n";
-		$content .= "\n  </IfModule>\n";
-		$content .= "\n <IfModule mod_setenvif.c>\n";
-		$content .= "\n BrowserMatch ^Mozilla/4 gzip-only-text/html \n";
-		$content .= "\n BrowserMatch ^Mozilla/4.0[678] no-gzip\n";
-		$content .= "\n BrowserMatch bMSIE !no-gzip !gzip-only-text/html \n";
-		$content .= "\n </IfModule>\n";
 		$handle = fopen($filename, 'w+');
 		fputs($handle, $content);
 		fclose($handle);
-		chmod($filename,644);
-
+		chmod($filename, 0777);
 	}
 
 	static function createModuleMetaFile() {
@@ -250,6 +232,8 @@ class Head_Deprecated {
 				$newbuf .= "\$action_id_array=" . constructSingleStringKeyAndValueArray($actionid_array) . ";\n";
 				$newbuf .= "\n";
 				$newbuf .= "\$action_name_array=" . constructSingleStringValueArray($actionname_array) . ";\n";
+
+				$newbuf = str_replace("=>,", "=>0,", $newbuf);
 				$newbuf .= "?>";
 				fputs($handle, $newbuf);
 				fclose($handle);

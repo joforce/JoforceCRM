@@ -145,7 +145,7 @@
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
 	 <div class="col-lg-1 col-md-1 col-sm-1">
-		<i class="deleteCondition glyphicon glyphicon-trash cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+		<i class="deleteCondition fa fa-trash cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
 	</div>
 </div>
 {/strip}

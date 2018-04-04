@@ -66,7 +66,7 @@
 											<div id="imageContainer" width="300" height="200">
 												{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 													{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-														<img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="300" height="200">
+														<img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="150" height="150">
 													{/if}
 												{/foreach}
 											</div>

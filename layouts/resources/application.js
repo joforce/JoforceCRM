@@ -71,7 +71,10 @@ window.app = (function () {
 			if (typeof params.url === 'undefined') {
 				params.url = 'index.php';
 			}
-            params.url = jQuery('#joforce_site_url').val() + params.url;
+
+			if(typeof params.full_url === 'undefined' || params.full_url !== true) {
+                params.url = jQuery('#joforce_site_url').val() + params.url;
+            }
 
 			var ajaxParams = {
 				method: params.type,

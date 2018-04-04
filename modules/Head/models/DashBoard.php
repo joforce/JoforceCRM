@@ -53,7 +53,7 @@ class Head_DashBoard_Model extends Head_Base_Model {
 		$moduleTabIdList = array($moduleModel->getId());
 
 		if(!empty($dashBoardTabInfo['appname'])) {
-			$allVisibleModules = Settings_MenuEditor_Module_Model::getAllVisibleModules();
+			$allVisibleModules = Settings_MenuManager_Module_Model::getAllVisibleModules();
 			$appVisibleModules = $allVisibleModules[$dashBoardTabInfo['appname']];
 			if(is_array($appVisibleModules)) {
 				$moduleTabIdList = array();

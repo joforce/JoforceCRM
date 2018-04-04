@@ -31,7 +31,7 @@
 
         {include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 
-        <div id="table-content" class="table-container">
+        <div id="table-content" class="table-container" style="overflow-x: auto;">
             <form name='list' id='listedit' action='' onsubmit="return false;">
                 <table id="listview-table"  class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {else} listview-table{/if} ">
                     <thead>

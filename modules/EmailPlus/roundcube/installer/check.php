@@ -25,6 +25,8 @@ $optional_php_exts = array(
     'Intl'      => 'intl',
     'Exif'      => 'exif',
     'LDAP'      => 'ldap',
+    'GD'        => 'gd',
+    'Imagick'   => 'imagick',
 );
 
 $required_libs = array(
@@ -44,15 +46,12 @@ $ini_checks = array(
     'session.auto_start'            => 0,
     'mbstring.func_overload'        => 0,
     'suhosin.session.encrypt'       => 0,
-    'magic_quotes_runtime'          => 0,
-    'magic_quotes_sybase'           => 0,
 );
 
 $optional_checks = array(
     // required for utils/modcss.inc, should we require this?
     'allow_url_fopen'  => 1,
     'date.timezone'    => '-VALID-',
-    'register_globals' => 0, // #1489157
 );
 
 $source_urls = array(
@@ -70,6 +69,8 @@ $source_urls = array(
     'oci8'      => 'http://www.php.net/manual/en/book.oci8.php',
     'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
     'LDAP'      => 'http://www.php.net/manual/en/book.ldap.php',
+    'GD'        => 'http://www.php.net/manual/en/book.image.php',
+    'Imagick'   => 'http://www.php.net/manual/en/book.imagick.php',
     'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
     'pdo_pgsql'   => 'http://www.php.net/manual/en/ref.pdo-pgsql.php',
     'pdo_sqlite'  => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
@@ -89,7 +90,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <h3>Checking PHP version</h3>
 <?php
 
-define('MIN_PHP_VERSION', '5.3.7');
+define('MIN_PHP_VERSION', '5.4.0');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
 } else {

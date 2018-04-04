@@ -9,11 +9,11 @@
 
 {strip}
 	{if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
-		<div class="form-group">
-			<label class="control-label fieldLabel col-sm-5">
+		<div class="form-group pl15">
+			<label class="control-label fieldLabel col-sm-5 pl0 pr0">
 				<img src="{$SITEURL}{vimage_path('DefaultValue.png')}" height=14 width=14/> &nbsp; {vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
 			</label>
-			<div class="controls col-sm-7">
+			<div class="controls col-sm-7 pl0">
 				<div class="defaultValueUi">
 					{if !$NAME_ATTR}
 						{assign var=NAME_ATTR value="fieldDefaultValue"}

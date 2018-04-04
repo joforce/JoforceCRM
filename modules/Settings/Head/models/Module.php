@@ -151,8 +151,7 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$whereCondition .= "linkto LIKE '%$moduleName%' AND (linkto LIKE '%parent=Settings%' OR linkto LIKE '%parenttab=Settings%')";
-
+		$whereCondition .= "linkto LIKE '%$moduleName%' AND ( linkto LIKE '%Settings%' OR linkto LIKE '%parent=Settings%' OR linkto LIKE '%parenttab=Settings%')";
 		$db = PearDatabase::getInstance();
 		$query = "SELECT jo_settings_blocks.label AS blockname, jo_settings_field.name AS menu FROM jo_settings_blocks
 					INNER JOIN jo_settings_field ON jo_settings_field.blockid=jo_settings_blocks.blockid
@@ -163,7 +162,7 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 			$finalResult = array(	'block' => $db->query_result($result, 0, 'blockname'),
 									'menu'	=> $db->query_result($result, 0, 'menu'));
 		} elseif ($numOfRows > 1) {
-			$result = $db->pquery("$query AND linkto LIKE '%view=$view%'", array());
+			$result = $db->pquery("$query AND ( linkto LIKE '%view=$view%' OR linkto LIKE '%$view%')", array());
 			$numOfRows = $db->num_rows($result);
 			if ($numOfRows == 1) {
 				$finalResult = array(	'block' => $db->query_result($result, 0, 'blockname'),
@@ -192,11 +191,14 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$myTagSettingsUrl = $currentUser->getMyTagSettingsListUrl();
 
+		$extension_blockid = Head_Deprecated::getSettingsBlockId('LBL_EXTENSIONS');
+		$google_link_field_id = getSettingsFieldId($extension_blockid, 'LBL_GOOGLE');
 		$settingsMenuList = array('LBL_MY_PREFERENCES'	=> array('My Preferences'	=> '',
-																 'Calendar Settings'=> '',
-																 'LBL_MY_TAGS'		=> $myTagSettingsUrl),
-									'LBL_EXTENSIONS'	=> array('LBL_GOOGLE'		=> $site_URL.'Contacts/Settings/Extension/Google/Index/settings')
-								);
+									 'Calendar Settings'	=> '',
+									 'LBL_MY_TAGS'		=> $myTagSettingsUrl,
+									 'LBL_MENU_MANAGEMENT' 	=> $site_URL.'MenuManager/Settings/Index'),
+					'LBL_EXTENSIONS'	=> array('LBL_GOOGLE'	=> $site_URL."Contacts/Settings/Extension/Google/Index/settings/$extension_blockid/$google_link_field_id")
+					);
 		if(!vtlib_isModuleActive('Google')) {
 			unset($settingsMenuList['LBL_EXTENSIONS']['LBL_GOOGLE']);
 		}

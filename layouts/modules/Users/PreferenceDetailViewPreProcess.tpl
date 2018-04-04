@@ -19,3 +19,4 @@
 {include file="PreferenceDetailViewHeader.tpl"|vtemplate_path:$MODULE}
 
 {/strip}
+

@@ -1001,6 +1001,7 @@ Head.Class("Head_List_Js", {
 		jQuery('.edit', record).addClass('hide');
 		jQuery('.fieldValue', record).removeClass('hide');
 		record.removeClass('edited');
+		app.helper.registerTableAlignment();
 	},
 	searchModuleNames: function (params) {
 		var aDeferred = jQuery.Deferred();
@@ -1056,6 +1057,8 @@ Head.Class("Head_List_Js", {
 	 */
 	registerRowClickEvent: function () {
 		var thisInstance = this;
+		var self = this;
+		var moduleName = this.getModuleName();
 		var listViewContentDiv = this.getListViewContainer();
 
 		// added to stop the link functunality for few milli seconds
@@ -1074,34 +1077,43 @@ Head.Class("Head_List_Js", {
 			}
 			e.stopPropagation();
 		});
-
+		
 		// Single click event - detail view
-		listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			var target = jQuery(e.target);
-			if (!target.hasClass('js-reference-display-value')) {
-				setTimeout(function () {
-					var editedLength = jQuery('.listViewEntries.edited').length;
-					if (editedLength === 0) {
-						var selection = window.getSelection().toString();
-						if (selection.length == 0) {
-							var target = jQuery(e.target, jQuery(e.currentTarget));
-							if (target.closest('td').is('td:first-child'))
-								return;
-							if (target.closest('tr').hasClass('edited'))
-								return;
-							if (jQuery(e.target).is('input[type="checkbox"]'))
-								return;
-							var elem = jQuery(e.currentTarget);
-							var recordUrl = elem.data('recordurl');
-							if (typeof recordUrl == 'undefined') {
-								return;
-							}
-							window.location.href = recordUrl;
-						}
-					}
-				}, 300);
+                listViewContentDiv.on('click', '.listViewEntries', function (e) {
+			if(moduleName == 'Reports' || moduleName == 'PDFMaker')
+			{
+                        var target = jQuery(e.target);
+                        if (!target.hasClass('js-reference-display-value')) {
+                                setTimeout(function () {
+                                        var editedLength = jQuery('.listViewEntries.edited').length;
+                                        if (editedLength === 0) {
+                                                var selection = window.getSelection().toString();
+                                                if (selection.length == 0) {
+                                                        var target = jQuery(e.target, jQuery(e.currentTarget));
+                                                        if (target.closest('td').is('td:first-child'))
+                                                                return;
+                                                        if (target.closest('tr').hasClass('edited'))
+                                                                return;
+                                                        if (jQuery(e.target).is('input[type="checkbox"]'))
+                                                                return;
+                                                        var elem = jQuery(e.currentTarget);
+                                                        var recordUrl = elem.data('recordurl');
+                                                        if (typeof recordUrl == 'undefined') {
+                                                                return;
+                                                        }
+                                                        window.location.href = recordUrl;
+                                                }
+                                        }
+                                }, 300);
+                        }
 			}
-		});
+/*			else
+			{
+				var recordId = $(this).data('id');
+	                        var app = $('#appName').val();
+        	                self.showQuickPreviewForId(recordId, app);
+			}*/
+                });
 	},
 	/*
 	 * Function to register the list view row double click event
@@ -1760,6 +1772,7 @@ Head.Class("Head_List_Js", {
 		);
 		return aDeferred.promise();
 	},
+
 	registerDeleteRecordClickEvent: function () {
 		var thisInstance = this;
 		jQuery('#page').on('click', '.deleteRecordButton', function (e) {
@@ -1864,13 +1877,16 @@ Head.Class("Head_List_Js", {
 		var self = this;
 		var listViewPageDiv = self.getListViewContainer();
 		listViewPageDiv.on('click', '.quickView', function (e) {
+			document.body.scrollTop = 0;
+	                document.documentElement.scrollTop = 0;
+			$("#table-content").find($('.activeview').removeClass('activeview'));
+			$(this).addClass('activeview');
 			var element = listViewPageDiv.find(e.currentTarget);
 			var app = element.data('app');
 			var row = element.closest('.listViewEntries');
 			var recordId = row.data('id');
 			self.showQuickPreviewForId(recordId, app);
-		});
-
+		});	
 	},
 	registerMoreRecentUpdatesClickEvent: function (container, recordId) {
 		container.find('.moreRecentUpdates').on('click', function () {
@@ -1887,6 +1903,7 @@ Head.Class("Head_List_Js", {
 			self.showQuickPreviewForId(nextRecordId, appName);
 		});
 	},
+	
 	registerPreviousRecordClickEvent: function (container) {
 		var self = this;
 		container.find('#quickPreviewPreviousRecordButton').on('click', function (e) {
@@ -2210,11 +2227,11 @@ Head.Class("Head_List_Js", {
 
 	},
 	enableListViewActions: function () {
-		jQuery('.btn-group.listViewActionsContainer').find('button').removeAttr('disabled');
+		jQuery('.btn-group.listViewActionsContainer').find('button').removeAttr('disabled').removeClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('li').removeClass('hide');
 	},
 	disableListViewActions: function () {
-		jQuery('.btn-group.listViewActionsContainer').find('button').attr('disabled', "disabled");
+		jQuery('.btn-group.listViewActionsContainer').find('button').attr('disabled', "disabled").addClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('.dropdown-toggle').removeAttr("disabled");
 		jQuery('.btn-group.listViewActionsContainer').find('li').addClass('hide');
 		var selectFreeRecords = jQuery('.btn-group.listViewActionsContainer').find('li.selectFreeRecords');
@@ -2362,7 +2379,7 @@ Head.Class("Head_List_Js", {
 								app.helper.showSuccessNotification({message: res.message});
 								app.helper.hideModal();
 								var appName = app.getAppName();
-								var url = res['listviewurl'] + '/' + appName;
+								var url = res['listviewurl'];
 								window.location.href = url;
 							}
 						});
@@ -2425,7 +2442,7 @@ Head.Class("Head_List_Js", {
 				vtUtils.applyFieldElementsView(searchRow);
 				self.filterClick = false;
 			}
-			self.registerFloatingThead();
+//			self.registerFloatingThead();
 		});
 	},
 	/*
@@ -2489,7 +2506,6 @@ Head.Class("Head_List_Js", {
 
 		this.registerPostListLoadListener();
 		this.registerPostLoadListViewActions();
-
 		app.event.on('post.listViewMassEditSave', function () {
 			var urlParams = {};
 			thisInstance.loadListViewRecords(urlParams);
@@ -2509,7 +2525,7 @@ Head.Class("Head_List_Js", {
 //      
 		//floatTHead, some timeout so correct height can be caught for computations
 		setTimeout(function () {
-			thisInstance.registerFloatingThead();
+//			thisInstance.registerFloatingThead();
 		}, 10);
 
 		app.event.on('Head.Post.MenuToggle', function () {
@@ -2694,3 +2710,71 @@ Head.Class("Head_List_Js", {
 		return count;
 	}
 });
+	
+$(document).ready( function () {
+
+	fixedtable();
+
+	$("#forecast-view").click( function() {
+		var site_url = jQuery('#joforce_site_url').val();
+		var cvid = $(this).data('cvid');
+        	window.location.href = site_url + "Potentials/view/Forecast/" + cvid;
+	});
+
+	$("#potential-list-view").click( function() {
+                var site_url = jQuery('#joforce_site_url').val();
+		var cvid = $(this).data('cvid');
+                window.location.href = site_url + "Potentials/view/List/" + cvid;
+        });
+	
+	if (document.querySelector('.col-fixed-3') !== null) {
+            $('table').css("margin-left","450px");
+        }
+        else if (document.querySelector('.col-fixed-2') !== null){
+            $('table').css("margin-left","300px");
+        }
+		
+	function fixedtable(){
+		var sw = $(window).width();
+                var tw = $('table.listview-table').width();
+                 $.fn.columnCount = function() {
+                   return $('th', $('.table-container .fixed-scroll-table #listview-table.listview-table').find('thead')).length;
+                };
+                var colctr = $('.table-container .fixed-scroll-table #listview-table.listview-table').columnCount();
+                var tc = ((colctr-1)/2)-2;
+                var value = tw/tc;
+                var av = 300/tc;
+                var addvalue = value+av;
+                if(sw < tw){
+                        $('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
+                }
+                else if(tc == 0){
+                        $('.fixed-scroll-table #listview-table.listview-table').addClass('listview-table-onerecords');
+                }
+                else if(tc == 1){
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '100%');
+                }
+                else if(tc == 2){
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '50%');
+                }
+                else if(tc == 3){
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '33.33%');
+                }
+                else if(tc == 4){
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '25%');
+                }
+                else if(tc == 5){
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '20%');
+                }
+                else if(tc == 6){
+                		$('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '16.6%');
+                }
+                else{
+                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
+                }
+            }
+
+  });
+ 
+		

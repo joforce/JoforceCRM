@@ -47,8 +47,8 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
-        'preview_pane'         => isset($_POST['_preview_pane']),
-        'preview_pane_mark_read' => isset($_POST['_preview_pane_mark_read']) ? intval($_POST['_preview_pane_mark_read']) : $CONFIG['preview_pane_mark_read'],
+        'layout'               => rcube_utils::get_input_value('_layout', rcube_utils::INPUT_POST),
+        'mail_read_time'       => isset($_POST['_mail_read_time']) ? intval($_POST['_mail_read_time']) : $CONFIG['mail_read_time'],
         'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
         'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
         'check_all_folders'    => isset($_POST['_check_all_folders']),
@@ -67,6 +67,10 @@ case 'mailview':
         'display_next'    => isset($_POST['_display_next']),
         'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
     );
+
+    if ($a_user_prefs['default_charset'] && !preg_match('/^[a-zA-Z0-9-]+$/', $a_user_prefs['default_charset'])) {
+        $a_user_prefs['default_charset'] = $CONFIG['default_charset'];
+    }
 
     break;
 

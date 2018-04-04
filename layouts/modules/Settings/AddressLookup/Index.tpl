@@ -7,7 +7,6 @@
  * ********************************************************************************** */
 -->*}
 
-<link rel="stylesheet" href="{$SITEURL}layouts/modules/Settings/AddressLookup/font-awesome/css/font-awesome.css" type="text/css"/>
 {literal}
 <style type="text/css">
 
@@ -101,9 +100,9 @@
     display: none;
 }
 .scroll {
- overflow-y: scroll;
-  overflow-x:scroll;
-  height:300px;
+    overflow-y: auto;
+    overflow-x:auto;
+    height:300px;
 }
 </style>
 <script type="text/javascript">
@@ -175,7 +174,7 @@ $(document).ready(function() {
 <div>
                 <div >
                         <h4 style="margin:6px; float:left;padding-left:10px;">Configure Field Mapping For</h4>
-                        <select class="select2 col-sm-3 pull-left" id="modulename" style="float: right;" onchange="location.href='{$SITEURL}AddressLookup/Settings/List/'+this.value" name="modulename">
+                        <select class="select2 col-sm-3 pull-left" id="modulename" style="float: right;" onchange="location.href='{$SITEURL}AddressLookup/Settings/List?sourceModule='+this.value" name="modulename">
 
                         {foreach item=MODULE_NAME from=$ENABLED_MODULES}
                             <option value="{$MODULE_NAME[1]}" {if $MODULE_NAME[1] eq $SELECTED_MODULE_NAME} selected {/if} >{vtranslate($MODULE_NAME[0])}</option>

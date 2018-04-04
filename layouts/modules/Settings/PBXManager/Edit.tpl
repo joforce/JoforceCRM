@@ -27,7 +27,7 @@
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
 							<tr>
 								<td class="fieldLabel control-label" style="width:25%"><label>{vtranslate($FIELD_NAME, $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></td>
-								<td style="word-wrap:break-word;">
+								<td class="fieldValue" style="word-wrap:break-word;">
 									<input class="inputElement fieldValue" type="{$FIELD_TYPE}" name="{$FIELD_NAME}" data-rule-required="true" value="{$RECORD_MODEL->get($FIELD_NAME)}" />
 								</td>
 							</tr>
@@ -47,7 +47,7 @@
 	</div>
 	<div class="col-lg-12">
 		<div class="col-lg-1"></div>
-		<div class="col-sm-5 alert alert-info container-fluid">
+		<div class="col-sm-10 alert alert-info container-fluid">
 			<b>{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}</b> {vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br><br>
 			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)} : {vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>

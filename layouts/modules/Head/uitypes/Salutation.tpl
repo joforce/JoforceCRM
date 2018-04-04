@@ -11,7 +11,7 @@
 	{if $SALUTATION_FIELD_MODEL}
 		{assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getPicklistValues()}
 		{assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
-		<select class="inputElement select2" style="width:78px;" name="{$SALUTATION_FIELD_MODEL->get('name')}" >
+		<select class="inputElement select2 name-prefix" name="{$SALUTATION_FIELD_MODEL->get('name')}" >
 			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_NONE', $MODULE)}</option>{/if}
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{Head_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
@@ -24,7 +24,7 @@
 	{assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 	<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
 			class="inputElement {if $FIELD_MODEL->isNameField()}nameField{/if}"
-			{if $SALUTATION_FIELD_MODEL} style="width:120px;" {/if} 
+			{if $SALUTATION_FIELD_MODEL} style="width:68% !important;" {/if} 
 			{if $FIELD_MODEL->get('uitype') eq '3' || $FIELD_MODEL->get('uitype') eq '4'} readonly {/if} {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} 
 			{if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
 			{if count($FIELD_INFO['validator'])} 

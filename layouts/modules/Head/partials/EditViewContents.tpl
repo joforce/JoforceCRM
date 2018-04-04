@@ -17,10 +17,9 @@
 		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 			{if $BLOCK_FIELDS|@count gt 0}
 				<div class='fieldBlockContainer'>
-					<h4 class='fieldBlockHeader'>{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
-					<hr>
+					<h4 class='fieldBlockHeader mb20'><b>{vtranslate($BLOCK_LABEL, $MODULE)}</b></h4>
 					<table class="table table-borderless">
-						<tr>
+						<div class="col-lg-12 col-sm-12 pr0 pl0">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -29,17 +28,19 @@
 								{if $FIELD_MODEL->isEditable() eq true}
 									{if $FIELD_MODEL->get('uitype') eq "19"}
 										{if $COUNTER eq '1'}
-											<td></td><td></td></tr><tr>
-											{assign var=COUNTER value=0}
+										<div class="col-lg-3"></div><div class="col-lg-3"></div></div><div class="col-lg-12">
+										{assign var=COUNTER value=0}
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-									</tr><tr>
+									</div><div class="col-lg-12 pr0 pl0">
 										{assign var=COUNTER value=1}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<td class="fieldLabel alignMiddle">
+									<div class="col-lg-6 col-sm-12 col-md-6 pr0 pl0">
+                                                                        <div class="col-lg-4 col-sm-4 col-md-4 pr0 pl0">
+                                                                        <div class="fieldLabel alignMiddle">
 										{if $isReferenceField eq "reference"}
 											{if $refrenceListCount > 1}
 												{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -47,7 +48,7 @@
 												{if !empty($REFERENCED_MODULE_STRUCTURE)}
 													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCTURE->get('name')}
 												{/if}
-												<select style="width: 140px;" class="select2 referenceModulesList">
+												<select style="width: 100%;margin-bottom: -8px;" class="select2 referenceModulesList">
 													{foreach key=index item=value from=$refrenceList}
 														<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
 													{/foreach}
@@ -72,7 +73,7 @@
 												{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
 												{if $FILE_LOCATION_TYPE_FIELD}
 													{if $FILE_LOCATION_TYPE_FIELD->get('fieldvalue') eq 'E'}
-														{vtranslate("LBL_FILE_URL", $MODULE)}&nbsp;<span class="redColor">*</span>
+														{vtranslate("LBL_FILE_URL", $MODULE)}&nbsp;<span class="red-border"></span>
 													{else}
 														{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 													{/if}
@@ -83,19 +84,23 @@
 												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 											{/if}
 										{/if}
-										&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-									</td>
+										&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
+									</div>
+									</div>
 									{if $FIELD_MODEL->get('uitype') neq '83'}
-										<td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-										</td>
+										<div class="col-lg-7 col-sm-7 col-md-7 pl0 pr0">
+                                                                                <div class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+                                                                                        {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
+                                                                                </div>
+                                                                                </div>
 									{/if}
+									</div>
 								{/if}
 							{/foreach}
 							{*If their are odd number of fields in edit then border top is missing so adding the check*}
 							{if $COUNTER is odd}
-								<td></td>
-								<td></td>
+								<div class="col-lg-3"></div>
+                                                                <div class="col-lg-3"></div>
 							{/if}
 						</tr>
 					</table>

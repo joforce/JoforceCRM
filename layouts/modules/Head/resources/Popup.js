@@ -197,6 +197,10 @@ jQuery.Class("Head_Popup_Js",{
 			params['multi_select'] = true;
 		}
         params['relationId'] = this.getRelationId();
+        // Carry forward meta (LineItem Pricebook Popup > Search)
+		var getUrl = this.getPopupPageContainer().find('#getUrl');
+        if (getUrl.length) params['get_url'] = getUrl.val();
+
 		return params;
 	},
     

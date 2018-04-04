@@ -34,6 +34,6 @@ class Head_JavaScript extends Head_Viewer {
 	 * @return <string> - theme folder
 	 */
 	public static function getBaseJavaScriptPath(){
-		return 'layouts'. '/' . self::getLayoutName();
+		return 'layouts';
 	}
 }

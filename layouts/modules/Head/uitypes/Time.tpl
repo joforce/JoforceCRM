@@ -15,14 +15,14 @@
 	{if (!$FIELD_NAME)}
 		{assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 	{/if}
-	<div class="input-group inputElement time">
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" data-format="{$TIME_FORMAT}" class="timepicker-default form-control" value="{$FIELD_VALUE}" name="{$FIELD_NAME}"
+	<div class="input-group time">
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" data-format="{$TIME_FORMAT}" class="timepicker-default form-control inputElement" value="{$FIELD_VALUE}" name="{$FIELD_NAME}"
 		{if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
 		{if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
 		{if count($FIELD_INFO['validator'])}
 			data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
 		{/if} data-rule-time="true"/>
-		<span class="input-group-addon" style="width: 30px;">
+		<span class="input-group-addon time-icon" style="width: 30px;">
 			<i class="fa fa-clock-o"></i>
 		</span>
 	</div>

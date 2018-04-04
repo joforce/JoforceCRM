@@ -318,3 +318,14 @@ Head_List_Js("RecycleBin_List_Js", {
 		});
 	}
 });
+
+jQuery(document).ready(function(){
+	if (document.querySelector('.sidebar-essentials') !== null) {
+        $('.listViewPageDiv.content-area').css("padding-left","210px"); 
+    }
+    jQuery('.essentials-toggle-marker').click(function(){
+    	$(this).toggleClass('fa-chevron-left').toggleClass('fa-chevron-right');
+    	$('.sidebar-essentials').toggleClass('hide');
+    	$('.listViewPageDiv.content-area').toggleClass('nosidebar');
+    });
+});

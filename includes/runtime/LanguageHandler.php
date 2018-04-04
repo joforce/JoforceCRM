@@ -148,7 +148,7 @@ class Head_Language_Handler {
 	public static function getLanguage() {
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$language = '';
-		if (!empty($userModel)) {
+        if (!empty($userModel) && $userModel->has('language')) {
 			$language = $userModel->get('language');
 		}
 		return empty($language) ? vglobal('default_language') : $language;

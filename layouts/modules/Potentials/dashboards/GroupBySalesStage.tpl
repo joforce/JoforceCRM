@@ -22,9 +22,9 @@
 
 <div class="dashboardWidgetHeader">
     <div class="title clearfix">
-        <div class="col-lg-4 dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+        <div class="col-lg-12 dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
         
-        <div class="userList col-lg-5">
+        <div class="userList col-lg-6 mt10">
             <div>
                 <select class="widgetFilter select2" id="owner" name="owner" style='width:30%;margin-bottom:0px'>
                     <option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>

@@ -53,7 +53,7 @@ class Calendar_Record_Model extends Head_Record_Model {
 	 */
 	public function getDetailViewUrl() {
 		$module = $this->getModule();
-		return vglobal('site_URL').'Calendar/'.$module->getDetailViewName().'/'.$this->getId();
+		return vglobal('site_URL').'Calendar/view/'.$module->getDetailViewName().'/'.$this->getId();
 	}
 
 	/**

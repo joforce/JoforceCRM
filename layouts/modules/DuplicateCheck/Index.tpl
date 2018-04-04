@@ -7,7 +7,6 @@
  * ********************************************************************************** */
 -->*}
 {literal}
-<link rel="stylesheet" type="text/css" href="layouts/modules/DuplicateCheck/font-awesome/css/font-awesome.css" />
 <style type="text/css">
 .moveleft {
   float: left;
@@ -22,9 +21,6 @@
   margin: 2px 10px;
   display: inline
 }
-/*.tab{
-    padding-left:5em;
-}*/
 .checked{
     color: blue;
 }
@@ -63,8 +59,6 @@ function getModuleID(){
 
 }
 
-
-
 $(document).ready(function() {
 	     var warnMessage = null;
 	           $("input[type='checkbox']").change(function() {            
@@ -72,7 +66,6 @@ $(document).ready(function() {
                 	  $("#vtduplicateform").addClass("formChanged");
                       $(".btn-success").addClass("formChanges");
 });
-//	$(".formChanges").live('click', function(){        
         $(document).on('click', ".formChanges", function(){        
 		warnMessage = null;
 		$("#vtduplicateform").removeClass("formChanged");
@@ -96,12 +89,11 @@ $('[rel="tooltip"]').tooltip();
 {strip}
     <div class="container-fluid" id="layoutEditorContainer">
 
-
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row-fluid">
             <div class="col-sm-12">
                 <h3>Duplicate Check</h3>
-            </div><!--<br/><br/><br/>-->
+            </div>
 
             <div>
                 <div class='row'>
@@ -202,10 +194,6 @@ $('[rel="tooltip"]').tooltip();
 {/foreach}
 </div>
 <input type="hidden" class="inActiveFieldsArray" value='{ZEND_JSON::encode($IN_ACTIVE_FIELDS)}' />
-
-
-
-
 </div>
 <div><button class="btn btn-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button></div><div><button class="btn btn-success" name="savebutton" style="float:right" type="submit" value="Save">Save</button></div>
 </div>

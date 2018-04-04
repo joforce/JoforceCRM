@@ -47,6 +47,7 @@ class Head_Detail_View extends Head_Index_View {
 	}
 
 	function preProcess(Head_Request $request, $display=true) {
+		global $current_user;
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
@@ -300,7 +301,6 @@ class Head_Detail_View extends Head_Index_View {
 			$viewer->assign('MODULE_MODEL', $moduleModel);
 			$this->setModuleInfo($request, $moduleModel);
 			$viewer->assign('SCRIPTS',$this->getOverlayHeaderScripts($request));
-
 			$detailViewLinkParams = array('MODULE'=>$moduleName, 'RECORD'=>$recordId);
 			$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 			$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -310,9 +310,10 @@ class Head_Detail_View extends Head_Index_View {
 		}
 	}
 	public function getOverlayHeaderScripts(Head_Request $request){
+	    global $site_URL;
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			"modules.$moduleName.resources.Detail",
+			$site_URL . "layouts/modules/$moduleName/resources/Detail.js",
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;	
@@ -354,10 +355,11 @@ class Head_Detail_View extends Head_Index_View {
 	 * @param <type> $request
 	 */
 	function showModuleBasicView($request) {
-
+		
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-
+		$viewer = $this->getViewer($request);
+		
 		if(!$this->record){
 			$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		}
@@ -365,8 +367,12 @@ class Head_Detail_View extends Head_Index_View {
 
 		$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		
+		$widget_arrayValues = getDetailViewSummaryWidget($moduleName);
+		
+		if(!empty($widget_arrayValues))
+			$viewer->assign('DETAIL_SUMMARY_WIDGET', $widget_arrayValues);
 
-		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 
@@ -374,6 +380,8 @@ class Head_Detail_View extends Head_Index_View {
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_ID', getTabid($moduleName));
+		$viewer->assign('RECORD_ID', $recordId);
 
 		$recordStrucure = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
@@ -625,5 +633,9 @@ class Head_Detail_View extends Head_Index_View {
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 		return $headerCssInstances;
 	}
+	
+	function detailviewSummaryWidget($request, $widget_arrayValues, $tabId)
+	{
 
+	}
 }

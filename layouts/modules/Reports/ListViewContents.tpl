@@ -10,9 +10,6 @@
 {strip}
 	<div class="col-sm-12 col-xs-12 ">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Head')}">
-			<span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>
-		</div>
 		<input type="hidden" name="view" id="view" value="{$VIEW}" />
 		<input type="hidden" name="cvid" value="{$VIEWID}" />
 		<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -48,6 +45,14 @@
 											<span class="input dropdown-toggle" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}" data-toggle="dropdown">
 												<input class="listViewEntriesMainCheckBox" type="checkbox">
 											</span>
+										</div>
+										<div class="btn-group listViewActionsContainer">
+											<button type="button" class="btn btn-action dropdown-toggle" data-toggle="dropdown" disabled="disabled">
+								                            <span class="caret"></span>
+								                        </button>
+											<ul class="dropdown-menu" role="menu" id="listview-actions" class="listview-actions-container">
+											{include file="ListViewMoreActions.tpl"|vtemplate_path:$MODULE}
+											</ul>
 										</div>
 									</div>
 								{elseif $SEARCH_MODE_RESULTS}

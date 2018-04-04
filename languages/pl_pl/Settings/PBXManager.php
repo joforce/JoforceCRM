@@ -17,11 +17,11 @@ $languageStrings = array(
     'LBL_INFO_WEBAPP_URL' => 'Asterisk skonfigurować adres URL aplikacji w formacie', 
     'LBL_FORMAT_WEBAPP_URL' => '(Protokół) :/ / (asterisk_ip): (port)',
     'LBL_FORMAT_INFO_WEBAPP_URL' => 'ex:http://0.0.0.0:5000',
-    'LBL_INFO_CONTEXT' => 'Joforce specyficznym kontekstem skonfigurowany w Serwer Asterisk (extensions.conf)',
-    'LBL_PBXMANAGER_INFO' => 'Konfigurowanie Asterisk  Server  szczegóły po Instalacja Joforce gwiazdka złącze w serwera Asterisk',
+    'LBL_INFO_CONTEXT' => 'JoForce specyficznym kontekstem skonfigurowany w Serwer Asterisk (extensions.conf)',
+    'LBL_PBXMANAGER_INFO' => 'Konfigurowanie Asterisk  Server  szczegóły po Instalacja JoForce gwiazdka złącze w serwera Asterisk',
     
-    'webappurl'=>'Joforce Asterisk App URL',
-    'vtigersecretkey'=>'Joforce tajny klucz',
+    'webappurl'=>'JoForce Asterisk App URL',
+    'vtigersecretkey'=>'JoForce tajny klucz',
     'outboundcontext' => 'WychodzÄ…ce Kontekst',
     'outboundtrunk' => 'WychodzÄ…ce Trunk',
     

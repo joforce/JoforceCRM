@@ -37,7 +37,7 @@
                     <input type="hidden" name="action" value="SaveAjax">
                     <div class="quickCreateContent">
                         <table class="massEditTable table no-border joforce-form">
-                            <tr>
+			    <div class="col-lg-12">
                                 {assign var=COUNTER value=0}
                                 {foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
                                     {assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -45,18 +45,19 @@
                                     {assign var="referenceListCount" value=count($referenceList)}
                                     {if $FIELD_MODEL->get('uitype') eq "19"}
                                         {if $COUNTER eq '1'}
-                                            <td></td><td></td></tr><tr>
+					    <div class="col-lg-6"></div><div class="col-lg-6"></div></div><div class="col-lg-12">
                                             {assign var=COUNTER value=0}
                                         {/if}
                                     {/if}
                                     {if $COUNTER eq 2}
-                                    </tr><tr>
+                                    </div><div class="col-lg-12"> 
                                         {assign var=COUNTER value=1}
                                     {else}
                                         {assign var=COUNTER value=$COUNTER+1}
                                     {/if}
-                                    <td class='fieldLabel col-lg-2'>
-                                        {if $isReferenceField neq "reference"}<label class="muted pull-right">{/if}
+				    <div class="col-lg-5 pr0 pl0">
+                                    <div class='fieldLabel'>
+                                        {if $isReferenceField neq "reference"}<label class="muted">{/if}
                                             {if $isReferenceField eq "reference"}
                                                 {if $referenceListCount > 1}
                                                     {assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -65,14 +66,14 @@
                                                         {assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
                                                     {/if}
                                                     <span class="pull-right">
-                                                        <select style="width:150px;" class="select2 referenceModulesList {if $FIELD_MODEL->isMandatory() eq true}reference-mandatory{/if}">
+                                                        <select style="width: 100%;" class="select2 referenceModulesList {if $FIELD_MODEL->isMandatory() eq true}reference-mandatory{/if}">
                                                             {foreach key=index item=value from=$referenceList}
                                                                 <option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if} >{vtranslate($value, $value)}</option>
                                                             {/foreach}
                                                         </select>
                                                     </span>
                                                 {else}
-                                                    <label class="muted pull-right">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}</label>
+                                                    <label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}</label>
                                                 {/if}
                                             {else if $FIELD_MODEL->get('uitype') eq '83'}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE PULL_RIGHT=true}
@@ -87,17 +88,20 @@
 													{/if}
 												{/if}
                                             {else}
-                                                {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+                                                {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
                                             {/if}
                                             {if $isReferenceField neq "reference"}</label>{/if}
-                                    </td>
+                                    </div>
+				    </div>
                                     {if $FIELD_MODEL->get('uitype') neq '83'}
-                                        <td class="fieldValue col-lg-4" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+					<div class="col-lg-7 pl0 pr0">
+                                        <div class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
                                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-                                        </td>
+                                        </div>
+                                        </div>
                                     {/if}
                                 {/foreach}
-                            </tr>
+                            </div>
                         </table>
                     </div>
                 </div>

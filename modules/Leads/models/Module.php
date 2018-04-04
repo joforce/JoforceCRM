@@ -49,7 +49,7 @@ class Leads_Module_Model extends Head_Module_Model {
 			$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_CUSTOM_FIELD_MAPPING',
-					'linkurl' => $site_URL.'Settings/Leads/MappingDetail',
+					'linkurl' => $site_URL . 'Leads/Settings/MappingDetail',
 					'linkicon' => '');
 			
 		}

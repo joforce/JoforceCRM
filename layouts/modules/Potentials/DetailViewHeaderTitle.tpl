@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="col-sm-6 col-lg-6 col-md-6">
+    <div class="col-sm-5 col-lg-5 col-md-5">
         <div class="record-header clearfix">
             <div class="hidden-sm hidden-xs recordImage bgpotentials app-{$SELECTED_MENU_CATEGORY}">
                 <div class="name"><span><strong> <i class="vicon-potentials"></i> </strong></span></div>

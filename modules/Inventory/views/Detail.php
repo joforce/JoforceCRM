@@ -253,6 +253,7 @@ class Inventory_Detail_View extends Head_Detail_View {
 	}
 
 	function getHeaderScripts(Head_Request $request) {
+	    global $site_URL;
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$moduleName = $request->getModule();
@@ -266,10 +267,10 @@ class Inventory_Detail_View extends Head_Detail_View {
 		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-			'modules.Inventory.resources.Popup',
-			'modules.Inventory.resources.Detail',
-			'modules.Inventory.resources.Edit',
-			"modules.$moduleName.resources.Detail",
+			$site_URL . 'layouts/modules/Inventory/resources/Popup.js',
+			$site_URL . 'layouts/modules/Inventory/resources/Detail.js',
+			$site_URL . 'layouts/modules/Inventory/resources/Edit.js',
+			$site_URL . "layouts/modules/$moduleName/resources/Detail.js",
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;

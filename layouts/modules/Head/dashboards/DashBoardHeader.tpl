@@ -12,7 +12,7 @@
 
 <div class='dashboardHeading container-fluid'>
 	<div class="buttonGroups pull-right">
-		<div class="btn-group">
+		<div class="btn-group" style="margin-top: 5px;">
 			{if $SELECTABLE_WIDGETS|count gt 0}
 				<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
 					{vtranslate('LBL_ADD_WIDGET')}&nbsp;&nbsp;<i class="caret"></i>

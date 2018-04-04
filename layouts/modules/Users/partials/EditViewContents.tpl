@@ -24,7 +24,7 @@
                  </div>
                  <hr >
                  <table class="table table-borderless">
-                     <tr>
+                     <div class="col-md-12">
                      {assign var=COUNTER value=0}
                      {foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
                          {assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -37,17 +37,19 @@
                          {if $FIELD_MODEL->isEditable() eq true}
                              {if $FIELD_MODEL->get('uitype') eq "19"}
                                  {if $COUNTER eq '1'}
-                                     <td></td><td></td></tr><tr>
+                                     <div class="col-md-3"></div><div class="col-md-3"></div></div><div class="col-md-12">
                                      {assign var=COUNTER value=0}
                                  {/if}
                              {/if}
                              {if $COUNTER eq 2}
-                                 </tr><tr>
+                                 </div><div class="col-md-12">
                                  {assign var=COUNTER value=1}
                              {else}
                                  {assign var=COUNTER value=$COUNTER+1}
                              {/if}
-                             <td class="fieldLabel alignMiddle">
+                             <div class="col-md-6 pl0">
+                             <div class="col-md-5 pl0 pr0">
+                             <div class="fieldLabel alignMiddle">
                             
                              {if $isReferenceField eq "reference"}
                                  {if $refrenceListCount > 1}
@@ -62,19 +64,23 @@
                              {else}
                                  {vtranslate($FIELD_MODEL->get('label'), $MODULE)}
                              {/if}
-                             &nbsp; {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-                         </td>
-                         <td class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+                             &nbsp; {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
+                         </div>
+                         </div>
+                         <div class="col-md-7 pl0">
+                         <div class="fieldValue" {if $FIELD_MODEL->getFieldDataType() eq 'boolean'} style="width:25%" {/if} {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
                              {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
-                         </td>
+                         </div>
+                         </div>
+                         </div>
                      {/if}
                      {/foreach}
                      {*If their are odd number of fields in edit then border top is missing so adding the check*}
                      {if $COUNTER is odd}
-                         <td></td>
-                         <td></td>
+                         <div class="col-md-6"></div>
+                         <div class="col-md-6"></div>
                      {/if}
-                     </tr>
+                     </div>
                  </table>
              </div>
              <br>

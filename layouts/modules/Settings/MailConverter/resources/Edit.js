@@ -38,7 +38,7 @@ Settings_Head_Index_Js('Settings_MailConverter_Edit_Js', {
 			app.helper.hideProgress();
 			if (typeof data != 'undefined') {
 				var create = jQuery("#create").val();
-				window.location.href = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit/step2/'+create+'/'+data.id;
+				window.location.href = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit?mode=step2&create='+create+'&record='+data.id;
 			} else {
 				app.helper.showErrorNotification({'message': err['message']});
 			}
@@ -82,7 +82,7 @@ Settings_Head_Index_Js('Settings_MailConverter_Edit_Js', {
 			if (typeof data != 'undefined') {
 				var fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/List/'+data.id;
 				if (create == 'new') {
-					fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit/step3/'+create+'/'+data.id;
+					fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit/mode/step3?create='+create+'&record='+data.id;
 				}
 				window.location.href = fallbackUrl;
 			} else {

@@ -179,7 +179,7 @@ jQuery.Class("Head_CustomView_Js",{
 			if (typeof response != "undefined") {
 				app.helper.showSuccessNotification({'message':app.vtranslate('JS_LIST_SAVED')});
 				var appName = app.getAppName();
-				var url = response['listviewurl']+'/'+appName;
+				var url = response['listviewurl'];
 				window.location.href = url;
 			} else {
 				app.helper.showErrorNotification({message: app.vtranslate('JS_FAILED_TO_SAVE')});

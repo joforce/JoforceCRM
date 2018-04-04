@@ -56,11 +56,20 @@
         })();
     </script>
 {/if}
+<script type="text/javascript">
+        $(document).ready(function(){
+                if (document.querySelector('.settingsNav') !== null) {
+            $('.main-container .content-area').css('padding-left','240px');
+        }
+        });
+</script>
 <div class="main-container clearfix">
-		{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
-        <div class="module-nav clearfix settingsNav" id="modnavigator">
-            <div class="hidden-xs hidden-sm height100Per">
-                {include file="modules/Settings/Head/Sidebar.tpl"}
-            </div>
-        </div>
+	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
+		{if !$IS_SETTINGS_INDEX_PAGE}
+        		<div class="module-nav clearfix settingsNav" id="modnavigator">
+		            <div class="hidden-xs hidden-sm height100Per">
+                		{include file="modules/Settings/Head/Sidebar.tpl"}
+		            </div>
+		        </div>
+		{/if}
         <div class="settingsPageDiv content-area clearfix">

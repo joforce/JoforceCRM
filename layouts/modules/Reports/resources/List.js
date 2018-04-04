@@ -13,7 +13,7 @@ Head_List_Js("Reports_List_Js",{
 	addReport : function(url){
         var site_url = jQuery('#joforce_site_url').val();
 		var listInstance = Reports_List_Js.getInstance();
-		window.location.href=site_url+url+'/'+listInstance.getCurrentCvId();
+		window.location.href=site_url+url+'?folder='+listInstance.getCurrentCvId();
 	},
 
 	triggerAddFolder : function(url) {
@@ -483,7 +483,7 @@ Head_List_Js("Reports_List_Js",{
 
 	registerFolderScroll : function() {
 		app.helper.showVerticalScroll(jQuery('.list-menu-content'), {
-			setHeight: 450,
+			setHeight: 'auto',
 			autoExpandScrollbar: true,
 			scrollInertia: 200,
 			autoHideScrollbar: true

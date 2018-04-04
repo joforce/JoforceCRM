@@ -11,6 +11,13 @@
 
 class Users_Record_Model extends Head_Record_Model {
 
+    /**
+     * Checks if the key is in property or data.
+     */
+    public function has($key) {
+        return property_exists($this, $key) || parent::has($key);
+    }
+
 	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
 	 *  will get from normal data attribure from base class
@@ -45,7 +52,7 @@ class Users_Record_Model extends Head_Record_Model {
 	public function getDetailViewUrl() {
         global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/Settings/'.$module->getDetailViewName().'/'.$this->getId();
+		return $site_URL . $this->getModuleName() . '/Settings/'.$module->getDetailViewName().'/'.$this->getId();
 	}
 	
 	/**
@@ -55,7 +62,7 @@ class Users_Record_Model extends Head_Record_Model {
 	public function getPreferenceDetailViewUrl() {
         global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/PreferenceDetail/Settings/'.$this->getId();
+		return $site_URL . $this->getModuleName().'/Settings/PreferenceDetail/'.$this->getId();
 	}
 	
 	public function getCalendarSettingsDetailViewUrl(){
@@ -65,7 +72,7 @@ class Users_Record_Model extends Head_Record_Model {
 	
 	public function getCalendarSettingsEditViewUrl(){
         global $site_URL;
-		return $site_URL.$this->getModuleName() . '/Settings/Calendar/Edit/'.$this->getId();
+		return $site_URL.$this->getModuleName() . '/Settings/Calendar/'.$this->getId() . '?mode=Edit';
 	}
     
     public function getMyTagSettingsListUrl() {
@@ -97,7 +104,7 @@ class Users_Record_Model extends Head_Record_Model {
 	public function getPreferenceEditViewUrl() {
 		global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/PreferenceEdit/Settings/'.$this->getId();
+		return $site_URL.$this->getModuleName().'/Settings/PreferenceEdit/'.$this->getId();
 	}
 
 	/**

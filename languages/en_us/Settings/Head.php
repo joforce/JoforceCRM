@@ -20,7 +20,8 @@ $languageStrings = array(
 	'LBL_SETTINGS_SHORTCUTS' => 'Settings Shortcuts',
 	'LBL_UNPIN' => 'Unpin',
 	'LBL_PIN' => 'pin',
-    'LBL_JOFORCE' => 'JoForce',
+	'LBL_INVENTORY' => 'Inventory',
+	'LBL_JOFORCE' => 'JoForce',
 
 	// Blocks
 	'LBL_STUDIO' => 'Studio',
@@ -69,9 +70,9 @@ $languageStrings = array(
 	'LBL_FIELDFORMULAS' => 'Field Formulas',
 	'LBL_FIELDFORMULAS_DESCRIPTION' => 'Add custom equations to custom fields',
 
-	'LBL_MENU_EDITOR' => 'Main Menu',
+	'LBL_MENU_MANAGEMENT' => 'Menu Manager',
 	'LBL_MENU_DESC' => 'Customize Menu Sequence',
-	'LBL_MENU_EDITOR_MESSAGE' => 'The actual number of menu items displayed will depend on the screen size and might be less than selected items.',
+	'LBL_MENU_MANAGEMENT_MESSAGE' => 'The actual number of menu items displayed will depend on the screen size and might be less than selected items.',
 
 	'EMAILTEMPLATES' => 'E-mail Templates',
 	'LBL_EMAIL_TEMPLATE_DESCRIPTION' => 'Manage templates for E-Mail module',

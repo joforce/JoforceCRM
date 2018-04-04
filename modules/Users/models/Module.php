@@ -331,4 +331,14 @@ class Users_Module_Model extends Head_Module_Model {
 		return $blocksList[$viewName];
 	}
 
+	/*
+	 * Function to get the default landing page of current user.
+	 */
+	public static function getDefaultLandingPage($userid) {
+		$adb = PearDatabase::getInstance();
+		$runQuery = $adb->pquery("SELECT default_landing_page FROM jo_users where id = ? ", array($userid));
+		$fetchValues =$adb->fetch_array($runQuery);
+		$default_landing_page = $fetchValues['default_landing_page'];
+                return $default_landing_page;
+	}
 }

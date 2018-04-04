@@ -12,7 +12,7 @@
 {strip}
 	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
 		<div class="module-action-content clearfix">
-			<span class="col-lg-7 col-md-7">
+			<span class="col-lg-3 col-md-3">
 				<span>
 					{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 					{assign var=DEFAULT_FILTER_ID value=$MODULE_MODEL->getDefaultCustomFilter()}
@@ -49,6 +49,17 @@
 					</span>
 				{/if}
 			</span>
+		
+			{if $IS_LIST_VIEW}
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="dropdown-filter" style="width:100%;">
+                                        <button class="btn btn-filter"><i class="fa fa-filter mr10"></i> Lists <i class="fa fa-caret-down ml5"></i> </button>
+                                        <div class="filter-open">
+                                                {include file="modules/Reports/partials/SidebarEssentials.tpl"}
+                                        </div>
+                                </div>
+                        </div>
+                        {/if}
 
 			<span class="col-lg-5 col-md-5 pull-right">
 				<div id="appnav" class="navbar-right">

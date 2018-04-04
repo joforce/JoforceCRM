@@ -196,16 +196,12 @@ class Head_Link_Model extends Head_Link {
 //			$parametersParts[$index] = implode('=', $newUrlParts);
 		}
 
-        /**
-         * Update URL on related tab section for Inventory modules without sematic
-         * Need to change the URL as semantic TODO
-         */
         $inventory_modules = array('SalesOrder', 'Quotes', 'Invoice', 'PurchaseOrder');
         if($_REQUEST['mode'] == 'showRelatedList' && (in_array($_REQUEST['relatedModule'], $inventory_modules)))    {
             foreach($parametersParts as $parametersPart)    {
                 list($parameter_key, $parameter_value) = explode('=', $parametersPart);
                 if($parameter_key == 'returnrelatedModuleName' && in_array($parameter_value, $inventory_modules))   {
-                    $parametersParts[0] = $site_URL . 'index.php?module=' . $_REQUEST['relatedModule'] . '&view=Edit';
+                    $parametersParts[0] = $site_URL . $_REQUEST['relatedModule'] . '/view/Edit?from=relation';
                 }
             }
         }

@@ -164,7 +164,7 @@
 									<button class="btn btn-default addButton module-buttons"
 										id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" 
 										{if $MODULE eq 'Workflows'}
-											onclick='Settings_Workflows_List_Js.triggerCreate("{$LISTVIEW_BASICACTION->getUrl()}/V7Edit")'
+											onclick='Settings_Workflows_List_Js.triggerCreate("{$LISTVIEW_BASICACTION->getUrl()}?mode=V7Edit")'
 										{else}
 											{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
 												onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'

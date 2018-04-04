@@ -153,7 +153,7 @@ class Settings_Head_CompanyDetails_Model extends Settings_Head_Module_Model {
 
 		$companyName = $this->get('organizationname');
 		$companyName = preg_replace(array("/>/", "/</", "/&/", "/'/", '/""/', '/gt;/', '/lt;/', '/;/'), '', $companyName);
-		$fileContent = file_get_contents('portal/config/config.inc.php');
+		$fileContent = file_get_contents('config/config.inc.php');
 		$pattern = '/\$companyName[\s]+=([^;]+);/';
 		$replacedValue = sprintf("\$%s = '%s';", 'companyName', $companyName);
 		$fileContent = preg_replace($pattern, $replacedValue, $fileContent);

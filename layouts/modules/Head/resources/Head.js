@@ -16,28 +16,24 @@ Head.Class('Head_Index_Js', {
 	},
 
         registerWidgetsEvents : function() {
-		var id = $('div.widgetContainer').attr('id');
-                var widgets = jQuery('div#'+id);
-		widgets.trigger('shown');
-
+		var widgets = $('div.widgetContainer');
                 widgets.on({
-                                shown: function(e) {
+                                'shown.bs.collapse': function(e) {
                                         var widgetContainer = jQuery(e.currentTarget);
                                         Head_Index_Js.loadWidgets(widgetContainer);
                                         var key = widgetContainer.attr('id');
                                         Head_Index_Js.cacheSet(key, 1);
                         },
-                                hidden: function(e) {
+                                'hidden.bs.collapse': function(e) {
                                         var widgetContainer = jQuery(e.currentTarget);
                                         var imageEle = widgetContainer.parent().find('.imageElement');
                                         var imagePath = imageEle.data('rightimage');
                                         imageEle.attr('src',imagePath);
                                         var key = widgetContainer.attr('id');
-                                        app.cacheSet(key, 0);
+                                        Head_Index_Js.cacheSet(key, 0);
                         }
                 });
         },
-
 
         /**
          * Function is used to load the sidebar widgets
@@ -416,8 +412,8 @@ Head.Class('Head_Index_Js', {
 		this.addComponent('Head_BasicSearch_Js');
 	},
 
-	registerListEssentialsToggleEvent : function() {
-		jQuery('.main-container').on('click', '.essentials-toggle', function() {
+/*	registerListEssentialsToggleEvent : function() {
+//		jQuery('.main-container').on('click', '.essentials-toggle', function() {
 			jQuery('.sidebar-essentials').toggleClass('hide');
 			jQuery(".content-area").toggleClass("full-width");
 			var params = {
@@ -437,8 +433,8 @@ Head.Class('Head_Index_Js', {
 				jQuery('#listViewContent').css('left', '0px');
 			}
 			app.event.trigger("Head.Post.MenuToggle");
-		});
-	},
+//		});
+	},*/
 
 	registerModuleQtips : function() {
 		jQuery('.module-qtip').qtip({
@@ -459,13 +455,13 @@ Head.Class('Head_Index_Js', {
 	},
 
 	registerEvents: function() {
-//                Head_Index_Js.registerWidgetsEvents();
+                Head_Index_Js.registerWidgetsEvents();
                 Head_Index_Js.loadWidgetsOnLoad();
 		this.registerMenuToggle();
 		this.registerGlobalSearch();
 		this.registerAppTriggerEvent();
 		this.registerModuleQtips();
-		this.registerListEssentialsToggleEvent();
+//		this.registerListEssentialsToggleEvent();
 		this.registerAdvanceSeachIntiator();
 		this.registerQuickCreateEvent();
 		this.registerQuickCreateSubMenus();
@@ -599,7 +595,9 @@ Head.Class('Head_Index_Js', {
 		delete formData.picklistDependency;
 		var formDataUrl = jQuery.param(formData);
 		var completeUrl = editViewUrl;
-		window.location.href = completeUrl;
+		var parts = formDataUrl.split("&");
+		var variables = formDataUrl.substring(formDataUrl.indexOf('&') + 1);
+		window.location.href = completeUrl + '?' + parts[0] + '&' + variables;
 	},
 
 	registerQuickCreateSubMenus : function() {
@@ -884,9 +882,8 @@ Head.Class('Head_Index_Js', {
 
 	registerGlobalSearch : function() {
 		var thisInstance = this;
-		jQuery('.search-link .keyword-input').on('keypress',function(e){
+		jQuery('#joforce-search-box').on('keypress', function(e){
 			if(e.which == 13) {
-
 				var element = jQuery(e.currentTarget);
 				var searchValue = element.val();
 				var data = {};
@@ -1461,7 +1458,7 @@ Head.Class('Head_Index_Js', {
 		this.registerNextRecordClickEvent(container);
 		this.registerPreviousRecordClickEvent(container);
 	},
-
+	
 	registerNextRecordClickEvent: function(container){
 		var self = this;
 		container.find('#quickPreviewNextRecordButton').on('click',function(e){
@@ -1519,31 +1516,22 @@ Head.Class('Head_Index_Js', {
 		app.helper.showProgress();
 		app.request.get({data: params}).then(function (err, response) {
 			app.helper.hideProgress();
-			if (templateId && mode != 'navigation') {
-				jQuery('#pdfViewer').html(response);
-				return;
-			}
-			var params = {
-				cb: function () {
-					thisInstance.registerChangeTemplateEvent(jQuery('#helpPageOverlay'), recordId);
-					thisInstance.registerNavigationEvents(jQuery('#helpPageOverlay'));
-				}
-			};
-			jQuery('#helpPageOverlay').css({"width": "870px", "box-shadow": "-8px 0 5px -5px lightgrey", 'height': '100vh', 'background': 'white'});
-			app.helper.loadHelpPageOverlay(response, params);
-			var params = {
-				setHeight: "100%",
-				alwaysShowScrollbar: 2,
-				autoExpandScrollbar: true,
-				setTop: 0,
-				scrollInertia: 70,
-				mouseWheel: {preventDefault: true}
-			};
-			app.helper.showVerticalScroll(jQuery('.quickPreview .modal-body'), params);
+                        $("#quickviewcontent").html(response);
+                        $("#quickviewcontent").removeClass("hide");
+                        $("#table-content").css({"width": "68%"});
+                        jQuery('#quickviewcontent').css({'background': 'white', 'float': 'right','left': '68%','position': 'absolute','top': '33px', 'height':'100%', 'overflow-x':'hidden','overflow-y':'auto'});
+                        var container = $("#quickviewcontent");
+                        if(mode == 'navigation'){
+                                $("#table-content").find($('.activeview').removeClass('activeview'));
+                                jQuery("#quick_preview_"+ recordId).addClass('activeview');
+                        }
+                        thisInstance.registerNavigationEvents(container);
+                        thisInstance.registerMoreRecentUpdatesClickEvent(container,recordId);
+                        thisInstance.closeQuickview(container,recordId,moduleName);
 		});
 	},
 
-	_showQuickPreviewForId: function (recordId, moduleName, appName, isReference) {
+	_showQuickPreviewForId: function (recordId, moduleName, appName, isReference, mode) {
 		var self = this;
 		var params = {};
 		if (typeof moduleName === 'undefined') {
@@ -1563,24 +1551,29 @@ Head.Class('Head_Index_Js', {
 		app.helper.showProgress();
 		app.request.get({data: params}).then(function (err, response) {
 			app.helper.hideProgress();
-			jQuery('#helpPageOverlay').css({"width": "550px", "box-shadow": "-8px 0 5px -5px lightgrey", 'height': '100vh', 'background': 'white'});
-			var callBack = function(container){
-				self.registerMoreRecentUpdatesClickEvent(container,recordId);
-				//Register Navigation Events
-				self.registerNavigationEvents(container);
-			};
-			app.helper.loadHelpPageOverlay(response, {
-				'cb' : callBack
-			});
-			var params = {
-				setHeight: "100%",
-				alwaysShowScrollbar: 2,
-				autoExpandScrollbar: true,
-				setTop: 0,
-				scrollInertia: 70,
-				mouseWheel: {preventDefault: true}
-			};
-			app.helper.showVerticalScroll(jQuery('.quickPreview .modal-body'), params);
+			$("#quickviewcontent").html(response);	
+			$("#quickviewcontent").removeClass("hide");
+			$("#table-content").css({"width": "68%"});
+			jQuery('#quickviewcontent').css({'background': 'white', 'float': 'right','left': '68%','position': 'absolute','top': '33px', 'height':'100%', 'overflow-x':'hidden','overflow-y':'auto'});
+			var container = $("#quickviewcontent");
+			if(mode == 'navigation'){
+				$("#table-content").find($('.activeview').removeClass('activeview'));
+				jQuery("#quick_preview_"+ recordId).addClass('activeview');
+			}
+			self.registerNavigationEvents(container);
+			self.registerMoreRecentUpdatesClickEvent(container,recordId);
+			self.closeQuickview(container,recordId,moduleName);
+		});
+	},
+	
+	closeQuickview : function(container,recordId,moduleName){
+		var self = this;
+		container.find('.close').on('click', function (){
+			$("#quickviewcontent").addClass("hide");
+			$("#table-content").css({"width": "100%"});
+			$('.fl-scrolls').css("width","100%");
+			$('.more-actions-right').removeClass('quickview-more-actions');
+			jQuery("#"+ moduleName +"_listView_row_"+ recordId).find($('.quickView').removeClass('activeview'));
 		});
 	},
 
@@ -1592,10 +1585,10 @@ Head.Class('Head_Index_Js', {
 	showQuickPreviewForId: function(recordId, moduleName, appName, templateId, isReference, mode) {
 		var self = this;
 		if(self.isInventoryModule(moduleName)) {
-			self._showInventoryQuickPreviewForId(recordId, moduleName, templateId, isReference, mode);
-		} else {
-			self._showQuickPreviewForId(recordId, moduleName, appName, isReference);
-		}
+                	self._showInventoryQuickPreviewForId(recordId, moduleName, templateId, isReference, mode);
+                } else {
+                        self._showQuickPreviewForId(recordId, moduleName, appName, isReference, mode);
+                }
 	},
 
 	registerReferencePreviewEvent : function() {
@@ -1762,5 +1755,46 @@ Head.Class('Head_Index_Js', {
 				thisInstance.postRefrenceComplete(data, container);
 			}
 		});
+	}
+});
+
+$(document).ready( function() {
+	if ($("#shot-cut-menu-array").val()) 
+	{
+		var menu_array_string = $("#shot-cut-menu-array").val();
+		var module_name = app.getModuleName();	
+		var intValArray = menu_array_string.split(',');
+	
+		$('#short-cut-modules').find(".active").removeClass('active');
+		if(jQuery.inArray(module_name, intValArray) !== -1){
+			$('#short-cut-modules').find("#"+module_name).addClass('active');
+		};	
+
+		if($('.temporary-main-menu'))
+			$('.temporary-main-menu').addClass('active');
+		
+		if(module_name == 'Potentials'){
+			$("#header-actions").find(".active").removeClass('active');
+			var view_type = $("#potential-view-type").val();
+			if(view_type == 'List'){
+				$("#potential-list-view").addClass('active');
+			}
+			else{
+				$("#forecast-view").addClass('active');
+			}	
+		}
+	}
+
+	if($('#present-dashboard-tab'))
+	{
+        	var present_tab = $('#present-dashboard-tab').val();
+                if (present_tab == 'DASHBOARD')
+                {
+                	$('#dashboard-option').addClass('active-dashboard');
+                }
+                else
+                {
+                        $('#notification-option').addClass('active-dashboard');
+                }
 	}
 });

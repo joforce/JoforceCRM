@@ -9,5 +9,34 @@
  ************************************************************************************}
 {strip}
    {assign var=QUICK_PREVIEW value="true"}
-   {include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE_NAME MODULE_MODEL=$MODULE_MODEL RECORD=$RECORD}
+        <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="record-header clearfix">
+                        {if !$MODULE}
+                                {assign var=MODULE value=$MODULE_NAME}
+                        {/if}
+                        <div class="hidden-sm hidden-xs quickviewimage bg_{$MODULE} app-{$SELECTED_MENU_CATEGORY}" id="quick-view-module-image">
+                                <div class="name">
+                                        <span><strong><i class="vicon-{strtolower($MODULE)}"></i></strong></span>
+                                </div>
+                        
+
+	                        <div class="recordBasicInfo">
+        	                        <div class="info-row">
+                	                        <h4>
+                        	                        <span class="recordLabel pushDown" title="{$RECORD->getName()}">
+                                                        {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
+                                                                {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
+                                                                {if $FIELD_MODEL->getPermissions()}
+                                                                        <span class="{$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
+                                                                {/if}
+                                                        {/foreach}
+                                	                </span>
+                                        	</h4>
+	                                </div>
+                                {include file="DetailViewHeaderFieldsView.tpl"|vtemplate_path:$MODULE}
+        	                </div>
+
+                        </div>
+                </div>
+        </div>
 {/strip}

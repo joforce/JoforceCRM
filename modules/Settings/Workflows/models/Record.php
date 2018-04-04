@@ -40,16 +40,17 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 
 	public function getEditViewUrl() {
         global $site_URL;
-		return $site_URL.'index.php?module=Workflows&parent=Settings&view=Edit&record='.$this->getId().'&mode=V7Edit';
-//		return $site_URL.'Workflows/Settings/Edit/'.$this->getId();
+        return $site_URL . 'Workflows/Settings/Edit/' . $this->getId() . '?mode=V7Edit';
 	}
 
 	public function getTasksListUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=TasksList&record='.$this->getId();
+        global $site_URL;
+        return $site_URL . 'Workflows/Settings/TasksList/' . $this->getId();
 	}
 
 	public function getAddTaskUrl() {
-		return 'index.php?module=Workflows&parent=Settings&view=EditTask&for_workflow='.$this->getId();
+        global $site_URL;
+        return $site_URL . 'Workflows/Settings/EditTask?for_workflow=' . $this->getId();
 	}
 
 	protected function setWorkflowObject($wf) {

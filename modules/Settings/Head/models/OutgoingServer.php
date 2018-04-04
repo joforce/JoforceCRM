@@ -43,7 +43,7 @@ class Settings_Head_OutgoingServer_Model extends Settings_Head_Systems_Model {
     
 	public function getEditViewUrl() {
 		$menuItem = $this->getMenuItem();
-		return vglobal('site_URL').'Settings/Head/OutgoingServerEdit/'.$menuItem->get('blockid').'/'.$menuItem->get('fieldid');
+		return vglobal('site_URL').'Head/Settings/OutgoingServerEdit/'.$menuItem->get('blockid').'/'.$menuItem->get('fieldid');
 	}
 	
 	public function getDetailViewUrl() {

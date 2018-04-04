@@ -30,7 +30,14 @@
 		{assign var=CLASS_NAME value="{$FIELD_MODEL->getFieldName()}_{$PICKLIST_NAME|replace:' ':'_'}"}
 		.picklistColor_{$CLASS_NAME} {
 			background-color: {$PICKLIST_COLORS[$PICKLIST_NAME]} !important;
+            {if $PICKLIST_COLORS[$PICKLIST_NAME] eq '#ffffff'}
+			    color: #000000 !important;
+            {/if}
 		}
+        .picklistColor_{$CLASS_NAME}.select2-highlighted {
+            white: #ffffff !important;
+            background-color: #337ab7 !important;
+        }
 		{/foreach}
 	</style>
 {/if}

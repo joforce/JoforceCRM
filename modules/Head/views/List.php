@@ -25,6 +25,12 @@ class Head_List_View extends Head_Index_View {
 		parent::preProcess($request, false);
 
 		$moduleName = $request->getModule();
+		// Clear user notifications
+		if($request->get('clear_notification'))	{
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			clearUserNotification($currentUser->id, $moduleName);
+		}
+
 		$customView = new CustomView();
 		if($customView->isPermittedCustomView($request->get('viewname'), 'List', $moduleName) != 'yes') {
 			$viewName = $customView->getViewIdByName('All', $moduleName);
@@ -64,8 +70,6 @@ class Head_List_View extends Head_Index_View {
 			$this->viewName = $customView->getViewId($moduleName);
 		}
 
-		$quickLinkModels = $this->listViewModel->getSideBarLinks($linkParams);
-		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
@@ -136,12 +140,11 @@ class Head_List_View extends Head_Index_View {
 			"libraries.jquery.ckeditor.ckeditor",
 			"libraries.jquery.ckeditor.adapters.jquery",
 			"modules.Head.resources.CkEditor",
-			//for vtiger7 
 			"modules.Head.resources.MergeRecords",
 			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js",
 			'modules.Head.resources.Tag',
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js"
+			"~layouts/lib/jquery/floatThead/jquery.floatThead.js",
+			"~layouts/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -173,18 +176,18 @@ class Head_List_View extends Head_Index_View {
 			unset($_SESSION[$tagSessionKey]);
 		}
 
-		if(empty($tag)) {   
+		if(empty($tag)) {
 			$tagSessionVal = Head_ListView_Model::getSortParamsSession($tagSessionKey);
 			if(!empty($tagSessionVal)) {
 				$tag = $tagSessionVal;
 			}
-		}else{
+		}   else    {
 			Head_ListView_Model::setSortParamsSession($tagSessionKey, $tag);
 		}
 
-		$listViewSessionKey = $moduleName.'_'.$cvId;
+		$listViewSessionKey = $moduleName . '_' . $cvId;
 		if(!empty($tag)) {
-			$listViewSessionKey .='_'.$tag;
+			$listViewSessionKey .= '_' . $tag;
 		}
 
 		if(empty($cvId)) {
@@ -199,11 +202,13 @@ class Head_List_View extends Head_Index_View {
 			$searchValue = '';
 			$operator = '';
 		}
+
 		if($request->get('mode') == 'removeSorting') {
 			Head_ListView_Model::deleteParamsSession($listViewSessionKey, array('orderby', 'sortorder'));
 			$orderBy = '';
 			$sortOrder = '';
 		}
+
 		if(empty($listHeaders)) {
 			$listHeaders = $orderParams['list_headers'];
 		}
@@ -237,6 +242,7 @@ class Head_List_View extends Head_Index_View {
 			}
 			Head_ListView_Model::setSortParamsSession($listViewSessionKey, $params);
 		}
+
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
 			$sortImage = "icon-chevron-down";
@@ -262,11 +268,11 @@ class Head_List_View extends Head_Index_View {
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 
 		// preProcess is already loading this, we can reuse
-		if(!$this->pagingModel){
+		if(!$this->pagingModel) {
 			$pagingModel = new Head_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('viewid', $request->get('viewname'));
-		} else{
+		} else {
 			$pagingModel = $this->pagingModel;
 		}
 
@@ -280,6 +286,7 @@ class Head_List_View extends Head_Index_View {
 			$viewer->assign('OPERATOR',$operator);
 			$viewer->assign('ALPHABET_VALUE',$searchValue);
 		}
+
 		if(!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
@@ -288,6 +295,7 @@ class Head_List_View extends Head_Index_View {
 		if(empty($searchParams)) {
 			$searchParams = array();
 		}
+
 		if(count($searchParams) == 2 && empty($searchParams[1])) {
 			unset($searchParams[1]);
 		}
@@ -300,9 +308,13 @@ class Head_List_View extends Head_Index_View {
 
 		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchAndTagParams, $listViewModel->getModule());
 		$listViewModel->set('search_params',$transformedSearchParams);
+		
+		// Getting table row list view more action
+		$list_view_row_action = getListViewRowActions($moduleName);
+		if(!empty($list_view_row_action))
+			$viewer->assign('LISTVIEW_ROWACTIONS', $list_view_row_action);
 
-
-		//To make smarty to get the details easily accesible
+		//To make smarty to get the details easily accessible
 		foreach($searchParams as $fieldListGroup){
 			foreach($fieldListGroup as $fieldSearchInfo){
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
@@ -378,6 +390,7 @@ class Head_List_View extends Head_Index_View {
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT',$noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LIST_HEADER_FIELDS', json_encode(array_keys($this->listViewHeaders)));
+		$viewer->assign('SELECTED_FIELDS', array_flip(array_keys($this->listViewHeaders)));
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		$viewer->assign('MODULE_FIELD_STRUCTURE', $this->moduleFieldStructure);
 		$viewer->assign('SELECTED_HEADER_FIELDS', $selectedHeaderFields);
@@ -413,10 +426,8 @@ class Head_List_View extends Head_Index_View {
 		$viewer->assign('NO_SEARCH_PARAMS_CACHE', $request->get('nolistcache'));
 		$viewer->assign('STAR_FILTER_MODE',$starFilterMode);
 		$viewer->assign('VIEWID', $cvId);
-		//Head7
 		$viewer->assign('REQUEST_INSTANCE',$request);
 
-		//vtiger7
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if($moduleModel->isQuickPreviewEnabled()){
 			$viewer->assign('QUICK_PREVIEW_ENABLED', 'true');
@@ -430,11 +441,9 @@ class Head_List_View extends Head_Index_View {
 		$allCustomViews = CustomView_Record_Model::getAllByGroup($request->getModule());
 		if (!empty($allCustomViews)) {
 			$viewer->assign('CUSTOM_VIEWS', $allCustomViews);
-			$currentCVSelectedFields = array();
 			foreach ($allCustomViews as $cat => $views) {
 				foreach ($views as $viewModel) {
 					if ($viewModel->getId() === $viewer->get_template_vars('VIEWID')) {
-						$currentCVSelectedFields = $viewModel->getSelectedFields();
 						$viewer->assign('CURRENT_CV_MODEL', $viewModel);
 						break;
 					}
@@ -508,8 +517,6 @@ class Head_List_View extends Head_Index_View {
 		return $count;
 	}
 
-
-
 	/**
 	 * Function to get the page count for list
 	 * @return total number of pages
@@ -531,7 +538,6 @@ class Head_List_View extends Head_Index_View {
 		$response->emit();
 	}
 
-
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
 		return Head_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
@@ -539,7 +545,7 @@ class Head_List_View extends Head_Index_View {
 	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
+			"~layouts/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

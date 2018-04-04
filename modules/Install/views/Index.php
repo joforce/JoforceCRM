@@ -28,7 +28,15 @@ class Install_Index_view extends Head_View_Controller {
 		$this->exposeMethod('Step7');
 	}
 
+    protected function applyInstallFriendlyEnv() {
+        // config.inc.php - will not be ready to control this yet.
+        version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+
+        set_time_limit(0); // override limits on execution time to allow install to finish
+    }
+
 	public function preProcess(Head_Request $request, $display = true) {
+        $this->applyInstallFriendlyEnv();
 		date_default_timezone_set('Europe/London'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
 		$configFileName = 'config/config.inc.php';
@@ -210,8 +218,6 @@ class Install_Index_view extends Head_View_Controller {
 	}
 
 	public function Step7(Head_Request $request) {
-		// Set favourable error reporting
-		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
 		$moduleName = $request->getModule();
 		$webuiInstance = new Head_WebUI();

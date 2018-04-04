@@ -268,19 +268,19 @@ class Head_Module_Model extends Head_Module {
 	 * Function to get the url for default view of the module
 	 * @return <string> - url
 	 */
-	public function getDefaultUrl() {
-                global $site_URL;
-                return $site_URL . $this->get('name') . '/' . $this->getDefaultViewName();
-	}
+    public function getDefaultUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . '/view/' . $this->getDefaultViewName();
+    }
 
 	/**
 	 * Function to get the url for list view of the module
 	 * @return <string> - url
 	 */
-	public function getListViewUrl() {
-                global $site_URL;
-                return $site_URL . $this->get('name') . '/' . $this->getListViewName();
-	}
+    public function getListViewUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . '/view/' . $this->getListViewName();
+    }
 
 	/**
 	 * Function returns the All filter for the module
@@ -303,7 +303,7 @@ class Head_Module_Model extends Head_Module {
 	 */
 	public function getListViewUrlWithAllFilter(){
             if($this->getAllFilterCvidForModule)
-                return $this->getListViewUrl() . '/' . $this->getAllFilterCvidForModule();
+                return $this->getListViewUrl() . '/filter/' . $this->getAllFilterCvidForModule();
             else
                 return $this->getListViewUrl();
 	}
@@ -312,60 +312,57 @@ class Head_Module_Model extends Head_Module {
 	 * Function to get the url for the Create Record view of the module
 	 * @return <String> - url
 	 */
-	public function getCreateRecordUrl($rest = false) {
-                global $site_URL;
-                if($rest)
-                        return $site_URL . $this->get('name') . '/' . $this->getEditViewName();
+    public function getCreateRecordUrl($rest = false) {
+        global $site_URL;
+        if($rest)
+            return $site_URL . $this->get('name') . '/view/' . $this->getEditViewName();
 
-	        return $site_URL . $this->get('name') . '/' . $this->getEditViewName();
-	}
+        return $site_URL . $this->get('name') . '/view/' . $this->getEditViewName();
+    }
 
 	/**
 	 * Function to get the url for the Create Record view of the module
 	 * @return <String> - url
 	 */
-	public function getQuickCreateUrl() {
-                global $site_URL;
-		return $site_URL.'index.php?module='.$this->get('name').'&view=QuickCreateAjax';
-	}
+    public function getQuickCreateUrl() {
+        global $site_URL;
+        return $site_URL.'index.php?module='.$this->get('name').'&view=QuickCreateAjax';
+    }
 
 	/**
 	 * Function to get the url for the Import action of the module
 	 * @return <String> - url
 	 */
-	public function getImportUrl() {
-                global $site_URL;
-	        return $site_URL . $this->get('name') . '/Import';
-	}
+    public function getImportUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . 'view/Import';
+    }
 
 	/**
 	 * Function to get the url for the Export action of the module
 	 * @return <String> - url
 	 */
-	public function getExportUrl() {
-  //              global $site_URL;
-//	        return $site_URL . $this->get('name') . '/Export';
-                return 'index.php?module='.$this->get('name').'&view=Export';
-
-	}
+    public function getExportUrl() {
+        return 'index.php?module='.$this->get('name').'&view=Export';
+    }
 
 	/**
 	 * Function to get the url for the Find Duplicates action of the module
 	 * @return <String> - url
 	 */
-	public function getFindDuplicatesUrl() {
-                global $site_URL;
-	        return $site_URL . $this->get('name') . '/FindDuplicates';
-	}
+    public function getFindDuplicatesUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . '/view/FindDuplicates';
+    }
 
 	/**
 	 * Function to get the url to view Dashboard for the module
 	 * @return <String> - url
 	 */
-	public function getDashBoardUrl() {
-                global $site_URL;
-	        return $site_URL . $this->get('name') . '/DashBoard';
-	}
+    public function getDashBoardUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . '/view/DashBoard';
+    }
 
 	/**
 	 * Function to get the url to view Details for the module
@@ -373,7 +370,7 @@ class Head_Module_Model extends Head_Module {
 	 */
 	public function getDetailViewUrl($id) {
                 global $site_URL;
-	        return $site_URL . $this->get('name') . '/' . $this->getDetailViewName() . '/' . $id;
+	        return $site_URL . $this->get('name') . '/view/' . $this->getDetailViewName() . '/' . $id;
 	}
 	/**
 	 * Function to get a Head Record Model instance from an array of key-value mapping
@@ -614,19 +611,20 @@ class Head_Module_Model extends Head_Module {
 	 * @return <Array> returns related fields list.
 	 */
 	public function getRelatedListFields() {
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		$list_fields_name = $entityInstance->list_fields_name;
-		$list_fields = $entityInstance->list_fields;
-		$relatedListFields = array();
-		foreach ($list_fields as $key => $fieldInfo) {
-			foreach ($fieldInfo as $columnName) {
-				if(array_key_exists($key, $list_fields_name)){
-					$relatedListFields[$columnName] = $list_fields_name[$key];
-				}
-			}
-
-		}
-		return $relatedListFields;
+        $relatedListFields = array();
+        $entityInstance = CRMEntity::getInstance($this->getName());
+        if (isset($entityInstance->list_fields_name)) {
+            $list_fields_name = $entityInstance->list_fields_name;
+            $list_fields = $entityInstance->list_fields;
+            foreach ($list_fields as $key => $fieldInfo) {
+                foreach ($fieldInfo as $columnName) {
+                    if(array_key_exists($key, $list_fields_name)){
+                        $relatedListFields[$columnName] = $list_fields_name[$key];
+                    }
+                }
+            }
+        }
+        return $relatedListFields;
 	}
 
 	public function getConfigureRelatedListFields(){
@@ -693,7 +691,12 @@ class Head_Module_Model extends Head_Module {
 		}
 		return $instance;
 	}
-
+	
+	public static function getModuleInstanceById($tabid){
+                $moduleName = getTabModuleName($tabid);
+                $moduleInstance = Head_Module_Model::getInstance($moduleName);
+                return $moduleInstance;
+	}
 
 	/**
 	 * Function to get the instance of Head Module Model from a given Head_Module object
@@ -1337,7 +1340,7 @@ class Head_Module_Model extends Head_Module {
 			$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTING',
 						'linklabel' => 'LBL_EDIT_FIELDS',
-						'linkurl' => $site_URL.'Settings/LayoutEditor/'.$this->getName(),
+						'linkurl' => $site_URL. 'LayoutEditor/Settings/source/'.$this->getName(),
 						'linkicon' => $layoutEditorImagePath
 			);
 
@@ -1345,7 +1348,7 @@ class Head_Module_Model extends Head_Module {
 				$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTING',
 						'linklabel' => 'LBL_EDIT_WORKFLOWS',
-						'linkurl' => $site_URL.'Settings/Workflows/List/'.$this->getName(),
+						'linkurl' => $site_URL.'Workflows/Settings/List/source/'.$this->getName(),
 						'linkicon' => $editWorkflowsImagePath
 				);
 			}
@@ -1353,7 +1356,7 @@ class Head_Module_Model extends Head_Module {
 			$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTING',
 						'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
-						'linkurl' => $site_URL.'Settings/Picklist/Index/'.$this->getName(),
+						'linkurl' => $site_URL.'Picklist/Settings/Index/source/'.$this->getName(),
 						'linkicon' => ''
 			);
 
@@ -1361,7 +1364,7 @@ class Head_Module_Model extends Head_Module {
 				$settingsLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',
-					'linkurl' => $site_URL.'Settings/Head/CustomRecordNumbering/'.$this->getName(),
+					'linkurl' => $site_URL.'Head/Settings/CustomRecordNumbering/source/'.$this->getName(),
 					'linkicon' => ''
 				);
 			}
@@ -1373,7 +1376,7 @@ class Head_Module_Model extends Head_Module {
 					$settingsLinks[] =	array(
 							'linktype' => 'LISTVIEWSETTING',
 							'linklabel' => 'LBL_SETUP_WEBFORMS',
-							'linkurl' => $site_URL.'Webforms/Settings/Edit/'.$this->getName(),
+							'linkurl' => $site_URL.'Webforms/Settings/Edit/source/'.$this->getName(),
 							'linkicon' => '');
 				}
 			}
@@ -1935,11 +1938,11 @@ class Head_Module_Model extends Head_Module {
 	 */ 
 	function getBaseExtensionUrl($sourceModule) { 
         global $site_URL;
-		return $site_URL.$sourceModule.'/Extension/'.$this->getName().'/Index'; 
+		return $site_URL . $sourceModule.'/view/Extension?extensionModule=' . $this->getName().'&extensionView=Index';
 	} 
 
 	function getExtensionSettingsUrl($sourceModule) { 
-		return $this->getBaseExtensionUrl($sourceModule).'/settings'; 
+		return $this->getBaseExtensionUrl($sourceModule).'&mode=settings'; 
 	}
 
 	function getExtensionLogsListViewUrl($sourceModule) { 
@@ -1958,26 +1961,7 @@ class Head_Module_Model extends Head_Module {
 	}
 
 	function isStarredEnabled(){
-		return false;
-	}
-
-	/**
-	 * Function to get the app name for module
-	 */
-	function getAppName() {
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT appname,visible FROM jo_app2tab WHERE tabid = ?', array($this->getId()));
-		$count = $db->num_rows($result);
-		$apps = array();
-		if ($count > 0) {
-			for ($i = 0; $i < $count; $i++) {
-				$appName = $db->query_result($result, $i, 'appname');
-				$visibility = $db->query_result($result, $i, 'visible');
-				$apps[$appName] = $visibility;
-			}
-		}
-
-		return $apps;
+		return true ;
 	}
 
 	public function getCustomPicklistDependency() {
@@ -1988,4 +1972,21 @@ class Head_Module_Model extends Head_Module {
 		return true;
 	}
 
+	/*
+        ** Get Notification count for all entity modules
+        */
+        public static function getNotificationCountForAllModules() {
+
+                global $adb, $current_user;
+                $user_id = $current_user->id;
+                $notificaiton_count_array = [];
+                $query = "SELECT count(id), module_name FROM jo_notification WHERE notifier_id = ? and is_seen = ? GROUP BY module_name";
+                $value = $adb->pquery($query, array($user_id, 0));
+
+                while($fetch_array = $adb->fetch_array($value)) {
+                        array_push($notificaiton_count_array, $fetch_array);
+                }
+
+                return $notificaiton_count_array;
+        }
 }

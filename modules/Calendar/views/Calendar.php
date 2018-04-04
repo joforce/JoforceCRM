@@ -9,22 +9,23 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Calendar_Calendar_View extends Head_Index_View {
+class Calendar_Calendar_View extends Head_Index_View
+{
+    public function preProcess(Head_Request $request, $display = true) {
+        $viewer = $this->getViewer($request);
 
-	public function preProcess(Head_Request $request, $display = true) {
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$moduleModel = Head_Module_Model::getInstance($moduleName);
-		$viewer->assign('IS_CREATE_PERMITTED', $moduleModel->isPermitted('CreateView'));
-		$viewer->assign('IS_MODULE_EDITABLE', $moduleModel->isPermitted('EditView'));
-		$viewer->assign('IS_MODULE_DELETABLE', $moduleModel->isPermitted('Delete'));
+        $moduleName = $request->getModule();
+        $viewer->assign('MODULE_NAME', $moduleName);
+        $moduleModel = Head_Module_Model::getInstance($moduleName);
+        $viewer->assign('IS_CREATE_PERMITTED', $moduleModel->isPermitted('CreateView'));
+        $viewer->assign('IS_MODULE_EDITABLE', $moduleModel->isPermitted('EditView'));
+        $viewer->assign('IS_MODULE_DELETABLE', $moduleModel->isPermitted('Delete'));
 
-		parent::preProcess($request, false);
-		if($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
+        parent::preProcess($request, false);
+        if($display) {
+            $this->preProcessDisplay($request);
+        }
+    }
 
 	protected function preProcessTplName(Head_Request $request) {
 		return 'CalendarViewPreProcess.tpl';
@@ -33,10 +34,10 @@ class Calendar_Calendar_View extends Head_Index_View {
 	public function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$jsFileNames = array(
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/lib/moment.min.js",
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/fullcalendar.js",
-			"~layouts/".Head_Viewer::getDefaultLayoutName()."/lib/jquery/webui-popover/dist/jquery.webui-popover.js",
-			"modules.Calendar.resources.CalendarView",
+			"~layouts/lib/jquery/fullcalendar/lib/moment.min.js",
+			"~layouts/lib/jquery/fullcalendar/fullcalendar.js",
+			"~layouts/lib/jquery/webui-popover/dist/jquery.webui-popover.js",
+			"~layouts/modules/Calendar/resources/Calendar.js",
 			"~/libraries/jquery/colorpicker/js/colorpicker.js"
 		);
 
@@ -49,9 +50,9 @@ class Calendar_Calendar_View extends Head_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar.css',
-			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar-bootstrap.css',
-			'~layouts/'.Head_Viewer::getDefaultLayoutName().'/lib/jquery/webui-popover/dist/jquery.webui-popover.css',
+			'~layouts/lib/jquery/fullcalendar/fullcalendar.css',
+			'~layouts/lib/jquery/fullcalendar/fullcalendar-bootstrap.css',
+			'~layouts/lib/jquery/webui-popover/dist/jquery.webui-popover.css',
 			'~/libraries/jquery/colorpicker/css/colorpicker.css'
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

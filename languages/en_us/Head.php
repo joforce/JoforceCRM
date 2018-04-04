@@ -25,6 +25,7 @@ $languageStrings = array(
 	'LBL_ADDING_NEW' => 'Adding new',
 	'LBL_EDITING' => 'Editing',
 	'LBL_SAVE' => 'Save',
+	'LBL_SAVE_AND_NEW' => 'Save and New',
 	'LBL_CANCEL' => 'Cancel',
 	'LBL_BACK' => 'Back',
 	'LBL_IMPORT' => 'Import',
@@ -42,6 +43,7 @@ $languageStrings = array(
 	'LBL_QUICK_VIEW' => 'Quick View',
 	'LBL_NOTIFICATION_CENTER' => 'Notification Center',
 	'LBL_SETTINGS'=> 'Settings',
+	'LBL_MY_ACCOUNT' => 'My Account',
 	'LBL_ADD_COMMENT' => 'Add Comment',
 	'LBL_EDIT_FIELDS' => '%s Fields & Layout',
 	'LBL_EDIT_WORKFLOWS' => '%s Workflows',
@@ -179,6 +181,7 @@ $languageStrings = array(
 	'LBL_NO_COMMENTS' => 'No comments',
 	'LBL_REPLIES' => 'replies',
 	'LBL_REPLY_ALL' => 'Reply all',
+	'LBL_FAVOURITES' => 'Favourites',
 
 	//Translation for all modules
 	'Accounts' => 'Organizations',
@@ -198,7 +201,6 @@ $languageStrings = array(
 	'ServiceContracts' => 'Service Contracts',
 	'Services' => 'Services',
 	'Vendors' => 'Vendors',
-	'Rss' => 'RSS',
 	'Quotes'=>'Quotes',
 	'PurchaseOrder'=>'Purchase Order',
 	'SalesOrder'=>'Sales Order',
@@ -952,6 +954,7 @@ $languageStrings = array(
 	'PREFERENCES_HELP_TEXT' => 'Base Currency - Choose your primary currency. If you use multiple<br> 
 								currencies, all the values are converted to base currency and stored,<br>
 								using the conversion rate configured in CRM.',
+	'LBL_GOOGLE_SETTINGS_INFO' => 'Generate and add client ID & Client Secret for Synchronization',
 	'PREFERENCES_HELP_TEXT_2' => 'Personal preferences can be configured by each user in your team.<br>
 									These include Timezone, Language, Date Format, Number Format.<br>
 									Number Format references are used for Currencies and other <br>
@@ -1172,6 +1175,7 @@ $languageStrings = array(
 	'LBL_ADD_OR_SELECT_TAG' => 'Add/Select Tag',
 	'LBL_SELECT_FROM_AVAIL_TAG' => 'Select from available tags',
 	'LBL_MARKET_PLACE' => 'Market Place',
+	'LBL_CREATE_NEW' => 'Create new',
 
 	'LBL_SHARE_THIS_LIST' => 'Share the list',
 	'LBL_ADD_USERS_ROLES' => 'Add Users, Roles...',

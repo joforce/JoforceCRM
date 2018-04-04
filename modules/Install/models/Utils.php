@@ -330,6 +330,25 @@ class Install_Utils_Model {
 		return $mysql_server_version;
 	}
 
+    /**
+      +	 * Function to check sql_mode configuration
+      +	 * @param DbConnection $conn 
+      +	 * @return boolean
+      +	 */
+    public static function isMySQLSqlModeFriendly($conn) {
+        $rs = $conn->Execute("SHOW VARIABLES LIKE 'sql_mode'");
+        if ($rs && ($row = $rs->fetchRow())) {
+            $values = explode(',', strtoupper($row['Value']));
+            $unsupported = array('ONLY_FULL_GROUP_BY', 'STRICT_TRANS_TABLES', 'NO_ZERO_IN_DATE', 'NO_ZERO_DATE');
+            foreach ($unsupported as $check) {
+                if (in_array($check, $values)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 	/**
 	 * Function checks the database connection
 	 * @param <String> $db_type
@@ -351,6 +370,7 @@ class Install_Utils_Model {
 		$db_creation_failed = false; // did we try to create a database and fail?
 		$db_exist_status = false; // does the database exist?
 		$db_utf8_support = false; // does the database support utf8?
+        $db_sqlmode_support = false; // does the database having friendly sql_mode?
 
 		//Checking for database connection parameters
 		if($db_type) {
@@ -362,7 +382,10 @@ class Install_Utils_Model {
 				if(self::isMySQL($db_type)) {
 					$mysql_server_version = self::getMySQLVersion($serverInfo);
 				}
-				if($create_db) {
+
+                // $db_sqlmode_support = self::isMySQLSqlModeFriendly($conn);
+                $db_sqlmode_support = true; // Need to check sql mode is friendly
+                if($create_db && $db_sqlmode_support) {
 					// drop the current database if it exists
 					$dropdb_conn = NewADOConnection($db_type);
 					if(@$dropdb_conn->Connect($db_hostname, $root_user, $root_password, $db_name)) {
@@ -409,6 +432,8 @@ class Install_Utils_Model {
 					-  '.getTranslatedString('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
 		} elseif(self::isMySQL($db_type) && $mysql_server_version < 4.1) {
 			$error_msg = $mysql_server_version.' -> '.getTranslatedString('ERR_INVALID_MYSQL_VERSION', 'Install');
+        } elseif(!$db_sqlmode_support) {
+            $error_msg = getTranslatedString('ERR_DB_SQLMODE_NOTFRIENDLY', 'Install');     
 		} elseif($db_creation_failed) {
 			$error_msg = getTranslatedString('ERR_UNABLE_CREATE_DATABASE', 'Install').' '.$db_name;
 			$error_msg_info = getTranslatedString('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');

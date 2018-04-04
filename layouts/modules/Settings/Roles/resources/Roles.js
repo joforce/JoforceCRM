@@ -211,12 +211,14 @@ var Settings_Roles_Js = {
 			});
 		});
 	},
+
+    _registeredProfileEvents: false,
     
     /**
      * To register Profile Edit View Events
      */
     registerProfileEvents : function() {
-        if(typeof window['Settings_Profiles_Edit_Js'] != 'undefined'){
+        if(!this._registeredProfileEvents && typeof window['Settings_Profiles_Edit_Js'] != 'undefined') {
             var instance = new Settings_Profiles_Edit_Js();
         }
     },

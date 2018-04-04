@@ -16,6 +16,7 @@
 			<link REL="SHORTCUT ICON" HREF="layouts/skins/images/favicon.ico">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-responsive.css" type="text/css" media="screen">
+			<link rel="stylesheet" href="layouts/skins/custom.css">
 			<style type="text/css">
 				{literal}
 					body{
@@ -60,6 +61,13 @@
 					}
 					.logo{
 						padding: 15px 0 ;
+						width:100px !important;
+						position:relative;
+						left:45%;
+					}
+
+					.logo img{
+						width: 100%;
 					}
 
 					.inner-container{
@@ -79,7 +87,11 @@
 						*padding: 5px 0;
 					}
 					.selectedContainer{
-						background: #D9E9EE;
+						background: #53CC9A;
+						color:#fff;
+					}
+					.selectedContainer .group-heading h4{
+						color:#fff;
 					}
 					.unSelectedContainer{
 						background: #eee;
@@ -93,7 +105,7 @@
 						float: left;
 					}
 					.group-heading h4{
-						color: #2c69a7;
+						color: #666;
 						text-shadow: 0px 0px 1px #BBB;
 						display: inline-block;
 						font-size: 16px;
@@ -113,7 +125,7 @@
 						min-height: 130px;
 					}
 					.module_list{
-						background: #146bae;
+						background: #1C7C54;
 						border-radius: 3px 0;
 						right:0;
 						bottom: 0;
@@ -212,6 +224,13 @@
 					{
 						background-position: 0 0;
 					}
+					.btn-primary, .btn-success {
+					  background: #1C7C54 !important;
+					  border-color: #1C7C54 !important; }
+					  .btn-primary:hover, .btn-primary:active, .btn-success:hover, .btn-success:active {
+					    background: #176746 !important;
+					    border-color: #176746 !important; }
+
 				{/literal}
 			</style>
 		</head>
@@ -264,7 +283,7 @@
 			</script>
 			<div class="container-fluid page-container">
 				<div class="row-fluid">
-					<div class="span6">
+					<div class="span12 text-center">
 						<div class="logo">
 							<img src="{$SITEURL}cache/logo/JoForce-Logo.png" alt="Head Logo"/>
 						</div>

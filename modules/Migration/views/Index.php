@@ -24,7 +24,8 @@ class Migration_Index_View extends Head_View_Controller {
 
 	public function process(Head_Request $request) {
 		// Override error reporting to production mode
-		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT); 
+        version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+        set_time_limit(0); 
 
 		$mode = $request->getMode();
 		if(!empty($mode)) {

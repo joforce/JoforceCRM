@@ -10,7 +10,7 @@
 {strip}
 	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
 		<div class="module-action-content clearfix {$MODULE}-module-action-content">
-			<div class="col-lg-7 col-md-7 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
+			<div class="col-lg-2 col-md-2 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
 				{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 				{if $MODULE_MODEL->getDefaultViewName() neq 'List'}
 					{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getDefaultUrl()}
@@ -23,7 +23,7 @@
 						{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrlWithAllFilter()}
 					{/if}
 				{/if}
-				<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}/{$SELECTED_MENU_CATEGORY}'><h4 class="module-title pull-left text-uppercase"> {vtranslate($MODULE, $MODULE)} </h4>&nbsp;&nbsp;</a>
+				<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title pull-left text-uppercase"> {vtranslate($MODULE, $MODULE)} </h4>&nbsp;&nbsp;</a>
 				{if $smarty.session.lvs.$MODULE.viewname}
 					{assign var=VIEWID value=$smarty.session.lvs.$MODULE.viewname}
 				{/if}
@@ -36,7 +36,7 @@
 							{/if}
 						{/foreach}
 					{/foreach}
-					<p class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a href='{$MODULE_MODEL->getListViewUrl()}/{$VIEWID}/{$SELECTED_MENU_CATEGORY}'>&nbsp;&nbsp;{$CVNAME}&nbsp;&nbsp;</a> </p>
+					<p class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a href='{$MODULE_MODEL->getListViewUrl()}/{$VIEWID}'>&nbsp;&nbsp;{$CVNAME}&nbsp;&nbsp;</a> </p>
 				{/if}
 
 				{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
@@ -50,6 +50,42 @@
 					<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a title="{$RECORD->get('label')}">&nbsp;&nbsp;{$RECORD->get('label')} &nbsp;&nbsp;</a></p>
 				{/if}
 			</div>
+			
+			{if $IS_LIST_VIEW}
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="dropdown-filter" style="width:80%;">
+                                        <button class="btn btn-filter"><i class="fa fa-filter mr10"></i> Lists <i class="fa fa-caret-down ml5"></i> </button>
+                                        <div class="filter-open">
+                                                {include file="modules/Calendar/partials/SidebarEssentials.tpl"}
+                                        </div>
+                                </div>
+                        </div>
+                        {/if}
+	
+			<div class="col-lg-2">
+                        <div id="topbar-menu" class="topbar-menu text-center pt10">
+                                <ul style="list-style: none;">
+                                        {foreach item=SIDE_BAR_LINK from=$QUICK_LINKS['SIDEBARLINK']}
+                                                {assign var=CURRENT_LINK_NAME value="List"}
+                                                {assign var=VIEW_ICON_CLASS value="vicon-calendarlist"}
+                                                        {if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_CALENDAR_VIEW'}
+                                                                {assign var=CURRENT_LINK_NAME value="Calendar"}
+                                                                {assign var=VIEW_ICON_CLASS value="vicon-mycalendar"}
+                                                        {else if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_SHARED_CALENDAR'}
+                                                                {assign var=CURRENT_LINK_NAME value="SharedCalendar"}
+                                                                {assign var=VIEW_ICON_CLASS value="vicon-sharedcalendar"}
+                                                        {/if}
+                                                <li class="ml5 mr5 topbar-qtip {if $CURRENT_LINK_NAME eq $CURRENT_VIEW}active{/if}" title="{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}" style="display: inline-block;">
+                                                        <a href="{$SIDE_BAR_LINK->get('linkurl')}">
+                                                                <i class="{$VIEW_ICON_CLASS} mr5"></i>
+                                                                <!-- <span>{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}</span> -->
+                                                        </a>
+                                                </li>
+                                        {/foreach}
+                                </ul>
+                         </div>
+                         </div>
+
 			<div class="col-lg-5 col-md-5 pull-right">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
@@ -68,11 +104,11 @@
 								</li>
 							{else}
 								<li>
-									<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" 
+									<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-secondary module-buttons" 
 										{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 											onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
 										{else} 
-											onclick='window.location.href="{$BASIC_ACTION->getUrl()}/{$SELECTED_MENU_CATEGORY}"'
+											onclick='window.location.href="{$BASIC_ACTION->getUrl()}"'
 										{/if}>
 										<div class="fa {$BASIC_ACTION->getIcon()}" aria-hidden="true"></div>&nbsp;&nbsp;
 										{vtranslate($BASIC_ACTION->getLabel(), $MODULE)}
@@ -84,7 +120,7 @@
 							<li>
 								<div class="settingsIcon">
 									<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-										<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;{vtranslate('LBL_CUSTOMIZE', 'Reports')}&nbsp; <span class="caret"></span>
+										<span aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;{vtranslate('LBL_MORE', 'Reports')}&nbsp; <span class="caret"></span>
 									</button>
 									<ul class="detailViewSetting dropdown-menu">
 										{foreach item=SETTING from=$MODULE_SETTING_ACTIONS}

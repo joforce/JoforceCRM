@@ -256,7 +256,7 @@ class HeadModuleOperation extends WebserviceEntityOperation {
 		
 		$describeArray = array('name'=>$webserviceField->getFieldName(),'label'=>$fieldLabel,'mandatory'=>
 			$webserviceField->isMandatory(),'type'=>$typeDetails,'nullable'=>$webserviceField->isNullable(),
-			"editable"=>$editable);
+			"editable"=>$editable, 'column_name' => $webserviceField->getColumnName());
 		if($webserviceField->hasDefault()){
 			$describeArray['default'] = $webserviceField->getDefault();
 		}

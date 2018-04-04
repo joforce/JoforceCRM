@@ -27,11 +27,6 @@
     </div>
 <div class="main-container main-container-{$MODULE}">
                 {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-                <div id="modnavigator" class="module-nav">
-                        <div class="hidden-xs hidden-sm mod-switcher-container">
-                                {include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-                        </div>
-                </div>
                 <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
                         {include file="partials/DetailViewSidebar.tpl"|vtemplate_path:$MODULE}
                 </div>
@@ -40,12 +35,7 @@
 
 <!--<div class="container-fluid main-container">-->
     <div>
-        <div id="modnavigator" class="module-nav detailViewModNavigator clearfix">
-            <div class="hidden-xs hidden-sm mod-switcher-container">
-                {include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-            </div>
-        </div>
-        <div class="detailViewContainer viewContent clearfix">
+          <div class="detailViewContainer viewContent clearfix">
             <div class="col-sm-12 col-xs-12">
                 {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}
                 <div class="row">
@@ -55,6 +45,23 @@
                 </div>  
             </div>{*closing div of detailviewHeader*}
                 <div class="detailview-content container-fluid">
+
+                    <div class="sidebar-hide" style="cursor:pointer;">
+                        <span class="fa fa-chevron-left"></span>
+                    </div>
+
                     <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
                     {include file="ModuleRelatedTabs.tpl"|vtemplate_path:$MODULE}
                     <div class="details row" style="margin-top:10px;">
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.sidebar-hide').click(function(){
+            $(this).children('span').toggleClass('fa-chevron-left').toggleClass('fa-chevron-right');
+            $('.sidebar-essentials').toggle();
+            $('.content-area').toggleClass('full-scrn');
+        });
+    });
+</script>

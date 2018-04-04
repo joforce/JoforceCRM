@@ -11,13 +11,14 @@
 {strip}
     <div class="modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}|cat:" "|cat:{vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)}|cat:" - "|cat:{$RECORD_MODEL->getName()}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+        
         <div class="modal-content">
             <form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
                 <input type="hidden" name="module" value="{$MODULE}" />
                 <input type="hidden" name="parent" value="Settings" />
                 <input type="hidden" name="action" value="DeleteAjax" />
                 <input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
+                {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class="form-group">

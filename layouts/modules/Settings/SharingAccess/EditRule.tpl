@@ -17,16 +17,16 @@
     {/if}
     <div class="modal-dialog modelContainer"'>
         {assign var=HEADER_TITLE value={vtranslate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}|cat:" "|cat:{vtranslate($MODULE_MODEL->get('name'), $MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
             <form class="form-horizontal" id="editCustomRule" method="post">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <input type="hidden" name="for_module" value="{$MODULE_MODEL->get('name')}" />
                 <input type="hidden" name="record" value="{$RULE_ID}" />
                 <div name='massEditContent'>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
-                            <div class="controls fieldValue col-xs-6">
+                            <label class="control-label fieldLabel col-sm-5 pr0 pl0">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
+                            <div class="controls fieldValue col-xs-6 pl0">
                                 <select class="select2 col-sm-9" name="source_id">
                                     {foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                         <optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -42,8 +42,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
-                        <div class="controls fieldValue col-xs-6">
+                        <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
+                        <div class="controls fieldValue col-xs-6 pl0">
                             <select class="select2 col-sm-9" name="target_id">
                                 {foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                     <optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -59,8 +59,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
-                    <div class="controls fieldValue col-sm-5" style="margin-left: 3%;">
+                    <label class="control-label fieldLabel col-sm-5 pr0 pl0">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
+                    <div class="controls fieldValue col-sm-5 pl0" style="margin-left: 3%;">
                         <label class="radio">
                             <input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{vtranslate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;
                         </label>

@@ -28,7 +28,7 @@ class Users_Login_Action extends Head_Action_Controller {
 
 		if ($user->doLogin($password)) {
 			session_regenerate_id(true); // to overcome session id reuse.
-
+			global $site_URL;
 			$userid = $user->retrieve_user_id($username);
 			Head_Session::set('AUTHUSERID', $userid);
 
@@ -51,12 +51,17 @@ class Users_Login_Action extends Head_Action_Controller {
 			$moduleModel = Users_Module_Model::getInstance('Users');
 			$moduleModel->saveLoginHistory($user->column_fields['user_name']);
 			//End
-						
+		
 			if(isset($_SESSION['return_params'])){
 				$return_params = $_SESSION['return_params'];
 			}
+	
+			$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
+			if($default_landing_page == "Dashboard")
+				header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
+			else
+				header ("Location: ".$site_URL.$default_landing_page."/view/List");
 
-			header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
 			exit();
 		} else {
 			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=login');

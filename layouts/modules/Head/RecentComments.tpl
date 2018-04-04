@@ -18,14 +18,14 @@
 		{if $IS_CREATABLE}
 			<div class="addCommentBlock">
 				<div class="row">
-					<div class=" col-lg-12">
+					<div class="">
 						<div class="commentTextArea ">
 							<textarea name="commentcontent" class="commentcontent form-control mention_listener" placeholder="{vtranslate('LBL_POST_YOUR_COMMENT_HERE', $MODULE_NAME)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class='row'>
-					<div class="col-xs-6 pull-right paddingTop5 paddingLeft0">
+					<div class="pull-right paddingTop5 paddingLeft0">
 						<div style="text-align: right;">
 							{if in_array($MODULE_NAME, $PRIVATE_COMMENT_MODULES)}
 								<div class="" style="margin: 7px 0;">
@@ -38,7 +38,7 @@
 							<button class="btn btn-primary btn-sm detailViewSaveComment" type="button" data-mode="add">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
 						</div>
 					</div>
-					<div class="col-xs-6 pull-left">
+					<div class="pull-left mt5">
 						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) MODULE="ModComments"}
 					</div>
 				</div>
@@ -48,16 +48,16 @@
 
 	<hr>
 	<div class="recentCommentsHeader row">
-		<h4 class="display-inline-block col-lg-7 textOverflowEllipsis" title="{vtranslate('LBL_RECENT_COMMENTS', $MODULE_NAME)}">
+		<h4 class="display-inline-block col-lg-12 textOverflowEllipsis" title="{vtranslate('LBL_RECENT_COMMENTS', $MODULE_NAME)}">
 			{vtranslate('LBL_RECENT_COMMENTS', $MODULE_NAME)}
 		</h4>
 		{if $MODULE_NAME ne 'Leads'}
-			<div class="col-lg-5 commentHeader pull-right" style="margin-top:5px;text-align:right;padding-right:20px;">
-				<div class="display-inline-block">
+			<div class="col-lg-12 commentHeader pull-right" style="margin-top:5px;text-align:right;padding-right:20px;">
+				<div class="display-inline-block mr15">
 					<span class="">{vtranslate('LBL_ROLL_UP',$QUALIFIED_MODULE)} &nbsp;</span>
 					<span class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{vtranslate('LBL_ROLLUP_COMMENTS_INFO',$QUALIFIED_MODULE)}"></span>&nbsp;&nbsp;
 				</div>
-				<input type="checkbox" class="bootstrap-switch pull-right" id="rollupcomments" hascomments="1" startindex="{$STARTINDEX}" data-view="summary" rollupid="{$ROLLUPID}" 
+				<input type="checkbox" class="pull-right bootstrap-switch pull-right" id="rollupcomments" hascomments="1" startindex="{$STARTINDEX}" data-view="summary" rollupid="{$ROLLUPID}" 
 					rollup-status="{$ROLLUP_STATUS}" module="{$MODULE_NAME}" record="{$PARENT_RECORD}" checked data-on-color="success"/> 
 			</div> 
 		{/if}

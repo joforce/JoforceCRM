@@ -5,13 +5,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 <div class="sidebar-menu">
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
-<div class="quickLinksDiv">
-        {foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
-        {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
+        <div class="quickLinksDiv">
+            {foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
+                {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
                 {assign var="EXPLODED_PARSE_URL" value=explode('?',$SIDE_LINK_URL)}
                 {assign var="COUNT_OF_EXPLODED_URL" value=count($EXPLODED_PARSE_URL)}
                 {if $COUNT_OF_EXPLODED_URL gt 1}
@@ -22,7 +23,7 @@
                 {assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
                 {assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}
                 {assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
-                <p onclick="window.location.href='{$SIDEBARLINK->getUrl()}{if $SELECTED_MENU_CATEGORY}/{$SELECTED_MENU_CATEGORY}{/if}'" id="{$MODULE}_sideBar_link_{Head_Util_Helper::replaceSpaceWithUnderScores($SIDEBARLINK->getLabel())}"
+                <p onclick="window.location.href='{$SIDEBARLINK->getUrl()}'" id="{$MODULE}_sideBar_link_{Head_Util_Helper::replaceSpaceWithUnderScores($SIDEBARLINK->getLabel())}"
                    class="{if $LINK_LIST_VIEW and $IS_LINK_MODULE_NAME}selectedQuickLink {else}unSelectedQuickLink{/if}"><a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
                                 <strong>{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</strong>
                 </a></p>

@@ -21,7 +21,7 @@
 	{/if}
 {/foreach}
 
-<div class="left-block col-lg-4">
+<div class="left-block col-lg-5">
 	{* Module Summary View*}
 		<div class="summaryView">
 			<div class="summaryViewHeader">
@@ -73,9 +73,16 @@
 		</div>
 	{/if}
 	{* Summary View Documents Widget Ends Here*}
+	
+	{* Detail Summary Widget View*}
+		{if $DETAIL_SUMMARY_WIDGET}
+			{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
+		{/if}
+	{* Detail Summary Widget View Ends Here*}
+
 </div>
 
-<div class="middle-block col-lg-8">
+<div class="middle-block col-lg-7">
 	{* Summary View Related Activities Widget*}
 		<div id="relatedActivities">
 			{$RELATED_ACTIVITIES}

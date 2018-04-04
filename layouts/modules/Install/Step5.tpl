@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 
 <form class="form-horizontal" name="step5" method="post" action="index.php">
@@ -13,58 +14,22 @@
 	<input type=hidden name="mode" value="Step7" />
 	<input type=hidden name="auth_key" value="{$AUTH_KEY}" />
 
-	<div class="row main-container step5">
-		<div class="inner-container">
-			<!-- <div class="row">
-				<div class="col-sm-10">
-					<h4>{vtranslate('LBL_CONFIRM_CONFIGURATION_SETTINGS','Install')}</h4>
-				</div>
-			</div>
-			<hr> -->
-
-      <div class="col-sm-12 text-center">
-      <div class="logo install-logo">
-        <img src="{'logo.png'|vimage_path}"/>
-      </div>
-    </div>
-
-<!-- new section start -->
-
-<div class="joforce-install-section joforce-install-row-bottom col-md-offset-1">
-    <div class="joforce-install-row">
-      <div class="joforce-install-step">
-         <div class="joforce-install-circle joforce-install-completed"><span>1</span></div>
-         <p>{vtranslate('LBL_WELCOME_INSTALL', 'Install')}</p>
-      </div>
-      <div class="joforce-install-step" id="step2">
-        <div class="joforce-install-circle joforce-install-completed"><span>2</span></div>
-        <p>{vtranslate('LBL_AGREE_INSTALL', 'Install')}</p>
-      </div>
-      <div class="joforce-install-step">
-       <div class="joforce-install-circle joforce-install-completed"><span>3</span></div>
-       <p>{vtranslate('LBL_PREREQUISITES_INSTALL', 'Install')}</p>
-      </div>
-      <div class="joforce-install-step">
-        <div class="joforce-install-circle joforce-install-completed"><span>4</span></div>
-        <p>{vtranslate('LBL_CONFIGURATION_INSTALL', 'Install')}</p>
-      </div>
-      <div class="joforce-install-step">
-         <div class="joforce-install-circle joforce-install-active"><span>5</span></div>
-         <p>{vtranslate('LBL_CONFIRM_CONFIGURATION_INSTALL','Install')}</p>
-      </div>
-      <!-- <div class="joforce-install-step">
-        <div class="joforce-install-circle"><span>6</span></div>
-        <p>{vtranslate('LBL_ONE_LAST_THING_INSTALL','Install')}</p>
-      </div>
-      <div class="joforce-install-step">
-        <div class="joforce-install-circle"><span>7</span></div>
-        <p>{vtranslate('LBL_LOADING_PLEASE_WAIT_INSTALL','Install')}</p>
-      </div> -->
-    </div>
-  </div>
-
-<!-- new section end -->
-
+	<div class="row main-container step5" id="page5">
+        <div class="gs-info">
+	        {include file="Sidebar.tpl"|vtemplate_path:'Install'}
+            <footer class="noprint">
+                <div class="vtFooter">
+                    <p> {vtranslate('POWEREDBY')} &copy; {date('Y')} </p>
+                </div>
+            </footer>
+        </div>
+	    <div class="inner-container">
+	        <div class="mobile-view"><i class="fa fa-arrow-left"></i></div>
+	        <div class="col-sm-12 text-center">
+	            <div class="logo install-logo">
+	                <img src="{'logo.png'|vimage_path}"/>
+	            </div>
+	        </div>
 			{if $DB_CONNECTION_INFO['flag'] neq true}
 				<div class="offset2 row" id="errorMessage">
 					<div class="col-sm-10 col-sm-offset-1">
@@ -75,29 +40,28 @@
 					</div>
 				</div>
 			{/if}
-			<div class="offset2 row install-form-section">
+			<div class="offset2 install-form-section"> 
 				<div class="col-md-5 col-md-offset-1">
 				<section class="joforce-install-heading form-group">
-                                    <h4>{vtranslate('LBL_DATABASE_INFORMATION','Install')}</h4><hr class="install-hr">
-                                    </section>
-					<div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_DATABASE_TYPE','Install')}<span class="no">*</span></label>
-                        <span class="install-label-value">{vtranslate('MySQL','Install')}</span>
-                     </div>
-                     <div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_DB_NAME','Install')}<span class="no">*</span></label>
-                        <span class="install-label-value">{$INFORMATION['db_name']}</span>
-                     </div>  
-
-                     <section class="joforce-install-heading form-group mt30">
-                                    <h4>{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</h4><hr class="install-hr">
-                                    </section>
+                    <h4>{vtranslate('LBL_DATABASE_INFORMATION','Install')}</h4><hr class="install-hr">
+                </section>
+		        <div class="form-group">
+                    <label class="install-info">{vtranslate('LBL_DATABASE_TYPE','Install')}</label>
+                    <span class="install-label-value">{vtranslate('MySQL','Install')}</span>
+                </div>
+                <div class="form-group">
+                    <label class="install-info">{vtranslate('LBL_DB_NAME','Install')}</label>
+                    <span class="install-label-value">{$INFORMATION['db_name']}</span>
+                </div>  
+                <section class="joforce-install-heading form-group mt30">
+                    <h4>{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</h4><hr class="install-hr">
+                </section>
 					<div class="form-group">
                         <label class="install-info">{vtranslate('LBL_SYSTEM_INFORMATION','Install')}</label>
                         <span><a href="#">{$SITE_URL}</a></span>
                      </div>  
                      <div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_CURRENCY','Install')}<span class="no">*</span></label>
+                        <label class="install-info">{vtranslate('LBL_CURRENCY','Install')}</label>
                         <span class="install-label-value">{$INFORMATION['currency_name']}</span>
                      </div>  
 				</div>
@@ -110,15 +74,15 @@
                         <span class="install-label-value">{$INFORMATION['admin']}</span>
                      </div>  
                      <div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_EMAIL','Install')}<span class="no">*</span></label>
+                        <label class="install-info">{vtranslate('LBL_EMAIL','Install')}</label>
                         <span class="install-label-value">{$INFORMATION['admin_email']}</span>
                      </div>
                      <div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_TIME_ZONE','Install')}<span class="no">*</span></label>
+                        <label class="install-info">{vtranslate('LBL_TIME_ZONE','Install')}</label>
                         <span class="install-label-value">{$INFORMATION['timezone']}</span>
                      </div>
                      <div class="form-group">
-                        <label class="install-info">{vtranslate('LBL_DATE_FORMAT','Install')}<span class="no">*</span></label>
+                        <label class="install-info">{vtranslate('LBL_DATE_FORMAT','Install')}</label>
                         <span class="install-label-value">{$INFORMATION['dateformat']}</span>
                      </div>  
 				</div>
@@ -126,9 +90,9 @@
 			<div class="row offset2">
 				<div class="col-sm-12">
 					<div class="button-container">
-						<input type="button" class="btn btn-large" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
+						<input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
 						{if $DB_CONNECTION_INFO['flag'] eq true}
-							<input type="button" class="btn btn-large btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step7"/>
+							<input type="button" class="btn btn-large btn-primary btn-next" value="{vtranslate('Install','Install')}" name="step7"/>
 						{/if}
 					</div>
 				</div>
@@ -136,17 +100,129 @@
 		</div>
 	</div>
 </form>
-<div id="progressIndicator" class="row main-container hide">
+<div id="progressIndicator" class="row main-container hide" style="color: #30302; background: #F4F4F4">
+    <div class="inner-container" style="width:100% !important;float:left !important;">
+        <div class="col-sm-12">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style='background: transparent !important; box-shadow: none;'>
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+	                    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="col-md-4">
+                                <img src="layouts/modules/Install/resources/images/zapier.png">
+                            </div>
+                            <div class="col-md-8">
+                                <h3> Zapier Integration </h3>
+		                        <p> As a part of Sales, Marketing and Support team, every one of us may work across different apps. When all these app based works are handled right from your CRM, would it be awesome?</p>
+		                        <p> Connect with your favourite app that you use everyday and get things done right from JoForce via Zapier. Build Workflows and automate your day-to-day activities. </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-md-4">
+                                <img src="layouts/modules/Install/resources/images/EmailPlus.png">
+                            </div>
+                            <div class="col-md-8">
+                                <h3> Email</h3>
+                                <p> Bring email communication within CRM by integrating your email client to JoForce. Now you can send and receive emails from JoForce. Gives a look-&-feel, that you’re inside your email inbox. Send email from JoForce and get it automatically logged in your JoForce and email client as well.  </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-md-4">
+                                <img src="layouts/modules/Install/resources/images/kanban.png">
+                            </div>
+                            <div class="col-md-8">
+                                <h3> Kanban view </h3>
+		                        <p>Visually track your sales process to efficiently track, analyse, prioritize and close deals at the faster rate. It gives a better insight of all your deals in each stage of your pipeline. Once you’re successful in your sales activities, just drag & drop deals to navigate between different stages of your pipeline. </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-md-4">
+                                <img src="layouts/modules/Install/resources/images/pdf.png">
+                            </div>
+                            <div class="col-md-8">
+                                <h3> PDF Maker</h3>
+                                <p> Seamlessly design your own PDF Templates with PDF Maker. Individual template designs for Invoice, Quotes, Sales order and Purchase order. Easy to add your own company and product information. You can design your PDF with different page layouts in the way you want. </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-md-4">
+                                <img src="layouts/modules/Install/resources/images/mobile.png">
+                            </div>
+                            <div class="col-md-8">
+                                <h3> Mobile</h3>
+		                        <p>When sales keeps your sales rep moving, shouldn’t your CRM move along with? Empower your reps to carry the CRM wherever they go. Turn your mobile phone as your CRM and get things on the fly. </p>
+                                <p>Your sales on the go</p>
+                                <p>Take actions from anywhere</p>
+                            </div>
+                        </div>
+	                    <div class="item">
+                            <div class="col-md-4">
+                            <img src="layouts/modules/Install/resources/images/google.png">
+                        </div>
+                        <div class="col-md-8">
+                            <h3> Google Integration </h3>
+                            <p> Google Calendar - Never miss out any of your important appointments, track & organize all your activities from one place. </p>
+                            <p> Google contacts - All your contact info at one spot. Keep your Google & JoForce Contact info sync in just a click. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="inner-container">
-        <div class="inner-container">
-            <div class="row">
-                <div class="col-sm-12 welcome-div alignCenter">
-                    <h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-                    <img src="{'install_loading.gif'|vimage_path}"/>
-                    <h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
+        <div class="row">
+            <div class="col-sm-12 welcome-div alignCenter">
+                <h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
+                <div class="load-bar">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<style>
+{literal}
+.load-bar {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: 6px;
+  background-color: #fdba2c;
+}
+.bar {
+  content: "";
+  display: inline;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  left: 50%;
+  text-align: center;
+}
+.bar:nth-child(1) {
+  background-color: #da4733;
+  animation: loading 3s linear infinite;
+}
+.bar:nth-child(2) {
+  background-color: #3b78e7;
+  animation: loading 3s linear 1s infinite;
+}
+.bar:nth-child(3) {
+  background-color: #fdba2c;
+  animation: loading 3s linear 2s infinite;
+}
+@keyframes loading {
+    from {left: 50%; width: 0;z-index:100;}
+    33.3333% {left: 0; width: 100%;z-index: 10;}
+    to {left: 0; width: 100%;}
+}
+{/literal}
+</style>

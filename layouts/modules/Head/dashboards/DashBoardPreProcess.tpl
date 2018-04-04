@@ -12,7 +12,10 @@
 <div class="container-fluid app-nav">
     <div class="row">
         {include file="modules/Head/partials/SidebarHeader.tpl"}
-        {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
+	{include file="modules/Head/dashboards/ModuleHeader.tpl"}
+	 <div class="pull-right">
+                {include file="modules/Head/dashboards/DashBoardHeader.tpl"}
+        </div>
     </div>
 </div>
 </nav>

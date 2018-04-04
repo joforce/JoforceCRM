@@ -1328,11 +1328,7 @@ class Head_Functions {
 	 * @return type -- table name
 	 */
 	public static function getUserSpecificTableName($moduleName) {
-		$moduleName = strtolower($moduleName);
-		if ($moduleName == "events") {
-			$moduleName = "calendar";
-		}
-		return "jo_".$moduleName.'_user_field';
+        return 'jo_crmentity_user_field';
 	}
 
 	/**

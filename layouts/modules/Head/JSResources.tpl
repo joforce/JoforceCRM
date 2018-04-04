@@ -6,38 +6,13 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): JoForce.com
 ********************************************************************************/
 -->*}
 {strip}
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/purl.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/select2/select2.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery.class.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery-ui-1.11.3.custom/jquery-ui.js"></script>
     <script type="text/javascript" src="{$SITEURL}layouts/lib/todc/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/jstorage.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery-validation/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery.slimscroll.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery.ba-outside-events.min.js"></script>
-	<script type="text/javascript" src="{$SITEURL}libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/multiplefileupload/jquery_MultiFile.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/resources/jquery.additions.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/bootstrap-notify/bootstrap-notify.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/websockets/reconnecting-websocket.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery-play-sound/jquery.playSound.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/malihu-custom-scrollbar/jquery.mousewheel.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/autoComplete/jquery.textcomplete.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery.qtip.custom/jquery.qtip.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery-visibility.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/momentjs/moment.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/daterangepicker/moment.min.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/daterangepicker/jquery.daterangepicker.js"></script>
-    <script type="text/javascript" src="{$SITEURL}layouts/lib/jquery/jquery.timeago.js"></script>
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/ckeditor/adapters/jquery.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/highchart/highcharts.js"></script>
-    <script type="text/javascript" src="{$SITEURL}libraries/jquery/highchart/highchart-funnel.js"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Head/resources/Class.js')}"></script>
     <script type='text/javascript' src="{$SITEURL}{vresource_url('layouts/resources/helper.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/resources/application.js')}"></script>
@@ -49,7 +24,6 @@
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Calendar/resources/TaskManagement.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Import/resources/Import.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Emails/resources/EmailPreview.js')}"></script>
-    <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Head/resources/Base.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Google/resources/Settings.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Head/resources/CkEditor.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Documents/resources/Documents.js')}"></script>

@@ -13,11 +13,12 @@
     {if count($DATA) gt 0 }
         <input class="widgetData" type=hidden value='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
         <input class="yAxisFieldType" type="hidden" value="{$YAXIS_FIELD_TYPE}" />
-        <div style="margin:0px 10px;">
-            <div>
+        <div class="row" style="margin:0px 10px;">
+            <div class="col-lg-11">
                 <div class="widgetChartContainer" name='chartcontent' style="height:220px;min-width:300px; margin: 0 auto"></div>
                 <br>
             </div>
+            <div class="col-lg-1"></div>
         </div>
     {else}
         <span class="noDataMsg">

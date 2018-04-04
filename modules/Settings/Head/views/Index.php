@@ -28,10 +28,12 @@ class Settings_Head_Index_View extends Head_Basic_View {
 	}
 
 	public function preProcessSettings (Head_Request $request ,$display=true) {
-
+		global $current_user;
 		$viewer = $this->getViewer($request);
 
+		$parent_module = $request->get('parent');
 		$moduleName = $request->getModule();
+		$view_name = $request->get('view');
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
@@ -78,12 +80,20 @@ class Settings_Head_Index_View extends Head_Basic_View {
 			}
 			$this->setModuleInfo($request, $moduleModel);
 		}
+		
+		if($parent_module == 'Settings' && $moduleName == 'Head' && $view_name == 'Index')
+			$viewer->assign('IS_SETTINGS_INDEX_PAGE', 'true');
 
 		$viewer->assign('SELECTED_FIELDID',$fieldId);
 		$viewer->assign('SELECTED_MENU', $selectedMenu);
 		$viewer->assign('SETTINGS_MENUS', $menuModels);
 		$viewer->assign('MODULE', $moduleName);
-
+		
+		$user_id = $current_user->id;
+                $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
+                $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
+                $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+ 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		if($display) {
 			$this->preProcessDisplay($request);
@@ -114,6 +124,10 @@ class Settings_Head_Index_View extends Head_Basic_View {
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Head_MenuItem_Model::getPinnedItems();
 
+		$settings_module_model =Settings_Head_Module_Model::getInstance();
+                $settings_menus = $settings_module_model->getMenus();
+		$viewer->assign('SETTINGS_MODULE_MODEL', $settings_module_model);
+		$viewer->assign('SETTINGS_MENUS', $settings_menus);
 		$viewer->assign('USERS_COUNT',$usersCount);
 		$viewer->assign('ACTIVE_WORKFLOWS',$activeWorkFlows);
 		$viewer->assign('ACTIVE_MODULES',$activeModules);

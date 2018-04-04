@@ -42,6 +42,7 @@ class Head_Reference_UIType extends Head_Base_UIType {
 	 * @return <String>
 	 */
 	public function getDisplayValue($value) {
+        global $site_URL;
 		$referenceModule = $this->getReferenceModule($value);
 		if($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
@@ -54,7 +55,7 @@ class Head_Reference_UIType extends Head_Base_UIType {
 			} else {
 				$fieldModel = $this->get('field');
 				$entityNames = getEntityName($referenceModuleName, array($value));
-				$linkValue = "<a href='index.php?module=$referenceModuleName&view=".$referenceModule->getDetailViewName()."&record=$value'
+				$linkValue = "<a href='{$site_URL}{$referenceModuleName}/view/".$referenceModule->getDetailViewName()."/$value'
 							title='".vtranslate($fieldModel->get('label'), $referenceModuleName).":". $entityNames[$value] ."' "
 							. "data-original-title='".vtranslate($referenceModuleName, $referenceModuleName)."'>$entityNames[$value]</a>";
 				return $linkValue;

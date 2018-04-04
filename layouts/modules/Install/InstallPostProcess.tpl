@@ -5,18 +5,8 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
-
 <br>
-<center>
-	<footer class="noprint">
-		<div class="vtFooter">
-			<p>
-				{vtranslate('POWEREDBY')} 
-				&copy; {date('Y')}
-			</p>
-		</div>
-	</footer>
-</center>
 {include file='JSResources.tpl'|@vtemplate_path}
 </div>

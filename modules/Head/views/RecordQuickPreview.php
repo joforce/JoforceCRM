@@ -18,11 +18,10 @@ class Head_RecordQuickPreview_View extends Head_Index_View {
 	}
 
 	function process(Head_Request $request) {
-
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$recordId = $request->get('record');
-
+			
 		if (!$this->record) {
 			$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		}

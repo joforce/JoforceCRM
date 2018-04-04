@@ -24,7 +24,7 @@ class Calendar_DetailView_Model extends Head_DetailView_Model {
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_DETAILS', $moduleName),
 				'linkKey' => 'LBL_RECORD_DETAILS',
-				'linkurl' => $recordModel->getDetailViewUrl().'/showDetailViewByMode/full',
+				'linkurl' => $recordModel->getDetailViewUrl().'/mode/showDetailViewByMode?requestMode=full',
 				'linkicon' => ''
 		);
 
@@ -33,7 +33,7 @@ class Calendar_DetailView_Model extends Head_DetailView_Model {
 			$relatedLinks[] = array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_UPDATES'),
-					'linkurl' => $recordModel->getDetailViewUrl().'/showRecentActivities/1',
+					'linkurl' => $recordModel->getDetailViewUrl().'/mode/showRecentActivities?page=1',
 					'linkicon' => ''
 			);
 		}

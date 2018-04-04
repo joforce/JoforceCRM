@@ -569,12 +569,12 @@ class PieChart extends Base_Chart {
 			}
 
 			$values[] = $value;
+
+            $label = (mb_strlen($label, 'UTF-8') > 30) ? mb_substr($label, 0, 30, 'UTF-8').'..' : $label;
+            $link = $this->generateLink($legendField->get('reportcolumninfo'), $row[strtolower($legend)]);
+            $data[] = array($label, $value, $link);
 		}
-		$data = array(	'labels' => $labels,
-						'values' => $values,
-						'links' => $links,
-						'graph_label' => $this->getGraphLabel()
-					);
+
 		return $data;
 	}
 }

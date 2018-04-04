@@ -35,8 +35,11 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-sm-3 col-xs-3">
-                            <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULENAME}&view=List&operation=sync&sourcemodule={$SOURCE_MODULE}'><i class="fa fa-google-plus"></i>{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULENAME)}</a>
+                        <div class="col-sm-12 col-xs-12">
+                            <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULENAME}&view=List&operation=sync&sourcemodule={$SOURCE_MODULE}'>
+				<i class="fa fa-google-plus"></i>
+				<span>{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULENAME)}</span>
+			    </a>
                         </div>
                     </div>
                 {else}            

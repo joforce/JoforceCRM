@@ -102,14 +102,14 @@ Head.Class('Head_Widget_Js', {
     positionNoDataMsg: function() {
         var container = this.getContainer();
         var widgetContentsContainer = container.find('.dashboardWidgetContent');
-        widgetContentsContainer.height(container.height() - 50);
+        widgetContentsContainer.height(container.height() + 50);
         var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
-        noDataMsgHolder.position({
+/*	noDataMsgHolder.position({
             'my': 'center center',
             'at': 'center center',
             'of': widgetContentsContainer
-        })
-    },
+        })*/
+        },
 
     postInitializeCalls: function() {},
 
@@ -119,7 +119,7 @@ Head.Class('Head_Widget_Js', {
             this.loadChart();
             this.postInitializeCalls();
         } else {
-            //this.positionNoDataMsg();
+            this.positionNoDataMsg();
         }
         this.registerFilter();
         this.registerFilterChangeEvent();
@@ -135,7 +135,7 @@ Head.Class('Head_Widget_Js', {
             this.loadChart();
             this.postInitializeCalls();
         } else {
-            //this.positionNoDataMsg();
+            this.positionNoDataMsg();
         }
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         widgetContent.css({
@@ -148,7 +148,7 @@ Head.Class('Head_Widget_Js', {
             this.loadChart();
             this.postInitializeCalls();
         } else {
-            //          this.positionNoDataMsg();
+            this.positionNoDataMsg();
         }
     },
 
@@ -842,7 +842,7 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
     registerTagCloud: function() {
         jQuery('#tagCloud').find('a').tagcloud({
             size: {
-                start: darseInt('12'),
+                start: parseInt('12'),
                 end: parseInt('30'),
                 unit: 'px'
             },

@@ -107,7 +107,7 @@
 							</label>
 							<div class="fieldValue col-sm-5">
 								{if $FIELD eq 'address'}
-									<textarea class="form-control col-sm-6 resize-vertical" rows="2" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
+									<textarea class="form-control inputElement col-sm-6 resize-vertical" rows="2" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
 								{else if $FIELD eq 'website'}
 									<input type="text" class="inputElement" data-rule-url="true" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
 								{else}

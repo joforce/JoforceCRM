@@ -53,7 +53,7 @@
             <div class = "col-lg-2 col-md-2 col-sm-2">
                 <div class="clearfix">
                     <div class = "btn-group">
-                        <button class="btn btn-default fullDetailsButton" onclick="window.location.href = '{$RECORD->getFullDetailViewUrl()}&app={$SELECTED_MENU_CATEGORY}'">{vtranslate('LBL_DETAILS',$MODULE_NAME)}</button>
+                        <button class="btn btn-default fullDetailsButton" onclick="window.location.href = '{$RECORD->getFullDetailViewUrl()}'">{vtranslate('LBL_DETAILS',$MODULE_NAME)}</button>
 						{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							{if $DETAIL_VIEW_BASIC_LINK && $DETAIL_VIEW_BASIC_LINK->getLabel() == 'LBL_EDIT'}
 								<button class="btn btn-default editRelatedRecord" value = "{$RECORD->getEditViewUrl()}">{vtranslate('LBL_EDIT',$MODULE_NAME)}</button>

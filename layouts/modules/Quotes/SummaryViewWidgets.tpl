@@ -72,6 +72,12 @@
         </div>
     {/if}
     {* Summary View Documents Widget Ends Here*}
+	
+	{* Detail Summary Widget View*}
+		{if $DETAIL_SUMMARY_WIDGET}
+			{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
+		{/if}
+	{* Detail Summary Widget View Ends Here*}
 
 </div>
 

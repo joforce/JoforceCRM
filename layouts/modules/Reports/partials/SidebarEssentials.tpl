@@ -13,9 +13,9 @@
 			<div class="sidebar-container lists-menu-container">
 				<div class="sidebar-header clearfix">
 					<h5 class="pull-left">{vtranslate('LBL_FOLDERS', $MODULE)}</h5>
-					<button id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="btn btn-default pull-right sidebar-btn" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
-						<div class="fa fa-plus" aria-hidden="true"></div>
-					</button> 
+					<a id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="pull-right" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
+						<!-- <div class="fa fa-plus" aria-hidden="true"></div> --> + Create new
+					</a> 
 				</div>
 				<hr>
 				<div>
@@ -27,22 +27,22 @@
 							<div class="list-menu-content">
 								<div class="list-group">
 									<ul class="lists-menu">
-										<li style="font-size:12px;" class="listViewFilter" >
+										<li class="listViewFilter" >
 											<a href="#" class='filterName' data-filter-id="All"><i class="fa fa-folder foldericon"></i>&nbsp;{vtranslate('LBL_ALL_REPORTS', $MODULE)}</a>
 										</li>
 										{foreach item=FOLDER from=$FOLDERS name="folderview"}
-											<li style="font-size:12px;" class="listViewFilter {if $smarty.foreach.folderview.iteration gt 5} filterHidden hide{/if}" >
+											<li class="listViewFilter {if $smarty.foreach.folderview.iteration gt 5} filterHidden hide{/if}" >
 												{assign var=VIEWNAME value={vtranslate($FOLDER->getName(),$MODULE)}}
 												<a href="#" class='filterName' data-filter-id={$FOLDER->getId()}><i class="fa fa-folder foldericon"></i>&nbsp;{if {$VIEWNAME|strlen > 50} }{$VIEWNAME|substr:0:45}..{else}{$VIEWNAME}{/if}</a> 
 												<div class="pull-right">
 													{assign var="FOLDERID" value=$FOLDER->get('folderid')}
 													<span class="js-popover-container">
-														<span class="fa fa-angle-down" data-id="{$FOLDERID}" data-deletable="true" data-editable="true" rel="popover" data-toggle="popover" data-deleteurl="{$FOLDER->getDeleteUrl()}" data-editurl="{$FOLDER->getEditUrl()}" data-toggle="dropdown" aria-expanded="true"></span>
+														<span class="fa fa-ellipsis-v" data-id="{$FOLDERID}" data-deletable="true" data-editable="true" rel="popover" data-toggle="popover" data-deleteurl="{$FOLDER->getDeleteUrl()}" data-editurl="{$FOLDER->getEditUrl()}" data-toggle="dropdown" aria-expanded="true"></span>
 													</span>
 												</div>
 											</li>
 										{/foreach}
-										<li style="font-size:12px;" class="listViewFilter" >
+										<li class="listViewFilter" >
 											<a href="#" class='filterName' data-filter-id="shared"><i class="fa fa-folder foldericon"></i>&nbsp;{vtranslate('LBL_SHARED_REPORTS', $MODULE)}</a>
 										</li>
 									</ul>

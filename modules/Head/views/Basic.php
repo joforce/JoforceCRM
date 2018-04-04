@@ -48,7 +48,7 @@ abstract class Head_Basic_View extends Head_Footer_View {
 		$selectedModuleMenuCategory = 'MARKETING';
 		$moduleFound = false;
 
-		$menuGroupedByParent = Settings_MenuEditor_Module_Model::getAllVisibleModules();
+		$menuGroupedByParent = Settings_MenuManager_Module_Model::getAllVisibleModules();
 		$supportGroup = $menuGroupedByParent['SUPPORT'];
 		unset($menuGroupedByParent['SUPPORT']);
 		$menuGroupedByParent['SUPPORT'] = $supportGroup;

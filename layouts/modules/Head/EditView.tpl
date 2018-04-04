@@ -9,26 +9,9 @@
 
 {strip}
 	<div class="main-container clearfix">
-		<div id="modnavigator" class="module-nav editViewModNavigator">
-			<div class="hidden-xs hidden-sm mod-switcher-container">
-				{include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-			</div>
-		</div>
 		<div class="editViewPageDiv viewContent">
-			<div class="col-sm-12 col-xs-12 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
+			<div class="col-sm-12 col-xs-12 pr0 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
 				<form class="form-horizontal recordEditView joforce-bg" id="EditView" name="edit" method="post" action="{$SITEURL}index.php" enctype="multipart/form-data">
-					<div class="editViewHeader">
-						<div class='row'>
-							<div class="col-lg-12 col-md-12 col-lg-pull-0">
-								{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-								{if $RECORD_ID neq ''}
-									<h4 class="editHeader" style="margin-top:5px;" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h4>
-								{else}
-									<h4 class="editHeader" style="margin-top:5px;">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h4>
-								{/if}
-							</div>
-						</div>
-					</div>
 					<div class="editViewBody">
 						<div class="editViewContents">
 							{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -43,6 +26,7 @@
 							{/if}
 							<input type="hidden" name="action" value="Save" />
 							<input type="hidden" name="record" value="{$RECORD_ID}" />
+							<input type="hidden" name="save_and_new" value="false" />
 							<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 							<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 							<input type="hidden" name="appName" value="/{$SELECTED_MENU_CATEGORY}" />
@@ -75,7 +59,8 @@
 					<div class='modal-overlay-footer clearfix'>
 						<div class="row clearfix">
 							<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-								<button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+								<button type='submit' class='btn btn-primary saveButton' data-savebtn="true">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+								<button type='submit' class='btn btn-secondary save-and-new-Button' id="save-and-new-Button">{vtranslate('LBL_SAVE_AND_NEW', $MODULE)}</button>&nbsp;&nbsp;
 								<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>

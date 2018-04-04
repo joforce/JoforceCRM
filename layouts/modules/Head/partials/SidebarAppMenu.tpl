@@ -28,7 +28,7 @@
 					</div>
 				</div>
 			{/if}
-			{assign var=APP_GROUPED_MENU value=Settings_MenuEditor_Module_Model::getAllVisibleModules()}
+			{assign var=APP_GROUPED_MENU value=Settings_MenuManager_Module_Model::getAllVisibleModules()}
 			{assign var=APP_LIST value=Head_MenuStructure_Model::getAppMenuList()}
 			{foreach item=APP_NAME from=$APP_LIST}
 				{if $APP_NAME eq 'ANALYTICS'} {continue}{/if}
@@ -55,7 +55,7 @@
 							{foreach item=moduleModel key=moduleName from=$APP_GROUPED_MENU[$APP_NAME]}
 								{assign var='translatedModuleLabel' value=vtranslate($moduleModel->get('label'),$moduleName )}
 								<li>
-									<a href="{$moduleModel->getDefaultUrl()}/{$APP_NAME}" title="{$translatedModuleLabel}">
+									<a href="{$moduleModel->getDefaultUrl()}" title="{$translatedModuleLabel}">
 										<span class="vicon-{strtolower($moduleName)} module-icon"></span>
 										<span class="module-name textOverflowEllipsis"> {$translatedModuleLabel}</span>
 									</a>
@@ -68,7 +68,7 @@
 			<div class="app-list-divider"></div>
 			{assign var=DOCUMENTS_MODULE_MODEL value=Head_Module_Model::getInstance('Documents')}
 			{if $USER_PRIVILEGES_MODEL->hasModulePermission($DOCUMENTS_MODULE_MODEL->getId())}
-				<div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}Documents/List">
+				<div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}Documents/view/List">
 					<div class="menu-items-wrapper">
 						<span class="app-icon-list vicon-documents"></span>
 						<span class="app-name textOverflowEllipsis"> {vtranslate('Documents')}</span>
@@ -77,7 +77,7 @@
 			{/if}
                                         {assign var=EMAILTEMPLATES_MODULE_MODEL value=Head_Module_Model::getInstance('EmailTemplates')}
                                         {if $EMAILTEMPLATES_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($EMAILTEMPLATES_MODULE_MODEL->getId())}
-                                <div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}EmailTemplates/List">
+                                <div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}EmailTemplates/view/List">
                                         <div class="menu-items-wrapper">
                                                 <span class="app-icon-list  vicon-emailtemplates"></span>
                                                 <span class="app-name textOverflowEllipsis">{vtranslate($EMAILTEMPLATES_MODULE_MODEL->getName(), $EMAILTEMPLATES_MODULE_MODEL->getName())}</span>
@@ -119,7 +119,7 @@
                                                         </a>
                                                 </li>
                                         {/if}
-                                       {assign var=PDFMAKER_MODULE_MODEL value=Head_Module_Model::getInstance('VTPDFMaker')}
+                                       {assign var=PDFMAKER_MODULE_MODEL value=Head_Module_Model::getInstance('PDFMaker')}
                                         {if $PDFMAKER_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($PDFMAKER_MODULE_MODEL->getId())}
                                                 <li>
                                                         <a href="{$PDFMAKER_MODULE_MODEL->getDefaultUrl()}">

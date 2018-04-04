@@ -886,7 +886,7 @@ Head.Class("Head_Detail_Js",{
 					if(err === null){
 						if(typeof data !== 'object'){
 							var appName = app.getAppName();
-							window.location.href = data+'/'+appName;
+							window.location.href = data;
 						}else {
 							app.helper.showAlertBox({'message' : data.prototype.message});
 						}
@@ -1857,6 +1857,7 @@ Head.Class("Head_Detail_Js",{
 		var thisInstance = this;
 		var contentContainer = jQuery('.widget_contents',widgetContainer);
 		var urlParams = widgetContainer.data('url');
+		var name = widgetContainer.data('name');
 		var params = {
 			'type' : 'GET',
 			'dataType': 'html',
@@ -1867,6 +1868,15 @@ Head.Class("Head_Detail_Js",{
 			function(err,data){
 				app.helper.hideProgress();
 				contentContainer.html(data);
+				// Check for a detail view summary widget
+				if(name == 'summary_widget')
+				{
+				var widgetList = jQuery('[class^="widgetContainer_SummaryWidget_"]');
+				var contentContainerNew = jQuery('.widget_contents',contentContainer);
+				widgetList.each(function(index, contentContainerNew){
+                                	thisInstance.loadSummaryWidget(jQuery(contentContainerNew));
+		                });
+				}
 				contentContainer.trigger(thisInstance.widgetPostLoad);
 
 				var adjustedHeight = contentContainer.height()-50;
@@ -1883,7 +1893,38 @@ Head.Class("Head_Detail_Js",{
 		return aDeferred.promise();
 	},
 
-
+	/**
+	 *For loading the Detail view summary widgets
+	 **/	
+	loadSummaryWidget : function(widgetContainer) {
+                var aDeferred = jQuery.Deferred();
+                var thisInstance = this;
+                var contentContainer = jQuery('.widget_contents',widgetContainer);
+                var urlParams = widgetContainer.data('url');
+                var params = {
+                        'type' : 'GET',
+                        'dataType': 'html',
+                        'data' : urlParams,
+                };
+                app.helper.showProgress();
+                app.request.post(params).then(
+                        function(err,data){
+                                app.helper.hideProgress();
+				widgetContainer.prepend(data);
+                                var adjustedHeight = contentContainer.height()-50;
+                                app.helper.showVerticalScroll(contentContainer.find('.twitterContainer'),{
+                                        'setHeight' : adjustedHeight
+                                });
+                                vtUtils.applyFieldElementsView(widgetContainer);
+                                aDeferred.resolve(params);
+                        },
+                        function(){
+                                aDeferred.reject();
+                        }
+                );
+                return aDeferred.promise();
+        },
+	
 	getTabs : function() {
 		return this.getTabContainer().find('li');
 	},
@@ -2508,23 +2549,24 @@ Head.Class("Head_Detail_Js",{
 			e.preventDefault();
 		});
 		detailContentsHolder.on('click','.listViewEntries',function(e){
-				var selection = window.getSelection().toString();
-			if(selection.length == 0) { 
+			var selection = window.getSelection().toString();
+			if(selection.length == 0) {
 				var targetElement = jQuery(e.target, jQuery(e.currentTarget));
 				if(targetElement.hasClass('js-reference-display-value')) return;
 				if(targetElement.is('td:first-child') && (targetElement.children('input[type="checkbox"]').length > 0)) return;
 				if(jQuery(e.target).is('input[type="checkbox"]')) return;
 					var elem = jQuery(e.currentTarget);
 					var recordUrl = elem.data('recordurl');
-				if(typeof recordUrl != "undefined"){
+				    if(typeof recordUrl != "undefined"){
 						var params = app.convertUrlToDataParams(recordUrl);
 						//Display Mode to show details in overlay
 						params['mode'] = 'showDetailViewByMode';
 						params['requestMode'] = 'full';
 						params['displayMode'] = 'overlay';
+						params['module'] = $('.relatedContainer input[name="relatedModuleName"]').val();
 						var parentRecordId = app.getRecordId();
 						app.helper.showProgress();
-						app.request.get({data: params}).then(function(err, response) {
+						app.request.get({url: recordUrl, full_url: true, data: params}).then(function(err, response) {
 							app.helper.hideProgress();
 							var overlayParams = {'backdrop' : 'static', 'keyboard' : false};
 							app.helper.loadPageContentOverlay(response, overlayParams).then(function(container) {
@@ -2545,8 +2587,8 @@ Head.Class("Head_Detail_Js",{
 							});
 						});
 						});
-					}
-					}
+				    }
+			}
 		});
 	},
 
@@ -2586,8 +2628,8 @@ Head.Class("Head_Detail_Js",{
 			}
 		}
 		params['returnrecord'] = jQuery('[name="record_id"]').val();
-			app.helper.showProgress();
-		app.request.get({data: params}).then(function(err, response) {
+		    app.helper.showProgress();
+    		app.request.get({url: recordUrl, full_url: true, data: params}).then(function(err, response) {
 				app.helper.hideProgress();
 				var overlayParams = {'backdrop': 'static', 'keyboard': false};
 				app.helper.loadPageContentOverlay(response, overlayParams).then(function(container) {
@@ -3108,4 +3150,11 @@ Head.Class("Head_Detail_Js",{
 		this.registerEventForPicklistDependencySetup(this.getForm());
 		vtUtils.enableTooltips();
 	},
+
 });
+
+    $(document).ready(function(){
+        if (document.querySelector('.sidebar-essentials') !== null) {
+            $('.main-container .content-area').css('padding-left','200px');
+        }
+    });

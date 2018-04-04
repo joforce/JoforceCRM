@@ -208,7 +208,7 @@ Head_List_Js("EmailTemplates_List_Js", {
         var site_url = jQuery('#joforce_site_url').val();
         jQuery('#listViewContent').on('click', '.imageDiv img,.editTemplate', function (e) {
             var templateId = jQuery(e.currentTarget).data('value');
-            var redirectUrl = site_url+'EmailTemplates/Edit/'+templateId;
+            var redirectUrl = site_url+'EmailTemplates/view/Edit/'+templateId;
             window.location.href = redirectUrl;
         });
     },
@@ -341,5 +341,12 @@ Head_List_Js("EmailTemplates_List_Js", {
             instance.registerBasicSettingsEvents();
         }
         
+    }
+});
+
+
+$(document).ready(function(){
+    if (document.querySelector('.main-container-EmailTemplates') !== null) {
+        $('.table-container .fixed-scroll-table').removeClass('fixed-scroll-table');
     }
 });

@@ -33,7 +33,6 @@
 		{/if}
 
 		<div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-			<div class="bottomscroll-div">
 				<table id="listview-table" class="table listview-table">
 					<thead>
 						<tr class="listViewHeaders">
@@ -192,7 +191,7 @@
 					{/foreach}
 				</table>
 			</div>
-		</div>
+		<div class="bottomscroll-div"></div>
 		<script type="text/javascript">
 			var related_uimeta = (function () {
 				var fieldInfo = {$RELATED_FIELDS_INFO};

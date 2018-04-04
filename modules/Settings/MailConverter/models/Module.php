@@ -19,8 +19,29 @@ class Settings_MailConverter_Module_Model extends Settings_Head_Module_Model {
 	 */
 	public function getCreateRecordUrl() {
         global $site_URL;
-		return $site_URL.'MailConverter/Settings/Edit/step1/new';
+		return $site_URL.'MailConverter/Settings/Edit?mode=step1&create=new';
 	}
+
+	/**
+	* Function to get Module Header Links (for Head7)
+	* @return array
+	*/
+    public function getModuleBasicLinks(){
+        $createPermission = Users_Privileges_Model::isPermitted($this->getName(), 'CreateView');
+        $moduleName = $this->getName();
+        /* Added true here to disable permission check for admin */
+        
+        if(true) {
+            $basicLinks[] = array(
+                    'linktype' => 'BASIC',
+                    'linklabel' => 'LBL_ADD_RECORD',
+                    'linkurl' => $this->getCreateRecordUrl(),
+                    'linkicon' => 'fa-plus'
+            );
+        }
+        return $basicLinks;
+    }
+
 
 	/**
 	 * Function to get List of fields for mail converter record

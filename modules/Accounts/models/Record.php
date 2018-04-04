@@ -39,7 +39,7 @@ class Accounts_Record_Model extends Head_Record_Model {
 	 */
 	function getCreateEventUrl() {
 		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl().'/'.$this->getId();
+		return $calendarModuleModel->getCreateEventRecordUrl().'?parent_id='.$this->getId();
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Accounts_Record_Model extends Head_Record_Model {
 	 */
 	function getCreateTaskUrl() {
 		$calendarModuleModel = Head_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl().'/'.$this->getId();
+		return $calendarModuleModel->getCreateTaskRecordUrl().'?parent_id='.$this->getId();
 	}
 
 	/**

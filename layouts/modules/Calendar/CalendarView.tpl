@@ -17,10 +17,7 @@
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 <input type="hidden" id="hideCompletedEventTodo" value="{$CURRENT_USER->get('hidecompletedevents')}">
 <input type="hidden" id="show_allhours" value="{$CURRENT_USER->get('showallhours')}" />
-<div id="mycalendar" class="calendarview col-lg-12">
-	{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-	<div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Head')}">
-		<span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>
-	</div>
+<div id="mycalendar" class="calendarview col-lg-12 mt30">
+	{assign var=LEFTPANELHIDE value=$CURRENT_USER->get('leftpanelhide')}
 </div>
 {/strip}

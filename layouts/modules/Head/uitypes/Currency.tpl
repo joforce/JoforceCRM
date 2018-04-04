@@ -39,7 +39,7 @@
             {/if}
         />
         {if $smarty.request.view eq 'Edit'}
-              <a id="moreCurrencies" class="span cursorPointer">{vtranslate('LBL_MORE_CURRENCIES', $MODULE)}>></a>
+              <a id="moreCurrencies" class="span cursorPointer" style="position: absolute;display: block;">{vtranslate('LBL_MORE_CURRENCIES', $MODULE)}>></a>
               <span id="moreCurrenciesContainer" class="hide"></span>
           {/if}
           <input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
@@ -49,7 +49,7 @@
 {else}
 <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">{$USER_MODEL->get('currency_symbol')}</span>
-    <input type="text" class="input-lg currencyField" name="{$FIELD_NAME}"
+    <input type="text" class="input-lg currencyField inputElement" name="{$FIELD_NAME}"
         value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if}
         {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if} data-rule-currency='true'
         {if count($FIELD_INFO['validator'])}

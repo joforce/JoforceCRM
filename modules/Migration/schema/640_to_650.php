@@ -14,16 +14,6 @@ if(defined('VTIGER_UPGRADE')) {
 //Start add new currency - 'CFP Franc or Pacific Franc' 
 global $adb;
 
-if (!Head_Utils::CheckTable('jo_app2tab')) {
-    $adb->pquery("CREATE TABLE `jo_app2tab` (
-      `tabid` int(11) DEFAULT NULL,
-      `appname` varchar(20) DEFAULT NULL,
-      `sequence` int(11) DEFAULT NULL,
-      `visible` tinyint(3) DEFAULT '1',
-       KEY `jo_app2tab_fk_tab` (`tabid`),
-       CONSTRAINT `jo_app2tab_fk_tab` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-       ) ENGINE=InnoDB DEFAULT CHARSET=utf8", array());
-}
 if (!Head_Utils::CheckTable('jo_portalinfo')) {
     $adb->pquery("CREATE TABLE `jo_portalinfo` (
       `id` int(11) NOT NULL,

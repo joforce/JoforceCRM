@@ -25,7 +25,7 @@
 {/if}
 
 <div id="js-reminder-controls">
-	<div style="float:left;margin-top: 1%;">
+	<div style="float:left;margin-top: 1%;border-bottom: 1px solid #e8e8e8;width: 100%;padding-bottom: 1px;">
 		<input type=hidden name=set_reminder value=0 />
 		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} value=1 />&nbsp;&nbsp;
 	</div>

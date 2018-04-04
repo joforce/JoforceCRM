@@ -7,7 +7,6 @@
  * ********************************************************************************** */
 -->*}
 {literal}
-<link rel="stylesheet" type="text/css" href="{vglobal('site_URL')}layouts/modules/DuplicateCheck/font-awesome/css/font-awesome.css" />
 <style type="text/css">
 .moveleft {
   float: left;
@@ -60,7 +59,7 @@
 function getModuleID(){
  var site_url = jQuery('#joforce_site_url').val();
  var moduleName = $("#layoutEditorModules").val();
-  location.href=site_url+"DuplicateCheck/Settings/List/"+moduleName;
+  location.href=site_url+"DuplicateCheck/Settings/List?sourceModule="+moduleName;
 
 }
 

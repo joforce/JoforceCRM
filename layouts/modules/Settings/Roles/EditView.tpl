@@ -37,22 +37,22 @@
                     {if $HAS_PARENT}
                         <input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
                     {/if}
-                    <div name='editContent'>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3">
-                                <strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></strong>
+                    <div name='editContent roles-edit-content'>
+                        <div class="form-group pl15">
+                            <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3 pr0 pl0" style="width: 20% !important;">
+                                <strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border" style="top:35px;"></span></strong>
                             </label>
-                            <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4" >
-                                <div class=""> <input type="text" class="inputElement" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required='true'  />
+                            <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4 pl0" style="width: 30% !important;">
+                                <div class=""> <input type="text" class="inputElement" style="margin-top: 8px;" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required='true'  />
                                 </div> </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3">
+                        <div class="form-group pl15">
+                            <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3 pr0 pl0" style="width: 20% !important;">
                                 <strong>{vtranslate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}</strong>
                             </label>
-                            <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4" >
+                            <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4 mt5 pl0" style="width: 30% !important;">
                                 <input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
-                                <div class=""> <input type="text" class="inputElement" name="parent_roleid_display" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getName()}"{/if} readonly>
+                                <div class=""> <input type="text" class="inputElement" style="margin-top: 13px;" name="parent_roleid_display" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getName()}"{/if} readonly>
                                 </div></div>
                         </div>
                         <div class="form-group">

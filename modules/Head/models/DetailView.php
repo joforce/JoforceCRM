@@ -84,7 +84,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 			$deletelinkModel = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_'. $moduleName, $moduleName)),
-					'linkurl' => 'javascript:Head_Detail_Js.deleteRecord("'.$site_URL.$recordModel->getDeleteUrl().'")',
+					'linkurl' => 'javascript:Head_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 					'linkicon' => ''
 			);
 			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($deletelinkModel);
@@ -160,7 +160,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_SUMMARY', $moduleName),
 				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'linkurl' => $recordModel->getDetailViewUrl() . '/showDetailViewByMode/summary',
+				'linkurl' => $recordModel->getDetailViewUrl() . '/mode/showDetailViewByMode?requestMode=summary',
 				'linkicon' => ''
 			));
 		}
@@ -169,7 +169,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_DETAILS', $moduleName),
 				'linkKey' => 'LBL_RECORD_DETAILS',
-				'linkurl' => $recordModel->getDetailViewUrl().'/showDetailViewByMode/full',
+				'linkurl' => $recordModel->getDetailViewUrl().'/mode/showDetailViewByMode?requestMode=full',
 				'linkicon' => ''
 		);
 
@@ -177,7 +177,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 			$relatedLinks[] = array(
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => 'LBL_UPDATES',
-					'linkurl' => $recordModel->getDetailViewUrl().'/showRecentActivities/1',
+					'linkurl' => $recordModel->getDetailViewUrl().'/mode/showRecentActivities?page=1',
 					'linkicon' => ''
 			);
 		}

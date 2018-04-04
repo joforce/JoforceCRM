@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <div class="record-header clearfix">
             <div class="hidden-sm hidden-xs recordImage bginvoice app-{$SELECTED_MENU_CATEGORY}">  
                 {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}

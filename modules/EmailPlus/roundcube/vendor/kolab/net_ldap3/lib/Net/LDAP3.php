@@ -70,6 +70,7 @@ class Net_LDAP3
      *       'use_tls'         => false,
      *       'ldap_version'    => 3,        // using LDAPv3
      *       'auth_method'     => '',       // SASL authentication method (for proxy auth), e.g. DIGEST-MD5
+     *       'gssapi_cn'       => null      // Kerberos cache name (KRB5CCNAME) for SASL GSSAPI authentication
      *       'numsub_filter'   => '(objectClass=organizationalUnit)', // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
      *       'referrals'       => false,    // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
      *       'network_timeout' => 10,       // The timeout (in seconds) for connect + bind arrempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
@@ -1513,7 +1514,7 @@ class Net_LDAP3
      *
      * @return boolean True on success, False on error
      */
-    public function sasl_bind($authc, $pass, $authz=null)
+    public function sasl_bind($authc = '', $pass = '', $authz = null)
     {
         if (!$this->conn) {
             return false;
@@ -1528,12 +1529,18 @@ class Net_LDAP3
             $authz = 'u:' . $authz;
         }
 
+        $gssapi = $this->config_get('gssapi_cn');
         $method = $this->config_get('auth_method');
+
         if (empty($method)) {
             $method = 'DIGEST-MD5';
         }
 
-        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz]");
+        if ($gssapi && strcasecmp($method, 'GSSAPI') == 0) {
+            putenv("KRB5CCNAME=$gssapi");
+        }
+
+        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz, gssapi: $gssapi]");
 
         if (ldap_sasl_bind($this->conn, null, $pass, $method, null, $authc, $authz)) {
             $this->_debug("S: OK");
