@@ -46,7 +46,12 @@ $(document).ready(function(){
                 });
 
                 $('.dropdown-filter .btn-filter').click(function(){
+                    $('.filter-open').show();
                     $('.filter-open').modal();
+                });
+
+                $('.dropdown-filter').parent().siblings().click(function(){
+                    $('.filter-open').hide();
                 });
                 
                 $('.list-group .list-header').click(function(){

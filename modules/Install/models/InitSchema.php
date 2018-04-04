@@ -809,7 +809,8 @@ class Install_InitSchema_Model {
 		$user->column_fields["internal_mailer"] = '1';
 		$user->column_fields["activity_view"] = 'This Week';
 		$user->column_fields["lead_view"] = 'Today';
-		$user->column_fields["default_landing_page"] = 'Dashboard';
+		$user->column_fields["default_landing_page"] = 'Home';
+		$user->column_fields["default_dashboard_view"] = '1';
 
 		$adminEmail = $_SESSION['config_file_info']['admin_email'];
 		if($adminEmail == '') $adminEmail ="admin@vtigeruser.com";

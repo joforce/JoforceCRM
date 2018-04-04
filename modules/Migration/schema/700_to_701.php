@@ -113,5 +113,67 @@ if(defined('VTIGER_UPGRADE')) {
 	// remove customer portal for the version 1.3
 	$db->pquery("DELETE FROM jo_settings_field WHERE name = ?", array('LBL_CUSTOMER_PORTAL'));
 
+	//Write module contents on default_module_apps.php
+	$file_contents = "<?php \$app_menu_array = array(
+  'MARKETING' =>
+  array (
+    0 => '" . getTabid('Leads') . "',
+    1 => '" . getTabid('Contacts') . "',
+    2 => '" . getTabid('Accounts') . "',
+    3 => '" . getTabid('Campaigns') . "'
+  ),
+  'SALES' =>
+  array (
+    0 => '" .getTabid('Potentials'). "',
+    1 => '" .getTabid('Contacts'). "',
+    2 => '" .getTabid('Accounts'). "',
+    3 => '" .getTabid('Products'). "',
+    4 => '" .getTabid('Quotes'). "',
+    5 => '" .getTabid('Services'). "'
+  ),
+  'INVENTORY' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('Products'). "',
+    3 => '" .getTabid('Vendors'). "',
+    4 => '" .getTabid('PriceBooks'). "',
+    5 => '" .getTabid('PurchaseOrder'). "',
+    6 => '" .getTabid('SalesOrder'). "',
+    7 => '" .getTabid('Invoice'). "',
+    8 => '" .getTabid('Services'). "'
+  ),
+  'SUPPORT' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('HelpDesk'). "'
+  ),
+'PROJECT' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('Accounts'). "',
+    3 => '" .getTabid('ProjectMilestone'). "',
+    4 => '" .getTabid('Project') ."'
+  ),
+'TOOLS' =>
+  array (
+    0 => '" .getTabid('EmailTemplates'). "',
+    1 => '" .getTabid('PBXManager'). "',
+    2 => '" .getTabid('Calendar')."',
+    3 => '" .getTabid('Documents'). "',
+    4 => '" .getTabid('RecycleBin'). "',
+    5 => '" .getTabid('PDFMaker'). "',
+    6 => '" .getTabid('EmailPlus'). "'
+  ),
+);
+?>";
+
+	$myfile = fopen("storage/menu/default_module_apps.php", "w");
+        fwrite($myfile, $file_contents);
+        fclose($myfile);
+
 	header('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
 }
+

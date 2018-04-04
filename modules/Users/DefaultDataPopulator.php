@@ -955,7 +955,8 @@ class DefaultDataPopulator extends CRMEntity {
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'theme','jo_users',1,'31','theme','Theme',1,0,'',100,16,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'language','jo_users',1,'32','language','Language',1,0,'',100,17,$usermoreinfoblock,1,'V~O',1,null,'BAS',1)");
 		$this->db->query("insert into jo_field values (29," . $this->db->getUniqueID("jo_field") . ",'reminder_interval','jo_users',1,'16','reminder_interval','Reminder Interval',1,0,'',100,1,$useradvanceblock,1,'V~O',1,null,'BAS',1)");
-		$this->db->query("insert into jo_field values(29, " . $this->db->getUniqueID("jo_field") . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Dashboard', 100, 20, $usermoreinfoblock ,1, 'V~O',1,0,'BAS', 1)");
+		$this->db->query("insert into jo_field values(29, " . $this->db->getUniqueID("jo_field") . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Home', 100, 20, $usermoreinfoblock ,1, 'V~O',1,0,'BAS', 1)");
+		$this->db->query("insert into jo_field values(29, " . $this->db->getUniqueID("jo_field") . ", 'default_dashboard_view', 'jo_users', 1, 16, 'default_dashboard_view', 'Default Dashboard View', 1, 2, 1, 1, 20, '' ,1, 'V~O',1,0,'BAS', 1)");
 		//user Details End
 		// Updated Phone field uitype
 		$this->db->query("update jo_field set uitype='11' where fieldname='mobile' and tabid=" . getTabid('Leads'));

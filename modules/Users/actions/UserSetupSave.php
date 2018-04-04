@@ -12,6 +12,7 @@
 class Users_UserSetupSave_Action extends Users_Save_Action {
 
 	public function process(Head_Request $request) {
+        global $site_URL;
 		$moduleName = $request->getModule();
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
@@ -30,7 +31,7 @@ class Users_UserSetupSave_Action extends Users_Save_Action {
 		$userModuleModel->insertEntryIntoCRMSetup($userRecordModel->getId());
 		//End
 
-		header("Location: index.php");
+		header("Location: " . $site_URL . 'Home/view/List');
 		//End
 	}
 }

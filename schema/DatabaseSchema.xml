@@ -77,8 +77,12 @@
 			<default value="Today" />
 		</field>
 		<field name="default_landing_page" type="C" size="200">
-			<default value="Dashboard" />
+			<default value="Home" />
 		</field>
+
+		<field name="default_dashboard_view" type="C" size="2">
+                        <default value="1" />
+                </field>
 
 		<field name="imagename" type="C" size="250" />
 		<field name="deleted" type="I" size="1">

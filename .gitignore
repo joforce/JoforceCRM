@@ -1,1 +1,4 @@
-.idea
+.idea/
+node_modules/
+cache/templates_c/
+modules/EmailPlus/roundcube/logs/errors

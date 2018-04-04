@@ -62,7 +62,7 @@
                         </div>
                         {/if}
 
-			<div class="col-lg-5 col-md-5 pull-right ">
+			<div class="col-lg-7 col-md-7 pull-right ">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}

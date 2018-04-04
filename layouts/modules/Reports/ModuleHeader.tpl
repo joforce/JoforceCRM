@@ -61,7 +61,7 @@
                         </div>
                         {/if}
 
-			<span class="col-lg-5 col-md-5 pull-right">
+			<span class="col-lg-7 col-md-7 pull-right">
 				<div id="appnav" class="navbar-right">
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}

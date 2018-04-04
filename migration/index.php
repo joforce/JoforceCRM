@@ -10,8 +10,10 @@ include_once('config/config.inc.php');
 include_once('includes/utils/utils.php');
 
 require_once('vendor/autoload.php');
+//Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once 'config/config.php';
+//require_once('routes.php');
 
 include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
@@ -19,6 +21,9 @@ global $adb, $dbconfig, $root_directory;
 global $log;
 global $site_URL;
 session_start();
+//echo '<pre>'; print_r($_POST); die;
+//error_reporting(E_ALL);
+//ini_set('display_errors','on');
 if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	//rename tables
 	$query = "show tables";
@@ -188,13 +193,13 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	}
 
 	//add default landing page to users table and field table
-	$adb->pquery( "ALTER TABLE jo_users ADD COLUMN default_landing_page VARCHAR(200) DEFAULT 'Dashboard'", array() );
+	$adb->pquery( "ALTER TABLE jo_users ADD COLUMN default_landing_page VARCHAR(200) DEFAULT 'Home'", array() );
 	
 	$usermoreinfoblock = $adb->getUniqueID('jo_blocks');
 	$field_id = $adb->getUniqueID("jo_field");
-	$adb->pquery("insert into jo_field values(29, " . $field_id . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Dashboard', 100, 20, " .$usermoreinfoblock . " ,1, 'V~O',1,0,'BAS', 1, '',0, '', 0)", array() );
+	$adb->pquery("insert into jo_field values(29, " . $field_id . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Home', 100, 20, " .$usermoreinfoblock . " ,1, 'V~O',1,0,'BAS', 1, '',0, '', 0)", array() );
 
-	$adb->pquery( "UPDATE jo_users SET default_landing_page = 'Dashboard'", array() );
+	$adb->pquery( "UPDATE jo_users SET default_landing_page = 'Home'", array() );
 	
 	// Delete from unwanted dashboard entry from the jo_dashboard_tabs
         $adb->pquery('delete from jo_dashboard_tabs where tabname = ?', array('Default'));
@@ -371,8 +376,8 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 						<div class="span12">
 							<div style = 'margin-left: 20%'>
                                 <br> <br>
-									<strong> Warning: </strong>Please note that it is not possible to revert back to Vtiger v7.1 after the upgrade to Joforce v1.3 <br>
-									So, it is important to take a backup of the Vtiger v7.1 files and database before upgrading.</p><br>
+									<strong> Warning: </strong>Please note that it is not possible to revert back to Vtiger v7.0 after the upgrade to Joforce v1.2 <br>
+									So, it is important to take a backup of the Vtiger v7.0 files and database before upgrading.</p><br>
 								<form action="index.php" method="POST">
 									<div><input type="checkbox" id="checkBox1" name="checkBox1"/><div class="chkbox"></div> Backup of source folder </div><br>
 									<div><input type="checkbox" id="checkBox4" name="checkBox4"/><div class="chkbox"></div> Backup of database </div><br>
@@ -427,6 +432,14 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 					}
                                                 return true;
                                         });
+
+					/*$('input[name="startMigration"]').click(function(){
+                        var confirm_migration = confirm('Are you sure you want to start the migration ?');
+                        if(!confirm_migration)  {
+							return false;
+						}
+						return true;
+					});*/
 				});
 				
 			</script>
@@ -485,7 +498,7 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 										
 									
 								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div>  <strong>You agree that you’ve backed up the necessary details before making any changes.</strong> </div><br><br>
-								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not responsible for any data loss.</strong> </div><br>
+								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not responsible for any loss.</strong> </div><br>
 									<br><br><br>
 									<div class="button-container">
 										<input type="submit" class="btn btn-large btn-primary" id="FinishMigration" name="FinishMigration" value="Start Migration" />
@@ -498,6 +511,14 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 			</div>
 			<script>
 				$(document).ready(function(){
+
+                                        /*$('input[name="FinishMigration"]').click(function(){
+                                                if($("#checkBox1").is(':checked') == false || $("#checkBox2").is(':checked') == false || $("#checkBox3").is(':checked') == false  || $("#checkBox4").is(':checked') == false ){
+                                                        alert('Before starting migration, please take your database and source backup');
+                                                        return false;
+                                                }
+                                                return true;
+                                        });*/
 
 					$('input[name="FinishMigration"]').click(function(){
                         var confirm_migration = confirm('Are you sure you want to start the migration ?');
