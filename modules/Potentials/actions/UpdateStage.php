@@ -4,48 +4,54 @@ class Potentials_UpdateStage_Action extends Head_Save_Action {
         public function process(Head_Request $request) {
 		global $adb;
 		$recordId = $request->get('recordId');
-		$stages_info = array('Prospecting', 'Qualification', 'Needs Analysis', 'Value Proposition', 'Id. Decision Makers', 'Perception Analysis', 'Proposal or Price Quote', 'Negotiation or Review', 'Closed Won', 'Closed Lost');
+		$moduleName = $request->getModule();
+		$moduleModel = Head_Module_Model::getInstance($moduleName);
+                $recordModel = Head_Record_Model::getInstanceById($recordId, $moduleName);
+		$stages_info = getSalesStageArray('picklist');
 		$type = $request->get('type');
+
 		if($type == 'update'){
+			$moduleName = $request->getModule();
 			$stageId = $request->get('stage_id');
-			$sales_stage = $stages_info[$stageId - 1];
-			$adb->pquery('update jo_potential set sales_stage = ? where potentialid = ?', array($sales_stage, $recordId));
+
+		        $recordModel->set('id', $recordId);
+		        $recordModel->set('mode', 'edit');
+
+		        $fieldModelList = $moduleModel->getFields();
+		        $sales_stage = getStageName($stageId);
+		        $recordModel->set('sales_stage', $sales_stage);
+		        $recordModel->save();
 		}
 		elseif($type == 'onload'){
-			$getSalesStage = $adb->pquery('select sales_stage from jo_potential where potentialid = ?', array($recordId));
-			$sales_stage = $adb->query_result($getSalesStage, 0, 'sales_stage');
+			$sales_stage = $recordModel->get('sales_stage');
 
-			$key = array_search ($sales_stage, $stages_info);
-			$stageId = $key + 1;
+			$stageId = array_search ($sales_stage, $stages_info);
+		}
+		$stage_seqnence_array = getStageSequenceArray();
+		$current_stage_name = getStageName($stageId); 
+		$current_stage_sequence = $stage_seqnence_array[$stageId]; 
+
+		foreach($stages_info as $id => $stage_name) {
+			
+			if($id == $stageId && $stage_seqnence_array[$id] == $current_stage_sequence)
+			{
+				$html .= '<li id='.$id.' class="active"><a href="#" data-toggle="tab">'.$stage_name.'</a></li>';
+			}
+			elseif($stage_seqnence_array[$id] < $current_stage_sequence)
+			{
+				$html .= '<li id='.$id.' class="completed"><a href="#" data-toggle="tab">'.$stage_name.'</a></li>';
+			}
+			elseif($stage_seqnence_array[$id] > $current_stage_sequence)
+			{
+				$html .= '<li id='.$id.'><a href="#" data-toggle="tab">'.$stage_name.'</a></li>';
+			}
 		}
 
-		for($i=0;$i<=9;$i++){
-			$id = $i+1;
-			if($stageId == 9 && $i == 8){
-				$html .= '<li id='.$id.' class="completed"><a href="#" data-toggle="tab">'.$stages_info[$i].'</a></li>';
-			}
-			elseif($stageId == 10 && $i == 8){
-				$html .= '<li id=9 class=""><a href="#" data-toggle="tab">'.$stages_info[8].'</a></li>';
-				$html .= '<li id=10 class="lost"><a href="#" data-toggle="tab">'.$stages_info[9].'</a></li>';
-				break;
-			}
-			elseif($i == ($stageId - 1) && $stageId != 9){
-				$html .= '<li id='.$id.' class="active"><a href="#" data-toggle="tab">'.$stages_info[$i].'</a></li>';
-			}
-			else if($i<=$stageId - 1){
-				$html .= '<li id='.$id.' class="completed"><a href="#" data-toggle="tab">'.$stages_info[$i].'</a></li>';
-			}
-			else
-				$html .= '<li id='.$id.'><a href="#" data-toggle="tab">'.$stages_info[$i].'</a></li>';
-
-		}
 		$response = new Head_Response();
 		$response->setEmitType(Head_Response::$EMIT_JSON);
 		$response->setResult($html);
 		$response->emit();
-
 	}
-
 }
 
 ?>

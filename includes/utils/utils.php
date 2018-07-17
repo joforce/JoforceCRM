@@ -489,16 +489,6 @@ function getColumnFields($module)
 	return $column_fld;
 }
 
-/**
- * Clear user notification entry
- */
-function clearUserNotification($user_id, $module_name)
-{
-	global $adb;
-	$adb->pquery('delete from jo_notification where module_name = ? and notifier_id = ?', array($module_name, $user_id));
-	return true;
-}
-
 /** Function to get a users's mail id
   * @param $userid -- userid :: Type integer
     * @returns $email -- email :: Type string
@@ -570,9 +560,9 @@ function getActionid($action)
 	global $adb;
 	$log->info("get Actionid ".$action);
 	$actionid = '';
-	if(file_exists('tabdata.php') && (filesize('tabdata.php') != 0))
+	if(file_exists('user_privileges/permissions.php') && (filesize('user_privileges/permissions.php') != 0))
 	{
-		include('tabdata.php');
+		include('user_privileges/permissions.php');
 		$actionid= $action_id_array[$action];
 	}
 	else
@@ -601,9 +591,9 @@ function getActionname($actionid)
 
 	$actionname='';
 
-	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0))
+	if (file_exists('user_privileges/permissions.php') && (filesize('user_privileges/permissions.php') != 0))
 	{
-		include('tabdata.php');
+		include('user_privileges/permissions.php');
 		$actionname= $action_name_array[$actionid];
 	}
 	else
@@ -2534,16 +2524,17 @@ function getRecentlyStarred($user_specific_table){
 
 /**
  * Function to get the sales stage array
- */
+ **/
 
-function getSalesStageArray() {
+function getSalesStageArray($modue) {
 	global $adb;
 	$sales_arrayValues = [];
-        $runQuery = $adb->pquery("SELECT * FROM jo_sales_stage");
+        $runQuery = $adb->pquery("SELECT * FROM jo_sales_stage order by sortorderid asc");
         while($fetchValues =$adb->fetch_array($runQuery))
                 {
                         array_push($sales_arrayValues, $fetchValues);
                 }
+
 	$n = count($sales_arrayValues);
         $sales_stage_ids = [];
         $sales_stage_names = [];
@@ -2551,10 +2542,64 @@ function getSalesStageArray() {
         for($i = 0; $i<$n; $i++)
                 {
                         array_push($sales_stage_ids, $sales_arrayValues[$i]['sales_stage_id']);
-                        array_push($sales_stage_names, vtranslate($sales_arrayValues[$i]['sales_stage'], 'Potentials'));
+			if($mode == 'forecast')
+	                        array_push($sales_stage_names, vtranslate($sales_arrayValues[$i]['sales_stage'], 'Potentials'));
+			else
+				array_push($sales_stage_names, $sales_arrayValues[$i]['sales_stage']);
                 }
         $sales_array = array_combine($sales_stage_ids, $sales_stage_names);
 	return $sales_array;
+}
+
+/**
+ * Function to get the sales stage sequence array
+ **/
+
+function getStageSequenceArray() {
+	global $adb;
+        $sales_arrayValues = [];
+        $runQuery = $adb->pquery("SELECT * FROM jo_sales_stage");
+        while($fetchValues =$adb->fetch_array($runQuery))
+                {
+                        array_push($sales_arrayValues, $fetchValues);
+                }
+        $n = count($sales_arrayValues);
+        $sales_stage_ids = [];
+        $sales_stage_sequence = [];
+        $sales_sequence_array = [];
+        for($i = 0; $i<$n; $i++)
+                {
+                        array_push($sales_stage_ids, $sales_arrayValues[$i]['sales_stage_id']);
+                        array_push($sales_stage_sequence, $sales_arrayValues[$i]['sortorderid']);
+                }
+        $sales_sequence_array = array_combine($sales_stage_ids, $sales_stage_sequence);
+        return $sales_sequence_array;
+}
+
+/**
+ * Function to get the sales stage id
+ **/
+
+function getStageId($stage_name) {
+	global $adb;
+        $sales_arrayValues = [];
+        $runQuery = $adb->pquery("SELECT sales_stage_id FROM jo_sales_stage where sales_stage = ? " , array($stage_name));
+        $fetchValues =$adb->fetch_array($runQuery);
+                
+        return $fetchValues['sales_stage_id'];
+}
+
+/**
+ * Function to get the sales stage name
+ **/
+
+function getStageName($stage_id) {
+	global $adb;
+        $sales_arrayValues = [];
+        $runQuery = $adb->pquery("SELECT sales_stage FROM jo_sales_stage where sales_stage_id = ? " , array($stage_id));
+        $fetchValues =$adb->fetch_array($runQuery);
+                
+        return $fetchValues['sales_stage'];
 }
 
 /**
@@ -2684,15 +2729,174 @@ function returnFieldIconsArray() {
 	return $icons_array;
 
 }
+/**
+ * function to update the default dashboard view
+ **/
+function updateDefaultDashboardView($current_user_id, $record) {
+	global $adb;
+	$adb->pquery("UPDATE jo_users SET default_dashboard_view =? WHERE id = ?", array($record, $current_user_id));
+	return $record;
+}
+
+/**
+ *fucntion to get the default dashboard id
+ **/
+function getDefaultBoardId() {
+	global $current_user, $adb;
+	$user_id = $current_user->id;
+	$exe_query = $adb->pquery("SELECT default_dashboard_view FROM jo_users WHERE id = ?", array($user_id));
+	$fetch_value = $adb->fetch_array($exe_query);
+	return $fetch_value['default_dashboard_view'];
+}
 
 /**
  * Function to return field names of the business icons
  */
 
 function returnBusinessFieldArray() {
-	$business_field_array = array('firstname' ,'lastname' ,'account_id' ,'title' ,'assigned_user_id', 'mailingcity', 'mailingcountry', 'accountname', 'bill_city' ,'bill_country' ,'company', 'leadsource' , 'website', 'city' ,'country');
+        $business_field_array = array('firstname' ,'lastname' ,'account_id' ,'title' ,'assigned_user_id', 'mailingcity', 'mailingcountry', 'accountname', 'bill_city' ,'bill_country' ,'company', 'leadsource' , 'website', 'city' ,'country');
 
-	return $business_field_array;
+        return $business_field_array;
 }
 
+/**
+ * Clear user notification entry
+ */
+function clearUserNotification($user_id, $module_name)
+{
+	global $adb;
+	$adb->pquery('delete from jo_notification where module_name = ? and notifier_id = ?', array($module_name, $user_id));
+	return true;
+}
+
+/**
+ * Function to get the user permitted notifiable entity modules
+ **/
+function userPermittedNotificationEntityModules() {
+	$user_permitted_modules = getPermittedModuleNames();
+        $entity_modules = getPermittedEntityModuleNames();
+        $user_permitted_entity_modules = [];
+
+        foreach($user_permitted_modules as $module_name)
+        {
+	        if(in_array($module_name, $entity_modules)){
+        	        array_push($user_permitted_entity_modules, $module_name);
+                }
+        }
+
+        $non_entity_modules = ['Dashboard' ,'Emails' ,'Webmails' ,'ModComments' ,'Home'];
+
+        foreach($user_permitted_entity_modules as $key => $module)
+        {
+        	if(in_array($module, $non_entity_modules)){
+                	unset($user_permitted_entity_modules[$key]);
+                }
+        }
+
+	return $user_permitted_entity_modules;
+}
+
+/**
+ * Function to get users' list who starred the particular record
+ **/
+function getUsersListForStarredRecords($recordId) {
+	global $adb;
+        $getStarred = $adb->pquery("SELECT * FROM jo_crmentity_user_field where recordid = ? and starred = ?", array($recordId, 1));
+        $starred_array = [];
+        while($fetchValues = $adb->fetch_array($getStarred))
+        {
+        array_push($starred_array, $fetchValues['userid']);
+        }
+        return $starred_array;
+}
+
+/**
+ * Function to check the notification settings of a module for a user
+ **/
+function getNotificationSettingsForUser($user_id, $moduleName, $action) {
+
+	if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
+	        $file_name = "user_privileges/notifications/notification_".$user_id.".php";
+        else
+                $file_name = 'user_privileges/notifications/default_settings.php';
+
+        require($file_name);
+	if($global_settings)
+	{
+		if(isset($notification_settings[$moduleName][$action]))
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+/**
+ * Function to get the notifications of a user for a specific module (for ajax call)
+ **/
+function getUserModuleNotifications($module_name, $user_id) {
+	global $adb;
+        $getNotifications = $adb->pquery("SELECT * FROM jo_notification where module_name = ? and notifier_id = ? and is_seen = ? order by updated_at desc limit 5", array($module_name, $user_id, 0));
+        $notification_array = [];
+        while($fetchValues = $adb->fetch_array($getNotifications))
+        {
+        array_push($notification_array, $fetchValues);
+        }
+        return $notification_array;
+}
+
+/**
+ * Function to clear viewed notifications
+ */
+function deleteViewedNotifications($notification_ids)
+{
+        global $adb;
+	foreach($notification_ids as $id) {
+        	$adb->pquery('delete from jo_notification where id = ?', array($id));
+	}
+        return true;
+}
+
+/**
+ * Function to get user profile action permission for adding masquerade user
+ **/
+function getMasqueradeUserActionPermission()
+{
+	global $current_user;
+	$user_id = $current_user->id;
+	$profile_array = getUserProfile($user_id);
+	foreach($profile_array as $profile) {
+		$profile_instance = Settings_Profiles_Record_Model::getInstanceById($profile);
+		$action_permission = $profile_instance->hasModuleActionPermission('Contacts', 14);
+		if($action_permission) {
+			return true;
+		}
+	}
+		
+	return false;
+}
+
+/**
+ * Function to get global masquerade user permission
+ **/
+function getGlobalMasqueradeUserPermission()
+{
+	require_once('user_privileges/portal_user_settings.php');
+	return $enable_masquerade_user;
+}
+
+/**
+ * Check if the record is deleted or not
+ **/
+function isEntityDeleted($crmid)
+{
+	global $adb;
+	$query_result = $adb->pquery('SELECT deleted from jo_crmentity where crmid=?', array($crmid));
+	$delete_status = $adb->query_result($query_result, 0, 'deleted');
+	return $delete_status;
+}
 ?>

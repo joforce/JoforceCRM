@@ -1,13 +1,13 @@
 <?php
-/*+*******************************************************************************
- *  The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/* +**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
+ * The Original Code is: vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): JoForce.com
- *********************************************************************************/
+ * ***********************************************************************************/
 
 require_once "includes/Webservices/HeadActorOperation.php";
 require_once "includes/Webservices/LineItem/HeadInventoryOperation.php";
@@ -25,13 +25,14 @@ require_once 'includes/utils/InventoryUtils.php';
 /**
  * Description of HeadLineItemOperation
  */
-class HeadLineItemOperation  extends HeadActorOperation {
+class HeadLineItemOperation extends HeadActorOperation {
 	private static $lineItemCache = array();
 	private $taxType = null;
 	private $Individual = 'Individual';
 	private $Group = 'Group';
 	private $newId = null;
 	private $taxList = null;
+	private $inActiveTaxList = null;
 	private static $parentCache = array();
 
 	public function __construct($webserviceObject,$user,$adb,$log) {
@@ -41,12 +42,12 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$this->pearDB = $adb;
 		$this->entityTableName = $this->getActorTables();
 		if($this->entityTableName === null){
-			throw new WebServiceException(WebServiceErrorCode::$UNKOWNENTITY,
-				"Entity is not associated with any tables");
+			throw new WebServiceException(WebServiceErrorCode::$UNKOWNENTITY, 'Entity is not associated with any tables');
 		}
 		$this->meta = new HeadLineItemMeta($this->entityTableName,$webserviceObject,$adb,$user);
 		$this->moduleFields = null;
 		$this->taxList = array();
+		$this->inActiveTaxList = array();
 	}
 
 	protected function getNextId($elementType, $element) {
@@ -77,34 +78,39 @@ class HeadLineItemOperation  extends HeadActorOperation {
 	 * @throws WebServiceException - Database error
 	 */
 	public function getAllLineItemForParent($parentId){
-		if (is_array($parentId)) {
-			$result = null;
-			if (!is_array($parentId)) {
-				$parentId = array($parentId);
-			}
-			$query = "SELECT jo_crmentity.label AS productname,jo_crmentity.setype as entitytype, {$this->entityTableName}.* FROM {$this->entityTableName}
-							LEFT JOIN jo_crmentity ON jo_crmentity.crmid=jo_inventoryproductrel.productid
-							WHERE id IN (". generateQuestionMarks($parentId) .")";
+		$result = null;
 
-			$transactionSuccessful = vtws_runQueryAsTransaction($query,array($parentId),$result);
-			if(!$transactionSuccessful){
-				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-					"Database error while performing required operation");
-			}
-			$lineItemList = array();
-			if($result){
-				$rowCount = $this->pearDB->num_rows($result);
-				for ($i = 0 ; $i < $rowCount ; ++$i) {
-					$element = $this->pearDB->query_result_rowdata($result,$i);
-					$element['parent_id'] = $parentId;
-					$id = vtws_getId($this->meta->getEntityId(), $element['lineitem_id']);
-					$element = DataTransform::filterAndSanitize($element,$this->meta);
-					$element['id'] = $id;
-					$lineItemList[] = $element;
-				}
-			}
-			return $lineItemList;
+		if (!is_array($parentId)) {
+			$parentId = array($parentId);
 		}
+
+		$query = "SELECT jo_crmentity.label AS productname,jo_crmentity.setype AS entitytype,jo_crmentity.deleted AS deleted, {$this->entityTableName}.*
+						FROM {$this->entityTableName}
+						LEFT JOIN jo_crmentity ON jo_crmentity.crmid=jo_inventoryproductrel.productid
+						WHERE id IN (". generateQuestionMarks($parentId) .")";
+
+		$transactionSuccessful = vtws_runQueryAsTransaction($query,array($parentId),$result);
+		if(!$transactionSuccessful){
+			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
+		}
+		$lineItemList = array();
+		if($result){
+			$rowCount = $this->pearDB->num_rows($result);
+			for ($i = 0 ; $i < $rowCount ; ++$i) {
+				$rowElement = $element = $this->pearDB->query_result_rowdata($result,$i);
+				$element['parent_id'] = $parentId;
+				$productName = $element['productname'];
+				$entityType = $element['entitytype'];
+				$id = vtws_getId($this->meta->getEntityId(), $element['lineitem_id']);
+				$element = DataTransform::filterAndSanitize($element,$this->meta);
+				$element['product_name'] = $productName;
+				$element['entity_type'] = $entityType;
+				$element['id'] = $id;
+				$element['deleted'] = $rowElement['deleted'];
+				$lineItemList[] = $element;
+			}
+		}
+		return $lineItemList;
 	}
 
 	public function _create($elementType, $element){
@@ -164,28 +170,33 @@ class HeadLineItemOperation  extends HeadActorOperation {
 	}
 
 	private function updateTaxes($createdElement){
-		if(count($this->taxList) > 0 ) {
+		if (count($this->taxList) > 0 || (is_array($this->inActiveTaxList) && count($this->inActiveTaxList) > 0)) {
+			$taxList = $this->taxList;
+			if (is_array($this->inActiveTaxList) && count($this->inActiveTaxList) > 0) {
+				$taxList = array_merge($taxList, $this->inActiveTaxList);
+			}
 			$id = vtws_getIdComponents($createdElement['id']);
 			$id = $id[1];
 			$sql = 'UPDATE jo_inventoryproductrel set ';
-			$sql .= implode('=?,',array_keys($this->taxList));
+			$sql .= implode('=?,',array_keys($taxList));
 			$sql .= '=? WHERE lineitem_id = ?';
 			$params = array();
-			foreach ($this->taxList as $taxInfo) {
+			foreach ($taxList as $taxInfo) {
 				$params[] = $taxInfo['percentage'];
 			}
 			$params[] = $id;
 			$result = null;
 			$transactionSuccessful = vtws_runQueryAsTransaction($sql,$params,$result);
 			if(!$transactionSuccessful){
-				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-					"Database error while performing required operation");
+				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
 			}
 		}
 	}
 
 	private function initTax($element, $parent) {
 		$this->taxList = array();
+		$this->inActiveTaxList = array();
+		$allTaxes = getAllTaxes();
 		if (!empty($element['parent_id'])) {
 			$this->taxType = $parent['hdnTaxType'];
 		}
@@ -197,18 +208,23 @@ class HeadLineItemOperation  extends HeadActorOperation {
 			$moduleFields = $meta->getModuleFields();
 			$productTaxList = $this->getProductTaxList($productId);
 			if (count($productTaxList) > 0) {
+				$this->providedTaxList = array();
 				foreach ($moduleFields as $fieldName => $field) {
 					if (preg_match('/tax\d+/', $fieldName) != 0) {
 						if (isset($element[$fieldName])) {
 							$found = true;
 							if (is_array($productTaxList[$fieldName])) {
-								$this->taxList[$fieldName] = array(
+								$this->providedTaxList[$fieldName] = array(
 									'label' => $field->getFieldLabelKey(),
 									'percentage' => $element[$fieldName]
 								);
 							}
 						}
 					}
+				}
+
+				if ($found) {
+					$this->taxList = $this->providedTaxList;
 				}
 			} elseif ($found == false) {
 				array_merge($this->taxList, $productTaxList);
@@ -229,13 +245,19 @@ class HeadLineItemOperation  extends HeadActorOperation {
 				}
 			}
 			if(!$found) {
-				$availableTaxes = getAllTaxes('available');
-				foreach($availableTaxes as $taxInfo){
-					$this->taxList[$taxInfo['taxname']] = array(
-						'label' => $field->getFieldLabelKey(),
-						'percentage' => $taxInfo['percentage']
-					);
+				foreach ($allTaxes as $taxInfo) {
+					if ($taxInfo['deleted'] == '0') {
+						$this->taxList[$taxInfo['taxname']] = array(
+							'label' => $field->getFieldLabelKey(),
+							'percentage' => $taxInfo['percentage']
+						);
+					}
 				}
+			}
+		}
+		foreach ($allTaxes as $taxInfo) {
+			if ($taxInfo['deleted'] == '1' && !array_key_exists($taxInfo['taxname'], $this->taxList)) {
+				$this->inActiveTaxList[$taxInfo['taxname']] = array('percentage' => NULL);
 			}
 		}
 		$this->taxList;
@@ -261,7 +283,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		vglobal('updateInventoryProductRel_deduct_stock', false);
 		$sequenceNo = 1;
 		foreach ($lineItemList as $lineItem) {
-			$lineItem['parent_id'] = $parent['id'];
+		$lineItem['parent_id'] = $parent['id'];
 			$lineItem['sequence_no'] = $sequenceNo++;
 			$this->initTax($lineItem, $parent);
 			$id = vtws_getIdComponents($lineItem['parent_id']);
@@ -279,11 +301,12 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$parentId = $parentId[1];
 
 		$parent = $this->getParentById($element['parent_id']);
-		if(empty($element['listprice'])){
+		if (!isset($element['listprice']) && $element['listprice'] == '') {
 			$productId = vtws_getIdComponents($element['productid']);
 			$productId = $productId[1];
 			$element['listprice'] = $this->getProductPrice($productId);
 		}
+		$element = $this->calculateNetprice($element); 
 		$id = vtws_getIdComponents($element['parent_id']);
 		$this->newId = $id[1];
 		$createdLineItem = $this->_create($elementType, $element);
@@ -291,6 +314,39 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$updatedLineItemList['parent_id'] = $element['parent_id'];
 		$this->setCache($parentId, $updatedLineItemList);
 		return $createdLineItem;
+	}
+	
+	public function calculateNetprice($element) {
+		global $current_user;
+		$productId = $element['parent_id'];
+		$parent = $this->getParentById($productId);
+		$listPrice = $element['listprice'];
+		$quantity = $element['quantity'];
+		$discount_amount = $element['discount_amount'];
+		$discount_percent = $element['discount_percent'];
+		$productTotal = $listPrice * $quantity;
+		$total_after_discount = $productTotal;
+
+		if (!empty($discount_amount)) {
+			$total_after_discount -= $discount_amount;
+		}
+		if (!empty($discount_percent)) {
+			$percentage_discount = ($productTotal * $discount_percent) / 100;
+			$total_after_discount -= $percentage_discount;
+		}
+
+		$this->initTax($element, $parent);
+		if (strcasecmp($parent['hdnTaxType'], $this->Individual) === 0) {
+			$tax_net = 0;
+			foreach ($this->taxList as $taxname => $taxArray) {
+				$taxValue = $taxArray['percentage'];
+				$tax_net += ($taxValue * $total_after_discount) / 100;
+			}
+		}
+
+		$net_price = number_format(($total_after_discount + $tax_net), getCurrencyDecimalPlaces($current_user), '.', '');
+		$element['netprice'] = $net_price;
+		return $element;
 	}
 
 	public function retrieve($id) {
@@ -312,7 +368,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$parent = $this->getParentById($element['parent_id']);
 		$location = $this->getLocationById($lineItemList, $element['id']);
 		if($location === false){
-			throw new WebserviceException('UNKOWN_CHILD','given line  item is not child of parent');
+			throw new WebserviceException('UNKOWN_CHILD','given line item is not child of parent');
 		}
 		if(empty($element['listprice'])){
 			$productId = vtws_getIdComponents($element['productid']);
@@ -344,8 +400,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$result = null;
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql,$params,$result);
 		if(!$transactionSuccessful){
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-				"Database error while performing required operation");
+			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
 		}
 		$price = 0;
 		$it = new SqlResultIterator($db, $result);
@@ -430,8 +485,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 			if(strcasecmp($parent['hdnTaxType'], $this->Individual) ===0){
 				$taxAmountsList = array();
 				foreach ($this->taxList as $taxName => $taxInfo) {
-					$taxAmountsList[$allTaxes[$taxName]['taxid']] = array(	'percentage' => $taxInfo['percentage'],
-																			'amount' => ($lineItemTotal * $taxInfo['percentage']) / 100);
+					$taxAmountsList[$allTaxes[$taxName]['taxid']] = array('percentage' => $taxInfo['percentage'], 'amount' => ($lineItemTotal * $taxInfo['percentage']) / 100);
 				}
 
 				foreach ($taxAmountsList as $taxId => $taxInfo) {
@@ -445,6 +499,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 
 					$parent['hdnSubTotal'] += $taxInfo['amount'];
 				}
+				$individualPreTaxTotal += $lineItemTotal;
 			}
 		}
 
@@ -456,9 +511,20 @@ class HeadLineItemOperation  extends HeadActorOperation {
 			$discount = 0;
 		}
 		$parent['pre_tax_total'] = $total = $parent['hdnSubTotal'] - $discount + $parent['hdnS_H_Amount'];
+		if ($parent['hdnTaxType'] === 'individual') {
+			$parent['pre_tax_total'] = $individualPreTaxTotal - $discount + $parent['hdnS_H_Amount'];
+		}
+
 		$taxTotal = $parent['hdnSubTotal'] - $discount;
-		if(strcasecmp($parent['hdnTaxType'], $this->Individual) !==0){
-			$this->initTax($createdElement, $parent);
+		if (strcasecmp($parent['hdnTaxType'], $this->Individual) !== 0) {
+			$newTaxList = array();
+			foreach ($createdElement as $element) {
+				$this->initTax($element, $parent);
+				$newTaxList[] = $this->taxList;
+			}
+			if ($newTaxList) {
+				$this->taxList = $newTaxList[0];
+			}
 			$taxAmountsList = array();
 			foreach ($this->taxList as $taxName => $taxInfo) {
 				$taxAmountsList[$allTaxes[$taxName]['taxid']] = array('percentage' => $taxInfo['percentage'], 'amount' => ($taxTotal * $taxInfo['percentage']) / 100);
@@ -470,7 +536,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 					foreach ($compoundOn[$taxId] as $comTaxId) {
 						$amount += $taxAmountsList[$comTaxId]['amount'];
 					}
-					$taxAmountsList[$taxId]['amount'] = ($amount * $taxInfo['percentage']) / 100;
+					$taxInfo['amount'] = $taxAmountsList[$taxId]['amount'] = ($amount * $taxInfo['percentage']) / 100;
 				}
 
 				$taxAmount += $taxInfo['amount'];
@@ -501,7 +567,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 						$amount = $calculatedOn = $chargeInfo['value'];
 						if ($allShippingTaxes[$shTaxId]['method'] === 'Compound') {
 							foreach ($allShippingTaxes[$shTaxId]['compoundon'] as $comShTaxId) {
-								$calculatedOn += ($amount * $charges[$comShTaxId]) / 100;
+								$calculatedOn += ($amount * $chargeTaxes[$comShTaxId]) / 100;
 							}
 						}
 
@@ -522,10 +588,9 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$parentInstance->tab_name_index[$parentInstance->table_name].'=?';
 		$params = array($parent['hdnSubTotal'],$parent['hdnGrandTotal'],$parent['pre_tax_total'],$parentId);
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql,$params,$result);
-		$this->resetCacheForParent($parent['id']);
+		$this->setParent($parent['id'], $parent);
 		if(!$transactionSuccessful){
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-				"Database error while performing required operation");
+			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
 		}
 	}
 
@@ -536,8 +601,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$result = null;
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql,$params,$result);
 		if(!$transactionSuccessful){
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-				"Database error while performing required operation");
+			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
 		}
 		$it = new SqlResultIterator($db, $result);
 		$this->taxList = array();
@@ -557,8 +621,7 @@ class HeadLineItemOperation  extends HeadActorOperation {
 		$result = null;
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql,$params,$result);
 		if(!$transactionSuccessful){
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-				"Database error while performing required operation");
+			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 'Database error while performing required operation');
 		}
 		$it = new SqlResultIterator($db, $result);
 		$this->taxList = array();
@@ -594,14 +657,20 @@ class HeadLineItemOperation  extends HeadActorOperation {
 	}
 
 	public function getParentById($parentId){
-		if(empty(self::$parentCache[$parentId])){
-			return vtws_retrieve($parentId, $this->user);
-		} else {
-			return self::$parentCache[$parentId];
+		if (empty(self::$parentCache[$parentId])) {
+			self::$parentCache[$parentId] = Head_Functions::jsonEncode(vtws_retrieve($parentId, $this->user));
 		}
+		return json_decode(self::$parentCache[$parentId], true);
 	}
 
-	function setCache($parentId,  $updatedList) {
+	public function setParent($parentId, $parent) {
+		if (is_array($parent) || is_object($parent)) {
+			$parent = Head_Functions::jsonEncode($parent);
+		}
+		self::$parentCache[$parentId] = $parent;
+	}
+
+	function setCache($parentId, $updatedList) {
 		self::$lineItemCache[$parentId] = $updatedList;
 	}
 
@@ -626,8 +695,8 @@ class HeadLineItemOperation  extends HeadActorOperation {
 				unset($describe['fields'][$key]);
 			}
 		}
-        // unset will retain array index in the result, we should remove
-        $describe['fields'] = array_values($describe['fields']);
+		// unset will retain array index in the result, we should remove
+		$describe['fields'] = array_values($describe['fields']);
 		return $describe;
 	}
 }

@@ -16,6 +16,7 @@ class Users_UserSetup_View extends Head_Index_View {
 	}
 
 	public function process(Head_Request $request) {
+		global $current_user,$site_URL;
 		$moduleName = $request->getModule();
 		$userName = $request->get('user_name');
 		$viewer = $this->getViewer($request);
@@ -43,25 +44,30 @@ class Users_UserSetup_View extends Head_Index_View {
 			$viewer->assign('USER_ID', $request->get('record'));
 			if($isFirstUser)    {
 			    // For Outgoing server
-                $systemDetailsModel = Settings_Head_Systems_Model::getInstanceFromServerType('email', 'OutgoingServer');
-                $viewer->assign('OUTGOING_SERVER_MODEL',$systemDetailsModel);
+				$systemDetailsModel = Settings_Head_Systems_Model::getInstanceFromServerType('email', 'OutgoingServer');
+		                $viewer->assign('OUTGOING_SERVER_MODEL',$systemDetailsModel);
 
 			    // For Company Details
-                $moduleModel = Settings_Head_CompanyDetails_Model::getInstance();
-                $viewer->assign('COMPANY_DETAILS_MODULE_MODEL', $moduleModel);
-                $viewer->assign('QUALIFIED_MODULE', 'Settings:Head');
-			    $viewer->view('AdminUserSetup.tpl', $moduleName);
-            }
-            else {
-                $viewer->view('UserSetup.tpl', $moduleName);
-            }
+                		$moduleModel = Settings_Head_CompanyDetails_Model::getInstance();
+		                $viewer->assign('COMPANY_DETAILS_MODULE_MODEL', $moduleModel);
+                		$viewer->assign('QUALIFIED_MODULE', 'Settings:Head');
+				$viewer->view('AdminUserSetup.tpl', $moduleName);
+		         }
+		         else {
+		                $viewer->view('UserSetup.tpl', $moduleName);
+            		 }
 		} else {
 			if(isset($_SESSION['return_params'])) {
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 				exit();
 			} else {
-				header("Location: index.php");
+				$userid = $current_user->id;
+				$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
+				if($default_landing_page == "Dashboard")
+                                        header ('Location: index.php');
+                                else
+                                        header ("Location: ".$site_URL.$default_landing_page."/view/List");
 				exit();
 			}
 		}

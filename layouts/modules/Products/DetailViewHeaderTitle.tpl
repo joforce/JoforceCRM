@@ -17,21 +17,21 @@
                 {foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 	               {if !empty($IMAGE_INFO.path)}
 	                {if $IMAGE_DETAILS|@count eq 1}
-	                    <img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="100%" height="100%" align="left"><br>
+	                    <img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="100%" height="100%" align="left"><br>
 	                {else if $IMAGE_DETAILS|@count eq 2}
-	                    <span><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="50%" height="100%" align="left"></span>
+	                    <span><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="50%" height="100%" align="left"></span>
 	                {else if $IMAGE_DETAILS|@count eq 3}
-	                    <span><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" {if $ITER eq 0 or $ITER eq 1}width="50%" height = "50%"{/if}{if $ITER eq 2}width="100%" height="50%"{/if} align="left"></span>
+	                    <span><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" {if $ITER eq 0 or $ITER eq 1}width="50%" height = "50%"{/if}{if $ITER eq 2}width="100%" height="50%"{/if} align="left"></span>
 	                {else if $IMAGE_DETAILS|@count eq 4 or $IMAGE_DETAILS|@count gt 4}
 	                    {if $ITER gt 3}{break}{/if}
-	                    <span><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}"width="50%" height="50%" align="left"></span>
+	                    <span><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}"width="50%" height="50%" align="left"></span>
 	                {/if}
 	               {else}
 	                  <img src="{vimage_path('summary_Products.png')}" class="summaryImg"/>
 	               {/if}
 	        {/foreach}
                 {if empty($IMAGE_DETAILS)}
-                    <div class="name"><span><strong> <i class="vicon-products"></i> </strong></span></div>
+                    <div class="name"><span><strong> <i class="joicon-products"></i> </strong></span></div>
             {/if}      
             </div>
 

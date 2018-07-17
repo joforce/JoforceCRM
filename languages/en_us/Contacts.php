@@ -14,6 +14,7 @@ $languageStrings = array(
 	'SINGLE_Contacts' => 'Contact',
 	'LBL_ADD_RECORD' => 'Add Contact',
 	'LBL_RECORDS_LIST' => 'Contacts List',
+	'LBL_CONVERT_USER' => 'Convert to User',
 
 	// Blocks
 	'LBL_CONTACT_INFORMATION' => 'Basic Information',
@@ -51,8 +52,8 @@ $languageStrings = array(
 	'Email' => 'Primary Email',
 	'Secondary Email' => 'Secondary Email',
 	'Contact Id' => 'Contact Id',
-    'Support Start Date' => 'Support Start Date',
-    'Support End Date'   => 'Support End Date',
+    	'Support Start Date' => 'Support Start Date',
+    	'Support End Date'   => 'Support End Date',
 	
 	//Added for Picklist Values
 	'Mr.'=>'Mr.',
@@ -66,4 +67,5 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'JS_MANDATORY_FIELDS_ARE_EMPTY' => 'Mandatory fields are empty',
  );

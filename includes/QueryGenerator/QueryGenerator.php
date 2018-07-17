@@ -597,7 +597,7 @@ class QueryGenerator {
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON jo_role.roleid = jo_user2role.roleid";
 			} else {
 				$tableCondition = $tableName.'.'.$moduleTableIndexList[$tableName];
-				if(Head_Functions::isUserSpecificFieldTable($tableName, $this->getModule())) {
+				if(Head_Functions::isUserSpecificFieldTable($tableName)) {
 					$tableCondition.=  ' AND '.$tableName.'.userid='.$this->user->id;
 				}
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.".
@@ -867,8 +867,7 @@ class QueryGenerator {
 						$fieldSql .= $conditionGlue .'('.$otherField->getTableName().'.'.$otherField->getColumnName() . ' '. $otherFieldValueSql .' '.$specialConditionForOtherField .'))';
 					else
 						$fieldSql .= ')';
-				}else if (Head_Functions::isUserSpecificFieldTable($field->getTableName(), getTabModuleName($field->getTabId())) && $fieldName == "starred"
-						&& $conditionInfo['value'] != 1) {
+				}else if (Head_Functions::isUserSpecificFieldTable($field->getTableName()) && $fieldName == "starred" && $conditionInfo['value'] != 1) {
 						// since not for all records you will have entry in starred field table. So for disabled (value 0) we need to check both 0 and null
 						$fieldSql .= "$fieldGlue (".$field->getTableName().'.'.$field->getColumnName().' '.$valueSql.' OR ';
 						$fieldSql .=                $field->getTableName().'.'.$field->getColumnName().' IS NULL)';

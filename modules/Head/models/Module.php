@@ -335,7 +335,7 @@ class Head_Module_Model extends Head_Module {
 	 */
     public function getImportUrl() {
         global $site_URL;
-        return $site_URL . $this->get('name') . 'view/Import';
+        return $site_URL . $this->get('name') . '/view/Import';
     }
 
 	/**
@@ -361,7 +361,7 @@ class Head_Module_Model extends Head_Module {
 	 */
     public function getDashBoardUrl() {
         global $site_URL;
-        return $site_URL . $this->get('name') . '/view/DashBoard';
+        return $site_URL .'Home/view/DashBoard';
     }
 
 	/**

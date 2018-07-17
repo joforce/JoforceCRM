@@ -24,7 +24,7 @@ class Head_SaveStar_Action extends Head_Mass_Action {
 			$recordIds = array($request->get('record'));
 		}
 
-		$moduleUserSpecificTableName = Head_Functions::getUserSpecificTableName($module);
+		$moduleUserSpecificTableName = Head_Functions::getUserSpecificTableName();
 		//TODO : Currently we are not doing retrieve_entity_info before doing save since we have only one user specific field(starred)
 		// if we add more user specific field then we need to peform retrieve_entity_info 
 		foreach ($recordIds as $recordId) {

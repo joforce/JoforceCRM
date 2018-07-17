@@ -70,62 +70,7 @@ class Head_Deprecated {
 	static function getParentTab() {
 		return '';
 
-		/*global $log, $default_charset;
-		$log->debug("Entering getParentTab() method ...");
-		if (!empty($_REQUEST['parenttab'])) {
-			if (self::checkParentTabExists($_REQUEST['parenttab'])) {
-				return vtlib_purify($_REQUEST['parenttab']);
-			} else {
-				return self::getParentTabFromModule($_REQUEST['module']);
-			}
-		} else {
-			return self::getParentTabFromModule($_REQUEST['module']);
-		}*/
 	}
-
-	static function getParentTabFromModule($module) {
-		return '';
-
-		/*
-		global $adb;
-		if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0) && file_exists('parent_tabdata.php') && (filesize('parent_tabdata.php') != 0)) {
-			include('tabdata.php');
-			include('parent_tabdata.php');
-			$tabid = $tab_info_array[$module];
-			foreach ($parent_child_tab_rel_array as $parid => $childArr) {
-				if (in_array($tabid, $childArr)) {
-					$parent_tabname = $parent_tab_info_array[$parid];
-					break;
-				}
-			}
-			return $parent_tabname;
-		} else {
-			$sql = "select jo_parenttab.* from jo_parenttab inner join jo_parenttabrel on jo_parenttabrel.parenttabid=jo_parenttab.parenttabid inner join jo_tab on jo_tab.tabid=jo_parenttabrel.tabid where jo_tab.name=?";
-			$result = $adb->pquery($sql, array($module));
-			$tab = $adb->query_result($result, 0, "parenttab_label");
-			return $tab;
-		}*/
-	}
-
-	/*static function checkParentTabExists($parenttab) {
-		global $adb;
-
-		if (file_exists('parent_tabdata.php') && (filesize('parent_tabdata.php') != 0)) {
-			include('parent_tabdata.php');
-			if (in_array($parenttab, $parent_tab_info_array))
-				return true;
-			else
-				return false;
-		} else {
-
-			$result = "select 1 from jo_parenttab where parenttab_label = ?";
-			$noofrows = $adb->num_rows($result);
-			if ($noofrows > 0)
-				return true;
-			else
-				return false;
-		}
-	}*/
 
 	static function copyValuesFromRequest($focus) {
 		if (isset($_REQUEST['record'])) {
@@ -209,7 +154,7 @@ class Head_Deprecated {
 			$actionname_array[$actionid] = $actionname;
 		}
 
-		$filename = 'tabdata.php';
+		$filename = 'user_privileges/permissions.php';
 
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
@@ -234,69 +179,6 @@ class Head_Deprecated {
 				$newbuf .= "\$action_name_array=" . constructSingleStringValueArray($actionname_array) . ";\n";
 
 				$newbuf = str_replace("=>,", "=>0,", $newbuf);
-				$newbuf .= "?>";
-				fputs($handle, $newbuf);
-				fclose($handle);
-			} else {
-				echo "The file $filename is not writable";
-			}
-		} else {
-			echo "The file $filename does not exist";
-		}
-	}
-
-	static function createModuleGroupMetaFile() {
-		global $adb;
-		$sql = "select parenttabid,parenttab_label from jo_parenttab where visible=0 order by sequence";
-		$result = $adb->pquery($sql, array());
-		$num_rows = $adb->num_rows($result);
-		$result_array = Array();
-		for ($i = 0; $i < $num_rows; $i++) {
-			$parenttabid = $adb->query_result($result, $i, 'parenttabid');
-			$parenttab_label = $adb->query_result($result, $i, 'parenttab_label');
-			$result_array[$parenttabid] = $parenttab_label;
-		}
-
-		$filename = 'parent_tabdata.php';
-
-		if (file_exists($filename)) {
-			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					echo "Cannot open file ($filename)";
-					exit;
-				}
-				require_once('modules/Users/CreateUserPrivilegeFile.php');
-				$newbuf = '';
-				$newbuf .="<?php\n\n";
-				$newbuf .="\n";
-				$newbuf .= "//This file contains the commonly used variables \n";
-				$newbuf .= "\n";
-				$newbuf .= "\$parent_tab_info_array=" . constructSingleStringValueArray($result_array) . ";\n";
-				$newbuf .="\n";
-
-				$parChildTabRelArray = Array();
-
-				foreach ($result_array as $parid => $parvalue) {
-					$childArray = Array();
-					//$sql = "select * from jo_parenttabrel where parenttabid=? order by sequence";
-					// vtlib customization: Disabling the tab item based on presence
-					$sql = "select * from jo_parenttabrel where parenttabid=?
-						and tabid in (select tabid from jo_tab where presence in (0,2)) order by sequence";
-					// END
-					$result = $adb->pquery($sql, array($parid));
-					$num_rows = $adb->num_rows($result);
-					$result_array = Array();
-					for ($i = 0; $i < $num_rows; $i++) {
-						$tabid = $adb->query_result($result, $i, 'tabid');
-						$childArray[] = $tabid;
-					}
-					$parChildTabRelArray[$parid] = $childArray;
-				}
-				$newbuf .= "\n";
-				$newbuf .= "\$parent_child_tab_rel_array=" . constructTwoDimensionalValueArray($parChildTabRelArray) . ";\n";
-				$newbuf .="\n";
-				$newbuf .="\n";
-				$newbuf .="\n";
 				$newbuf .= "?>";
 				fputs($handle, $newbuf);
 				fclose($handle);

@@ -71,6 +71,7 @@ $languageStrings = array(
 	'LBL_FIELDFORMULAS_DESCRIPTION' => 'Add custom equations to custom fields',
 
 	'LBL_MENU_MANAGEMENT' => 'Menu Manager',
+	'LBL_LANGUAGE_EDITOR' => 'Language Editor',
 	'LBL_MENU_DESC' => 'Customize Menu Sequence',
 	'LBL_MENU_MANAGEMENT_MESSAGE' => 'The actual number of menu items displayed will depend on the screen size and might be less than selected items.',
 
@@ -214,7 +215,7 @@ $languageStrings = array(
 	'LBL_SERVER_NAME' => 'Server Name',
 	'LBL_USER_NAME' => 'User Name',
 	'LBL_PASSWORD' => 'Password',
-	'LBL_FROM_EMAIL' => 'From Email',
+	'LBL_FROM_EMAIL' => 'From Email / Reply-To',
     'LBL_SERVER_TYPE' => 'Server Type',
     'LBL_OTHERS' => 'Others',
     'LBL_GMAIL' => 'Gmail',
@@ -372,7 +373,7 @@ $languageStrings = array(
     'LBL_TERMS_AND_CONDITIONS' => 'Terms and Conditions',
     'LBL_GATEWAY_CONFIGURATION' => 'Subscriptions',
     'LBL_LEAD_MAPPING' => 'Lead Conversion Data Mapping',
-    'LBL_OPPORTUNITY_MAPPING' => 'Opportunity to Project Mapping',
+    'LBL_OPPORTUNITY_MAPPING' => 'Deal to Project Mapping',
     'LBL_PICKLIST_DEPENDENCY' => 'Picklist Dependency',
     'LBL_MY_TAGS' => 'My Tags',
 	'LBL_ADD_MODULE' => 'Add Module',
@@ -384,7 +385,9 @@ $languageStrings = array(
     'LBL_XERO' => 'Xero',
     'LBL_TALLY' => 'Tally',
     'LBL_SHOPPINGCART' => 'ShoppingCart',
-	'LBL_PHONE_CONFIGURATION' => 'Phone Configuration',
+    'LBL_PHONE_CONFIGURATION' => 'Phone Configuration',
+    'LBL_NOTIFICATION_SETTINGS_INFO' => 'Check and uncheck the check box to enable and disable the corresponding notifications respectively',
+    'LBL_MASQUERADE_USER_INFO' => 'Change the check box status to enable or disable the feature of adding portal user in global'
 );
 
 $jsLanguageStrings = array(

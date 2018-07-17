@@ -137,8 +137,8 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
                 app.helper.showSuccessNotification({
                     message: message
                 });
-                element.find('i').removeClass('vicon-pin');
-                element.find('i').addClass('vicon-unpin');
+                element.find('i').removeClass('joicon-pin');
+                element.find('i').addClass('joicon-unpin');
                 element.removeClass('dropdown-toggle').removeAttr('data-toggle');
                 element.attr('title', app.vtranslate('JSLBL_UNPIN_CHART_FROM_DASHBOARD'));
             }
@@ -150,7 +150,7 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
         jQuery('button.pinToDashboard').on('click', function(e) {
             var element = jQuery(e.currentTarget);
             var recordId = thisInstance.getRecordId();
-            var pinned = element.find('i').hasClass('vicon-pin');
+            var pinned = element.find('i').hasClass('joicon-pin');
             if (pinned) {
                 if (element.is('[data-toggle]')) {
                     return;
@@ -172,8 +172,8 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
                         app.helper.showSuccessNotification({
                             message: message
                         });
-                        element.find('i').removeClass('vicon-unpin');
-                        element.find('i').addClass('vicon-pin');
+                        element.find('i').removeClass('joicon-unpin');
+                        element.find('i').addClass('joicon-pin');
                         if (element.data('dashboardTabCount') > 1) {
                             element.addClass('dropdown-toggle').attr('data-toggle', 'dropdown');
                         }

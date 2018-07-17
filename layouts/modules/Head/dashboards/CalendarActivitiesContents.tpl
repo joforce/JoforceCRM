@@ -16,9 +16,9 @@
 	<div>
 		<div class='pull-left'>
 			{if $ACTIVITY->get('activitytype') == 'Task'}
-                <span><i class="entryIcon vicon-task"></i></span>
+                <span><i class="entryIcon joicon-task"></i></span>
 			{else}
-                <span><i class="entryIcon vicon-meeting"></i></span>
+                <span><i class="entryIcon joicon-meeting"></i></span>
 			{/if}
 		</div>
 		<div>

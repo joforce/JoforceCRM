@@ -16,20 +16,25 @@ require_once 'includes/Webservices/Utils.php';
  * Description of HeadInventoryOperation
  */
 class HeadInventoryOperation extends HeadModuleOperation {
+	public static $CREATE_OPERATI0N;
 
 	public function create($elementType, $element) {
+		self::$CREATE_OPERATI0N = true;
 		$element = $this->sanitizeInventoryForInsert($element);
 		$element = $this->sanitizeShippingTaxes($element);
 		$lineItems = $element['LineItems'];
 		if (!empty($lineItems)) {
 			$eventManager = new VTEventsManager(vglobal('adb'));
-			$this->triggerBeforeSaveEvents($element, $eventManager);
+			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
 
 			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
 			}
 			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			global $currentModule;
+			$currentModule = $elementType;
 
 			$element = parent::create($elementType, $element);
 			$focus = CRMEntity::getInstance($elementType);
@@ -39,20 +44,21 @@ class HeadInventoryOperation extends HeadModuleOperation {
 
 			$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
 			$handler->setLineItems('LineItem', $lineItems, $element);
-            $parent = $handler->getParentById($element['id']);
+			$parent = $handler->getParentById($element['id']);
 			$handler->updateParent($lineItems, $parent);
-            $updatedParent = $handler->getParentById($element['id']);
-            //since subtotal and grand total is updated in the update parent api
-            $parent['hdnSubTotal'] = $updatedParent['hdnSubTotal'];
-            $parent['hdnGrandTotal'] = $updatedParent['hdnGrandTotal'];
-            $parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
-            $components = vtws_getIdComponents($element['id']);
-            $parentId = $components[1];
-            $parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
+			$updatedParent = $handler->getParentById($element['id']);
+			//since subtotal and grand total is updated in the update parent api
+			$parent['hdnSubTotal'] = $updatedParent['hdnSubTotal'];
+			$parent['hdnGrandTotal'] = $updatedParent['hdnGrandTotal'];
+			$parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
+			$components = vtws_getIdComponents($element['id']);
+			$parentId = $components[1];
+			$parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
 
 			$currentValue = vglobal('updateInventoryProductRel_deduct_stock');
 			vglobal('updateInventoryProductRel_deduct_stock', false);
 
+			$parent['new'] = true;
 			$this->triggerAfterSaveEvents($parent, $eventManager);
 
 			vglobal('updateInventoryProductRel_deduct_stock', $currentValue);
@@ -70,13 +76,18 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
 		if (!empty($lineItemList)) {
 			$eventManager = new VTEventsManager(vglobal('adb'));
-			$this->triggerBeforeSaveEvents($element, $eventManager);
+			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$sanitizedData['id'] = $element['id'];
+			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
+			unset($sanitizedData['id']);
 
 			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
 			}
 			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			global $currentModule;
+			$currentModule = getTabname($this->tabId);
 
 			$updatedElement = parent::update($element);
 			vglobal('VTIGER_BULK_SAVE_MODE', $currentBulkSaveMode);
@@ -84,12 +95,12 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$handler->setLineItems('LineItem', $lineItemList, $updatedElement);
 			$parent = $handler->getParentById($element['id']);
 			$handler->updateParent($lineItemList, $parent);
-            $updatedParent = $handler->getParentById($element['id']);
-            //since subtotal and grand total is updated in the update parent api
-            $parent['hdnSubTotal'] = $updatedParent['hdnSubTotal'];
-            $parent['hdnGrandTotal'] = $updatedParent['hdnGrandTotal'];
-            $parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
-            $updatedElement = array_merge($updatedElement,$parent);
+			$updatedParent = $handler->getParentById($element['id']);
+			//since subtotal and grand total is updated in the update parent api
+			$parent['hdnSubTotal'] = $updatedParent['hdnSubTotal'];
+			$parent['hdnGrandTotal'] = $updatedParent['hdnGrandTotal'];
+			$parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
+			$updatedElement = array_merge($updatedElement,$parent);
 
 			$currentValue = vglobal('updateInventoryProductRel_deduct_stock');
 			vglobal('updateInventoryProductRel_deduct_stock', false);
@@ -119,8 +130,10 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			unset($element['LineItems']);
 
 			$eventManager = new VTEventsManager(vglobal('adb'));
-			$this->triggerBeforeSaveEvents($element, $eventManager);
-
+			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$sanitizedData['id'] = $element['id'];
+			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
+			unset($sanitizedData['id']);
 			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
@@ -183,7 +196,17 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		$recordCompoundTaxesElement = $this->getCompoundTaxesElement($element, $lineItems);
 		$element = array_merge($element, $recordCompoundTaxesElement);
 		$element['productid'] = $lineItems[0]['productid'];
+		$element['LineItems_FinalDetails'] = $this->getLineItemFinalDetails($idComponents[1]);
 		return $element;
+	}
+
+		public function getLineItemFinalDetails($record) {
+			$finalDetails = array();
+			$recordModel = Inventory_Record_Model::getInstanceById($record);
+			if($recordModel) {
+				$finalDetails = $recordModel->getProducts();
+			}
+			return $finalDetails;
 	}
 
 	public function delete($id) {
@@ -201,6 +224,11 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @return type
 	 */
 	protected function sanitizeInventoryForInsert($element) {
+
+		if (!$element['hdnTaxType']) {
+			$element['hdnTaxType'] = Inventory_TaxRecord_Model::getSelectedDefaultTaxMode();
+		}
+
 		if (!empty($element['hdnTaxType'])) {
 			$_REQUEST['taxtype'] = $element['hdnTaxType'];
 		}
@@ -208,10 +236,10 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$_REQUEST['subtotal'] = $element['hdnSubTotal'];
 		}
 
-		if ($element['hdnDiscountAmount']) {
+		if ((float) $element['hdnDiscountAmount'] && $element['hdnDiscountAmount'] !== '') {
 			$_REQUEST['discount_type_final'] = 'amount';
 			$_REQUEST['discount_amount_final'] = $element['hdnDiscountAmount'];
-		} elseif ($element['hdnDiscountPercent']) {
+		} elseif ((float) $element['hdnDiscountPercent'] && $element['hdnDiscountPercent'] !== '') {
 			$_REQUEST['discount_type_final'] = 'percentage';
 			$_REQUEST['discount_percentage_final'] = $element['hdnDiscountPercent'];
 		} else {
@@ -219,8 +247,8 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$_REQUEST['discount_percentage_final'] = '';
 		}
 
-		if ($element['txtAdjustment']) {
-			$_REQUEST['adjustmentType'] = ((int) $element['txtAdjustment'] < 0) ? '-' : '+';
+		if ((float) $element['txtAdjustment']) {
+			$_REQUEST['adjustmentType'] = ((float) $element['txtAdjustment'] < 0) ? '-' : '+';
 			$_REQUEST['adjustment'] = abs($element['txtAdjustment']);
 		} else {
 			$_REQUEST['adjustmentType'] = '';
@@ -238,6 +266,23 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$_REQUEST['conversion_rate'] = 1;
 		}
 
+		$lineItems = $element['LineItems'];
+		$totalNoOfProducts = count($lineItems);
+		$_REQUEST['totalProductCount'] = $totalNoOfProducts;
+		$_REQUEST['REQUEST_FROM_WS'] = true;
+
+		$i = 1;
+		if (!is_array($lineItems)) {
+			$lineItems = array();
+		}
+		foreach ($lineItems as $lineItem) {
+			$productIdComponents = vtws_getIdComponents($lineItem['productid']);
+			$productId = $productIdComponents[1];
+
+			$_REQUEST['hdnProductId'.$i] = $productId;
+			$_REQUEST['qty'.$i] = $lineItem['quantity'];
+			$i++;
+		}
 		return $element;
 	}
 
@@ -306,16 +351,16 @@ class HeadInventoryOperation extends HeadModuleOperation {
 
 		return $element;
 	}
-    /* NOTE: Special case to pull the default setting of TermsAndCondition */
+	/* NOTE: Special case to pull the default setting of TermsAndCondition */
 
-    public function describe($elementType) {
-        $describe = parent::describe($elementType);
-        $tandc = getTermsAndConditions($elementType);
-        foreach ($describe['fields'] as $key => $list){
-            if($list["name"] == 'terms_conditions'){
-                $describe['fields'][$key]['default'] = $tandc;
-            }
-        }
+	public function describe($elementType) {
+		$describe = parent::describe($elementType);
+		$tandc = getTermsAndConditions($elementType);
+		foreach ($describe['fields'] as $key => $list){
+			if($list["name"] == 'terms_conditions'){
+				$describe['fields'][$key]['default'] = $tandc;
+			}
+		}
 
 		$shippingTaxes = array();
 		$allShippingTaxes = getAllTaxes('available', 'sh');
@@ -351,8 +396,8 @@ class HeadInventoryOperation extends HeadModuleOperation {
 
 		}
 
-        return $describe;
-    }
+		return $describe;
+	}
 
 	/**
 	 * Function to trigger the events which are before save
@@ -360,15 +405,17 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param <type> $eventManager
 	 */
 	public function triggerBeforeSaveEvents($element, $eventManager) {
-
+		global $VTIGER_BULK_SAVE_MODE;
 		if ($eventManager) {
 			$eventManager->initTriggerCache();
 			$focusObj = $this->constructFocusObject($element);
 			$entityData = VTEntityData::fromCRMEntity($focusObj);
 
-			$eventManager->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
-			$eventManager->triggerEvent("vtiger.entity.beforesave", $entityData);
-			$eventManager->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+			if (!$VTIGER_BULK_SAVE_MODE) {
+				$eventManager->triggerEvent("jo.entity.beforesave.modifiable", $entityData);
+				$eventManager->triggerEvent("jo.entity.beforesave", $entityData);
+				$eventManager->triggerEvent("jo.entity.beforesave.final", $entityData);
+			}
 		}
 	}
 
@@ -378,13 +425,18 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param <type> $eventManager
 	 */
 	public function triggerAfterSaveEvents($element, $eventManager) {
-
+		global $VTIGER_BULK_SAVE_MODE;
 		if ($eventManager) {
 			$focusObj = $this->constructFocusObject($element);
+			if (isset($element['new']) && $element['new'] == true) {
+				$focusObj->newDelta = true;
+			}
 			$entityData = VTEntityData::fromCRMEntity($focusObj);
+			if (!$VTIGER_BULK_SAVE_MODE) {
 
-			$eventManager->triggerEvent("vtiger.entity.aftersave", $entityData);
-			$eventManager->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+				$eventManager->triggerEvent("jo.entity.aftersave", $entityData);
+				$eventManager->triggerEvent("jo.entity.aftersave.final", $entityData);
+			}
 		}
 	}
 

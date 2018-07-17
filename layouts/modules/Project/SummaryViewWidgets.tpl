@@ -24,8 +24,8 @@
 		{/if}
 	{/foreach}
 
-	<div class="left-block col-lg-12 col-md-12 col-sm-12">
-		<div class="summaryView">
+	<div class="left-block col-lg-12">
+			<div class="summaryView">
 			<div class="summaryViewHeader" style="margin-bottom: 15px;">
 				<h4 class="display-inline-block">{vtranslate('LBL_KEY_METRICS', $MODULE_NAME)}</h4>
 			</div>
@@ -33,7 +33,7 @@
 				{foreach item=SUMMARY_CATEGORY from=$SUMMARY_INFORMATION}
 					<div class="row textAlignCenter roundedCorners">
 						{foreach key=FIELD_NAME item=FIELD_VALUE from=$SUMMARY_CATEGORY}
-							<div class="col-md-3">
+							<div class="col-lg-3">
 								<div class="well" style="min-height: 125px; padding-left: 0px; padding-right: 0px;">
 									<div>
 										<label class="font-x-small">
@@ -52,8 +52,10 @@
 				{/foreach}
 			</div>
 		</div>
-	 </div>
-         <div class="left-block col-sm-5 col-md-5">
+	</div>
+
+	<div class="left-block col-lg-4 col-md-4 col-sm-4">
+		
 		{* Module Summary View*}
 		<div class="summaryView">
 			<div class="summaryViewHeader">
@@ -85,7 +87,7 @@
 										<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', 'Documents')}</li>
 										<li id="HeadAction">
 											<a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')">
-												<img style="  margin-top: -3px;margin-right: 4%;" title="JoForce" alt="JoForce" src="{$SITEURL}layouts/skins//images/JoForce.png">
+												<img style="  margin-top: -3px;margin-right: 4%;" title="Head" alt="Head" src="layouts/v7/skins//images/Head.png">
 												{vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_VTIGER', 'Documents')})}
 											</a>
 										</li>
@@ -105,16 +107,9 @@
 			</div>
 		{/if}
 		{* Summary View Documents Widget Ends Here*}
-
-		{* Detail Summary Widget View*}
-			{if $DETAIL_SUMMARY_WIDGET}
-				{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
-			{/if}
-		{* Detail Summary Widget View Ends Here*}
-
 	</div>
 
-	<div class="middle-block col-md-7 col-sm-7">
+	<div class="middle-block col-lg-4 col-md-4 col-sm-4">
 		{* Summary View Comments Widget*}
 		{if $COMMENTS_WIDGET_MODEL}
 			<div class="summaryWidgetContainer">
@@ -131,7 +126,7 @@
 		{* Summary View Comments Widget Ends Here*}
 	</div>
 
-	<div class="right-block col-md-7 col-sm-7">
+	<div class="right-block col-lg-4 col-md-4 col-sm-4">
 
 		{* Summary View Contacts Widget *}
 		{if $HELPDESK_WIDGET_MODEL}
@@ -220,7 +215,7 @@
 					<div class="clearfix">
 						<div class="widget_filter clearfix">
 							{if $PROGRESS_FIELD_MODEL->isViewableInDetailView()}
-								<div class="col-lg-5 marginRight15">
+								<div class="pull-left marginRight15">
 									{assign var=FIELD_INFO value=$PROGRESS_FIELD_MODEL->getFieldInfo()}
 									{assign var=PICKLIST_VALUES value=$FIELD_INFO['picklistvalues']}
 									{assign var=FIELD_INFO value=Head_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_INFO))}
@@ -235,7 +230,7 @@
 							{/if}
 							&nbsp;&nbsp;
 							{if $STATUS_FIELD_MODEL->isViewableInDetailView()}
-								<div class="col-lg-5 marginRight15">
+								<div class="pull-left marginRight15">
 									{assign var=FIELD_INFO value=$STATUS_FIELD_MODEL->getFieldInfo()}
 									{assign var=PICKLIST_VALUES value=$FIELD_INFO['picklistvalues']}
 									{assign var=FIELD_INFO value=Head_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_INFO))}

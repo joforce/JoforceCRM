@@ -83,17 +83,17 @@
 							<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 							<div class="col-lg-2">
 								{if $row_no eq 0}
-									<i class="lineItemPopup cursorPointer vicon-services" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid"></i>
-									<i class="lineItemPopup cursorPointer vicon-products" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid"></i>
+									<i class="lineItemPopup cursorPointer joicon-services" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid"></i>
+									<i class="lineItemPopup cursorPointer joicon-products" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid"></i>
 								{elseif $entityType eq '' and $PRODUCT_ACTIVE eq 'true'}
-									<i class="lineItemPopup cursorPointer vicon-products" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid"></i>
+									<i class="lineItemPopup cursorPointer joicon-products" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid"></i>
 								{elseif $entityType eq '' and $SERVICE_ACTIVE eq 'true'}
-									<i class="lineItemPopup cursorPointer vicon-services" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" ></i>
+									<i class="lineItemPopup cursorPointer joicon-services" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" ></i>
 								{else}
 									{if ($entityType eq 'Services') and (!$data.$productDeleted)}
-										<i class="lineItemPopup cursorPointer vicon-services" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" ></i>
+										<i class="lineItemPopup cursorPointer joicon-services" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" ></i>
 									{elseif (!$data.$productDeleted)}
-										<i class="lineItemPopup cursorPointer vicon-products" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" ></i>
+										<i class="lineItemPopup cursorPointer joicon-products" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" ></i>
 									{/if}
 								{/if}
 							</div>
@@ -169,7 +169,7 @@
 				&nbsp;
 				{assign var=PRICEBOOK_MODULE_MODEL value=Head_Module_Model::getInstance('PriceBooks')}
 				{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView') && $MODULE != 'PurchaseOrder'}
-					<i class="priceBookPopup cursorPointer vicon-pricebooks" data-popup="Popup" data-module-name="PriceBooks" style="float:left"></i>
+					<i class="priceBookPopup cursorPointer joicon-pricebooks" data-popup="Popup" data-module-name="PriceBooks" style="float:left"></i>
 				{/if}
 			</div>
 			<div style="clear:both"></div>

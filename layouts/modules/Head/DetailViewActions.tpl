@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): JoForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -29,6 +29,18 @@
                     </div>
                 </button>
             {/if}
+
+	    {if $MODULE == 'Contacts'}
+		{assign var=global_masquerade_permission value=getGlobalMasqueradeUserPermission()}
+		{if $global_masquerade_permission}
+			{assign var=masquerade_permission value=getMasqueradeUserActionPermission()}
+			{if $masquerade_permission}
+	                	<div class="btn btn-default" id="convert-masquerade-user" data-recordid="{$RECORD->getId()}">{vtranslate('LBL_CONVERT_USER', $MODULE)}
+	        	        </div>
+			{/if}
+		{/if}
+            {/if}
+
             {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
                 <button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
                         {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}

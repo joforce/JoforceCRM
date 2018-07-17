@@ -31,7 +31,6 @@ class Install_InitSchema_Model {
 		$combo->create_nonpicklist_tables();
 
 		create_tab_data_file();
-		create_parenttab_data_file();
 		crete_htacces_file();
 		// self::create_dashboard_entry();
 		// default report population

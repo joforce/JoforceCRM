@@ -1788,13 +1788,13 @@ $(document).ready( function() {
 	if($('#present-dashboard-tab'))
 	{
         	var present_tab = $('#present-dashboard-tab').val();
-                if (present_tab == 'DASHBOARD')
+                if (present_tab == 'DASHLETS')
                 {
-                	$('#dashboard-option').addClass('active-dashboard');
+                	$('#dashlets-option').addClass('active-dashboard');
                 }
                 else
                 {
-                        $('#notification-option').addClass('active-dashboard');
+                        $('#dashboard-option').addClass('active-dashboard');
                 }
 	}
 });

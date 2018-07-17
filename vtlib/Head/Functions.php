@@ -713,7 +713,7 @@ class Head_Functions {
 			$token_data = '$custom-' . $columnname . '$';
 			$token_value = '';
 			switch ($columnname) {
-				case 'currentdate'		:	$token_value = date("F j, Y");
+				case 'currentdate'		:	$token_value = date("d-m-Y");
 											break;
 				case 'currenttime'		:	$token_value = date("G:i:s T");
 											break;
@@ -1150,7 +1150,7 @@ class Head_Functions {
 	static function getTrackImageContent($recordId, $parentId) {
 		$siteURL = vglobal('site_URL');
 		$applicationKey = vglobal('application_unique_key');
-		$trackURL = "$siteURL/modules/Emails/actions/TrackAccess.php?record=$recordId&parentId=$parentId&applicationKey=$applicationKey";
+		$trackURL = "".$siteURL."index.php?module=Emails&action=TrackAccess&record=$recordId&parentId=$parentId&applicationKey=$applicationKey";
 		$imageDetails = "<img src='$trackURL' alt='' width='1' height='1'>";
 		return $imageDetails;
 	}
@@ -1327,8 +1327,8 @@ class Head_Functions {
 	 * @param type $moduleName -- module for which table name need to be retrieved
 	 * @return type -- table name
 	 */
-	public static function getUserSpecificTableName($moduleName) {
-        return 'jo_crmentity_user_field';
+	public static function getUserSpecificTableName() {
+        	return 'jo_crmentity_user_field';
 	}
 
 	/**
@@ -1337,9 +1337,8 @@ class Head_Functions {
 	 * @param type $moduleName -- moduleName
 	 * @return boolean 
 	 */
-	public static function isUserSpecificFieldTable($tableName, $moduleName) {
-		$moduleName = strtolower($moduleName);
-		return (self::getUserSpecificTableName($moduleName) == $tableName) ? true : false;
+	public static function isUserSpecificFieldTable($tableName) {
+		return (self::getUserSpecificTableName() == $tableName) ? true : false;
 	}
 
 	public static function isUserExist($userId) {

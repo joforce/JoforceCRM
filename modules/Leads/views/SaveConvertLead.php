@@ -90,9 +90,9 @@ class Leads_SaveConvertLead_View extends Head_View_Controller {
 		}
 
 		if(!empty($accountId)) {
-			header("Location: ".$site_URL."Detail/Accounts/$accountId");
+			header("Location: ".$site_URL."Accounts/view/Detail/$accountId");
 		} elseif (!empty($contactId)) {
-			header("Location: ".$site_URL."Detail/Contacts/$contactId");
+			header("Location: ".$site_URL."Contacts/view/Detail/$contactId");
 		} else {
 			$this->showError($request);
 			exit;

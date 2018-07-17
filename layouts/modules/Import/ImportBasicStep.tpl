@@ -52,20 +52,20 @@
 			<div class="row clearfix">
 				<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 					{if $FORMAT eq 'ics'}
-						<button type="submit" name="import" id="importButton" class="btn btn-primary btn-lg" onclick="return Calendar_Edit_Js.uploadAndParse();">{vtranslate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}</button>
+						<button type="submit" name="import" id="importButton" class="btn btn-success btn-lg" onclick="return Calendar_Edit_Js.uploadAndParse();">{vtranslate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}</button>
 						&nbsp;&nbsp;&nbsp;<a class="cancelLink" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					{else}
 						<div id="importStepOneButtonsDiv">
 							{if $DUPLICATE_HANDLING_NOT_SUPPORTED eq 'true'}
-								<button class="btn btn-primary btn-lg" id="skipDuplicateMerge" onclick="Head_Import_Js.uploadAndParse('0');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
+								<button class="btn btn-success btn-lg" id="skipDuplicateMerge" onclick="Head_Import_Js.uploadAndParse('0');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							{else}
-								<button class="btn btn-primary btn-lg" id ="importStep2" onclick="Head_Import_Js.importActionStep2();">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
+								<button class="btn btn-success btn-lg" id ="importStep2" onclick="Head_Import_Js.importActionStep2();">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							{/if}
 							&nbsp;&nbsp;&nbsp;<a class='cancelLink' onclick="Head_Import_Js.loadListRecords();" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 						<div id="importStepTwoButtonsDiv" class = "hide">
 							<button class="btn btn-default btn-lg" id="backToStep1" onclick="Head_Import_Js.bactToStep1();">{vtranslate('LBL_BACK', $MODULE)}</button>
-							&nbsp;&nbsp;&nbsp;<button name="next" class="btn btn-primary btn-lg" id="uploadAndParse" onclick="Head_Import_Js.uploadAndParse('1');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
+							&nbsp;&nbsp;&nbsp;<button name="next" class="btn btn-success btn-lg" id="uploadAndParse" onclick="Head_Import_Js.uploadAndParse('1');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							&nbsp;&nbsp;&nbsp;<button class="btn btn-primary btn-lg" id="skipDuplicateMerge" onclick="Head_Import_Js.uploadAndParse('0');">{vtranslate('Skip this step', $MODULE)}</button>
 							&nbsp;&nbsp;&nbsp;<a class='cancelLink' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>

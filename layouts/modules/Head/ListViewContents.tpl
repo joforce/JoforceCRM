@@ -257,9 +257,6 @@
 			$('.content-area').css("min-height","auto");
 			$('#table-content').css("height",alterheight);
 			$('.app-footer').css("width","100%").css("position","fixed").css("bottom","0px").css("z-index","1000");
-			$('.btn-paginate').click(function(){
-				location.reload();
-			});
 		}
 
 		if(testheight > alterheight){

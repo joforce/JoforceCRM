@@ -61,7 +61,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
 			return false;
         },
         uploadAndParse: function(auto_merge) {
-            if (Head_Import_Js.validateFilePath() && Head_Import_Js.validateMergeCriteria()) {
+            if (Head_Import_Js.validateFilePath() && Head_Import_Js.validateMergeCriteria(auto_merge)) {
                 jQuery("#auto_merge").val(auto_merge);
                 var form = jQuery("form[name='importBasic']");
                 var data = new FormData(form[0]);
@@ -91,16 +91,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
                     app.helper.loadPageContentOverlay(response);
                     app.helper.hideProgress();
                     if(!err){
-                        if (jQuery('#scheduleImportStatus').length > 0) {
-                            app.event.one('post.overlayPageContent.hide', function(container) {
-                                clearTimeout(Head_Import_Js.timer);
-                                Head_Import_Js.isReloadStatusPageStopped = true;
-                            });
-                            Head_Import_Js.isReloadStatusPageStopped = false;
-                            Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 5000);
-                        } else {
-                            app.helper.showSuccessNotification({message:'Import Completed.'});
-                        }
+                        app.helper.showSuccessNotification({message:'Import Completed.'});
                     }
                 });
             }
@@ -255,18 +246,16 @@ if (typeof (Head_Import_Js) == 'undefined') {
                         });
             }
         },
-        validateMergeCriteria: function() {
-            var selectedOptions = jQuery('#selected_merge_fields option');
-            if (selectedOptions.length == 0) {
-                var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
-                var params = {
-                    text: errorMessage,
-                    'type': 'error'
-                };
-                Head_Helper_Js.showMessage(params);
-                return false;
-            }
-            Head_Import_Js.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
+        validateMergeCriteria: function(auto_merge) {
+			if (auto_merge == 1) {
+				var selectedOptions = jQuery('#selected_merge_fields option');
+				if (selectedOptions.length == 0) {
+					var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
+					app.helper.showErrorNotification({message: errorMessage});
+					return false;
+				}
+				Head_Import_Js.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
+			}
             return true;
         },
         //TODO move to a common file

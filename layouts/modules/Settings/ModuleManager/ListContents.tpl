@@ -15,11 +15,11 @@
 				<div class="clearfix">
 					<h4 class="pull-left">{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h4>
 					<div class="pull-right">
-						<div class="btn-group">
-							<!--<button class="btn btn-default" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_FROM_FILE_URL}"'>
+					    <div class="btn-group" style="padding-top: 5px;" >
+						<button class="btn btn-default" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_FROM_FILE_URL}"'>
 								{vtranslate('LBL_IMPORT_MODULE_FROM_ZIP', $QUALIFIED_MODULE)}
-							</button> -->
-						</div>&nbsp;
+						</button>
+				    	    </div>&nbsp;
 					</div>
 				</div>
 				<br>

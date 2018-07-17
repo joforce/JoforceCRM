@@ -103,7 +103,7 @@ function vtlib_isModuleActive($module) {
 	}
 
 	if(!isset($__cache_module_activeinfo[$module])) {
-		include 'tabdata.php';
+		include 'user_privileges/permissions.php';
 		$tabId = $tab_info_array[$module];
 		$presence = $tab_seq_array[$tabId];
 		$__cache_module_activeinfo[$module] = $presence;
@@ -177,7 +177,6 @@ function vtlib_toggleModuleAccess($modules, $enable_disable) {
 	}
 
 	create_tab_data_file();
-	create_parenttab_data_file();
 
 	// UserPrivilege file needs to be regenerated if module state is changed from
 	// vtiger 5.1.0 onwards
@@ -669,6 +668,8 @@ function vtlib_purify($input, $ignore=false) {
 		if($__htmlpurifier_instance == false) {
 			if(empty($use_charset)) $use_charset = 'UTF-8';
 			if(empty($use_root_directory)) $use_root_directory = dirname(__FILE__) . '/../..';
+
+	    include_once 'vendor/autoload.php';
 
             $config = HTMLPurifier_Config::createDefault();
             $config->set('Core.Encoding', $use_charset);

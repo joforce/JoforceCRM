@@ -37,14 +37,14 @@ Class Settings_MenuManager_SaveAjax_Action extends Settings_Head_IndexAjax_View 
 		$sourceModule = $request->get('sourceModule');
 		$appName = $request->get('appname');
 		$tabid = getTabid($sourceModule);
-			$file_name = "menu/module_apps_".$user_id.".php";	
+			$file_name = "storage/menu/module_apps_".$user_id.".php";	
 			if(file_exists($file_name))
                         {
                         require($file_name);
                         }
                         else
                         {
-                        require("menu/default_module_apps.php");
+                        require("storage/menu/default_module_apps.php");
                         }
 
 		$array = $app_menu_array[$appName];
@@ -77,14 +77,14 @@ Class Settings_MenuManager_SaveAjax_Action extends Settings_Head_IndexAjax_View 
 			}
 
 		$appName = $request->get('appname');
-		$file_name = "menu/module_apps_".$user_id.".php";
+		$file_name = "storage/menu/module_apps_".$user_id.".php";
                         if(file_exists($file_name))
                         {
                         require($file_name);
                         }
                         else
                         {
-                        require("menu/default_module_apps.php");
+                        require("storage/menu/default_module_apps.php");
                         }
 		if(empty ($app_menu_array[$appName]) )
 		{
@@ -116,14 +116,14 @@ Class Settings_MenuManager_SaveAjax_Action extends Settings_Head_IndexAjax_View 
 			array_push($new_app_menu_array, getTabId($moduleName));
 			}
 	
-		$file_name = "menu/module_apps_".$user_id.".php";
+		$file_name = "storage/menu/module_apps_".$user_id.".php";
                         if(file_exists($file_name))
                         {
                         require($file_name);
                         }
                         else
                         {
-                        require("menu/default_module_apps.php");
+                        require("storage/menu/default_module_apps.php");
                         }
 		$app_menu_array[$appName] = $new_app_menu_array;
 		$myfile = fopen($file_name, "w") or die("Unable to open file!");

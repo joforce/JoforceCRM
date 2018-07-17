@@ -175,15 +175,6 @@ function getBlockId($tabid, $label) {
 
 /**
  * This function is used to get the Parent Tab name for a given module.
- * Takes the input parameter as $module - module name
- * This returns value string type
- */
-function getParentTabFromModule($module) {
-	return Head_Deprecated::getParentTabFromModule($module);
-}
-
-/**
- * This function is used to get the Parent Tab name for a given module.
  * Takes no parameter but gets the jo_parenttab value from form request
  * This returns value string type
  */
@@ -205,15 +196,6 @@ function create_tab_data_file() {
 
 function crete_htacces_file() {
 	return Head_Deprecated::CreateHtaccessFile();
-}
-
-/**
- * Function to write the jo_parenttabid and name to a flat file parent_tabdata.txt so that the data
- * is obtained from the file instead of repeated queries
- * returns null
- */
-function create_parenttab_data_file() {
-	return Head_Deprecated::createModuleGroupMetaFile();
 }
 
 function getEntityName($module, $ids_list, $compute=true) {

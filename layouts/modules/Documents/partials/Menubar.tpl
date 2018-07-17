@@ -3,7 +3,7 @@
     <ul>
         <li class="active">
             <a href="{$MODULE_MODEL->getListViewUrl()}">
-                <i class="vicon-documents"></i>
+                <i class="joicon-documents"></i>
                 <span>{$MODULE}</span>
             </a>
         </li>

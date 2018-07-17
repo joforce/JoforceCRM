@@ -10,12 +10,12 @@
    'MARKETING' => 'fa-users',
    'SALES' => 'fa-dot-circle-o',
    'SUPPORT' => 'fa-life-ring',
-   'INVENTORY' => 'vicon-inventory',
+   'INVENTORY' => 'joicon-inventory',
    'PROJECT' => 'fa-briefcase'
 ]}
 <div class="col-sm-12 col-xs-12 app-indicator-icon-container app-{$SELECTED_MENU_CATEGORY}">
     <div class="row" title="{vtranslate("Documents",$MODULE)}">
-        <span class="app-indicator-icon vicon-documents"></span>
+        <span class="app-indicator-icon joicon-documents"></span>
     </div>
 </div>
     

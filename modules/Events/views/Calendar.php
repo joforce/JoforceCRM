@@ -17,6 +17,9 @@ class Events_Calendar_View extends Head_Index_View {
 	public function postProcess(Head_Request $request) {}
 	
 	public function process(Head_Request $request) {
-		header("Location: index.php?module=Calendar&view=Calendar");
+		//header("Location: index.php?module=Calendar&view=Calendar");
+		global $site_URL;
+		$redirect = $site_URL . 'Calendar/view/Calendar';
+		header("Location: $redirect");
 	}
 }

@@ -13,18 +13,12 @@ require_once('vendor/autoload.php');
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once 'config/config.php';
-//require_once('routes.php');
 
 include_once 'vtlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
-global $adb, $dbconfig, $root_directory;
-global $log;
-global $site_URL;
+global $adb, $dbconfig, $root_directory, $site_URL, $log;
 session_start();
-//echo '<pre>'; print_r($_POST); die;
-//error_reporting(E_ALL);
-//ini_set('display_errors','on');
-if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
+if($_POST['FinishMigration'] && $jo_current_version == '1.4') {
 	//rename tables
 	$query = "show tables";
         $result = $adb->pquery($query, array());
@@ -178,7 +172,7 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,13,'License','fa fa-exclamation-triangle','License','Head/Settings/License',2));
 
 	$fieldid = $adb->getUniqueID('jo_settings_field');
-	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,6,'Module Studio','fa fa-edit','Module Studio','ModuleDesigner/Settings/Index',3));
+	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)",array($fieldid,6,'Module Studio','fa fa-video-camera','Module Studio','ModuleDesigner/Settings/Index',3));
 	$fieldid = $adb->getUniqueID('jo_settings_field');
 	$adb->pquery("insert into jo_settings_field (fieldid,blockid,name,iconpath,description,linkto,sequence) values(?,?,?,?,?,?,?)", array($fieldid, 11, 'LBL_MENU_MANAGEMENT','fa fa-bars', 'Menu management', 'MenuManager/Settings/Index', 4));
 	//Service Contracts workflow deletion
@@ -197,9 +191,11 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	
 	$usermoreinfoblock = $adb->getUniqueID('jo_blocks');
 	$field_id = $adb->getUniqueID("jo_field");
-	$adb->pquery("insert into jo_field values(29, " . $field_id . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Home', 100, 20, " .$usermoreinfoblock . " ,1, 'V~O',1,0,'BAS', 1, '',0, '', 0)", array() );
+	$adb->pquery("insert into jo_field values(29, " . $field_id . ", 'default_landing_page', 'jo_users', 1, 16, 'default_landing_page', 'Default Landing Page', 1, 2, 'Home', 100, 20, " .$usermoreinfoblock . " ,1, 'V~O',1,0,'BAS', 1, '',0, 0)", array() );
 
-	$adb->pquery( "UPDATE jo_users SET default_landing_page = 'Home'", array() );
+        // remove customer portal for the version 1.3
+        $adb->pquery("DELETE FROM jo_settings_field WHERE name = ?", array('LBL_CUSTOMER_PORTAL'));
+
 	
 	// Delete from unwanted dashboard entry from the jo_dashboard_tabs
         $adb->pquery('delete from jo_dashboard_tabs where tabname = ?', array('Default'));
@@ -263,9 +259,9 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 			  ) ENGINE=InnoDB DEFAULT CHARSET=utf8", true);
 	}
 
-	$updateModulesList = array(	'Project'		=> 'packages/head/optional/Projects.zip',
-								'Google'		=> 'packages/head/optional/Google.zip',
-								'ExtensionStore'=> 'packages/head/marketplace/ExtensionStore.zip');
+	$updateModulesList = array(	'Project'	=> 'packages/head/optional/Projects.zip',
+					'Google'	=> 'packages/head/optional/Google.zip',);
+
 	foreach ($updateModulesList as $moduleName => $packagePath) {
 		$moduleInstance = Head_Module::getInstance($moduleName);
 		if($moduleInstance) {
@@ -285,10 +281,51 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
                     ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1", array());
     	}
 
+    	// drop table 
+        if (!Head_Utils::CheckTable('jo_app2tab')) {
+       		$adb->pquery("DROP TABLE jo_app2tab", array());
+    	}
+
     include_once 'vtlib/Head/Module.php';
     $moduleLists = 'MailManager';
     $module = Head_Module::getInstance($moduleLists);
     if ($module) $module->delete();
+
+	// default_dashboard_view
+        $adb->pquery( "ALTER TABLE jo_users ADD COLUMN default_dashboard_view int(2)", array() );
+        $field_id = $adb->getUniqueID("jo_field");
+        $adb->query("insert into jo_field values(29, " . $field_id . ", 'default_dashboard_view', 'jo_users', 1, 16, 'default_dashboard_view', 'Default Dashboard View', 1, 2, 1, 1, 20, '' ,1, 'V~O',1,0,'BAS', 1, '',0, 0)");
+
+        $adb->pquery( "UPDATE jo_users SET default_dashboard_view = ?", array(1) );
+
+        //Create table jo_notification
+        if (!Head_Utils::CheckTable('jo_notification')) {
+                $adb->pquery("CREATE TABLE `jo_notification` (
+                                        `id` int(20) NOT NULL AUTO_INCREMENT,
+                                        `user_id` int(10) NOT NULL,
+                                        `module_name` varchar(40) NOT NULL,
+                                        `entity_id` int(20) NOT NULL,
+                                        `notifier_id` int(10) NOT NULL,
+                                        `is_seen` int(1) NOT NULL,
+                                        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                        `updated_at` datetime DEFAULT NULL,
+                                        `action_type` varchar(40) NOT NULL,
+                                        PRIMARY KEY (`id`)
+                                         ) ENGINE=InnoDB DEFAULT CHARSET=latin1",array());
+        }
+
+        // Add to jo_eventhandler for scheduling
+            include_once('vtlib/Head/Module.php');
+            include_once('vtlib/Head/Event.php');
+            if(Head_Event::hasSupport()) {
+                Head_Event::register(
+                'Home', 'vtiger.entity.aftersave',
+                'NotificationHandler', 'modules/Home/NotificationHandler.php'
+                );
+            }
+
+        // add Language editor to settings field
+//        $adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?,?,?,?,?,?,?,?,?)' , array($adb->getUniqueID('jo_settings_field'), 6,'Language Editor', 'fa fa-pencil', 'LBL_LANGUAGE_EDITOR', 'LanguageEditor/Settings/Index', 3, 0, 0));
 
 	// Update the version of the joforce
 	$adb->pquery("UPDATE jo_version SET old_version = ? , current_version = ? where id =?", array( $jo_current_version, 1.3, 1 ));
@@ -333,11 +370,72 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 	installVtlibModule('EmailPlus', 'packages/head/migrate/EmailPlus.zip');
 	installVtlibModule('PDFMaker', 'packages/head/migrate/PDFMaker.zip');
 
+		//Write module contents on default_module_apps.php
+	$file_contents = "<?php \$app_menu_array = array(
+  'MARKETING' =>
+  array (
+    0 => '" . getTabid('Leads') . "',
+    1 => '" . getTabid('Contacts') . "',
+    2 => '" . getTabid('Accounts') . "',
+    3 => '" . getTabid('Campaigns') . "'
+  ),
+  'SALES' =>
+  array (
+    0 => '" .getTabid('Potentials'). "',
+    1 => '" .getTabid('Contacts'). "',
+    2 => '" .getTabid('Accounts'). "',
+    3 => '" .getTabid('Products'). "',
+    4 => '" .getTabid('Quotes'). "',
+    5 => '" .getTabid('Services'). "'
+  ),
+  'INVENTORY' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('Products'). "',
+    3 => '" .getTabid('Vendors'). "',
+    4 => '" .getTabid('PriceBooks'). "',
+    5 => '" .getTabid('PurchaseOrder'). "',
+    6 => '" .getTabid('SalesOrder'). "',
+    7 => '" .getTabid('Invoice'). "',
+    8 => '" .getTabid('Services'). "'
+  ),
+  'SUPPORT' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('HelpDesk'). "'
+  ),
+'PROJECT' =>
+  array (
+    0 => '" .getTabid('Contacts'). "',
+    1 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('ProjectTask'). "',
+    3 => '" .getTabid('ProjectMilestone'). "',
+    4 => '" .getTabid('Project') ."'
+  ),
+'TOOLS' =>
+  array (
+    0 => '" .getTabid('EmailTemplates'). "',
+    1 => '" .getTabid('PBXManager'). "',
+    2 => '" .getTabid('Calendar')."',
+    3 => '" .getTabid('Documents'). "',
+    4 => '" .getTabid('RecycleBin'). "',
+    5 => '" .getTabid('PDFMaker'). "',
+    6 => '" .getTabid('EmailPlus'). "'
+  ),
+);
+?>";
+
+	$myfile = fopen("storage/menu/default_module_apps.php", "w");
+        fwrite($myfile, $file_contents);
+        fclose($myfile);
+
 	//create htaccess file
 	crete_htacces_file();
         session_unset();
         session_destroy();
-        header ('Location: '.$site_URL.'/index.php'); die();
+        header ('Location: '.$site_URL.'index.php'); die();
 }
 ?>
 <?php if(!$_POST['startMigration']){?>
@@ -433,13 +531,6 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
                                                 return true;
                                         });
 
-					/*$('input[name="startMigration"]').click(function(){
-                        var confirm_migration = confirm('Are you sure you want to start the migration ?');
-                        if(!confirm_migration)  {
-							return false;
-						}
-						return true;
-					});*/
 				});
 				
 			</script>
@@ -511,14 +602,6 @@ if($_POST['FinishMigration'] && $jo_current_version == '1.3') {
 			</div>
 			<script>
 				$(document).ready(function(){
-
-                                        /*$('input[name="FinishMigration"]').click(function(){
-                                                if($("#checkBox1").is(':checked') == false || $("#checkBox2").is(':checked') == false || $("#checkBox3").is(':checked') == false  || $("#checkBox4").is(':checked') == false ){
-                                                        alert('Before starting migration, please take your database and source backup');
-                                                        return false;
-                                                }
-                                                return true;
-                                        });*/
 
 					$('input[name="FinishMigration"]').click(function(){
                         var confirm_migration = confirm('Are you sure you want to start the migration ?');

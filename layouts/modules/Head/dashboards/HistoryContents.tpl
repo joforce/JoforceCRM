@@ -35,7 +35,7 @@
 							{else if $MOD_NAME eq "Calendar"}
 								{assign var=VT_ICON value="Task"}
 							{/if}
-							<span><i class="vicon-{strtolower($VT_ICON)} entryIcon" title={$TRANSLATED_MODULE_NAME}></i></span>&nbsp;&nbsp;
+							<span><i class="joicon-{strtolower($VT_ICON)} entryIcon" title={$TRANSLATED_MODULE_NAME}></i></span>&nbsp;&nbsp;
 						</div>
 						<div class="col-lg-10 pull-left">
 							{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
@@ -120,7 +120,7 @@
 			{else if $MODELNAME == 'ModComments_Record_Model'}
 				<div class="row">
 					<div class="col-lg-1 pull-left">
-						<span><i class="vicon-chat entryIcon" title={$TRANSLATED_MODULE_NAME}></i></span>
+						<span><i class="joicon-chat entryIcon" title={$TRANSLATED_MODULE_NAME}></i></span>
 					</div>
 					<div class="col-lg-10 pull-left" style="margin-top:5px;">
 						{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}

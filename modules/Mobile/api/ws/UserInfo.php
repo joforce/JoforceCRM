@@ -23,7 +23,7 @@ class Mobile_WS_UserInfo extends Mobile_WS_Controller {
 			'email' => $current_user->email1
 		);
 		
-		$allVisibleModules = Settings_MenuManager_Module_Model::getAllVisibleModules();
+		$allVisibleModules = Settings_MenuEditor_Module_Model::getAllVisibleModules();
 		$appModulesMap = array();
 		
 		foreach($allVisibleModules as $app => $moduleModels) {

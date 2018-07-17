@@ -144,7 +144,7 @@ class JoHelper
      * @throws \Exception
      */
     public function listRecords($requested_data, $args)
-    {
+    {   
         global $current_user;
 
         $current_user = $this->user;
@@ -891,7 +891,9 @@ class JoHelper
                     'limit' => Type::int(),
                     'order_by' => Type::string(),
                     'sort_by' => Type::string(),
-                    'filter_id' => Type::int()
+                    'filter_id' => Type::int(),
+                    'search_key' => Type::string(),
+                    'search_value' => Type::string()
                 ],
                 'fields' => [
                     'records' => Type::listOf($moduleFieldsType),
@@ -1431,5 +1433,121 @@ class JoHelper
         $userGroupInstance = new \GetUserGroups();
         $userGroupInstance->getAllUserGroups($userId);
         return $userGroupInstance->user_groups;
+    }
+
+    /**
+     * Return location details related to the user.
+     * @param $request
+     * @return mixed
+     */
+    public function returnLocationDetails($request)
+    {   
+        include_once 'include/Webservices/Query.php';
+
+        $code=$request['code'];
+        $city=$request['city'];
+        $state=$request['state'];
+        $request_array = array();
+                
+        if ($request['module'] =='Leads') {
+
+            $code_query = $city_query =$state_query = $query_concat = '';
+            
+            $query_concat ="SELECT concat(details.firstname,' ',details.lastname) as label,concat(address.lane,' ',address.city,' ',address.state,' ',address.code,' ',address.country) as address,address.code,address.city,address.state FROM jo_leaddetails details JOIN jo_crmentity crm ON crm.crmid = details.leadid JOIN jo_leadaddress address ON address.leadaddressid = crm.crmid WHERE crm.deleted = 0 AND"; 
+
+            $code_query = $city_query =$state_query = $query_concat;
+
+            if (!empty($code)) {
+                $code_query.=" code =? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($code_query, array($code));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }      
+            }
+            if (!empty($city)) {
+                $city_query.=" city =? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($city_query, array($city));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }      
+            }
+            if (!empty($state)) {
+                $state_query.=" state =? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($state_query, array($state));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }      
+            }
+
+            $transform_array=array_unique($request_array, SORT_REGULAR);
+            $temp_array = [];
+                 
+            $i = 0;
+            foreach ($transform_array as $key => $value) {
+                $temp_array[$i] = ['label'=>$value['label'],'address'=>$value['address']];
+                $i = $i + 1;
+            }
+
+            $responcearray = array('data' => $temp_array);      
+            return $responcearray;
+            
+        } elseif ($request['module'] =='Contacts') {  // for Contacts 
+            $mailingzip_query = $mailingcode_query =$mailingstate_query = $query_concat = '';
+
+            $query_concat="SELECT concat(details.firstname,' ', details.lastname) as label, concat(address.mailingstreet, ' ', address.mailingcity,' ', address.mailingstate, ' ', address.mailingzip, ' ', address.mailingcountry) as address,address.mailingstreet,address.mailingzip,address.mailingcity,address.mailingstate,address.mailingcountry FROM jo_contactdetails details JOIN jo_crmentity crm ON crm.crmid = details.contactid JOIN jo_contactaddress address ON address.contactaddressid = crm.crmid WHERE crm.deleted = 0 AND";
+
+            $mailingzip_query = $mailingcode_query = $mailingstate_query = $query_concat;
+
+            if (!empty($code)) {
+                $mailingzip_query.=" mailingzip =? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($mailingzip_query, array($code));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }
+            }
+            if (!empty($city)) {
+                $mailingcode_query.=" mailingcity=? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($mailingcode_query, array($city));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }
+            }
+            if (!empty($state)) {
+                $mailingstate_query.=" mailingstate=? LIMIT 30";    
+
+                $mailingzip = $this->db->pquery($mailingstate_query, array($state));
+
+                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+
+                    $request_array[] = $module_info;
+                }      
+            }
+            $transform_array=array_unique($request_array, SORT_REGULAR);
+            $temp_array = [];     
+            $i = 0;
+            foreach ($transform_array as $key => $value) {
+                $temp_array[$i] = ['label'=>$value['label'],'address'=>$value['address']];
+                $i = $i + 1;
+            }        
+            $responcearray = array('data' => $temp_array);      
+            return $responcearray;
+                
+        } 
+
     }
 }

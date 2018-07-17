@@ -10,7 +10,7 @@
    'MARKETING' => 'fa-users',
    'SALES' => 'fa-dot-circle-o',
    'SUPPORT' => 'fa-life-ring',
-   'INVENTORY' => 'vicon-inventory',
+   'INVENTORY' => 'joicon-inventory',
    'PROJECT' => 'fa-briefcase'
 ]}
         

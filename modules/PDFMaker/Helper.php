@@ -6,8 +6,12 @@ class Helper{
 	}
 
 	public function convertFieldAndExportPDF($sourceModule, $recordIds, $tempId, $action_type = false, $templatecontent = false){
-		global $adb;
+		global $adb, $site_URL;
 		$html = "";
+
+		$companyDetails = Head_CompanyDetails_Model::getInstanceById();
+		$companyLogo = $companyDetails->getLogo();
+		$image_path = $companyLogo->get('imagepath');
 
 		$recordId_value = explode(',', $recordIds);
 		if($unserializedValue['page_format'])
@@ -58,6 +62,8 @@ class Helper{
 			$html = $templatecontent;
 			$token_data_pair = explode('$', $html);
 			$tokenDataPair = explode('$', $html);
+			//$html = str_replace('$image_URL$', $image_path, $html);
+			$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
 			$fields = Array();
 			for ($i = 1; $i < count($token_data_pair); $i+=1) {
 				$module = explode('-', $tokenDataPair[$i]);
@@ -81,6 +87,8 @@ class Helper{
 				$html = str_replace($parsed, $html, $templatecontent);
 				$html = str_replace('$listviewblock_start$', "", $html);
 				$html = str_replace('$listviewblock_end$', "", $html);
+				//$html = str_replace('$image_URL$', $image_path, $html);
+				$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
 
 			}
 			else if(is_array($fields['productblock_start']) && count($fields['productblock_start']) > 0 && is_array($fields['productblock_end']) && count($fields['productblock_end']) > 0){
@@ -121,15 +129,14 @@ unset($record);
                         			    }                       
                                                     $values[$column] = $single_record[$column];
                          			}
-					$html_value = str_replace($needle,
-                                                                $values[array_search($column, $fieldColumnMapping)], $html_value);
+					$html_value = str_replace($needle, $values[array_search($column, $fieldColumnMapping)], $html_value);
                                         }
        				        $modulevalue = strtolower($sourceModule);
 			                    foreach($fields[$modulevalue] as $column){
                         			$needle = '$'."$modulevalue"."-$column$";
 			                        $fieldColumnMapping[$column] = $column;
                         			if($column == 'comment'){
-			                            $get_invoice_comment = $adb->pquery('select * from jo_inventoryproductrel where productid = ?', array($single_record['productid']));
+			                            $get_invoice_comment = $adb->pquery('select * from jo_inventoryproductrel where productid = ? and id=? and lineitem_id=?', array($single_record['productid'], $recordId, $single_record['lineitem_id']));
 	
         			                    while($record_details = $adb->fetch_array($get_invoice_comment))
 							{
@@ -153,7 +160,7 @@ unset($record);
                                                $getValue = $adb->pquery("select * from {$moduleInfo[$sourceModule]['table']} where {$moduleInfo[$sourceModule]['id']}  = ?", array($recordId));
                                                $value_array = $adb->fetch_array($getValue);
                                                $currency_id = $value_array['currency_id'];
-                                               $getCurrency = $adb->pquery("select * from jo_currencies where currencyid = ?", array($currency_id)); 
+                                               $getCurrency = $adb->pquery("select * from jo_currency_info where id = ?", array($currency_id)); 
                                                $currency_array = $adb->fetch_array($getCurrency);
                                                $currency_symbol = $currency_array['currency_symbol'];
                                                $values[$column] = $currency_symbol;
@@ -164,8 +171,12 @@ unset($record);
 
 					$html .= $html_value;
 					$html = str_replace('$productblock_sno$', $count, $html);
+					//$html = str_replace('$image_URL$', $image_path, $html);
+					$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
 				}
 				$html = str_replace($parsed, $html, $templatecontent);
+				//$html = str_replace('$image_URL$', $image_path, $html);
+				$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
 //				$html = str_replace('$productblock_start$', "", $html);
 //				$html = str_replace('$productblock_end$', "", $html);
 				$dom = new DOMDocument();
@@ -220,17 +231,25 @@ unset($record);
                                           }*/
                                        if($column == 'shtax_totalamount' || $column == 'tax_totalamount'){
                                            $html = str_replace($needle,$values[array_search($column, $fieldColumnMapping)], $html);
+					   //$html = str_replace('$image_URL$', $image_path, $html);
+					   $html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
                                        }
                                        else{
                                            $values[$column] = number_format((float)$values[$column], 2, '.', '');
                                            $html = str_replace($needle,$values[array_search($column, $fieldColumnMapping)], $html);
+					   //$html = str_replace('$image_URL$', $image_path, $html);
+					   $html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
                                        }
 				}
 			$html = str_replace($currency_mapped_array['needle'], $currency_mapped_array['value'], $html);
+		 	//$html = str_replace('$image_URL$', $image_path, $html);
+			$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
 			}
-			else
+			else {
 				$html = getMergedDescription($templatecontent, $recordId, $sourceModule);
-
+				//$html = str_replace('$image_URL$', $image_path, $html);
+				$html = str_replace('$image_URL$', "<img src='$image_path' alt='Logo' />", $html);
+			}
 
 			if (is_array($fields['company']) && count($fields['company']) > 0) {
 
@@ -358,13 +377,19 @@ unset($record);
 				}
 				$mpdf->WriteHTML(html_entity_decode($html));
 
+				$recordModel = Inventory_Record_Model::getInstanceById($recordId);
+				$lower_value = strtolower($sourceModule);
+		                $record_related_number = $recordModel->get($lower_value.'_no');
+
 			}
 
                         if($action_type == 'detailview_save_doc' || $action_type == 'detailview_send_mail'){
                                 return $mpdf;
                         }
-			else
-		  		$mpdf->Output($filename.'.pdf', 'D');
+			else {
+				ob_clean();
+		  		$mpdf->Output("$filename-$record_related_number.pdf", 'D');
+			}
 		}
 
 

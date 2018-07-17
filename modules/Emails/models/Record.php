@@ -583,7 +583,7 @@ class Emails_Record_Model extends Head_Record_Model {
 	}
 
 	/**
-	 * Functiont to track clicks
+	 * Function to track clicks
 	 * @param <int> $parentId
 	 */
 	public function trackClicks($parentId) {
@@ -666,7 +666,7 @@ class Emails_Record_Model extends Head_Record_Model {
 		$siteURL = vglobal('site_URL');
 		$applicationKey = vglobal('application_unique_key');
 		$recordId = $this->getId();
-		$trackURL = "$siteURL/modules/Emails/actions/TrackAccess.php?record=$recordId&parentId=$parentId&applicationKey=$applicationKey&method=click";
+		$trackURL = "". $siteURL ."index.php?module=Emails&action=TrackAccess&record=$recordId&parentId=$parentId&applicationKey=$applicationKey&method=click";
 		if ($redirectUrl) {
 			$encodedRedirUrl = rawurlencode($redirectUrl);
 			$trackURL .= "&redirectUrl=$encodedRedirUrl";

@@ -27,7 +27,7 @@ class PDFMaker {
 			<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>INVOICE</h3>
                         </td>
@@ -134,7 +134,7 @@ class PDFMaker {
 			<table width="985">
 		<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>QUOTE</h3>
                         </td>
@@ -241,7 +241,7 @@ class PDFMaker {
 			$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'PurchaseOrder', '', '<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>Purchase Order</h3>
                         </td>
@@ -351,7 +351,7 @@ class PDFMaker {
 			<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
 			<h3>Sales Order</h3>
 			</td>

@@ -56,7 +56,7 @@
 								{assign var='translatedModuleLabel' value=vtranslate($moduleModel->get('label'),$moduleName )}
 								<li>
 									<a href="{$moduleModel->getDefaultUrl()}" title="{$translatedModuleLabel}">
-										<span class="vicon-{strtolower($moduleName)} module-icon"></span>
+										<span class="joicon-{strtolower($moduleName)} module-icon"></span>
 										<span class="module-name textOverflowEllipsis"> {$translatedModuleLabel}</span>
 									</a>
 								</li>
@@ -70,7 +70,7 @@
 			{if $USER_PRIVILEGES_MODEL->hasModulePermission($DOCUMENTS_MODULE_MODEL->getId())}
 				<div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}Documents/view/List">
 					<div class="menu-items-wrapper">
-						<span class="app-icon-list vicon-documents"></span>
+						<span class="app-icon-list joicon-documents"></span>
 						<span class="app-name textOverflowEllipsis"> {vtranslate('Documents')}</span>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
                                         {if $EMAILTEMPLATES_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($EMAILTEMPLATES_MODULE_MODEL->getId())}
                                 <div class="menu-item app-item app-item-misc" data-default-url="{$SITEURL}EmailTemplates/view/List">
                                         <div class="menu-items-wrapper">
-                                                <span class="app-icon-list  vicon-emailtemplates"></span>
+                                                <span class="app-icon-list  joicon-emailtemplates"></span>
                                                 <span class="app-name textOverflowEllipsis">{vtranslate($EMAILTEMPLATES_MODULE_MODEL->getName(), $EMAILTEMPLATES_MODULE_MODEL->getName())}</span>
                                         </div>
                                 </div>
@@ -114,7 +114,7 @@
                                         {if $EMAILPLUS_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($EMAILTEMPLATES_MODULE_MODEL->getId())}
                                                 <li>
                                                         <a href="{$EMAILPLUS_MODULE_MODEL->getDefaultUrl()}">
-                                                                <span class="vicon-mailmanager module-icon"></span>
+                                                                <span class="joicon-mailmanager module-icon"></span>
                                                                 <span class="module-name textOverflowEllipsis"> {vtranslate($EMAILPLUS_MODULE_MODEL->getName(), $EMAILPLUS_MODULE_MODEL->getName())}</span>
                                                         </a>
                                                 </li>

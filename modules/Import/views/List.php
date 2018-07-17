@@ -20,40 +20,6 @@ class Import_List_View extends Head_Popup_View{
 
 	public function process(Head_Request $request) {
 		$viewer = $this->getViewer($request);
-	
-		global $current_user;
-		$user_id = $current_user->id;
-                //menu details
-                if(file_exists("menu/sections_".$user_id.".php"))
-                        {
-                        require( "menu/sections_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_sections.php");
-                        }
-                $viewer->assign('SECTION_ARRAY', $section_array); //section names
-
-                if(file_exists("menu/main_menu_".$user_id.".php"))
-                        {
-                        require( "menu/main_menu_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_main_menu.php");
-                        }
-                $viewer->assign('MAIN_MENU_TAB_IDS', $main_menu_array); //main menu
-
-                if(file_exists("menu/module_apps_".$user_id.".php"))
-                        {
-                        require( "menu/module_apps_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_module_apps.php");
-                        }
-                $viewer->assign('APP_MODULE_ARRAY', $app_menu_array); //modules and sections
-
 		$mode = $request->get('mode');
 		if(!empty($mode)){
 			$this->invokeExposedMethod($mode,$request);

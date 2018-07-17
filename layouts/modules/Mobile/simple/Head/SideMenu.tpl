@@ -27,11 +27,11 @@
 
     <md-list class="sidenav-module-list">
         <md-list-item md-ink-ripple class="md-1-line">
-            <span class="vicon-grid"></span> &nbsp; 
+            <span class="joicon-grid"></span> &nbsp; 
             <span class="vmodule-name">Dashboard</span>
         </md-list-item>
         <md-list-item ng-click="navigationToggle();loadList(module.name);" class="md-1-line" ng-click="module.label" ng-repeat="module in menus[selectedApp]">
-            <span class="vicon-{{module.name | lowercase | nospace}}"></span> &nbsp; 
+            <span class="joicon-{{module.name | lowercase | nospace}}"></span> &nbsp; 
             <span class="vmodule-name">{{module.label}}</span>
         </md-list-item>
     </md-list>

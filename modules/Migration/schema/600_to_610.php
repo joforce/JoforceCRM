@@ -18,7 +18,6 @@ if(defined('VTIGER_UPGRADE')) {
         //Collating all module package updates here
 	updateVtlibModule('Import', 'packages/head/mandatory/Import.zip');
         updateVtlibModule('PBXManager', 'packages/head/mandatory/PBXManager.zip');
-//	updateVtlibModule('MailManager', 'packages/head/mandatory/MailManager.zip');
 	updateVtlibModule('Mobile', 'packages/head/mandatory/Mobile.zip');
         updateVtlibModule('ModTracker', 'packages/head/mandatory/ModTracker.zip');
 //        updateVtlibModule('ServiceContracts', 'packages/head/mandatory/ServiceContracts.zip');
@@ -74,7 +73,6 @@ $unWanted=array(
  "modules/Portal/Portal.js",
  "modules/Picklist/DependencyPicklist.js",
  "modules/PBXManager/PBXManager.js",
-// "modules/MailManager/MailManager.js",
  "modules/Leads/Leads.js",
  "modules/Invoice/Invoice.js",
  "modules/Integration/Integration.js",

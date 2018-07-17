@@ -466,6 +466,7 @@ Head.Class("Head_List_Js", {
 		self.markSelectedIdsCheckboxes();
 		self.registerDynamicListHeaders();
 		self.registerPostLoadListViewActions();
+		app.helper.registerTableAlignment();
 	},
 	placeListContents: function (contents) {
 		var container = this.getListViewContainer();
@@ -1897,6 +1898,7 @@ Head.Class("Head_List_Js", {
 	registerNextRecordClickEvent: function (container) {
 		var self = this;
 		container.find('#quickPreviewNextRecordButton').on('click', function (e) {
+			app.helper.registerTableAlignment();
 			var element = jQuery(e.currentTarget);
 			var nextRecordId = element.data('record');
 			var appName = element.data('app');
@@ -2020,6 +2022,7 @@ Head.Class("Head_List_Js", {
 		paginationObj.initialize(listViewContainer);
 
 		app.event.on(paginationObj.nextPageButtonClickEventName, function () {
+			app.helper.registerTableAlignment();
 			var pageLimit = listViewContainer.find('#pageLimit').val();
 			var noOfEntries = listViewContainer.find('#noOfEntries').val();
 			var nextPageExist = listViewContainer.find('#nextPageExist').val();
@@ -2555,6 +2558,7 @@ Head.Class("Head_List_Js", {
 			container = "#page";
 		}
 		jQuery('.table-actions').on('click', '.dropdown', function (e) {
+			jQuery('.dropdown-menu.more-actions-right').hide();
 			var containerTarget = jQuery(this).closest(container);
 			var content = jQuery(this).closest(".dropdown");
 			var dropdown = jQuery(e.currentTarget);

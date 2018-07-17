@@ -46,13 +46,15 @@ class Head_Dashboard_View extends Head_Index_View {
 		} else {
 			$widgets = array();
 		}
+
+
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
                 $viewer->assign('DASHBOARD_TABS', $dashboardTabs);
                 $viewer->assign('DASHBOARD_TABS_LIMIT', $dashBoardModel->dashboardTabLimit);
                 $viewer->assign('SELECTED_TAB',$tabid);
-		$viewer->assign('PRESENT_TAB', 'DASHBOARD');
+		$viewer->assign('PRESENT_TAB', 'DASHLETS');
         if (self::$selectable_dashboards) {
                         $viewer->assign('SELECTABLE_WIDGETS', self::$selectable_dashboards);
                 }
@@ -69,6 +71,11 @@ class Head_Dashboard_View extends Head_Index_View {
 	}
 
 	function process(Head_Request $request) {
+		global $current_user;
+		$current_user_id = $current_user->id;
+	
+		$boardid = updateDefaultDashboardView($current_user_id, 2);
+
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

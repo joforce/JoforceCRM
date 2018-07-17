@@ -139,7 +139,7 @@ md-input-container.app-dropdown  > md-select:focus .md-select-label{
     margin-left: 6px;
     display: inline-block;
 }
-.md-list-item-text span[class^='vicon'],span[class*='vicon']{
+.md-list-item-text span[class^='joicon'],span[class*='joicon']{
     color: #777777;
 }
 /*Common rewrites */

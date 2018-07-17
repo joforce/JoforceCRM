@@ -19,7 +19,7 @@
 
 $config = array();
 
-include_once'../../../config/config.inc.php';
+include_once '../../../config/config.inc.php';
 /* Local configuration for Roundcube Webmail */
 $config['root_directory'] = $root_directory;
 $config['siteurl'] = $site_URL;
@@ -83,7 +83,7 @@ $config['product_name'] = 'EmailPlus';
 // in the session record (and the client cookie if remember password is enabled).
 // please provide a string of exactly 24 chars.
 // YOUR KEY MUST BE DIFFERENT THAN THE SAMPLE VALUE FOR SECURITY REASONS
-$config['des_key'] = 'JcdMjVIfSfK96Z9xRvaorxQg';
+$config['des_key'] = $application_unique_key;
 
 // List of active plugins (in plugins/ directory)
 $config['plugins'] = array(
@@ -93,7 +93,8 @@ $config['plugins'] = array(
     'disablecsrf',
     'crmattachment',
     'quickcreate',
-    'related_information'
+    'related_information',
+    'joforce_startup_check',
 );
 
 // skin name: folder from skins/

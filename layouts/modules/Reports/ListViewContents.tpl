@@ -100,7 +100,7 @@
 														{if $PICKLIST_LABEL eq 'Chart'}
 															{assign var="ICON_CLASS" value='fa fa-pie-chart'}
 														{elseif $PICKLIST_LABEL eq 'Detail'}
-															{assign var="ICON_CLASS" value='vicon-detailreport'}
+															{assign var="ICON_CLASS" value='joicon-detailreport'}
 														{/if}
 														<option value="{$PICKLIST_KEY}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES) && ($PICKLIST_KEY neq "") } selected{/if} {if $LISTVIEW_HEADER_KEY eq 'reporttype'}class='{$ICON_CLASS}'{/if}>{$PICKLIST_LABEL}</option>
 													{/foreach}
@@ -128,7 +128,7 @@
 											<span class="value textOverflowEllipsis">
 												{if $LISTVIEW_HEADERNAME eq 'reporttype'}
 													{if $LISTVIEW_ENTRY_VALUE eq 'summary' || $LISTVIEW_ENTRY_VALUE eq 'tabular'}
-														<center title="{vtranslate('LBL_DETAIL_REPORT', $MODULE)}"><span class='vicon-detailreport' style="font-size:17px;"></span></center>
+														<center title="{vtranslate('LBL_DETAIL_REPORT', $MODULE)}"><span class='joicon-detailreport' style="font-size:17px;"></span></center>
 													{elseif $LISTVIEW_ENTRY_VALUE eq 'chart'}
 														<center title="{vtranslate('LBL_CHART_REPORT', $MODULE)}"><span class='fa fa-pie-chart fa-2x' style="font-size:1.7em;"></span></center>
 													{/if}

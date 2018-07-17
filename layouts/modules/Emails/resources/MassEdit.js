@@ -190,15 +190,16 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 						processData:false 
 					};
 					app.request.post(postParams).then(function(err,data){
-						app.helper.hideProgress();
-						var ele = jQuery(data);
-						var success = ele.find('.mailSentSuccessfully');
-						if(success.length <= 0){
-							app.helper.showModal(data);
-						} else {
-							app.event.trigger('post.mail.sent',data);
-						}
-					});
+                                                app.helper.hideProgress();
+                                                var ele = jQuery(data);
+                                                var success_value = jQuery(ele).children('div').text();
+                                                var success = ele.find('.mailSentSuccessfully');
+                                                if(success.length <= 0){
+                                                        app.helper.showErrorNotification({'message' : success_value});
+                                                } else {
+                                                        app.helper.showSuccessNotification({'message' : success_value});
+                                                }
+                                        });
 				}
 			};
 			form.vtValidate(params);

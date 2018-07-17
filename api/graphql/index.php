@@ -45,6 +45,12 @@ $container['graphql'] = function() use ($adb, $container) {
     return new GraphQL(new JoHelper($adb, $current_user));
 };
 
+$container['JoHelper'] = function() use ($adb, $container) {
+    $current_user = CRMEntity::getInstance('Users');
+    $current_user->retrieveCurrentUserInfoFromFile($container['jwt']->data->userId);
+    return new JoHelper($adb, $current_user);
+};
+
 // JWT Middleware for authentication
 $app->add(new \Slim\Middleware\JwtAuthentication([
     "path" => ["/"], // Path to check for authentication
@@ -162,6 +168,16 @@ $app->post('/', function ($request, $response) {
     $graphql_response = $this->graphql->execute($schema, $requested_data);
 
     return $response->withJson($graphql_response, 200);
+});
+
+$app->post('/location', function ($request, $response) {
+
+    $requested_data = $request->getParsedBody();
+
+    $request_for_responce = $this->JoHelper->returnLocationDetails($requested_data);
+
+    return $response->withJson($request_for_responce, 200);
+
 });
 
 $app->run();

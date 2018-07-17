@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12">
            <h3 class="module-title pull-left"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
+	   <a href="{$SITEURL}Google/Settings/GoogleSettings/4/39" target="_blank" style="float:right; margin-top:20px;">Configure Google Settings</a>
         </div>
     </div>
     <br>

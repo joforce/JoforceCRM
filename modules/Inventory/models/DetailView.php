@@ -27,7 +27,7 @@ class Inventory_DetailView_Model extends Head_DetailView_Model {
 		$getPDFDetails = $adb->pquery('select * from jo_pdfmaker where name = ? and status = ?', array($moduleName, 1));
                 $tempId = $adb->query_result($getPDFDetails, 0, 'pdfmakerid');
 
-		$export_pdf_url = "index.php?module=PDFMaker&view=DownloadPDF&recordId=$recordId&selected_template=$tempId&sourceModule=$moduleName";
+		$export_pdf_url = "". $site_URL ."index.php?module=PDFMaker&view=DownloadPDF&recordId=$recordId&selected_template=$tempId&sourceModule=$moduleName";
 
 		if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordModel->getId())) {
 			$detailViewLinks = array(

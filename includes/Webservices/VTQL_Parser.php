@@ -1361,7 +1361,7 @@ if($firstTable!=$table){
 		$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions']." LEFT JOIN $table ON $firstTable.$firstIndex=$table.crmid";
 	}else{
 		$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions']." LEFT JOIN $table ON $firstTable.$firstIndex=$table.{$tabNameIndex[$table]}";
-        if($this->user && Head_Functions::isUserSpecificFieldTable($table, $module)) {
+        if($this->user && Head_Functions::isUserSpecificFieldTable($table)) {
             $this->out['defaultJoinConditions'] .= ' AND '. $table. '.userid = '.$this->user->id;
         }
 	}

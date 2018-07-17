@@ -113,6 +113,24 @@ if(defined('VTIGER_UPGRADE')) {
 	// remove customer portal for the version 1.3
 	$db->pquery("DELETE FROM jo_settings_field WHERE name = ?", array('LBL_CUSTOMER_PORTAL'));
 
+	// add Language editor to settings field
+        $db->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?,?,?,?,?,?,?,?,?)' , array($db->getUniqueID('jo_settings_field'), 6,'Language Editor', 'fa fa-pencil', 'LBL_LANGUAGE_EDITOR', 'LanguageEditor/Settings/Index', 3, 0, 0));
+
+	// add notification settings to settings field table
+	$db->pquery("INSERT into jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active, pinned) values(?,?,?,?,?,?,?,?,?)" , array($db->getUniqueID('jo_settings_field'), 11, 'Notifications', 'fa fa-bell', 'Notifications', 'Notifications/Settings/Index', 5, 0, 0));
+
+	// add settings page for portal user
+	$db->pquery("INSERT into jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active, pinned) values(?,?,?,?,?,?,?,?,?)" , array($db->getUniqueID('jo_settings_field'), 4, 'Portal User', 'fa fa-street-view', 'Portal User', 'PortalUser/Settings/Index', 6, 0, 0));
+
+	//Add new action to action mapping table and profile2utility table
+	$db->pquery("insert into jo_actionmapping values (?, ?, ?)", array(14, 'Portal User', 0));
+	for($i=1; $i<5 ;$i++) {
+		if($i == 1)
+			$db->pquery("insert into jo_profile2utility values (?, ?, ?, ?)",  array($i, 4, 14, 0));
+		else
+			$db->pquery("insert into jo_profile2utility values (?, ?, ?, ?)",  array($i, 4, 14, 1));
+	}
+
 	//Write module contents on default_module_apps.php
 	$file_contents = "<?php \$app_menu_array = array(
   'MARKETING' =>
@@ -153,7 +171,7 @@ if(defined('VTIGER_UPGRADE')) {
   array (
     0 => '" .getTabid('Contacts'). "',
     1 => '" .getTabid('Accounts'). "',
-    2 => '" .getTabid('Accounts'). "',
+    2 => '" .getTabid('ProjectTask'). "',
     3 => '" .getTabid('ProjectMilestone'). "',
     4 => '" .getTabid('Project') ."'
   ),

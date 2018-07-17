@@ -21,15 +21,15 @@
 			{assign var=show_value value="hidden"}
 		{/if}
 
-		{if $tax_count gt 1}
-			<td class="fieldLabel alignMiddle{if $PULL_RIGHT} pull-right{/if}">{*pull-right required in Quick create only*}
-				<label class="">
+		{if $tax_count gt 0}
+			<td class="fieldLabel alignMiddle pr0">{*pull-right required in Quick create only*}
+				<label class="" style="width: 100%;padding-bottom: 7px;border-bottom: 1px solid #f2f2f2;">
 				{/if}
 				<span class="taxLabel alignBottom">{vtranslate($tax.taxlabel, $MODULE)}<span class="paddingLeft10px">(%)</span></span>
 				<span style="padding-left: 10px;"><input style="top: 3px;" type="checkbox" name="{$tax.check_name}" id="{$tax.check_name}" class="taxes" data-tax-name={$tax.taxname} {$check_value}></span>
 			</label>
 		</td>
-		<td class="fieldValue">
+		<td class="fieldValue pl0">
 			{if $tax.type eq 'Fixed'}
 				<input type="text" id="{$tax.taxname}" class="inputElement{if $show_value eq "hidden"} hide {else} show {/if}" name="{$tax.taxname}" value="{$tax.percentage}" data-rule-required="true" data-rule-inventory_percentage="true" />
 			{else}
@@ -64,7 +64,7 @@
 					</div>
 				</div>
 			{/if}
-		</td>
+		</td><br>
 		{assign var="tax_count" value=$tax_count+1}
 		{if $COUNTER eq 2}
 		</tr><tr>

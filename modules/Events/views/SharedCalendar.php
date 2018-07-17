@@ -14,6 +14,9 @@
 class Events_SharedCalendar_View extends Calendar_SharedCalendar_View { 
 	
 	public function process(Head_Request $request) {
-		header("Location: index.php?module=Calendar&view=SharedCalendar");
+		//header("Location: index.php?module=Calendar&view=SharedCalendar");
+                global $site_URL;
+                $redirect = $site_URL . 'Calendar/view/SharedCalendar';
+                header("Location: $redirect");
 	}
 }

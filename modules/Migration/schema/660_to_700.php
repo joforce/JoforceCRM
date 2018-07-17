@@ -2099,7 +2099,7 @@ if(defined('VTIGER_UPGRADE')) {
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('Server/Settings/ProxyConfig','LBL_SYSTEM_INFO'));
     $db->pquery('update jo_settings_field set linkto=? where name=?', array('DefModuleView/Settings/Settings','LBL_DEFAULT_MODULE_VIEW'));
 
-   $db->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?, ?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), 6,'Module Studio', 'fa fa-edit', 'LBL_MODULEDESIGNER_DESCRIPTION', 'ModuleDesigner/Settings/Index', 3, 0, 0));
+   $db->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence,active, pinned) VALUES (?, ?,?,?,?,?,?,?,?)',array($db->getUniqueID('jo_settings_field'), 6,'Module Studio', 'fa fa-video-camera', 'LBL_MODULEDESIGNER_DESCRIPTION', 'ModuleDesigner/Settings/Index', 3, 0, 0));
 
    $db->pquery('insert into jo_settings_blocks values (?,?,?)',array($db->getUniqueID('jo_settings_blocks'), 'LBL_JOFORCE', '11'));
    $getBlockId = $db->pquery('select blockid from jo_settings_blocks where label = ?', array('LBL_JOFORCE'));

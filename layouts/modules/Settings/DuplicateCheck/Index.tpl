@@ -100,13 +100,13 @@ $('[rel="tooltip"]').tooltip();
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row-fluid">
             <div class="col-sm-12">
-                <h3>Duplicate Check</h3>
+                <h3>{vtranslate('DuplicateCheck', $MODULE)}</h3>
             </div><!--<br/><br/><br/>-->
 
             <div>
                 <div class='row'>
 		<div class='col-sm-3'>
-                <h4 style="float:left;">Duplicate Check Rule For</h4></div>
+                <h4 style="float:left;">{vtranslate('LBL_DULICATECHECK_RULE_FOR', $MODULE)}</h4></div>
                 <div class='col-sm-2' style="top:10px"> <select class="select2" id="layoutEditorModules" onchange="getModuleID()" name="layoutEditorModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
@@ -115,7 +115,7 @@ $('[rel="tooltip"]').tooltip();
 		</div>
 	<form method="POST" action="{$SITEURL}index.php?module=DuplicateCheck&parent=Settings&view=UpdateFields" id="vtduplicateform">
 	<div class="pull-right col-sm-5" style='top:-30px;'>
-	 <label class="fancy-checkbox" ><h4 style="float: left;">Enable / Disable</h4>&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"  name="isenabled" id="isenabled" {if $MODULE_ENABLED_VALUE eq 1}checked="yes"{/if} style="float: left;" value="1" /><i style="margin-top: -4px;" class="fa fa-toggle-on fa-2x fa-rotate-180 inactive unchecked" aria-hidden="true"></i><span class="tab"></span><i class="fa fa-toggle-on active fa-2x checked" style="position:relative;top:9px;" aria-hidden="true"></i><span class="tab"></span></label></div>
+	 <label class="fancy-checkbox" ><h4 style="float: left;">{vtranslate('LBL_ENABLE', $MODULE)} / {vtranslate('LBL_DISABLE', $MODULE)}</h4>&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"  name="isenabled" id="isenabled" {if $MODULE_ENABLED_VALUE eq 1}checked="yes"{/if} style="float: left;" value="1" /><i style="margin-top: -4px;" class="fa fa-toggle-on fa-2x fa-rotate-180 inactive unchecked" aria-hidden="true"></i><span class="tab"></span><i class="fa fa-toggle-on active fa-2x checked" style="position:relative;top:9px;" aria-hidden="true"></i><span class="tab"></span></label></div>
     </div>
 </div>
         
@@ -126,9 +126,9 @@ $('[rel="tooltip"]').tooltip();
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
               
                                   
-                                    <div class="tab-pane active" id="detailViewLayout"> <h4 style="position: relative; top: 25px;">Configure Field Rule</h4>  <div class="col-sm-7 marginLeftZero" style="float:right !important;">  <input type="hidden" name="modulename" id="modulename" value="{$SELECTED_MODULE_NAME}" /><div><button class="btn joforce-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button></div><div><button class="btn btn-primary" name="savebutton" style="float:right" type="submit" value="Save">Save</button>
-<span id="crosscheck"style="float: right; margin-top:-37px"> For CrossCheck &nbsp;&nbsp;&nbsp;<input type="checkbox" name="ischecked" style="top:5px" id="ischecked" {if $CROSSCHECKVALUE eq 1} checked="yes"{/if}>&nbsp;&nbsp;<i id="crosscheckhelp" data-original-title = "Content" rel = "tooltip" title="Check Duplicates across Contacts , Leads and Organization for Email and Phone Field" class="fa fa-question-circle" aria-hidden="true"></i> </span>
-                <span style="float:left; margin-top:-30px"> Click <i class="fa fa-exchange" rel="tooltip1" data-original-title = "Content" title="To choose what to check in this module" aria-hidden="true" > </i> to choose what to check in this module </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                    <div class="tab-pane active" id="detailViewLayout"> <h4 style="position: relative; top: 25px;">{vtranslate('LBL_CONFIGURE_FIELD_RULE', $MODULE)}</h4>  <div class="col-sm-7 marginLeftZero" style="float:right !important;">  <input type="hidden" name="modulename" id="modulename" value="{$SELECTED_MODULE_NAME}" /><div><button class="btn joforce-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button></div><div><button class="btn btn-primary" name="savebutton" style="float:right" type="submit" value="Save">{vtranslate('LBL_SAVE', $MODULE)}</button>
+<span id="crosscheck"style="float: right; margin-top:-37px"> {vtranslate('LBL_CROSSCHECK', $MODULE)} &nbsp;&nbsp;&nbsp;<input type="checkbox" name="ischecked" style="top:5px" id="ischecked" {if $CROSSCHECKVALUE eq 1} checked="yes"{/if}>&nbsp;&nbsp;<i id="crosscheckhelp" data-original-title = "Content" rel = "tooltip" title="{vtranslate('LBL_CHECK_DUPLICATE', $MODULE)}" class="fa fa-question-circle" aria-hidden="true"></i> </span>
+                <span style="float:left; margin-top:-30px"> {vtranslate('LBL_CLICK', $MODULE)} <i class="fa fa-exchange" rel="tooltip1" data-original-title = "Content" title="{vtranslate('LBL_CHOOSE_CHECK_MODULE', $MODULE)}" aria-hidden="true" > </i>{vtranslate('LBL_CHOOSE_CHECK_MODULE', $MODULE)}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 		 
                                     </div><br/></div></div>
                     <div id="moduleBlocks" style="display:block;">
@@ -207,7 +207,7 @@ $('[rel="tooltip"]').tooltip();
 
 
 </div>
-<div><button class="btn joforce-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button></div><div><button class="btn btn-primary" name="savebutton" style="float:right" type="submit" value="Save">Save</button></div>
+<div><button class="btn joforce-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button></div><div><button class="btn btn-primary" name="savebutton" style="float:right" type="submit" value="Save">{vtranslate('LBL_SAVE', $MODULE)}</button></div>
 </div>
 </div>
 </div>

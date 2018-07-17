@@ -79,21 +79,51 @@ class Head_Field extends Head_FieldBasic {
 		// END
 
 		// Add value to picklist now
-		$sortid = 0; // TODO To be set per role
+		$maxSortIdResult = $adb->pquery("SELECT MAX(sortorderid) as maxsortid FROM $picklist_table", array());
+                $sortid = $adb->query_result($maxSortIdResult, 0, 'maxsortid');
+                if (empty($sortid)) 
+                        $sortid = 0; // TODO To be set per role
+
+		// for jo_sales_stage
+		$sales_stage_array = getSalesStageArray('picklist');
+		$stage_names_array = array_values($sales_stage_array);
+
 		foreach($values as $value) {
 			$new_picklistvalueid = getUniquePicklistID();
 			$presence = 1; // 0 - readonly, Refer function in includes/ComboUtil.php
 			$new_id = $adb->getUniqueID($picklist_table);
-            ++$sortid;
-			if (is_array($value)) {
-				$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid,color) VALUES(?,?,?,?,?,?)", Array($new_id, $value[0], $presence, $new_picklistvalueid, $sortid, $value[1]));
-			} else {
-				$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid) VALUES(?,?,?,?,?)", Array($new_id, $value, $presence, $new_picklistvalueid, $sortid));
-			}
 
-			// Associate picklist values to all the role
-			$adb->pquery("INSERT INTO jo_role2picklist(roleid, picklistvalueid, picklistid, sortid) SELECT roleid,
-				$new_picklistvalueid, $new_picklistid, $sortid FROM jo_role", array());
+			if($picklist_table == 'jo_sales_stage')
+			{
+				if (is_array($value)) {
+					if(!in_array($value[0], $stage_names_array))
+					{
+					$sortid = $sortid + 1;
+					$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid,color) VALUES(?,?,?,?,?,?)", Array($new_id, $value[0], $presence, $new_picklistvalueid, $sortid, $value[1]));
+					// Associate picklist values to all the role
+		                        $adb->pquery("INSERT INTO jo_role2picklist(roleid, picklistvalueid, picklistid, sortid) SELECT roleid, $new_picklistvalueid, $new_picklistid, $sortid FROM jo_role", array());
+					}
+				} else {
+					if(!in_array($value, $stage_names_array))
+					{
+					$sortid = $sortid + 1;
+					$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid) VALUES(?,?,?,?,?)", Array($new_id, $value, $presence, $new_picklistvalueid, $sortid));
+					}
+					// Associate picklist values to all the role
+                                        $adb->pquery("INSERT INTO jo_role2picklist(roleid, picklistvalueid, picklistid, sortid) SELECT roleid, $new_picklistvalueid, $new_picklistid, $sortid FROM jo_role", array());
+				}
+			}
+			else
+			{
+				$sortid = $sortid + 1;
+				if (is_array($value)) {
+                                        $adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid,color) VALUES(?,?,?,?,?,?)", Array($new_id, $value[0], $presence, $new_picklistvalueid, $sortid, $value[1]));
+                                } else {
+                                        $adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid) VALUES(?,?,?,?,?)", Array($new_id, $value, $presence, $new_picklistvalueid, $sortid));
+                                }
+				// Associate picklist values to all the role
+                                $adb->pquery("INSERT INTO jo_role2picklist(roleid, picklistvalueid, picklistid, sortid) SELECT roleid, $new_picklistvalueid, $new_picklistid, $sortid FROM jo_role", array());
+			}
 		}
 	}
 

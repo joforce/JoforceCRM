@@ -20,7 +20,6 @@ vimport('~~modules/Users/Users.php');
 if(defined('VTIGER_UPGRADE')) {
 	//Collating all module package updates here
 	updateVtlibModule('Import', 'packages/head/mandatory/Import.zip');
-//	updateVtlibModule('MailManager', 'packages/head/mandatory/MailManager.zip');
 	updateVtlibModule('Mobile', 'packages/head/mandatory/Mobile.zip');
 	updateVtlibModule('ModTracker', 'packages/head/mandatory/ModTracker.zip');
 	updateVtlibModule('Services', "packages/head/mandatory/Services.zip");

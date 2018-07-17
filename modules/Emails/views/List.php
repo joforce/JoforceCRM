@@ -11,10 +11,11 @@
 
 class Emails_List_View extends Head_List_View {
 
-	public function preProcess(Head_Request $request) {
-	}
+        public function preProcess(Head_Request $request) {
+        }
 
-	public function process(Head_Request $request) {
-		header('Location: index.php?module=MailManager&view=List');
-	}
+        public function process(Head_Request $request) {
+                global $site_URL;
+                header("Location: ".$site_URL."EmailPlus/view/List");
+        }
 }

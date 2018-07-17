@@ -34,7 +34,7 @@
                                     {if $LINK_ICON_CLASS}
                                         {if $LINK_ICON_CLASS eq 'icon-pencil'}&nbsp;&nbsp;&nbsp;{/if}
                                         <i class="{if $LINK_ICON_CLASS eq 'icon-pencil'}fa fa-pencil{elseif $LINK_ICON_CLASS eq 'vtGlyph vticon-attach'}
-                                        {if $REPORT_MODEL->isPinnedToDashboard()}vicon-unpin{else}vicon-pin{/if}{/if}" style="font-size: 13px;"></i>
+                                        {if $REPORT_MODEL->isPinnedToDashboard()}joicon-unpin{else}joicon-pin{/if}{/if}" style="font-size: 13px;"></i>
                                     {/if}
                                 </button>
                                     {if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach'}

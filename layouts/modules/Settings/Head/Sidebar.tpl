@@ -50,6 +50,9 @@
 											{assign var=MENU_URL value=$USER_MODEL->getPreferenceDetailViewUrl()}
 										{elseif $MENU eq 'Calendar Settings'}
 											{assign var=MENU_URL value=$USER_MODEL->getCalendarSettingsDetailViewUrl()}
+										<!-- Custom URL for PickList Dependency - Added by Fredrick Marks -->
+										{elseif $MENU eq 'LBL_PICKLIST_DEPENDENCY'}
+											{assign var=MENU_URL value=$USER_MODEL->getPicklistDependencyViewUrl()}
 										{/if}
 										<li>
 											<a data-name="{$MENU}" href="{$MENU_URL}" class="menuItemLabel {if $ACTIVE_BLOCK['menu'] eq $MENU} settingsgroup-menu-color {/if}">

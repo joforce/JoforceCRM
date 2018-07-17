@@ -12,7 +12,8 @@
 class Users_UserSetupSave_Action extends Users_Save_Action {
 
 	public function process(Head_Request $request) {
-        global $site_URL;
+        global $site_URL, $current_user;
+	$userid = $current_user->id;
 		$moduleName = $request->getModule();
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
@@ -31,7 +32,12 @@ class Users_UserSetupSave_Action extends Users_Save_Action {
 		$userModuleModel->insertEntryIntoCRMSetup($userRecordModel->getId());
 		//End
 
-		header("Location: " . $site_URL . 'Home/view/List');
+		$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
+
+                if($default_landing_page == "Dashboard")
+                	header ('Location: index.php');
+                else
+                        header ("Location: ".$site_URL.$default_landing_page."/view/List");
 		//End
 	}
 }

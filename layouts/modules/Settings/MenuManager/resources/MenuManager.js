@@ -300,7 +300,6 @@ jQuery.Class('Settings_MenuManager_Js', {}, {
                                         });
 
                                         app.helper.hideModal();
-					window.location.reload();
                                 }
 			}
 			else
@@ -332,9 +331,9 @@ jQuery.Class('Settings_MenuManager_Js', {}, {
                                         });
 
                                         app.helper.hideModal();
-					window.location.reload();
                                 }
 			}
+			window.location.reload();
 		});
 	},
 	

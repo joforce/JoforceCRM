@@ -16,7 +16,7 @@ class Home_List_View extends Head_Index_View {
                 $moduleName = $request->getModule();
                 $viewer->assign('VIEW' , $request->get('view'));
 
-		$viewer->assign('PRESENT_TAB', 'NOTIFICATION');
+		$viewer->assign('PRESENT_TAB', 'DASHBOARD');
                 parent::preProcess($request, false);
                 if($display) {
                         $this->preProcessDisplay($request);
@@ -30,7 +30,9 @@ class Home_List_View extends Head_Index_View {
     public function process(Head_Request $request) {
 	global $current_user;
 	$current_user_id = $current_user->id;
-	
+
+	$boardid = updateDefaultDashboardView($current_user_id, 1);
+
 	$userPrivilegesModel = Users_Privileges_Model::getInstanceById($current_user_id);
 
 	$moduleName = $request->getModule();
@@ -48,7 +50,7 @@ class Home_List_View extends Head_Index_View {
 	}
 	
 	$notificaiton_count_array = array_combine($module_array, $count_array);
-	$exception_module_array = ['Email', 'Task'];
+	$exception_module_array = ['Emails', 'Task'];
 
         $viewer->assign('MODULE_NAME', $moduleName);
 	$viewer->assign('USER_PRIVILEGE_MODEL', $userPrivilegesModel);

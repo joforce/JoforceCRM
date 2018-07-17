@@ -74,10 +74,16 @@ class Users_Record_Model extends Head_Record_Model {
         global $site_URL;
 		return $site_URL.$this->getModuleName() . '/Settings/Calendar/'.$this->getId() . '?mode=Edit';
 	}
+
+	/**
+	 * Function to construct the PickList Dependency URL for settings
+	 * @return <String> - Added by Fredrick Marks
+	 */
+	public function getPicklistDependencyViewUrl(){
+	global $site_URL;
+                return $site_URL . 'PickListDependency/Settings/List?fieldId=8&blockId=9';
+	}
     
-    public function getMyTagSettingsListUrl() {
-        return 'index.php?module=Tags&parent=Settings&view=List&record='.$this->getId();
-    }
 	/**
 	 * Function to get the url for the Profile page
 	 * @return <String> - Profile Url
@@ -114,7 +120,7 @@ class Users_Record_Model extends Head_Record_Model {
 	public function getDeleteUrl() {
 		global $site_URL;
 		$module = $this->getModule();
-		return $site_URL.$this->getModuleName().'/Settings/'.$module->getDeleteActionName().'User/'.$this->getId();
+		return 'index.php?module='.$this->getModuleName().'&parent=Settings&view='.$module->getDeleteActionName().'User&record='.$this->getId();
 	}
 
 	public function getChangeUsernameUrl(){

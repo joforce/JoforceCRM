@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_Head_IndexAjax_View {
+Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_Head_Index_Action {
 
 	function __construct() {
 		parent::__construct();

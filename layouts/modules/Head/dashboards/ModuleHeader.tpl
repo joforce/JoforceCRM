@@ -12,7 +12,7 @@
 	<input type="hidden" id="present-dashboard-tab" value="{$PRESENT_TAB}"/>
 		<div class="module-action-content clearfix {$MODULE}-module-action-content">
 			<div class="module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond dashboard-top" id="dashboard-option" data-boardid=1>
-                                <a id="notificaiton-dashboard" href="{$SITEURL}Home/view/List">
+                                <a id="notificaiton-dashboard" href="{$SITEURL}Home/view/List" title="{vtranslate('LBL_DASHBOARD', $MODULE)}">
                                         <b><h4 class="module-title pull-left text-uppercase ml10">{vtranslate('LBL_DASHBOARD', $MODULE)}</h4></b>
                                 </a>
                         </div>
@@ -29,22 +29,10 @@
 						{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrlWithAllFilter()}
 					{/if}
 				{/if}
-				<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}/{$SELECTED_MENU_CATEGORY}'><h4 class="module-title pull-left text-uppercase ml10"> {vtranslate('LBL_WIDGETS', $MODULE)} </h4>&nbsp;&nbsp;</a>
+				<a title="{vtranslate('LBL_WIDGETS', $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title pull-left text-uppercase ml10">{vtranslate('LBL_WIDGETS', $MODULE)}</h4>&nbsp;&nbsp;</a>
 				{if $smarty.session.lvs.$MODULE.viewname}
 					{assign var=VIEWID value=$smarty.session.lvs.$MODULE.viewname}
 				{/if}
-				{if $VIEWID}
-					{foreach item=FILTER_TYPES from=$CUSTOM_VIEWS}
-						{foreach item=FILTERS from=$FILTER_TYPES}
-							{if $FILTERS->get('cvid') eq $VIEWID}
-								{assign var=CVNAME value=$FILTERS->get('viewname')}
-								{break}
-							{/if}
-						{/foreach}
-					{/foreach}
-					<p class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a href='{$MODULE_MODEL->getListViewUrl()}/{$VIEWID}/{$SELECTED_MENU_CATEGORY}'>&nbsp;&nbsp;{$CVNAME}&nbsp;&nbsp;</a> </p>
-				{/if}
-				{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 			</div>
 		</div>
 		{if $FIELDS_INFO neq null}

@@ -37,6 +37,50 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
 		}
 		return true;
 	},
+
+	/**
+	 * Function to open modal to convert a contact to user
+	 */
+	registerShowAddUserModal : function() {
+		var thisInstance = this;
+		$('#convert-masquerade-user').click( function() {
+			var record_id = $(this).data('recordid');
+			var params = {};
+			params['module'] = 'Users';
+			params['view'] = 'AddMasqueradeUser'
+			params['record_id'] = record_id;
+		
+			app.request.post({data: params}).then(function(err, data){
+                                app.helper.hideProgress();
+                                app.helper.showModal(data, {cb: function(data){
+                                        thisInstance.registerSaveUser(data);
+                                }});
+                        });
+		});
+	},
+	
+	/**
+	 * Function to save the user
+	 **/
+	registerSaveUser : function (formdata) {
+		var thisInstance = this;
+		var form = $(".masquerade-modal-form");
+                $("#save-masquerade-user").click(function (e) {
+			var user_name = $('input[name="user_name"]').val();
+			var first_name = $('input[name="first_name"]').val();
+			var last_name = $('input[name="last_name"]').val();
+			var email = $('input[name="email1"]').val();
+			if(!user_name.length || !first_name.length || !last_name.length || !email.length) {
+				app.helper.showAlertNotification({
+                                        'message' : app.vtranslate('JS_MANDATORY_FIELDS_ARE_EMPTY')
+                                });
+			}
+			else {
+				form.submit();
+			}
+                });
+	},
+	
 	/**
 	 * Function which will register all the events
 	 */
@@ -44,5 +88,6 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
 		var form = this.getForm();
 		this._super();
 		this.registerAjaxPreSaveEvents(form);
+		this.registerShowAddUserModal();
 	}
 })

@@ -15,7 +15,7 @@ class Head_GetStarredRecords_View extends Head_Index_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$user_specific_table = Head_Functions::getUserSpecificTableName($moduleName);
+		$user_specific_table = Head_Functions::getUserSpecificTableName();
 		$starred_array = getRecentlyStarred($user_specific_table);
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 

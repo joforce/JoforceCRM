@@ -2122,7 +2122,7 @@ function getPermittedModuleNames()
 	global $current_user;
 	$permittedModules=Array();
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	include('tabdata.php');
+	include('user_privileges/permissions.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 	{
@@ -2162,7 +2162,7 @@ function getPermittedModuleIdList() {
 	global $current_user;
 	$permittedModules=Array();
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	include('tabdata.php');
+	include('user_privileges/permissions.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {

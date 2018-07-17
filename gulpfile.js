@@ -11,7 +11,7 @@ gulp.task('pack-js', function () {
 });
 
 gulp.task('pack-css', function () {
-	return gulp.src(['layouts/lib/todc/css/bootstrap.min.css', 'layouts/lib/todc/css/docs.min.css', 'layouts/lib/todc/css/todc-bootstrap.min.css', 'layouts/lib/font-awesome/css/font-awesome.min.css', 'layouts/lib/jquery/select2/select2.css', 'layouts/lib/select2-bootstrap/select2-bootstrap.css', 'libraries/bootstrap/js/eternicode-bootstrap-datepicker/css/datepicker3.css', 'layouts/lib/jquery/jquery-ui-1.11.3.custom/jquery-ui.css', 'layouts/lib/animate/animate.min.css', 'layouts/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.css', 'layouts/lib/jquery/jquery.qtip.custom/jquery.qtip.css', 'layouts/lib/jquery/daterangepicker/daterangepicker.css', 'layouts/lib/vt-icons/style.css'])
+	return gulp.src(['layouts/lib/todc/css/bootstrap.min.css', 'layouts/lib/todc/css/docs.min.css', 'layouts/lib/todc/css/todc-bootstrap.min.css', 'layouts/lib/font-awesome/css/font-awesome.min.css', 'layouts/lib/jquery/select2/select2.css', 'layouts/lib/select2-bootstrap/select2-bootstrap.css', 'libraries/bootstrap/js/eternicode-bootstrap-datepicker/css/datepicker3.css', 'layouts/lib/jquery/jquery-ui-1.11.3.custom/jquery-ui.css', 'layouts/lib/animate/animate.min.css', 'layouts/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.css', 'layouts/lib/jquery/jquery.qtip.custom/jquery.qtip.css', 'layouts/lib/jquery/daterangepicker/daterangepicker.css', 'layouts/lib/jo-icons/style.css'])
 		.pipe(concat('app.css'))
         .pipe(cleanCss())
 		.pipe(gulp.dest('layouts/lib'));

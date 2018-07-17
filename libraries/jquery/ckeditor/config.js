@@ -8,6 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
     //vtiger editor toolbar configuration 
+			config.removeButtons = 'Image'; // Removed the image icon temporary - Added by Fredrick Marks
  		    config.removePlugins = 'save,maximize,magicline'; 
 			config.fullPage = true; 
  		    config.allowedContent = true; 

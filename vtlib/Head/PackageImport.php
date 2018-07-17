@@ -242,7 +242,7 @@ class Head_PackageImport extends Head_PackageExport {
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->jo_version)) {
 				$vtigerVersion = (string)$this->_modulexml->dependencies->jo_version;
-				if(version_compare($vtigerVersion, '6.0.0rc', '>=') === true) {
+				if(version_compare($vtigerVersion, '1.3rc', '>=') === true) {
 					$vtigerversion_found = true;
 				}
 		}
@@ -317,48 +317,50 @@ class Head_PackageImport extends Head_PackageExport {
 	 * @access private
 	 */
 	function initImport($zipfile, $overwrite=true) {
-		$module = $this->getModuleNameFromZip($zipfile);
-		
-		if($module != null) {
-			$unzip = new Head_Unzip($zipfile, $overwrite);
+                $module = $this->getModuleNameFromZip($zipfile);
 
-			// Unzip selectively
-			$unzip->unzipAllEx( ".",
-				Array(
-					// Include only file/folders that need to be extracted
-					'include' => Array('templates', "modules/$module", 'cron', 'languages',
-						'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries',
-						"$module.png"),
-					// NOTE: If excludes is not given then by those not mentioned in include are ignored.
-				),
-				// What files needs to be renamed?
-				Array(
-					// Templates folder
-					'templates' => "layouts/vlayout/modules/$module",
-					// Cron folder
-					'cron' => "cron/modules/$module",
-					// Settings folder
-					'settings/actions' => "modules/Settings/$module/actions",
-					'settings/views' => "modules/Settings/$module/views",
-					'settings/models' => "modules/Settings/$module/models",
+                if($module != null) {
+                        $unzip = new Head_Unzip($zipfile, $overwrite);
+
+                        // Unzip selectively
+                        $unzip->unzipAllEx( ".",
+                                Array(
+                                        // Include only file/folders that need to be extracted
+                                        'include' => Array('templates', "modules/$module", 'cron', 'languages', 'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries', "$module.png", "layouts/modules/$module", "layouts/modules/Settings/$module"),
+                                        // NOTE: If excludes is not given then by those not mentioned in include are ignored.
+                                ),
+                                // What files needs to be renamed?
+                                Array(
+                                        // Templates folder
+                                        'templates' => "layouts/vlayout/modules/$module",
+                                        // Cron folder
+                                        'cron' => "cron/modules/$module",
+					//layouts folder
+                                        "layouts/modules/$module" => "layouts/modules/$module",
+                                        // Settings folder
+                                        'settings/actions' => "modules/Settings/$module/actions",
+                                        'settings/views' => "modules/Settings/$module/views",
+                                        'settings/models' => "modules/Settings/$module/models",
                                         'settings/connectors' => "modules/Settings/$module/connectors",
                                         'settings/libraries' => "modules/Settings/$module/libraries",
-					// Settings templates folder
-					'settings/templates' => "layouts/vlayout/modules/Settings/$module",
+					//layout settings folder
+					"layouts/modules/Settings/$module" => "layouts/modules/Settings/$module",
+                                        // Settings templates folder
+                                        'settings/templates' => "layouts/vlayout/modules/Settings/$module",
                                         //module images
-					'images' => "layouts/vlayout/skins/images/$module",
+                                        'images' => "layouts/vlayout/skins/images/$module",
                                         'settings' => "modules/Settings",
-				)
-			);
-			
-			if($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", "layouts/vlayout/skins/images/$module.png");
-			}
+                                )
+                        );
 
-			if($unzip) $unzip->close();
-		}
-		return $module;
-	}
+                        if($unzip->checkFileExistsInRootFolder("$module.png")) {
+                                $unzip->unzip("$module.png", "layouts/vlayout/skins/images/$module.png");
+                        }
+
+                        if($unzip) $unzip->close();
+                }
+                return $module;
+        }
 
 	function getTemporaryFilePath($filepath=false) {
 		return 'cache/'. $filepath;

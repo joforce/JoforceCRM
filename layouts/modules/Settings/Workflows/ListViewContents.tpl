@@ -130,7 +130,7 @@
 												{if $MODULE_ICON_NAME eq 'events'}
 													{assign var="MODULE_ICON_NAME" value="calendar"}
 												{/if}
-												<i class="vicon-{$MODULE_ICON_NAME}" title='{$LISTVIEW_ENTRY->get('module_name')}'>&nbsp;</i>
+												<i class="joicon-{$MODULE_ICON_NAME}" title='{$LISTVIEW_ENTRY->get('module_name')}'>&nbsp;</i>
 											</td>
 										{else}
 										{/if}

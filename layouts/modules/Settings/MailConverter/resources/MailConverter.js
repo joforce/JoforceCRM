@@ -156,7 +156,9 @@ jQuery.Class('Settings_MailConverter_Index_Js', {
         var site_url = jQuery('#joforce_site_url').val();
 		jQuery('.mailBoxDropdown').change(function () {
 			var id = jQuery('.mailBoxDropdown option:selected').val();
-			var path = site_url+'/'+app.getParentModuleName()+'/'+app.getModuleName()+'/List/'+id;
+			/* Fixed: Redirection issue on Mailbox - Modified by Fredrick Marks. */
+			//var path = site_url+'/'+app.getParentModuleName()+'/'+app.getModuleName()+'/List/'+id;
+			var path = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/List/'+id;
 			window.location.assign(path);
 		});
 	},

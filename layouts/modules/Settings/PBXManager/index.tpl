@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 joforce-bg">
+	<div class="col-sm-12 col-xs-12">
 		<div class="container-fluid" id="AsteriskServerDetails">
 			<input type="hidden" name="module" value="PBXManager"/>
 			<input type="hidden" name="action" value="SaveAjax"/>

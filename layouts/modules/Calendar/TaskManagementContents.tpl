@@ -60,7 +60,7 @@
 						{if !empty($RELATED_PARENT)}
 							<span class='related_account' style='margin-left: 8px;'>
 								{assign var=RELATED_PARENT_MODULE value=$RELATED_PARENT['module']}
-								<i class="vicon-{$RELATED_PARENT_MODULE|lower}" style="font-size: 12px;"></i>&nbsp;
+								<i class="joicon-{$RELATED_PARENT_MODULE|lower}" style="font-size: 12px;"></i>&nbsp;
 								<span class="recordName textOverflowEllipsis" style="vertical-align: middle">
 									<a class="quickPreview" href="index.php?module={$RELATED_PARENT_MODULE}&view=Detail&record={$RELATED_PARENT['id']}"  data-id="{$RELATED_PARENT['id']}" title="{$RELATED_PARENT['display_value']}">{$RELATED_PARENT['display_value']}</a>
 								</span>
@@ -68,7 +68,7 @@
 						{/if}
 						{if !empty($RELATED_CONTACT['id'])}
 							<span class='related_contact' style='margin-left: 8px;'>
-								<i class="vicon-contacts" style="font-size: 12px;"></i>&nbsp;
+								<i class="joicon-contacts" style="font-size: 12px;"></i>&nbsp;
 								<span class="recordName textOverflowEllipsis" style="vertical-align: middle">
 									<a class="quickPreview" href="index.php?module={$RELATED_CONTACT['module']}&view=Detail&record={$RELATED_CONTACT['id']}" data-id="{$RELATED_CONTACT['id']}" title="{$RELATED_CONTACT['display_value']}">{$RELATED_CONTACT['display_value']}</a>
 								</span>

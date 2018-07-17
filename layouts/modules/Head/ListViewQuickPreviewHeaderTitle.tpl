@@ -16,7 +16,7 @@
                         {/if}
                         <div class="hidden-sm hidden-xs quickviewimage bg_{$MODULE} app-{$SELECTED_MENU_CATEGORY}" id="quick-view-module-image">
                                 <div class="name">
-                                        <span><strong><i class="vicon-{strtolower($MODULE)}"></i></strong></span>
+                                        <span><strong><i class="joicon-{strtolower($MODULE)}"></i></strong></span>
                                 </div>
                         
 

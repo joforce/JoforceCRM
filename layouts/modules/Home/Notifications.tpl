@@ -8,7 +8,7 @@
 * Contributor(s): JoForce.com
 ************************************************************************************}
 {strip}
-	<div class="joforce-box  pl0 pr0">
+	<div class="joforce-box  pl0 pr0" id="listViewContent">
 		<div class="joforce-dash" style="">
 			<div class="joforce-dash-container" >
 				<ul class="dash-widgets">
@@ -75,23 +75,23 @@
 					</li>
 				</ul>
 				<ul class="dash-widgets-side">
-					<li>
+					<li class="hover-li">
                                                 {assign var=module value='Task'}
                                                 {include file="Link.tpl"|vtemplate_path:$MODULE}
                                         </li>
-					<li>
+					<li class="hover-li">
                                                 {assign var=module value='Events'}
                                                 {include file="Link.tpl"|vtemplate_path:$MODULE}
                                         </li>
-					<li>
+					<li class="hover-li">
                                                 {assign var=module value='Emails'}
                                                 {include file="Link.tpl"|vtemplate_path:$MODULE}
                                         </li>
-					<li>
+					<li class="hover-li">
                                                 {assign var=module value='PBXManager'}
                                                 {include file="Link.tpl"|vtemplate_path:$MODULE}
                                         </li>
-					<li style="top: 0; right: 0;">
+					<li style="top: 0; right: 0;" class="hover-li">
                                                 {assign var=module value='HelpDesk'}
                                                 {include file="Link.tpl"|vtemplate_path:$MODULE}
                                         </li>

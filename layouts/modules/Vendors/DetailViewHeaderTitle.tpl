@@ -13,7 +13,7 @@
     <div class="col-lg-5 col-md-5 col-sm-5">
             <div class="record-header clearfix">
                 <div class="hidden-sm hidden-xs recordImage bgvendors app-{$SELECTED_MENU_CATEGORY}">
-                    <div class="name"><span><strong> <i class="vicon-vendors"></i> </strong></span></div>
+                    <div class="name"><span><strong> <i class="joicon-vendors"></i> </strong></span></div>
                 </div>
                 <div class="recordBasicInfo">
                     <div class="info-row">

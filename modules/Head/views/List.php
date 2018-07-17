@@ -28,7 +28,10 @@ class Head_List_View extends Head_Index_View {
 		// Clear user notifications
 		if($request->get('clear_notification'))	{
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			clearUserNotification($currentUser->id, $moduleName);
+			if($request->get('is_event_module'))
+				clearUserNotification($currentUser->id, 'Events');
+			else
+				clearUserNotification($currentUser->id, $moduleName);
 		}
 
 		$customView = new CustomView();

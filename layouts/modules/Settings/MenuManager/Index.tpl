@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {* modules/Settings/MenuManager/views/Index.php *}
 
@@ -46,7 +47,7 @@
 								{assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
 								<li class="custom-menu-list main-menu-container noConnect" data-menuname="{$moduleName}" data-tabid="{$tabid}">
 									<span class="menu-name">
-										<i class="vicon-{strtolower($moduleName)} marginRight10px pull-left"></i>{$translatedModuleLabel}
+										<i class="joicon-{strtolower($moduleName)} marginRight10px pull-left"></i>{$translatedModuleLabel}
 									</span>
 								<span class="pull-right close-menu" id="remove-main-menu">X</span>
 								</li>
@@ -104,7 +105,7 @@
 								<div class="menuEditorItem menuEditorModuleItem" data-sequence="{$sequence}">
 									{assign var='translatedModuleLabel' value=vtranslate($moduleObject->get('label'),$moduleName )}
 									<span class="textOverflowEllipsis marginTop10px textAlignLeft" title="{$translatedModuleLabel}">
-										<i class="vicon-{strtolower($moduleName)} marginRight10px pull-left"></i>{$translatedModuleLabel}
+										<i class="joicon-{strtolower($moduleName)} marginRight10px pull-left"></i>{$translatedModuleLabel}
 									</span>
 									<span data-appname="{$APP_NAME}" class="pull-right whiteIcon menuEditorRemoveItem" style="cursor:pointer;">X
 									</span>

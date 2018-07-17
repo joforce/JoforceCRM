@@ -42,7 +42,7 @@ Head.Class("Google_Map_Js", {}, {
 	},
 
 	loadMapScript : function() {
-			jQuery.getScript("https://maps.google.com/maps/api/js?key=&sensor=true&async=2&callback=initialize", function () {});
+			jQuery.getScript("https://maps.google.com/maps/api/js?key=AIzaSyDIW5gyeCV3M18BieUra-c-ewfB05mrZU8&sensor=true&async=2&callback=initialize", function () {});
 	},
 
 	getQueryString : function (address) {

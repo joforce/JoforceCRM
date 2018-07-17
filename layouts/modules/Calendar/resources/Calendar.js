@@ -1287,7 +1287,7 @@ Head.Class("Calendar_Calendar_Js", {
 		var className = 'fa fa-calendar';
 		switch (activitytype) {
 			case 'Meeting' :
-				className = 'vicon-meeting';
+				className = 'joicon-meeting';
 				break;
 			case 'Call' :
 				className = 'fa fa-phone';

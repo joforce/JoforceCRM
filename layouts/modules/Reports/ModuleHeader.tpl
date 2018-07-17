@@ -77,7 +77,7 @@
 										{if $childLink->getLabel() eq 'LBL_CHARTS'}
 											{assign var="ICON_CLASS" value='fa fa-pie-chart'}
 										{elseif $childLink->getLabel() eq 'LBL_DETAIL_REPORT'}
-											{assign var="ICON_CLASS" value='vicon-detailreport'}
+											{assign var="ICON_CLASS" value='joicon-detailreport'}
 										{/if}
 										<li id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{$childLink->disabled}" data-edition-message="{$childLink->message}">
 											<a {if $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>

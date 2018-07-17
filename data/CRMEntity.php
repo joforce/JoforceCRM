@@ -89,7 +89,7 @@ class CRMEntity {
 		$userSpecificTableIgnoredModules = array("SMSNotifier", "ModComments", "PBXManager");
 		if(in_array($moduleName, $userSpecificTableIgnoredModules)) return;
 
-		$userSpecificTable = Head_Functions::getUserSpecificTableName($moduleName);
+		$userSpecificTable = Head_Functions::getUserSpecificTableName();
 		if(!in_array($userSpecificTable, $this->tab_name)) {
 			$this->tab_name[] = $userSpecificTable;
 			$this->tab_name_index [$userSpecificTable] = 'recordid';
@@ -376,7 +376,7 @@ class CRMEntity {
 			// Make selection on the primary key of the module table to check.
 			$check_query = "select $tablekey from $table_name where $tablekey=?";
 			$check_params = array($this->id);
-			if (Head_Functions::isUserSpecificFieldTable($table_name, $module)) {
+			if (Head_Functions::isUserSpecificFieldTable($table_name)) {
 				$check_query .= ' AND userid=?';
 				array_push($check_params, $current_user->id);
 			}
@@ -439,7 +439,7 @@ class CRMEntity {
 			}
 			$column = array($table_index_column);
 			$value = array($this->id);
-			if (Head_Functions::isUserSpecificFieldTable($table_name, $module)) {
+			if (Head_Functions::isUserSpecificFieldTable($table_name)) {
 				array_push($column, 'userid');
 				array_push($value, $current_user->id);
 			}
@@ -709,7 +709,7 @@ class CRMEntity {
 				if (count($update) > 0) {
 					$sql1 = "UPDATE $table_name SET " . implode(",", $update) . " WHERE " . $this->tab_name_index[$table_name] . "=?";
 					array_push($update_params, $this->id);
-					if(Head_Functions::isUserSpecificFieldTable($table_name, $module)){
+					if(Head_Functions::isUserSpecificFieldTable($table_name)){
 						$sql1 .= ' AND userid = ?';
 						array_push($update_params, $current_user->id);
 					}
@@ -858,7 +858,7 @@ class CRMEntity {
 						continue;
 					}
 					$joinCondition = "($tablename.$tableindex = jo_crmentity.crmid ";
-					if($current_user && Head_Functions::isUserSpecificFieldTable($tablename, $module)) {
+					if($current_user && Head_Functions::isUserSpecificFieldTable($tablename)) {
 						$joinCondition .= " AND $tablename.userid = ".$current_user->id;
 					}
 					$joinCondition .= " )";
@@ -2556,7 +2556,7 @@ class CRMEntity {
 	public function getJoinClause($tableName) {
 		if (strripos($tableName, 'rel') === (strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
-		}  else if (Head_Functions::isUserSpecificFieldTable($tableName, $this->moduleName)) {
+		}  else if (Head_Functions::isUserSpecificFieldTable($tableName)) {
 			return 'LEFT JOIN';
 		}
 		else {

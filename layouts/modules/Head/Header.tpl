@@ -19,7 +19,7 @@
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/app.css' media="screen"/>
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jquery/select2/select2.css'>
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/select2-bootstrap/select2-bootstrap.css'>
-        <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/vt-icons/style.css' media="screen"/>
+        <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jo-icons/style.css' media="screen"/>
         <link type="text/css" rel="stylesheet" href="{$SITEURL}layouts/skins/style.css" media="screen"/>
         <link rel="stylesheet" href="{$SITEURL}layouts/lib/jquery/floating-scroll/jquery.floatingscroll.css">
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/custom.css' media="screen"/>

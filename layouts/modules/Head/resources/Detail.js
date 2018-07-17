@@ -2783,7 +2783,6 @@ Head.Class("Head_Detail_Js",{
 					var pageNumber = jQuery('[name="currentPageNum"]').val();
 					window.app.controller().loadRelatedListRecords({page: pageNumber});
 				} else {
-					app.helper.showModal(data);
 				}
 			}
 		});

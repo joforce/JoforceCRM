@@ -8,9 +8,12 @@
 ************************************************************************************}
 
 <footer class="app-footer">
-	<p>
-	Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source project.</a>
-	</p>
+    <a href="//www.joforce.com" target="_blank">
+	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px" style="position:absolute;right: 0px;z-index: 1000;">
+    </a>
+    <p>
+        Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
+    </p>
 </footer>
 </div>
 <div id='overlayPage'>

@@ -34,7 +34,7 @@
                             onclick="Head_Import_Js.undoImport('index.php?module={$FOR_MODULE}&view=Import&mode=undoImport&foruser={$OWNER_ID}')">{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</button>
                     &nbsp;&nbsp;&nbsp;
                 {/if}
-                <button class='btn btn-primary btn-lg' data-dismiss="modal" onclick="Head_Import_Js.loadListRecords();">{vtranslate('LBL_FINISH', $MODULE)}</button>
+                <button class='btn btn-success btn-lg' data-dismiss="modal" onclick="Head_Import_Js.loadListRecords();">{vtranslate('LBL_FINISH', $MODULE)}</button>
             </div>
         </div>
     </div>

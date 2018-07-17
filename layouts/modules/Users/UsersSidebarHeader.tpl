@@ -10,7 +10,7 @@
    'MARKETING' => 'fa-users',
    'SALES' => 'fa-dot-circle-o',
    'SUPPORT' => 'fa-life-ring',
-   'INVENTORY' => 'vicon-inventory',
+   'INVENTORY' => 'joicon-inventory',
    'PROJECT' => 'fa-briefcase'
 ]}
 <div class="col-sm-12 col-xs-12 app-indicator-icon-container app-{$SELECTED_MENU_CATEGORY}">

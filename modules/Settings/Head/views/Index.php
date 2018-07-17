@@ -89,6 +89,31 @@ class Settings_Head_Index_View extends Head_Basic_View {
 		$viewer->assign('SETTINGS_MENUS', $menuModels);
 		$viewer->assign('MODULE', $moduleName);
 		
+		try {
+				$url = "https://www.joforce.com/news.xml";
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+		    	$string = curl_exec($ch);
+		    	curl_close($ch);
+				if (!empty($string)) {
+					$xml   = simplexml_load_string($string);
+					$xmlarray = json_decode(json_encode((array) $xml), true);
+					$result= end($xmlarray);						
+						if (count($xmlarray['item'][0])==0) {
+							$result= end($xmlarray);
+						}else{			
+							$result= end($result);
+						}
+				 			
+					$viewer->assign('TITLE',$result['title']);
+					$viewer->assign('LINK',$result['link']);				
+				}		
+			} catch (Exception $e) {
+				
+			}
+		
 		$user_id = $current_user->id;
                 $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                 $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu

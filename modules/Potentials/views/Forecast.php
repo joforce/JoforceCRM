@@ -34,7 +34,7 @@ public function process(Head_Request $request) {
 	$moduleName = $request->getModule();
 	$cvId = $request->get('record');
         $viewer = $this->getViewer($request);
-        $sales_array = getSalesStageArray();
+        $sales_array = getSalesStageArray('forecast');
 	$sales_count = count($sales_array);
 	$pageNumber = '1';
 

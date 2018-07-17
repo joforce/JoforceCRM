@@ -42,7 +42,7 @@ class Settings_ModuleManager_Module_Model extends Head_Module_Model {
 	 */
 	public static function getUserModuleFileImportUrl() {
         global $site_URL;
-		return $site_URL.'ModuleManager/Settings/ModuleImport/importUserModuleStep1'; 
+		return $site_URL.'ModuleManager/Settings/ModuleImport?mode=importUserModuleStep1'; 
 	}
 
 	/**
@@ -119,4 +119,5 @@ class Settings_ModuleManager_Module_Model extends Head_Module_Model {
 	public static function getActionsRestrictedModulesList() {
 		return array('Home', 'Emails', 'Webmails');
 	}
+	
 }

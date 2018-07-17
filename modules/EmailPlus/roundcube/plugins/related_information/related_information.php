@@ -143,7 +143,7 @@ class related_information extends rcube_plugin {
 				<h5>Address</h5>
 				<div>
 				<div style="font-size: 20px; float: left; padding: 10px 10px 0px 20px;"><i class="glyphicon glyphicon-picture"></i></div>
-				<div style="float:left;">
+				<div style="/*float:left;*/">
 				<p>' . $response["mailingpobox"] . " " . $response["mailingstreet"] . '</p>
 				<p>' . $response["mailingcity"] . " " . $response["mailingstate"] . " " . $response["mailingcountry"] . " " . $response["mailingzip"] . '</p>
 				</div>

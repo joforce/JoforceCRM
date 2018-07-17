@@ -38,5 +38,6 @@
                         $viewer->assign('PORT', $port);
                         $viewer->assign('email', $email);
                         $viewer->assign('password', $password);
+			$viewer->assign('MODULE', $moduleName);
                         $viewer->view('ServerSettings.tpl', $moduleName);
 ?>

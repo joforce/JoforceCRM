@@ -10,7 +10,7 @@
 {strip}
 	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
 		<div class="module-action-content clearfix {$MODULE}-module-action-content">
-			<div class="col-lg-2 col-md-2 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
+			<div class="col-lg-3 col-md-3 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
 				{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 				{if $MODULE_MODEL->getDefaultViewName() neq 'List'}
 					{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getDefaultUrl()}
@@ -67,13 +67,13 @@
                                 <ul style="list-style: none;">
                                         {foreach item=SIDE_BAR_LINK from=$QUICK_LINKS['SIDEBARLINK']}
                                                 {assign var=CURRENT_LINK_NAME value="List"}
-                                                {assign var=VIEW_ICON_CLASS value="vicon-calendarlist"}
+                                                {assign var=VIEW_ICON_CLASS value="joicon-calendarlist"}
                                                         {if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_CALENDAR_VIEW'}
                                                                 {assign var=CURRENT_LINK_NAME value="Calendar"}
-                                                                {assign var=VIEW_ICON_CLASS value="vicon-mycalendar"}
+                                                                {assign var=VIEW_ICON_CLASS value="joicon-mycalendar"}
                                                         {else if $SIDE_BAR_LINK->get('linklabel') eq 'LBL_SHARED_CALENDAR'}
                                                                 {assign var=CURRENT_LINK_NAME value="SharedCalendar"}
-                                                                {assign var=VIEW_ICON_CLASS value="vicon-sharedcalendar"}
+                                                                {assign var=VIEW_ICON_CLASS value="joicon-sharedcalendar"}
                                                         {/if}
                                                 <li class="ml5 mr5 topbar-qtip {if $CURRENT_LINK_NAME eq $CURRENT_VIEW}active{/if}" title="{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}" style="display: inline-block;">
                                                         <a href="{$SIDE_BAR_LINK->get('linkurl')}">

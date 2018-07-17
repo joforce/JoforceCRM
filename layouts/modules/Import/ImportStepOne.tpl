@@ -34,7 +34,7 @@
                 <div>
                     <input type="hidden" id="type" name="type" value="csv" />
                     <input type="hidden" name="is_scheduled" value="1" />
-                    <div class="fileUploadBtn btn btn-secondary">
+                    <div class="fileUploadBtn btn btn-primary">
                         <span><i class="fa fa-laptop"></i> {vtranslate('Select from My Computer', $MODULE)}</span>
                         <input type="file" name="import_file" id="import_file" onchange="Head_Import_Js.checkFileType(event)" data-file-formats="{if $FORMAT eq ''}csv{else}{$FORMAT}{/if}" />
                     </div>

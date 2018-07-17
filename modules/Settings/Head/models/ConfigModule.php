@@ -121,12 +121,13 @@ class Settings_Head_ConfigModule_Model extends Settings_Head_Module_Model {
 	 */
 	public function getEditableFields() {
 		return array(
-			'HELPDESK_SUPPORT_EMAIL_ID'		=> array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID',			'fieldType' => 'input'),
-			'HELPDESK_SUPPORT_NAME'			=> array('label' => 'LBL_HELPDESK_SUPPORT_NAME',			'fieldType' => 'input'),
-			'upload_maxsize'				=> array('label' => 'LBL_MAX_UPLOAD_SIZE',					'fieldType' => 'input'),
-			'default_module'				=> array('label' => 'LBL_DEFAULT_MODULE',					'fieldType' => 'picklist'),
-			'listview_max_textlength'		=> array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW',		'fieldType' => 'input'),
-			'list_max_entries_per_page'		=> array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW',	'fieldType' => 'input')
+			'HELPDESK_SUPPORT_EMAIL_ID'	=> array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID',	'fieldType' => 'input'),
+			'HELPDESK_SUPPORT_NAME'		=> array('label' => 'LBL_HELPDESK_SUPPORT_NAME',	'fieldType' => 'input'),
+			'upload_maxsize'		=> array('label' => 'LBL_MAX_UPLOAD_SIZE',		'fieldType' => 'input'),
+			// 'default_module'		=> array('label' => 'LBL_DEFAULT_MODULE',		'fieldType' => 'picklist'),
+			'listview_max_textlength'	=> array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW',	'fieldType' => 'input'),
+			'list_max_entries_per_page'	=> array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW',	'fieldType' => 'input'),
+			'email_tracking'		=> array('label' => 'LBL_EMAIL_TRACKING',		'fieldType' => 'checkbox')
 		);
 	}
 

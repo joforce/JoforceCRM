@@ -30,6 +30,7 @@ class DefaultDataPopulator extends CRMEntity {
 	function create_tables() {
 		global $app_strings;
 		global $adb;
+
 		$this->db->query('SET sql_mode = ""');
                 $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
 		$this->db->query("INSERT INTO jo_tab(tabid,name,presence,tabsequence,tablabel,customized,ownedby,isentitytype,parent) VALUES (3,'Home',0,1,'Home',0,1,0,null)");
@@ -1257,7 +1258,7 @@ Thanks,
 			<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>INVOICE</h3>
                         </td>
@@ -1298,7 +1299,7 @@ Thanks,
                         <p style="font-size:23px;">$invoice-bill_country$</p>
                         </td>
                         <td style="text-align:right;width:100%;font-size:23px;">
-                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Sales Date:</b></span> $custom-currentdate$</p>
+                        <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Invoice Date:</b></span> $custom-currentdate$</p>
 
                         <p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Due Date:</b></span>$invoice-duedate$</p>
                         </td>
@@ -1364,7 +1365,7 @@ Thanks,
 			<table width="985">
 		<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>QUOTE</h3>
                         </td>
@@ -1471,7 +1472,7 @@ Thanks,
 			$adb->pquery("insert into jo_pdfmaker values(?,?,?,?,?,?,?,?,?)", array(3, 'PurchaseOrder', 'PurchaseOrder', '', '<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
                         <h3>Purchase Order</h3>
                         </td>
@@ -1581,7 +1582,7 @@ Thanks,
 			<table width="985">
 	<tbody>
 		<tr>
-			<td style="width:50%;"><img alt="" height="79" src="'.$site_URL.'cache/logo/JoForce-Logo.png" width="200" /></td>
+			<td style="width:50%;"><img alt="" height="79" src="$image_URL$" width="200" /></td>
 			<td style="width:50%;font-size:20px;text-align:right;">
 			<h3>Sales Order</h3>
 			</td>
@@ -1623,7 +1624,7 @@ Thanks,
 			<p style="font-size:23px;">$salesorder-bill_country$</p>
 			</td>
 			<td style="text-align:right;width:100%;font-size:23px;">
-			<p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Invoice Date:</b></span> $custom-currentdate$</p>
+			<p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Sales Date:</b></span> $custom-currentdate$</p>
 
 			<p style="text-align:right;width:100%;font-size:23px;"><span style="color:#808080;text-align:left;font-size:23px;"><b>Due Date:</b></span>$salesorder-duedate$</p>
 			</td>

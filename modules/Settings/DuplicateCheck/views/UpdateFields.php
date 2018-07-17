@@ -39,7 +39,7 @@ class Settings_DuplicateCheck_UpdateFields_View extends Settings_Head_Index_View
 
         if(($modulename != "") && (isset($_POST["savebutton"]))){
             $runQuery = $adb->pquery("UPDATE jo_vtduplicatechecksettings SET fieldstomatch='$fieldsID' ,isenabled='$isenabled' ,crosscheck='$crosscheck' WHERE modulename='$modulename'");
-            header("location:".$site_URL."DuplicateCheck/Settings/List/$modulename/notify=1");
+            header("location:".$site_URL."DuplicateCheck/Settings/List?sourceModule=$modulename&notify=1");
         }
         else{
             header("location:".$site_URL."DuplicateCheck/Settings/List");

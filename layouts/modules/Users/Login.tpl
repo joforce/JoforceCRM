@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {* modules/Users/views/Login.php *}
 
@@ -12,18 +13,6 @@
 	<style>
 		body {
 			background: #fff;
-			/*background: #2C3E50 url(layouts/resources/Images/joforce-login-bg.png);*/
-			/*background: url(layouts/resources/Images/az-subtle.png);*/
-			/*background-position: center;*/
-			/*background-size: 150px 150px;*/
-			/*width: 100%;
-			height: 100%;*/
-			/*background-repeat: repeat;*/
-			/*background-color:#2C3E50;*/
-			/*background: #3aa0d1;*/
-    /*background: -webkit-linear-gradient(bottom, #2C4E50, #2C3E50);
-    background: linear-gradient(to top, #2C4E50, #2C3E50);*/
-			
 		}
 			.button {
 			position: relative;
@@ -457,12 +446,12 @@
 						<input type="hidden" name="module" value="Users"/>
 						<input type="hidden" name="action" value="Login"/>
 						<div class="group">
-							<input id="username" type="text" name="username" placeholder="Username" value="admin">
+							<input id="username" type="text" name="username" placeholder="Username" value="">
 							<span class="bar"></span>
 							<label>Username</label>
 						</div>
 						<div class="group">
-							<input id="password" type="password" name="password" placeholder="Password" value="admin">
+							<input id="password" type="password" name="password" placeholder="Password" value="">
 							<span class="bar"></span>
 							<label>Password</label>
 						</div>

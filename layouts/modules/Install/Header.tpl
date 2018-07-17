@@ -21,7 +21,7 @@
 			<link type='text/css' rel='stylesheet' href='layouts/lib/jquery/select2/select2.css'/>
 			<link type='text/css' rel='stylesheet' href='libraries/bootstrap/js/eternicode-bootstrap-datepicker/css/datepicker3.css'/>
 			<link type='text/css' rel='stylesheet' href='layouts/lib/jquery/jquery-ui-1.11.3.custom/jquery-ui.css'/>
-			<link type='text/css' rel='stylesheet' href='layouts/lib/vt-icons/style.css'/>
+			<link type='text/css' rel='stylesheet' href='layouts/lib/jo-icons/style.css'/>
 
 				<link type="text/css" rel="stylesheet" href="layouts/skins/style.css" media="screen" />
 				<link type="text/css" rel="stylesheet" href="layouts/modules/Install/resources/css/custom.css" media="screen" />

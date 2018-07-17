@@ -22,7 +22,7 @@
 			   {/if}
 			{/foreach}
 			{if empty($IMAGE_DETAILS)}
-			   <div class="name"><span><strong> <i class="vicon-contacts"></i> </strong></span></div>
+			   <div class="name"><span><strong> <i class="joicon-contacts"></i> </strong></span></div>
 					 {/if}
 		 </div>
 		 <div class="recordBasicInfo">

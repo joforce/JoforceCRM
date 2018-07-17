@@ -222,6 +222,9 @@ ini_set('memory_limit','64M');
 // default_module default value = Home
 \$default_module = 'Home';
 
+//Enabling and disabling Email Tracking
+\$email_tracking = 'Yes';
+
 // default_action default value = index
 \$default_action = 'index';
 

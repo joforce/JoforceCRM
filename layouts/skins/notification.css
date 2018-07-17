@@ -73,6 +73,7 @@ body {
 .dash-widgets li a , .dash-widgets-side li a{
   text-decoration: none;
   color:#333;
+  outline: none;
 }
 .dash-widgets li .count{
   border-radius: 7px;
@@ -192,6 +193,30 @@ background: #656565;
 .dash-projecttask{
   top: 430px;left: 330px;
 }
+.dash-widgets li .popover{
+  min-width: 300px;
+  max-width: 300px;
+  left:70px !important;
+  border:1px solid #e8e8e8;
+  border-radius: 0px 5px 5px 5px;
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.1);
+}
+.dash-widgets li .popover .arrow{
+  top:18px !important; 
+  border-right-color:#e8e8e8;
+}
+.dash-widgets li .popover .arrow::after{
+  border-right-color:#fff;
+}
+.dash-widgets li .popover .popover-title{
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: 15px;
+}
+.dash-widgets li .popover .popover-content{
+  font-size: 14px;
+}
+
 @media only screen and (max-width: 900px) {
   .joforce-dash-aside{
     float: none;

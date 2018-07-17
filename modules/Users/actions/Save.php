@@ -103,6 +103,34 @@ class Users_Save_Action extends Head_Save_Action {
 		}
 		$recordModel = $this->saveRecord($request);
 
+		$masquerade_user_status = $request->get('is_masquerade_user');
+		if($masquerade_user_status) {
+			global $site_URL,$adb;
+			$currentUserModel = Users_Record_Model::getCurrentUserModel(); 
+			$from_name = $currentUserModel->getName();
+			$from_email = getUserEmail($currentUserModel->getId());
+			$to_email = $request->get('email1');
+			
+			$module = $request->getModule();
+			//get contents from template.
+			$query = $adb->pquery('select subject,body from jo_emailtemplates where systemtemplate = ? and templateid = ?', array(1,7));
+			$result = $adb->fetchByAssoc($query);
+			
+			$subject=$result['subject'];
+			$html=$result['body'];
+			// replacing site_url users-user_name users-user_password_custom
+			$html = str_replace('$users-first_name$',$request->get('user_name'), $html);
+
+			$html = str_replace('$site_url$',$site_URL, $html);
+			$html = str_replace('$users-user_name$',$request->get('user_name'), $html);
+			$html = str_replace('$users-user_password_custom$',$request->get('user_password'), $html);
+
+			$contents=htmlspecialchars_decode($html);
+			
+			require_once('modules/Emails/mail.php');
+			send_mail($module, $to_email, $from_name, $from_email, $subject, $contents, '', '', '', '', '', '', '', '');
+		}
+
 		if ($request->get('relationOperation')) {
 			$parentRecordModel = Head_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();

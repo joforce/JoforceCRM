@@ -217,45 +217,51 @@ class Install_Index_view extends Head_View_Controller {
 		$viewer->view('Step6.tpl', $moduleName);
 	}
 
-	public function Step7(Head_Request $request) {
+    public function Step7(Head_Request $request) {
+        require_once('includes/utils/utils.php');
+        require_once('modules/Users/Users.php');
+        global $adb, $current_user;
+        $moduleName = $request->getModule();
+        $webuiInstance = new Head_WebUI();
+        $isInstalled = $webuiInstance->isInstalled();
+        if($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
+            die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
+        }
 
-		$moduleName = $request->getModule();
-		$webuiInstance = new Head_WebUI();
-		$isInstalled = $webuiInstance->isInstalled();
-		if(!$isInstalled){
-			if($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
-				die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
-			}
+        // Create configuration file
+        $configParams = $_SESSION['config_file_info'];
+        $configFile = new Install_ConfigFileUtils_Model($configParams);
+        $configFile->createConfigFile();
 
-			// Create configuration file
-			$configParams = $_SESSION['config_file_info'];
-			$configFile = new Install_ConfigFileUtils_Model($configParams);
-			$configFile->createConfigFile();
+        $adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
+        $adb->query('SET NAMES utf8');
 
-			global $adb;
-			$adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
-			$adb->query('SET NAMES utf8');
+        $import_sql = Install_MysqlImport_Model::ImportDump();
 
-			// Initialize and set up tables
-			Install_InitSchema_Model::initialize();
+        $current_user = Users::getActiveAdminUser();
 
-			// Install all the available modules
-			Install_Utils_Model::installModules();
+        $recordModel = Head_Record_Model::getInstanceById(1, 'Users');
+        $recordModel->set('id', 1);
+        $recordModel->set('mode','edit');
+        $recordModel->set('first_name', $configParams['firstname']);
+        $recordModel->set('last_name', $configParams['lastname']);
+        $recordModel->set('email1', $configParams['admin_email']);
+        $recordModel->set('date_format', $configParams['dateformat']);
+        $recordModel->set('time_zone', $configParams['timezone']);
+        $recordModel->set('user_password', $configParams['password']);
+        $recordModel->save('Users');
 
-			Install_InitSchema_Model::upgrade();
+        $users = CRMEntity::getInstance('Users');
+        $users->retrieveCurrentUserInfoFromFile(1);
+        $changePwdResponse = $users->change_password('admin', $configParams['password']);
 
-			$viewer = $this->getViewer($request);
-			$viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$viewer->assign('CURRENT_VERSION', $_SESSION['jo_version']);
-			$viewer->assign('INDUSTRY', $request->get('industry'));
-			$viewer->view('Step7.tpl', $moduleName);
-		}else{
-			$response = new Head_Response();
-			$response->setResult(vtranslate('THIS_INSTANCE_IS_ALREADY_INSTALLED', $moduleName));
-			return $response;
-		}
-	}
+        $viewer = $this->getViewer($request);
+        $viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
+        $viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
+        $viewer->assign('CURRENT_VERSION', $_SESSION['jo_version']);
+        $viewer->assign('INDUSTRY', $request->get('industry'));
+        $viewer->view('Step7.tpl', $moduleName);
+    }
 
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey() {
@@ -288,4 +294,28 @@ class Install_Index_view extends Head_View_Controller {
 	public function validateRequest(Head_Request $request) { 
 		return $request->validateWriteAccess(true); 
 	}
+}
+
+// Write custom log when installation getting interrupted - Added by Fredrick Marks
+set_error_handler("JoforceErrorHandler");
+register_shutdown_function( "Joforce_Write_ErrorLogs" );
+
+function JoforceErrorHandler($code, $message, $file, $line) {
+}
+
+/**
+ * Checks for a fatal error, work around for set_error_handler not working on fatal errors.
+ */
+function Joforce_Write_ErrorLogs() {
+        $log_path = dirname(__FILE__) . "/../../../logs/joforce-error.log";
+        # Getting last error
+        $error = error_get_last();
+        # Checking if last error is a fatal error
+        if(($error['type'] === E_ERROR) || ($error['type'] === E_USER_ERROR)|| ($error['type'] === E_CORE_ERROR) || ($error['type'] == E_COMPILE_ERROR)) {
+                # Here we handle the error, displaying HTML, logging, ...
+                $log_msg = "ERRORnr : " . $error['type']. " \n Msg : ".$error['message']." \n File : ".$error['file']. " \n Line : " . $error['line'];
+                error_log(print_r($log_msg, true), 3, $log_path);
+        } else {
+                echo "no error where found " ;
+        }
 }

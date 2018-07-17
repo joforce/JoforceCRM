@@ -118,7 +118,6 @@ class Head_Menu {
 	 */
 	static function syncfile() {
 		self::log("Updating parent_tabdata file ... STARTED");
-		create_parenttab_data_file();
 		self::log("Updating parent_tabdata file ... DONE");
 	}
 }

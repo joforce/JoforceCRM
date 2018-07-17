@@ -163,7 +163,7 @@
                         <span class="actionImages">
                             <a name="relationEdit" data-url="{$RELATED_RECORD->getRelatedEditViewUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil"></i></a> &nbsp;&nbsp;
                             {if $IS_DELETABLE}
-                            <a class="relationDelete"><i title="{vtranslate('LBL_UNLINK', $MODULE)}" class="vicon-linkopen"></i></a>&nbsp;&nbsp;
+                            <a class="relationDelete"><i title="{vtranslate('LBL_UNLINK', $MODULE)}" class="joicon-linkopen"></i></a>&nbsp;&nbsp;
                             {/if}
                             {assign var=RECORD_ID value=$RELATED_RECORD->getId()}
                             {assign var="DOCUMENT_RECORD_MODEL" value=Head_Record_Model::getInstanceById($RECORD_ID)}

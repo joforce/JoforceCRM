@@ -106,6 +106,7 @@ class Settings_AddressLookup_List_View extends Settings_Head_Index_View
         $viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
         $viewer->assign('ENABLED_MODULES', $moduleNames);
         $viewer->assign('SELECTED_MODULE_FIELDS_LIST',$moduleFieldsList);
+	$viewer->assign('MODULE', $qualifiedModule);
         $viewer->assign('SITEURL',$site_URL);
 
         $viewer->view('Index.tpl',$qualifiedModule);

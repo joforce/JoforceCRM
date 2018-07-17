@@ -206,6 +206,28 @@ Head_Index_Js("Settings_Head_Index_Js",{
 			});
 	},
 
+	registerMasqueradeUserOption : function() {
+		$('#enable-masquerade-user').change( function() {
+			if ($(this).is(':checked'))
+				$(this).val('true');
+			else
+				$(this).val('false');
+			
+			var status = $(this).val();
+
+			var params = {
+                                module: app.getModuleName(),
+                                parent: app.getParentModuleName(),
+                                action: 'SaveMasqueradeUserSettings',
+                                user_status: status,
+                        }
+                        app.helper.showProgress();
+                        app.request.post({data: params}).then(function(err, data){
+                                app.helper.hideProgress();
+                        });
+		});
+	},
+
 	registerEvents: function() {
 		this._super();
 		this.registerSettingsShortcutClickEvent();
@@ -215,6 +237,7 @@ Head_Index_Js("Settings_Head_Index_Js",{
 		this.registerAddShortcutDragDropEvent();
 		this.registerSettingShortCutAlignmentEvent();
 		this.registerBasicSettingsEvents();
+		this.registerMasqueradeUserOption();
 	}
 
 });

@@ -17,21 +17,21 @@
          <div class="row">
             <div class="logo-container pl30">
                <div class="row">
-                  <a href="{$SITEURL}" class="company-logo">
+		{assign var=BOARDID value=getDefaultBoardId()}
+		{if $BOARDID eq '1'}
+                  <a href="{$SITEURL}Home/view/List" class="company-logo">
                   <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
                   </a>
+		{else}
+		  <a href="{$SITEURL}" class="company-logo">
+                  <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+                  </a>
+		{/if}
                </div>
             </div>
          </div>
       </div>
-      <!-- <div class="search-links-container col-md-3 col-lg-3 hidden-sm">
-         <div class="search-link hidden-xs">
-            <span class="fa fa-search" aria-hidden="true"></span>
-            <input class="keyword-input" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" value="{$GLOBAL_SEARCH_VALUE}">
-            <span id="adv-search" class="adv-search fa fa-chevron-circle-down pull-right cursorPointer" aria-hidden="true"></span>
-         </div>
-      </div> -->
-	<div class="col-lg-7 col-md-4 col-sm-3 pl0 pr0"> 
+      <div class="col-lg-7 col-md-4 col-sm-3 pl0 pr0"> 
       <div class="user-image-mobile">
          
          <li class="dropdown">
@@ -148,7 +148,13 @@
         	                                        {assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
 			                           <li>
 							<a href="{$moduleModel->getListViewUrl()}">
-								<i class="vicon-{strtolower($moduleName)} mr10"></i>{$translatedModuleLabel}
+								{if $moduleName == 'EmailPlus'}
+                                                                        <i class="joicon-mailmanager mr10"></i>{$translatedModuleLabel}
+                                                                {elseif $moduleName == 'PDFMaker'}
+                                                                        <i class="fa fa-file-pdf-o mr10"></i>{$translatedModuleLabel}
+                                                                {else}
+                                                                        <i class="joicon-{strtolower($moduleName)} mr10"></i>{$translatedModuleLabel}
+                                                                {/if}
 							</a>
 						   </li>
 						{/if}
@@ -195,7 +201,7 @@
                               {assign var='singularLabel' value='LBL_TASK'}
                               <div class="{if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-md-4{/if}">
                                  <a id="menubar_quickCreate_Events" class="quickCreateModule" data-name="Events"
-                                    data-url="index.php?module=Events&view=QuickCreateAjax" href="javascript:void(0)"><i class="vicon-calendar pull-left"></i><span class="quick-create-module">{vtranslate('LBL_EVENT',$moduleName)}</span></a>
+                                    data-url="index.php?module=Events&view=QuickCreateAjax" href="javascript:void(0)"><i class="joicon-calendar pull-left"></i><span class="quick-create-module">{vtranslate('LBL_EVENT',$moduleName)}</span></a>
                               </div>
                               {if $count % 3 == 2}
                            </div>
@@ -204,7 +210,7 @@
                               {/if}
                               <div class="{if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-md-4{/if}">
                                  <a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModule" data-name="{$moduleModel->getName()}"
-                                    data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)"><i class="vicon-task pull-left"></i><span class="quick-create-module">{vtranslate($singularLabel,$moduleName)}</span></a>
+                                    data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)"><i class="joicon-task pull-left"></i><span class="quick-create-module">{vtranslate($singularLabel,$moduleName)}</span></a>
                               </div>
                               {if !$hideDiv}
                               {assign var='count' value=$count+1}
@@ -213,7 +219,7 @@
                               <div class="{if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4{/if} dropdown">
                                  <a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModuleSubmenu dropdown-toggle" data-name="{$moduleModel->getName()}" data-toggle="dropdown" 
                                     data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)">
-                                 <i class="vicon-{strtolower($moduleName)} pull-left"></i>
+                                 <i class="joicon-{strtolower($moduleName)} pull-left"></i>
                                  <span class="quick-create-module">
                                  {vtranslate($singularLabel,$moduleName)}
                                  <i class="fa fa-caret-down quickcreateMoreDropdownAction"></i>
@@ -237,7 +243,7 @@
                               <div class="{if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-md-4{/if}">
                                  <a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModule" data-name="{$moduleModel->getName()}"
                                     data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)">
-                                 <i class="vicon-{strtolower($moduleName)} pull-left"></i>
+                                 <i class="joicon-{strtolower($moduleName)} pull-left"></i>
                                  <span class="quick-create-module">{vtranslate($singularLabel,$moduleName)}</span>
                                  </a>
                               </div>
@@ -261,7 +267,7 @@
             {assign var=CALENDAR_MODULE_MODEL value=Head_Module_Model::getInstance('Calendar')}
             {if $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
             <li>
-               <div><a href="{$SITEURL}Calendar/view/{$CALENDAR_MODULE_MODEL->getDefaultViewName()}" class="vicon vicon-calendar" title="{vtranslate('Calendar','Calendar')}" aria-hidden="true"></a></div>
+               <div><a href="{$SITEURL}Calendar/view/{$CALENDAR_MODULE_MODEL->getDefaultViewName()}" class="joicon joicon-calendar" title="{vtranslate('Calendar','Calendar')}" aria-hidden="true"></a></div>
             </li>
             {/if}
             {assign var=REPORTS_MODULE_MODEL value=Head_Module_Model::getInstance('Reports')}
@@ -272,9 +278,14 @@
             {/if}
             {if $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
             <li>
-               <div><a href="#" class="taskManagement joforce-task vicon vicon-task" title="{vtranslate('Tasks','Head')}" aria-hidden="true"></a></div>
+               <div><a href="#" class="taskManagement joforce-task joicon joicon-task" title="{vtranslate('Tasks','Head')}" aria-hidden="true"></a></div>
             </li>
             {/if}
+	    <li>
+		<div>
+			<a href="https://docs.joforce.com" target="_blank" class="fa fa-question-circle" aria-hidden="true" style="font-size:18px" title="{vtranslate('LBL_HELP', 'Head')}"></a>
+		</div>
+	    </li>
             <li class="dropdown" style="padding: 0px 5px;">
                <div style="margin-top: -5px;">
                   {assign var=last_name value=$USER_MODEL->get('last_name')}

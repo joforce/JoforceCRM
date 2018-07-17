@@ -189,14 +189,14 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 	static function getSettingsMenuListForNonAdmin() {
         global $site_URL;
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$myTagSettingsUrl = $currentUser->getMyTagSettingsListUrl();
 
 		$extension_blockid = Head_Deprecated::getSettingsBlockId('LBL_EXTENSIONS');
 		$google_link_field_id = getSettingsFieldId($extension_blockid, 'LBL_GOOGLE');
 		$settingsMenuList = array('LBL_MY_PREFERENCES'	=> array('My Preferences'	=> '',
 									 'Calendar Settings'	=> '',
-									 'LBL_MY_TAGS'		=> $myTagSettingsUrl,
-									 'LBL_MENU_MANAGEMENT' 	=> $site_URL.'MenuManager/Settings/Index'),
+									 'LBL_MY_TAGS'		=> $site_URL.'Tags/Settings/List',
+									 'LBL_MENU_MANAGEMENT' 	=> $site_URL.'MenuManager/Settings/Index',
+									 'Notifications'	=> $site_URL.'Notifications/Settings/Index'),
 					'LBL_EXTENSIONS'	=> array('LBL_GOOGLE'	=> $site_URL."Contacts/Settings/Extension/Google/Index/settings/$extension_blockid/$google_link_field_id")
 					);
 		if(!vtlib_isModuleActive('Google')) {

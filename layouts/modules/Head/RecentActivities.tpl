@@ -33,7 +33,7 @@
                                     {assign var=IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
                                     {if $IMAGE_DETAILS neq '' && $IMAGE_DETAILS[0] neq '' && $IMAGE_DETAILS[0].path eq ''}
                                         <div class="update_icon bg-info">
-                                            <i class='update_image vicon-vtigeruser'></i>
+                                            <i class='update_image joicon-vtigeruser'></i>
                                         </div>
                                     {else}
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
@@ -61,7 +61,7 @@
                                     {assign var=IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
                                     {if $IMAGE_DETAILS neq '' && $IMAGE_DETAILS[0] neq '' && $IMAGE_DETAILS[0].path eq ''}
                                         <div class="update_icon bg-info">
-                                            <i class='update_image vicon-vtigeruser'></i>
+                                            <i class='update_image joicon-vtigeruser'></i>
                                         </div>
                                     {else}
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
@@ -113,9 +113,9 @@
                                             {Head_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))} </small>
                                     </time>
                                     {if {$RELATED_MODULE|strtolower eq 'modcomments'}}
-                                        {assign var="VICON_MODULES" value="vicon-chat"}
+                                        {assign var="VICON_MODULES" value="joicon-chat"}
                                     {else}
-                                        {assign var="VICON_MODULES" value="vicon-{$RELATED_MODULE|strtolower}"}
+                                        {assign var="VICON_MODULES" value="joicon-{$RELATED_MODULE|strtolower}"}
                                     {/if}
                                     <div class="update_icon  bg-info-{$RELATED_MODULE|strtolower}">
 										<i class="update_image {$VICON_MODULES}"></i>

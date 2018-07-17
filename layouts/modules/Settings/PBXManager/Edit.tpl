@@ -8,7 +8,6 @@
 *************************************************************************************}
 
 {strip}
-<div class="joforce-bg">
 	<div class="widget_header col-lg-12">
 		<h4>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h4>
 		<hr>
@@ -27,7 +26,7 @@
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
 							<tr>
 								<td class="fieldLabel control-label" style="width:25%"><label>{vtranslate($FIELD_NAME, $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></td>
-								<td class="fieldValue" style="word-wrap:break-word;">
+								<td style="word-wrap:break-word;">
 									<input class="inputElement fieldValue" type="{$FIELD_TYPE}" name="{$FIELD_NAME}" data-rule-required="true" value="{$RECORD_MODEL->get($FIELD_NAME)}" />
 								</td>
 							</tr>
@@ -38,7 +37,7 @@
 			<div class="modal-overlay-footer clearfix">
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
-						<button type="submit" class="btn btn-primary saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+						<button type="submit" class="btn btn-success saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
 						<a class="cancelLink" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
@@ -47,10 +46,9 @@
 	</div>
 	<div class="col-lg-12">
 		<div class="col-lg-1"></div>
-		<div class="col-sm-10 alert alert-info container-fluid">
+		<div class="col-sm-5 alert alert-info container-fluid">
 			<b>{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}</b> {vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br><br>
 			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)} : {vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>
-	</div>
 	</div>
 {/strip}

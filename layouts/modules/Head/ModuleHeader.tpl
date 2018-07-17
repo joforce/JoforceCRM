@@ -72,10 +72,10 @@
 							{if $VIEW == 'List' or $VIEW == 'Forecast'}	
 								<input type="hidden" name="potential-view-type" id="potential-view-type" value="{$VIEW}" >
 				                                <li class="">
-        				                                <button id="forecast-view" type="button" class="btn" data-cvid="{$VIEWID}"><i class="vicon vicon-columns"></i></button>
+        				                                <button id="forecast-view" type="button" class="btn" data-cvid="{$VIEWID}"><i class="joicon joicon-columns"></i></button>
                 	                			</li>
 				                                <li class="">
-                        				                <button id="potential-list-view" type="button" class="btn" data-cvid="{$VIEWID}"><i class="vicon vicon-list" aria-hidden="true"></i></button>
+                        				                <button id="potential-list-view" type="button" class="btn" data-cvid="{$VIEWID}"><i class="joicon joicon-list" aria-hidden="true"></i></button>
 			                	                </li>
                         				{/if}
 						{/if}

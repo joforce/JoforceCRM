@@ -38,6 +38,7 @@ jQuery.Class("PDFMaker_Helper_Js", {
 
 $(document).ready(function() {
     var site_url = jQuery('#joforce_site_url').val();
+    $('head').append('<link rel="stylesheet" href="'+site_url+'layouts/modules/PDFMaker/public/css/font-awesome.css" type="text/css" />');
     $('.pdfTabs li').click(function(){
         var id = $(this).attr('id');
         if(id == 'div1' ){

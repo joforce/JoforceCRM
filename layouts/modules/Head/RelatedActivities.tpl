@@ -46,7 +46,7 @@
 						<div class='media'>
 							<div class='row'>
 								<div class='media-left module-icon col-lg-1 col-md-1 col-sm-1 textAlignCenter'>
-									<span class='vicon-{strtolower($RECORD->get('activitytype'))}'></span>
+									<span class='joicon-{strtolower($RECORD->get('activitytype'))}'></span>
 								</div>
 								<div class='media-body col-lg-7 col-md-7 col-sm-7'>
 									<div class="summaryViewEntries">

@@ -102,7 +102,7 @@ $(document).ready(function()	{
                                         			
                             					
                             					var recordid = data[0][i]['recordid'];
-                            					var urlpath = site_url+module+"/Detail/"+recordid;
+                            					var urlpath = site_url+module+"/view/Detail/"+recordid;
                             					makeDiv +="<u><a href="+urlpath+" style='color:white' target=_blank>"+recordname+" "+" (#"+recordid+" ) "+"</a></u>";
                             					makeDiv +="<br/>";
                         				}
