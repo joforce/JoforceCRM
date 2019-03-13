@@ -87,6 +87,7 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 				$fieldList = $this->getRelatedFields($module, $currentUserModel);
 			}
 			foreach ($fieldList as $key => $field) {
+				$allFields = array(); $allRelFields = array();//priya
 				$option = array(vtranslate($field['module'], $field['module']) . ':' . vtranslate($field['fieldlabel'], $field['module']), "$" . strtolower($field['module']) . "-" . $field['columnname'] . "$");
 				$allFields[] = $option;
 				if (!empty($field['referencelist'])) {

@@ -44,11 +44,6 @@ class Types
         return self::$user ?: (self::$user = new UserType());
     }
 
-    public static function jouser()
-    {
-        return self::$user ?: (self::$user = new JoUserType());
-    }
-
     /**
      * @return StoryType
      */

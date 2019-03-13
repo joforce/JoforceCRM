@@ -18,6 +18,7 @@ class Users_AddMasqueradeUser_View extends Head_Index_View {
 
 		$viewer->assign('RECORD_MODEL', $record_instance);
 		$viewer->assign('MODULE', $module);
+		$viewer->assign('RECORD_ID', $record_id);
 		$viewer->view('AddMasqueradeUser.tpl', $module);
 	}
 }

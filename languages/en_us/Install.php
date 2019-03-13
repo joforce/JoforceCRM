@@ -63,6 +63,7 @@ $languageStrings = array(
 	'LBL_WELCOME_TO_VTIGER7_SETUP_WIZARD' => 'Welcome to JoForce Setup Wizard',
 	'LBL_WELCOME' => 'Welcome',
 	'LBL_ZLIB_SUPPORT' => 'Zlib Support',
+	'LBL_SIMPLE_XML_SUPPORT' => 'SimpleXML Support',
 	'MSG_DB_PARAMETERS_INVALID' => 'specified database user, password, hostname, database type, or port is invalid',
 	'MSG_DB_ROOT_USER_NOT_AUTHORIZED' => 'Message: Specified database Root User doesn\'t have permission to Create database or the Database name has special characters. Try changing the Database settings',
 	'MSG_DB_USER_NOT_AUTHORIZED' => 'specified database user does not have access to connect to the database server from the host',

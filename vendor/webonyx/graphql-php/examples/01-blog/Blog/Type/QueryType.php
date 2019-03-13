@@ -22,13 +22,6 @@ class QueryType extends ObjectType
                         'id' => Types::nonNull(Types::id())
                     ]
                 ],
-                'jouser' => [
-                    'type' => Types::jouser(),
-                    'description' => 'Returns user by id (in range of 1-5)',
-                    'args' => [
-                        'id' => Types::nonNull(Types::id())
-                    ]
-                ],
                 'viewer' => [
                     'type' => Types::user(),
                     'description' => 'Represents currently logged-in user (for the sake of example - simply returns user with id == 1)'

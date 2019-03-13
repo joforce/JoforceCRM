@@ -45,6 +45,7 @@ class PBXManager_Module_Model extends Head_Module_Model {
 	 * @return <Array>
 	 */
 	public function getSettingLinks(){
+		 global $site_URL;
 		if(!$this->isEntityModule()) {
 			return array();
 		}
@@ -69,9 +70,10 @@ class PBXManager_Module_Model extends Head_Module_Model {
 			$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTINGS',
 						'linklabel'=> 'LBL_SERVER_CONFIGURATION',
-						'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
+						'linkurl' =>  $site_URL.'PBXManager/Settings/Index/5/23',//priya
 						'linkicon'=> ''
 			);
+			
 		}
 		return $settingsLinks;
 	}

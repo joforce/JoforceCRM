@@ -51,12 +51,42 @@ class GraphQL
                     'args' => $fields['args'],
                     'resolve' => function($root, $args, $context) use ($requested_data) {
                         $data = $this->helper->resolve($requested_data, $args);
+
+                        // Update the structure of retrieve information
+                        if(isset($context['action']) && $context['action'] == 'get_record') {
+                            foreach($data['blocks'] as $block_id => $block_information) {
+                                foreach($block_information['fields'] as $field_id => $field_information) {
+                                    if(is_array($field_information['value'])) {
+                                        $data['blocks'][$block_id]['fields'][$field_id]['value'] = $field_information['value']['value'];
+                                        $data['blocks'][$block_id]['fields'][$field_id]['record_label'] = $field_information['value']['label'];
+                                    }
+                                    else {
+                                        $data['blocks'][$block_id]['fields'][$field_id]['record_label'] = ""; 
+                                    }
+                                }
+                            }
+                        }
+                        else if(isset($context['action']) && $context['action'] == 'get_related_records') {
+                            foreach($data['records'] as $record_id => $record_info) {
+                                foreach($record_info['blocks'] as $block_id => $block_information) {
+                                    foreach($block_information['fields'] as $field_id => $field_information) {
+                                        if(is_array($field_information['value'])) {
+                                            $data['records'][$record_id]['blocks'][$block_id]['fields'][$field_id]['value'] = $field_information['value']['value'];
+                                            $data['records'][$record_id]['blocks'][$block_id]['fields'][$field_id]['record_label'] = $field_information['value']['label'];
+                                        }
+                                        else {
+                                            $data['records'][$record_id]['blocks'][$block_id]['fields'][$field_id]['record_label'] = ""; 
+                                        }
+                                    }
+                                }   
+                            }
+                        }
                         return $data;
                     }
                 ]
             ]
         ]);
-
+        
         return $queryType;
     }
 
@@ -92,7 +122,10 @@ class GraphQL
                     ],
                     'resolve' => function($root, $request_data, $context) use ($args) {
                         $data = $this->helper->syncRecord($request_data['data'], $request_data['module'], $request_data['id']);
-                        return $data['id'];
+            			if($request_data['module'] == 'ModComments')	{
+            				return $data['modcommentsid'];
+			            }
+                        return $data['record']['id'];
                     }
                 ],
                 'delete_record' => [

@@ -3,7 +3,7 @@
 /*
  * This file is part of PSR-7 JSON Web Token Authentication middleware
  *
- * Copyright (c) 2015-2017 Mika Tuupola
+ * Copyright (c) 2015-2018 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -113,26 +113,26 @@ class JwtAuthentication
 
         /* If token cannot be found return with 401 Unauthorized. */
         if (false === $token = $this->fetchToken($request)) {
-            return $this->error($request, $response, [
+            return $this->error($request, $response->withStatus(401), [
                 "message" => $this->message
-            ])->withStatus(401);
+            ]);
         }
 
         /* If token cannot be decoded return with 401 Unauthorized. */
         if (false === $decoded = $this->decodeToken($token)) {
-            return $this->error($request, $response, [
+            return $this->error($request, $response->withStatus(401), [
                 "message" => $this->message,
                 "token" => $token
-            ])->withStatus(401);
+            ]);
         }
 
         /* If callback returns false return with 401 Unauthorized. */
         if (is_callable($this->options["callback"])) {
-            $params = ["decoded" => $decoded];
+            $params = ["decoded" => $decoded, "token" => $token];
             if (false === $this->options["callback"]($request, $response, $params)) {
-                return $this->error($request, $response, [
+                return $this->error($request, $response->withStatus(401), [
                     "message" => $this->message ? $this->message : "Callback returned false"
-                ])->withStatus(401);
+                ]);
             }
         }
 

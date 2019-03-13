@@ -94,15 +94,26 @@ class JoHelper
      */
     public function retrieve($module, $record_id)
     {
+        global $current_user;
         $module_name = ucfirst($module);
-        include_once 'includes/Webservices/DescribeObject.php';
+        require_once('modules/Mobile/api/ws/Utils.php');
+        require_once('includes/Webservices/Retrieve.php');
+        require_once('includes/Webservices/DescribeObject.php');
         $this->module_fields_info = \vtws_describe($module_name, $this->user);
-
-        // TODO Check permission using vtws_retrieve function
-        $moduleModel = \Head_Module_Model::getInstance($module_name);
-        $recordModel = \Head_Record_Model::getInstanceById($record_id, $moduleModel);
-        $unresolved_data = $recordModel->getData();
-        $data = $this->resolveRecordValues($unresolved_data, $moduleModel);
+        $webservice_id = \vtws_getWebserviceEntityId($module, $record_id);
+        $unresolved_data = \vtws_retrieve($webservice_id, $current_user);
+        $resolved_data = $this->resolveRecordValues($unresolved_data, $current_user, $module_name);
+        if ($module_name == 'Products') {
+            $moduleModel = \Head_Module_Model::getInstance($module_name);
+            $recordModel = \Head_Record_Model::getInstanceById($record_id, $moduleModel);
+            $recordTaxDetails = $recordModel->getTaxClassDetails();
+            foreach ($recordTaxDetails as $tax_details) {
+                if ($tax_details['check_value'] == 1) {
+                    $resolved_data[$tax_details['taxname']] = $tax_details['percentage'];
+                }
+            }
+        }
+        $data = $this->returnDataInBlocks($unresolved_data, $module_name, []);
         return $data;
     }
 
@@ -133,6 +144,75 @@ class JoHelper
             }
         }
         return ['response' => $response];
+    }
+
+    /**
+     * Return list of users and groups
+     *
+     * @param $requested_data
+     * @param $args
+     * @return array
+     * @throws \Exception
+     */
+    public function returnUsersList($requested_data, $args) 
+    {
+        global $current_user;
+        $current_user = $this->user;
+        $currentUserModel = \Users_Record_Model::getInstanceFromUserObject($current_user);
+
+        $moduleName = 'Users';
+        $users = $this->getUsers($currentUserModel, $moduleName);
+        $groups = $this->getGroups($currentUserModel, $moduleName);
+        $response = array('users' => $users, 'groups' => $groups);
+        return $response;
+    }
+
+    /**
+     * Return Users
+     *
+     * @param object $currentUserModel
+     * @param string $moduleName
+     * @return array
+     */
+    public function getUsers($currentUserModel, $moduleName) 
+    {
+        $users = $currentUserModel->getAccessibleUsersForModule($moduleName);
+        $userIds = array_keys($users);
+        $usersList = array();
+        require_once('modules/Mobile/api/ws/Utils.php');
+        $usersWSId = \Mobile_WS_Utils::getEntityModuleWSId('Users');
+        foreach ($userIds as $userId) {
+            $userRecord = \Users_Record_Model::getInstanceById($userId, 'Users');
+            $usersList[] = array(
+                    'value' => $usersWSId . 'x' . $userId,
+                    'label' => \decode_html($userRecord->get("first_name") . ' ' . $userRecord->get('last_name'))
+                    );
+        }
+        return $usersList;
+    }
+
+    /**
+     * Return Groups
+     *
+     * @param object $currentUserModel
+     * @param string $moduleName
+     * @return array $groupsList
+     */
+    public function getGroups($currentUserModel, $moduleName) 
+    {
+        $groups = $currentUserModel->getAccessibleGroupForModule($moduleName);
+        $groupIds = array_keys($groups);
+        $groupsList = array();
+        require_once('modules/Mobile/api/ws/Utils.php');
+        $groupsWSId = \Mobile_WS_Utils::getEntityModuleWSId('Groups');
+        foreach ($groupIds as $groupId) {
+            $groupName = getGroupName($groupId);
+            $groupsList[] = array(
+                    'value' => $groupsWSId . 'x' . $groupId,
+                    'label' => decode_html($groupName[0])
+                    );
+        }
+        return $groupsList;
     }
 
     /**
@@ -288,7 +368,7 @@ class JoHelper
         else {
             $recordModel->save();
         }
-        return $recordModel->getData();
+        return array('record' => $recordModel->getData());
     }
 
     /**
@@ -306,14 +386,14 @@ class JoHelper
             $module_name = ucfirst($module);
             $recordModel = \Head_Record_Model::getInstanceById($record_id, $module_name);
             $recordModel->delete();
-            return ['success' => true, 'id' => $record_id];
+            return array('success' => true, 'id' => $record_id);
         }
         catch(\Exception $e)    {
             $message = $e->getMessage();
             if(empty($message)) {
                 $message = 'Something went wrong';
             }
-            return ['success' => false, 'message' => $message];
+            return array('success' => false, 'message' => $message);
         }
     }
 
@@ -360,7 +440,51 @@ class JoHelper
 
             $related_modules[] = $relation_info;
         }
-        return ['relations' => $related_modules];
+        return array('relations' => $related_modules);
+    }
+
+    /**
+     * Return record history
+     *
+     * @param array $data
+     * @param string $record_id
+     * @return array $result
+     */
+    public function returnRecordHistory($data, $record_id)
+    {
+        global $current_user;
+        $current_user = $this->user;
+
+        $options = array(
+                'module' => $data['module'],
+                'record' => $record_id,
+                'mode'   => $data['mode'],
+                'page'   => $data['page']
+                );
+
+        require_once('include/Webservices/History.php');
+        $historyItems = \vtws_history($options, $current_user);
+
+        $this->resolveReferences($historyItems, $current_user);
+
+        $result = array('history' => $historyItems);
+        return $result;
+    }
+
+    protected function resolveReferences(&$items, $user) {
+        global $current_user;
+        if (!isset($current_user)) $current_user = $user; /* Required in getEntityFieldNameDisplay */
+
+        foreach ($items as &$item) {
+            $item['modifieduser'] = $this->fetchResolvedValueForId($item['modifieduser'], $user);
+            $item['label'] = $this->fetchRecordLabelForId($item['id'], $user);
+            unset($item);
+        }
+    }
+
+    protected function fetchResolvedValueForId($id, $user) {
+        $label = $this->fetchRecordLabelForId($id, $user);
+        return array('value' => $id, 'label'=>$label);
     }
 
     /**
@@ -393,9 +517,15 @@ class JoHelper
         $functionHandler = $this->getRelatedFunctionHandler($currentModule, $related_module);
 
         if ($functionHandler) {
-            $sourceFocus = \CRMEntity::getInstance($currentModule);
-            $relationResult = call_user_func_array(	array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
-            $query = $relationResult['query'];
+            if($related_module == 'ModComments') {
+                $sourceFocus = \CRMEntity::getInstance($related_module);
+                $query = call_user_func_array(  array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
+            }
+            else {
+                $sourceFocus = \CRMEntity::getInstance($currentModule);
+                $relationResult = call_user_func_array( array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
+                $query = $relationResult['query'];
+            }
 
             $moduleModel = \Head_Module_Model::getInstance($currentModule);
             $nameFields = $moduleModel->getNameFields();
@@ -423,6 +553,7 @@ class JoHelper
                 $relatedRecords[] = sprintf("%sx%s", $moduleWSId, $row['crmid']);
             }
 
+	        $FETCH_LIMIT = 0;
             $queryResult = null;
             if(count($relatedRecords) > 0)  {
                 // Perform query to get record information with grouping
@@ -434,21 +565,25 @@ class JoHelper
                 $queryResult = \vtws_query($queryWithLimit, $current_user);
             }
 
+            $c = 0;
+            $response = array();
             if(count($queryResult) > 0) {
                 // Resolve the ID
                 // TODO move the resolve to the GraphQL
                 foreach($queryResult as $key => $single_entity) {
+                    $response[$c] = $this->returnDataInBlocks($single_entity, $related_module, implode(',', $nameFields));
                     list($entity_tab_id, $entity_id) = explode('x', $single_entity['id']);
-                    $queryResult[$key]['id'] = $entity_id;
+                    $response[$c]['id'] = $entity_id;
+                    $response[$c]['labelFields'] = $nameFields;
                 }
             }
 
             $moreRecords = false;
-            if(count($queryResult) == $FETCH_LIMIT) {
+            if((count($response) == $FETCH_LIMIT) && count($queryResult) != 0) {
                 $moreRecords = true;
             }
 
-            return ['related_records' => $queryResult, 'page' => $currentPage, "nameFields" => $nameFields, "moreRecords" => $moreRecords];
+            return array('records' => $response, 'page' => $currentPage, "nameFields" => $nameFields, "moreRecords" => $moreRecords);
         }
         throw new \Exception('No handler for given module');
     }
@@ -519,14 +654,13 @@ class JoHelper
             ];
         }
         else if($args['action'] == 'menu')  {
-            $main_menu = new ObjectType([
+            $more_menu = new ObjectType([
                 'name' => 'MainMenuInformation',
                 'description' => 'Main Menu information',
                 'fields' => [
                     'tabid' => Type::id(),
                     'name' => Type::string(),
                     'label' => Type::string(),
-                    'type' => Type::string()
                 ]
             ]);
 
@@ -540,7 +674,7 @@ class JoHelper
                 ]
             ]);
 
-            $more_section = new ObjectType([
+            $section_module = new ObjectType([
                 'name' => 'MoreMenuInformation',
                 'description' => 'More Menu information',
                 'fields' => [
@@ -555,8 +689,8 @@ class JoHelper
                 'type' => 'single',
                 'action' => 'get_menu',
                 'fields' => [
-                    'Main' => Type::listOf($main_menu),
-                    'More' => Type::listOf($more_section)
+                    'Main' => Type::listOf($section_module),
+                    'More' => Type::listOf($more_menu)
                 ]
             ];
         }
@@ -807,12 +941,15 @@ class JoHelper
         }
         else if($args['action'] == 'get_related_records') {
 
-            $module_fields = $this->generateModuleFields($args['related_module']);
+            $module_fields = $this->generateBlockType($args['related_module']);
+
+            $module_fields['id'] = Type::nonNull(Type::int());
+            $module_fields['labelFields'] = Type::listOf(Type::string());
 
             $moduleFieldsType = new ObjectType([
                 'name' => $args['module'] . 'FieldsType',
                 'description' => $args['module'] . ' fields type',
-                'fields' => $module_fields
+                'fields' => $module_fields,
             ]);
 
             return [
@@ -827,7 +964,7 @@ class JoHelper
                     'page' => Type::nonNull(Type::id()),
                 ],
                 'fields' => [
-                    'related_records' => Type::listOf($moduleFieldsType),
+                    'records' => Type::listOf($moduleFieldsType),
                     'page' => Type::int(),
                     'moreRecords' => Type::boolean(),
                     'nameFields' => Type::listOf(Type::string())
@@ -908,7 +1045,9 @@ class JoHelper
             ];
         }
         else if($args['action'] == 'get_record')   {
-            $module_fields = $this->generateModuleFields($args['module']);
+
+            $module_fields = $this->generateBlockType();
+
             return [
                 'name' => $args['module'] . 'Fields',
                 'description' => "{$args['module']} fields",
@@ -936,6 +1075,50 @@ class JoHelper
             ];
         }
         return false;
+    }
+
+    /**
+     * Generate Block Field Syntax
+     *
+     * @return array
+     */
+    public function generateBlockType()
+    {
+        $defaultValue = new ObjectType([
+            'name' => 'DefaultValue',
+            'description' => 'Default Value',
+            'fields' => [
+                'defaultValue' => Type::string(),
+            ]
+        ]);
+
+        $fieldInformation = new ObjectType([
+            'name' => 'FieldInformation',
+            'description' => 'Field Information',
+            'fields' => [
+                'name' => Type::string(),
+                'value' => Type::string(),
+                'record_label' => Type::string(), // Record Label for related record
+                'label' => Type::string(),
+                'uitype' => Type::int(),
+                'type' => Type::listOf($defaultValue), 
+            ]
+        ]);
+
+        $blockInformation = new ObjectType([
+            'name' => 'BlockInformation',
+            'description' => 'Block Information',
+            'fields' => [
+                'label' => Type::string(),
+                'fields' => Type::listOf($fieldInformation),
+            ]
+        ]);
+
+        $module_fields = array(
+            'blocks' => Type::listOf($blockInformation),
+        );
+
+        return $module_fields;
     }
 
     /**
@@ -1099,9 +1282,24 @@ class JoHelper
         }
 
         $fieldModels = $moduleModel->getFields();
+        //&& issue start
+        
         foreach($fields as $index => $field) {
+
+        	 if($module == 'PurchaseOrder' || $module == 'Invoice' || $module == 'SalesOrder' || $module == 'Quotes'){
+
+                if (strpos($field['name'], '&') !== false) {
+                continue;
+                }
+            }
+            //&& issue end       
+
             if($field['type']['name'] == 'boolean' && $field['default'] == 'on')    {
                 $field['default'] = true;
+            }
+
+            if ($field['name'] == 'activitytype' && $module == 'Calendar') {
+                $field['mandatory'] = true;
             }
 
             $fieldModel = $fieldModels[$field['name']];
@@ -1138,51 +1336,6 @@ class JoHelper
         else    {
             return Type::string();
         }
-    }
-
-    /**
-     * Resolve record values
-     *
-     * @param $data
-     * @return mixed
-     */
-    function resolveRecordValues($data)
-    {
-        foreach($this->module_fields_info['fields'] as $field_info)   {
-            if($field_info['type']['name'] == 'reference')    {
-                $data[$field_info['name']] = decode_html(\Head_Functions::getCRMRecordLabel($data[$field_info['name']]));
-            }
-            else if($field_info['name'] == 'assigned_user_id')    {
-                $data[$field_info['name']] = decode_html(\Head_Functions::getUserRecordLabel($data[$field_info['name']]));
-            }
-            else if($field_info['type']['name'] == 'boolean')   {
-                $boolean_response = false;
-                if(!empty($data[$field_info['name']]) && $data[$field_info['name']] == 1)
-                    $boolean_response = true;
-
-                $data[$field_info['name']] = $boolean_response;
-            }
-            else if($field_info['type']['name'] == 'time' && ($field_info['name'] == 'time_start' || $field_info['name'] == 'time_end'))   {
-                if(!empty($data[$field_info['name']]))  {
-                    $date = $data['date_start'];
-                    if($field_info['name'] == 'time_end')
-                        $date = $data['due_date'];
-
-                    $temp_value = $date . ' ' . $data[$field_info['name']];
-                    if($this->user->hour_format == 12)  {
-                        $dateTimeObject = new \DateTime($temp_value);
-                        $updated_datetime = $dateTimeObject->format('Y-m-d h:i:s');
-                        $temp_value = $updated_datetime;
-                    }
-
-                    $converted_date = \DateTimeField::convertToUserFormat($temp_value, $this->user); 
-                    $dateTime = new \DateTimeField($temp_value);
-                    $converted_time = $dateTime->getDisplayTime();
-                    $data[$field_info['name']] = $converted_time;
-                }
-            }
-        }
-        return $data;
     }
 
     /**
@@ -1325,10 +1478,15 @@ class JoHelper
         }
 
         if(!isset($args['day']) || $args['day'] === false) {
-            $response = [];
-            foreach ($result as $date => $date_wise) {
-                $response[] = ['date' => $date, 'count' => count($result[$date])];
-            }
+	    if(empty($result))	{
+                $response[] = ['date' => $start, 'count' => 0];
+	    }
+	    else {
+	        foreach ($result as $date => $date_wise) {
+        	   $response[] = ['date' => $date, 'count' => count($result[$date])];
+            	}
+	    }
+
             return $response;
         }
         else    {
@@ -1548,6 +1706,177 @@ class JoHelper
             return $responcearray;
                 
         } 
+    }
 
+    /**
+     * Run the query given
+     *
+     * @param array $requested_data
+     * @param array $args
+     * @return void
+     */
+    public function query($requested_data, $args)
+    {
+        global $current_user;
+        $current_user = $this->user;
+        $page = $requested_data['page'];
+        if(empty($page)) {
+            $page = 0;
+        }
+        $query = $requested_data['query'];
+        $nextPage = 0;
+        $queryResult = false;
+
+        require_once('include/Webservices/Query.php');
+        if (preg_match("/(.*) LIMIT[^;]+;/i", $query)) {
+            $queryResult = \vtws_query($query, $current_user);
+        }
+        else {
+	    // Implicit limit and paging
+            $query = rtrim($query, ";");
+
+            $currentPage = intval($page);
+            $FETCH_LIMIT = 10;
+            $startLimit = $currentPage * $FETCH_LIMIT;
+
+            $queryWithLimit = sprintf("%s LIMIT %u,%u;", $query, $startLimit, ($FETCH_LIMIT+1));
+            $queryResult = \vtws_query($queryWithLimit, $current_user);
+
+            // Determine paging
+            $hasNextPage = (count($queryResult) > $FETCH_LIMIT);
+            if ($hasNextPage) {
+                array_pop($queryResult); // Avoid sending next page record now
+                $nextPage = $currentPage + 1;
+            }
+        }
+
+	    $fieldsInfo = $this->getModuleFields($requested_data['module']);
+
+        $records = array();
+        if (!empty($queryResult)) {
+            foreach($queryResult as $recordValues) {
+                $unresolved_data = $this->resolveRecordValues($recordValues, $current_user, $requested_data['module']);
+                $records[] = $this->returnDataInBlocks($unresolved_data, $requested_data['module'], $fieldsInfo['labelFields']);
+            }
+        }
+        $result = array('records' => $records, 'nextPage' => $nextPage, 'labelFields' => explode(',', $fieldsInfo['labelFields']));
+        return $result;
+    }
+
+    /**
+     * Resolve record values
+     *
+     * @param array $data
+     * @param string $module_name
+     * @return array $modifiedResult
+     */
+    public function returnDataInBlocks($data, $module_name, $labelFields)
+    {
+        global $current_user;
+        require_once('modules/Mobile/api/ws/Utils.php');
+        $moduleFieldGroups = \Mobile_WS_Utils::gatherModuleFieldGroupInfo($module_name);
+        $blocks = $modifiedResult = array();
+        foreach($moduleFieldGroups as $blocklabel => $fieldgroups) {
+            $fields = array();
+            foreach($fieldgroups as $fieldname => $fieldinfo) {
+                // Pickup field if its part of the result
+                if(isset($data[$fieldname])) {
+                    $field = array(
+                        'name'  => $fieldname,
+                        'value' => $data[$fieldname],
+                        'label' => $fieldinfo['label'],
+                        'uitype'=> $fieldinfo['uitype']
+                    );
+
+                    // Fix the assigned to uitype
+                    if ($field['uitype'] == '53') {
+			            $field['type']['defaultValue'] = array('value' => "19x{$current_user->id}", 'label' => $current_user->column_fields['last_name']);
+                    }
+                    else if($field['uitype'] == '117') {
+                        $field['type']['defaultValue'] = $field['value'];
+                    }
+                    // Special case handling to pull configured Terms & Conditions given through webservices.
+                    else if($field['name'] == 'terms_conditions' && in_array($module, array('Quotes','Invoice', 'SalesOrder', 'PurchaseOrder'))){
+                        $field['type']['defaultValue'] = $field['value'];
+                    }
+                    // Special case handling to set defaultValue for visibility field in calendar.
+                    else if ($field['name'] == 'visibility' && in_array($module, array('Calendar','Events'))){
+                        $field['type']['defaultValue'] = $field['value'];
+                    }
+                    else if($field['type']['name'] != 'reference') {
+                        $field['type']['defaultValue'] = $field['default'];
+                    }
+                    $fields[] = $field;
+                }
+            }
+            $blocks[] = array( 'label' => $blocklabel, 'fields' => $fields );
+        }
+
+        $sections = array();
+        $moduleFieldGroupKeys = array_keys($moduleFieldGroups);
+        foreach ($moduleFieldGroupKeys as $blocklabel) {
+            // Eliminate empty blocks
+            if (isset($groups[$blocklabel]) && !empty($groups[$blocklabel])) {
+                $sections[] = array('label' => $blocklabel, 'count' => count($groups[$blocklabel]));
+            }
+        }
+
+        $modifiedResult = array('blocks' => $blocks, 'id' => $data['id']);
+        if ($labelFields) $modifiedResult['labelFields'] = explode(',', $labelFields);
+
+        if (isset($data['LineItems'])) {
+            $modifiedResult['LineItems'] = $data['LineItems'];
+        }
+
+        return $modifiedResult;
+    }
+
+    /**
+     * Resolve record values
+     *
+     * @param string $record
+     * @param object $user
+     * @param string $module_name
+     * @param boolean $ignoreUnsetFields
+     * @return mixed
+     */
+    public function resolveRecordValues(&$record, $user, $module_name, $ignoreUnsetFields=false) {
+	    if(empty($record)) return $record;
+
+	    require_once('modules/Mobile/api/ws/Utils.php');
+        $fieldnamesToResolve = \Mobile_WS_Utils::detectFieldnamesToResolve($module_name);
+	    if(!empty($fieldnamesToResolve)) {
+		    foreach($fieldnamesToResolve as $resolveFieldname) {
+			    if ($ignoreUnsetFields === false || isset($record[$resolveFieldname])) {
+				    $fieldvalueid = $record[$resolveFieldname];
+				    $fieldvalue = $this->fetchRecordLabelForId($fieldvalueid, $user);
+				    $record[$resolveFieldname] = array('value' => $fieldvalueid, 'label' => \decode_html($fieldvalue));
+			    }
+		    }
+        }
+	    return $record;
+    }
+
+    /**
+     * Fetch record label for Id
+     *
+     * @param string $id
+     * @param object $user
+     * @return void
+     */
+    public function fetchRecordLabelForId($id, $user) 
+    {
+	    $value = null;
+
+	    if (isset($this->resolvedValueCache[$id])) {
+		    $value = $this->resolvedValueCache[$id];
+	    } else if(!empty($id)) {
+		    $value = trim(\vtws_getName($id, $user));
+		    $this->resolvedValueCache[$id] = $value;
+	    } else {
+		    $value = $id;
+	    }
+	    return \decode_html($value);
     }
 }
+

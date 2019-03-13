@@ -15,7 +15,8 @@ class PBXManager_List_View extends Head_List_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
-		$viewName = $request->get('viewname');
+
+		$viewName = $request->get('viewname'); 
 		if ($viewName) {
 			$this->viewName = $viewName;
 		}
@@ -28,7 +29,7 @@ class PBXManager_List_View extends Head_List_View {
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->assign('IS_CREATE_PERMITTED', false);
-		$viewer->assign('IS_MODULE_EDITABLE', false);
+		$viewer->assign('IS_MODULE_EDITABLE', 	false);
 		$viewer->assign('IS_MODULE_DELETABLE', false);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}

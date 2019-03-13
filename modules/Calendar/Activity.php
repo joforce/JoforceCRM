@@ -172,7 +172,7 @@ class Activity extends CRMEntity {
 			if(is_object($recur_data))
 					$this->insertIntoRecurringTable($recur_data);
 		}
-
+ 
 		//Insert into jo_activity_remainder table
 
 			$this->insertIntoReminderTable('jo_activity_reminder',$module,"");
@@ -259,7 +259,10 @@ class Activity extends CRMEntity {
 	  * @param $module -- module:: Type varchar
 	 */
 	function insertIntoReminderTable($table_name,$module,$recurid)
-	{
+	{ //print_r($module);
+		
+		//print_r($table_name); 
+		//die("f");
 		global $log;
 		$log->info("in insertIntoReminderTable  ".$table_name."    module is  ".$module);
 		if($_REQUEST['set_reminder'] == 'Yes')
@@ -747,9 +750,9 @@ function insertIntoRecurringTable(& $recurObj)
 				$params = array($activity_id);
 			}
 		} else {
-                        //PRINCY - commanded for event not saving
-			//$query = "INSERT INTO ".$this->reminder_table." VALUES (?,?,?,?)";
-			//$params = array($activity_id, $reminder_time, 0, $recurid);
+                        //priya
+			$query = "INSERT INTO ".$this->reminder_table." VALUES (?,?,?,?)";
+			$params = array($activity_id, $reminder_time, 0, $recurid);
 		}
 		if(!empty($query)){
 			$this->db->pquery($query,$params,true,"Error in processing jo_table $this->reminder_table");

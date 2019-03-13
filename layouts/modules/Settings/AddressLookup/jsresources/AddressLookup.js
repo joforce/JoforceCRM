@@ -120,9 +120,8 @@ $(document).ready(function() {
 
 function addOneMore(){
     var url=document.location;
-    pathname=document.location.pathname;
-    modulename =pathname.split('/'); 
-    selectedModuleName = modulename[6];
+    var urlget= new URL(url);
+    var selectedModuleName = urlget.searchParams.get("sourceModule");
     var makeUI = "";
     var url = 'index.php?module=AddressLookup&parent=Settings&view=AddField&modulename='+selectedModuleName;
     var postParams  = app.convertUrlToDataParams(url);

@@ -53,30 +53,32 @@ class Google_Model implements ArrayAccess
    */
   public function __get($key)
   {
-    $keyType = $this->keyType($key);
+    $keyTypeName = $this->keyType($key);
     $keyDataType = $this->dataType($key);
-    if ($keyType && !isset($this->processed[$key])) {
+    if (isset($this->$keyTypeName) && !isset($this->processed[$key])) {
       if (isset($this->modelData[$key])) {
         $val = $this->modelData[$key];
-      } elseif ($keyDataType == 'array' || $keyDataType == 'map') {
+      } else if (isset($this->$keyDataType) &&
+          ($this->$keyDataType == 'array' || $this->$keyDataType == 'map')) {
         $val = array();
       } else {
         $val = null;
       }
 
       if ($this->isAssociativeArray($val)) {
-        if ($keyDataType && 'map' == $keyDataType) {
+        if (isset($this->$keyDataType) && 'map' == $this->$keyDataType) {
           foreach ($val as $arrayKey => $arrayItem) {
               $this->modelData[$key][$arrayKey] =
-                new $keyType($arrayItem);
+                $this->createObjectFromName($keyTypeName, $arrayItem);
           }
         } else {
-          $this->modelData[$key] = new $keyType($val);
+          $this->modelData[$key] = $this->createObjectFromName($keyTypeName, $val);
         }
       } else if (is_array($val)) {
         $arrayObject = array();
         foreach ($val as $arrayIndex => $arrayItem) {
-          $arrayObject[$arrayIndex] = new $keyType($arrayItem);
+          $arrayObject[$arrayIndex] =
+            $this->createObjectFromName($keyTypeName, $arrayItem);
         }
         $this->modelData[$key] = $arrayObject;
       }
@@ -96,27 +98,11 @@ class Google_Model implements ArrayAccess
   {
     // Hard initialise simple types, lazy load more complex ones.
     foreach ($array as $key => $val) {
-      if ($keyType = $this->keyType($key)) {
-        $dataType = $this->dataType($key);
-        if ($dataType == 'array' || $dataType == 'map') {
-          $this->$key = array();
-          foreach ($val as $itemKey => $itemVal) {
-            if ($itemVal instanceof $keyType) {
-              $this->{$key}[$itemKey] = $itemVal;
-            } else {
-              $this->{$key}[$itemKey] = new $keyType($itemVal);
-            }
-          }
-        } elseif ($val instanceof $keyType) {
-          $this->$key = $val;
-        } else {
-          $this->$key = new $keyType($val);
-        }
-        unset($array[$key]);
-      } elseif (property_exists($this, $key)) {
+      if ( !property_exists($this, $this->keyType($key)) &&
+        property_exists($this, $key)) {
           $this->$key = $val;
           unset($array[$key]);
-      } elseif (property_exists($this, $camelKey = $this->camelCase($key))) {
+      } elseif (property_exists($this, $camelKey = Google_Utils::camelCase($key))) {
           // This checks if property exists as camelCase, leaving it in array as snake_case
           // in case of backwards compatibility issues.
           $this->$camelKey = $val;
@@ -189,7 +175,7 @@ class Google_Model implements ArrayAccess
     }
     return $value;
   }
-
+  
   /**
    * Check whether the value is the null placeholder and return true null.
    */
@@ -206,7 +192,8 @@ class Google_Model implements ArrayAccess
    */
   private function getMappedName($key)
   {
-    if (isset($this->internal_gapi_mappings, $this->internal_gapi_mappings[$key])) {
+    if (isset($this->internal_gapi_mappings) &&
+        isset($this->internal_gapi_mappings[$key])) {
       $key = $this->internal_gapi_mappings[$key];
     }
     return $key;
@@ -229,6 +216,19 @@ class Google_Model implements ArrayAccess
       }
     }
     return false;
+  }
+
+  /**
+   * Given a variable name, discover its type.
+   *
+   * @param $name
+   * @param $item
+   * @return object The object from the item.
+   */
+  private function createObjectFromName($name, $item)
+  {
+    $type = $this->$name;
+    return new $type($item);
   }
 
   /**
@@ -275,21 +275,12 @@ class Google_Model implements ArrayAccess
 
   protected function keyType($key)
   {
-    $keyType = $key . "Type";
-
-    // ensure keyType is a valid class
-    if (property_exists($this, $keyType) && class_exists($this->$keyType)) {
-      return $this->$keyType;
-    }
+    return $key . "Type";
   }
 
   protected function dataType($key)
   {
-    $dataType = $key . "DataType";
-
-    if (property_exists($this, $dataType)) {
-      return $this->$dataType;
-    }
+    return $key . "DataType";
   }
 
   public function __isset($key)
@@ -300,18 +291,5 @@ class Google_Model implements ArrayAccess
   public function __unset($key)
   {
     unset($this->modelData[$key]);
-  }
-
-  /**
-   * Convert a string to camelCase
-   * @param  string $value
-   * @return string
-   */
-  private function camelCase($value)
-  {
-    $value = ucwords(str_replace(array('-', '_'), ' ', $value));
-    $value = str_replace(' ', '', $value);
-    $value[0] = strtolower($value[0]);
-    return $value;
   }
 }

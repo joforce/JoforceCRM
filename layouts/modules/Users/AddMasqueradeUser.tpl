@@ -23,6 +23,7 @@
                    <div class="">
                         <form class="masquerade-modal-form" action="index.php" method="post">
 				<input type="hidden" name="module" value="{$MODULE}"/>
+				<input type="hidden" name="record_id" value="{$RECORD_ID}"/>
 				<input type="hidden" name="action" value="Save" />
 				<input type="hidden" name="defaultCallDuration" value=5 />
 				<input type="hidden" name="defaultOtherEventDuration" value=5 />

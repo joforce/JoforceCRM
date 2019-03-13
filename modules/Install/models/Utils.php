@@ -129,10 +129,13 @@ class Install_Utils_Model {
 		// Name => array( System Value, Recommended value, supported or not(true/false) );
 		$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '5.4.0', (version_compare(phpversion(), '5.4.0', '>=')));
 		if($webServerName != 'nginx'){
-        		$preInstallConfig['LBL_MOD_REWRITE'] = array(in_array('mod_rewrite', apache_get_modules()), true, (in_array('mod_rewrite', apache_get_modules()) == true));
+			if(function_exists('apache_get_modules')){
+	        		$preInstallConfig['LBL_MOD_REWRITE'] = array(in_array('mod_rewrite', apache_get_modules()), true, (in_array('mod_rewrite', apache_get_modules()) == true));
+			}
 		}
 		$preInstallConfig['LBL_IMAP_SUPPORT']	= array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
 		$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
+		$preInstallConfig['LBL_SIMPLE_XML_SUPPORT']=array(function_exists('simplexml_load_file'), true, (function_exists('simplexml_load_file') == true));
                 if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.5.0') {
                     $preInstallConfig['LBL_MYSQLI_CONNECT_SUPPORT'] = array(extension_loaded('mysqli'), true, extension_loaded('mysqli'));
                 }

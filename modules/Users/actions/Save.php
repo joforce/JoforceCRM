@@ -130,18 +130,21 @@ class Users_Save_Action extends Head_Save_Action {
 			require_once('modules/Emails/mail.php');
 			send_mail($module, $to_email, $from_name, $from_email, $subject, $contents, '', '', '', '', '', '', '', '');
 		}
-
-		if ($request->get('relationOperation')) {
-			$parentRecordModel = Head_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
-			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} else if ($request->get('isPreference')) {
-			$loadUrl =  $recordModel->getPreferenceDetailViewUrl();
-		} else if ($request->get('returnmodule') && $request->get('returnview')){
-			$loadUrl = 'index.php?'.$request->getReturnURL();
-		} else if($request->get('mode') == 'Calendar'){
-			$loadUrl = $recordModel->getCalendarSettingsDetailViewUrl();
-		}else {
-			$loadUrl = $recordModel->getDetailViewUrl();
+		if ($masquerade_user_status) {		 	
+			$loadUrl = $site_URL.'Contacts/view/Detail/'.$request->get('record_id');
+		}else{
+			if ($request->get('relationOperation')) {
+				$parentRecordModel = Head_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$loadUrl = $parentRecordModel->getDetailViewUrl();
+			} else if ($request->get('isPreference')) {
+				$loadUrl =  $recordModel->getPreferenceDetailViewUrl();
+			} else if ($request->get('returnmodule') && $request->get('returnview')){
+				$loadUrl = 'index.php?'.$request->getReturnURL();
+			} else if($request->get('mode') == 'Calendar'){
+				$loadUrl = $recordModel->getCalendarSettingsDetailViewUrl();
+			}else {
+				$loadUrl = $recordModel->getDetailViewUrl();
+			}
 		}
 
 		header("Location: $loadUrl");

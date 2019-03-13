@@ -300,7 +300,7 @@ class Head_Detail_View extends Head_Index_View {
 		if ($request->get('displayMode') == 'overlay') {
 			$viewer->assign('MODULE_MODEL', $moduleModel);
 			$this->setModuleInfo($request, $moduleModel);
-			$viewer->assign('SCRIPTS',$this->getOverlayHeaderScripts($request));
+			//$viewer->assign('SCRIPTS',$this->getOverlayHeaderScripts($request));
 			$detailViewLinkParams = array('MODULE'=>$moduleName, 'RECORD'=>$recordId);
 			$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 			$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);

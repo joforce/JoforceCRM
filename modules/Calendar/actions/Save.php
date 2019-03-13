@@ -35,7 +35,10 @@ class Calendar_Save_Action extends Head_Save_Action {
 	}
 
 	public function process(Head_Request $request) {
+		global $site_URL;
 		$recordModel = $this->saveRecord($request);
+		$save_status = $request->get('save_and_new');
+		$module_name = $request->get('module');
 		$loadUrl = $recordModel->getDetailViewUrl();
 
 		if ($request->get('returntab_label')) {
@@ -44,6 +47,7 @@ class Calendar_Save_Action extends Head_Save_Action {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
 			$parentRecordModel = Head_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+
 			//TODO : Url should load the related list instead of detail view of record
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
@@ -68,7 +72,11 @@ class Calendar_Save_Action extends Head_Save_Action {
 		} else if ($request->get('returnmodule') && $request->get('returnview')){
 			$loadUrl = 'index.php?'.$request->getReturnURL();
 		}
-		header("Location: $loadUrl");
+
+		if($save_status == 'true')
+			header ("Location: ".$site_URL.$module_name."/view/Edit");
+		else
+			header("Location: $loadUrl");
 	}
 
 	/**
