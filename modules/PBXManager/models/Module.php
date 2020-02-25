@@ -70,7 +70,7 @@ class PBXManager_Module_Model extends Head_Module_Model {
 			$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTINGS',
 						'linklabel'=> 'LBL_SERVER_CONFIGURATION',
-						'linkurl' =>  $site_URL.'PBXManager/Settings/Index/5/23',//priya
+						'linkurl' =>  $site_URL.'PBXManager/Settings/Index/5/23',
 						'linkicon'=> ''
 			);
 			

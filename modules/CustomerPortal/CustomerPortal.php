@@ -54,7 +54,7 @@ class CustomerPortal {
 			}
 
 			$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'LBL_CUSTOMER_PORTAL', 'fa fa-list-alt ', 'PORTAL_EXTENSION_DESCRIPTION', 'index.php?module=CustomerPortal&action=index&parenttab=Settings', $seq));
+				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'LBL_CUSTOMER_PORTAL', 'fa fa-list-alt', 'PORTAL_EXTENSION_DESCRIPTION', 'index.php?module=CustomerPortal&action=index&parenttab=Settings', $seq));
 
 
 		} else if($eventType == 'module.disabled') {

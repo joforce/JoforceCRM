@@ -9,9 +9,11 @@
  ************************************************************************************}
 <div class="col-sm-12 col-xs-12 extensionContents joforce-bg">
     <div class="row">
-        <div class="col-sm-12 col-xs-12">
-           <h3 class="module-title pull-left"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
-	   <a href="{$SITEURL}Google/Settings/GoogleSettings/4/39" target="_blank" style="float:right; margin-top:20px;">Configure Google Settings</a>
+	<div class="col-sm-12 col-xs-12">
+	    <h3 class="module-title pull-left"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
+	    {if $CURRENT_USER_MODEL->isAdminUser()}
+		<a href="{$SITEURL}Google/Settings/GoogleSettings/4/39" target="_blank" style="float:right; margin-top:20px;" class="btn btn-primary saveButton">Configure Google Settings</a>
+	    {/if}
         </div>
     </div>
     <br>
@@ -126,7 +128,7 @@
                         &nbsp;
                     </div>
                     <div class="col-sm-3 col-xs-12">
-                        <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULE}&view=List&operation=changeUser&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i> {vtranslate('LBL_CHANGE_USER', $MODULE)} </a>
+                        <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULE}&view=List&operation=changeUser&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i><span class="ml30"> {vtranslate('LBL_CHANGE_USER', $MODULE)} </span></a>
                     </div>
                 </div>
         {/if}

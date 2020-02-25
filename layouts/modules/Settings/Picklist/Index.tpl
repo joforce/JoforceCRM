@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {* modules/Settings/Picklist/views/Index.php *}
 
@@ -13,10 +14,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal joforce-bg" >
         <br>
         <div class="detailViewInfo">
-            <div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
+            <div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0">
                     <label class="fieldLabel ">{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </label>
                 </div>
-                <div class="fieldValue col-sm-3 col-xs-12">
+                <div class="fieldValue col-sm-3 col-xs-12 pl0">
                     <select class="select2 inputElement" id="pickListModules" name="pickListModules">
                         <option value="">{vtranslate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>
                         {foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}

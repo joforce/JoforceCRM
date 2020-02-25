@@ -164,7 +164,7 @@ $(document).ready(function() {
 {/literal}
 {strip}
 <div>
-                <h2 style="margin-bottom: -43px; padding: 17px;">
+                <h2 style="margin-bottom: -43px; padding: 5px;">
         <i style = "padding: 10px;" class="fa fa-map-marker" aria-hidden="true"></i>
                          Address Lookup
                 </h2>
@@ -188,13 +188,13 @@ $(document).ready(function() {
         <span class="onoffswitch1-switch"></span>
     </label>
     </div>
-        <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>Enter Your API Key</b><sup style="color:red;"><b>*</b></sup>&nbsp;&nbsp;&nbsp;&nbsp;<input id="APIkey" type="text"  name="APIkey" value="{$APIkey}"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div > 
+        <b >Enter Your API Key</b><sup style="color:red;"><b>*</b></sup><input id="APIkey" type="text"  name="APIkey" value="{$APIkey}"><br>
         <a href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true">Click Here to Create API Key</a>
         </div>
 <br/>
 <br/><br/>
-<div class="scroll" style = "margin: 0 20px;">
+<div class="scroll " style = "margin: 0 20px;">
 <table id = "addFormFieldRow" class="table"><thead>
 <th>Street<sup style="color:red;">*</sup></th>
 <th>Area</th>

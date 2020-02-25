@@ -16,7 +16,8 @@
 		<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
 			<strong>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</strong>
 		</div>
-		<div class="col-lg-6 col-md-6 col-sm-6">
+		<div class="col-lg-11 col-md-11 col-sm-11 choose-profile">
+		  <label>Choose Profiles</label>
 			<select class="select2" id="directProfilePriviligesSelect" placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}">
 				<option></option>
 				{foreach from=$ALL_PROFILES item=PROFILE}
@@ -69,7 +70,7 @@
 	{/if}
 {/if}
 <div class="row col-lg-12 col-md-12 col-sm-12">
-	<div class=" col-lg-10 col-md-10 col-sm-10">
+	<div class=" col-lg-11 col-md-11 col-sm-11 edit-profile">
 		<h5>{vtranslate('LBL_EDIT_PRIVILEGES_OF_THIS_PROFILE',$QUALIFIED_MODULE)}</h5><br>
 	</div>
 </div>

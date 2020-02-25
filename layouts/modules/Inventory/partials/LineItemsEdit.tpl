@@ -92,7 +92,7 @@
 										{/foreach}
 									</select>
 									<input type="hidden" id="prevRegionId" value="{$RECORD->get('region_id')}" />
-									&nbsp;&nbsp;<a class="fa fa-wrench" href="index.php?module=Head&parent=Settings&view=TaxIndex" target="_blank" style="vertical-align:middle;"></a>
+									&nbsp;&nbsp;<a class="fa fa-wrench" href="{vglobal('site_URL')}Head/Settings/TaxIndex" target="_blank" style="vertical-align:middle;"></a>
 
 								</span>
 							{/if}

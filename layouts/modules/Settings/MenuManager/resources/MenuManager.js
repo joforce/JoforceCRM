@@ -339,13 +339,13 @@ jQuery.Class('Settings_MenuManager_Js', {}, {
 	
 	registerRemoveMainMenu : function(container) {
 		var thisInstance = this;
-		container.on('click', '#remove-main-menu', function(e) {
-		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		var element = jQuery(e.currentTarget);
-		app.helper.showConfirmationBox({'message': message}).then(function () {
+		container.on('click', '.remove-main-menu', function(e) {
+		    var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
+		    var element = jQuery(e.currentTarget);
+		    app.helper.showConfirmationBox({'message': message}).then(function () {
                         thisInstance.removeMainMenu(container, element);
-                });
-        });
+                    });
+        	});
 	},
 	
 	removeMainMenu : function(container, element) {

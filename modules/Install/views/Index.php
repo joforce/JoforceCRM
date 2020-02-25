@@ -42,8 +42,12 @@ class Install_Index_view extends Head_View_Controller {
 		$configFileName = 'config/config.inc.php';
 		if(is_file($configFileName) && filesize($configFileName) > 0) {
 			$defaultModule = vglobal('default_module');
-			$defaultModuleInstance = Head_Module_Model::getInstance($defaultModule);
-			$defaultView = $defaultModuleInstance->getDefaultViewName();
+			if(empty($defaultModule)) {
+			    $defaultModule = 'Home';
+			}
+			//$defaultModuleInstance = Head_Module_Model::getInstance($defaultModule);
+			//$defaultView = $defaultModuleInstance->getDefaultViewName();
+			$defaultView = 'List';
 			header('Location:index.php?module='.$defaultModule.'&view='.$defaultView);
 			exit;
 		}
@@ -236,10 +240,9 @@ class Install_Index_view extends Head_View_Controller {
         $adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
         $adb->query('SET NAMES utf8');
 
-        $import_sql = Install_MysqlImport_Model::ImportDump();
+        $import_sql = Install_MysqlImport_Model::ImportDump($configParams);
 
         $current_user = Users::getActiveAdminUser();
-
         $recordModel = Head_Record_Model::getInstanceById(1, 'Users');
         $recordModel->set('id', 1);
         $recordModel->set('mode','edit');
@@ -316,6 +319,5 @@ function Joforce_Write_ErrorLogs() {
                 $log_msg = "ERRORnr : " . $error['type']. " \n Msg : ".$error['message']." \n File : ".$error['file']. " \n Line : " . $error['line'];
                 error_log(print_r($log_msg, true), 3, $log_path);
         } else {
-                echo "no error where found " ;
         }
 }

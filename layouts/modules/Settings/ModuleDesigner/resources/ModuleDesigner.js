@@ -93,11 +93,11 @@ $(document).ready
 		(
 			function()
 			{
-				scrollingFieldsToolbar.stop().animate({"marginTop": ($(window).scrollTop() + 0) + "px"}, "medium" );
-				scrollingCustomLinksToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
-				scrollingRelatedListsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
-				scrollingEventsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
-				scrollingFiltersToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
+				// scrollingFieldsToolbar.stop().animate({"marginTop": ($(window).scrollTop() + 0) + "px"}, "medium" );
+				// scrollingCustomLinksToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
+				// scrollingRelatedListsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
+				// scrollingEventsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
+				// scrollingFiltersToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
 				scrollingTrash.stop().animate({"top": ($(window).scrollTop() + 120) + "px"}, "medium" );
 			}
 		);
@@ -148,7 +148,8 @@ $(document).ready
 				var id = $(this).attr('id');
 		                        $('#'+id).attr('data-toggle', 'tab');
 					//Set default class on all tabs
-					jmd_container.find(".md-tab").attr("class", "md-tab");
+					// jmd_container.find(".md-tab").attr("class", "md-tab");
+					jmd_container.find(".md-tab").removeClass('active');
 
 					//Set selected class on the clicks tab
 					$(this).attr("class", "md-tab active");
@@ -864,8 +865,9 @@ function md_addBlock(o_block, isImporting)
 
 	row = '<li id="'+o_block.id+'" class="md-block">';
 	row += '<div class="md-block-anchor"><div class="md-anchor-out"></div><div class="md-anchor-out"></div><div class="md-anchor-out"></div></div>';
-	row += '<input type="text" name="'+o_block.id+'-label" value="'+o_block.label+'" class="md_block_name inputElement" /> ';
-	row += '<a href="javascript:md_openBlockPopup(\''+o_block.id+'\')">Details</a><br />';
+	row += '<input type="text" name="'+o_block.id+'-label" value="'+o_block.label+'" class="md_block_name inputElement" readonly="readonly" style="cursor:auto;" /> ';
+	row += '<a href="javascript:md_openBlockPopup(\''+o_block.id+'\')" class="pull-right fa fa-pencil module-header-edit">Edit Block</a><br />';
+	//row += '<i class="fa fa-pencil module-header-edit"></i>';
 	//row += '<input id="seq-'+o_block.id+'" type="text" value="'+o_block.index+'" size="2" />';
 	row += '<ul class="md-fields-ul" block_id="'+o_block.id+'"></ul>';
 	row += '</li>';
@@ -948,6 +950,7 @@ function md_addBlock(o_block, isImporting)
 
 function md_openBlockPopup(block_id)
 {
+	var site_url = jQuery('#joforce_site_url').val();
 	for(var i=0; i<a_blocks.length; i++)
 	{
 		var o_block = a_blocks[i];
@@ -955,7 +958,7 @@ function md_openBlockPopup(block_id)
 		if(o_block.id == block_id)
 		{
 			o_block.label = jmd_container.find("input[name='"+o_block.id+"-label']").val();
-			md_openPopup('index.php?module='+MD_MODULE_NAME+'&view=EditBlock&block='+escape(JSON.stringify(o_block)));
+			md_openPopup(site_url+'index.php?module='+MD_MODULE_NAME+'&view=EditBlock&block='+escape(JSON.stringify(o_block)));
 		}
 	}
 }
@@ -1524,7 +1527,8 @@ function md_addFilter()
 
 	row = '<li id="'+o_filter.id+'" class="md-filter">';
 	row += '<div class="md-filter-anchor"><div class="md-anchor-out"></div><div class="md-anchor-out"></div><div class="md-anchor-out"></div></div>';
-	row += '<input type="text" name="'+o_filter.id+'-label" value="'+o_filter.label+'" '+(o_filter.label == 'All' ? 'readonly="readonly"' : '')+' /> ';
+	row += '<input type="text" name="'+o_filter.id+'-label" value="'+o_filter.label+'" '+(o_filter.label == 'All' ? 'readonly="readonly"' : '')+' class="inputElement" /> ';
+	row += '<i class="fa fa-pencil module-header-edit"></i>';
 	row += '<ul class="md-filter-fields-ul"></ul>';
 	row += '</li>';
 
@@ -1754,17 +1758,32 @@ function md_setFilterSequence(filter_id, index)
 	}
 }
 
-/////////////////////
+function showProgress (message) {
+        var messageBar = jQuery('#messageBar');
+        messageBar.removeClass('hide');
+        var messageHTML='';
+        if(message !== undefined) {
+            messageHTML = '<div class="message"><span>'+message+'</span></div>';
+        }
+        messageBar.html('<div style="text-align:center;position:fixed;top:50%;left:40%;"><img src="'+app.vimage_path('loading.gif')+'">'+ messageHTML +'</div>');
+}
 
+function hideProgress () {
+         var messageBar = jQuery('#messageBar');
+         messageBar.addClass('hide');
+}
+
+/////////////////////
 function md_makePackage(installModule)
 {
+    showProgress();
     var site_url = jQuery('#joforce_site_url').val();
-	if(md_entityIdentifier == undefined)
-	{
-		alert(md_vtranslate('LBL_YOU_MUST_DEFINE_A_FIELD_AS_IDENTIFIER'));
-		$("#md-tab-blocks-fields").click();
-		return;
-	}
+    if(md_entityIdentifier == undefined) {
+	    hideProgress ();
+	    alert(md_vtranslate('LBL_YOU_MUST_DEFINE_A_FIELD_AS_IDENTIFIER'));
+	    $("#md-tab-blocks-fields").click();
+	    return;
+    }
 	
 	var md_moduleName				= jmd_container.find("input[name='module_name']").val();
 	var md_moduleLabel				= jmd_container.find("input[name='module_name']").val(); //TODO: add a field label
@@ -1816,6 +1835,7 @@ function md_makePackage(installModule)
 
         if(error_filters)
         {
+	    hideProgress ();
             alert(app.vtranslate('LBL_EMPTY_FIELD_FILTER', MD_QUALIFIED_MODULE_NAME));
             $("#md-tab-filters").click();
             return false;
@@ -1865,7 +1885,7 @@ function md_makePackage(installModule)
 			url: site_url+"index.php?module="+MD_MODULE_NAME+"&action=MakePackage&parent=Settings",
 			type: "POST",
 			data: {structure: JSON.stringify(a_postData)},
-			success: function(data) {				
+			success: function(data) {
 				if(data.success)
 				{
 					zip_url = data.result.zipFileName;
@@ -1875,6 +1895,7 @@ function md_makePackage(installModule)
 							url: zip_url,
 							type:'HEAD',
 							error: function() {
+								hideProgress ();
 								alert(app.vtranslate('LBL_FILE', MD_QUALIFIED_MODULE_NAME)+' '+zip_url+' '+app.vtranslate('LBL_DOES_NOT_EXIST', MD_QUALIFIED_MODULE_NAME));
 							},
 							success: function() {
@@ -1889,26 +1910,28 @@ function md_makePackage(installModule)
 							}
 						});
 					} else {
+						hideProgress ();
 						alert(app.vtranslate('LBL_ERROR_TRY_AGAIN', MD_QUALIFIED_MODULE_NAME));
 					}
 				}
 				else
 				{
-					console.log(data);
+					hideProgress ();
 					alert(data.error.message);
 				}
 			},
 			error: function(data) {
-				console.log(data);
+				hideProgress ();
 				alert(app.vtranslate('LBL_ERROR_TRY_AGAIN', MD_QUALIFIED_MODULE_NAME));
 			}
 		}
 	);
+	hideProgress ();
 }
 
 function md_installModule(moduleName, version, zip_url, parent_tab)
 {	
-    var site_url = jQuery('#joforce_site_url').val();
+ var site_url = jQuery('#joforce_site_url').val();
     zip_url = zip_url.substring(zip_url.indexOf("cache"));
 
 	$.ajax
@@ -1916,7 +1939,7 @@ function md_installModule(moduleName, version, zip_url, parent_tab)
 		{
 			url: site_url+"index.php?module="+MD_MODULE_NAME+"&action=InstallModule&name="+moduleName+"&version="+version+"&zip="+zip_url+"&parent_tab="+parent_tab+"&parent=Settings",
 			type: "GET",
-			success: function(data) {				
+			success: function(data) {
 				if(data.success)
 				{
 					alert(data.result.message);
@@ -1927,7 +1950,6 @@ function md_installModule(moduleName, version, zip_url, parent_tab)
 				}
 			},
 			error: function(data) {
-				console.log(data);
 				alert(app.vtranslate('LBL_ERROR_TRY_AGAIN', MD_QUALIFIED_MODULE_NAME));
 			}
 		}
@@ -1995,14 +2017,12 @@ function md_loadModule(moduleNameOrPath, uploadedModule)
 					}
 					else
 					{
-						console.log(data);
 						alert(app.vtranslate('LBL_ERROR_TRY_AGAIN', MD_QUALIFIED_MODULE_NAME));
 					}
 				}				
 			},
 			error: function(data)
 			{	
-				console.log(data);
 				alert(app.vtranslate('LBL_ERROR_TRY_AGAIN', MD_QUALIFIED_MODULE_NAME));
 			}
 		}
@@ -2022,6 +2042,7 @@ function setModuleData(autoSelectModuleDirectory, moduleDirName)
 	jmd_container.find("input[name='module_name']").val(o_module.name);
 	jmd_container.find("input[name='module_version']").val(o_module.version);
 	jmd_container.find("select[name='module_parent_tab'] option[value='"+o_module.parent+"']").attr("selected", "selected");
+	$("select[name='module_parent_tab']").trigger('change');
 
 	if(o_module.type != undefined)
 	{

@@ -217,9 +217,11 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Head_Index_Act
 		{	
 			$this->copyr($o_module->modifiedModulePath."modules/".$o_module->modifiedModule, $module_dir);
 			
+			if($o_module->modifiedModulePath){
 			if(is_dir($o_module->modifiedModulePath.'templates'))
-			{
+			  {
 				$this->copyr("layouts/modules/{$o_module->modifiedModule}", 	DIR_TEMP.$dirname.'/templates');
+			  }
 			}	
 			//Head 6
 			elseif(is_dir("layouts/modules/{$o_module->modifiedModule}"))
@@ -650,7 +652,7 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Head_Index_Act
 	
 	   // Loop through the folder
 	   $dir = dir($source);
-	   
+	  
 	   while (false !== $entry = $dir->read()) {
 	      // Skip pointers
 	      if ($entry == '.' || $entry == '..') {

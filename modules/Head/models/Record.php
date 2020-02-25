@@ -155,7 +155,7 @@ class Head_Record_Model extends Head_Base_Model {
 		// If we don't send tab label then it will show full detail view, but it will select summary tab
 		$moduleName = $this->getModuleName();
 		$fullDetailViewLabel = vtranslate('SINGLE_'.$moduleName, $moduleName).' '. vtranslate('LBL_DETAILS', $moduleName);
-		return $site_URL . $moduleName . '/view/' . $module->getDetailViewName() . '/' . $this->getId() . '/mode/showDetailViewByMode?requestMode=full&tab_label' . $fullDetailViewLabel;
+		return $site_URL . $moduleName . '/view/' . $module->getDetailViewName() . '/' . $this->getId() . '/mode/showDetailViewByMode?requestMode=full&tab_label=' . $fullDetailViewLabel;
 	}
 
 	/**
@@ -171,8 +171,9 @@ class Head_Record_Model extends Head_Base_Model {
 
     public function getRelatedEditViewUrl() {
         global $site_URL;
-        $module = $this->getModule(); 
-        return $site_URL . $this->getModuleName().'/view/' . $module->getEditViewName() . '/' . $this->getId();
+	$module = $this->getModule();
+	return $site_URL . 'index.php?module=' . $this->getModuleName() . '&view=' .$module->getEditViewName().'&record='.$this->getId(); //To fix the issue related to jQuery
+//        return $site_URL . $this->getModuleName().'/view/' . $module->getEditViewName() . '/' . $this->getId();
     }
 
 	/**

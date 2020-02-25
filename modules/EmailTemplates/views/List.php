@@ -16,17 +16,11 @@ class EmailTemplates_List_View extends Head_Index_View {
 	}
 
 	function preProcess(Head_Request $request, $display = true) {
-		global $current_user;
 		parent::preProcess($request, false);
 
 		$viewer = $this->getViewer($request);
-		$user_id = $current_user->id;
-                		
-		$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
-                $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
-                $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
-
 		$moduleName = $request->getModule();
+
 		$listViewModel = EmailTemplates_ListView_Model::getInstance($moduleName);
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));

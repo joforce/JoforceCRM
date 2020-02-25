@@ -27,8 +27,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 btn-toolbar">
                 <div class="row">
                     {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-
-						{if $RELATED_LINK->get('linkmodule') eq 'Documents'}
+			{if $RELATED_LINK->get('linkmodule') eq 'Documents'}
                             <div class="col-sm-3">
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                                 {* setting button module attribute to Events or Calendar based on link label *}
@@ -50,31 +49,29 @@
                             {/if}
                             
                             {if $RELATED_LINK->getLabel() eq 'Head'}
-								{if $IS_CREATE_PERMITTED}
-									<div class="col-sm-3">
-										<div class="dropdown">
-											<button type="button" class="btn btn-secondary dropdown-toggle ml30" data-toggle="dropdown">
-												<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', $RELATED_MODULE_NAME)}&nbsp; <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu ml30">
-												<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', $RELATED_MODULE_NAME)}</li>
-												<li id="HeadAction">
-													<a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE}')">
-														<img style="  margin-top: -3px;margin-right: 4%;" title="JoForce" alt="JoForce" src="{$SITEURL}layouts/skins//images/JoForce.png">
-														{vtranslate('LBL_TO_SERVICE', $RELATED_MODULE_NAME, {vtranslate('LBL_VTIGER', $RELATED_MODULE_NAME)})}
-													</a>
-												</li>
-												<li role="separator" class="divider"></li>
-												<li class="dropdown-header"><i class="fa fa-link"></i> {vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', $RELATED_MODULE_NAME)}</li>
-												<li id="shareDocument"><a href="javascript:Documents_Index_Js.createDocument('E',{$PARENT_ID},'{$MODULE}')">&nbsp;<i class="fa fa-external-link"></i>&nbsp;&nbsp; {vtranslate('LBL_FROM_SERVICE', $RELATED_MODULE_NAME, {vtranslate('LBL_FILE_URL', $RELATED_MODULE_NAME)})}</a></li>
-												<li role="separator" class="divider"></li>
-												<li id="createDocument"><a href="javascript:Documents_Index_Js.createDocument('W',{$PARENT_ID},'{$MODULE}')"><i class="fa fa-file-text"></i> {vtranslate('LBL_CREATE_NEW', $RELATED_MODULE_NAME, {vtranslate('SINGLE_Documents', $RELATED_MODULE_NAME)})}</a></li>
-											</ul>
-										</div>
-									</div>
-								{/if}
+				{if $IS_CREATE_PERMITTED}
+				    <div class="col-sm-3">
+					<div class="dropdown">
+					    <button type="button" class="btn btn-secondary dropdown-toggle ml30" data-toggle="dropdown">
+						<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', $RELATED_MODULE_NAME)}&nbsp; <span class="caret"></span>
+					    </button>
+					    <ul class="dropdown-menu ml30">
+						<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', $RELATED_MODULE_NAME)}</li>
+						<li id="HeadAction">
+						    <a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE}')">
+							<img style="  margin-top: -3px;margin-right: 4%;" title="JoForce" alt="JoForce" src="{$SITEURL}layouts/skins//images/JoForce.png">{vtranslate('LBL_TO_SERVICE', $RELATED_MODULE_NAME, {vtranslate('LBL_VTIGER', $RELATED_MODULE_NAME)})}
+						    </a>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header"><i class="fa fa-link"></i> {vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', $RELATED_MODULE_NAME)}</li>
+						<li id="shareDocument"><a href="javascript:Documents_Index_Js.createDocument('E',{$PARENT_ID},'{$MODULE}')">&nbsp;<i class="fa fa-external-link"></i>&nbsp;&nbsp; {vtranslate('LBL_FROM_SERVICE', $RELATED_MODULE_NAME, {vtranslate('LBL_FILE_URL', $RELATED_MODULE_NAME)})}</a></li>
+						<li role="separator" class="divider"></li>
+						<li id="createDocument"><a href="javascript:Documents_Index_Js.createDocument('W',{$PARENT_ID},'{$MODULE}')"><i class="fa fa-file-text"></i> {vtranslate('LBL_CREATE_NEW', $RELATED_MODULE_NAME, {vtranslate('SINGLE_Documents', $RELATED_MODULE_NAME)})}</a></li>
+					    </ul>
+					</div>
+				    </div>
+				{/if}
                             {/if}
-                            
                     {/foreach}
                 </div>&nbsp;
             </div>
@@ -103,6 +100,7 @@
             <thead>
                 <tr class="listViewHeaders">
                     <th style="min-width:100px">
+			 <i class="fa fa-search cursorPointer" id="joforce-table-search" style="float:right;margin-left:25px;"></i>
                     </th>
                     {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
                     {* hide time_start,time_end columns in the list as they are merged with with Start Date and End Date fields *}

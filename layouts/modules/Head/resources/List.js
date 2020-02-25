@@ -442,6 +442,7 @@ Head.Class("Head_List_Js", {
 		if (typeof urlParams.search_params == "undefined") {
 			urlParams.search_params = JSON.stringify(this.getListSearchParams(false));
 		}
+
 		urlParams = jQuery.extend(defParams, urlParams);
 		app.helper.showProgress();
 
@@ -449,20 +450,30 @@ Head.Class("Head_List_Js", {
 			app.request.post({data: urlParams}).then(function (err, res) {
 				aDeferred.resolve(res);
 				self.postLoadListViewRecords(res);
+				self.addstyle(urlParams.search_params);
 			});
 		} else {
 			app.request.pjax({data: urlParams}).then(function (err, res) {
 				aDeferred.resolve(res);
 				self.postLoadListViewRecords(res);
+				self.addstyle(urlParams.search_params);
 			});
 		}
-		return aDeferred.promise();
+			return aDeferred.promise();
+	},
+	addstyle: function(params){
+		if(params == ''){
+			jQuery('.searchRow').hide();
+		}
+		else{
+			jQuery('.searchRow').show();
+		}
 	},
 	postLoadListViewRecords: function (res) {
 		var self = this;
 		self.placeListContents(res);
 		app.event.trigger('post.listViewFilter.click', jQuery('.searchRow'));
-		app.helper.hideProgress();
+		app.helper.hideProgress();	
 		self.markSelectedIdsCheckboxes();
 		self.registerDynamicListHeaders();
 		self.registerPostLoadListViewActions();
@@ -1283,7 +1294,7 @@ Head.Class("Head_List_Js", {
 
 		//floatThead change event object has undefined keyCode, using keyup instead
 		var prevSearchValues = [];
-		listViewPageDiv.on('keyup', '.listSearchContributor', function (e) {
+		listViewPageDiv.bind('enterKey', '.listSearchContributor', function (e) {
 			var element = jQuery(e.currentTarget);
 			var fieldName = element.attr('name');
 			var searchValue = element.val();
@@ -1296,7 +1307,7 @@ Head.Class("Head_List_Js", {
 				prevSearchValues[fieldName] = searchValue;
 			}
 		});
-
+		
 		listViewPageDiv.on('datepicker-change', '.dateField', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.trigger('change');
@@ -2480,6 +2491,24 @@ Head.Class("Head_List_Js", {
 			e.stopPropagation();
 		});
 	},
+
+	registerButtonClicks : function () {
+            $("#forecast-view").click( function() {
+                var site_url = jQuery('#joforce_site_url').val();
+                var cvid = $(this).data('cvid');
+                var module_name = $(this).data('modulename');
+                var pagenumber = $('#pageNumber').val();
+                window.location.href = site_url + module_name+"/view/Kanban/" + cvid + '?page=' + pagenumber;
+            });
+
+            $("#backto-list-view").click( function() {
+                var site_url = jQuery('#joforce_site_url').val();
+                var cvid = $(this).data('cvid');
+                var module_name = $(this).data('modulename');
+                window.location.href = site_url + module_name+"/view/List/" + cvid;
+            });
+	},
+
 	registerEvents: function () {
 		var thisInstance = this;
 		this._super();
@@ -2504,6 +2533,7 @@ Head.Class("Head_List_Js", {
 		this.registerDropdownPosition();
 		this.registerConfigureColumnsEvents();
 		this.registerAcceptRecordClickEvent();
+		this.registerButtonClicks();
 		var recordSelectTrackerObj = this.getRecordSelectTrackerInstance();
 		recordSelectTrackerObj.registerEvents();
 
@@ -2716,20 +2746,7 @@ Head.Class("Head_List_Js", {
 });
 	
 $(document).ready( function () {
-
 	fixedtable();
-
-	$("#forecast-view").click( function() {
-		var site_url = jQuery('#joforce_site_url').val();
-		var cvid = $(this).data('cvid');
-        	window.location.href = site_url + "Potentials/view/Forecast/" + cvid;
-	});
-
-	$("#potential-list-view").click( function() {
-                var site_url = jQuery('#joforce_site_url').val();
-		var cvid = $(this).data('cvid');
-                window.location.href = site_url + "Potentials/view/List/" + cvid;
-        });
 	
 	if (document.querySelector('.col-fixed-3') !== null) {
             $('table').css("margin-left","450px");
@@ -2771,14 +2788,11 @@ $(document).ready( function () {
                         $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '20%');
                 }
                 else if(tc == 6){
-                		$('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
+               		$('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
                         $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '16.6%');
                 }
                 else{
                         $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
                 }
-            }
-
-  });
- 
-		
+	}
+});

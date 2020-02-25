@@ -21,7 +21,7 @@ class Settings_DuplicateCheck_updateCheckAssigned_View extends Settings_Head_Ind
 		if($checked == 'true')
 			$isenabled = 1;
 
-		$adb->pquery("update jo_vtduplicatechecksettings set isenabled = ? where modulename = ?",array( $isenabled, 'assignedto'));
+		$adb->pquery("update jo_duplicatechecksettings set isenabled = ? where modulename = ?",array( $isenabled, 'assignedto'));
 		die('SUCCESS');
 	}
 }

@@ -67,9 +67,11 @@ jQuery.progressIndicator = function (options) {
 jQuery.extend(window.app, {
 	validationEngineOptions: {},
 	showSelect2ElementView: function (selectElement, params) {
+		
 		vtUtils.showSelect2ElementView(selectElement, params);
 	},
 	changeSelectElementView: function (container) {
+		
 		vtUtils.applyFieldElementsView(container);
 	},
 	notifyPostAjaxReady: function () {
@@ -91,7 +93,7 @@ jQuery.extend(window.app, {
 		return app.view();
 	}
 });
-jQuery.extend(window, {
+/*jQuery.extend(window, {
 	close: function () {
 		app.helper.hidePopup();
 	}
@@ -103,7 +105,7 @@ jQuery.triggerParentEvent = function (eventToTrigger, data) {
 	} else {
 		app.event.trigger(eventToTrigger, data);
 	}
-};
+};*/
 
 Head_Helper_Js.showHorizontalTopScrollBar = function (container) {
 	app.helper.showHorizontalScroll(container);

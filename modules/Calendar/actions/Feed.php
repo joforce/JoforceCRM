@@ -329,7 +329,7 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 				$item['url']   = '';
 			} else {
 				$item['title'] = decode_html($record['subject']).' - ('.decode_html(vtranslate($record['eventstatus'],'Calendar')).')';
-				$item['url']   = sprintf($site_URL.'Calendar/view/Detail/%s', $crmid); //priya
+				$item['url']   = sprintf($site_URL.'Calendar/view/Detail/%s', $crmid);
 			}
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'].' '.$record['time_start']);
@@ -416,7 +416,7 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 
 			$item['end']   = $record['due_date'];
-			$item['url']   = sprintf($site_URL.'Calendar/view/Detail/%s', $crmid); //priya
+			$item['url']   = sprintf($site_URL.'Calendar/view/Detail/%s', $crmid);
 			$item['color'] = $color;
 			$item['textColor'] = $textColor;
 			$item['module'] = $moduleModel->getName();

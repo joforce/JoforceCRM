@@ -29,11 +29,218 @@ table thead th {
 html body {
   background: #ffffff url("") !important; }
 
-#page {
-  padding-top: 0px; }
-  #page .install-preprocess-top {
-    margin-top: 0px !important; }
+#page
+ {
+  padding-top: 0px; 
+ }
+ #page .row .msg
+ {
+    display: block;
+    text-align: center;
+ }
+  #page.inst-page
+  {
+    max-height: 100%;
+    overflow: auto;
+  }
+  #page .install-preprocess-top 
+  {
+    margin-top: 0px !important;
 
+  }
+  #page .install2
+  {
+      max-height: 600px;
+      overflow-y: auto;
+  }
+  @media only screen (min-width:310px) and (max-width: 349px)
+  {
+    #page #page5 .install-form-section
+    {
+      max-height: 290px;
+      overflow-y: auto;
+      margin:3px;
+    }
+  }
+
+
+ @media only screen and (max-width: 350px) {
+  #page .install2
+   {
+      max-height: 318px;
+      overflow-y: auto;
+      margin:21px;
+   }
+    #page #page1 div span
+   {
+       padding: 10px;
+   }
+    #page .button-container .but
+   {
+      margin-bottom: 0px !important;
+   }
+   #page #page4 .install-form-section
+   {
+      max-height: 380px;
+      overflow-y: auto;
+      margin:3px;
+   }
+   #page #page5 .install-form-section
+   {
+      max-height: 380px;
+      overflow-y: auto;
+      margin: 5px;
+   }
+  
+}
+  /* Extra small devices (phones, 600px and down) */
+@media (min-width:351px) and (max-width: 600px) {
+  #page .install2
+   {
+      max-height: 390px;
+      overflow-y: auto;
+      margin:20px;
+   }
+     #page .install-pre .install-form-section
+   {
+      max-height: 450px;
+      overflow-y: auto;
+      width: 100%;
+      padding-left: 20px;
+      margin: -5px;
+   } 
+   #page #page1 div span
+   {
+       padding: 25px;
+   }
+   #page .button-container .but
+   {
+      margin-bottom: 0px !important;
+   }
+     #page #page5 ul li a
+   {
+      display: flex;
+   }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #page .install2
+   {
+      max-height: 520px;
+      overflow-y: auto;
+      margin:12px;
+   }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+   #page .install2
+   {
+      max-height: 74vh;
+      overflow-y: auto;
+      margin:10px;
+   }
+   #page #page3 ul li a
+   {
+      display: inline-table;
+   }
+   #page #page4 ul li a
+   {
+      display: inline-table;
+   }
+   #page #page4 .install-form-section
+   {
+       max-height: 530px;
+      overflow-y: auto;
+      width: 100%;
+   }
+   #page #page5 ul li a
+   {
+      display: inline-table;
+   }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #page .install2
+   {
+      max-height: 540px;
+      overflow-y: auto;
+      margin:3px;
+   }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+   #page .install2
+   {
+      max-height: 525px;
+      overflow-y: auto;
+   }
+   #page .install-pre .install-form-section
+   {
+      max-height: 525px;
+      overflow-y: auto;
+      width: 100%;
+   }
+     #page #page5 ul li a
+   {
+      display: flex;
+   }
+}
+
+@media only screen and (min-width: 1500px) {
+   #page #page3 .install2
+   {
+      max-height: 575px;
+      overflow-y: auto;
+   }
+     #page .install-pre .install-form-section
+   {
+      max-height: 600px;
+      overflow-y: auto;
+   }
+     #page #page4 .install-form-section
+     {
+            max-height: 600px;
+           overflow-y: auto;
+     }
+}
+@media only screen and (min-width: 1800px) {
+   #page .install2
+   {
+      max-height: 700px;
+      overflow-y: auto;
+   }
+     #page .install-pre .install-form-section
+   {
+      max-height: 700px;
+      overflow-y: auto;
+     /* width: 100%;*/
+   }
+}
+
+
+
+
+
+  #page .non-hover tr:hover
+  {
+      background: transparent ;
+  }
+  #page .install-preprocess-top.install-pre
+     {
+        padding-right: 0px;
+        padding-left: 0px;
+        overflow: hidden;
+     }
+  #page .app-footer
+  {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
 .btn-primary, .btn-success {
   background: #1C7C54 !important;
   border-color: #1C7C54 !important; }
@@ -61,9 +268,9 @@ html body {
 
 .page-container {
   width: 100% !important;
-  position: relative;
+ /* position: relative;*/
   min-width: 100px !important;
-  min-height: auto !important; }
+ /* min-height: auto !important;*/ }
 
 .show_licence {
   color: #1C7C54; }
@@ -80,7 +287,8 @@ html body {
   float: left;
   background: #f4f4f4;
   position: fixed;
-  height: 100%;
+  /*height: 94%;*/
+  height: 95%;
   color: #333;
   text-align: center;
   z-index: 10000;
@@ -140,8 +348,12 @@ html body {
             position: relative;
             bottom: 15px;
             margin-left: 15px; }
-      .gs-info .gs-wizard .gs-wizard-section li.active {
-        margin-bottom: 19px; }
+      .gs-info .gs-wizard .gs-wizard-section li.active 
+      {
+        margin-bottom: 19px;
+        background: #ebebeb;
+        border-radius: 30px;
+         }
         .gs-info .gs-wizard .gs-wizard-section li.active a .wiz-circle::before {
           content: "\2022";
           color: #1C7C54;
@@ -238,14 +450,16 @@ html body {
   border: none !important;
   height: 60vh; }
   .carousel .carousel-inner .item p {
-    font-size: 15px;
+    font-size: 16px;
     margin-top: 30px; }
   .carousel .carousel-inner .item img {
     width: 100%;
     height: 100%; }
 
 .row .joforce-install-btn {
-  margin-top: 4% !important; }
+  /*margin-top: 4% !important;*/
+   /*margin-top: 1%;*/
+   }
 
 /*  form section  */
 .install-form-section .install-configuration-step .install-input.form-control {

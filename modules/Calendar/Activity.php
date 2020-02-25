@@ -750,7 +750,6 @@ function insertIntoRecurringTable(& $recurObj)
 				$params = array($activity_id);
 			}
 		} else {
-                        //priya
 			$query = "INSERT INTO ".$this->reminder_table." VALUES (?,?,?,?)";
 			$params = array($activity_id, $reminder_time, 0, $recurid);
 		}

@@ -145,6 +145,10 @@ class Users_Calendar_View extends Head_Detail_View {
 			$activeBLock = Settings_Head_Module_Model::getActiveBlockName($request);
 			$viewer->assign('ACTIVE_BLOCK', $activeBLock);
 
+			$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
+                    	$viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
+			$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+
 			if($display) {
 				$this->preProcessDisplay($request);
 			}

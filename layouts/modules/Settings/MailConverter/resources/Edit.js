@@ -82,7 +82,7 @@ Settings_Head_Index_Js('Settings_MailConverter_Edit_Js', {
 			if (typeof data != 'undefined') {
 				var fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/List/'+data.id;
 				if (create == 'new') {
-					fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit/mode/step3?create='+create+'&record='+data.id;
+					fallbackUrl = site_url+app.getModuleName()+'/'+app.getParentModuleName()+'/Edit?mode=step3&create='+create+'&record='+data.id;
 				}
 				window.location.href = fallbackUrl;
 			} else {

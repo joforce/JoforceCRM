@@ -16,14 +16,6 @@
 		
 	<div class="gs-info">
 	 {include file="Sidebar.tpl"|vtemplate_path:'Install'}
-    <footer class="noprint">
-      <div class="vtFooter">
-        <p>
-          {vtranslate('POWEREDBY')} 
-          &copy; {date('Y')}
-        </p>
-      </div>
-    </footer>
   </div>
 
 	<div class="inner-container">
@@ -50,7 +42,7 @@
 				<div class="row offset2">
 					
 				<div class="col-sm-10 col-sm-offset-1">
-					<table class="config-table table table-responsive">
+					<table class="config-table table table-responsive non-hover">
 						<input type="hidden" value="{$HT_PER}" name="htperm" id="htperm" />
 						<tr>
 							<th>{$SERVERHEAD}</th>
@@ -62,7 +54,7 @@
 						</tr>
 					</table>
 
-					<table class="config-table table table-responsive">
+					<table class="config-table table table-responsive non-hover">
 						<tr>
 							<th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th>
 							<th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th>
@@ -78,11 +70,11 @@
 										{$INFO.1} 
 									{/if}
 								</td>
-								<td {if $INFO.2 eq false} class="no" >
-									{if $CONFIG_NAME = 'LBL_PHP_VERSION'}
-										{$INFO.0}
-									{else}
+								<td {if $INFO.2 eq false} class="no novalue" >
+									{if $CONFIG_NAME = 'LBL_MOD_REWRITE'}
 										{vtranslate('LBL_NO', 'Install')}
+									{else}
+										{$INFO.0}
 									{/if}
 								    {else if ($INFO.2 eq true and $INFO.1 === true)} > 
 									{vtranslate('LBL_YES', 'Install')} 
@@ -94,7 +86,7 @@
 						{/foreach}
 					</table>
 					{if $PHP_INI_CURRENT_SETTINGS}
-					<table class="config-table table table-responsive">
+					<table class="config-table table table-responsive non-hover" >
 						<tr>
 							<th colspan="3">{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
 						</tr>
@@ -124,7 +116,7 @@
 			<div class="col-sm-12 ">
 				<div class="button-container">
 					<input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
-					<input type="button" class="btn btn-large btn-primary btn-next" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4" {if $FAILED_FILE_PERMISSIONS} disabled {/if}/>
+					<input type="button" class="btn btn-large btn-primary btn-next but" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4" {if $FAILED_FILE_PERMISSIONS} disabled {/if}/>
 				</div>
 			</div>
 		</div>

@@ -18,7 +18,18 @@ $languageStrings = array(
 	'LBL_SELECT' => 'Select',
 	'LBL_ADD_LANGUAGE' => 'Add Language',
 	'LBL_LANGUAGES_EXIST' => 'Language code or language name already exists !',
-	'LBL_LANGUAGE_EDITOR_INFO' => 'Choose module and language to edit the corresponding language script'
+	'LBL_LANGUAGE_EDITOR_INFO' => 'Choose module and language to edit the corresponding language script',
+	'LBL_ADD_LANGUAGE_MESSAGE' => 'Give language name and code to create new language',
+	'LBL_LANGUAGE_NAME' => 'Language Name',
+	'LBL_LANGUAGE_CODE' => 'Language Code',
+	'LBL_COPY_FILES_FROM' => 'Copy Language Files From',
+	'LBL_MODULE_LABELS' => 'MODULE LABELS',
+	'LBL_TRANSLATION' => 'TRANSLATION',
+	'LBL_JAVA_LABELS' => 'JAVA SCRIPT LABELS',
+	'LBL_LABEL' => 'Label',
+	'LBL_CUSTOM_FIELD_LABELS' => 'CUSTOM FIELD LABELS',
+	'LBL_PICKLIST_VALUES_AND_LABELS' => 'PICKLIST VALUES AND LABELS',
+	'SELECT_PICKLIST' => 'SELECT PICKLIST'
 );
 
 $jsLanguageStrings = array(

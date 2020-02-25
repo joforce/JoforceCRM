@@ -20,11 +20,11 @@
 		{assign var=BOARDID value=getDefaultBoardId()}
 		{if $BOARDID eq '1'}
                   <a href="{$SITEURL}Home/view/List" class="company-logo">
-                  <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+                  <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}" style="width:100px !important;"/>
                   </a>
 		{else}
 		  <a href="{$SITEURL}" class="company-logo">
-                  <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+                  <img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}" style="width:100px !important;"/>
                   </a>
 		{/if}
                </div>
@@ -36,6 +36,7 @@
          
          <li class="dropdown">
                <div style="margin-top: -5px;">
+	          {assign var=USER_PRIVILEGES_MODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
                   {assign var=last_name value=$USER_MODEL->get('last_name')}
                   {assign var=first_name value=$USER_MODEL->get('first_name')}
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" style="background: transparent;">
@@ -90,7 +91,7 @@
         	    </li>
 	         </ul>
 		</div>
-      	<ul class="nav navbar custom-nav" id="short-cut-modules">
+      	<ul class="nav navbar custom-nav col-md-offset-1" id="short-cut-modules">
 	{assign var="hidden_tab_array" value =Settings_MenuManager_Module_Model::getMainMenuModuleNamesOnly()}
 	{assign var=tabs_array  value=Settings_MenuManager_Module_Model::getMainMenuModuleIds()}
 
@@ -99,14 +100,16 @@
 		{if $type == 'module'}
 			{assign var=tabid value=$tabarray['tabid']}
 			{assign var=moduleModel value=Settings_MenuManager_Module_Model::getModuleInstanceById($tabid)}
-			{if $moduleModel->isActive()}
+			{if $USER_PRIVILEGES_MODEL->hasModulePermission($tabid)}
+			    {if $moduleModel->isActive()}
 	                	{assign var=moduleName value=$moduleModel->get('name')}
 				{assign var=temp_value value=$moduleName}
 	        	        {assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
 				{assign var=listid value=getCvIdOfAll($moduleName)}
-                			<li class="custom-menu-list" id="{$moduleName}">
-                        	       		<a class="menu-list" href="{$moduleModel->getListViewUrl()}">{$translatedModuleLabel} </a> 
-		                        </li>
+                		<li class="custom-menu-list" id="{$moduleName}">
+				    <a class="menu-list" href="{$moduleModel->getListViewUrl()}">{$translatedModuleLabel} </a> 
+		                </li>
+			    {/if}
 			{/if}
 		{else}
 			{assign var=linklabel value=$tabarray['name']}
@@ -125,54 +128,63 @@
 			<li class="custom-menu-list temporary-main-menu active" id="{$MODULE}">
 				{assign var=moduleid value=getTabid($MODULE)}
 				{assign var=moduleModel value=Settings_MenuManager_Module_Model::getModuleInstanceById($moduleid)}
-				{assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
-        	        	<a class="menu-list" href="{$moduleModel->getListViewUrl()}">{$translatedModuleLabel} </a>
+				{assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$MODULE )}
+        	        	<a class="menu-list" href="{$moduleModel->getListViewUrl()}"> {$translatedModuleLabel} </a>
                 	</li>
 		{/if}
 	{/if}
 
-        <li class="dropdown"><a href="" class="fa fa-ellipsis-h dropdown-toggle menu-list" data-toggle="dropdown" style="font-weight: normal;"></a>
-		<ul class="dropdown-menu p0" role="menu">
-	            <div class="mega-menu-container">
-			<ul class="mega-menu-split p0">
-			    {foreach key=SECTION_NAME item=ICON from=$SECTION_ARRAY}
-				<li class="menu-content">
-				    <div class="menu-header">
-		                           <i class="{$ICON}"></i>{$SECTION_NAME}
-                	            </div>
-					<ul class="mega-menus">
-					{foreach item=tabid from=$APP_MODULE_ARRAY[$SECTION_NAME]}
-						{assign var=moduleModel value=Head_Module_Model::getModuleInstanceById($tabid)}
-						{if $moduleModel->isActive()}
-	                                                {assign var=moduleName value=$moduleModel->get('name')}
-        	                                        {assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
-			                           <li>
-							<a href="{$moduleModel->getListViewUrl()}">
-								{if $moduleName == 'EmailPlus'}
-                                                                        <i class="joicon-mailmanager mr10"></i>{$translatedModuleLabel}
-                                                                {elseif $moduleName == 'PDFMaker'}
-                                                                        <i class="fa fa-file-pdf-o mr10"></i>{$translatedModuleLabel}
-                                                                {else}
-                                                                        <i class="joicon-{strtolower($moduleName)} mr10"></i>{$translatedModuleLabel}
-                                                                {/if}
-							</a>
-						   </li>
-						{/if}
-					{/foreach}
-					</ul>
-				</li>
-			    {/foreach}
-			</ul>
-		    </div>
-		</ul>
+        <li class="dropdown">
+	    <a href="" class="fa fa-ellipsis-h dropdown-toggle menu-list" data-toggle="dropdown" style="font-weight: normal;"></a>
+	    <!--dropdown start-->
+	    <ul class="dropdown-menu p0">
+		{foreach key=SECTION_NAME item=ICON from=$SECTION_ARRAY}
+		   <li class="dropdown dropdown-toggle menu-Header"data-toggle="dropdown">
+                        <i class="{$ICON}"></i>{$SECTION_NAME}
+			<ul class="mega-Menus dropdown-menu  ">
+			    {foreach item=tabid from=$APP_MODULE_ARRAY[$SECTION_NAME]}
+			       {assign var=moduleModel value=Head_Module_Model::getModuleInstanceById($tabid)}
+                               {if $moduleModel->isActive()}
+                                   {assign var=moduleName value=$moduleModel->get('name')}
+                                   {assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
+				   {if $USER_PRIVILEGES_MODEL->hasModulePermission($tabid)}
+					<li>
+                                       	    <a href="{$moduleModel->getListViewUrl()}" class="dropdown-item">
+                                           	{if $moduleName == 'EmailPlus'}
+                                           	    <i class="joicon-mailmanager mr10"></i>{$translatedModuleLabel}
+                                           	{elseif $moduleName == 'PDFMaker'}
+                                                    <i class="fa fa-file-pdf-o mr10"></i>{$translatedModuleLabel}
+                                           	{else}
+                                                    <i class="joicon-{strtolower($moduleName)} mr10"></i>{$translatedModuleLabel}
+                                           	{/if}
+                                       	    </a>
+                                   	</li>
+				   {/if}
+                               {/if}
+                           {/foreach}
+			</ul>	
+		   </li>
+		{/foreach}
+	    </ul>
+	    <!--dropdown end-->
 	</li>
       	</ul>
 	</div>
-      <div id="navbar" class="col-sm-4 col-md-3 col-lg-3 pr10 collapse navbar-collapse navbar-right global-actions">
+      <div id="navbar" class="col-sm-4 col-md-3 col-lg-3 pr10 collapse navbar-collapse navbar-right global-actions" style="margin-left: -30px;">
          <ul class="nav navbar-nav">
             <li>
 		<div class='search-link' style="border: none;">
                       <input type="text" id="joforce-search-box" class="keyword-input form-control" name="s" id="s" placeholder="search...">
+                </div>
+            </li>
+            <li class="dropdown" style="">
+                <div style="" class="" id="gndropdown">
+                    <a class="dropdown-toggle fa fa-bell global-notification-toggle" data-toggle="dropdown" role="button" style="background: transparent;" aria-expanded="true" title="Notifications" aria-hidden="true"></a>
+		    {if $NOTIFICATONS_COUNT gt 0}
+			<div class='notification_count'>{$NOTIFICATONS_COUNT}</div>
+		    {/if}
+                    <ul class="dropdown-menu global-notification-dropdown" id='global-notification-dropdown' role="menu">
+                    </ul>
                 </div>
             </li>
             <li>
@@ -263,7 +275,6 @@
                   </ul>
                </div>
             </li>
-            {assign var=USER_PRIVILEGES_MODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
             {assign var=CALENDAR_MODULE_MODEL value=Head_Module_Model::getInstance('Calendar')}
             {if $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
             <li>
@@ -346,6 +357,16 @@
       $('.nav-responsive-tab').click(function(){
          $('.custom-nav').toggle();
       });
+      $('.menu-Header').mouseover(function(){
+	$(this).children('.mega-Menus').css({
+		'display':'block',
+		});
+	});
+      $('.menu-Header').mouseout (function(){
+	$(this).children('.mega-Menus').css({
+		'display':'none',
+	 	});
+	});
    });
 </script>
 

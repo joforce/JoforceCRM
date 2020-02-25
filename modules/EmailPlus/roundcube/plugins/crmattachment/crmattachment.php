@@ -59,7 +59,7 @@ class crmattachment extends rcube_plugin {
 			);
 
 			$content .= rcube::Q($attachment['name']);
-			$html .= 'window.rcmail.add2attachment_list("rcmfile'.$id.'",{html:"<a href=\"#delete\" onclick=\"return rcmail.command(\'remove-attachment\',\'rcmfile'.$id.'\', this)\" title=\"'.$rcmail->gettext('delete').'\" class=\"delete\" aria-label=\"'.$rcmail->gettext('delete').' '.$attachment['name'].'\"><\/a>'.$attachment['name'].'",name:"'.$attachment['name'].'",mimetype:"'.$attachment['mimetype'].'",classname:"'.rcube_utils::file2class($attachment['mimetype'], $attachment['name']).'",complete:true},"'.$uploadid.'");'.PHP_EOL;
+			$html .= 'window.rcmail.add2attachment_list("rcmfile'.$id.'",{html:"<a href=\"#delete\" onclick=\"return rcmail.command(\'remove-attachment\',\'rcmfile'.$id.'\', this)\" title=\"'.$rcmail->gettext('delete').'\" class=\"delete\" aria-label=\"'.$rcmail->gettext('delete').' '.$attachment['name'].'\"><\/a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$attachment['name'].'",name:"'.$attachment['name'].'",mimetype:"'.$attachment['mimetype'].'",classname:"'.rcube_utils::file2class($attachment['mimetype'], $attachment['name']).'",complete:true},"'.$uploadid.'");'.PHP_EOL;
 		}
 		$response = '<!DOCTYPE html>
 			     <html lang="en">
@@ -85,7 +85,7 @@ class crmattachment extends rcube_plugin {
 			return $attachments;
 		}
 		$rcmail = rcmail::get_instance();
-		$db = $rcmail->get_dbh();
+		$db = $rcmail->get_dbh();		
 		$ids = implode(',', $ids);
 		$userid = $rcmail->user->ID;
 		$index = 0;

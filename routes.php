@@ -1,25 +1,9 @@
 <?php
 // Base URL of CRM
+include_once('includes/utils/utils.php');
 $base_url = parse_url($site_URL)['path'];
 // CRM routing list
-$routes = [
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/source/{sourceModule}'],
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/{view}/source/{sourceModule}'],
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/{view}/{record:\d+}/parent/{parentblock}'],
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/{view}/{record}'],
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/{view}'],
-    ['method' => 'GET', 'pattern' => '{module}/{parent:Settings}/{view}/{block:\d+}/{fieldid:\d+}[/{error}]'],
-    ['method' => 'POST', 'pattern' => '{module}/{parent:Settings}/{view}/{block:\d+}/{fieldid:\d+}[/{error}]'],
-    ['method' => 'GET', 'pattern' => '{module}/view/{view}/{record:\d+}/Duplicate/{isDuplicate:true}'],
-    ['method' => 'GET', 'pattern' => '{module}/view/{view}[/{record:\d+}]'],
-    ['method' => 'GET', 'pattern' => '{module}/view/{view}/filter/{id:\d+}'],
-    ['method' => 'GET', 'pattern' => '{module}/view/{view}/{record:\d+}/mode/{mode}'],
-    ['method' => 'POST', 'pattern' => '{module}/view/{view}/{record:\d+}/mode/{mode}'],
-    ['method' => 'GET', 'pattern' => '{module}/view/{view}/mode/{mode}'],
-    ['method' => 'GET', 'pattern' => '{module}/action/{action}'],
-    ['method' => 'GET', 'pattern' => '{module}/action/{action}/{record:\d+}'],
-    ['method' => 'GET', 'pattern' => '{module:Contacts}/{parent:Settings}/{view:Extension}/{extensionModule:Google}/{extensionView:Index}/{mode:settings}/{block:\d+}/{fieldid:\d+}']
-];
+$routes = getRoutesArray();
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) use ($routes, $base_url) {
     foreach($routes as $route)  {

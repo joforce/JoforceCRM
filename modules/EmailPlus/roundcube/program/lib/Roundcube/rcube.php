@@ -1656,9 +1656,24 @@ class rcube
         if (!is_object($this->smtp)) {
             $this->smtp_init(true);
         }
-
+        $rcube = rcube::get_instance();
+        $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
+            'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
+            'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 25),
+            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user'),
+            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass'),
+            'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
+            'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
+            'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
+            'smtp_helo_host' => $rcube->config->get('smtp_helo_host'),
+            'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
+            'smtp_conn_options'   => $rcube->config->get('smtp_conn_options'),
+            'smtp_auth_callbacks' => array(),
+        ));
+        $SMTP = new rcube_smtp();
+        $SMTP->connect($CONFIG['smtp_server'],$CONFIG['smtp_port'], $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
         // send message
-        $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+        $sent = $SMTP->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
         $response = $this->smtp->get_response();
         $error    = $this->smtp->get_error();
 

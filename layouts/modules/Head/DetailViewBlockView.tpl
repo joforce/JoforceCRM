@@ -70,7 +70,7 @@
 										<ul id="imageContainer">
 											{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 												{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-													<li><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="400" height="300" /></li>
+													<ul><img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="400" height="300" /></ul>
 												{/if}
 											{/foreach}
 										</ul>
@@ -89,7 +89,7 @@
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<td class="fieldLabel textOverflowEllipsis {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getName() eq 'description' or $FIELD_MODEL->get('uitype') eq '69'} style='width:8%'{/if}>
+									<td class="fieldLabel textOverflowEllipsis {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getName() eq 'description' or $FIELD_MODEL->get('uitype') eq '69'} style='width:20%'{/if}>
 										<span class="muted">
 											{if $MODULE_NAME eq 'Documents' && $FIELD_MODEL->get('label') eq "File Name" && $RECORD->get('filelocationtype') eq 'E'}
 												{vtranslate("LBL_FILE_URL",{$MODULE_NAME})}

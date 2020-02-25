@@ -43,7 +43,7 @@
                                 <strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border" style="top:35px;"></span></strong>
                             </label>
                             <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4 pl0" style="width: 30% !important;">
-                                <div class=""> <input type="text" class="inputElement" style="margin-top: 8px;" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required='true'  />
+                                <div class=""> <input type="text" class="inputElement" style="margin-top: 5px;" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required='true'  />
                                 </div> </div>
                         </div>
                         <div class="form-group pl15">
@@ -52,7 +52,7 @@
                             </label>
                             <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4 mt5 pl0" style="width: 30% !important;">
                                 <input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
-                                <div class=""> <input type="text" class="inputElement" style="margin-top: 13px;" name="parent_roleid_display" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getName()}"{/if} readonly>
+                                <div class=""> <input type="text" class="inputElement" style="margin-top: 10px;" name="parent_roleid_display" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getName()}"{/if} readonly>
                                 </div></div>
                         </div>
                         <div class="form-group">
@@ -100,8 +100,9 @@
                             </div>
                         </div>
                         <div class="form-group " data-content="existing">
-                            <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                            <div class="controls col-sm-9">
+                           
+                            <div class="controls col-sm-5 existing">
+                               <label class="col-sm-4">Choose Profiles</label>
                                 {assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
                                 <select class="select2 inputElement col-lg-12 hide" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 460px" data-rule-required="true">
                                     {foreach from=$ALL_PROFILES item=PROFILE}

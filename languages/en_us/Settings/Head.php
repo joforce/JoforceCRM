@@ -21,7 +21,7 @@ $languageStrings = array(
 	'LBL_UNPIN' => 'Unpin',
 	'LBL_PIN' => 'pin',
 	'LBL_INVENTORY' => 'Inventory',
-	'LBL_JOFORCE' => 'JoForce',
+	'LBL_JOFORCE' => 'About JoForce',
 
 	// Blocks
 	'LBL_STUDIO' => 'Studio',

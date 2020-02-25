@@ -25,4 +25,12 @@
 </ul>
 </div>
 </td>
+</tr>
 </table>
+
+  
+     <div class="row">
+	  <button class="btn btn-primary custom-next-btn ">Next</button>
+	  <button class="btn btn-default custom-prev-btn ">Previous</button>
+      </div>
+  

@@ -12,7 +12,7 @@
 {strip}
     <div class="col-lg-7 detailViewButtoncontainer">
         <div class="pull-right btn-toolbar joforce-detailview-btn">
-            <div class="btn-group">
+            <span class="btn-group">
             {assign var=STARRED value=$RECORD->get('starred')}
             {if $MODULE_MODEL->isStarredEnabled()}
                 <button class="btn btn-default markStar {if $STARRED} active {/if}" id="starToggle">
@@ -29,19 +29,23 @@
                     </div>
                 </button>
             {/if}
+            </span>
 
-	    {if $MODULE == 'Contacts'}
-		{assign var=global_masquerade_permission value=getGlobalMasqueradeUserPermission()}
-		{if $global_masquerade_permission}
-			{assign var=masquerade_permission value=getMasqueradeUserActionPermission()}
-			{if $masquerade_permission}
-	                	<div class="btn btn-default" id="convert-masquerade-user" data-recordid="{$RECORD->getId()}">{vtranslate('LBL_CONVERT_USER', $MODULE)}
-	        	        </div>
-			{/if}
-		{/if}
+        {if $MODULE == 'Contacts'}
+        {assign var=global_masquerade_permission value=getGlobalMasqueradeUserPermission()}
+        {if $global_masquerade_permission}
+            {assign var=masquerade_permission value=getMasqueradeUserActionPermission()}
+            {if $masquerade_permission}
+                <span class="btn-group">
+                        <div class="btn btn-default" id="convert-masquerade-user" data-recordid="{$RECORD->getId()}">{vtranslate('LBL_CONVERT_USER', $MODULE)}
+                        </div>
+                </span>
+            {/if}
+        {/if}
             {/if}
 
             {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
+            <span class="btn-group">
                 <button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
                         {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
                             onclick="window.location.href = '{if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'Add Project Task'}{$SITEURL}{/if}{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
@@ -54,15 +58,17 @@
                         {/if}>
                     {vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}
                 </button>
+            </span>
             {/foreach}
             {if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
+            <span class="btn-group">
                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                    {vtranslate('LBL_MORE', $MODULE_NAME)}&nbsp;&nbsp;<i class="caret"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     {foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
                         {if $DETAIL_VIEW_LINK->getLabel() eq ""} 
-                            <li class="divider"></li>	
+                            <li class="divider"></li>   
                             {else}
                             <li id="{$MODULE_NAME}_detailView_moreAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
                                 {if $DETAIL_VIEW_LINK->getUrl()|strstr:"javascript"} 
@@ -74,8 +80,9 @@
                         {/if}
                     {/foreach}
                 </ul>
+            </span>
             {/if}
-            </div>
+            
             {if !{$NO_PAGINATION}}
             <div class="btn-group pull-right">
                 <button class="btn-paginate" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href = '{$PREVIOUS_RECORD_URL}'" {/if} >

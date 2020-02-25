@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {* modules/Settings/Head/views/CompanyDetails.php *}
 
@@ -88,7 +89,7 @@
 					<label class="col-sm-2 fieldLabel control-label"> {vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</label>
 					<div class="fieldValue col-sm-5" >
 						<div class="company-logo-content">
-							<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" style="max-width:700px;"/>
+							<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" style="max-width:700px;" id='image-of-company-logo' />
 							<br><hr>
 							<input type="file" name="logo" id="logoFile" />
 						</div>

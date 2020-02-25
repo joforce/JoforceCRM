@@ -1,0 +1,157 @@
+
+/*  custom style for filter section */ 
+
+
+.search-list{
+	border:none !important;
+	border-bottom:1px solid #e8e8e8 !important;
+	color:#7a7a7a !important;
+	padding:5px 10px 5px 25px !important;
+	background:url("images/magnifier.png") no-repeat left;
+
+	&:focus{
+	border-color:$primary-color !important;
+	}
+}
+
+.list-accordion{
+	font-size:12px !important;
+}
+
+#createFilter, #createFolder{
+	cursor:pointer;
+	text-transform:none !important;
+
+	&:hover{
+		color:$primary-color;
+	}
+}
+
+.dropdown-filter{
+	padding:1px;
+	width:100%;
+
+	.btn-filter{
+		width:100%;
+		position:relative;
+		padding:7px !important;
+		text-align:left;
+		border:1px solid #e8e8e8;
+		background:#fff;
+		font-size:16px;
+		box-shadow:none;
+		border-radius:0px !important;
+
+		&:hover{
+			box-shadow:none;
+		}
+
+		.fa-caret-down{
+			margin-top:5px;
+			position:absolute;
+			right:10px;
+		}
+	}
+	.filter-open{
+		background:#fff;
+		box-shadow:0px 0px 3px 3px rgba(0, 0, 0, 0.1);
+		margin-top:5px;
+		padding:10px;
+		width:300px;
+		max-height:400px;
+		overflow-y:auto;
+		transition:all .5s;
+		z-index:1100;
+		display:none;
+
+		.modal-backdrop{
+			z-index:-1;
+			opacity:0;
+		}
+	}
+
+	.list-group{
+		margin-top:10px;
+		margin-bottom:10px !important;
+		padding-bottom:5px;
+		border-bottom:1px solid #f2f2f2;
+
+		.list-header{
+			cursor:pointer;
+			a{
+				&:hover{
+					color:$primary-color;
+					background:none !important;
+				}
+			}
+			.list-accordion{
+				font-size:10px;
+			}
+		}
+
+		.lists-menu{
+			li{
+				a{
+					font-size:15px;
+					&:hover{
+						background:none !important;
+					}
+				}
+			}
+		}
+
+		.listmenu{
+			li{
+				a{
+					&:hover{
+						background:none !important;
+					}
+				}
+			}
+		}
+
+		.lists{
+			padding:0px;
+			margin-top:5px;
+			li.dropdown{
+				list-style:none;
+				padding:5px 5px;
+				background:#f2f2f2;
+				margin:0px 0px 5px 0px;
+
+				i{
+					font-size:12px;
+					cursor:pointer;
+					&:hover{
+						color:$primary-color;
+						background:none;
+					}
+				}
+
+				ul.dropdown-menu{
+					top:-60px;
+					left:80px;
+					padding:0px;
+					li{
+						padding:0px;
+					}
+				}
+				.hide-icon{
+					display:none;
+				}
+			}
+		}
+	}
+}
+
+
+@media screen and (max-width:800px){
+	.dropdown-filter{
+		width:40% !important;
+	}
+
+	.filter-open{
+		position:absolute;
+		z-index:1000;
+	}
+}

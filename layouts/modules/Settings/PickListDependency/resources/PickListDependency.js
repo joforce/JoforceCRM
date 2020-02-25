@@ -16,6 +16,7 @@ Head.Class('Settings_PickListDependency_Js', {
 	 * Function used to triggerAdd new Dependency for the picklists
 	 */
 	triggerAdd : function(event) {
+		console.log(event);
 		event.stopPropagation();
 		var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 		instance.updatedSourceValues = [];
@@ -115,7 +116,7 @@ Head.Class('Settings_PickListDependency_Js', {
 		params['sourcefield'] = sourceField;
 		params['targetfield'] = targetField;
 		
-		app.request.pjax({data: params}).then(
+		app.request.get({data: params}).then(
 			function(error, data) {
 				app.helper.hideProgress();
 				var container = jQuery('.settingsPageDiv div');
@@ -525,7 +526,7 @@ Head.Class('Settings_PickListDependency_Js', {
 		params['view'] = 'List';
 		params['formodule'] = forModule;
 		
-		app.request.pjax({data: params}).then(
+		app.request.get({data: params}).then(
 			function(error, data) {
 				app.helper.hideProgress();
 				//replace the new list view contents

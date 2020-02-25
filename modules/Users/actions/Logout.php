@@ -11,41 +11,41 @@
 
 class Users_Logout_Action extends Head_Action_Controller {
 	
-	function checkPermission(Head_Request $request) {
-		return true;
-	}
+    function checkPermission(Head_Request $request) {
+	return true;
+    }
 
-	function process(Head_Request $request) {
+    function process(Head_Request $request) {
         global $site_URL;
-		//Redirect into the referer page
-		$logoutURL = $this->getLogoutURL();
+	//Redirect into the referer page
+	$logoutURL = $this->getLogoutURL();
 
         $this->logoutRoundcube();
 
         session_regenerate_id(true);
-		Head_Session::destroy();
+	Head_Session::destroy();
 		
-		//Track the logout History
-		$moduleName = $request->getModule();
-		$moduleModel = Users_Module_Model::getInstance($moduleName);
-		$moduleModel->saveLogoutHistory();
-		//End
+	//Track the logout History
+	$moduleName = $request->getModule();
+	$moduleModel = Users_Module_Model::getInstance($moduleName);
+	$moduleModel->saveLogoutHistory();
+	//End
 
-		if(!empty($logoutURL)) {
-			header('Location: '.$logoutURL);
-			exit();
-		} else {
-			header ('Location: '.$site_URL.'index.php');
-		}
+	if(!empty($logoutURL)) {
+	    header('Location: '.$logoutURL);
+	    exit();
+	} else {
+	    header ('Location: '.$site_URL.'index.php');
 	}
+    }
 	
-	protected function getLogoutURL() {
-		$logoutUrl = Head_Session::get('LOGOUT_URL');
-		if (isset($logoutUrl) && !empty($logoutUrl)) {
-			return $logoutUrl;
-		}
-		return HeadConfig::getOD('LOGIN_URL');
+    protected function getLogoutURL() {
+	$logoutUrl = Head_Session::get('LOGOUT_URL');
+	if (isset($logoutUrl) && !empty($logoutUrl)) {
+	    return $logoutUrl;
 	}
+	return HeadConfig::getOD('LOGIN_URL');
+    }
 
     /**
      * Logout from Roundcube

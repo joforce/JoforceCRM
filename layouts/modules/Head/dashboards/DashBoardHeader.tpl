@@ -14,11 +14,16 @@
 	<div class="buttonGroups pull-right">
 		<div class="btn-group" style="margin-top: 5px;">
 			{if $SELECTABLE_WIDGETS|count gt 0}
+			  <div class="dropdown">
 				<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
 					{vtranslate('LBL_ADD_WIDGET')}&nbsp;&nbsp;<i class="caret"></i>
 				</button>
 
-				<ul class="dropdown-menu dropdown-menu-right widgetsList pull-right" style="min-width:100%;text-align:left;">
+			 <div class="dropdown-menu dropdown-menu-right"id="content">
+			 	<form>
+			 	<input type="text" id="Widget" placeholder="Search Widgets" onkeyup="myFunction();" class="inputElement">
+			 	</form>
+				<ul class=" widgetsList pull-right" style="min-width:100%;text-align:left;">
 					{assign var="MINILISTWIDGET" value=""}
 					{foreach from=$SELECTABLE_WIDGETS item=WIDGET}
 						{if $WIDGET->getName() eq 'MiniList'}
@@ -35,7 +40,7 @@
 					{/foreach}
 
 					{if $MINILISTWIDGET && $MODULE_NAME == 'Home'}
-						<li class="divider"></li>
+						
 						<li>
 							<a onclick="Head_DashBoard_Js.addMiniListWidget(this, '{$MINILISTWIDGET->getUrl()}')" href="javascript:void(0);"
 								data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}">
@@ -49,6 +54,8 @@
 					{/if}
 
 				</ul>
+			 </div>
+		  </div>
 			{else if $MODULE_PERMISSION}
 				<button class='btn addButton dropdown-toggle' disabled="disabled" data-toggle='dropdown'>
 					<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> &nbsp;&nbsp;
@@ -58,3 +65,28 @@
 		</div>
 	</div>
 </div>
+{literal}
+<script type="text/javascript">
+function myFunction()
+{
+	var input,filter,div,a,i,txtvalue;
+	input=document.getElementById("Widget");
+	filter=input.value.toUpperCase();
+	div=document.getElementById("content");
+	a=div.getElementsByTagName("li");
+	for(i=0;i<a.length;i++)
+	{
+		txtvalue=a[i].textContent || a[i].innerText;
+		if(txtvalue.toUpperCase().indexOf(filter)>-1)
+		{
+		   a[i].style.display="block";
+		}
+		else
+		{
+		  a[i].style.display="none";
+		
+		}
+	}
+}
+</script>
+{/literal}

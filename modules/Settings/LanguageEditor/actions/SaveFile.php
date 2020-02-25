@@ -19,23 +19,35 @@ class Settings_LanguageEditor_SaveFile_Action extends Settings_Head_Index_Action
 		global $site_URL;
                 $moduleName = $request->getModule(false);
 		$file_path = $request->get('file_path');
+		$save_file = $request->get('file_save');
 		$label = $request->get('label');
 		$edited_value = $request->get('value');
 		$resource = $request->get('resource');
+		if($file_path !== $save_file) {
+		    if(file_exists($save_file)) {
+			require($save_file);
+               	    } else {
+			touch($save_file);
+ 		        chmod($save_file, 0777);
+			require($file_path);
+		    }
+                } else {
+		    require($file_path);
+		}
 
-		require($file_path);
 		if($resource == 'lbl')
 		{
-				$languageStrings[$label] = $edited_value;
+		    $languageStrings[$label] = $edited_value;
 		}
 		else
 		{
-                                $jsLanguageStrings[$label] = $edited_value;
+                    $jsLanguageStrings[$label] = $edited_value;
 		}
 
+		$file_path = $save_file;
 		if(!$languageStrings)
 		{
-			$myfile = fopen($file_path, "w") or die("Unable to open file!");
+			$myfile = fopen($file_path, "wb") or die("Unable to open file!");
                         fwrite($myfile, "<?php
                                 /*+***********************************************************************************
                                  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -52,7 +64,7 @@ class Settings_LanguageEditor_SaveFile_Action extends Settings_Head_Index_Action
 		}
 		elseif(!$jsLanguageStrings)
 		{
-			$myfile = fopen($file_path, "w") or die("Unable to open file!");
+			$myfile = fopen($file_path, "wb") or die("Unable to open file!");
                         fwrite($myfile, "<?php
                                 /*+***********************************************************************************
                                  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -69,7 +81,7 @@ class Settings_LanguageEditor_SaveFile_Action extends Settings_Head_Index_Action
 		}
 		else
 		{
-			$myfile = fopen($file_path, "w") or die("Unable to open file!");
+			$myfile = fopen($file_path, "wb") or die("Unable to open file!");
                         fwrite($myfile, "<?php
                                 /*+***********************************************************************************
                                  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

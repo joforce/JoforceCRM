@@ -30,7 +30,7 @@ class Settings_DuplicateCheck_ModuleManager_View extends Settings_Head_Index_Vie
 			$enable = 1;
 		}
 
-		$result = $adb->pquery("update jo_vtduplicatechecksettings set isenabled = ? where modulename = ?", array($enable, $module));
+		$result = $adb->pquery("update jo_duplicatechecksettings set isenabled = ? where modulename = ?", array($enable, $module));
 		if($result)	
 		{	
 			die('SUCCESS');		

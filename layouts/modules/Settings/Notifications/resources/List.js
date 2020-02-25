@@ -8,106 +8,111 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Notifications_Js', {}, {
+    getContainer : function() {
+	return jQuery('#listViewContent');
+    },
 
-        getContainer : function() {
-                return jQuery('#listViewContent');
-        },
+    getModuleName: function () {
+	return 'Notifications';
+    },
 
-        getModuleName: function () {
-                return 'Notifications';
-        },
-
-	/**
-	 * Function to click save button
-	 **/
-	 registerClickSaveEvent: function (container) {
-                var thisInstance = this;
-                var form = jQuery('#notification-editor-form');
-                form.on('submit', function (e) {
-                	var data = form.serializeArray();
-			thisInstance.registerSaveEvent(data);
-//                        e.preventDefault();
-//                        return false;
-			window.location.reload();
-                });
-        },
+    /**
+     * Function to click save button
+     **/
+     registerClickSaveEvent: function (container) {
+	var thisInstance = this;
+	var form = jQuery('#notification-editor-form');
 	
-	/**
-	 * Function to save notification settings
-	 **/
-	registerSaveEvent: function (data) {
-                var aDeferred = jQuery.Deferred();
-                var updatedFields = {};
-		var global_settings = $('#global-notification').val();
+	form.on('submit', function (e) {
+	    e.preventDefault();
+	    var data = form.serializeArray();
+	    thisInstance.registerSaveEvent(data);
+	    window.onbeforeunload = null; //To prevent chrome and firefox alert
+            return false;
+	});
+    },
+	
+    /**
+     * Function to save notification settings
+     **/
+    registerSaveEvent: function (data) {
+	var aDeferred = jQuery.Deferred();
+	var updatedFields = {};
+	var global_settings = $('#global-notification').data('value');
 
-                jQuery.each(data, function (key, value) {
-                        updatedFields[key] = value;
-                });
-
-                var params = {
+	jQuery.each(data, function (key, value) {
+	    updatedFields[key] = value;
+	});
+	var params = {
                         'module': app.getModuleName(),
                         'parent': app.getParentModuleName(),
                         'action': 'SaveSettings',
                         'updatedFields': JSON.stringify(updatedFields),
-			'global_settings' : global_settings
-                };
+			'global_settings' : global_settings,
+	};
 
-                app.request.post({"data": params}).then(
-                        function (err, data) {
-                                if (err === null) {
-                                        aDeferred.resolve(data);
-                                }
-                        },
-                        function (error, err) {
-                                aDeferred.reject();
-                        }
-                );
-                return aDeferred.promise();
-        },
-
-	/**
-	 * Function to register Accordion Action
-	 **/
-	registerAccordionAction : function() {
-		var acc = document.getElementsByClassName("accordion-module");
-		var i;
-
-		for (i = 0; i < acc.length; i++) {
-		    acc[i].addEventListener("click", function() {
-		        this.classList.toggle("active-accordion");
-		        $(this).siblings('.accordion-panel').slideToggle();
-		        $(this).children('.toggle-icon').toggleClass('fa-caret-up').toggleClass('fa-caret-down');
-		    });
+	app.request.post({"data": params}).then(function (err, data) {
+	    if (err === null) {
+		is_saved = data.saved;
+		response_msg = data.message;
+		if(is_saved == 'true') {
+		    app.helper.showSuccessNotification({message: app.vtranslate(response_msg)});
+		    aDeferred.resolve(data);
+		} else {
+		    app.helper.showAlertNotification({message: app.vtranslate(response_msg)});
+		    aDeferred.reject();
 		}
-	},
+            } else {
+            	aDeferred.reject();
+	    }
+        });
+	return aDeferred.promise();
+    },
 
-	/**
-	 * Function to register global notification settings events
-	 **/
-	registerGlobalSettings : function(container) {
-		container.on('change', '#global-notification-box', function() {
-			if($('#global-notification-box').is(':checked')) {
-				$('#global-notification').val('enabled');
-				$('#notification-editor-div').show();
-			} else {
-				$('#global-notification').val('disabled');
-                                $('#notification-editor-div').hide();
-			}
-		});
-	},
+    /**
+     * Function to register Accordion Action
+     **/
+    registerAccordionAction : function() {
+	var acc = document.getElementsByClassName("accordion-module");
+	var i;
+
+	for (i = 0; i < acc.length; i++) {
+	    acc[i].addEventListener("click", function() {
+	        this.classList.toggle("active-accordion");
+	        $(this).siblings('.accordion-panel').slideToggle();
+	        $(this).children('.toggle-icon').toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+	    });
+	}
+    },
+
+    /**
+     * Function to register global notification settings events
+     **/
+    registerGlobalSettings : function(container) {
+	container.on('change', '#global-notification', function() {
+	    if($('#global-notification').is(':checked')) {
+		$('#global-notification').attr('data-value','enabled');
+		$('#notification-editor-div').show();
+	    } else {
+		$('#global-notification').attr('data-value', 'disabled');
+		$('#notification-editor-div').hide();
+	    }
+	});
+    },
 		
-	/**
-         * Function to register notifications related events
-         **/
-        registerEvents : function() {
-                var container = this.getContainer();
-		this.registerClickSaveEvent(container);
-		this.registerGlobalSettings(container);
-		this.registerAccordionAction();
-        }
+    /**
+     * Function to register notifications related events
+     **/
+    registerEvents : function() {
+	var container = this.getContainer();
+	this.registerClickSaveEvent(container);
+	this.registerGlobalSettings(container);
+	this.registerAccordionAction();
+	$('[data-toggle="tooltip"]').tooltip();
+    }
 });
 
 window.onload = function() {
-        var settingsNotificationsInstance = new Settings_Notifications_Js();
-        settingsNotificationsInstance.registerEvents();
+    var settingsNotificationsInstance = new Settings_Notifications_Js();
+    settingsNotificationsInstance.registerEvents();
 };

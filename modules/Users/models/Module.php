@@ -199,13 +199,26 @@ class Users_Module_Model extends Head_Module_Model {
 		$userIPAddress = $_SERVER['REMOTE_ADDR'];
 		$outtime = date("Y-m-d H:i:s");
 
+		if (!Head_Utils::CheckTable('jo_loginhistory')) {
+                	Head_Utils::CreateTable('jo_loginhistory',
+                                	"(`login_id` int(11) NOT NULL AUTO_INCREMENT,   
+					`user_name` varchar(255) DEFAULT NULL,   
+					`user_ip` varchar(25) NOT NULL,   
+					`logout_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   
+					`login_time` datetime DEFAULT NULL,   
+					`status` varchar(25) DEFAULT NULL,   
+					PRIMARY KEY (`login_id`) ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8", true);
+        	}
+
 		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM jo_loginhistory WHERE user_name=? AND user_ip=?";
 		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
-		$loginid = $adb->query_result($result,0,"login_id");
+		if($adb->getRowCount($result) > 0) {
+		    $loginid = $adb->query_result($result,0,"login_id");
 
-		if (!empty($loginid)){
+		    if (!empty($loginid)){
 			$query = "UPDATE jo_loginhistory SET logout_time =?, status=? WHERE login_id = ?";
 			$result = $adb->pquery($query, array($outtime, 'Signed off', $loginid));
+		    }
 		}
 	}
 
@@ -340,5 +353,16 @@ class Users_Module_Model extends Head_Module_Model {
 		$fetchValues =$adb->fetch_array($runQuery);
 		$default_landing_page = $fetchValues['default_landing_page'];
                 return $default_landing_page;
+	}
+
+	public function getImportableFieldModels() {
+		$focus = CRMEntity::getInstance($this->getName());
+		$importableFields = $focus->getImportableFields();
+
+		$importableFieldModels = array();
+		foreach ($importableFields as $fieldName => $fieldInstance) {
+			$importableFieldModels[$fieldName] = $this->getField($fieldName);
+		}
+		return $importableFieldModels;
 	}
 }

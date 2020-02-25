@@ -17,7 +17,7 @@
 {if in_array($module, $EXCEPTION_ARRAY)}
 	{if $module == 'Task'}
 		{assign var=permission value=$USER_PRIVILEGE_MODEL->hasModulePermission(getTabid('Calendar'))}
-		<a href="{if !$NOTIFICATIONS_COUNT_ARRAY['Calendar']} {$SITEURL}Calendar/view/List {else} # {/if}" data-module="Calendar" class="notification-link {if !$permission} disable {/if}" id="notification-Calendar" {if $NOTIFICATIONS_COUNT_ARRAY['Calendar']} data-toggle="popover" title="{vtranslate('LBL_NOTIFICATIONS', 'Home')}" data-content="" {/if} >
+		<a {if $permission} href="{if !$NOTIFICATIONS_COUNT_ARRAY['Calendar']} {$SITEURL}Calendar/view/List {else} # {/if}" {/if} data-module="Calendar" class="notification-link {if !$permission} disable {/if}" id="notification-Calendar" {if $NOTIFICATIONS_COUNT_ARRAY['Calendar']} data-toggle="popover" title="{vtranslate('LBL_NOTIFICATIONS', 'Home')}" data-content="" {/if} >
 			<div class="dash-icons">
         			<img src="{$SITEURL}{vimage_path($image_path)}" alt="">
 		        </div>
@@ -25,12 +25,12 @@
 	        	{if $NOTIFICATIONS_COUNT_ARRAY['Calendar']}
         			<div class="count">{$NOTIFICATIONS_COUNT_ARRAY['Calendar']}</div>
 			{else}
-				<div class="count zero">0</div>
+				<div class=""></div>
 		        {/if}
 		</a>
 	{else}
 		{assign var=permission value=$USER_PRIVILEGE_MODEL->hasModulePermission($moduleid)}	
-		<a href="{$SITEURL}EmailPlus/view/ServerSettings" data-module="{$module}" class="notification-link {if !$permission} disable {/if}">
+		<a {if $permission} href="{$SITEURL}EmailPlus/view/ServerSettings" {/if} data-module="{$module}" class="notification-link {if !$permission} disable {/if}">
                         <div class="dash-icons">
                                 <img src="{$SITEURL}{vimage_path($image_path)}" alt="">
                         </div>
@@ -39,7 +39,7 @@
 	{/if}
 {else}
 	{assign var=permission value=$USER_PRIVILEGE_MODEL->hasModulePermission($moduleid)}
-	<a href="{if !$NOTIFICATIONS_COUNT_ARRAY[$module]} {$module_model->getListViewUrl()} {else} # {/if}" data-module="{$module}" class="notification-link {if !$permission} disable {/if}" id="notification-{$module}"  {if $NOTIFICATIONS_COUNT_ARRAY[$module]} data-toggle="popover" title="{vtranslate('LBL_NOTIFICATIONS', 'Home')}" data-content="" {/if}>
+	<a {if $permission} href="{if !$NOTIFICATIONS_COUNT_ARRAY[$module]} {$module_model->getListViewUrl()} {else} # {/if}"{/if}  data-module="{$module}" class="notification-link {if !$permission} disable {/if}" id="notification-{$module}"  {if $NOTIFICATIONS_COUNT_ARRAY[$module]} data-toggle="popover" title="{vtranslate('LBL_NOTIFICATIONS', 'Home')}" data-content="" {/if}>
                 <div class="dash-icons">
                         <img src="{$SITEURL}{vimage_path($image_path)}" alt="">
                 </div>
@@ -51,7 +51,7 @@
                 {if $NOTIFICATIONS_COUNT_ARRAY[$module]}
                         <div class="count">{$NOTIFICATIONS_COUNT_ARRAY[$module]}</div>
 		{else}
-                        <div class="count zero">0</div>
+                        <div class=""></div>
                 {/if}
         </a>
 {/if}

@@ -103,28 +103,26 @@ Head.Class("Settings_Head_OutgoingServer_Js",{},{
         
 		//register validation engine
 		var params = {
-            submitHandler : function(form) {
-                  app.helper.showProgress();
-                var form = jQuery(form);
-				thisInstance.saveOutgoingDetails(form);
-            }
+            	    submitHandler : function(form) {
+                	app.helper.showProgress();
+	                var form = jQuery(form);
+			thisInstance.saveOutgoingDetails(form);
+            	    }
 		};
-        form.vtValidate(params);
-		 form.on('submit', function(e){
-            e.preventDefault();
-            return false;
-        });
+	        form.vtValidate(params);
+		form.on('submit', function(e){
+	            e.preventDefault();
+        	    return false;
+	        });
 		
 		//register click event for resetToDefault Button
 		resetButton.click(function(e) {
 			jQuery('[name="default"]', form).val('true');
 			var message = app.vtranslate('JS_CONFIRM_DEFAULT_SETTINGS');
-			app.helper.showConfirmationBox({'message' : message}).then(
-				function(e) {
-                   app.helper.showProgress();
-					thisInstance.saveOutgoingDetails(form);
-				}
-			);
+			app.helper.showConfirmationBox({'message' : message}).then( function(e) {
+        	            app.helper.showProgress();
+			    thisInstance.saveOutgoingDetails(form);
+			});
 		});
 		
 		//register click event for cancelLink

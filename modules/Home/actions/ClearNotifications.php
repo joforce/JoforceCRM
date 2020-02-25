@@ -16,12 +16,20 @@ class Home_ClearNotifications_Action extends Head_Save_Action
         $user_id = $current_user->id;
         $notify_module = $request->get('moduleName');
 
-        $get_viewed_notifications = getUserModuleNotifications($notify_module, $user_id);
-        $notification_ids = [];
+	if($notify_module == 'All') {
+	    $get_viewed_notifications = getUserModuleNotifications('All', $user_id, true);
+	} else {
+            $get_viewed_notifications = getUserModuleNotifications($notify_module, $user_id);
+	}
+
+	$notification_ids = [];
         foreach ($get_viewed_notifications as $notification) {
             array_push($notification_ids, $notification['id']);
         }
 
-        $delete_status = deleteViewedNotifications($notification_ids);
+	$delete_status = deleteViewedNotifications($notification_ids);
+	$response = new Head_Response();
+	$response->setResult(array('success' => $delete_status));
+	$response->emit();
     }
 }

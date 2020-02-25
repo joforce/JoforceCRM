@@ -10,6 +10,6 @@
 
 <input type="hidden" id="module" value="Install" />
 <input type="hidden" id="view" value="Index" />
-<div class="container-fluid page-container install-preprocess-top">
+<div class="container-fluid page-container install-preprocess-top install-pre">
 	<div class="row">
 	</div>

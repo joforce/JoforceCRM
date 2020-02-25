@@ -12,7 +12,7 @@ class DuplicateCheck_GetFieldsName_View extends Head_Index_View{
 		$arrayValues = [];
 		extract($_GET);
 		$modulename = $_GET['moduleName'];
-		$runQuery = $adb->pquery("SELECT fieldstomatch FROM jo_vtduplicatechecksettings WHERE modulename='$modulename' AND isenabled='1'");
+		$runQuery = $adb->pquery("SELECT fieldstomatch FROM jo_duplicatechecksettings WHERE modulename='$modulename' AND isenabled='1'");
 		$fetchValues = $adb->fetch_array($runQuery);
 		$count = $adb->num_rows($runQuery);
 		$explodedValues = explode(",",$fetchValues['fieldstomatch']);

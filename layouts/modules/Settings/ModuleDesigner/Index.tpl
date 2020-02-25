@@ -1,35 +1,37 @@
-<div class="joforce-bg"><div class="row-fluid widget_header" style="">
+<div class="joforce-bg" style="width:97% !important;">
+    <div class="row-fluid widget_header" style="">
 	<div class="col-md-12">
-		<a href="index.php?module={$MODULE}&view=Index&parent=Settings"><h3>{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</h3></a>
-		<hr/>
+	    <a href="index.php?module={$MODULE}&view=Index&parent=Settings"><h3>{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</h3></a>
+	    <hr/>
 	</div>
-</div>
+    </div>
 
-<div id="md-container">
+    <div id="md-container">
 	<div id="md-header" class='related-tabs'>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs bread-box">
 		  <li class="active md-tab" id='md-tab-general'>
-		    <a class="active" data-toggle="tab" href="#md-page-general"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/config.png" alt="{vtranslate('LBL_GENERAL_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_GENERAL', $QUALIFIED_MODULE)}</a>
+		 
+		    <a class="active step1" data-toggle="tab" href="#md-page-general"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/config.png" alt="{vtranslate('LBL_GENERAL_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_GENERAL', $QUALIFIED_MODULE)}</a>
 		  </li>
 		  <li class="md-tab" id='md-tab-blocks-fields'>
 		    <a class="" href="#md-page-blocks-fields"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/field.png" alt="{vtranslate('LBL_BLOCKS_FIELDS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_BLOCKS_FIELDS', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-custom-links'>
+		  <li class="md-tab " id='md-tab-custom-links'>
 		    <a class="" href="#md-page-custom-links"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/link.png" alt="{vtranslate('LBL_CUSTOM_LINKS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_CUSTOM_LINKS', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-related-lists'>
+		  <li class="md-tab " id='md-tab-related-lists'>
 		    <a class="" href="#md-page-related-lists"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/related.png" alt="{vtranslate('LBL_RELATED_LISTS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_RELATED_LISTS', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-events'>
+		  <li class="md-tab " id='md-tab-events'>
 		    <a class="" href="#md-page-events"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/event.png" alt="{vtranslate('LBL_EVENTS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_EVENTS', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-filters'>
+		  <li class="md-tab " id='md-tab-filters'>
 		    <a class="" href="#md-page-filters"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/filter.png" alt="{vtranslate('LBL_FILTERS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_FILTERS', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-custom'>
+		  <li class="md-tab " id='md-tab-custom'>
 		    <a class="" href="#md-page-custom"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/custom.png" alt="{vtranslate('LBL_CUSTOM_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_CUSTOM', $QUALIFIED_MODULE)}</a>
 		  </li>
-		  <li class="md-tab" id='md-tab-export'>
+		  <li class="md-tab " id='md-tab-export'>
 		    <a class="" href="#md-page-export"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/export.png" alt="{vtranslate('LBL_EXPORT_ALT', $QUALIFIED_MODULE)}" /> {vtranslate('LBL_EXPORT', $QUALIFIED_MODULE)}</a>
 		  </li>
 		</ul>

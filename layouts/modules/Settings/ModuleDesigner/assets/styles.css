@@ -22,6 +22,7 @@ h1{
 	border-bottom-right-radius: 5px;
 	background: #F6F6F6;
 	background-image:-webkit-linear-gradient(top, #FFF, #EEE);
+	margin-bottom: 30px;
 }
 .md-tab-selected{
 	background: #666;

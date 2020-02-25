@@ -11,14 +11,6 @@
 	
   <div class="gs-info">
 	 {include file="Sidebar.tpl"|vtemplate_path:'Install'}
-   <footer class="noprint">
-      <div class="vtFooter">
-        <p>
-          {vtranslate('POWEREDBY')} 
-          &copy; {date('Y')}
-        </p>
-      </div>
-    </footer>
   </div>
 
 

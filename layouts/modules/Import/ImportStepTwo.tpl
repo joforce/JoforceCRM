@@ -48,8 +48,8 @@
                         </td>
                         <td width="6%">
                             <div align="center">
-                                <button class="btn btn-default btn-lg" onClick ="return Head_Import_Js.copySelectedOptions('#available_fields', '#selected_merge_fields')"><span class="glyphicon glyphicon-arrow-right"></span></button>
-                                <button class="btn btn-default btn-lg" onClick ="return Head_Import_Js.removeSelectedOptions('#selected_merge_fields')"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                                <button class="btn btn-default btn-lg" onClick ="return Head_Import_Js.copySelectedOptions('#available_fields', '#selected_merge_fields')"><span class="fa fa-arrow-right"></span></button>
+                                <button class="btn btn-default btn-lg" onClick ="return Head_Import_Js.removeSelectedOptions('#selected_merge_fields')"><span class="fa fa-arrow-left"></span></button>
                             </div>
                         </td>
                         <td>

@@ -1,15 +1,18 @@
 .nav-pills.nav-wizard > li {
     position: relative;
     overflow: visible;
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
+    border-right: 7px solid transparent;
+    border-left: 20px solid transparent;
+   /* width: 30px !important;*/
+    display: inline-flex;
+
 }
 .nav-pills.nav-wizard > li + li {
     margin-left: 0;
 }
-.nav-pills.nav-wizard > li:first-child {
+/*.nav-pills.nav-wizard > li:first-child {
     border-left: 0;
-}
+}*/
 .nav-pills.nav-wizard > li:first-child a {
     border-radius: 5px 0 0 5px;
 }
@@ -19,11 +22,13 @@
 .nav-pills.nav-wizard > li:last-child a {
     border-radius: 0 5px 5px 0;
 }
+
 .nav-pills.nav-wizard > li a {
     border-radius: 0;
     background-color: #eee;
     height: 45px;
 }
+
 .nav-pills.nav-wizard > li:not(:last-child) a:after {
     position: absolute;
     content: "";
@@ -36,6 +41,7 @@
     border-color: transparent transparent transparent #eee;
     z-index: 150;
 }
+/*
 .nav-pills.nav-wizard > li:not(:first-child) a:before {
     position: absolute;
     content: "";
@@ -47,43 +53,53 @@
     border-width: 20px 0 25px 20px;
     border-color: #eee #eee #eee transparent;
     z-index: 150;
-}
+}*/
 .nav-pills.nav-wizard > li:hover:not(:last-child) a:after {
     border-color: transparent transparent transparent #aaa;
 }
+/*
 .nav-pills.nav-wizard > li:hover:not(:first-child) a:before {
     border-color: #aaa #aaa #aaa transparent;
 }
+*/
 .nav-pills.nav-wizard > li:hover a {
     background-color: #aaa;
     color: #fff;
 }
+
 .nav-pills.nav-wizard > li.active:not(:last-child) a:after {
     border-color: transparent transparent transparent #428bca;
-}
+}/*
 .nav-pills.nav-wizard > li.active:not(:first-child) a:before {
     border-color: #428bca #428bca #428bca transparent;
 }
+*/
 .nav-pills.nav-wizard > li.active a {
     background-color: #428bca;
 }
+
 .nav-pills.nav-wizard > li.completed:not(:last-child) a:after {
     border-color: transparent transparent transparent #00A65A;
 }
+/*
 .nav-pills.nav-wizard > li.completed:not(:first-child) a:before {
     border-color: #00A65A #00A65A #00A65A transparent;
-}
+}*/
+
 .nav-pills.nav-wizard > li.completed a {
     background-color: #00A65A;
     color: #FFFFFF;
     font-weight: 600;
 }
+
 .nav-pills.nav-wizard > li.lost:not(:last-child) a:after {
     border-color: transparent transparent transparent #dd4b39;
 }
+/*
 .nav-pills.nav-wizard > li.lost:not(:first-child) a:before {
     border-color: #dd4b39 #dd4b39 #dd4b39 transparent;
-}
+}*/
+
 .nav-pills.nav-wizard > li.lost a {
     background-color: #dd4b39;
     color: #FFFFFF;

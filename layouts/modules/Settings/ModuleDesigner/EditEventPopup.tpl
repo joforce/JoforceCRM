@@ -8,7 +8,7 @@
 
 <body>
 <div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
-<h2>{vtranslate('LBL_EVENT', $QUALIFIED_MODULE)} - {vtranslate($a_event.eventName, $QUALIFIED_MODULE)}</h2>
+<h2>{vtranslate('LBL_EVENT', $QUALIFIED_MODULE)} - {vtranslate($a_event.eventName, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <table id="form" style="font-size:12px;">
 <tr>
@@ -34,11 +34,16 @@
 	<td><img src="layouts/modules/Settings/{$MODULE}/assets/images/active.png" alt="{vtranslate("LBL_EVENT_IS_ACTIVE_ALT", $QUALIFIED_MODULE)}" /> {vtranslate("LBL_EVENT_IS_ACTIVE", $QUALIFIED_MODULE)}</td>
 	<td><input type="checkbox" name="is_active" value="1" {if $a_event.isActive }checked="checked"{/if} /></td>
 </tr>
-<tr>
+<!-- <tr>
 	<td>&nbsp;</td>
 	<td><input type="button" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></td>
-</tr>
+</tr> -->
 </table>
+<div class="modal-footer eve-save-btn">
+	
+	<center><input type="button" class="btn btn-success" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
+
+</div>
 </div>
 
 <script type="text/javascript">

@@ -10,11 +10,12 @@
 <roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
 <roundcube:include file="/includes/header.html" />
+<script type="text/javascript" src="../../../layouts/modules/EmailPlus/resources/checkServerInfo.js"></script>
+<script type="text/javascript" src="../../../libraries/jquery/jquery_windowmsg.js"></script>
 
 <div id="mainscreen">
 
 <h1 class="voice"><roundcube:object name="pagetitle" /></h1>
-
 <!-- toolbar -->
 <h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 <div id="messagetoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
@@ -176,9 +177,9 @@
 	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
         <div style="text-align:center; margin-bottom:20px">
-            <roundcube:button name="addattachment" type="input" class="button" style="width:110px;font-size:10px;" classSel="button pressed" label="FromDesktop" onclick="UI.show_uploadform(event);return false" tabindex="1" />
-            <roundcube:button type="input" class="button" style="width:100px;font-size:10px;" classSel="button pressed" label="FromCRM" command="crmattachment.attachCRMFiles" tabindex="1" />
-        </div>
+            <roundcube:button name="addattachment" type="input" class="button" style="width:110px;font-size:10px;" classSel="button pressed" label="FromDesktop" onclick="rcmail.upload_input('uploadform');return false" tabindex="1" />
+            <roundcube:button name="addattachment" type="input" class="button" style="width:100px;font-size:10px;" classSel="button pressed" label="FromCRM" command="crmattachment.attachCRMFiles" tabindex="1" />
+	    	</div>
 		<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="1" />
 		<roundcube:object name="fileDropArea" id="compose-attachments" />
 	</div>
@@ -224,6 +225,12 @@
 </div>
 
 <roundcube:include file="/includes/footer.html" />
+<form name="windowComm">
+<input type="hidden" name="windowCommEvent" value="Head.OnPopupWindowLoad.Event">
+<input type="hidden" name="windowCommData" value="undefined">
+<input id="myinput" type="button" style="display:none" value="" name="windowCommButton">
+</form>
+
 
 </body>
 </html>

@@ -60,10 +60,10 @@ Head_Edit_Js("PDFMaker_Edit_Js",{},{
 			    var url = document.location.origin;
 			    var first = $(location).attr('pathname');
 			    first = first.split("/index.php")[0];
-			    var site_url = url + first;
+			    var site_url = $('#joforce_site_url').val();
                             templatecontenttype = $('#textarea-type').val();
 			    var logo = $('#logo').val();
-                            CKEDITOR.instances[templatecontenttype].insertHtml('<img style="width:200px;" src="'+site_url+'/cache/logo/'+logo+'">');
+                            CKEDITOR.instances[templatecontenttype].insertHtml('<img style="width:200px;" src="'+site_url+'cache/logo/'+logo+'">');
 			}
 			else if(value != 'Select'){
                               templatecontenttype = $('#textarea-type').val();

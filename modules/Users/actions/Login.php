@@ -59,7 +59,7 @@ class Users_Login_Action extends Head_Action_Controller {
 			// Get system setup status
 			$moduleName = $request->getModule();
         	        $systemSetUpModel = Users_Record_Model::getCurrentUserModel();
-                	$isFirstUser = Users_CRMSetup::isFirstUser($systemSetUpModel);echo "<pre>"; print_r($isFirstUser);
+                	$isFirstUser = Users_CRMSetup::isFirstUser($systemSetUpModel);
 
 /*			// Get user setup status
 			$userModel = Users_Record_Model::getCurrentUserModel();
@@ -74,7 +74,7 @@ print_r($default_landing_page);die;
 					header ("Location: ".$site_URL.$default_landing_page."/view/List");
 			}
 			else{*/
-				header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
+			header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
 
 			exit();
 		} else {

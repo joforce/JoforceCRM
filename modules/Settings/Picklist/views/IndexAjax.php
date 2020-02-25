@@ -19,7 +19,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
         $this->exposeMethod('getPickListDetailsForModule');
         $this->exposeMethod('getPickListValueForField');
         $this->exposeMethod('getPickListValueByRole');
-		$this->exposeMethod('showAssignValueToRoleView');
+	$this->exposeMethod('showAssignValueToRoleView');
     }
 
     public function process(Head_Request $request) {
@@ -35,21 +35,21 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
         $fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
         $valueToEdit = $request->getRaw('fieldValue');
 
-		$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
-	//	$selectedFieldAllPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
+	$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
+	$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
+//	$selectedFieldAllPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
         $qualifiedName = $request->getModule(false);
         $viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+	$moduleName = $request->getModule();
         $viewer->assign('SOURCE_MODULE', $module);
         $viewer->assign('SOURCE_MODULE_NAME',$module);
         $viewer->assign('FIELD_MODEL',$fieldModel);
         $viewer->assign('FIELD_VALUE',$valueToEdit);
         $viewer->assign('FIELD_VALUE_ID', $request->get('fieldValueId'));
-		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES',$selectedFieldEditablePickListValues);
-		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES',$selectedFieldNonEditablePickListValues);
-		$viewer->assign('MODULE',$moduleName);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES',$selectedFieldEditablePickListValues);
+	$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES',$selectedFieldNonEditablePickListValues);
+	$viewer->assign('MODULE',$moduleName);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
         echo $viewer->view('EditView.tpl', $qualifiedName, true);
     }
 
@@ -59,25 +59,24 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
         $fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
         $valueToDelete = $request->get('fieldValue');
 
-		$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
-		$selectedFieldEditablePickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldEditablePickListValues);
-		if(!empty($selectedFieldNonEditablePickListValues)) {
-			$selectedFieldNonEditablePickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldNonEditablePickListValues);
-		}
-
-		$qualifiedName = $request->getModule(false);
+	$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
+	$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
+	$selectedFieldEditablePickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldEditablePickListValues);
+	if(!empty($selectedFieldNonEditablePickListValues)) {
+		$selectedFieldNonEditablePickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldNonEditablePickListValues);
+	}
+	$qualifiedName = $request->getModule(false);
         $viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+	$moduleName = $request->getModule();
         $viewer->assign('SOURCE_MODULE', $module);
         $viewer->assign('SOURCE_MODULE_NAME',$module);
         $viewer->assign('FIELD_MODEL',$fieldModel);
 
-		$viewer->assign('MODULE',$moduleName);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
-		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES',$selectedFieldEditablePickListValues);
-		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES',$selectedFieldNonEditablePickListValues);
-		$viewer->assign('FIELD_VALUES',array_map('Head_Util_Helper::toSafeHTML', $valueToDelete));
+	$viewer->assign('MODULE',$moduleName);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES',$selectedFieldEditablePickListValues);
+	$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES',$selectedFieldNonEditablePickListValues);
+	$viewer->assign('FIELD_VALUES',array_map('Head_Util_Helper::toSafeHTML', $valueToDelete));
         echo $viewer->view('DeleteView.tpl', $qualifiedName, true);
     }
 
@@ -91,8 +90,8 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
 
         $viewer = $this->getViewer($request);
         $viewer->assign('PICKLIST_FIELDS',$pickListFields);
-		$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
         $viewer->view('ModulePickListDetail.tpl',$qualifiedName);
     }
 
@@ -101,15 +100,15 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
         $pickFieldId = $request->get('pickListFieldId');
         $fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 
-		$moduleName = $request->getModule();
+	$moduleName = $request->getModule();
         $qualifiedName = $request->getModule(false);
 
         $selectedFieldAllPickListValues = Head_Util_Helper::getPickListValues($fieldModel->getName());
         $viewer = $this->getViewer($request);
         $viewer->assign('SELECTED_PICKLIST_FIELDMODEL',$fieldModel);
-		$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
-		$viewer->assign('MODULE',$moduleName);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
+	$viewer->assign('MODULE',$moduleName);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
         $viewer->assign('ROLES_LIST', Settings_Roles_Record_Model::getAll());
         $viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES',$selectedFieldAllPickListValues);
         $viewer->view('PickListValueDetail.tpl',$qualifiedName);
@@ -126,15 +125,15 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
         $userSelectedRoleId = $request->get('rolesSelected');
 
         $pickListValuesForRole = $fieldModel->getPicklistValues(array($userSelectedRoleId),'CONJUNCTION');
-		$pickListValuesForRole = array_map('Head_Util_Helper::toSafeHTML', $pickListValuesForRole);
+	$pickListValuesForRole = array_map('Head_Util_Helper::toSafeHTML', $pickListValuesForRole);
         $allPickListValues = Head_Util_Helper::getPickListValues($fieldModel->getName());
-		$allPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $allPickListValues);
+	$allPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $allPickListValues);
 
         $viewer = $this->getViewer($request);
         $viewer->assign('SELECTED_PICKLIST_FIELDMODEL',$fieldModel);
-		$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
-		$viewer->assign('MODULE',$moduleName);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
+	$viewer->assign('MODULE',$moduleName);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
         $viewer->assign('ROLE_PICKLIST_VALUES',$pickListValuesForRole);
         $viewer->assign('ALL_PICKLIST_VALUES', $allPickListValues);
         $viewer->view('PickListValueByRole.tpl',$qualifiedName);
@@ -145,22 +144,22 @@ class Settings_Picklist_IndexAjax_View extends Settings_Head_IndexAjax_View {
      * @param Head_Request $request
      */
     public function showAssignValueToRoleView(Head_Request $request) {
-		$sourceModule = $request->get('source_module');
+	$sourceModule = $request->get('source_module');
         $pickFieldId = $request->get('pickListFieldId');
         $fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 
-		$moduleName = $request->getModule();
+	$moduleName = $request->getModule();
         $qualifiedName = $request->getModule(false);
 
         $selectedFieldAllPickListValues = Head_Util_Helper::getPickListValues($fieldModel->getName());
-		$selectedFieldAllPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
+	$selectedFieldAllPickListValues =  array_map('Head_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
         $viewer = $this->getViewer($request);
         $viewer->assign('SELECTED_PICKLIST_FIELDMODEL',$fieldModel);
-		$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
-		$viewer->assign('MODULE',$moduleName);
-		$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
+	$viewer->assign('SELECTED_MODULE_NAME',$sourceModule);
+	$viewer->assign('MODULE',$moduleName);
+	$viewer->assign('QUALIFIED_MODULE',$qualifiedName);
         $viewer->assign('ROLES_LIST', Settings_Roles_Record_Model::getAll());
         $viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES',$selectedFieldAllPickListValues);
         $viewer->view('AssignValueToRole.tpl',$qualifiedName);
-	}
+    }
 }

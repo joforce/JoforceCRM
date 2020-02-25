@@ -71,7 +71,7 @@
 							&nbsp;<span class="red-border"></span>
 						</label>
 						<div class="controls col-sm-7 pl0">
-							<input type="text" class='inputElement col-sm-9 pr0' maxlength="50" name="fieldLabel" value="{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}" data-rule-required='true' style='width: 75%' />
+							<input type="text" class='inputElement col-sm-9 pr0' maxlength="50" {if $IS_FIELD_EDIT_MODE}disabled="disabled"{/if}name="fieldLabel" value="{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}" data-rule-required='true' style='width: 75%' />
 						</div>
 					</div>
 					{if !$IS_FIELD_EDIT_MODE}

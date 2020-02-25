@@ -10,44 +10,46 @@
  ************************************************************************************/
 
 class Settings_Notifications_Index_View extends Settings_Head_Index_View {
+    public function checkPermission(Head_Request $request) {
+	return true;
+    }
 
-        public function checkPermission(Head_Request $request) {
-                return true;
-        }
+    public function  preProcess(Head_Request $request) {
+	parent::preProcess($request);
+    }
 
-        public function  preProcess(Head_Request $request) {
-                parent::preProcess($request);
-        }
+    public function process (Head_Request $request) {
+	global $current_user;
+	$user_id = $current_user->id;
+	$viewer = $this->getViewer($request);
+	$qualifiedModuleName = $request->getModule(false);
 
-	public function process (Head_Request $request) {
-	
-		global $current_user;
-		$user_id = $current_user->id;
-		$viewer = $this->getViewer($request);
+	$permittedTabIdList = getPermittedModuleIdList();
+	if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
+	    $file_name = "user_privileges/notifications/notification_".$user_id.".php";
+	else
+	   $file_name = 'user_privileges/notifications/default_settings.php';
 
-		if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-			$file_name = "user_privileges/notifications/notification_".$user_id.".php";
-		else
-			$file_name = 'user_privileges/notifications/default_settings.php';
+	require($file_name);
+	$viewer->assign('GLOBAL_SETTINGS', $global_settings);
+	//$viewer->assign('notify_all', $notification_for_all);
+	$viewer->assign('FILE_PATH', $file_name);
+	$viewer->assign('PERMITTED_MODULES', $notification_settings);
+	$viewer->assign('user_permitted_modules', $permittedTabIdList);
+	$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+	$viewer->view('Index.tpl', $qualifiedModuleName);
+    }
 
-                require($file_name);
-		$viewer->assign('GLOBAL_SETTINGS', $global_settings);
-		$viewer->assign('FILE_PATH', $file_name);
-		$viewer->assign('PERMITTED_MODULES', $notification_settings);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
-	}
+    function getHeaderScripts(Head_Request $request) {
+	$headerScriptInstances = parent::getHeaderScripts($request);
+	$moduleName = $request->getModule();
 
-	function getHeaderScripts(Head_Request $request) {
-                $headerScriptInstances = parent::getHeaderScripts($request);
-                $moduleName = $request->getModule();
+	$jsFileNames = array(
+	    "modules.Settings.$moduleName.resources.List",
+	);
 
-                $jsFileNames = array(
-                        "modules.Settings.$moduleName.resources.List",
-                );
-
-                $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-                $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-                return $headerScriptInstances;
-        }
+	$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+	$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+	return $headerScriptInstances;
+    }
 }

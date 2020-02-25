@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -220,9 +220,10 @@ class Head_FieldBasic {
 		global $adb;
 
 		Head_Profile::deleteForField($this);
-
 		//TODO : should we check if the field is realtion field or not
-		$this->getModuleInstance()->unsetRelatedListForField($this->id);
+		//$this->getModuleInstance()->unsetRelatedListForField($this->id);
+		$ex = new Head_Module();
+		$ex->unsetRelatedListForField($this->id);
 
 		$adb->pquery("DELETE FROM jo_field WHERE fieldid=?", Array($this->id));
 

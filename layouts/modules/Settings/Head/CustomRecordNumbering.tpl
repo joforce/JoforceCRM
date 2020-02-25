@@ -26,11 +26,13 @@
 					{assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
 					{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 					<div class="row form-group">
-						<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
+						<div class="col-lg-3 col-md-3 col-sm-3 pr0">
+						  <div class="control-label fieldLabel">
 							<label>{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+						   </div>
 						</div>
 						<div class="fieldValue {$WIDTHTYPE}">
-							<div class=" col-lg-4 col-md-4 col-sm-4">
+							<div class=" col-lg-4 col-md-4 col-sm-4 pl0 ">
 								<select class="select2 inputElement " name="sourceModule">
 									{foreach key=index item=MODULE_MODEL from=$SUPPORTED_MODULES}
 										{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
@@ -43,23 +45,27 @@
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
+						<div class="col-lg-3 col-md-3 col-sm-3 pr0">
+						   <div class="control-label fieldLabel">
 							<label >{vtranslate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</label>
+							</div>
 						</div>
 						<div class="fieldValue {$WIDTHTYPE}">
-							<div class=" col-lg-4 col-md-4 col-sm-4">
+							<div class=" col-lg-4 col-md-4 col-sm-4 pl0">
 								<input type="text" id="prefix" class="inputElement" value="{$DEFAULT_MODULE_DATA['prefix']}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" />
 							</div>
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
+						<div class="col-lg-3 col-md-3 col-sm-3 pr0">
+						  <div class="control-label fieldLabel">
 							<label>
 								<b>{vtranslate('LBL_START_SEQUENCE', $QUALIFIED_MODULE)}</b>&nbsp;<span class="redColor">*</span>
 							</label>
+						  </div>
 						</div>
 						<div class="fieldValue {$WIDTHTYPE}">
-							<div class=" col-lg-4 col-md-4 col-sm-4">
+							<div class=" col-lg-4 col-md-4 col-sm-4 pl0">
 								<input type="text" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}" class="inputElement " id="sequence"
 									data-old-sequence-number="{$DEFAULT_MODULE_DATA['sequenceNumber']}" data-rule-required = "true" data-rule-positive="true" data-rule-wholeNumber="true" name="sequenceNumber"/>
 							</div>

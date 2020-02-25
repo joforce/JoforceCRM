@@ -26,36 +26,11 @@ class RecycleBin_List_View extends Head_Index_View {
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer ($request);
 		$user_id = $current_user->id;
-                //menu details
-                if(file_exists("menu/sections_".$user_id.".php"))
-                        {
-                        require( "menu/sections_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_sections.php");
-                        }
-                $viewer->assign('SECTION_ARRAY', $section_array); //section names
 
-                if(file_exists("menu/main_menu_".$user_id.".php"))
-                        {
-                        require( "menu/main_menu_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_main_menu.php");
-                        }
-                $viewer->assign('MAIN_MENU_TAB_IDS', $main_menu_array); //main menu
+                $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
+                $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
+		$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
 
-                if(file_exists("menu/module_apps_".$user_id.".php"))
-                        {
-                        require( "menu/module_apps_".$user_id.".php");
-                        }
-                else
-                        {
-                        require("menu/default_module_apps.php");
-                        }
-                $viewer->assign('APP_MODULE_ARRAY', $app_menu_array); //modules and sections
 		$moduleName = $request->getModule();
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);

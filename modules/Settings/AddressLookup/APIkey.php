@@ -1,3 +1,1 @@
-<?php 
-$APIkey="";
-?>
+<?php $APIkey="AIzaSyCczsJ6L0xjZUMxiclJILWQuKwHgie7uU8                      "?>

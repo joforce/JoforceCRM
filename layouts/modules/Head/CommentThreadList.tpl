@@ -26,7 +26,7 @@
 						<div class="col-lg-2 recordImage commentInfoHeader" style ="width:50px; height:50px; font-size: 30px;" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}" data-relatedto = "{$COMMENT->get('related_to')}">
 							{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 							{if !empty($IMAGE_PATH)}
-								<img src="{$IMAGE_PATH}" width="100%" height="100%" align="left">
+								<img src="{$SITEURL}{$IMAGE_PATH}" width="100%" height="100%" align="left">
 							{else}
 								<div class="name" style="font-size: 30px;"><span><strong> {$CREATOR_NAME|mb_substr:0:2|escape:"html"} </strong></span></div>
 							{/if}
@@ -72,7 +72,7 @@
 										<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 											<a href="javascript:void(0)" class="cursorPointer hideThread">
 												<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-												<img class="alignMiddle" src="{vimage_path('arrowdown.png')}" />
+												<img class="alignMiddle" src="{$SITEURL}{vimage_path('arrowdown.png')}" />
 											</a>
 										</span>
 									{/if}

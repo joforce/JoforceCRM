@@ -74,7 +74,7 @@ class ModComments_Record_Model extends Head_Record_Model {
 						$attachmentDetails[$index]['rawFileName'] = $rawFileName;
 						$attachmentDetails[$index]['attachmentId'] = $fileDetail['attachmentsid'];
 						$attachmentDetails[$index]['trimmedFileName'] = $this->trimFileName($rawFileName);
-						$attachmentDetails[$index]['url'] = $site_URL.'?module=ModComments&action=DownloadFile&record='. $recordId .'&'.'fileid='.$fileDetail['attachmentsid'];
+						$attachmentDetails[$index]['url'] = $site_URL.'ModComments/action/DownloadFile/'. $recordId .'?fileid='. $fileDetail['attachmentsid'];
 					}
 				}
 			}

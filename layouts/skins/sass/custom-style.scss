@@ -1,0 +1,726 @@
+/* Already exist custom css  */
+
+.dashBoardContainer .dashBoardTabContents ul li {
+	border: 1px solid #E2E2E4 !important;
+}
+
+.badge{
+	color:#e7e7e7 !important;
+	padding: 5px 8px;
+	text-transform: uppercase;
+
+}
+
+.badge:hover {
+color:#fff !important;
+	}
+
+
+	.detailViewContainer .recordImage, .overlayDetailHeader .recordImage, .quickPreviewModuleHeader .recordImage {
+	border-radius: 6px;
+}
+
+.accountname{
+	text-transform: capitalize;
+}
+
+.listview-table tbody td{
+
+font-size: 14px !important;
+}
+
+#listview-table tbody tr td{
+	padding-top:8px !important; 
+	padding-bottom:8px !important; 
+}
+
+.floatThead-table{
+
+	border:none !important;
+}
+
+
+.vtiger-bg-section{
+	background: #FBFBFB !important;
+}
+.table > thead > tr > th {
+	border-bottom: 1px solid #ddd !important;
+	text-transform: uppercase;
+}
+
+/*button box shadow remove css*/
+
+.bootstrap-switch.bootstrap-switch-focused
+{
+
+box-shadow:none !important;
+border-color:#dddddd !important;
+}
+
+.module-designer-bg{
+background:#fff !important;
+border-top-left-radius: 5px !important;
+border-top-right-radius: 5px !important;
+}
+
+.module-designer-tab{
+	border-bottom:none !important;
+}
+
+/*document side bar css start */
+
+.docs-submenu{
+   display:none;
+   width:230px;
+   height:423px;
+   background-color:#0f0e26;
+   height: 100vh;
+   overflow-x: hidden;
+   position: fixed;
+   left:42px;
+   top:12%;
+}
+
+.modules-menu ul li a:hover + .docs-marketing-submenu, .docs-marketing-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-sales-submenu, .docs-sales-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-inventory-submenu, .docs-inventory-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-support-submenu, .docs-support-submenu:hover{
+   display:block !important;
+}
+.modules-menu ul li a:hover + .docs-project-submenu, .docs-project-submenu:hover{
+   display:block !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-text{
+   display:inline !important;
+   font-size:1.2em;
+    color: #dddddd;
+    text-shadow: 0 0 1px #000;
+    text-transform: capitalize; 
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-text{
+   color:#fff; 
+}
+
+.modules-menu .docs-submenu ul li a > span{
+   display:inline !important;
+}
+
+.modules-menu .docs-submenu ul li a > .docs-submenu-icon{
+   font-size: 1.2em !important;
+   opacity: 0.2;
+}
+.modules-menu .docs-submenu ul li a:hover > .docs-submenu-icon{
+   color:#fff;
+   opacity: 1;
+}
+
+.sidebar-table .floatThead-floatContainer{
+    z-index:0 !important;
+}
+
+
+ul.dropdown-menu.profile-dropdown li a{
+
+  padding: 5px !important;
+}
+
+ul.dropdown-menu.profile-dropdown{
+
+  padding: 5px 10px !important;
+}
+
+.dropdown-menu li, .dropdown-menu-nav li {
+  text-align: left;
+  list-style: none;
+  padding: 0 10px;
+}
+
+ul.dropdown-menu.profile-dropdown li{
+
+  padding: 0px !important;
+}
+
+.user-image {
+  float: left;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+  background-color:$primary-color;
+  color:#fff;
+  border:none;
+  font-weight:bold;
+
+}
+
+.profile-dropdown h4,.profile-dropdown h5,.profile-dropdown p,.profile-dropdown li a{
+  /*padding-left: 10px;*/
+  font-size: 14px;
+  white-space: nowrap;
+  color:#333;
+}
+
+.profile-dropdown h4{
+
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+
+.related-tabs .nav-tabs > li.active, .related-tabs .nav-tabs > li:hover, .related-tabs .nav-tabs > li.active:focus, .dashBoardContainer .nav-tabs > li.active, .dashBoardContainer .nav-tabs > li:hover, .dashBoardContainer .nav-tabs > li.active:focus, .contents.tabbable .nav-tabs > li.active, .contents.tabbable .nav-tabs > li:hover, .contents.tabbable .nav-tabs > li.active:focus {
+  border: none;
+  border-bottom: 2px solid #7f3d9b !important;
+}
+
+/*input element css*/
+
+.quickCreateContent .inputElement, .inputElement, .uploadview-content .inputElement.select2, #uploadToDriveContainer .inputElement.select2, .fieldBlockContainer .inputElement, .md-medium-text-input, .select2-container{
+ /* width:228px !important;*/
+}
+
+/*first name field*/
+
+#Leads_editView_fieldName_firstname, #Contacts_editView_fieldName_firstname{
+/*  width:140px !important; */
+}
+
+/*auto search field*/
+.marginLeftZero.autoComplete.inputElement.ui-autocomplete-input{
+  width:200px !important;
+}
+/*currency field*/
+.inputElement.currencyField{
+  width:205px !important;
+}
+
+/*input element css*/
+
+.pointerCursorOnHover.input-group-addon.input-group-addon-save.inlineAjaxSave{
+  border-radius: 0px !important;
+}
+
+.inputElement.ui-autocomplete-input, .timepicker-default, .ui-autocomplete-input, .input-group span.input-group-addon{ 
+border-radius: 3px 0px 0px 3px !important;
+border-color:#c2c2c2 !important;
+}
+
+.input-group-addon, .input-group-btn, .input-group-addon.relatedPopup, .currencyField, .input-group.inputElement span.input-group-addon, .input-group span.input-group-addon.relatedPopup.cursorPointer, .table.detailview-table.no-border .ajaxEdited .input-group-addon.inlineAjaxCancel{
+  border-radius: 0px 3px 3px 0px !important;
+  border-color:#c2c2c2 !important;
+}
+
+.inputElement:focus, .timePicker:focus, .dateField:focus, textarea:focus, .input-group.inputElement input:focus{
+    border-color: $primary-color !important;
+    box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color !important;
+    outline: 0 none !important;
+}
+
+
+.timePicker .ui-timepicker-list li:hover,.ui-timepicker-selected{
+background-color: $primary-color !important; 
+color:#ffffff !important;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
+  background-color:$primary-color !important;
+  background-image: none !important;
+  
+}
+
+
+.select2-results .select2-highlighted{
+ background-color: $primary-color !important; 
+}
+
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
+  border-color:$primary-color !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color;
+}
+.select2-drop-active{
+  border-color: $primary-color !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color;
+}
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices 
+{ 
+   border-color: $primary-color !important;
+   -webkit-box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color !important; 
+   box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color !important;
+   -webkit-transition: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px $primary-color !important;
+  
+}
+
+textarea{
+  padding: 3px 8px !important;
+}
+
+ul.dropdown-menu.profile-dropdown {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.recordImage {
+  background:$primary-color !important;
+}
+
+
+/*new css for verison 1.1*/
+
+.dashBoardContainer .dashBoardTabContents ul li{
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.dashBoardWidgetFooter{
+  border-radius:0 0 5px 5px;
+}
+
+.dashBoardContainer, .detailViewContainer .content-area, .editViewPageDiv .content-area, .editViewPageDiv.content-area, .editViewPageDiv .reports-content-area{
+  background-color: #ECF0F5 !important; 
+}
+.settingsPageDiv{
+  background-color:#ECF0F5 !important;
+}
+.settingsPageDiv.content-area.clearfix{
+  background-color:#ECF0F5 !important;
+}
+.listViewPageDiv.content-area{
+  background-color:#ECF0F5 !important;
+} 
+
+.table-container.ps-container.ps-active-x, .table-container.ps-container, table { 
+  border:none !important;
+  border-radius:5px;
+}
+.table-container, .table.listview-table{
+  border:none !important;
+}
+
+.table.listview-table tr:hover, .shippingTaxTable tr:hover, .joforce-tax-section table tr:hover{
+  background-color:#F9FCFF;
+}
+.table.listview-table  thead tr:hover, .table-container thead tr:hover{
+  background-color: #ffffff;
+}
+
+.listview-table-norecords tr:hover, .emptyRecordsDiv:hover{
+background-color:#ffffff !important;
+}
+
+.joforce-bg{
+  background-color: rgb(255, 255, 255); 
+  min-height: 700px; 
+  width: 97%; 
+  border-radius: 5px; 
+  padding-top: 20px; 
+  padding-right: 23px; 
+  padding-left: 23px;
+  padding-bottom:20px; 
+  margin-left: 17px;
+}
+.joforce-bg-prefer{
+  background-color: rgb(255, 255, 255); 
+  width: 97%; 
+  border-radius: 5px 5px 0px 0px; 
+  padding-top: 20px; 
+  padding-right: 23px; 
+  padding-left: 23px;
+  padding-bottom:20px; 
+  margin-left: 17px;
+}
+.joforce-bg-prefer-detail{
+  border-radius: 0px 0px 5px 5px;
+}
+
+/*search css start*/
+
+.joforce-search-close{
+
+padding:11px 16px !important;
+}
+.searchbardiv{
+  display: block;
+  position: fixed;
+/*  background: #7D1935 ; */
+  top: 42px;
+  right: 0px;
+  
+  z-index: 1001;
+  width: 100%;
+  max-width: 97%;
+  /*padding: 10px;*/
+  margin: 0px;
+  /*height:auto;*/
+  z-index:999999 !important;
+}
+.joforce-search-btn{
+ /* position: fixed;*/
+ /* top :15px;*/
+  padding:15px;
+  float: right;
+  right: 0px;
+  /*margin-right: 5px;*/
+  background-color: transparent;
+  border: 0px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.joforce-search-btn:hover{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 0px;
+
+}
+.joforce-search-btn:focus{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 0px;
+
+}
+#joforce-search-section{
+  display: none;
+}
+.glyphicon.glyphicon-search {
+  font-size: 18px;
+}
+#joforce-search-box {
+  
+  box-shadow: none;
+  padding: 10px 14px;
+  background-color:#EBEBEB;
+  height:auto;
+  font-size:18px;
+}
+#joforce-search-box:hover {
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #ccc;
+  }
+
+
+/* search conflict remove css */
+.searchbardiv .search-link{
+margin-top:0px !important;
+padding:0px !important;
+}
+
+.searchbardiv .keyword-input{
+width:100% !important;
+margin:0px !important;
+border:none !important;
+}
+
+
+/*search css end*/
+
+
+.joforce-calendar, .joforce-task{
+  display:none !important;
+}
+
+/*sidebar icon remove css*/
+
+.app-indicator-icon, .app-indicator-icon-container{
+  display:none !important;
+}
+.app-nav .module-action-bar{
+  border-bottom:none !important;
+  }
+.main-container .module-nav{
+  top: -42px !important;
+  z-index:9999 !important;
+
+}
+.app-menu{
+  z-index:9999 !important;
+}
+
+.main-container .settingsNav{
+  top:0px !important;
+  z-index:0 !important;
+}
+
+.module-action-bar{
+background-color:#fbfbfb !important;
+}
+
+
+
+/*sidebar color change css */
+
+.app-menu, .app-menu .app-modules-dropdown, .settingsgroup .panel-group .panel, .settingsgroup div.panel-collapse, .settingsgroup, .module-nav .modules-menu, .app-switcher-container .app-navigator{
+  background-color:#3E516D !important;
+}
+
+.app-item{
+  background-color: #3E516D !important;
+}
+
+/*joforce text color css*/
+
+
+.fieldValue .value a, .joforce-link, .creatorName, .actionImages a:hover{
+  color:$primary-color !important;
+}
+.nav.navbar-nav li a:hover, .joforce-link:hover, .joforce-color:hover, .popoverCancel:hover, .joforce-tax-section a:hover,#addMore span:hover,#moreCurrencies:hover, .editFieldDetails:hover{
+  color:$primary-color !important;
+}
+
+.nav.navbar-nav li a:focus, .joforce-link:focus, .joforce-color:focus, .popoverCancel:focus, .joforce-tax-section a:focus, #addMore span:focus, #moreCurrencies:focus{
+  color:$primary-color !important;
+}
+
+
+.checked{
+  color:$primary-color !important;
+}
+
+
+.cancelLink:hover, .popoverCancel:hover{
+  color:red !important;
+}
+
+
+.cancelLink, .popoverCancel{
+  color:red !important;
+}
+
+
+.dashBoardContainer .tabContainer{
+  margin-top:0px !important;
+}
+
+#listColumnFilterContainer .listColumnFilter{
+  width:1% !important;
+  margin-left:30% !important;
+}
+
+#joforce-table-search{
+ margin-top:-17px !important;
+ position:absolute !important;
+}
+
+
+.listViewPageDiv.content-area  .floatThead-floatContainer.floatThead-container table thead .listViewContentHeader th .table-actions #joforce-table-search{
+   
+   margin-left:6% !important;
+}
+
+.listViewPageDiv.content-area.full-width  .floatThead-floatContainer.floatThead-container table thead .listViewContentHeader th .table-actions #joforce-table-search{
+   
+   margin-left:5% !important;
+}
+
+
+.bootstrap-switch-handle-on.bootstrap-switch-success{
+background-color:$primary-color !important;
+background-image:none !important;
+}
+
+/*modal css */
+.modal-header{
+    color:#ffffff !important;
+}
+.modal-footer .btn.btn-success{
+
+  color: #fff !important;
+  /*text-shadow: 0 1px rgba(0,0,0,.1);*/
+  background: $primary-color !important;
+  border: 1px solid $primary-color !important;
+}
+.modal-footer .btn.btn-success:hover{
+color: #fff !important;
+  background: #7f3d9b !important; 
+  border: 1px solid #7f3d9b !important;
+}
+
+
+/*all block border remove*/
+
+.fieldBlockContainer, .block{
+  border:none !important;
+}
+
+/* Styles for Forecast view*/
+.stage_value{
+    display: inline-block;
+    font-size: 13px;
+    height: 13px;
+    line-height: 17px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.stage_name{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+
+.potential_count{
+    color: #888e94;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.drag-list{
+    margin-bottom: 0px;
+    border-bottom: 1px solid #ddd !important;
+    position: static;
+}
+
+.box{
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.table-list-front {
+    backface-visibility: hidden;
+    bottom: 0;
+    box-sizing: border-box;
+    color: #26292c;
+    display: block;
+    /*height: 100%;*/
+    left: 0;
+    overflow: hidden;
+    /* padding: 8px 25px 8px 12px; */
+    padding: 8px 25px 8px 0px;
+    right: 0;
+    text-decoration: none;
+    top: 0;
+    width: 100%;
+}
+
+.draggable{
+    border-top: 1px solid #c2c8cd;
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+    overflow: auto;
+    height: 100vh !important;
+    min-width:200px;
+}
+
+#forecast-div{
+.draggable li { 
+padding: 0.4em; 
+/*padding-left: 1.5em; */
+font-size: 1.4em; 
+height:66px !important;
+}
+}
+
+
+#forecast-div{
+    width:300px;
+    border-left: 1px solid #e0e4e7 !important;
+    border-right:1px solid #e0e4e7;
+    background-color: transparent;
+    height:750px;
+    border-color: #e0e4e7;
+    display: table-cell;
+    position: relative;
+    text-align: left;
+    transition: background-color 0.05s ease-in-out 0s;
+    margin-right: -5px;
+}
+
+/*.header-view li{
+    width: 100%;
+}*/
+.process-detail.table-list-front:hover{
+    color:$primary-color;
+}
+
+.table-header {
+    display: table;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #c2c8cd;
+    margin-bottom: 0px;
+}
+.table-header li {
+    width: 100%;
+    display: table-cell;
+    color: #676767;
+    display: table-cell;
+    line-height: 1.3em;
+    overflow: visible;
+    padding: 6px 25px 6px 12px;
+    text-align: left;
+    vertical-align: middle;
+    background: url("images/forecast.png") no-repeat scroll 100% 0/ 20px 100%, rgba(0, 0, 0, 0) linear-gradient(90deg, #fff, #f3f5f6) repeat scroll 0 0 / 100% 100%;
+}
+.process{
+    display: list-item;
+    background-color: #fff;
+    border-bottom: 1px solid #e0e4e7;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.table-list-strong {
+    cursor: pointer;
+    display: inline;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    overflow: hidden;
+    padding: 1px 0;
+    transition: color 0.1s ease-in-out 0s;
+}
+.table-list-small {
+    color: #888e94;
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 0;
+    text-overflow: ellipsis;
+    transition: color 0.1s ease-in-out 0s;
+}
+.box{
+    margin-bottom: 0px;
+    border: 1px solid #e0e4e7;
+    border-top:none;
+    border-left: none;
+    border-right: none;
+}
+.no-oppprtunity{
+    float: right;
+    position: relative;
+    bottom: 15px;
+}
+.currency-symbol{
+    position:relative;
+    bottom:20px;
+    left:0px;
+}
+
+

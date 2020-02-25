@@ -459,4 +459,3 @@ Head_Edit_Js("Products_Edit_Js", {
             this.registerRecordPreSaveEvent();
 	},
 })
-

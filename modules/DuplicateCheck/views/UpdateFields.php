@@ -39,7 +39,7 @@ class DuplicateCheck_UpdateFields_View extends Head_Index_View
         	}
            
             if($modulename != ""){
-        	$runQuery = $adb->pquery("UPDATE jo_vtduplicatechecksettings SET fieldstomatch='$fieldsID' ,isenabled='$isenabled' ,crosscheck='$crosscheck' WHERE modulename='$modulename'");
+        	$runQuery = $adb->pquery("UPDATE jo_duplicatechecksettings SET fieldstomatch='$fieldsID' ,isenabled='$isenabled' ,crosscheck='$crosscheck' WHERE modulename='$modulename'");
             header("location:index.php?module=DuplicateCheck&view=List&sourceModule=$modulename&notify=1");
         }
             	if($result){

@@ -8,7 +8,7 @@
 
 <body>
 <div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
-<h2>{vtranslate('LBL_CUSTOM_LINK', $QUALIFIED_MODULE)} - {vtranslate({$a_customLink.type}, $QUALIFIED_MODULE)}</h2>
+<h2>{vtranslate('LBL_CUSTOM_LINK', $QUALIFIED_MODULE)} - {vtranslate({$a_customLink.type}, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <table id="form" style="font-size:12px;">
 <tr><td colspan="2"><h3>{vtranslate("LBL_CUSTOM_LINK_DESCRIPTION", $QUALIFIED_MODULE)}</h3></td></tr>
@@ -49,11 +49,16 @@
 <tr>
 	<td colspan="2">&nbsp;</td>
 </tr>
-<tr>
+<!-- <tr>
 	<td>&nbsp;</td>
 	<td><input type="button" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></td>
-</tr>
+</tr> -->
 </table>
+<div class="modal-footer cus-save-btn">
+	
+	<center><input type="button" class="btn btn-success " onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
+
+</div>
 </div>
 
 <script type="text/javascript">

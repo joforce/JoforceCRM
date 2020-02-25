@@ -16,7 +16,8 @@ jQuery.Class('Install_Index_Js', {}, {
 		});
 
 		jQuery('input[name="step4"]').on('click', function (e) {
-			var elements = jQuery('.no')
+			var elements = jQuery('.no');
+			var value = jQuery('.novalue');
 			var htperm = jQuery('#htperm').val();
 			if(htperm == 'false') {
 				var msg = "Please create .htaccess file in your JoForce root folder and provide the writable access";
@@ -28,16 +29,16 @@ jQuery.Class('Install_Index_Js', {}, {
 
 
 			}
-			if (elements.length > 0) {
-				var msg = "Some of the PHP Settings do not meet the recommended values. This might affect some of the features of JoForce. Are you sure, you want to proceed?";
-				if (confirm(msg)) {
-					jQuery('form[name="step3"]').submit();
-					return true;
-				} else {
-					return false;
-				}
-			}
-			jQuery('form[name="step3"]').submit();
+			if (value.length > 0) {
+                var msg = "some of the PHP Settings do not meet the recommended values. Enable the rewrite mode and Try again.";
+                                if (alert(msg)) {
+                                     return false;
+		                 		} 
+	  	    }
+	  	    else {
+				jQuery('form[name="step3"]').submit();
+				return true;
+		    }
 		});
 	},
 

@@ -45,7 +45,7 @@ class DuplicateCheck_saveForm_View extends Head_Index_View
 			$final_duplicate = substr($duplicatecheckjoint, 0, -1);
 		}
 
-		$check = $adb->pquery("update jo_vtduplicatechecksettings set fieldstomatch = ? where modulename = ?",array($final_duplicate, $modulename));
+		$check = $adb->pquery("update jo_duplicatechecksettings set fieldstomatch = ? where modulename = ?",array($final_duplicate, $modulename));
 		$msg = "failure";
 
 		if(!empty($check))	

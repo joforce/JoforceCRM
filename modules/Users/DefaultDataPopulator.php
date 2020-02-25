@@ -1694,11 +1694,11 @@ Thanks,
 		 // inserting values into settings table
                         $modules = array('Contacts', 'Leads', 'Accounts', 'Potentials', 'Products', 'Services', 'HelpDesk', 'Project', 'ProjectTask', 'ProjectMilestone', 'Vendors', 'Calendar','Campaigns','Quotes','PurchaseOrder','SalesOrder','Invoice','PriceBooks','Documents','Emails','Events','Users','PBXManager','ModComments','SMSNotifier');
                         foreach($modules as $module)
-                                $adb->pquery("insert into jo_vtduplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)", array($module, 1, 0));
+                                $adb->pquery("insert into jo_duplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)", array($module, 1, 0));
 
-                        $adb->pquery('insert into jo_vtduplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)', array('deleteconflict', 1, 0));
-                        $adb->pquery('insert into jo_vtduplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)', array('assignedto', 1, 0));
-                        $adb->pquery("insert into jo_vtduplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)", array('DuplicateCheck', 1, 0));
+                        $adb->pquery('insert into jo_duplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)', array('deleteconflict', 1, 0));
+                        $adb->pquery('insert into jo_duplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)', array('assignedto', 1, 0));
+                        $adb->pquery("insert into jo_duplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)", array('DuplicateCheck', 1, 0));
 		//EMAIL PLUS
 		$adb->pquery('insert into rc_settings (meta_key, meta_value) values (?, ?)', array('module_version', '1.0'));
 

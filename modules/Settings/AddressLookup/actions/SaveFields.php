@@ -30,7 +30,6 @@ class Settings_AddressLookup_SaveFields_Action extends Head_Action_Controller
         $APIkeyfile=fopen("$root_directory/modules/Settings/AddressLookup/APIkey.php","w+");
         fwrite($APIkeyfile,'<?php $APIkey="');
         fwrite($APIkeyfile,$APIkey);
-        fwrite($APIkeyfile,' ');
         fwrite($APIkeyfile,'"?>');
         fclose($APIkeyfile);
 

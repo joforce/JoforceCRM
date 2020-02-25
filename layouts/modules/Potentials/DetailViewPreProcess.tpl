@@ -42,8 +42,8 @@
                     {include file="ModuleRelatedTabs.tpl"|vtemplate_path:$MODULE}
 		    <br>
 		    <link rel="stylesheet" href="{$SITEURL}layouts/modules/Potentials/resources/stages-tab.css">
-		    <div id = 'sales_stages'>
-		       <ul class="nav nav-pills nav-wizard nav-justified potential-stage"></ul>
-		    </div>
+                    <div id = 'pipeline_stages'>
+                    	<ul class="nav nav-pills nav-wizard nav-justified pipe-stage"></ul>
+                    </div>
 		    <br>
                     <div class="details row" style="margin-top:10px;">

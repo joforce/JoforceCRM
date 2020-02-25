@@ -9,6 +9,11 @@
 {* modules/Settings/Roles/views/Index.php *}
 
 {strip}
+    {assign var = LOGO value = Head_CompanyDetails_Model::getInstanceById()->getLogo()}
+    {assign var = LOGO_NAME value = $LOGO->get('imagename') }
+    {assign var = COMPANY_LOGO value = $LOGO->get('imagepath')}
+    {assign var = COMPANY_NAME value = getCompanyDetails()}
+
     <div class="listViewPageDiv " id="listViewContent">
         <div class="col-sm-12 col-xs-12 joforce-bg">
             <br>
@@ -16,7 +21,15 @@
                 <ul>
                     <li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
                         <div class="toolbar-handle">
-                            <a href="javascript:;" class="btn app-MARKETING droppable">{$ROOT_ROLE->getName()}</a>
+                            {if $COMPANY_LOGO}
+                                {if $LOGO_NAME == 'JoForce-Logo.png'}
+                                <a href="javascript:;" class="btn app-MARKETING droppable" >{$COMPANY_NAME['companyname']}</a>
+                                {else}
+                                <a href="javascript:;" class="btn app-MARKETING droppable" data-toggle="tooltip" data-placement="top" data-animation="true" title="{$COMPANY_NAME['companyname']}"><img src="{$COMPANY_LOGO}" style="max-width:70px;"/></a>
+                                {/if}
+                            {else}
+                                <a href="javascript:;" class="btn app-MARKETING droppable"> {$COMPANY_NAME['companyname']}</a>
+                             {/if}
                             <div class="toolbar" title="{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
                                 &nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="icon-plus-sign"></span></a>
                             </div>

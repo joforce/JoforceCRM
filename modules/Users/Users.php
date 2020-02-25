@@ -2019,13 +2019,12 @@ class Users_CRMSetup {
 	 * @return <Array> List of packages
 	 */
 	public static function getPackagesList() {
-		$restrictedModulesList = array('Emails', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
-
-		$packagesList = array(
+	    $restrictedModulesList = array('Emails', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
+	    $packagesList = array(
 			'Tools' => array(
-				'label' => 'Contact Management',
-				'imageName' => 'BasicPackage.png',
-				'description' => 'Unify and store your contacts alongside detailed notes, documents, emails, calendar events, and more. Additionally, configure what information each CRM user can see and update, and automate business activities such as email responses and contact information updates.',
+				'label' => 'Sales & Marketing',
+				'imageName' => 'SalesAutomation.png',
+				'description' => 'Unify and store your contacts alongside detailed notes, documents, emails, calendar events, and more. Additionally, configure what information each CRM user can see and update, and automate business activities such as email responses and contact information updates. Capture Leads from your website, or import lists of them, then develop a process for qualifying and turning them into potential sales opportunities, and another for winning those potential opportunities. Additionally, track and segment your sales funnel, individual, and team, performance areas. Send individual, targeted, or bulk emails to your contacts, leads, and customers, and see how they engage with each communication, with tools to analyze and improve campaign performance. Create and track customer requests/tasks via tickets, and even allow your customers to create and monitor their own tickets and details through a professional customer portal.',
 				'modules' => array(
 					'Contacts' => 'Contacts',
 					'Accounts' => 'Organizations',
@@ -2034,29 +2033,12 @@ class Users_CRMSetup {
 					'Access Control' => 'Access Control',
 					'Workflows' => 'Workflows',
 					'Mail Converter' => 'Mail Converter',
-					'Web-to-lead forms' => 'Web-to-lead forms'
-				)),
-			'Sales' => array(
-				'label' => 'Sales Automation',
-				'imageName' => 'SalesAutomation.png',
-				'description' => 'Capture Leads from your website, or import lists of them, then develop a process for qualifying and turning them into potential sales opportunities, and another for winning those potential opportunities. Additionally, track and segment your sales funnel, individual, and team, performance areas.',
-				'modules' => array(
-					'Potentials' => 'Opportunities'
-				)),
-			'Marketing' => array(
-				'label' => 'Marketing',
-				'imageName' => 'Marketing.png',
-				'description' => 'Send individual, targeted, or bulk emails to your contacts, leads, and customers, and see how they engage with each communication, with tools to analyze and improve campaign performance.',
-				'modules' => array()),
-
-			'Support' => array(
-				'label' => 'Support',
-				'imageName' => 'Support.png',
-				'description' => 'Create and track customer requests/tasks via tickets, and even allow your customers to create and monitor their own tickets and details through a professional customer portal.',
-				'modules' => array(
+					'Web-to-lead forms' => 'Web-to-lead forms',
+					'Potentials' => 'Deals',
+					'Leads' => 'Leads',
+					'Campaigns' => 'Campaigns',
 					'HelpDesk' => 'Tickets',
-					'ServiceContracts' => 'Service Contracts',
-					'CustomerPortal' => 'Customer Portal'
+                                        'CustomerPortal' => 'Customer Portal'
 				)),
 			'Inventory' => array(
 				'label' => 'Invoicing & Inventory Management',
@@ -2078,36 +2060,36 @@ class Users_CRMSetup {
 					'ProjectTask' => 'Tasks',
 					'ProjectMilestone' => 'Milestones'
 				))
-		);
+	    );
 
-		global $adb;
-		$result = $adb->pquery('SELECT parent, name, tablabel FROM jo_tab', array());
-		$numOfRows = $adb->num_rows($result);
+	    global $adb;
+	    $result = $adb->pquery('SELECT parent, name, tablabel FROM jo_tab', array());
+	    $numOfRows = $adb->num_rows($result);
+	    for ($i = 0; $i < $numOfRows; $i++) {
+		$moduleName = $adb->query_result($result, $i, 'name');
+		$moduleExists = false;
 
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$moduleName = $adb->query_result($result, $i, 'name');
-			$moduleExists = false;
-
-			foreach ($packagesList as $packageName => $packageInfo) {
-				if (in_array($moduleName, $restrictedModulesList) || array_key_exists($moduleName, $packageInfo['modules'])) {
-					$moduleExists = true;
-				}
-			}
-
-			if (!$moduleExists) {
-				$parentName = $adb->query_result($result, $i, 'parent');
-
-				if ($parentName) {
-					if (array_key_exists($parentName, $packagesList)) {
-						$packagesList[$parentName]['modules'][$moduleName] = $adb->query_result($result, $i, 'tablabel');
-					} else {
-						$packagesList[$parentName] = array('label' => $parentName,
-							'modules' => array($moduleName => $adb->query_result($result, $i, 'tablabel')));
-					}
-				}
-			}
+		foreach ($packagesList as $packageName => $packageInfo) {
+		    if (in_array($moduleName, $restrictedModulesList) || array_key_exists($moduleName, $packageInfo['modules'])) {
+			$moduleExists = true;
+		    }
 		}
-		return $packagesList;
+
+		if (!$moduleExists) {
+		    $parentName = $adb->query_result($result, $i, 'parent');
+		    if ($parentName) {
+			if (array_key_exists($parentName, $packagesList)) {
+			    $packagesList[$parentName]['modules'][$moduleName] = $adb->query_result($result, $i, 'tablabel');
+			} else {
+			    $packagesList[$parentName] = array(
+							'label' => $parentName,
+							'modules' => array($moduleName => $adb->query_result($result, $i, 'tablabel'))
+							);
+			}
+		    }
+		}
+	    }
+	    return $packagesList;
 	}
 }
 ?>

@@ -19,24 +19,21 @@
     </div>
 </div>
 </nav>    
-     <div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-60' tabindex='-1' role='dialog' aria-hidden='true'>
-        <div class="data">
-        </div>
-        <div class="modal-dialog">
-        </div>
-    </div>
+<div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-60' tabindex='-1' role='dialog' aria-hidden='true'>
+    <div class="data"></div>
+    <div class="modal-dialog"></div>
+</div>
 <div class="main-container main-container-{$MODULE}">
-                {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-                <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
-                        {include file="partials/DetailViewSidebar.tpl"|vtemplate_path:$MODULE}
-                </div>
-                <div class="listViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="listViewContent">
+    {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
+    {*<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
+	{include file="partials/DetailViewSidebar.tpl"|vtemplate_path:$MODULE}
+    </div>*}
+    <div class="listViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="listViewContent">
 
-
-<!--<div class="container-fluid main-container">-->
-    <div>
-          <div class="detailViewContainer viewContent clearfix">
-            <div class="col-sm-12 col-xs-12">
+    <!--<div class="container-fluid main-container">-->
+    <div class='joforce-bg'>
+	<div class="detailViewContainer viewContent clearfix">
+	    <div class="col-sm-12 col-xs-12">
                 {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -44,24 +41,12 @@
                     </div>
                 </div>  
             </div>{*closing div of detailviewHeader*}
-                <div class="detailview-content container-fluid">
-
-                    <div class="sidebar-hide" style="cursor:pointer;">
-                        <span class="fa fa-chevron-left"></span>
-                    </div>
-
-                    <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
+            <div class="detailview-content container-fluid">
+                <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
                     {include file="ModuleRelatedTabs.tpl"|vtemplate_path:$MODULE}
-                    <div class="details row" style="margin-top:10px;">
-
-
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.sidebar-hide').click(function(){
-            $(this).children('span').toggleClass('fa-chevron-left').toggleClass('fa-chevron-right');
-            $('.sidebar-essentials').toggle();
-            $('.content-area').toggleClass('full-scrn');
-        });
-    });
-</script>
+                
+		<link rel="stylesheet" href="{$SITEURL}layouts/modules/Potentials/resources/stages-tab.css">
+                <div id = 'pipeline_stages'>
+                    <ul class="nav nav-pills nav-wizard nav-justified pipe-stage"></ul>
+                </div>
+                <div class="details row" style="margin-top:10px;">

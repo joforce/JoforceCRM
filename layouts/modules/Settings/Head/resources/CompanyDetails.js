@@ -90,7 +90,7 @@ Head.Class("Settings_Head_CompanyDetails_Js",{},{
         };
         var updateCompanyDetailsForm = jQuery('form#updateCompanyDetailsForm');
         var logoFile = updateCompanyDetailsForm.find('#logoFile');
-        logoFile.on('change', function() {
+        logoFile.on('change', function(event) {
             //http://stackoverflow.com/a/13572209
             var _URL = window.URL || window.webkitURL;
             var image, file = this.files[0];
@@ -104,7 +104,10 @@ Head.Class("Settings_Head_CompanyDetails_Js",{},{
                             'message' : app.vtranslate('JS_LOGO_IMAGE_DIMENSIONS_WRONG')
                         });
                         logoFile.val(null); //this will empty file input
-                    }
+                    } else {
+			var output = document.getElementById('image-of-company-logo');
+	                output.src = URL.createObjectURL(event.target.files[0]);
+		    }
                 };
                 image.src = _URL.createObjectURL(file);
             }

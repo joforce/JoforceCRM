@@ -39,23 +39,19 @@ Head.Class('Settings_Currency_Js', {
 		var currentTarget = jQuery(event.currentTarget);
 		var currentTrEle = currentTarget.closest('tr'); 
 		var instance = Settings_Currency_Js.currencyInstance;
-		instance.transformEdit(id).then(
-			function(data) {
-                app.helper.showModal(data);
+		instance.transformEdit(id).then(function(data) {
+                    app.helper.showModal(data);
+                    var form = jQuery('#transformCurrency');
 
-                var form = jQuery('#transformCurrency');
-
-                form.on('submit', function(e){
-                    e.preventDefault();
-                    var transferCurrencyEle = form.find('select[name="transform_to_id"]');
-                    instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
-                });
-
-        });     
+                    form.on('submit', function(e){
+                    	e.preventDefault();
+                    	var transferCurrencyEle = form.find('select[name="transform_to_id"]');
+                    	instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
+                    });
+        	});
 	}
 	
 }, {
-	
 	//constructor
 	init : function() {
 		Settings_Currency_Js.currencyInstance = this;
@@ -65,8 +61,7 @@ Head.Class('Settings_Currency_Js', {
 	 * function to show editView for Add/Edit Currency
 	 * @params: id - currencyId
 	 */
-	showEditView : function(id) {
-      
+	showEditView : function(id) {  
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var params = {};
@@ -74,38 +69,35 @@ Head.Class('Settings_Currency_Js', {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'EditAjax';
 		params['record'] = id;
-		app.request.post({"data":params}).then(
-            function(err,data) {
-                if(err === null) {
-                    app.helper.showModal(data);
-                    var form = jQuery('#editCurrency');
-                    var record = form.find('[name="record"]').val();
+		app.request.post({"data":params}).then( function(err,data) {
+                    if(err === null) {
+                    	app.helper.showModal(data);
+                    	var form = jQuery('#editCurrency');
+                    	var record = form.find('[name="record"]').val();
                         
-                    var currencyStatus = form.find('[name="currency_status"]').is(':checked');
-                    if(record != '' && currencyStatus) {
-                        //While editing currency, register the status change event
-                        thisInstance.registerCurrencyStatusChangeEvent(form);
-                    }
-                    //If we change the currency name, change the code and symbol for that currency
-                    thisInstance.registerCurrencyNameChangeEvent(form);
+                    	var currencyStatus = form.find('[name="currency_status"]').is(':checked');
+                    	if(record != '' && currencyStatus) {
+                        	//While editing currency, register the status change event
+                        	thisInstance.registerCurrencyStatusChangeEvent(form);
+                    	}
+                    	//If we change the currency name, change the code and symbol for that currency
+                    	thisInstance.registerCurrencyNameChangeEvent(form);
 
                         form.submit(function(e) {
                             e.preventDefault();
                         });
-
                         var params = {
-								submitHandler : function(form) {
-									var form = jQuery(form);
-									thisInstance.saveCurrencyDetails(form);
-                                }
-                            };
+			    submitHandler : function(form) {
+				var form = jQuery(form);
+				thisInstance.saveCurrencyDetails(form);
+                            }
+                        };
 
                         form.vtValidate(params);
                     }else {
                         aDeferred.reject(err);
                     }
-                }
-		);
+                });
 		return aDeferred.promise();
 	},
 	
@@ -218,32 +210,70 @@ Head.Class('Settings_Currency_Js', {
 		params['record'] = id;
 		params['transform_to_id'] = transferCurrencyId;
 
-		app.request.post({"data":params}).then(
-			function(err,data) {
-                if(err === null){
-                    app.helper.hideModal();
-                    var successfullSaveMessage = app.vtranslate('JS_CURRENCY_DELETED_SUEESSFULLY');
-                    app.helper.showSuccessNotification({'message':successfullSaveMessage});
-                    currentTrEle.fadeOut('slow').remove();
-                }else {
-					app.helper.showErrorNotification({'message' : err.message});
-				}
+		app.request.post({"data":params}).then( function(err,data) {
+                    if(err === null){
+                    	app.helper.hideModal();
+                    	var successfullSaveMessage = app.vtranslate('JS_CURRENCY_DELETED_SUEESSFULLY');
+                    	app.helper.showSuccessNotification({'message':successfullSaveMessage});
+                    	currentTrEle.fadeOut('slow').remove();
+                    }else {
+		    	app.helper.showErrorNotification({'message' : err.message});
+		    }
 		});
 	},
 	
-    registerRowClick : function() {
+    	registerRowClick : function() {
 		var thisInstance = this;
 		jQuery('.listViewEntries').on('click',function(e) {
 			var currentRow = jQuery(e.currentTarget);
-			if(currentRow.find('.fa-pencil').length <= 0) {
+			if(currentRow.find('.fa-pencil').length <= 0 || currentRow.find('currencydefaultcheckbox').length <= 0) {
 				return;
 			} 
 			thisInstance.showEditView(currentRow.data('id'));
 		})  
-    },
+    	},
+
+	registerSetDefault : function (e) {
+	    var thisInstance = this;
+	    jQuery('.listViewEntries').on('change', '.currencydefaultcheckbox', function () {
+		app.helper.showProgress();
+		var currency_id = $(this).data('currencyid');
+		var element_id = $(this).attr('id');
+
+		params = {};
+		params['module'] = app.getModuleName();
+                params['parent'] = app.getParentModuleName();
+                params['action'] = 'EditAjax';
+                params['currency_id'] = currency_id;
+
+                app.request.post({"data":params}).then( function(err,data) {
+                    if(err === null){
+                        var successfullSaveMessage = app.vtranslate(data.message);
+			$('#'+element_id).attr('checked', true);
+                    	$('#'+element_id).attr('disabled', true);
+			$('#'+element_id).css('opacity', '.3');
+
+			$('.currencydefaultcheckbox').each( function () {
+			    id = $(this).attr('id');
+			    if(id !== element_id) {
+				$('#'+id).attr('checked', false);
+                        	$('#'+id).attr('disabled', false);
+                        	$('#'+id).css('opacity', '1');
+			    }
+			});
+			app.helper.hideProgress();
+			app.helper.showSuccessNotification({'message':successfullSaveMessage});
+                    } else {
+			app.helper.hideProgress();
+                        app.helper.showErrorNotification({'message' : err.message});
+                    }
+                });
+		location.reload();
+	    });
+	},
 	
-    registerEvents : function() {
-        this.registerRowClick();
-    }
-	
+    	registerEvents : function() {
+        	this.registerRowClick();
+		this.registerSetDefault();
+        }
 });

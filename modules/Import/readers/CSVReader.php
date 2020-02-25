@@ -69,54 +69,51 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader {
 
 	public function read() {
 		global $default_charset;
-		$filePath = $this->getFilePath();
 
-		// if file encoded type is other than over default database charset we need to convert
-		if($this->request->get('file_encoding') != $default_charset) {
-			$data = file_get_contents($filePath);
-			$result =  mb_convert_encoding($data,$default_charset,$this->request->get('file_encoding'));
-			file_put_contents($filePath, $result);
-		}
-		// to add escape slashes
-		$filePath = addslashes($this->getFilePath());
+		$fileHandler = $this->getFileHandler();
 		$status = $this->createTable();
 		if(!$status) {
 			return false;
 		}
 
 		$fieldMapping = $this->request->get('field_mapping');
-		$fieldNames = array();
-		foreach($fieldMapping as $fieldName => $index) {
-			$fieldNames[$index] = $fieldName;
-		}
-		$this->addRecordsToDB($filePath,$fieldNames);
-	}
-
-	public function addRecordsToDB($filePath,$columnNames) {
-		$db = PearDatabase::getInstance();
-		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$delimiter = $this->request->get('delimiter');
-		$query = 'LOAD DATA LOCAL INFILE "'.$filePath.'" INTO TABLE '.$tableName.' FIELDS TERMINATED BY "'.$delimiter.'" OPTIONALLY ENCLOSED BY "\"" LINES TERMINATED BY "\n"';
-		if($this->hasHeader()){
-			$query .= " IGNORE 1 LINES ";
-		}
-
-		// to ignore values from file which are not mapped
-		$keys = array_keys($columnNames);
-		$maxValue = max($keys);
-		for($i=0;$i<$maxValue;$i++){
-			if(!$columnNames[$i]){
-				$columnNames[$i] = "@ignore";
+		$delimiter    = $this->request->get('delimiter');
+		$hasHeader    = $this->request->get('has_header');
+		$fileEncoding = $this->request->get('file_encoding');
+		
+		// NOTE: Retaining row-read and insert as LOAD DATA command is being disabled by default.
+		$i = -1;
+		while($data = fgetcsv($fileHandler, 0, $delimiter)) {
+			$i++;
+			if($hasHeader && $i == 0) continue;
+			$mappedData = array();
+			$allValuesEmpty = true;
+			foreach($fieldMapping as $fieldName => $index) {
+				$fieldValue = $data[$index];
+				$mappedData[$fieldName] = $fieldValue;
+				if($fileEncoding != $default_charset) {
+					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $fileEncoding, $default_charset);
+				}
+				if(!empty($fieldValue)) $allValuesEmpty = false;
 			}
+			if($allValuesEmpty) continue;
+			$fieldNames = array_keys($mappedData);
+			$fieldValues = array_values($mappedData);
+			//Edited by akila
+			$userindex = array_search("User Name",$fieldNames);
+			$user = $fieldNames[$userindex];
+			if($user == 'user_name'){
+			$index = array_search("roleid",$fieldNames);
+			$value = $fieldValues[$index];			
+			$allRoles = Settings_Roles_Record_Model::getAll();
+			$userrole = $allRoles[$value];
+			$rolename = $userrole->get('rolename');
+			$fieldValues[$index] = $rolename;
+			}
+			//edited
+			$this->addRecordToDB($fieldNames, $fieldValues);
 		}
-		ksort($columnNames);
-		$query .= '('.implode(',',$columnNames).')';
-
-		global $dbconfigoption; 
-		$db->database = null; // we shouldn't use existing connection with client flag = 0
-		$dbconfigoption['clientFlags'] = 128; // To enable LOAD DATA INFILE... query for database
-		$db->pquery($query,array());
-		$this->setNumberOfRecordsRead($tableName,$db);
+		unset($fileHandler);
 	}
 }
 ?>

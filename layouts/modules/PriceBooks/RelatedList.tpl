@@ -96,8 +96,9 @@
                                                 {assign var="LISTPRICE" value=$RELATED_RECORD->get('listprice')}
                                             {/if}
                                         {/if}
-                                        <a href="javascript:void(0);" data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
-                                                       class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                        <a href="javascript:void(0);" data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}" class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
+						<i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-usd"></i>
+					</a> &nbsp;&nbsp;
                                         <a class="relationDelete"><i title="{vtranslate('LBL_UNLINK', $MODULE)}" class="joicon-linkopen"></i></a>
                                     </span>
                                 </td>

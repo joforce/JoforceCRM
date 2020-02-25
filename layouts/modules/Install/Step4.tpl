@@ -17,14 +17,6 @@
 		
     <div class="gs-info">
 	 {include file="Sidebar.tpl"|vtemplate_path:'Install'}
-    <footer class="noprint">
-      <div class="vtFooter">
-        <p>
-          {vtranslate('POWEREDBY')} 
-          &copy; {date('Y')}
-        </p>
-      </div>
-    </footer>
   </div>
 
         <div class="inner-container">
@@ -130,7 +122,7 @@
 				<div class="col-sm-12">
 					<div class="button-container joforce-install-btn">
 						<input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK','Install')}" name="back"/>
-						<input type="button" class="btn btn-large btn-primary btn-next" value="{vtranslate('LBL_NEXT','Install')}" name="step5"/>
+						<input type="button" class="btn btn-large btn-primary btn-next but" value="{vtranslate('LBL_NEXT','Install')}" name="step5"/>
 					</div>
 				</div>
 			</div>

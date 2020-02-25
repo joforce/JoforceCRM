@@ -99,7 +99,7 @@ class Settings_DuplicateCheck_ValidateDuplicate_View extends Settings_Head_Index
 		array_push($crosscheckDetails,$uitype);
 		
 		if(($uitype == 11) || ($uitype == 13))	{
-		$crosscheckQuery = $adb->pquery("SELECT crosscheck FROM jo_vtduplicatechecksettings WHERE modulename='$modulename' AND isenabled='1'");
+		$crosscheckQuery = $adb->pquery("SELECT crosscheck FROM jo_duplicatechecksettings WHERE modulename='$modulename' AND isenabled='1'");
                 $crosscheckvalue = $adb->query_result($crosscheckQuery,0,'crosscheck');
 		if($crosscheckvalue == 1){
 		$crossfieldnameQuery=$adb->pquery("SELECT columnname,tablename,tabid from jo_field where uitype='$uitype' and tabid in(6,7,4)");

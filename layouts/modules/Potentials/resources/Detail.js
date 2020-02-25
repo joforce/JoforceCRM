@@ -261,31 +261,4 @@ Head_Detail_Js("Potentials_Detail_Js",{
 			recentProductsTab.trigger('click'); 
 		});
 	}
-})
-
-
-$(document).ready(function(){
-        var recordId = app.getRecordId();
-                var url = "index.php?module=Potentials&action=UpdateStage&recordId="+recordId+'&type=onload';
-                var postParams  = app.convertUrlToDataParams(url);
-
-                app.request.post({data:postParams}).then(function(err,data){
-                     if(data != null){
-	                    $('.potential-stage').html(data);
-                     }
-                });
-
-    $('#sales_stages').on('click', '.potential-stage li', function()    {
-        var stage_id = $(this).attr('id');
-	var recordId = app.getRecordId();
-                var url = "index.php?module=Potentials&action=UpdateStage&stage_id=" + stage_id +'&recordId='+recordId+'&type=update';
-                var postParams  = app.convertUrlToDataParams(url);
-
-                app.request.post({data:postParams}).then(function(err,data){
-                     if(data != null){
-	                    $('.potential-stage').html(data);
-			}
-	        });
-    });
 });
-

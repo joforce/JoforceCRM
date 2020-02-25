@@ -14,9 +14,9 @@ $languageStrings = array(
 	//MyPreference Blocks
 	'LBL_MY_PREFERENCES'  =>  'My Preferences',
 	'LBL_MORE_INFORMATION'  =>  'More Information',
-	'LBL_USERLOGIN_ROLE'  =>  'User Login & Role',
+	'LBL_USERLOGIN_ROLE'  =>  'User Profile',
 	'LBL_USER_IMAGE_INFORMATION' => 'User Photograph',
-	'LBL_CURRENCY_CONFIGURATION' =>  'Currency and Number Field Configuration',
+	'LBL_CURRENCY_CONFIGURATION' =>  'Formatting Numeric values',
 	'LBL_ADDRESS_INFORMATION' => 'User Address',
 	'LBL_USER_ADV_OPTIONS' => 'User Advanced Options',
 	'Asterisk Configuration'  =>  'Asterisk Configuration',

@@ -10,7 +10,7 @@
 {strip}
 	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
 		<div class="module-action-content clearfix {$MODULE}-module-action-content">
-			<div class="col-lg-3 col-md-3 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
+			<div class="{if $smarty.request.view eq 'List'} col-lg-2 col-md-2 {else} col-lg-4 col-md-4 {/if} module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
 				{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 				{if $MODULE_MODEL->getDefaultViewName() neq 'List'}
 					{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getDefaultUrl()}

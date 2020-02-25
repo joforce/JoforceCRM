@@ -10,7 +10,7 @@
 </td>
 <td>
 
-<div id="md-add-block-btn">
+<div id="md-add-block-btn" class="btn btn-primary module-buttons">
 	<img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/block.png" alt="{vtranslate('LBL_ADD_BLOCK_ALT', $QUALIFIED_MODULE)}"/> <a href="#" onclick="md_addBlock(); return false;">{vtranslate('LBL_ADD_BLOCK', $QUALIFIED_MODULE)}</a>
 </div>
 
@@ -21,3 +21,9 @@
 </div>
 </td>
 </table>
+<div class="row">
+	<button class="btn btn-primary blk-next-btn ">Next</button>
+	<button class="btn btn-default blk-prev-btn ">Previous</button>
+  
+ </div>
+

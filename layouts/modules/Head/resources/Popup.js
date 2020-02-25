@@ -386,17 +386,32 @@ jQuery.Class("Head_Popup_Js",{
         this.registerPostPopupLoadEvents();
 	},
     
-    done : function(result, eventToTrigger){
-        var event = "post.popupSelection.click";
-        if(typeof eventToTrigger !== 'undefined'){
-            event = eventToTrigger;
-        }
-        if(typeof event == 'function') {
-            event(JSON.stringify(result));
-        } else {
-            app.event.trigger(event, JSON.stringify(result));
-        }
-        app.helper.hidePopup();
+	done : function(result, eventToTrigger, window){
+	    if (eventToTrigger.indexOf('postSelection') > -1){
+		if(typeof eventToTrigger == 'undefined' || eventToTrigger.length <=0 ) {
+		    eventToTrigger = 'postSelection'
+		}
+		if (typeof window == "undefined") { 
+		    // safe to use the function
+    		    window = self;
+    		}
+		window.close();				
+		var data = JSON.stringify(result);
+       		// Because if we have two dollars like this "$$" it's not working because it'll be like escape char(Email Templates)
+       		data = data.replace(/\$\$/g,"$ $");
+		jQuery.triggerParentEvent(eventToTrigger, data);				
+	    } else {
+		var event = "post.popupSelection.click";
+       		if(typeof eventToTrigger !== 'undefined'){
+          	    event = eventToTrigger;
+       		}
+        	if(typeof event == 'function') {
+           	    event(JSON.stringify(result));
+        	} else {
+           	    app.event.trigger(event, JSON.stringify(result));
+        	}
+        	app.helper.hidePopup();
+	    }
     },
     
     showPopup : function(params,eventToTrigger,callback) {
@@ -417,39 +432,38 @@ jQuery.Class("Head_Popup_Js",{
     },
     
     getListViewEntries: function(e){
-        e.preventDefault();
+      	e.preventDefault();
         var preEvent = jQuery.Event('pre.popupSelect.click');
         app.event.trigger(preEvent);
         if(preEvent.isDefaultPrevented()){
             return;
         }
-		var thisInstance = this;
-		var row  = jQuery(e.currentTarget);
-		var dataUrl = row.data('url');
-		if(typeof dataUrl != 'undefined'){
-			dataUrl = dataUrl+'&currency_id='+jQuery('#currencyId').val();
+	var thisInstance = this;
+	var row  = jQuery(e.currentTarget);		
+	var dataUrl = row.data('url');
+	if(typeof dataUrl != 'undefined'){
+	    dataUrl = dataUrl+'&currency_id='+jQuery('#currencyId').val();
             
-		    app.request.post({"url":dataUrl}).then(
-			function(err,data){
-                            for(var id in data){
-				    if(typeof data[id] == "object"){
-					var recordData = data[id];
-				    }
-				}
-                thisInstance.done(data,thisInstance.getEventName());
-			});
-                         e.preventDefault();
-		} else {
-		    var id = row.data('id');
-		    var recordName = row.attr('data-name');
-			var recordInfo = row.data('info');
-			var referenceModule = jQuery('#popupPageContainer').find('#module').val();
-		    var response ={};
-		    response[id] = {'name' : recordName,'info' : recordInfo, 'module' : referenceModule};
-            thisInstance.done(response,thisInstance.getEventName());
-            e.preventDefault();
+	    app.request.post({"url":dataUrl}).then( function(err,data){
+                for(var id in data){
+		    if(typeof data[id] == "object"){
+		    	var recordData = data[id];
+		    }
 		}
-	},
+                thisInstance.done(data,thisInstance.getEventName());
+	    });
+	    e.preventDefault();
+	} else {
+	    var id = row.data('id');
+	    var recordName = row.attr('data-name');
+	    var recordInfo = row.data('info');
+	    var referenceModule = jQuery('#popupPageContainer').find('#module').val();
+	    var response ={};
+	    response[id] = {'name' : recordName,'info' : recordInfo, 'module' : referenceModule};
+            thisInstance.done(response,thisInstance.getEventName());           
+            e.preventDefault();
+	}
+    },
     
 
 	registerEventForListViewEntryClick : function(){
@@ -457,7 +471,7 @@ jQuery.Class("Head_Popup_Js",{
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.off('click', '.listViewEntries');
 		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-            thisInstance.getListViewEntries(e);
+            	    thisInstance.getListViewEntries(e);
 		});
 	},
     
@@ -766,104 +780,100 @@ jQuery.Class("Head_Popup_Js",{
 
     /**
      * Function to write selection
-	 */
-	writeSelectedIds : function(selectedIds){
-		jQuery('#selectedIds').data('SelectedIdsData',selectedIds);	
-	},
+     */
+    writeSelectedIds : function(selectedIds){
+	jQuery('#selectedIds').data('SelectedIdsData',selectedIds);	
+    },
     
     registerSelectButton : function(){
-		var popupPageContentsContainer = this.getPopupPageContainer();
-		var thisInstance = this;
-		popupPageContentsContainer.on('click','button.select', function(e){
-			var selectedRecordDetails = {};
-			var recordIds = new Array();
-			var dataUrl;
-			var selectedData = thisInstance.readSelectedIds();
-			for(var data in selectedData){
-				if(typeof selectedData[data] == "object"){
-					var id = selectedData[data]['id'];
-					recordIds.push(id);
-					var name = selectedData[data]['name'];
-					dataUrl = selectedData[data]['url'];
-					selectedRecordDetails[id] = {'name' : name};
-				}
-			}
-			var jsonRecorIds = JSON.stringify(recordIds);
-			if(Object.keys(selectedRecordDetails).length <= 0) {
-				alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
-			}else{
-				if(typeof dataUrl != 'undefined'){
-				    dataUrl = dataUrl+'&idlist='+jsonRecorIds+'&currency_id='+jQuery('#currencyId').val();
-				    app.request.get({'url':dataUrl}).then(
-					function(error , data){
-//						for(var id in data){
-//						    if(typeof data[id] == "object"){
-//							var recordData = data[id];
-//						    }
-//						}
+	var popupPageContentsContainer = this.getPopupPageContainer();
+	var thisInstance = this;
+	popupPageContentsContainer.on('click','button.select', function(e){
+	    var selectedRecordDetails = {};
+	    var recordIds = new Array();
+	    var dataUrl;
+	    var selectedData = thisInstance.readSelectedIds();
+	    for(var data in selectedData){
+		if(typeof selectedData[data] == "object"){
+		    var id = selectedData[data]['id'];
+		    recordIds.push(id);
+		    var name = selectedData[data]['name'];
+		    dataUrl = selectedData[data]['url'];
+		    selectedRecordDetails[id] = {'name' : name};
+		}
+	    }
+	    var jsonRecorIds = JSON.stringify(recordIds);
+	    if(Object.keys(selectedRecordDetails).length <= 0) {
+		alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
+	    } else {
+		if(typeof dataUrl != 'undefined'){
+		    dataUrl = dataUrl+'&idlist='+jsonRecorIds+'&currency_id='+jQuery('#currencyId').val();
+		    app.request.get({'url':dataUrl}).then(function(error , data){
+//			for(var id in data){
+//			    if(typeof data[id] == "object"){
+//				var recordData = data[id];
+//			    }
+//			}
                         var recordData = data;
                         var recordDataLength = Object.keys(recordData).length;
                         if(recordDataLength == 1){
-							recordData = recordData[0];
-						}
-						thisInstance.done(recordData, thisInstance.getEventName());
-						e.preventDefault();
-					},
-					function(error,err){
-
-					}
-				);
-				}else{
-				    thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
-				}
+			    recordData = recordData[0];
 			}
-		});
-	},
-
-	selectAllHandler : function(e){
-		var thisInstance = this;
-		var currentElement = jQuery(e.currentTarget);
-		var isMainCheckBoxChecked = currentElement.is(':checked');
-		var tableElement = currentElement.closest('table');
-		if(isMainCheckBoxChecked) {
-			jQuery('input.entryCheckBox', tableElement).prop('checked',true);
-			var selectedId = thisInstance.readSelectedIds();
-			var recordIds = thisInstance.getSelectedRecordIds();
-			jQuery('input.entryCheckBox').each(function(index, checkBoxElement){
-				var checkBoxJqueryObject = jQuery(checkBoxElement);
-				var row = checkBoxJqueryObject.closest('tr');
-				var data = row.data();
-                if(thisInstance.getView() == 'EmailsRelatedModulePopup' || thisInstance.getView() == 'EmailsRelatedModulePopupAjax'){
-					var emailFields = jQuery(row).find('.emailField');
-					data.email = emailFields;
-				}
-				if(!(jQuery.inArray(row.data('id'), recordIds) !== -1)){
-					selectedId.push(data);
-				}
-			});
-			thisInstance.writeSelectedIds(selectedId);			
-		}else {
-			jQuery('input.entryCheckBox', tableElement).removeAttr('checked').closest('tr').removeClass('highlightBackgroundColor');
-			jQuery('input.entryCheckBox').each(function(index, checkBoxElement){
-				var selectedId = thisInstance.readSelectedIds();
-				var recordIds = thisInstance.getSelectedRecordIds();
-				var checkBoxJqueryObject = jQuery(checkBoxElement);
-				var row = checkBoxJqueryObject.closest('tr');
-				selectedId.splice(jQuery.inArray(row.data('id'), recordIds), 1);
-				thisInstance.writeSelectedIds(selectedId);			
-			});
-			
+			thisInstance.done(recordData, thisInstance.getEventName());
+			e.preventDefault();
+		    },
+		    function(error,err){
+		    });
+		} else {
+		    thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
 		}
-	},
+	    }
+	});
+    },
 
-	registerEventForSelectAllInCurrentPage : function(){
-		var thisInstance = this;
-		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('change','input.selectAllInCurrentPage',function(e){
-			thisInstance.selectAllHandler(e);
-                        thisInstance.registerPostSelectionActions();
-		});
-	},
+    selectAllHandler : function(e){
+	var thisInstance = this;
+	var currentElement = jQuery(e.currentTarget);
+	var isMainCheckBoxChecked = currentElement.is(':checked');
+	var tableElement = currentElement.closest('table');
+	if(isMainCheckBoxChecked) {
+	    jQuery('input.entryCheckBox', tableElement).prop('checked',true);
+	    var selectedId = thisInstance.readSelectedIds();
+	    var recordIds = thisInstance.getSelectedRecordIds();
+	    jQuery('input.entryCheckBox').each(function(index, checkBoxElement){
+		var checkBoxJqueryObject = jQuery(checkBoxElement);
+		var row = checkBoxJqueryObject.closest('tr');
+		var data = row.data();
+                if(thisInstance.getView() == 'EmailsRelatedModulePopup' || thisInstance.getView() == 'EmailsRelatedModulePopupAjax'){
+		    var emailFields = jQuery(row).find('.emailField');
+		    data.email = emailFields;
+		}
+		if(!(jQuery.inArray(row.data('id'), recordIds) !== -1)){
+		    selectedId.push(data);
+		}
+	    });
+	    thisInstance.writeSelectedIds(selectedId);			
+	}else {
+	    jQuery('input.entryCheckBox', tableElement).removeAttr('checked').closest('tr').removeClass('highlightBackgroundColor');
+	    jQuery('input.entryCheckBox').each(function(index, checkBoxElement){
+		var selectedId = thisInstance.readSelectedIds();
+		var recordIds = thisInstance.getSelectedRecordIds();
+		var checkBoxJqueryObject = jQuery(checkBoxElement);
+		var row = checkBoxJqueryObject.closest('tr');
+		selectedId.splice(jQuery.inArray(row.data('id'), recordIds), 1);
+		thisInstance.writeSelectedIds(selectedId);			
+	    });
+	}
+    },
+
+    registerEventForSelectAllInCurrentPage : function(){
+	var thisInstance = this;
+	var popupPageContentsContainer = this.getPopupPageContainer();
+	popupPageContentsContainer.on('change','input.selectAllInCurrentPage',function(e){
+	    thisInstance.selectAllHandler(e);
+	    thisInstance.registerPostSelectionActions();
+	});
+    },
     
     checkBoxChangeHandler : function(e){
 		var elem = jQuery(e.currentTarget);
@@ -993,4 +1003,19 @@ jQuery(document).ready(function() {
         popupInstance.registerEvents();
         popupInstance.registerPostPopupLoadEvents();
     });
+});
+jQuery(document).ready(function() {
+        var popupInstance = Head_Popup_Js.getInstance();
+        var modulename = popupInstance.getModuleName();
+        var sourcemodule = popupInstance.getSourceModule();
+        var sourcefield = popupInstance.getSourceField();
+        if(sourcemodule == 'Emails' && modulename == 'Documents' && sourcefield == 'composeEmail')
+        {			
+        var triggerEventName = jQuery('.triggerEventName').val();
+        var documentHeight = (jQuery(document).height())+'px';
+        jQuery('#popupPageContainer').css('height',documentHeight);
+        popupInstance.setEventName(triggerEventName);
+        popupInstance.registerEvents();
+    }
+       
 });

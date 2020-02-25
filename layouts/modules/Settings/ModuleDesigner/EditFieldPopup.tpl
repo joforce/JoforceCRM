@@ -7,8 +7,9 @@
 </head>
 
 <body>
+
 <div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
-<h2>{$a_field.UITypeNum} - {vtranslate($a_field.UITypeName, $QUALIFIED_MODULE)}</h2>
+<h2>{$a_field.UITypeNum} - {vtranslate($a_field.UITypeName, $QUALIFIED_MODULE)} <i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <form action="index.php?module={$MODULE}&view=EditField" method="post">
 <table style="font-size:12px;">
@@ -45,7 +46,7 @@
 
 {if $a_field.UITypeNum == 10}
 {foreach key=key item=relatedModule from=$a_field.relatedModule}
-<tr class="related_module">
+<tr class="related_module inputElement select2">
 	<td>{vtranslate("LBL_RELATED_MODULE", $QUALIFIED_MODULE)}</td>
 	<td colspan="2">
 		<select name="related_modules[]" onchange="md_showOrHideCustomField(this)">
@@ -58,10 +59,10 @@
 		<a href="#" onclick="md_deleteRelatedModule(this); return false;" {if $key == 0}style="display:none;"{/if} class="delete-related-module"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/delete.png" alt="{vtranslate('LBL_DELETE_RELATED_MODULE', $QUALIFIED_MODULE)}" /></a>
 	</td>
 </tr>
-<tr class="custom_related_module" {if empty($a_field.relatedModule) || in_array($relatedModule, $a_modules)}style="display:none;"{/if}>
+<!-- <tr class="custom_related_module" {if empty($a_field.relatedModule) || in_array($relatedModule, $a_modules)}style="display:none;"{/if}>
 	<td>&nbsp;</td>
 	<td><input type="text" name="related_modules[]" size="30" {if !in_array($relatedModule, $a_modules)}value="{$relatedModule}"{/if} /></td>
-</tr>
+</tr> -->
 <tr class="add_related_list" {if !$CAN_ADD_RELATED_LIST}style="display: none;"{/if}>
 	<td>{vtranslate("LBL_CREATE_RELATED_LIST", $QUALIFIED_MODULE)}</td>
 	<td><input type="checkbox" name="add_related_list[]" {if !isset($a_field.addRelatedList.$key) || $a_field.addRelatedList.$key == true}checked="checked"{/if} /></td>
@@ -122,10 +123,10 @@
 <tr>
 	<td colspan="3">&nbsp;</td>
 </tr>
-<tr>
+<!-- <tr>
 	<td>&nbsp;</td>
 	<td colspan="2"><input type="button" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></td>
-</tr>
+</tr> -->
 <tr>
 	<td colspan="3"><h3>{vtranslate("LBL_OPTIONS", $QUALIFIED_MODULE)}</h3></td>
 </tr>
@@ -165,6 +166,11 @@
 	<td colspan="2"><input type="checkbox" name="read_only" value="1" {if $a_field.readOnly}checked="checked"{/if} /></td>
 </tr>
 </table>
+<div class="modal-footer">
+	
+	<center><input type="button" class="btn btn-success" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
+
+</div>
 </form>
 </div>
 

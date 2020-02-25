@@ -31,7 +31,7 @@ CREATE TABLE `cache` (
   PRIMARY KEY (`user_id`),
   KEY `cache_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `cache_index` (
   PRIMARY KEY (`user_id`,`mailbox`),
   KEY `cache_index_expires_idx` (`expires`),
   CONSTRAINT `user_id_fk_cache_index` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `cache_messages` (
   `flags` int(11) DEFAULT '0',
   PRIMARY KEY (`user_id`,`mailbox`,`uid`),
   KEY `cache_messages_expires_idx` (`expires`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +113,7 @@ CREATE TABLE `cache_thread` (
   `data` text,
   PRIMARY KEY (`user_id`,`mailbox`),
   KEY `cache_thread_expires_idx` (`expires`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `collected_contacts` (
   PRIMARY KEY (`contact_id`),
   KEY `collected_contacts_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_collected_contacts` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `com_jo_workflow_activatedonce` (
   `workflow_id` int(11) NOT NULL,
   `entity_id` int(11) NOT NULL,
   PRIMARY KEY (`workflow_id`,`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,7 @@ CREATE TABLE `com_jo_workflow_tasktypes` (
   `templatepath` varchar(255) DEFAULT NULL,
   `modules` varchar(500) DEFAULT NULL,
   `sourcemodule` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +219,7 @@ DROP TABLE IF EXISTS `com_jo_workflow_tasktypes_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `com_jo_workflow_tasktypes_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `com_jo_workflows` (
   `workflowname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_jo_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +280,7 @@ DROP TABLE IF EXISTS `com_jo_workflows_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `com_jo_workflows_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +306,7 @@ CREATE TABLE `com_jo_workflowtask_queue` (
   `do_after` int(11) DEFAULT NULL,
   `relatedinfo` varchar(255) DEFAULT NULL,
   `task_contents` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +332,7 @@ CREATE TABLE `com_jo_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_jo_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +360,7 @@ CREATE TABLE `com_jo_workflowtasks_entitymethod` (
   `function_name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`workflowtasks_entitymethod_id`),
   UNIQUE KEY `com_jo_workflowtasks_entitymethod_idx` (`workflowtasks_entitymethod_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,7 +382,7 @@ DROP TABLE IF EXISTS `com_jo_workflowtasks_entitymethod_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `com_jo_workflowtasks_entitymethod_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +404,7 @@ DROP TABLE IF EXISTS `com_jo_workflowtasks_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `com_jo_workflowtasks_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -430,7 +430,7 @@ CREATE TABLE `com_jo_workflowtemplates` (
   `title` varchar(400) DEFAULT NULL,
   `template` text,
   PRIMARY KEY (`template_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -456,7 +456,7 @@ CREATE TABLE `contactgroupmembers` (
   PRIMARY KEY (`contactgroup_id`,`contact_id`),
   KEY `contact_id_fk_contacts` (`contact_id`),
   CONSTRAINT `contact_id_fk_contacts` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -484,7 +484,7 @@ CREATE TABLE `contactgroups` (
   PRIMARY KEY (`contactgroup_id`),
   KEY `contactgroups_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_contactgroups` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +517,7 @@ CREATE TABLE `contacts` (
   PRIMARY KEY (`contact_id`),
   KEY `contact_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,7 +543,7 @@ CREATE TABLE `dictionary` (
   PRIMARY KEY (`user_id`),
   KEY `dictionary_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_dictionary` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -579,7 +579,7 @@ CREATE TABLE `identities` (
   KEY `identities_user_id_idx` (`user_id`),
   KEY `identities_email_idx` (`email`),
   CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -625,7 +625,7 @@ CREATE TABLE `jo_account` (
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
   CONSTRAINT `fk_1_jo_account` FOREIGN KEY (`accountid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -654,7 +654,7 @@ CREATE TABLE `jo_accountbillads` (
   `bill_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `fk_1_jo_accountbillads` FOREIGN KEY (`accountaddressid`) REFERENCES `jo_account` (`accountid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -680,7 +680,7 @@ CREATE TABLE `jo_accountrating` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`accountratingid`),
   UNIQUE KEY `accountrating_rating_idx` (`rating`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -703,7 +703,7 @@ CREATE TABLE `jo_accountscf` (
   `accountid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`accountid`),
   CONSTRAINT `fk_1_jo_accountscf` FOREIGN KEY (`accountid`) REFERENCES `jo_account` (`accountid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -732,7 +732,7 @@ CREATE TABLE `jo_accountshipads` (
   `ship_street` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `fk_1_jo_accountshipads` FOREIGN KEY (`accountaddressid`) REFERENCES `jo_account` (`accountid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -760,7 +760,7 @@ CREATE TABLE `jo_accounttype` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`accounttypeid`),
   UNIQUE KEY `accounttype_accounttype_idx` (`accounttype`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -782,7 +782,7 @@ DROP TABLE IF EXISTS `jo_accounttype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_accounttype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -807,7 +807,7 @@ CREATE TABLE `jo_actionmapping` (
   `actionname` varchar(200) NOT NULL,
   `securitycheck` int(19) DEFAULT NULL,
   PRIMARY KEY (`actionid`,`actionname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -855,7 +855,7 @@ CREATE TABLE `jo_activity` (
   KEY `activity_eventstatus_idx` (`eventstatus`),
   KEY `activity_status_idx` (`status`),
   CONSTRAINT `fk_1_jo_activity` FOREIGN KEY (`activityid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -903,7 +903,7 @@ CREATE TABLE `jo_activity_reminder` (
   `recurringid` int(19) NOT NULL,
   PRIMARY KEY (`activity_id`,`recurringid`),
   CONSTRAINT `fk_activityid_jo_activity_reminder` FOREIGN KEY (`activity_id`) REFERENCES `jo_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -930,7 +930,7 @@ CREATE TABLE `jo_activity_reminder_popup` (
   `time_start` varchar(100) NOT NULL,
   `status` int(2) NOT NULL,
   PRIMARY KEY (`reminderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -955,7 +955,7 @@ CREATE TABLE `jo_activity_view` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`activity_viewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -977,7 +977,7 @@ DROP TABLE IF EXISTS `jo_activity_view_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_activity_view_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1001,7 +1001,7 @@ CREATE TABLE `jo_activitycf` (
   `activityid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`activityid`),
   CONSTRAINT `fk_activityid_jo_activitycf` FOREIGN KEY (`activityid`) REFERENCES `jo_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1027,7 +1027,7 @@ CREATE TABLE `jo_activityproductrel` (
   KEY `activityproductrel_activityid_idx` (`activityid`),
   KEY `activityproductrel_productid_idx` (`productid`),
   CONSTRAINT `fk_2_jo_activityproductrel` FOREIGN KEY (`productid`) REFERENCES `jo_products` (`productid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1055,7 +1055,7 @@ CREATE TABLE `jo_activitytype` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1077,7 +1077,7 @@ DROP TABLE IF EXISTS `jo_activitytype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_activitytype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1104,7 +1104,7 @@ CREATE TABLE `jo_announcement` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`creatorid`),
   KEY `announcement_creatorid_idx` (`creatorid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1129,7 +1129,7 @@ CREATE TABLE `jo_asterisk` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `version` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1152,7 +1152,7 @@ CREATE TABLE `jo_asteriskextensions` (
   `userid` int(11) DEFAULT NULL,
   `asterisk_extension` varchar(50) DEFAULT NULL,
   `use_asterisk` varchar(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1180,7 +1180,7 @@ CREATE TABLE `jo_asteriskincomingcalls` (
   `flag` int(19) DEFAULT NULL,
   `timer` int(19) DEFAULT NULL,
   `refuid` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1211,7 +1211,7 @@ CREATE TABLE `jo_asteriskincomingevents` (
   `pbxrecordid` int(19) DEFAULT NULL,
   `relcrmid` int(19) DEFAULT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1240,7 +1240,7 @@ CREATE TABLE `jo_attachments` (
   PRIMARY KEY (`attachmentsid`),
   KEY `attachments_attachmentsid_idx` (`attachmentsid`),
   CONSTRAINT `fk_1_jo_attachments` FOREIGN KEY (`attachmentsid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1266,7 +1266,7 @@ CREATE TABLE `jo_attachmentsfolder` (
   `createdby` int(19) NOT NULL,
   `sequence` int(19) DEFAULT NULL,
   PRIMARY KEY (`folderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1288,7 +1288,7 @@ DROP TABLE IF EXISTS `jo_attachmentsfolder_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_attachmentsfolder_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1316,7 +1316,7 @@ CREATE TABLE `jo_audit_trial` (
   `recordid` varchar(20) DEFAULT NULL,
   `actiondate` datetime DEFAULT NULL,
   PRIMARY KEY (`auditid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1350,7 +1350,7 @@ CREATE TABLE `jo_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_jo_blocks` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1359,7 +1359,7 @@ CREATE TABLE `jo_blocks` (
 
 LOCK TABLES `jo_blocks` WRITE;
 /*!40000 ALTER TABLE `jo_blocks` DISABLE KEYS */;
-INSERT INTO `jo_blocks` VALUES (1,2,'LBL_OPPORTUNITY_INFORMATION',1,0,0,0,0,0,1,0),(2,2,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(3,2,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(4,4,'LBL_CONTACT_INFORMATION',1,0,0,0,0,0,1,0),(5,4,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(6,4,'LBL_CUSTOMER_PORTAL_INFORMATION',3,0,0,0,0,0,1,0),(7,4,'LBL_ADDRESS_INFORMATION',4,0,0,0,0,0,1,0),(8,4,'LBL_DESCRIPTION_INFORMATION',5,0,0,0,0,0,1,0),(9,6,'LBL_ACCOUNT_INFORMATION',1,0,0,0,0,0,1,0),(10,6,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(11,6,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(12,6,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(13,7,'LBL_LEAD_INFORMATION',1,0,0,0,0,0,1,0),(14,7,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(15,7,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(16,7,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(17,8,'LBL_NOTE_INFORMATION',1,0,0,0,0,0,1,0),(18,8,'LBL_FILE_INFORMATION',3,1,0,0,0,0,1,0),(19,9,'LBL_TASK_INFORMATION',1,0,0,0,0,0,1,0),(20,9,'LBL_DESCRIPTION_INFORMATION',3,1,0,0,0,0,1,0),(21,10,'LBL_EMAIL_INFORMATION',1,0,0,0,0,0,1,0),(22,10,'Emails_Block1',2,1,0,0,0,0,1,0),(23,10,'Emails_Block2',3,1,0,0,0,0,1,0),(24,10,'Emails_Block3',4,1,0,0,0,0,1,0),(25,13,'LBL_TICKET_INFORMATION',1,0,0,0,0,0,1,0),(26,13,'',2,1,0,0,0,0,1,0),(27,13,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(28,13,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(29,13,'LBL_TICKET_RESOLUTION',5,0,0,1,0,0,1,0),(30,13,'LBL_COMMENTS',6,0,0,1,0,0,1,0),(31,14,'LBL_PRODUCT_INFORMATION',1,0,0,0,0,0,1,0),(32,14,'LBL_PRICING_INFORMATION',2,0,0,0,0,0,1,0),(33,14,'LBL_STOCK_INFORMATION',3,0,0,0,0,0,1,0),(34,14,'LBL_CUSTOM_INFORMATION',4,0,0,0,0,0,1,0),(35,14,'LBL_IMAGE_INFORMATION',5,0,0,0,0,0,1,0),(36,14,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(37,16,'LBL_EVENT_INFORMATION',1,0,0,0,0,0,1,0),(38,16,'',2,1,0,0,0,0,1,0),(39,16,'',5,1,0,0,0,0,1,0),(40,18,'LBL_REMINDER_INFORMATION',1,0,0,0,0,0,1,0),(41,18,'LBL_DESCRIPTION_INFORMATION',2,0,0,0,0,0,1,0),(42,18,'LBL_VENDOR_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(43,18,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(44,19,'LBL_PRICEBOOK_INFORMATION',1,0,0,0,0,0,1,0),(45,19,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(46,19,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(47,20,'LBL_QUOTE_INFORMATION',1,0,0,0,0,0,1,0),(48,20,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(49,20,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(50,20,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(51,20,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(52,20,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(53,21,'LBL_PO_INFORMATION',1,0,0,0,0,0,1,0),(54,21,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(55,21,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(56,21,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(57,21,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(58,21,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(59,22,'LBL_SO_INFORMATION',1,0,0,0,0,0,1,0),(60,22,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(61,22,'LBL_ADDRESS_INFORMATION',4,0,0,0,0,0,1,0),(62,22,'LBL_RELATED_PRODUCTS',5,0,0,0,0,0,1,0),(63,22,'LBL_TERMS_INFORMATION',6,0,0,0,0,0,1,0),(64,22,'LBL_DESCRIPTION_INFORMATION',7,0,0,0,0,0,1,0),(65,23,'LBL_INVOICE_INFORMATION',1,0,0,0,0,0,1,0),(66,23,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(67,23,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(68,23,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(69,23,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(70,23,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(71,4,'LBL_IMAGE_INFORMATION',6,0,0,0,0,0,1,0),(72,26,'LBL_CAMPAIGN_INFORMATION',1,0,0,0,0,0,1,0),(73,26,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(74,26,'LBL_EXPECTATIONS_AND_ACTUALS',3,0,0,0,0,0,1,0),(75,29,'LBL_USERLOGIN_ROLE',1,0,0,0,0,0,1,0),(76,29,'LBL_CURRENCY_CONFIGURATION',3,0,0,0,0,0,1,0),(77,29,'LBL_MORE_INFORMATION',4,0,0,0,0,0,1,0),(78,29,'LBL_ADDRESS_INFORMATION',5,0,0,0,0,0,1,0),(79,26,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(80,29,'LBL_USER_IMAGE_INFORMATION',5,0,0,0,0,0,1,0),(81,29,'LBL_USER_ADV_OPTIONS',6,0,0,0,0,0,1,0),(82,8,'LBL_DESCRIPTION',2,0,0,0,0,0,1,0),(83,22,'Recurring Invoice Information',2,0,0,0,0,0,1,0),(84,9,'LBL_CUSTOM_INFORMATION',4,0,0,0,0,0,1,0),(85,16,'LBL_CUSTOM_INFORMATION',6,0,0,0,0,0,1,0),(86,36,'LBL_SERVICE_INFORMATION',1,0,0,0,0,0,1,0),(87,36,'LBL_PRICING_INFORMATION',2,0,0,0,0,0,1,0),(88,36,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(89,36,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(90,37,'LBL_PBXMANAGER_INFORMATION',1,0,0,0,0,0,1,0),(91,42,'LBL_PROJECT_MILESTONE_INFORMATION',1,0,0,0,0,0,1,0),(92,42,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(93,42,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(94,43,'LBL_PROJECT_TASK_INFORMATION',1,0,0,0,0,0,1,0),(95,43,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(96,43,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(97,44,'LBL_PROJECT_INFORMATION',1,0,0,0,0,0,1,0),(98,44,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(99,44,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(100,47,'LBL_MODCOMMENTS_INFORMATION',1,0,0,0,0,0,1,0),(101,47,'LBL_OTHER_INFORMATION',2,0,0,0,0,0,1,0),(102,47,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(103,23,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(104,22,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(105,21,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(106,20,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(107,16,'LBL_RECURRENCE_INFORMATION',3,0,0,0,0,0,1,0),(108,29,'LBL_CALENDAR_SETTINGS',2,0,0,0,0,0,1,0),(109,16,'LBL_RELATED_TO',4,0,0,0,0,0,1,0),(110,9,'LBL_REMINDER_INFORMATION',2,0,0,0,0,0,1,0);
+INSERT INTO `jo_blocks` VALUES (1,2,'LBL_OPPORTUNITY_INFORMATION',1,0,0,0,0,0,1,0),(2,2,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(3,2,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(4,4,'LBL_CONTACT_INFORMATION',1,0,0,0,0,0,1,0),(5,4,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(6,4,'LBL_CUSTOMER_PORTAL_INFORMATION',3,0,0,0,0,0,1,0),(7,4,'LBL_ADDRESS_INFORMATION',4,0,0,0,0,0,1,0),(8,4,'LBL_DESCRIPTION_INFORMATION',5,0,0,0,0,0,1,0),(9,6,'LBL_ACCOUNT_INFORMATION',1,0,0,0,0,0,1,0),(10,6,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(11,6,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(12,6,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(13,7,'LBL_LEAD_INFORMATION',1,0,0,0,0,0,1,0),(14,7,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(15,7,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(16,7,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(17,8,'LBL_NOTE_INFORMATION',1,0,0,0,0,0,1,0),(18,8,'LBL_FILE_INFORMATION',3,1,0,0,0,0,1,0),(19,9,'LBL_TASK_INFORMATION',1,0,0,0,0,0,1,0),(20,9,'LBL_DESCRIPTION_INFORMATION',3,1,0,0,0,0,1,0),(21,10,'LBL_EMAIL_INFORMATION',1,0,0,0,0,0,1,0),(22,10,'Emails_Block1',2,1,0,0,0,0,1,0),(23,10,'Emails_Block2',3,1,0,0,0,0,1,0),(24,10,'Emails_Block3',4,1,0,0,0,0,1,0),(25,13,'LBL_TICKET_INFORMATION',1,0,0,0,0,0,1,0),(26,13,'',2,1,0,0,0,0,1,0),(27,13,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(28,13,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(29,13,'LBL_TICKET_RESOLUTION',5,0,0,1,0,0,1,0),(30,13,'LBL_COMMENTS',6,0,0,1,0,0,1,0),(31,14,'LBL_PRODUCT_INFORMATION',1,0,0,0,0,0,1,0),(32,14,'LBL_PRICING_INFORMATION',2,0,0,0,0,0,1,0),(33,14,'LBL_STOCK_INFORMATION',3,0,0,0,0,0,1,0),(34,14,'LBL_CUSTOM_INFORMATION',4,0,0,0,0,0,1,0),(35,14,'LBL_IMAGE_INFORMATION',5,0,0,0,0,0,1,0),(36,14,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(37,16,'LBL_EVENT_INFORMATION',1,0,0,0,0,0,1,0),(38,16,'',2,1,0,0,0,0,1,0),(39,16,'',5,1,0,0,0,0,1,0),(40,18,'LBL_REMINDER_INFORMATION',1,0,0,0,0,0,1,0),(41,18,'LBL_DESCRIPTION_INFORMATION',2,0,0,0,0,0,1,0),(42,18,'LBL_VENDOR_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(43,18,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(44,19,'LBL_PRICEBOOK_INFORMATION',1,0,0,0,0,0,1,0),(45,19,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(46,19,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(47,20,'LBL_QUOTE_INFORMATION',1,0,0,0,0,0,1,0),(48,20,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(49,20,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(50,20,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(51,20,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(52,20,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(53,21,'LBL_PO_INFORMATION',1,0,0,0,0,0,1,0),(54,21,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(55,21,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(56,21,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(57,21,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(58,21,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(59,22,'LBL_SO_INFORMATION',1,0,0,0,0,0,1,0),(60,22,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(61,22,'LBL_ADDRESS_INFORMATION',4,0,0,0,0,0,1,0),(62,22,'LBL_RELATED_PRODUCTS',5,0,0,0,0,0,1,0),(63,22,'LBL_TERMS_INFORMATION',6,0,0,0,0,0,1,0),(64,22,'LBL_DESCRIPTION_INFORMATION',7,0,0,0,0,0,1,0),(65,23,'LBL_INVOICE_INFORMATION',1,0,0,0,0,0,1,0),(66,23,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(67,23,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,0),(68,23,'LBL_RELATED_PRODUCTS',4,0,0,0,0,0,1,0),(69,23,'LBL_TERMS_INFORMATION',5,0,0,0,0,0,1,0),(70,23,'LBL_DESCRIPTION_INFORMATION',6,0,0,0,0,0,1,0),(71,4,'LBL_IMAGE_INFORMATION',6,0,0,0,0,0,1,0),(72,26,'LBL_CAMPAIGN_INFORMATION',1,0,0,0,0,0,1,0),(73,26,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(74,26,'LBL_EXPECTATIONS_AND_ACTUALS',3,0,0,0,0,0,1,0),(75,29,'LBL_USERLOGIN_ROLE',1,0,0,0,0,0,1,0),(76,29,'LBL_CURRENCY_CONFIGURATION',3,0,0,0,0,0,1,0),(78,29,'LBL_ADDRESS_INFORMATION',5,0,0,0,0,0,1,0),(79,26,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(80,29,'LBL_USER_IMAGE_INFORMATION',5,0,0,0,0,0,1,0),(81,29,'LBL_USER_ADV_OPTIONS',6,0,0,0,0,0,1,0),(82,8,'LBL_DESCRIPTION',2,0,0,0,0,0,1,0),(83,22,'Recurring Invoice Information',2,0,0,0,0,0,1,0),(84,9,'LBL_CUSTOM_INFORMATION',4,0,0,0,0,0,1,0),(85,16,'LBL_CUSTOM_INFORMATION',6,0,0,0,0,0,1,0),(86,36,'LBL_SERVICE_INFORMATION',1,0,0,0,0,0,1,0),(87,36,'LBL_PRICING_INFORMATION',2,0,0,0,0,0,1,0),(88,36,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(89,36,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0),(90,37,'LBL_PBXMANAGER_INFORMATION',1,0,0,0,0,0,1,0),(91,42,'LBL_PROJECT_MILESTONE_INFORMATION',1,0,0,0,0,0,1,0),(92,42,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(93,42,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(94,43,'LBL_PROJECT_TASK_INFORMATION',1,0,0,0,0,0,1,0),(95,43,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(96,43,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(97,44,'LBL_PROJECT_INFORMATION',1,0,0,0,0,0,1,0),(98,44,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),(99,44,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),(100,47,'LBL_MODCOMMENTS_INFORMATION',1,0,0,0,0,0,1,0),(101,47,'LBL_OTHER_INFORMATION',2,0,0,0,0,0,1,0),(102,47,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),(103,23,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(104,22,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(105,21,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(106,20,'LBL_ITEM_DETAILS',5,0,0,0,0,0,1,0),(107,16,'LBL_RECURRENCE_INFORMATION',3,0,0,0,0,0,1,0),(108,29,'LBL_CALENDAR_SETTINGS',2,0,0,0,0,0,1,0),(109,16,'LBL_RELATED_TO',4,0,0,0,0,0,1,0),(110,9,'LBL_REMINDER_INFORMATION',2,0,0,0,0,0,1,0);
 /*!40000 ALTER TABLE `jo_blocks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1372,7 +1372,7 @@ DROP TABLE IF EXISTS `jo_blocks_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_blocks_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1400,7 +1400,7 @@ CREATE TABLE `jo_calendar_default_activitytypes` (
   `isdefault` int(11) DEFAULT '1',
   `conditions` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1422,7 +1422,7 @@ DROP TABLE IF EXISTS `jo_calendar_default_activitytypes_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_calendar_default_activitytypes_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1449,7 +1449,7 @@ CREATE TABLE `jo_calendar_user_activitytypes` (
   `color` varchar(50) DEFAULT NULL,
   `visible` int(19) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1471,7 +1471,7 @@ DROP TABLE IF EXISTS `jo_calendar_user_activitytypes_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_calendar_user_activitytypes_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1497,7 +1497,7 @@ CREATE TABLE `jo_calendarsharedtype` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`calendarsharedtypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1519,7 +1519,7 @@ DROP TABLE IF EXISTS `jo_calendarsharedtype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_calendarsharedtype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1545,7 +1545,7 @@ CREATE TABLE `jo_callduration` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`calldurationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1567,7 +1567,7 @@ DROP TABLE IF EXISTS `jo_callduration_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_callduration_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1615,7 +1615,7 @@ CREATE TABLE `jo_campaign` (
   KEY `campaign_campaignname_idx` (`campaignname`),
   KEY `campaign_campaignid_idx` (`campaignid`),
   CONSTRAINT `fk_crmid_jo_campaign` FOREIGN KEY (`campaignid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1638,7 +1638,7 @@ CREATE TABLE `jo_campaignaccountrel` (
   `campaignid` int(19) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `campaignrelstatusid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1664,7 +1664,7 @@ CREATE TABLE `jo_campaigncontrel` (
   PRIMARY KEY (`campaignid`,`contactid`,`campaignrelstatusid`),
   KEY `campaigncontrel_contractid_idx` (`contactid`),
   CONSTRAINT `fk_2_jo_campaigncontrel` FOREIGN KEY (`contactid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1690,7 +1690,7 @@ CREATE TABLE `jo_campaignleadrel` (
   PRIMARY KEY (`campaignid`,`leadid`,`campaignrelstatusid`),
   KEY `campaignleadrel_leadid_campaignid_idx` (`leadid`,`campaignid`),
   CONSTRAINT `fk_2_jo_campaignleadrel` FOREIGN KEY (`leadid`) REFERENCES `jo_leaddetails` (`leadid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1715,7 +1715,7 @@ CREATE TABLE `jo_campaignrelstatus` (
   `sortorderid` int(19) DEFAULT NULL,
   `presence` int(19) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1737,7 +1737,7 @@ DROP TABLE IF EXISTS `jo_campaignrelstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_campaignrelstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1761,7 +1761,7 @@ CREATE TABLE `jo_campaignscf` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`campaignid`),
   CONSTRAINT `fk_1_jo_campaignscf` FOREIGN KEY (`campaignid`) REFERENCES `jo_campaign` (`campaignid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1789,7 +1789,7 @@ CREATE TABLE `jo_campaignstatus` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`campaignstatusid`),
   KEY `campaignstatus_campaignstatus_idx` (`campaignstatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1811,7 +1811,7 @@ DROP TABLE IF EXISTS `jo_campaignstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_campaignstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1840,7 +1840,7 @@ CREATE TABLE `jo_campaigntype` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`campaigntypeid`),
   UNIQUE KEY `campaigntype_campaigntype_idx` (`campaigntype`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1862,7 +1862,7 @@ DROP TABLE IF EXISTS `jo_campaigntype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_campaigntype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1891,7 +1891,7 @@ CREATE TABLE `jo_carrier` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`carrierid`),
   UNIQUE KEY `carrier_carrier_idx` (`carrier`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1913,7 +1913,7 @@ DROP TABLE IF EXISTS `jo_carrier_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_carrier_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1940,7 +1940,7 @@ CREATE TABLE `jo_cntactivityrel` (
   KEY `cntactivityrel_contactid_idx` (`contactid`),
   KEY `cntactivityrel_activityid_idx` (`activityid`),
   CONSTRAINT `fk_2_jo_cntactivityrel` FOREIGN KEY (`contactid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1975,7 +1975,7 @@ CREATE TABLE `jo_contactaddress` (
   `otherpobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`contactaddressid`),
   CONSTRAINT `fk_1_jo_contactaddress` FOREIGN KEY (`contactaddressid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2024,7 +2024,7 @@ CREATE TABLE `jo_contactdetails` (
   KEY `contactdetails_accountid_idx` (`accountid`),
   KEY `email_idx` (`email`),
   CONSTRAINT `fk_1_jo_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2047,7 +2047,7 @@ CREATE TABLE `jo_contactscf` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`contactid`),
   CONSTRAINT `fk_1_jo_contactscf` FOREIGN KEY (`contactid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2078,7 +2078,7 @@ CREATE TABLE `jo_contactsubdetails` (
   `leadsource` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`contactsubscriptionid`),
   CONSTRAINT `fk_1_jo_contactsubdetails` FOREIGN KEY (`contactsubscriptionid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2104,7 +2104,7 @@ CREATE TABLE `jo_contpotentialrel` (
   KEY `contpotentialrel_potentialid_idx` (`potentialid`),
   KEY `contpotentialrel_contactid_idx` (`contactid`),
   CONSTRAINT `fk_2_jo_contpotentialrel` FOREIGN KEY (`potentialid`) REFERENCES `jo_potential` (`potentialid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2131,7 +2131,7 @@ CREATE TABLE `jo_convertleadmapping` (
   `potentialfid` int(19) DEFAULT NULL,
   `editable` int(19) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2157,7 +2157,7 @@ CREATE TABLE `jo_convertpotentialmapping` (
   `projectfid` int(19) DEFAULT NULL,
   `editable` int(11) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2200,7 +2200,7 @@ CREATE TABLE `jo_crmentity` (
   KEY `crmentity_deleted_idx` (`deleted`),
   KEY `crm_ownerid_del_setype_idx` (`smownerid`,`deleted`,`setype`),
   KEY `jo_crmentity_labelidx` (`label`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2221,7 +2221,7 @@ DROP TABLE IF EXISTS `jo_crmentity_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_crmentity_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2246,7 +2246,7 @@ CREATE TABLE `jo_crmentity_user_field` (
   `userid` int(19) NOT NULL,
   `starred` varchar(100) DEFAULT NULL,
   UNIQUE KEY `record_user_idx` (`recordid`,`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2272,7 +2272,7 @@ CREATE TABLE `jo_crmentityrel` (
   `relmodule` varchar(100) NOT NULL,
   KEY `crmid_idx` (`crmid`),
   KEY `relcrmid_idx` (`relcrmid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2294,7 +2294,7 @@ DROP TABLE IF EXISTS `jo_crmsetup`;
 CREATE TABLE `jo_crmsetup` (
   `userid` int(11) DEFAULT NULL,
   `setup_status` int(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2327,7 +2327,7 @@ CREATE TABLE `jo_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2353,7 +2353,7 @@ CREATE TABLE `jo_currencies` (
   `currency_code` varchar(50) DEFAULT NULL,
   `currency_symbol` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2362,7 +2362,7 @@ CREATE TABLE `jo_currencies` (
 
 LOCK TABLES `jo_currencies` WRITE;
 /*!40000 ALTER TABLE `jo_currencies` DISABLE KEYS */;
-INSERT INTO `jo_currencies` VALUES (1,'Albania, Leke','ALL','Lek'),(2,'Argentina, Pesos','ARS','$'),(3,'Aruba, Guilders','AWG','ƒ'),(4,'Australia, Dollars','AUD','$'),(5,'Azerbaijan, New Manats','AZN','???'),(6,'Bahamas, Dollars','BSD','$'),(7,'Bahrain, Dinar','BHD','BD'),(8,'Barbados, Dollars','BBD','$'),(9,'Belarus, Rubles','BYR','p.'),(10,'Belize, Dollars','BZD','BZ$'),(11,'Bermuda, Dollars','BMD','$'),(12,'Bolivia, Bolivianos','BOB','$b'),(13,'China, Yuan Renminbi','CNY','¥'),(14,'Convertible Marka','BAM','KM'),(15,'Botswana, Pulas','BWP','P'),(16,'Bulgaria, Leva','BGN','??'),(17,'Brazil, Reais','BRL','R$'),(18,'Great Britain Pounds','GBP','£'),(19,'Brunei Darussalam, Dollars','BND','$'),(20,'Canada, Dollars','CAD','$'),(21,'Cayman Islands, Dollars','KYD','$'),(22,'Chile, Pesos','CLP','$'),(23,'Colombia, Pesos','COP','$'),(24,'Costa Rica, Colón','CRC','?'),(25,'Croatia, Kuna','HRK','kn'),(26,'Cuba, Pesos','CUP','?'),(27,'Czech Republic, Koruny','CZK','K?'),(28,'Cyprus, Pounds','CYP','£'),(29,'Denmark, Kroner','DKK','kr'),(30,'Dominican Republic, Pesos','DOP','RD$'),(31,'East Caribbean, Dollars','XCD','$'),(32,'Egypt, Pounds','EGP','E£'),(33,'El Salvador, Colón','SVC','?'),(34,'England, Pounds','GBP','£'),(35,'Estonia, Krooni','EEK','kr'),(36,'Euro','EUR','€'),(37,'Falkland Islands, Pounds','FKP','£'),(38,'Fiji, Dollars','FJD','$'),(39,'Ghana, Cedis','GHC','¢'),(40,'Gibraltar, Pounds','GIP','£'),(41,'Guatemala, Quetzales','GTQ','Q'),(42,'Guernsey, Pounds','GGP','£'),(43,'Guyana, Dollars','GYD','$'),(44,'Honduras, Lempiras','HNL','L'),(45,'Hong Kong, Dollars','HKD','HK$'),(46,'Hungary, Forint','HUF','Ft'),(47,'Iceland, Krona','ISK','kr'),(48,'India, Rupees','INR','?'),(49,'Indonesia, Rupiahs','IDR','Rp'),(50,'Iran, Rials','IRR','?'),(51,'Isle of Man, Pounds','IMP','£'),(52,'Israel, New Shekels','ILS','?'),(53,'Jamaica, Dollars','JMD','J$'),(54,'Japan, Yen','JPY','¥'),(55,'Jersey, Pounds','JEP','£'),(56,'Jordan, Dinar','JOD','JOD'),(57,'Kazakhstan, Tenge','KZT','?'),(58,'Kenya, Shilling','KES','KES'),(59,'Korea (North), Won','KPW','?'),(60,'Korea (South), Won','KRW','?'),(61,'Kuwait, Dinar','KWD','KWD'),(62,'Kyrgyzstan, Soms','KGS','??'),(63,'Laos, Kips','LAK','?'),(64,'Latvia, Lati','LVL','Ls'),(65,'Lebanon, Pounds','LBP','£'),(66,'Liberia, Dollars','LRD','$'),(67,'Switzerland Francs','CHF','CHF'),(68,'Lithuania, Litai','LTL','Lt'),(69,'MADAGASCAR, Malagasy Ariary','MGA','MGA'),(70,'Macedonia, Denars','MKD','???'),(71,'Malaysia, Ringgits','MYR','RM'),(72,'Malta, Liri','MTL','?'),(73,'Mauritius, Rupees','MUR','?'),(74,'Mexico, Pesos','MXN','$'),(75,'Mongolia, Tugriks','MNT','?'),(76,'Mozambique, Meticais','MZN','MT'),(77,'Namibia, Dollars','NAD','$'),(78,'Nepal, Rupees','NPR','?'),(79,'Netherlands Antilles, Guilders','ANG','ƒ'),(80,'New Zealand, Dollars','NZD','$'),(81,'Nicaragua, Cordobas','NIO','C$'),(82,'Nigeria, Nairas','NGN','?'),(83,'North Korea, Won','KPW','?'),(84,'Norway, Krone','NOK','kr'),(85,'Oman, Rials','OMR','?'),(86,'Pakistan, Rupees','PKR','?'),(87,'Panama, Balboa','PAB','B/.'),(88,'Paraguay, Guarani','PYG','Gs'),(89,'Peru, Nuevos Soles','PEN','S/.'),(90,'Philippines, Pesos','PHP','Php'),(91,'Poland, Zlotych','PLN','z?'),(92,'Qatar, Rials','QAR','?'),(93,'Romania, New Lei','RON','lei'),(94,'Russia, Rubles','RUB','???'),(95,'Saint Helena, Pounds','SHP','£'),(96,'Saudi Arabia, Riyals','SAR','?'),(97,'Serbia, Dinars','RSD','???.'),(98,'Seychelles, Rupees','SCR','?'),(99,'Singapore, Dollars','SGD','$'),(100,'Solomon Islands, Dollars','SBD','$'),(101,'Somalia, Shillings','SOS','S'),(102,'South Africa, Rand','ZAR','R'),(103,'South Korea, Won','KRW','?'),(104,'Sri Lanka, Rupees','LKR','?'),(105,'Sweden, Kronor','SEK','kr'),(106,'Switzerland, Francs','CHF','CHF'),(107,'Suriname, Dollars','SRD','$'),(108,'Syria, Pounds','SYP','£'),(109,'Taiwan, New Dollars','TWD','NT$'),(110,'Thailand, Baht','THB','?'),(111,'Trinidad and Tobago, Dollars','TTD','TT$'),(112,'Turkey, New Lira','TRY','YTL'),(113,'Turkey, Liras','TRL','?'),(114,'Tuvalu, Dollars','TVD','$'),(115,'Ukraine, Hryvnia','UAH','?'),(116,'United Arab Emirates, Dirham','AED','AED'),(117,'United Kingdom, Pounds','GBP','£'),(118,'United Republic of Tanzania, Shilling','TZS','TZS'),(119,'USA, Dollars','USD','$'),(120,'Uruguay, Pesos','UYU','$U'),(121,'Uzbekistan, Sums','UZS','??'),(122,'Venezuela, Bolivares Fuertes','VEF','Bs'),(123,'Vietnam, Dong','VND','?'),(124,'Zambia, Kwacha','ZMK','ZMK'),(125,'Yemen, Rials','YER','?'),(126,'Zimbabwe Dollars','ZWD','Z$'),(127,'Malawi, Kwacha','MWK','MK'),(128,'Tunisian, Dinar','TD','TD'),(129,'Moroccan, Dirham','MAD','DH'),(130,'Iraqi Dinar','IQD','ID'),(131,'Maldivian Ruffiya','MVR','MVR'),(132,'Ugandan Shilling','UGX','Sh'),(133,'Sudanese Pound','SDG','£'),(134,'CFA Franc BCEAO','XOF','CFA'),(135,'CFA Franc BEAC','XAF','CFA'),(136,'Haiti, Gourde','HTG','G'),(137,'Libya, Dinar','LYD','LYD'),(138,'CFP Franc','XPF','F');
+INSERT INTO `jo_currencies` VALUES (1,'Albania, Leke','ALL','Lek'),(2,'Argentina, Pesos','ARS','$'),(3,'Aruba, Guilders','AWG','ƒ'),(4,'Australia, Dollars','AUD','$'),(5,'Azerbaijan, New Manats','AZN','ман'),(6,'Bahamas, Dollars','BSD','$'),(7,'Bahrain, Dinar','BHD','BD'),(8,'Barbados, Dollars','BBD','$'),(9,'Belarus, Rubles','BYR','p.'),(10,'Belize, Dollars','BZD','BZ$'),(11,'Bermuda, Dollars','BMD','$'),(12,'Bolivia, Bolivianos','BOB','$b'),(13,'China, Yuan Renminbi','CNY','¥'),(14,'Convertible Marka','BAM','KM'),(15,'Botswana, Pulas','BWP','P'),(16,'Bulgaria, Leva','BGN','лв'),(17,'Brazil, Reais','BRL','R$'),(18,'Great Britain Pounds','GBP','£'),(19,'Brunei Darussalam, Dollars','BND','$'),(20,'Canada, Dollars','CAD','$'),(21,'Cayman Islands, Dollars','KYD','$'),(22,'Chile, Pesos','CLP','$'),(23,'Colombia, Pesos','COP','$'),(24,'Costa Rica, Colón','CRC','₡'),(25,'Croatia, Kuna','HRK','kn'),(26,'Cuba, Pesos','CUP','₱'),(27,'Czech Republic, Koruny','CZK','Kč'),(28,'Cyprus, Pounds','CYP','£'),(29,'Denmark, Kroner','DKK','kr'),(30,'Dominican Republic, Pesos','DOP','RD$'),(31,'East Caribbean, Dollars','XCD','$'),(32,'Egypt, Pounds','EGP','E£'),(33,'El Salvador, Colón','SVC','₡'),(34,'England, Pounds','GBP','£'),(35,'Estonia, Krooni','EEK','kr'),(36,'Euro','EUR','€'),(37,'Falkland Islands, Pounds','FKP','£'),(38,'Fiji, Dollars','FJD','$'),(39,'Ghana, Cedis','GHC','¢'),(40,'Gibraltar, Pounds','GIP','£'),(41,'Guatemala, Quetzales','GTQ','Q'),(42,'Guernsey, Pounds','GGP','£'),(43,'Guyana, Dollars','GYD','$'),(44,'Honduras, Lempiras','HNL','L'),(45,'Hong Kong, Dollars','HKD','HK$'),(46,'Hungary, Forint','HUF','Ft'),(47,'Iceland, Krona','ISK','kr'),(48,'India, Rupees','INR','₹'),(49,'Indonesia, Rupiahs','IDR','Rp'),(50,'Iran, Rials','IRR','﷼'),(51,'Isle of Man, Pounds','IMP','£'),(52,'Israel, New Shekels','ILS','₪'),(53,'Jamaica, Dollars','JMD','J$'),(54,'Japan, Yen','JPY','¥'),(55,'Jersey, Pounds','JEP','£'),(56,'Jordan, Dinar','JOD','JOD'),(57,'Kazakhstan, Tenge','KZT','〒'),(58,'Kenya, Shilling','KES','KES'),(59,'Korea (North), Won','KPW','₩'),(60,'Korea (South), Won','KRW','₩'),(61,'Kuwait, Dinar','KWD','KWD'),(62,'Kyrgyzstan, Soms','KGS','лв'),(63,'Laos, Kips','LAK','₭'),(64,'Latvia, Lati','LVL','Ls'),(65,'Lebanon, Pounds','LBP','£'),(66,'Liberia, Dollars','LRD','$'),(67,'Switzerland Francs','CHF','CHF'),(68,'Lithuania, Litai','LTL','Lt'),(69,'MADAGASCAR, Malagasy Ariary','MGA','MGA'),(70,'Macedonia, Denars','MKD','ден'),(71,'Malaysia, Ringgits','MYR','RM'),(72,'Malta, Liri','MTL','₤'),(73,'Mauritius, Rupees','MUR','₨'),(74,'Mexico, Pesos','MXN','$'),(75,'Mongolia, Tugriks','MNT','₮'),(76,'Mozambique, Meticais','MZN','MT'),(77,'Namibia, Dollars','NAD','$'),(78,'Nepal, Rupees','NPR','₨'),(79,'Netherlands Antilles, Guilders','ANG','ƒ'),(80,'New Zealand, Dollars','NZD','$'),(81,'Nicaragua, Cordobas','NIO','C$'),(82,'Nigeria, Nairas','NGN','₦'),(83,'North Korea, Won','KPW','₩'),(84,'Norway, Krone','NOK','kr'),(85,'Oman, Rials','OMR','﷼'),(86,'Pakistan, Rupees','PKR','₨'),(87,'Panama, Balboa','PAB','B/.'),(88,'Paraguay, Guarani','PYG','Gs'),(89,'Peru, Nuevos Soles','PEN','S/.'),(90,'Philippines, Pesos','PHP','Php'),(91,'Poland, Zlotych','PLN','zł'),(92,'Qatar, Rials','QAR','﷼'),(93,'Romania, New Lei','RON','lei'),(94,'Russia, Rubles','RUB','руб'),(95,'Saint Helena, Pounds','SHP','£'),(96,'Saudi Arabia, Riyals','SAR','﷼'),(97,'Serbia, Dinars','RSD','Дин.'),(98,'Seychelles, Rupees','SCR','₨'),(99,'Singapore, Dollars','SGD','$'),(100,'Solomon Islands, Dollars','SBD','$'),(101,'Somalia, Shillings','SOS','S'),(102,'South Africa, Rand','ZAR','R'),(103,'South Korea, Won','KRW','₩'),(104,'Sri Lanka, Rupees','LKR','₨'),(105,'Sweden, Kronor','SEK','kr'),(106,'Switzerland, Francs','CHF','CHF'),(107,'Suriname, Dollars','SRD','$'),(108,'Syria, Pounds','SYP','£'),(109,'Taiwan, New Dollars','TWD','NT$'),(110,'Thailand, Baht','THB','฿'),(111,'Trinidad and Tobago, Dollars','TTD','TT$'),(112,'Turkey, New Lira','TRY','YTL'),(113,'Turkey, Liras','TRL','₤'),(114,'Tuvalu, Dollars','TVD','$'),(115,'Ukraine, Hryvnia','UAH','₴'),(116,'United Arab Emirates, Dirham','AED','AED'),(117,'United Kingdom, Pounds','GBP','£'),(118,'United Republic of Tanzania, Shilling','TZS','TZS'),(119,'USA, Dollars','USD','$'),(120,'Uruguay, Pesos','UYU','$U'),(121,'Uzbekistan, Sums','UZS','лв'),(122,'Venezuela, Bolivares Fuertes','VEF','Bs'),(123,'Vietnam, Dong','VND','₫'),(124,'Zambia, Kwacha','ZMK','ZMK'),(125,'Yemen, Rials','YER','﷼'),(126,'Zimbabwe Dollars','ZWD','Z$'),(127,'Malawi, Kwacha','MWK','MK'),(128,'Tunisian, Dinar','TD','TD'),(129,'Moroccan, Dirham','MAD','DH'),(130,'Iraqi Dinar','IQD','ID'),(131,'Maldivian Ruffiya','MVR','MVR'),(132,'Ugandan Shilling','UGX','Sh'),(133,'Sudanese Pound','SDG','£'),(134,'CFA Franc BCEAO','XOF','CFA'),(135,'CFA Franc BEAC','XAF','CFA'),(136,'Haiti, Gourde','HTG','G'),(137,'Libya, Dinar','LYD','LYD'),(138,'CFP Franc','XPF','F');
 /*!40000 ALTER TABLE `jo_currencies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2375,7 +2375,7 @@ DROP TABLE IF EXISTS `jo_currencies_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currencies_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2402,7 +2402,7 @@ CREATE TABLE `jo_currency` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`currencyid`),
   UNIQUE KEY `currency_currency_idx` (`currency`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2427,7 +2427,7 @@ CREATE TABLE `jo_currency_decimal_separator` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`currency_decimal_separatorid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2449,7 +2449,7 @@ DROP TABLE IF EXISTS `jo_currency_decimal_separator_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currency_decimal_separator_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2475,7 +2475,7 @@ CREATE TABLE `jo_currency_grouping_pattern` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`currency_grouping_patternid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2497,7 +2497,7 @@ DROP TABLE IF EXISTS `jo_currency_grouping_pattern_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currency_grouping_pattern_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2523,7 +2523,7 @@ CREATE TABLE `jo_currency_grouping_separator` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`currency_grouping_separatorid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2545,7 +2545,7 @@ DROP TABLE IF EXISTS `jo_currency_grouping_separator_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currency_grouping_separator_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2575,7 +2575,7 @@ CREATE TABLE `jo_currency_info` (
   `defaultid` varchar(10) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2584,7 +2584,6 @@ CREATE TABLE `jo_currency_info` (
 
 LOCK TABLES `jo_currency_info` WRITE;
 /*!40000 ALTER TABLE `jo_currency_info` DISABLE KEYS */;
-INSERT INTO `jo_currency_info` VALUES (1,'USA, Dollars','USD','$',1.00000,'Active','-11',0);
 /*!40000 ALTER TABLE `jo_currency_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2597,7 +2596,7 @@ DROP TABLE IF EXISTS `jo_currency_info_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currency_info_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2606,7 +2605,7 @@ CREATE TABLE `jo_currency_info_seq` (
 
 LOCK TABLES `jo_currency_info_seq` WRITE;
 /*!40000 ALTER TABLE `jo_currency_info_seq` DISABLE KEYS */;
-INSERT INTO `jo_currency_info_seq` VALUES (1);
+INSERT INTO `jo_currency_info_seq` VALUES (0);
 /*!40000 ALTER TABLE `jo_currency_info_seq` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2623,7 +2622,7 @@ CREATE TABLE `jo_currency_symbol_placement` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`currency_symbol_placementid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2645,7 +2644,7 @@ DROP TABLE IF EXISTS `jo_currency_symbol_placement_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_currency_symbol_placement_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2672,7 +2671,7 @@ CREATE TABLE `jo_customaction` (
   `content` text,
   KEY `customaction_cvid_idx` (`cvid`),
   CONSTRAINT `fk_1_jo_customaction` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2698,7 +2697,7 @@ CREATE TABLE `jo_customerdetails` (
   `support_end_date` date DEFAULT NULL,
   PRIMARY KEY (`customerid`),
   CONSTRAINT `fk_1_jo_customerdetails` FOREIGN KEY (`customerid`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2747,7 +2746,7 @@ CREATE TABLE `jo_customerportal_prefs` (
   `prefkey` varchar(100) NOT NULL,
   `prefvalue` int(20) DEFAULT NULL,
   PRIMARY KEY (`tabid`,`prefkey`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2771,7 +2770,7 @@ CREATE TABLE `jo_customerportal_relatedmoduleinfo` (
   `tabid` int(19) NOT NULL,
   `relatedmodules` text,
   PRIMARY KEY (`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2800,7 +2799,7 @@ CREATE TABLE `jo_customerportal_settings` (
   `shortcuts` text,
   `widgets` text,
   `charts` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2827,7 +2826,7 @@ CREATE TABLE `jo_customerportal_tabs` (
   `createrecord` tinyint(1) NOT NULL DEFAULT '0',
   `editrecord` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2858,7 +2857,7 @@ CREATE TABLE `jo_customview` (
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
   CONSTRAINT `fk_1_jo_customview` FOREIGN KEY (`entitytype`) REFERENCES `jo_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2880,7 +2879,7 @@ DROP TABLE IF EXISTS `jo_customview_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_customview_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2907,7 +2906,7 @@ CREATE TABLE `jo_cv2group` (
   KEY `jo_groups_ibfk_1` (`groupid`),
   CONSTRAINT `jo_customview_ibfk_2` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE,
   CONSTRAINT `jo_groups_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `jo_groups` (`groupid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2933,7 +2932,7 @@ CREATE TABLE `jo_cv2role` (
   KEY `jo_role_ibfk_1` (`roleid`),
   CONSTRAINT `jo_customview_ibfk_3` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE,
   CONSTRAINT `jo_role_ibfk_1` FOREIGN KEY (`roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2959,7 +2958,7 @@ CREATE TABLE `jo_cv2rs` (
   KEY `jo_rolesd_ibfk_1` (`rsid`),
   CONSTRAINT `jo_customview_ibfk_4` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE,
   CONSTRAINT `jo_rolesd_ibfk_1` FOREIGN KEY (`rsid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2985,7 +2984,7 @@ CREATE TABLE `jo_cv2users` (
   KEY `jo_users_ibfk_1` (`userid`),
   CONSTRAINT `jo_customview_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE,
   CONSTRAINT `jo_users_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3015,7 +3014,7 @@ CREATE TABLE `jo_cvadvfilter` (
   PRIMARY KEY (`cvid`,`columnindex`),
   KEY `cvadvfilter_cvid_idx` (`cvid`),
   CONSTRAINT `fk_1_jo_cvadvfilter` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3041,7 +3040,7 @@ CREATE TABLE `jo_cvadvfilter_grouping` (
   `group_condition` varchar(255) DEFAULT NULL,
   `condition_expression` text,
   PRIMARY KEY (`groupid`,`cvid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3069,7 +3068,7 @@ CREATE TABLE `jo_cvcolumnlist` (
   KEY `cvcolumnlist_columnindex_idx` (`columnindex`),
   KEY `cvcolumnlist_cvid_idx` (`cvid`),
   CONSTRAINT `fk_1_jo_cvcolumnlist` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3098,7 +3097,7 @@ CREATE TABLE `jo_cvstdfilter` (
   PRIMARY KEY (`cvid`),
   KEY `cvstdfilter_cvid_idx` (`cvid`),
   CONSTRAINT `fk_1_jo_cvstdfilter` FOREIGN KEY (`cvid`) REFERENCES `jo_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3130,7 +3129,7 @@ CREATE TABLE `jo_dashboard_tabs` (
   UNIQUE KEY `tabname` (`tabname`,`userid`),
   KEY `userid` (`userid`),
   CONSTRAINT `jo_dashboard_tabs_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3159,7 +3158,7 @@ CREATE TABLE `jo_datashare_grp2grp` (
   KEY `datashare_grp2grp_share_groupid_idx` (`share_groupid`),
   KEY `datashare_grp2grp_to_groupid_idx` (`to_groupid`),
   CONSTRAINT `fk_3_jo_datashare_grp2grp` FOREIGN KEY (`to_groupid`) REFERENCES `jo_groups` (`groupid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3187,7 +3186,7 @@ CREATE TABLE `jo_datashare_grp2role` (
   KEY `idx_datashare_grp2role_share_groupid` (`share_groupid`),
   KEY `idx_datashare_grp2role_to_roleid` (`to_roleid`),
   CONSTRAINT `fk_3_jo_datashare_grp2role` FOREIGN KEY (`to_roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3215,7 +3214,7 @@ CREATE TABLE `jo_datashare_grp2rs` (
   KEY `datashare_grp2rs_share_groupid_idx` (`share_groupid`),
   KEY `datashare_grp2rs_to_roleandsubid_idx` (`to_roleandsubid`),
   CONSTRAINT `fk_3_jo_datashare_grp2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3241,7 +3240,7 @@ CREATE TABLE `jo_datashare_module_rel` (
   PRIMARY KEY (`shareid`),
   KEY `idx_datashare_module_rel_tabid` (`tabid`),
   CONSTRAINT `fk_1_jo_datashare_module_rel` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3266,7 +3265,7 @@ CREATE TABLE `jo_datashare_relatedmodule_permission` (
   `permission` int(19) DEFAULT NULL,
   PRIMARY KEY (`shareid`,`datashare_relatedmodule_id`),
   KEY `datashare_relatedmodule_permission_shareid_permissions_idx` (`shareid`,`permission`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3293,7 +3292,7 @@ CREATE TABLE `jo_datashare_relatedmodules` (
   KEY `datashare_relatedmodules_tabid_idx` (`tabid`),
   KEY `datashare_relatedmodules_relatedto_tabid_idx` (`relatedto_tabid`),
   CONSTRAINT `fk_2_jo_datashare_relatedmodules` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3315,7 +3314,7 @@ DROP TABLE IF EXISTS `jo_datashare_relatedmodules_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_datashare_relatedmodules_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3344,7 +3343,7 @@ CREATE TABLE `jo_datashare_role2group` (
   KEY `idx_datashare_role2group_share_roleid` (`share_roleid`),
   KEY `idx_datashare_role2group_to_groupid` (`to_groupid`),
   CONSTRAINT `fk_3_jo_datashare_role2group` FOREIGN KEY (`share_roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3372,7 +3371,7 @@ CREATE TABLE `jo_datashare_role2role` (
   KEY `datashare_role2role_share_roleid_idx` (`share_roleid`),
   KEY `datashare_role2role_to_roleid_idx` (`to_roleid`),
   CONSTRAINT `fk_3_jo_datashare_role2role` FOREIGN KEY (`to_roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3400,7 +3399,7 @@ CREATE TABLE `jo_datashare_role2rs` (
   KEY `datashare_role2s_share_roleid_idx` (`share_roleid`),
   KEY `datashare_role2s_to_roleandsubid_idx` (`to_roleandsubid`),
   CONSTRAINT `fk_3_jo_datashare_role2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3428,7 +3427,7 @@ CREATE TABLE `jo_datashare_rs2grp` (
   KEY `datashare_rs2grp_share_roleandsubid_idx` (`share_roleandsubid`),
   KEY `datashare_rs2grp_to_groupid_idx` (`to_groupid`),
   CONSTRAINT `fk_3_jo_datashare_rs2grp` FOREIGN KEY (`share_roleandsubid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3456,7 +3455,7 @@ CREATE TABLE `jo_datashare_rs2role` (
   KEY `datashare_rs2role_share_roleandsubid_idx` (`share_roleandsubid`),
   KEY `datashare_rs2role_to_roleid_idx` (`to_roleid`),
   CONSTRAINT `fk_3_jo_datashare_rs2role` FOREIGN KEY (`to_roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3484,7 +3483,7 @@ CREATE TABLE `jo_datashare_rs2rs` (
   KEY `datashare_rs2rs_share_roleandsubid_idx` (`share_roleandsubid`),
   KEY `idx_datashare_rs2rs_to_roleandsubid_idx` (`to_roleandsubid`),
   CONSTRAINT `fk_3_jo_datashare_rs2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3509,7 +3508,7 @@ CREATE TABLE `jo_date_format` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`date_formatid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3531,7 +3530,7 @@ DROP TABLE IF EXISTS `jo_date_format_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_date_format_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3557,7 +3556,7 @@ CREATE TABLE `jo_dayoftheweek` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`dayoftheweekid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3579,7 +3578,7 @@ DROP TABLE IF EXISTS `jo_dayoftheweek_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_dayoftheweek_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3608,7 +3607,7 @@ CREATE TABLE `jo_def_org_field` (
   KEY `def_org_field_tabid_fieldid_idx` (`tabid`,`fieldid`),
   KEY `def_org_field_tabid_idx` (`tabid`),
   KEY `def_org_field_visible_fieldid_idx` (`visible`,`fieldid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3636,7 +3635,7 @@ CREATE TABLE `jo_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_jo_def_org_share` (`permission`),
   CONSTRAINT `fk_1_jo_def_org_share` FOREIGN KEY (`permission`) REFERENCES `jo_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3658,7 +3657,7 @@ DROP TABLE IF EXISTS `jo_def_org_share_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_def_org_share_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3684,7 +3683,7 @@ CREATE TABLE `jo_default_record_view` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`default_record_viewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3706,7 +3705,7 @@ DROP TABLE IF EXISTS `jo_default_record_view_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_default_record_view_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3733,7 +3732,7 @@ CREATE TABLE `jo_defaultactivitytype` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`defaultactivitytypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3755,7 +3754,7 @@ DROP TABLE IF EXISTS `jo_defaultactivitytype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_defaultactivitytype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3781,7 +3780,7 @@ CREATE TABLE `jo_defaultcalendarview` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`defaultcalendarviewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3803,7 +3802,7 @@ DROP TABLE IF EXISTS `jo_defaultcalendarview_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_defaultcalendarview_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3829,7 +3828,7 @@ CREATE TABLE `jo_defaultcv` (
   `query` text,
   PRIMARY KEY (`tabid`),
   CONSTRAINT `fk_1_jo_defaultcv` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3855,7 +3854,7 @@ CREATE TABLE `jo_defaulteventstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`defaulteventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3877,7 +3876,7 @@ DROP TABLE IF EXISTS `jo_defaulteventstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_defaulteventstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3904,7 +3903,7 @@ CREATE TABLE `jo_duration_minutes` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`minutesid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3926,7 +3925,7 @@ DROP TABLE IF EXISTS `jo_duration_minutes_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_duration_minutes_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3952,7 +3951,7 @@ CREATE TABLE `jo_durationhrs` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`hrsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3977,7 +3976,7 @@ CREATE TABLE `jo_durationmins` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`minsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4001,7 +4000,7 @@ CREATE TABLE `jo_email_access` (
   `mailid` int(11) DEFAULT NULL,
   `accessdate` date DEFAULT NULL,
   `accesstime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4026,7 +4025,7 @@ CREATE TABLE `jo_email_track` (
   `access_count` int(11) DEFAULT NULL,
   `click_count` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `link_tabidtype_idx` (`crmid`,`mailid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4055,7 +4054,7 @@ CREATE TABLE `jo_emaildetails` (
   `idlists` text,
   `email_flag` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`emailid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4107,7 +4106,7 @@ CREATE TABLE `jo_emailslookup` (
   UNIQUE KEY `emailslookup_crmid_setype_fieldname_uk` (`crmid`,`setype`,`fieldid`),
   KEY `emailslookup_fieldid_setype_idx` (`fieldid`,`setype`),
   CONSTRAINT `emailslookup_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4139,7 +4138,7 @@ CREATE TABLE `jo_emailtemplates` (
   `module` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `emailtemplates_foldernamd_templatename_subject_idx` (`foldername`,`templatename`,`subject`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4161,7 +4160,7 @@ DROP TABLE IF EXISTS `jo_emailtemplates_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_emailtemplates_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4191,7 +4190,7 @@ CREATE TABLE `jo_entityname` (
   PRIMARY KEY (`tabid`),
   KEY `entityname_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_jo_entityname` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4216,7 +4215,7 @@ CREATE TABLE `jo_eventhandler_module` (
   `module_name` varchar(100) DEFAULT NULL,
   `handler_class` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`eventhandler_module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4238,7 +4237,7 @@ DROP TABLE IF EXISTS `jo_eventhandler_module_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_eventhandler_module_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4268,7 +4267,7 @@ CREATE TABLE `jo_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4277,7 +4276,7 @@ CREATE TABLE `jo_eventhandlers` (
 
 LOCK TABLES `jo_eventhandlers` WRITE;
 /*!40000 ALTER TABLE `jo_eventhandlers` DISABLE KEYS */;
-INSERT INTO `jo_eventhandlers` VALUES (1,'vtiger.entity.aftersave','modules/SalesOrder/RecurringInvoiceHandler.php','RecurringInvoiceHandler','',1,'[]'),(2,'vtiger.entity.beforesave','data/VTEntityDelta.php','VTEntityDelta','',1,'[]'),(3,'vtiger.entity.aftersave','data/VTEntityDelta.php','VTEntityDelta','',1,'[]'),(4,'vtiger.entity.aftersave','modules/com_jo_workflow/VTEventHandler.inc','VTWorkflowEventHandler','',1,'[\"VTEntityDelta\"]'),(5,'vtiger.entity.afterrestore','modules/com_jo_workflow/VTEventHandler.inc','VTWorkflowEventHandler','',1,'[]'),(6,'vtiger.entity.aftersave.final','modules/HelpDesk/HelpDeskHandler.php','HelpDeskHandler','',1,'[]'),(7,'vtiger.entity.aftersave','modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php','WSAPPAssignToTracker','',1,'[\"VTEntityDelta\"]'),(8,'vtiger.entity.aftersave','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[\"VTEntityDelta\"]'),(9,'vtiger.entity.afterdelete','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[]'),(10,'vtiger.entity.afterrestore','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[]'),(11,'vtiger.batchevent.save','modules/PBXManager/PBXManagerHandler.php','PBXManagerBatchHandler','',1,'[]'),(12,'vtiger.batchevent.delete','modules/PBXManager/PBXManagerHandler.php','PBXManagerBatchHandler','',1,'[]'),(16,'vtiger.entity.aftersave','modules/Head/handlers/RecordLabelUpdater.php','Head_RecordLabelUpdater_Handler','',1,'[]'),(17,'vtiger.entity.aftersave','modules/Invoice/InvoiceHandler.php','InvoiceHandler','',1,'[]'),(18,'vtiger.entity.aftersave','modules/PurchaseOrder/PurchaseOrderHandler.php','PurchaseOrderHandler','',1,'[]'),(19,'vtiger.entity.aftersave','modules/ModComments/ModCommentsHandler.php','ModCommentsHandler','',1,'[]'),(20,'vtiger.picklist.afterrename','modules/Settings/Picklist/handlers/PickListHandler.php','PickListHandler','',1,'[]'),(21,'vtiger.picklist.afterdelete','modules/Settings/Picklist/handlers/PickListHandler.php','PickListHandler','',1,'[]'),(22,'vtiger.entity.aftersave','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[\"VTEntityDelta\"]'),(23,'vtiger.entity.afterdelete','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[]'),(24,'vtiger.entity.afterrestore','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[]'),(25,'vtiger.batchevent.save','modules/Head/handlers/EmailLookupHandler.php','EmailLookupBatchHandler','',1,'[]'),(26,'vtiger.lead.convertlead','modules/Leads/handlers/LeadHandler.php','LeadHandler','',1,'[]'),(27,'vtiger.entity.aftersave','modules/Home/NotificationHandler.php','NotificationHandler','',1,'[]'),(28,'vtiger.entity.aftersave.final','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]'),(29,'vtiger.entity.beforedelete','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]'),(30,'vtiger.entity.afterrestore','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]');
+INSERT INTO `jo_eventhandlers` VALUES (1,'vtiger.entity.aftersave','modules/SalesOrder/RecurringInvoiceHandler.php','RecurringInvoiceHandler','',1,'[]'),(2,'vtiger.entity.beforesave','data/VTEntityDelta.php','VTEntityDelta','',1,'[]'),(3,'vtiger.entity.aftersave','data/VTEntityDelta.php','VTEntityDelta','',1,'[]'),(4,'vtiger.entity.aftersave','modules/com_jo_workflow/VTEventHandler.inc','VTWorkflowEventHandler','',1,'[\"VTEntityDelta\"]'),(5,'vtiger.entity.afterrestore','modules/com_jo_workflow/VTEventHandler.inc','VTWorkflowEventHandler','',1,'[]'),(6,'vtiger.entity.aftersave.final','modules/HelpDesk/HelpDeskHandler.php','HelpDeskHandler','',1,'[]'),(7,'vtiger.entity.aftersave','modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php','WSAPPAssignToTracker','',1,'[\"VTEntityDelta\"]'),(8,'vtiger.entity.aftersave','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[\"VTEntityDelta\"]'),(9,'vtiger.entity.afterdelete','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[]'),(10,'vtiger.entity.afterrestore','modules/PBXManager/PBXManagerHandler.php','PBXManagerHandler','',1,'[]'),(11,'vtiger.batchevent.save','modules/PBXManager/PBXManagerHandler.php','PBXManagerBatchHandler','',1,'[]'),(12,'vtiger.batchevent.delete','modules/PBXManager/PBXManagerHandler.php','PBXManagerBatchHandler','',1,'[]'),(16,'vtiger.entity.aftersave','modules/Head/handlers/RecordLabelUpdater.php','Head_RecordLabelUpdater_Handler','',1,'[]'),(17,'vtiger.entity.aftersave','modules/Invoice/InvoiceHandler.php','InvoiceHandler','',1,'[]'),(18,'vtiger.entity.aftersave','modules/PurchaseOrder/PurchaseOrderHandler.php','PurchaseOrderHandler','',1,'[]'),(19,'vtiger.entity.aftersave','modules/ModComments/ModCommentsHandler.php','ModCommentsHandler','',1,'[]'),(20,'vtiger.picklist.afterrename','modules/Settings/Picklist/handlers/PickListHandler.php','PickListHandler','',1,'[]'),(21,'vtiger.picklist.afterdelete','modules/Settings/Picklist/handlers/PickListHandler.php','PickListHandler','',1,'[]'),(22,'vtiger.entity.aftersave','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[\"VTEntityDelta\"]'),(23,'vtiger.entity.afterdelete','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[]'),(24,'vtiger.entity.afterrestore','modules/Head/handlers/EmailLookupHandler.php','EmailLookupHandler','',1,'[]'),(25,'vtiger.batchevent.save','modules/Head/handlers/EmailLookupHandler.php','EmailLookupBatchHandler','',1,'[]'),(26,'vtiger.lead.convertlead','modules/Leads/handlers/LeadHandler.php','LeadHandler','',1,'[]'),(27,'vtiger.entity.aftersave','modules/Home/NotificationHandler.php','NotificationHandler','',1,'[]'),(28,'vtiger.entity.aftersave.final','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]'),(29,'vtiger.entity.beforedelete','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]'),(30,'vtiger.entity.afterrestore','modules/ModTracker/ModTrackerHandler.php','ModTrackerHandler','',1,'[]'),(31,'vtiger.entity.beforedelete','modules/Home/NotificationHandler.php','NotificationHandler','',1,'[]'),(32,'vtiger.entity.afterrestore','modules/Home/NotificationHandler.php','NotificationHandler','',1,'[]');
 /*!40000 ALTER TABLE `jo_eventhandlers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4290,7 +4289,7 @@ DROP TABLE IF EXISTS `jo_eventhandlers_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_eventhandlers_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4299,7 +4298,7 @@ CREATE TABLE `jo_eventhandlers_seq` (
 
 LOCK TABLES `jo_eventhandlers_seq` WRITE;
 /*!40000 ALTER TABLE `jo_eventhandlers_seq` DISABLE KEYS */;
-INSERT INTO `jo_eventhandlers_seq` VALUES (30);
+INSERT INTO `jo_eventhandlers_seq` VALUES (32);
 /*!40000 ALTER TABLE `jo_eventhandlers_seq` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4318,7 +4317,7 @@ CREATE TABLE `jo_eventstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`eventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4340,7 +4339,7 @@ DROP TABLE IF EXISTS `jo_eventstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_eventstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4369,7 +4368,7 @@ CREATE TABLE `jo_expectedresponse` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`expectedresponseid`),
   UNIQUE KEY `CampaignExpRes_UK01` (`expectedresponse`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4391,7 +4390,7 @@ DROP TABLE IF EXISTS `jo_expectedresponse_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_expectedresponse_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4414,7 +4413,7 @@ DROP TABLE IF EXISTS `jo_feedback`;
 CREATE TABLE `jo_feedback` (
   `userid` int(19) DEFAULT NULL,
   `dontshow` varchar(19) DEFAULT 'false'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4463,7 +4462,7 @@ CREATE TABLE `jo_field` (
   KEY `field_block_idx` (`block`),
   KEY `field_displaytype_idx` (`displaytype`),
   CONSTRAINT `fk_1_jo_field` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=799 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=799 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4472,7 +4471,7 @@ CREATE TABLE `jo_field` (
 
 LOCK TABLES `jo_field` WRITE;
 /*!40000 ALTER TABLE `jo_field` DISABLE KEYS */;
-INSERT INTO `jo_field` VALUES (6,1,'accountname','jo_account',1,'2','accountname','Account Name',1,0,'',100,1,9,1,'V~M',0,1,'BAS',1,NULL,1,0),(6,2,'account_no','jo_account',1,'4','account_no','Account No',1,0,'',100,2,9,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(6,3,'phone','jo_account',1,'11','phone','Phone',1,2,'',100,4,9,1,'V~O',2,2,'BAS',1,NULL,0,1),(6,4,'website','jo_account',1,'17','website','Website',1,2,'',100,3,9,1,'V~O',2,3,'BAS',1,NULL,0,1),(6,5,'fax','jo_account',1,'11','fax','Fax',1,2,'',100,6,9,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,6,'tickersymbol','jo_account',1,'1','tickersymbol','Ticker Symbol',1,2,'',100,5,9,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,7,'otherphone','jo_account',1,'11','otherphone','Other Phone',1,2,'',100,8,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,8,'parentid','jo_account',1,'51','account_id','Member Of',1,2,'',100,7,9,1,'I~O',1,NULL,'BAS',0,NULL,0,0),(6,9,'email1','jo_account',1,'13','email1','Email',1,2,'',100,10,9,1,'E~O',1,NULL,'BAS',1,NULL,0,1),(6,10,'employees','jo_account',1,'7','employees','Employees',1,2,'',100,9,9,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(6,11,'email2','jo_account',1,'13','email2','Other Email',1,2,'',100,11,9,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(6,12,'ownership','jo_account',1,'1','ownership','Ownership',1,2,'',100,12,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,13,'rating','jo_account',1,'15','rating','Rating',1,2,'',100,14,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,14,'industry','jo_account',1,'15','industry','industry',1,2,'',100,13,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,15,'siccode','jo_account',1,'1','siccode','SIC Code',1,2,'',100,16,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,16,'account_type','jo_account',1,'15','accounttype','Type',1,2,'',100,15,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,17,'annualrevenue','jo_account',1,'71','annual_revenue','Annual Revenue',1,2,'',100,18,9,1,'N~O',1,NULL,'ADV',1,NULL,0,0),(6,18,'emailoptout','jo_account',1,'56','emailoptout','Email Opt Out',1,0,'',100,17,9,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(6,19,'notify_owner','jo_account',1,'56','notify_owner','Notify Owner',1,2,'',10,20,9,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(6,20,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,19,9,1,'V~M',0,4,'BAS',1,NULL,1,0),(6,21,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,22,9,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(6,22,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,21,9,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(6,23,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,23,9,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(6,24,'bill_street','jo_accountbillads',1,'21','bill_street','Billing Address',1,2,'',100,1,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,25,'ship_street','jo_accountshipads',1,'21','ship_street','Shipping Address',1,2,'',100,2,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,26,'bill_city','jo_accountbillads',1,'1','bill_city','Billing City',1,2,'',100,5,11,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(6,27,'ship_city','jo_accountshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,28,'bill_state','jo_accountbillads',1,'1','bill_state','Billing State',1,2,'',100,7,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,29,'ship_state','jo_accountshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,30,'bill_code','jo_accountbillads',1,'1','bill_code','Billing Code',1,2,'',100,9,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,31,'ship_code','jo_accountshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,32,'bill_country','jo_accountbillads',1,'1','bill_country','Billing Country',1,2,'',100,11,11,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(6,33,'ship_country','jo_accountshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,34,'bill_pobox','jo_accountbillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,35,'ship_pobox','jo_accountshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,36,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,12,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,37,'salutation','jo_leaddetails',1,'55','salutationtype','Salutation',1,0,'',100,1,13,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,38,'firstname','jo_leaddetails',1,'55','firstname','First Name',1,0,'',100,2,13,1,'V~O',2,1,'BAS',1,NULL,1,0),(7,39,'lead_no','jo_leaddetails',1,'4','lead_no','Lead No',1,0,'',100,3,13,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(7,40,'phone','jo_leadaddress',1,'11','phone','Phone',1,2,'',100,5,13,1,'V~O',2,4,'BAS',1,NULL,0,1),(7,41,'lastname','jo_leaddetails',1,'255','lastname','Last Name',1,0,'',100,4,13,1,'V~M',0,2,'BAS',1,NULL,1,0),(7,42,'mobile','jo_leadaddress',1,'11','mobile','Mobile',1,2,'',100,7,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,43,'company','jo_leaddetails',1,'2','company','Company',1,2,'',100,6,13,1,'V~O',2,3,'BAS',1,NULL,1,0),(7,44,'fax','jo_leadaddress',1,'11','fax','Fax',1,2,'',100,9,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,45,'designation','jo_leaddetails',1,'1','designation','Designation',1,2,'',100,8,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,46,'email','jo_leaddetails',1,'13','email','Email',1,2,'',100,11,13,1,'E~O',2,5,'BAS',1,NULL,0,1),(7,47,'leadsource','jo_leaddetails',1,'15','leadsource','Lead Source',1,2,'',100,10,13,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,48,'website','jo_leadsubdetails',1,'17','website','Website',1,2,'',100,13,13,1,'V~O',1,NULL,'ADV',1,NULL,1,0),(7,49,'industry','jo_leaddetails',1,'15','industry','Industry',1,2,'',100,12,13,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(7,50,'leadstatus','jo_leaddetails',1,'15','leadstatus','Lead Status',1,2,'',100,15,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,51,'annualrevenue','jo_leaddetails',1,'71','annualrevenue','Annual Revenue',1,2,'',100,14,13,1,'N~O',1,NULL,'ADV',1,NULL,0,0),(7,52,'rating','jo_leaddetails',1,'15','rating','Rating',1,2,'',100,17,13,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(7,53,'noofemployees','jo_leaddetails',1,'1','noofemployees','No Of Employees',1,2,'',100,16,13,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(7,54,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,19,13,1,'V~M',0,6,'BAS',1,NULL,1,0),(7,55,'secondaryemail','jo_leaddetails',1,'13','secondaryemail','Secondary Email',1,2,'',100,18,13,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(7,56,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,21,13,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(7,57,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,20,13,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(7,58,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,23,13,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(7,59,'lane','jo_leadaddress',1,'21','lane','Street',1,2,'',100,1,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,60,'code','jo_leadaddress',1,'1','code','Postal Code',1,2,'',100,3,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,61,'city','jo_leadaddress',1,'1','city','City',1,2,'',100,4,15,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,62,'country','jo_leadaddress',1,'1','country','Country',1,2,'',100,5,15,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,63,'state','jo_leadaddress',1,'1','state','State',1,2,'',100,6,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,64,'pobox','jo_leadaddress',1,'1','pobox','Po Box',1,2,'',100,2,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,65,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,16,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,66,'salutation','jo_contactdetails',1,'55','salutationtype','Salutation',1,0,'',100,1,4,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,67,'firstname','jo_contactdetails',1,'55','firstname','First Name',1,0,'',100,2,4,1,'V~O',2,1,'BAS',1,NULL,1,0),(4,68,'contact_no','jo_contactdetails',1,'4','contact_no','Contact Id',1,0,'',100,3,4,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(4,69,'phone','jo_contactdetails',1,'11','phone','Office Phone',1,2,'',100,5,4,1,'V~O',2,4,'BAS',1,NULL,0,1),(4,70,'lastname','jo_contactdetails',1,'255','lastname','Last Name',1,0,'',100,4,4,1,'V~M',0,2,'BAS',1,NULL,1,0),(4,71,'mobile','jo_contactdetails',1,'11','mobile','Mobile',1,2,'',100,7,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,72,'accountid','jo_contactdetails',1,'51','account_id','Account Name',1,0,'',100,6,4,1,'I~O',2,3,'BAS',1,NULL,1,0),(4,73,'homephone','jo_contactsubdetails',1,'11','homephone','Home Phone',1,2,'',100,9,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,74,'leadsource','jo_contactsubdetails',1,'15','leadsource','Lead Source',1,2,'',100,8,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,75,'otherphone','jo_contactsubdetails',1,'11','otherphone','Other Phone',1,2,'',100,11,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,76,'title','jo_contactdetails',1,'1','title','Title',1,2,'',100,10,4,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,77,'fax','jo_contactdetails',1,'11','fax','Fax',1,2,'',100,13,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,78,'department','jo_contactdetails',1,'1','department','Department',1,2,'',100,12,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,79,'birthday','jo_contactsubdetails',1,'5','birthday','Birthdate',1,2,'',100,16,4,1,'D~O',1,NULL,'ADV',1,NULL,0,0),(4,80,'email','jo_contactdetails',1,'13','email','Email',1,2,'',100,15,4,1,'E~O',2,5,'BAS',1,NULL,0,1),(4,81,'reportsto','jo_contactdetails',1,'57','contact_id','Reports To',1,2,'',100,18,4,1,'V~O',1,NULL,'ADV',0,NULL,0,0),(4,82,'assistant','jo_contactsubdetails',1,'1','assistant','Assistant',1,2,'',100,17,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,83,'secondaryemail','jo_contactdetails',1,'13','secondaryemail','Secondary Email',1,2,'',100,20,4,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(4,84,'assistantphone','jo_contactsubdetails',1,'11','assistantphone','Assistant Phone',1,2,'',100,19,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,85,'donotcall','jo_contactdetails',1,'56','donotcall','Do Not Call',1,2,'',100,22,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,86,'emailoptout','jo_contactdetails',1,'56','emailoptout','Email Opt Out',1,0,'',100,21,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,87,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,24,4,1,'V~M',0,6,'BAS',1,NULL,1,0),(4,88,'reference','jo_contactdetails',1,'56','reference','Reference',1,2,'',10,23,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,89,'notify_owner','jo_contactdetails',1,'56','notify_owner','Notify Owner',1,2,'',10,26,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,90,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,25,4,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(4,91,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,27,4,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(4,92,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,28,4,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(4,93,'portal','jo_customerdetails',1,'56','portal','Portal User',1,2,'',100,1,6,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,94,'support_start_date','jo_customerdetails',1,'5','support_start_date','Support Start Date',1,2,'',100,2,6,1,'D~O',1,NULL,'ADV',1,NULL,0,0),(4,95,'support_end_date','jo_customerdetails',1,'5','support_end_date','Support End Date',1,2,'',100,3,6,1,'D~O~OTH~GE~support_start_date~Support Start Date',1,NULL,'ADV',1,NULL,0,0),(4,96,'mailingstreet','jo_contactaddress',1,'21','mailingstreet','Mailing Street',1,2,'',100,1,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,97,'otherstreet','jo_contactaddress',1,'21','otherstreet','Other Street',1,2,'',100,2,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,98,'mailingcity','jo_contactaddress',1,'1','mailingcity','Mailing City',1,2,'',100,5,7,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,99,'othercity','jo_contactaddress',1,'1','othercity','Other City',1,2,'',100,6,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,100,'mailingstate','jo_contactaddress',1,'1','mailingstate','Mailing State',1,2,'',100,7,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,101,'otherstate','jo_contactaddress',1,'1','otherstate','Other State',1,2,'',100,8,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,102,'mailingzip','jo_contactaddress',1,'1','mailingzip','Mailing Zip',1,2,'',100,9,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,103,'otherzip','jo_contactaddress',1,'1','otherzip','Other Zip',1,2,'',100,10,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,104,'mailingcountry','jo_contactaddress',1,'1','mailingcountry','Mailing Country',1,2,'',100,11,7,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,105,'othercountry','jo_contactaddress',1,'1','othercountry','Other Country',1,2,'',100,12,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,106,'mailingpobox','jo_contactaddress',1,'1','mailingpobox','Mailing Po Box',1,2,'',100,3,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,107,'otherpobox','jo_contactaddress',1,'1','otherpobox','Other Po Box',1,2,'',100,4,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,108,'imagename','jo_contactdetails',1,'69','imagename','Contact Image',1,2,'',100,1,71,1,'V~O',3,NULL,'ADV',0,NULL,0,0),(4,109,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,8,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,110,'potentialname','jo_potential',1,'2','potentialname','Potential Name',1,0,'',100,1,1,1,'V~M',0,1,'BAS',1,NULL,1,0),(2,111,'potential_no','jo_potential',1,'4','potential_no','Potential No',1,0,'',100,2,1,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(2,112,'amount','jo_potential',1,'71','amount','Amount',1,2,'',100,5,1,1,'N~O',2,5,'BAS',1,NULL,0,1),(2,113,'related_to','jo_potential',1,'10','related_to','Related To',1,0,'',100,3,1,1,'V~O',0,2,'BAS',1,NULL,0,1),(2,114,'closingdate','jo_potential',1,'23','closingdate','Expected Close Date',1,2,'',100,8,1,1,'D~M',2,3,'BAS',1,NULL,1,0),(2,115,'potentialtype','jo_potential',1,'15','opportunity_type','Type',1,2,'',100,7,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,116,'nextstep','jo_potential',1,'1','nextstep','Next Step',1,2,'',100,10,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,117,'leadsource','jo_potential',1,'15','leadsource','Lead Source',1,2,'',100,9,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,118,'sales_stage','jo_potential',1,'15','sales_stage','Sales Stage',1,2,'',100,12,1,1,'V~M',2,4,'BAS',1,NULL,0,1),(2,119,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,11,1,1,'V~M',0,6,'BAS',1,NULL,1,0),(2,120,'probability','jo_potential',1,'9','probability','Probability',1,2,'',100,14,1,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(2,121,'campaignid','jo_potential',1,'58','campaignid','Campaign Source',1,2,'',100,13,1,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(2,122,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,16,1,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(2,123,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,1,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(2,124,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,17,1,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(2,125,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,3,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,126,'campaignname','jo_campaign',1,'2','campaignname','Campaign Name',1,0,'',100,1,72,1,'V~M',0,1,'BAS',1,NULL,1,0),(26,127,'campaign_no','jo_campaign',1,'4','campaign_no','Campaign No',1,0,'',100,2,72,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(26,128,'campaigntype','jo_campaign',1,'15','campaigntype','Campaign Type',1,2,'',100,5,72,1,'V~O',2,3,'BAS',1,NULL,1,0),(26,129,'product_id','jo_campaign',1,'59','product_id','Product',1,2,'',100,6,72,1,'I~O',2,5,'BAS',1,NULL,0,0),(26,130,'campaignstatus','jo_campaign',1,'15','campaignstatus','Campaign Status',1,2,'',100,4,72,1,'V~O',2,6,'BAS',1,NULL,1,0),(26,131,'closingdate','jo_campaign',1,'23','closingdate','Expected Close Date',1,2,'',100,8,72,1,'D~M',2,2,'BAS',1,NULL,1,0),(26,132,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,3,72,1,'V~M',0,7,'BAS',1,NULL,1,0),(26,133,'numsent','jo_campaign',1,'9','numsent','Num Sent',1,2,'',100,12,72,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,134,'sponsor','jo_campaign',1,'1','sponsor','Sponsor',1,2,'',100,9,72,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,135,'targetaudience','jo_campaign',1,'1','targetaudience','Target Audience',1,2,'',100,7,72,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,136,'targetsize','jo_campaign',1,'1','targetsize','TargetSize',1,2,'',100,10,72,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,137,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,11,72,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(26,138,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,13,72,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(26,139,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,16,72,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(26,140,'expectedresponse','jo_campaign',1,'15','expectedresponse','Expected Response',1,2,'',100,3,74,1,'V~O',2,4,'BAS',1,NULL,0,0),(26,141,'expectedrevenue','jo_campaign',1,'71','expectedrevenue','Expected Revenue',1,2,'',100,4,74,1,'N~O',1,NULL,'BAS',1,NULL,1,0),(26,142,'budgetcost','jo_campaign',1,'71','budgetcost','Budget Cost',1,2,'',100,1,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,143,'actualcost','jo_campaign',1,'71','actualcost','Actual Cost',1,2,'',100,2,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,144,'expectedresponsecount','jo_campaign',1,'1','expectedresponsecount','Expected Response Count',1,2,'',100,7,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,145,'expectedsalescount','jo_campaign',1,'1','expectedsalescount','Expected Sales Count',1,2,'',100,5,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,146,'expectedroi','jo_campaign',1,'71','expectedroi','Expected ROI',1,2,'',100,9,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,147,'actualresponsecount','jo_campaign',1,'1','actualresponsecount','Actual Response Count',1,2,'',100,8,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,148,'actualsalescount','jo_campaign',1,'1','actualsalescount','Actual Sales Count',1,2,'',100,6,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,149,'actualroi','jo_campaign',1,'71','actualroi','Actual ROI',1,2,'',100,10,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,150,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,79,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,151,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(6,152,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(7,153,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(26,154,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(13,155,'ticket_no','jo_troubletickets',1,'4','ticket_no','Ticket No',1,0,'',100,14,25,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(13,156,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,5,25,1,'V~M',0,4,'BAS',1,NULL,1,0),(13,157,'parent_id','jo_troubletickets',1,'10','parent_id','Related To',1,0,'',100,2,25,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(13,158,'priority','jo_troubletickets',1,'15','ticketpriorities','Priority',1,2,'',100,7,25,1,'V~M',2,3,'BAS',1,NULL,0,1),(13,159,'product_id','jo_troubletickets',1,'59','product_id','Product Name',1,2,'',100,6,25,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(13,160,'severity','jo_troubletickets',1,'15','ticketseverities','Severity',1,2,'',100,9,25,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(13,161,'status','jo_troubletickets',1,'15','ticketstatus','Status',1,2,'',100,8,25,1,'V~M',1,2,'BAS',1,NULL,1,0),(13,162,'category','jo_troubletickets',1,'15','ticketcategories','Category',1,2,'',100,11,25,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(13,163,'update_log','jo_troubletickets',1,'19','update_log','Update History',1,1,'',100,12,25,3,'V~O',1,NULL,'BAS',0,NULL,0,0),(13,164,'hours','jo_troubletickets',1,'1','hours','Hours',1,2,'',100,10,25,1,'N~O',1,NULL,'BAS',1,'This gives the estimated hours for the Ticket.<br>When the same ticket is added to a Service Contract,based on the Tracking Unit of the Service Contract,Used units is updated whenever a ticket is Closed.',0,0),(13,165,'days','jo_troubletickets',1,'1','days','Days',1,2,'',100,11,25,1,'N~O',1,NULL,'BAS',1,'This gives the estimated days for the Ticket.<br>When the same ticket is added to a Service Contract,based on the Tracking Unit of the Service Contract,Used units is updated whenever a ticket is Closed.',0,0),(13,166,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,10,25,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(13,167,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,13,25,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(13,168,'from_portal','jo_ticketcf',1,'56','from_portal','From Portal',1,0,'',100,14,25,3,'C~O',3,NULL,'BAS',0,NULL,0,0),(13,169,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,17,25,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(13,170,'title','jo_troubletickets',1,'22','ticket_title','Title',1,0,'',100,1,25,1,'V~M',0,1,'BAS',1,NULL,1,0),(13,171,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,28,1,'V~O',2,4,'BAS',1,NULL,1,0),(13,172,'solution','jo_troubletickets',1,'19','solution','Solution',1,0,'',100,1,29,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(13,173,'comments','jo_ticketcomments',1,'19','comments','Add Comment',1,1,'',100,1,30,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(14,174,'productname','jo_products',1,'2','productname','Product Name',1,0,'',100,1,31,1,'V~M',0,1,'BAS',1,NULL,1,0),(14,175,'product_no','jo_products',1,'4','product_no','Product No',1,0,'',100,2,31,1,'V~O',3,NULL,'BAS',0,NULL,0,1),(14,176,'productcode','jo_products',1,'1','productcode','Part Number',1,2,'',100,4,31,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(14,177,'discontinued','jo_products',1,'56','discontinued','Product Active',1,2,'1',100,3,31,1,'V~O',2,2,'BAS',1,NULL,0,1),(14,178,'manufacturer','jo_products',1,'15','manufacturer','Manufacturer',1,2,'',100,6,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,179,'productcategory','jo_products',1,'15','productcategory','Product Category',1,2,'',100,6,31,1,'V~O',1,NULL,'BAS',1,NULL,0,1),(14,180,'sales_start_date','jo_products',1,'5','sales_start_date','Sales Start Date',1,2,'',100,5,31,1,'D~O',1,NULL,'BAS',1,NULL,0,0),(14,181,'sales_end_date','jo_products',1,'5','sales_end_date','Sales End Date',1,2,'',100,8,31,1,'D~O~OTH~GE~sales_start_date~Sales Start Date',1,NULL,'BAS',1,NULL,0,0),(14,182,'start_date','jo_products',1,'5','start_date','Support Start Date',1,2,'',100,7,31,1,'D~O',1,NULL,'BAS',1,NULL,0,0),(14,183,'expiry_date','jo_products',1,'5','expiry_date','Support Expiry Date',1,2,'',100,10,31,1,'D~O~OTH~GE~start_date~Start Date',1,NULL,'BAS',1,NULL,0,0),(14,184,'website','jo_products',1,'17','website','Website',1,2,'',100,14,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,185,'vendor_id','jo_products',1,'75','vendor_id','Vendor Name',1,2,'',100,13,31,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(14,186,'mfr_part_no','jo_products',1,'1','mfr_part_no','Mfr PartNo',1,2,'',100,16,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,187,'vendor_part_no','jo_products',1,'1','vendor_part_no','Vendor PartNo',1,2,'',100,15,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,188,'serialno','jo_products',1,'1','serial_no','Serial No',1,2,'',100,18,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,189,'productsheet','jo_products',1,'1','productsheet','Product Sheet',1,2,'',100,17,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,190,'glacct','jo_products',1,'15','glacct','GL Account',1,2,'',100,20,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,191,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,19,31,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(14,192,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,21,31,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(14,193,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,31,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(14,194,'unit_price','jo_products',1,'72','unit_price','Unit Price',1,0,'',100,1,32,1,'N~O',2,3,'BAS',0,NULL,1,0),(14,195,'commissionrate','jo_products',1,'9','commissionrate','Commission Rate',1,2,'',100,2,32,1,'N~O',1,NULL,'BAS',1,NULL,1,0),(14,196,'taxclass','jo_products',1,'83','taxclass','Taxes',1,2,'',100,4,32,1,'V~O',2,NULL,'BAS',1,NULL,0,0),(14,197,'usageunit','jo_products',1,'15','usageunit','Usage Unit',1,2,'',100,1,33,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(14,198,'qty_per_unit','jo_products',1,'1','qty_per_unit','Qty/Unit',1,2,'',100,2,33,1,'N~O',1,NULL,'ADV',1,NULL,1,0),(14,199,'qtyinstock','jo_products',1,'1','qtyinstock','Qty In Stock',1,2,'',100,3,33,1,'NN~O',0,4,'ADV',1,NULL,0,1),(14,200,'reorderlevel','jo_products',1,'1','reorderlevel','Reorder Level',1,2,'',100,4,33,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(14,201,'smownerid','jo_crmentity',1,'53','assigned_user_id','Handler',1,0,'',100,5,33,1,'V~M',0,5,'BAS',1,NULL,0,0),(14,202,'qtyindemand','jo_products',1,'1','qtyindemand','Qty In Demand',1,2,'',100,6,33,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(14,203,'imagename','jo_products',1,'69','imagename','Product Image',1,2,'',100,1,35,1,'V~O',3,NULL,'ADV',0,NULL,0,0),(14,204,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,36,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(8,205,'title','jo_notes',1,'2','notes_title','Title',1,0,'',100,1,17,1,'V~M',0,1,'BAS',1,NULL,1,0),(8,206,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,5,17,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(8,207,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,6,17,2,'DT~O',3,NULL,'BAS',0,NULL,1,0),(8,208,'filename','jo_notes',1,'28','filename','File Name',1,2,'',100,3,18,1,'V~O',0,NULL,'BAS',0,NULL,1,0),(8,209,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,4,17,1,'V~M',0,3,'BAS',1,NULL,1,0),(8,210,'notecontent','jo_notes',1,'19','notecontent','Note',1,2,'',100,1,82,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(8,211,'filetype','jo_notes',1,'1','filetype','File Type',1,2,'',100,5,18,2,'V~O',3,0,'BAS',0,NULL,0,0),(8,212,'filesize','jo_notes',1,'1','filesize','File Size',1,2,'',100,4,18,2,'I~O',3,0,'BAS',0,NULL,0,0),(8,213,'filelocationtype','jo_notes',1,'27','filelocationtype','Download Type',1,0,'',100,1,18,1,'V~O',0,0,'BAS',0,NULL,0,0),(8,214,'fileversion','jo_notes',1,'1','fileversion','Version',1,2,'',100,6,18,1,'V~O',1,0,'BAS',1,NULL,0,0),(8,215,'filestatus','jo_notes',1,'56','filestatus','Active',1,2,'1',100,2,18,1,'V~O',1,0,'BAS',1,NULL,0,0),(8,216,'filedownloadcount','jo_notes',1,'1','filedownloadcount','Download Count',1,2,'',100,7,18,2,'I~O',3,0,'BAS',0,NULL,0,0),(8,217,'folderid','jo_notes',1,'26','folderid','Folder Name',1,2,'',100,2,17,1,'V~O',2,2,'BAS',1,NULL,1,0),(8,218,'note_no','jo_notes',1,'4','note_no','Document No',1,0,'',100,3,17,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(8,219,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,17,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,220,'date_start','jo_activity',1,'6','date_start','Date & Time Sent',1,0,'',100,1,21,1,'DT~M~time_start~Time Start',1,NULL,'BAS',1,NULL,0,0),(10,221,'semodule','jo_activity',1,'2','parent_type','Sales Enity Module',1,0,'',100,2,21,3,'',1,NULL,'BAS',1,NULL,0,0),(10,222,'activitytype','jo_activity',1,'2','activitytype','Activtiy Type',1,0,'',100,3,21,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,223,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,5,21,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(10,224,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,23,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(10,225,'name','jo_attachments',1,'61','filename','Attachment',1,0,'',100,2,23,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,226,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,24,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,227,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,9,23,1,'T~O',1,NULL,'BAS',1,NULL,0,0),(10,228,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,10,22,1,'DT~O',3,NULL,'BAS',0,NULL,0,0),(10,229,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,11,21,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(10,230,'access_count','jo_email_track',1,'25','access_count','Access Count',1,0,'0',100,6,21,3,'I~O',1,NULL,'BAS',0,NULL,0,0),(10,231,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,21,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(9,232,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,19,1,'V~M',0,1,'BAS',1,NULL,1,0),(9,233,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,2,19,1,'V~M',0,4,'BAS',1,NULL,1,0),(9,234,'date_start','jo_activity',1,'6','date_start','Start Date & Time',1,0,'',100,3,19,1,'DT~M~time_start',0,2,'BAS',1,NULL,1,0),(9,235,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,4,19,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(9,236,'time_end','jo_activity',1,'2','time_end','End Time',1,0,'',100,4,19,3,'T~O',1,NULL,'BAS',1,NULL,1,0),(9,237,'due_date','jo_activity',1,'23','due_date','Due Date',1,0,'',100,5,19,1,'D~M~OTH~GE~date_start~Start Date & Time',1,NULL,'BAS',1,NULL,1,0),(9,238,'crmid','jo_seactivityrel',1,'66','parent_id','Related To',1,0,'',100,7,19,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(9,239,'contactid','jo_cntactivityrel',1,'57','contact_id','Contact Name',1,0,'',100,8,19,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(9,240,'status','jo_activity',1,'15','taskstatus','Status',1,0,'',100,8,19,1,'V~M',0,3,'BAS',1,NULL,0,0),(9,241,'eventstatus','jo_activity',1,'15','eventstatus','Status',1,0,'',100,9,19,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,242,'priority','jo_activity',1,'15','taskpriority','Priority',1,0,'',100,10,19,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,243,'sendnotification','jo_activity',1,'56','sendnotification','Send Notification',1,0,'',100,11,19,1,'C~O',1,NULL,'BAS',1,NULL,0,0),(9,244,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,14,19,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(9,245,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,19,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(9,246,'activitytype','jo_activity',1,'15','activitytype','Activity Type',1,0,'',100,16,19,3,'V~O',1,NULL,'BAS',1,NULL,1,0),(9,247,'visibility','jo_activity',1,'16','visibility','Visibility',1,0,'',100,17,19,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,248,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,20,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,249,'duration_hours','jo_activity',1,'63','duration_hours','Duration',1,0,'',100,17,19,3,'T~O',1,NULL,'BAS',1,NULL,0,0),(9,250,'duration_minutes','jo_activity',1,'16','duration_minutes','Duration Minutes',1,0,'',100,18,19,3,'T~O',1,NULL,'BAS',1,NULL,0,0),(9,251,'location','jo_activity',1,'1','location','Location',1,0,'',100,19,19,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,252,'reminder_time','jo_activity_reminder',1,'30','reminder_time','Send Reminder',1,0,'',100,1,110,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(9,253,'recurringtype','jo_activity',1,'16','recurringtype','Recurrence',1,0,'',100,6,19,3,'O~O',1,NULL,'BAS',1,NULL,1,0),(9,254,'notime','jo_activity',1,'56','notime','No Time',1,0,'',100,20,19,3,'C~O',1,NULL,'BAS',1,NULL,0,0),(9,255,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,19,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(16,256,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,37,1,'V~M',0,1,'BAS',1,NULL,1,0),(16,257,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,2,37,1,'V~M',0,6,'BAS',1,NULL,1,0),(16,258,'date_start','jo_activity',1,'6','date_start','Start Date & Time',1,0,'',100,3,37,1,'DT~M~time_start',0,2,'BAS',1,NULL,1,0),(16,259,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,4,37,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(16,260,'due_date','jo_activity',1,'23','due_date','End Date',1,0,'',100,5,37,1,'D~M~OTH~GE~date_start~Start Date & Time',0,5,'BAS',1,NULL,1,0),(16,261,'time_end','jo_activity',1,'2','time_end','End Time',1,0,'',100,5,37,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(16,262,'recurringtype','jo_activity',1,'16','recurringtype','Recurrence',1,0,'',100,6,107,1,'O~O',1,NULL,'BAS',1,NULL,1,0),(16,263,'duration_hours','jo_activity',1,'63','duration_hours','Duration',1,0,'',100,7,37,3,'I~M',1,NULL,'BAS',1,NULL,0,0),(16,264,'duration_minutes','jo_activity',1,'16','duration_minutes','Duration Minutes',1,0,'',100,8,37,3,'O~O',1,NULL,'BAS',1,NULL,0,0),(16,265,'crmid','jo_seactivityrel',1,'66','parent_id','Related To',1,0,'',100,9,109,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(16,266,'eventstatus','jo_activity',1,'15','eventstatus','Status',1,0,'',100,10,37,1,'V~M',0,3,'BAS',1,NULL,0,0),(16,267,'sendnotification','jo_activity',1,'56','sendnotification','Send Notification',1,0,'',100,11,37,1,'C~O',1,NULL,'BAS',1,NULL,0,0),(16,268,'activitytype','jo_activity',1,'15','activitytype','Activity Type',1,0,'',100,12,37,1,'V~M',0,4,'BAS',1,NULL,1,0),(16,269,'location','jo_activity',1,'1','location','Location',1,0,'',100,13,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,270,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,14,37,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(16,271,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,37,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(16,272,'priority','jo_activity',1,'15','taskpriority','Priority',1,0,'',100,16,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,273,'notime','jo_activity',1,'56','notime','No Time',1,0,'',100,17,37,3,'C~O',1,NULL,'BAS',1,NULL,0,0),(16,274,'visibility','jo_activity',1,'16','visibility','Visibility',1,0,'',100,18,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,275,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,37,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(16,276,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,41,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,277,'reminder_time','jo_activity_reminder',1,'30','reminder_time','Send Reminder',1,0,'',100,1,40,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(16,278,'contactid','jo_cntactivityrel',1,'57','contact_id','Contact Name',1,0,'',100,1,109,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(18,279,'vendorname','jo_vendor',1,'2','vendorname','Vendor Name',1,0,'',100,1,40,1,'V~M',0,1,'BAS',1,NULL,1,0),(18,280,'vendor_no','jo_vendor',1,'4','vendor_no','Vendor No',1,0,'',100,2,40,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(18,281,'phone','jo_vendor',1,'1','phone','Phone',1,2,'',100,4,40,1,'V~O',2,2,'BAS',1,NULL,0,1),(18,282,'email','jo_vendor',1,'13','email','Email',1,2,'',100,3,40,1,'E~O',2,3,'BAS',1,NULL,0,1),(18,283,'website','jo_vendor',1,'17','website','Website',1,2,'',100,6,40,1,'V~O',1,NULL,'BAS',1,NULL,0,1),(18,284,'glacct','jo_vendor',1,'15','glacct','GL Account',1,2,'',100,5,40,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(18,285,'category','jo_vendor',1,'1','category','Category',1,2,'',100,8,40,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(18,286,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,7,40,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(18,287,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,9,40,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(18,288,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,40,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(18,289,'street','jo_vendor',1,'21','street','Street',1,2,'',100,1,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,290,'pobox','jo_vendor',1,'1','pobox','Po Box',1,2,'',100,2,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,291,'city','jo_vendor',1,'1','city','City',1,2,'',100,3,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,292,'state','jo_vendor',1,'1','state','State',1,2,'',100,4,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,293,'postalcode','jo_vendor',1,'1','postalcode','Postal Code',1,2,'',100,5,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,294,'country','jo_vendor',1,'1','country','Country',1,2,'',100,6,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,295,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,43,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(19,296,'bookname','jo_pricebook',1,'2','bookname','Price Book Name',1,0,'',100,1,44,1,'V~M',0,1,'BAS',1,NULL,1,0),(19,297,'pricebook_no','jo_pricebook',1,'4','pricebook_no','PriceBook No',1,0,'',100,3,44,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(19,298,'active','jo_pricebook',1,'56','active','Active',1,2,'1',100,2,44,1,'C~O',2,2,'BAS',1,NULL,1,0),(19,299,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,4,44,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(19,300,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,5,44,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(19,301,'currency_id','jo_pricebook',1,'117','currency_id','Currency',1,0,'',100,5,44,1,'I~M',0,3,'BAS',0,NULL,0,0),(19,302,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,44,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(19,303,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,46,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(20,304,'quote_no','jo_quotes',1,'4','quote_no','Quote No',1,0,'',100,3,47,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(20,305,'subject','jo_quotes',1,'2','subject','Subject',1,0,'',100,1,47,1,'V~M',1,NULL,'BAS',1,NULL,1,0),(20,306,'potentialid','jo_quotes',1,'76','potential_id','Potential Name',1,2,'',100,2,47,1,'I~O',3,NULL,'BAS',1,NULL,1,0),(20,307,'quotestage','jo_quotes',1,'15','quotestage','Quote Stage',1,2,'',100,4,47,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(20,308,'validtill','jo_quotes',1,'5','validtill','Valid Till',1,2,'',100,5,47,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(20,309,'contactid','jo_quotes',1,'57','contact_id','Contact Name',1,2,'',100,6,47,1,'V~O',3,NULL,'BAS',1,NULL,0,1),(20,310,'carrier','jo_quotes',1,'15','carrier','Carrier',1,2,'',100,8,47,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,311,'subtotal','jo_quotes',1,'72','hdnSubTotal','Sub Total',1,2,'',100,9,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,312,'shipping','jo_quotes',1,'1','shipping','Shipping',1,2,'',100,10,47,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,313,'inventorymanager','jo_quotes',1,'77','assigned_user_id1','Inventory Manager',1,2,'',100,11,47,1,'I~O',3,NULL,'BAS',1,NULL,0,0),(20,314,'adjustment','jo_quotes',1,'72','txtAdjustment','Adjustment',1,2,'',100,20,47,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(20,315,'total','jo_quotes',1,'72','hdnGrandTotal','Total',1,2,'',100,14,47,3,'N~O',3,NULL,'BAS',1,NULL,0,1),(20,316,'taxtype','jo_quotes',1,'16','hdnTaxType','Tax Type',1,2,'',100,14,47,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,317,'discount_percent','jo_quotes',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,14,106,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,318,'discount_amount','jo_quotes',1,'72','hdnDiscountAmount','Discount Amount',1,2,'',100,14,106,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,319,'s_h_amount','jo_quotes',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,320,'accountid','jo_quotes',1,'73','account_id','Account Name',1,2,'',100,16,47,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(20,321,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,17,47,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(20,322,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,18,47,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(20,323,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,19,47,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(20,324,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,47,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(20,325,'currency_id','jo_quotes',1,'117','currency_id','Currency',1,2,'1',100,20,47,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(20,326,'conversion_rate','jo_quotes',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,21,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,327,'bill_street','jo_quotesbillads',1,'24','bill_street','Billing Address',1,2,'',100,1,49,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(20,328,'ship_street','jo_quotesshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,49,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(20,329,'bill_city','jo_quotesbillads',1,'1','bill_city','Billing City',1,2,'',100,5,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,330,'ship_city','jo_quotesshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,331,'bill_state','jo_quotesbillads',1,'1','bill_state','Billing State',1,2,'',100,7,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,332,'ship_state','jo_quotesshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,333,'bill_code','jo_quotesbillads',1,'1','bill_code','Billing Code',1,2,'',100,9,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,334,'ship_code','jo_quotesshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,335,'bill_country','jo_quotesbillads',1,'1','bill_country','Billing Country',1,2,'',100,11,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,336,'ship_country','jo_quotesshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,337,'bill_pobox','jo_quotesbillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,338,'ship_pobox','jo_quotesshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,339,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,52,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(20,340,'terms_conditions','jo_quotes',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,51,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(21,341,'purchaseorder_no','jo_purchaseorder',1,'4','purchaseorder_no','PurchaseOrder No',1,0,'',100,2,53,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(21,342,'subject','jo_purchaseorder',1,'2','subject','Subject',1,0,'',100,1,53,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(21,343,'vendorid','jo_purchaseorder',1,'81','vendor_id','Vendor Name',1,0,'',100,3,53,1,'I~M',3,NULL,'BAS',1,NULL,1,0),(21,344,'requisition_no','jo_purchaseorder',1,'1','requisition_no','Requisition No',1,2,'',100,4,53,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,345,'tracking_no','jo_purchaseorder',1,'1','tracking_no','Tracking Number',1,2,'',100,5,53,1,'V~O',3,NULL,'BAS',1,NULL,1,0),(21,346,'contactid','jo_purchaseorder',1,'57','contact_id','Contact Name',1,2,'',100,6,53,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(21,347,'duedate','jo_purchaseorder',1,'5','duedate','Due Date',1,2,'',100,7,53,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(21,348,'carrier','jo_purchaseorder',1,'15','carrier','Carrier',1,2,'',100,8,53,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,349,'adjustment','jo_purchaseorder',1,'72','txtAdjustment','Adjustment',1,2,'',100,10,53,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(21,350,'salescommission','jo_purchaseorder',1,'1','salescommission','Sales Commission',1,2,'',100,11,53,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,351,'exciseduty','jo_purchaseorder',1,'1','exciseduty','Excise Duty',1,2,'',100,12,53,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,352,'total','jo_purchaseorder',1,'72','hdnGrandTotal','Total',1,2,'',100,13,53,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(21,353,'subtotal','jo_purchaseorder',1,'72','hdnSubTotal','Sub Total',1,2,'',100,14,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,354,'taxtype','jo_purchaseorder',1,'16','hdnTaxType','Tax Type',1,2,'',100,14,53,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,355,'discount_percent','jo_purchaseorder',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,14,105,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,356,'discount_amount','jo_purchaseorder',1,'72','hdnDiscountAmount','Discount Amount',1,0,'',100,14,105,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,357,'s_h_amount','jo_purchaseorder',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,358,'postatus','jo_purchaseorder',1,'15','postatus','Status',1,2,'',100,15,53,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(21,359,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,16,53,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(21,360,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,17,53,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(21,361,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,18,53,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(21,362,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,53,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(21,363,'currency_id','jo_purchaseorder',1,'117','currency_id','Currency',1,2,'1',100,19,53,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(21,364,'conversion_rate','jo_purchaseorder',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,20,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,365,'bill_street','jo_pobillads',1,'24','bill_street','Billing Address',1,2,'',100,1,55,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(21,366,'ship_street','jo_poshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,55,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(21,367,'bill_city','jo_pobillads',1,'1','bill_city','Billing City',1,2,'',100,5,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,368,'ship_city','jo_poshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,369,'bill_state','jo_pobillads',1,'1','bill_state','Billing State',1,2,'',100,7,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,370,'ship_state','jo_poshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,371,'bill_code','jo_pobillads',1,'1','bill_code','Billing Code',1,2,'',100,9,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,372,'ship_code','jo_poshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,373,'bill_country','jo_pobillads',1,'1','bill_country','Billing Country',1,2,'',100,11,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,374,'ship_country','jo_poshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,375,'bill_pobox','jo_pobillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,376,'ship_pobox','jo_poshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,377,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,58,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(21,378,'terms_conditions','jo_purchaseorder',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,57,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,379,'salesorder_no','jo_salesorder',1,'4','salesorder_no','SalesOrder No',1,0,'',100,4,59,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(22,380,'subject','jo_salesorder',1,'2','subject','Subject',1,0,'',100,1,59,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(22,381,'potentialid','jo_salesorder',1,'76','potential_id','Potential Name',1,2,'',100,2,59,1,'I~O',3,NULL,'BAS',1,NULL,0,0),(22,382,'customerno','jo_salesorder',1,'1','customerno','Customer No',1,2,'',100,3,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,383,'quoteid','jo_salesorder',1,'78','quote_id','Quote Name',1,2,'',100,5,59,1,'I~O',3,NULL,'BAS',0,NULL,1,0),(22,384,'purchaseorder','jo_salesorder',1,'1','jo_purchaseorder','Purchase Order',1,2,'',100,5,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,385,'contactid','jo_salesorder',1,'57','contact_id','Contact Name',1,2,'',100,6,59,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(22,386,'duedate','jo_salesorder',1,'5','duedate','Due Date',1,2,'',100,8,59,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(22,387,'carrier','jo_salesorder',1,'15','carrier','Carrier',1,2,'',100,9,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,388,'pending','jo_salesorder',1,'1','pending','Pending',1,2,'',100,10,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,389,'sostatus','jo_salesorder',1,'15','sostatus','Status',1,2,'',100,11,59,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(22,390,'adjustment','jo_salesorder',1,'72','txtAdjustment','Adjustment',1,2,'',100,12,59,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(22,391,'salescommission','jo_salesorder',1,'1','salescommission','Sales Commission',1,2,'',100,13,59,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,392,'exciseduty','jo_salesorder',1,'1','exciseduty','Excise Duty',1,2,'',100,13,59,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,393,'total','jo_salesorder',1,'72','hdnGrandTotal','Total',1,2,'',100,14,59,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(22,394,'subtotal','jo_salesorder',1,'72','hdnSubTotal','Sub Total',1,2,'',100,15,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,395,'taxtype','jo_salesorder',1,'16','hdnTaxType','Tax Type',1,2,'',100,15,59,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,396,'discount_percent','jo_salesorder',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,15,104,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,397,'discount_amount','jo_salesorder',1,'72','hdnDiscountAmount','Discount Amount',1,0,'',100,15,104,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,398,'s_h_amount','jo_salesorder',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,15,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,399,'accountid','jo_salesorder',1,'73','account_id','Account Name',1,2,'',100,16,59,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(22,400,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,17,59,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(22,401,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,18,59,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(22,402,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,19,59,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(22,403,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,59,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,404,'currency_id','jo_salesorder',1,'117','currency_id','Currency',1,2,'1',100,20,59,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(22,405,'conversion_rate','jo_salesorder',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,21,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,406,'bill_street','jo_sobillads',1,'24','bill_street','Billing Address',1,2,'',100,1,61,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(22,407,'ship_street','jo_soshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,61,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(22,408,'bill_city','jo_sobillads',1,'1','bill_city','Billing City',1,2,'',100,5,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,409,'ship_city','jo_soshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,410,'bill_state','jo_sobillads',1,'1','bill_state','Billing State',1,2,'',100,7,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,411,'ship_state','jo_soshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,412,'bill_code','jo_sobillads',1,'1','bill_code','Billing Code',1,2,'',100,9,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,413,'ship_code','jo_soshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,414,'bill_country','jo_sobillads',1,'1','bill_country','Billing Country',1,2,'',100,11,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,415,'ship_country','jo_soshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,416,'bill_pobox','jo_sobillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,417,'ship_pobox','jo_soshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,418,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,64,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,419,'terms_conditions','jo_salesorder',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,63,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,420,'enable_recurring','jo_salesorder',1,'56','enable_recurring','Enable Recurring',1,0,'',100,1,83,1,'C~O',3,NULL,'BAS',0,NULL,0,0),(22,421,'recurring_frequency','jo_invoice_recurring_info',1,'16','recurring_frequency','Frequency',1,0,'',100,2,83,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,422,'start_period','jo_invoice_recurring_info',1,'5','start_period','Start Period',1,0,'',100,3,83,1,'D~O',3,NULL,'BAS',0,NULL,0,0),(22,423,'end_period','jo_invoice_recurring_info',1,'5','end_period','End Period',1,0,'',100,4,83,1,'D~O~OTH~G~start_period~Start Period',3,NULL,'BAS',0,NULL,0,0),(22,424,'payment_duration','jo_invoice_recurring_info',1,'16','payment_duration','Payment Duration',1,0,'',100,5,83,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,425,'invoice_status','jo_invoice_recurring_info',1,'15','invoicestatus','Invoice Status',1,0,'',100,6,83,1,'V~M',3,NULL,'BAS',0,NULL,0,0),(23,426,'subject','jo_invoice',1,'2','subject','Subject',1,0,'',100,1,65,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(23,427,'salesorderid','jo_invoice',1,'80','salesorder_id','Sales Order',1,2,'',100,2,65,1,'I~O',3,NULL,'BAS',0,NULL,1,0),(23,428,'customerno','jo_invoice',1,'1','customerno','Customer No',1,2,'',100,3,65,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,429,'contactid','jo_invoice',1,'57','contact_id','Contact Name',1,2,'',100,4,65,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(23,430,'invoicedate','jo_invoice',1,'5','invoicedate','Invoice Date',1,2,'',100,5,65,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(23,431,'duedate','jo_invoice',1,'5','duedate','Due Date',1,2,'',100,6,65,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(23,432,'purchaseorder','jo_invoice',1,'1','jo_purchaseorder','Purchase Order',1,2,'',100,8,65,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,433,'adjustment','jo_invoice',1,'72','txtAdjustment','Adjustment',1,2,'',100,9,65,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(23,434,'salescommission','jo_invoice',1,'1','salescommission','Sales Commission',1,2,'',10,13,65,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,435,'exciseduty','jo_invoice',1,'1','exciseduty','Excise Duty',1,2,'',100,11,65,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,436,'subtotal','jo_invoice',1,'72','hdnSubTotal','Sub Total',1,2,'',100,12,65,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,437,'total','jo_invoice',1,'72','hdnGrandTotal','Total',1,2,'',100,13,65,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(23,438,'taxtype','jo_invoice',1,'16','hdnTaxType','Tax Type',1,2,'',100,13,65,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,439,'discount_percent','jo_invoice',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,13,103,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,440,'discount_amount','jo_invoice',1,'72','hdnDiscountAmount','Discount Amount',1,2,'',100,13,103,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,441,'s_h_amount','jo_invoice',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,57,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,442,'accountid','jo_invoice',1,'73','account_id','Account Name',1,2,'',100,14,65,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(23,443,'invoicestatus','jo_invoice',1,'15','invoicestatus','Status',1,2,'',100,15,65,1,'V~O',3,NULL,'BAS',1,NULL,0,1),(23,444,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,16,65,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(23,445,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,17,65,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(23,446,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,18,65,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(23,447,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,65,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(23,448,'currency_id','jo_invoice',1,'117','currency_id','Currency',1,2,'1',100,19,65,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(23,449,'conversion_rate','jo_invoice',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,20,65,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,450,'bill_street','jo_invoicebillads',1,'24','bill_street','Billing Address',1,2,'',100,1,67,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(23,451,'ship_street','jo_invoiceshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,67,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(23,452,'bill_city','jo_invoicebillads',1,'1','bill_city','Billing City',1,2,'',100,5,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,453,'ship_city','jo_invoiceshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,454,'bill_state','jo_invoicebillads',1,'1','bill_state','Billing State',1,2,'',100,7,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,455,'ship_state','jo_invoiceshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,456,'bill_code','jo_invoicebillads',1,'1','bill_code','Billing Code',1,2,'',100,9,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,457,'ship_code','jo_invoiceshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,458,'bill_country','jo_invoicebillads',1,'1','bill_country','Billing Country',1,2,'',100,11,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,459,'ship_country','jo_invoiceshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,460,'bill_pobox','jo_invoicebillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,461,'ship_pobox','jo_invoiceshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,462,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,70,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(23,463,'terms_conditions','jo_invoice',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,69,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(23,464,'invoice_no','jo_invoice',1,'4','invoice_no','Invoice No',1,0,'',100,3,65,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(29,465,'user_name','jo_users',1,'106','user_name','User Name',1,0,'',11,1,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,466,'is_admin','jo_users',1,'156','is_admin','Admin',1,0,'',3,7,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,467,'user_password','jo_users',1,'99','user_password','Password',1,0,'',30,5,75,4,'P~M',1,NULL,'BAS',1,NULL,0,0),(29,468,'confirm_password','jo_users',1,'99','confirm_password','Confirm Password',1,0,'',30,6,75,4,'P~M',1,NULL,'BAS',1,NULL,0,0),(29,469,'first_name','jo_users',1,'1','first_name','First Name',1,0,'',30,3,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,470,'last_name','jo_users',1,'2','last_name','Last Name',1,0,'',30,4,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,471,'roleid','jo_user2role',1,'98','roleid','Role',1,0,'',200,8,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,472,'email1','jo_users',1,'104','email1','Email',1,0,'',100,2,75,1,'E~M',1,NULL,'BAS',1,NULL,0,0),(29,473,'status','jo_users',1,'115','status','Status',1,0,'Active',100,10,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,474,'activity_view','jo_users',1,'16','activity_view','Default Activity View',1,0,'',100,6,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,475,'lead_view','jo_users',1,'16','lead_view','Default Lead View',1,0,'',100,9,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,476,'hour_format','jo_users',1,'16','hour_format','Calendar Hour Format',1,0,'12',100,4,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,477,'end_hour','jo_users',1,'116','end_hour','Day ends at',1,0,'',100,11,75,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,478,'start_hour','jo_users',1,'16','start_hour','Day starts at',1,0,'',100,2,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,479,'is_owner','jo_users',1,'1','is_owner','Account Owner',0,2,'0',100,12,75,5,'V~O',0,1,'BAS',0,NULL,0,0),(29,480,'title','jo_users',1,'1','title','Title',1,0,'',50,1,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,481,'phone_work','jo_users',1,'11','phone_work','Office Phone',1,0,'',50,5,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,482,'department','jo_users',1,'1','department','Department',1,0,'',50,3,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,483,'phone_mobile','jo_users',1,'11','phone_mobile','Mobile',1,0,'',50,7,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,484,'reports_to_id','jo_users',1,'101','reports_to_id','Reports To',1,0,'',50,8,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,485,'phone_other','jo_users',1,'11','phone_other','Other Phone',1,0,'',50,11,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,486,'email2','jo_users',1,'13','email2','Other Email',1,0,'',100,4,77,1,'E~O',1,NULL,'BAS',1,NULL,0,0),(29,487,'phone_fax','jo_users',1,'11','phone_fax','Fax',1,0,'',50,2,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,488,'secondaryemail','jo_users',1,'13','secondaryemail','Secondary Email',1,0,'',100,6,77,1,'E~O',1,NULL,'BAS',1,NULL,0,0),(29,489,'phone_home','jo_users',1,'11','phone_home','Home Phone',1,0,'',50,9,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,490,'date_format','jo_users',1,'16','date_format','Date Format',1,0,'',30,3,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,491,'signature','jo_users',1,'21','signature','Signature',1,0,'',250,13,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,492,'description','jo_users',1,'21','description','Description',1,0,'',250,14,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,493,'address_street','jo_users',1,'21','address_street','Street Address',1,0,'',250,1,78,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,494,'address_city','jo_users',1,'1','address_city','City',1,0,'',100,3,78,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,495,'address_state','jo_users',1,'1','address_state','State',1,0,'',100,5,78,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,496,'address_postalcode','jo_users',1,'1','address_postalcode','Postal Code',1,0,'',100,4,78,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,497,'address_country','jo_users',1,'1','address_country','Country',1,0,'',100,2,78,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,498,'accesskey','jo_users',1,'3','accesskey','Webservice Access Key',1,0,'',100,2,81,2,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,499,'time_zone','jo_users',1,'16','time_zone','Time Zone',1,0,'',200,5,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,500,'currency_id','jo_users',1,'117','currency_id','Currency',1,0,'',100,1,76,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(29,501,'currency_grouping_pattern','jo_users',1,'16','currency_grouping_pattern','Digit Grouping Pattern',1,0,'',100,2,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Digit Grouping Pattern</b> <br/><br/>This pattern specifies the format in which the currency separator will be placed.',0,0),(29,502,'currency_decimal_separator','jo_users',1,'16','currency_decimal_separator','Decimal Separator',1,0,'.',2,3,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Decimal Separator</b> <br/><br/>Decimal separator specifies the separator to be used to separate the fractional values from the whole number part. <br/><b>Eg:</b> <br/>. => 123.45 <br/>, => 123,45 <br/>\' => 123\'45 <br/>  => 123 45 <br/>$ => 123$45 <br/>',0,0),(29,503,'currency_grouping_separator','jo_users',1,'16','currency_grouping_separator','Digit Grouping Separator',1,0,',',2,4,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Grouping Separator</b> <br/><br/>Grouping separator specifies the separator to be used to group the whole number part into hundreds, thousands etc. <br/><b>Eg:</b> <br/>. => 123.456.789 <br/>, => 123,456,789 <br/>\' => 123\'456\'789 <br/>  => 123 456 789 <br/>$ => 123$456$789 <br/>',0,0),(29,504,'currency_symbol_placement','jo_users',1,'16','currency_symbol_placement','Symbol Placement',1,0,'',20,5,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Symbol Placement</b> <br/><br/>Symbol Placement allows you to configure the position of the currency symbol with respect to the currency value.<br/><b>Eg:</b> <br/>$1.0 => $123,456,789.50 <br/>1.0$ => 123,456,789.50$ <br/>',0,0),(29,505,'imagename','jo_users',1,'105','imagename','User Image',1,0,'',250,10,80,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,506,'internal_mailer','jo_users',1,'56','internal_mailer','INTERNAL_MAIL_COMPOSER',1,0,'',50,15,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,507,'theme','jo_users',1,'31','theme','Theme',1,0,'softed',100,16,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,508,'language','jo_users',1,'32','language','Language',1,0,'en_us',100,17,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,509,'reminder_interval','jo_users',1,'16','reminder_interval','Reminder Interval',1,0,'',100,11,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,510,'default_landing_page','jo_users',1,'16','default_landing_page','Default Landing Page',1,2,'Home',100,20,77,1,'V~O',1,0,'BAS',1,NULL,0,0),(29,511,'default_dashboard_view','jo_users',1,'16','default_dashboard_view','Default Dashboard View',1,2,'1',1,20,0,1,'V~O',1,0,'BAS',1,NULL,0,0),(10,512,'from_email','jo_emaildetails',1,'12','from_email','From',1,2,'',100,1,21,3,'V~M',3,NULL,'BAS',0,NULL,0,0),(10,513,'to_email','jo_emaildetails',1,'8','saved_toid','To',1,2,'',100,2,21,1,'V~M',3,NULL,'BAS',0,NULL,0,0),(10,514,'cc_email','jo_emaildetails',1,'8','ccmail','CC',1,2,'',1000,3,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,515,'bcc_email','jo_emaildetails',1,'8','bccmail','BCC',1,2,'',1000,4,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,516,'idlists','jo_emaildetails',1,'357','parent_id','Parent ID',1,2,'',1000,5,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,517,'email_flag','jo_emaildetails',1,'16','email_flag','Email Flag',1,2,'',1000,6,21,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(36,518,'servicename','jo_service',1,'2','servicename','Service Name',1,0,'',100,1,86,1,'V~M',0,1,'BAS',1,'',1,NULL),(36,519,'service_no','jo_service',1,'4','service_no','Service No',1,0,'',100,2,86,1,'V~O',3,0,'BAS',0,'',1,NULL),(36,520,'discontinued','jo_service',1,'56','discontinued','Service Active',1,2,'1',100,4,86,1,'V~O',2,3,'BAS',1,'',0,NULL),(36,521,'sales_start_date','jo_service',1,'5','sales_start_date','Sales Start Date',1,2,'',100,9,86,1,'D~O',1,0,'BAS',1,'',0,NULL),(36,522,'sales_end_date','jo_service',1,'5','sales_end_date','Sales End Date',1,2,'',100,10,86,1,'D~O~OTH~GE~sales_start_date~Sales Start Date',1,0,'BAS',1,'',0,NULL),(36,523,'start_date','jo_service',1,'5','start_date','Support Start Date',1,2,'',100,11,86,1,'D~O',1,0,'BAS',1,'',0,NULL),(36,524,'expiry_date','jo_service',1,'5','expiry_date','Support Expiry Date',1,2,'',100,12,86,1,'D~O~OTH~GE~start_date~Start Date',1,0,'BAS',1,'',0,NULL),(36,525,'website','jo_service',1,'17','website','Website',1,2,'',100,6,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,526,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,13,86,2,'DT~O',3,0,'BAS',0,'',0,NULL),(36,527,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,14,86,2,'DT~O',3,0,'BAS',0,'',0,NULL),(36,528,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,16,86,3,'V~O',3,0,'BAS',0,'',0,NULL),(36,529,'service_usageunit','jo_service',1,'15','service_usageunit','Usage Unit',1,2,'',100,3,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,530,'qty_per_unit','jo_service',1,'1','qty_per_unit','No of Units',1,2,'',100,5,86,1,'N~O',1,0,'BAS',1,'',1,NULL),(36,531,'smownerid','jo_crmentity',1,'53','assigned_user_id','Owner',1,0,'',100,8,86,1,'I~O',1,0,'BAS',1,'',0,NULL),(36,532,'servicecategory','jo_service',1,'15','servicecategory','Service Category',1,2,'',100,7,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,533,'unit_price','jo_service',1,'72','unit_price','Price',1,0,'',100,1,87,1,'N~O',2,2,'BAS',0,'',1,NULL),(36,534,'taxclass','jo_service',1,'83','taxclass','Taxes',1,2,'',100,4,87,1,'V~O',2,0,'BAS',1,'',0,NULL),(36,535,'commissionrate','jo_service',1,'9','commissionrate','Commission Rate',1,2,'',100,2,87,1,'N~O',1,0,'BAS',1,'',1,NULL),(36,536,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,89,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,537,'direction','jo_pbxmanager',1,'1','direction','Direction',1,2,'',100,1,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,538,'callstatus','jo_pbxmanager',1,'1','callstatus','Call Status',1,2,'',100,2,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,539,'starttime','jo_pbxmanager',1,'70','starttime','Start Time',1,2,'',100,7,90,1,'DT~O',1,0,'BAS',1,'',1,NULL),(37,540,'endtime','jo_pbxmanager',1,'70','endtime','End Time',1,2,'',100,8,90,1,'DT~O',1,0,'BAS',1,'',0,NULL),(37,541,'totalduration','jo_pbxmanager',1,'7','totalduration','Total Duration',1,2,'',100,10,90,1,'I~O',1,0,'BAS',1,'',0,NULL),(37,542,'billduration','jo_pbxmanager',1,'7','billduration','Bill Duration',1,2,'',100,11,90,1,'I~O',1,0,'BAS',1,'',0,NULL),(37,543,'recordingurl','jo_pbxmanager',1,'17','recordingurl','Recording URL',1,2,'',100,9,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,544,'sourceuuid','jo_pbxmanager',1,'1','sourceuuid','Source UUID',1,2,'',100,12,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,545,'gateway','jo_pbxmanager',1,'1','gateway','Gateway',1,2,'',100,13,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,546,'customer','jo_pbxmanager',1,'10','customer','Customer',1,2,'',100,3,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,547,'user','jo_pbxmanager',1,'52','user','User',1,2,'',100,4,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,548,'customernumber','jo_pbxmanager',1,'11','customernumber','Customer Number',1,2,'',100,5,90,1,'V~M',1,0,'BAS',1,'',0,NULL),(37,549,'customertype','jo_pbxmanager',1,'1','customertype','Customer Type',1,2,'',100,6,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,550,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,14,90,1,'V~M',1,0,'BAS',1,'',0,NULL),(37,551,'createdtime','jo_crmentity',1,'70','CreatedTime','Created Time',1,2,'',100,15,90,2,'DT~O',1,0,'BAS',1,'',0,NULL),(37,552,'modifiedtime','jo_crmentity',1,'70','ModifiedTime','Modified Time',1,2,'',100,16,90,2,'DT~O',1,0,'BAS',1,'',0,NULL),(29,553,'phone_crm_extension','jo_users',1,'11','phone_crm_extension','CRM Phone Extension',1,2,'',100,21,77,1,'V~O',1,0,'BAS',1,'',0,NULL),(42,554,'projectmilestonename','jo_projectmilestone',1,'2','projectmilestonename','Project Milestone Name',1,2,'',100,1,91,1,'V~M',0,1,'BAS',1,'',1,NULL),(42,555,'projectmilestonedate','jo_projectmilestone',1,'5','projectmilestonedate','Milestone Date',1,2,'',100,5,91,1,'D~O',0,3,'BAS',1,'',1,NULL),(42,556,'projectid','jo_projectmilestone',1,'10','projectid','Related to',1,0,'',100,4,91,1,'V~M',0,4,'BAS',1,'',0,NULL),(42,557,'projectmilestonetype','jo_projectmilestone',1,'15','projectmilestonetype','Type',1,2,'',100,7,91,1,'V~O',1,0,'BAS',1,'',1,NULL),(42,558,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,6,91,1,'V~M',0,2,'BAS',1,'',0,NULL),(42,559,'projectmilestone_no','jo_projectmilestone',2,'4','projectmilestone_no','Project Milestone No',1,0,'',100,2,91,1,'V~O',3,4,'BAS',0,'',0,NULL),(42,560,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,1,92,2,'DT~O',1,0,'BAS',1,'',0,NULL),(42,561,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,2,92,2,'DT~O',1,0,'BAS',1,'',0,NULL),(42,562,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,3,92,3,'V~O',3,0,'BAS',0,'',0,NULL),(42,563,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,93,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,564,'projecttaskname','jo_projecttask',1,'2','projecttaskname','Project Task Name',1,2,'',100,1,94,1,'V~M',0,1,'BAS',1,'',1,NULL),(43,565,'projecttasktype','jo_projecttask',1,'15','projecttasktype','Type',1,2,'',100,4,94,1,'V~O',1,0,'BAS',1,'',1,NULL),(43,566,'projecttaskpriority','jo_projecttask',1,'15','projecttaskpriority','Priority',1,2,'',100,3,94,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,567,'projectid','jo_projecttask',1,'10','projectid','Related to',1,0,'',100,6,94,1,'V~M',0,5,'BAS',1,'',0,NULL),(43,568,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,7,94,1,'V~M',0,2,'BAS',1,'',1,NULL),(43,569,'projecttasknumber','jo_projecttask',1,'7','projecttasknumber','Project Task Number',1,2,'',100,5,94,1,'I~O',1,0,'BAS',1,'',0,NULL),(43,570,'projecttask_no','jo_projecttask',2,'4','projecttask_no','Project Task No',1,0,'',100,2,94,1,'V~O',3,4,'BAS',0,'',0,NULL),(43,571,'projecttaskprogress','jo_projecttask',1,'15','projecttaskprogress','Progress',1,2,'',100,1,95,1,'V~O',1,0,'BAS',1,'',1,NULL),(43,572,'projecttaskhours','jo_projecttask',1,'7','projecttaskhours','Worked Hours',1,2,'',100,2,95,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,573,'startdate','jo_projecttask',1,'5','startdate','Start Date',1,2,'',100,3,95,1,'D~O',0,3,'BAS',1,'',1,NULL),(43,574,'enddate','jo_projecttask',1,'5','enddate','End Date',1,2,'',100,4,95,1,'D~O~OTH~GE~startdate~Start Date',1,0,'BAS',1,'',1,NULL),(43,575,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,5,95,2,'DT~O',1,0,'BAS',1,'',0,NULL),(43,576,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,6,95,2,'DT~O',1,0,'BAS',1,'',0,NULL),(43,577,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,95,3,'V~O',3,0,'BAS',0,'',0,NULL),(43,578,'description','jo_crmentity',1,'19','description','description',1,2,'',100,1,96,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,579,'projectname','jo_project',1,'2','projectname','Project Name',1,2,'',100,1,97,1,'V~M',0,1,'BAS',1,'',1,NULL),(44,580,'startdate','jo_project',1,'23','startdate','Start Date',1,2,'',100,3,97,1,'D~O',0,3,'BAS',1,'',1,NULL),(44,581,'targetenddate','jo_project',1,'23','targetenddate','Target End Date',1,2,'',100,5,97,1,'D~O~OTH~GE~startdate~Start Date',0,4,'BAS',1,'',1,NULL),(44,582,'actualenddate','jo_project',1,'23','actualenddate','Actual End Date',1,2,'',100,6,97,1,'D~O~OTH~GE~startdate~Start Date',1,0,'BAS',1,'',0,NULL),(44,583,'projectstatus','jo_project',1,'15','projectstatus','Status',1,2,'',100,7,97,1,'V~O',1,0,'BAS',1,'',1,NULL),(44,584,'projecttype','jo_project',1,'15','projecttype','Type',1,2,'',100,8,97,1,'V~O',1,0,'BAS',1,'',1,NULL),(44,585,'linktoaccountscontacts','jo_project',1,'10','linktoaccountscontacts','Related to',1,2,'',100,9,97,1,'V~O',1,0,'BAS',1,'',0,1),(44,586,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,4,97,1,'V~M',0,2,'BAS',1,'',1,NULL),(44,587,'project_no','jo_project',2,'4','project_no','Project No',1,0,'',100,2,97,1,'V~O',3,0,'BAS',0,'',0,NULL),(44,588,'targetbudget','jo_project',1,'7','targetbudget','Target Budget',1,2,'',100,1,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,589,'projecturl','jo_project',1,'17','projecturl','Project Url',1,2,'',100,2,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,590,'projectpriority','jo_project',1,'15','projectpriority','Priority',1,2,'',100,3,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,591,'progress','jo_project',1,'15','progress','Progress',1,2,'',100,4,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,592,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,5,98,2,'DT~O',1,0,'BAS',1,'',0,NULL),(44,593,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,6,98,2,'DT~O',1,0,'BAS',1,'',0,NULL),(44,594,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,98,3,'V~O',3,0,'BAS',0,'',0,NULL),(44,595,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,99,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,596,'commentcontent','jo_modcomments',1,'19','commentcontent','Comment',1,0,'',100,4,100,1,'V~M',0,4,'BAS',2,'',1,NULL),(47,597,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,1,101,1,'V~M',0,1,'BAS',2,'',1,NULL),(47,598,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,5,101,2,'DT~O',0,2,'BAS',0,'',0,NULL),(47,599,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,6,101,2,'DT~O',0,3,'BAS',0,'',0,NULL),(47,600,'related_to','jo_modcomments',1,'10','related_to','Related To',1,2,'',100,2,101,1,'V~M',2,5,'BAS',2,'',0,NULL),(47,601,'smcreatorid','jo_crmentity',1,'52','creator','Creator',1,2,'',100,4,101,2,'V~O',1,0,'BAS',1,'',0,NULL),(47,602,'parent_comments','jo_modcomments',1,'10','parent_comments','Related To Comments',1,2,'',100,7,101,1,'V~O',1,0,'BAS',1,'',0,NULL),(2,603,'forecast_amount','jo_potential',1,'71','forecast_amount','Forecast Amount',1,2,'',100,18,1,1,'N~O',1,0,'BAS',0,'',0,NULL),(29,604,'no_of_currency_decimals','jo_users',1,'16','no_of_currency_decimals','Number Of Currency Decimals',1,2,'2',100,6,76,1,'V~O',1,0,'BAS',1,'<b>Currency - Number of Decimal places</b> <br/><br/>Number of decimal places specifies how many number of decimals will be shown after decimal separator.<br/><b>Eg:</b> 123.00',0,NULL),(23,605,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,103,5,'V~M',1,0,'BAS',0,'',0,NULL),(23,606,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,607,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,608,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,609,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,610,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,611,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,612,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,613,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,614,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,104,5,'V~M',1,0,'BAS',0,'',0,NULL),(22,615,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,616,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,617,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,618,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,619,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,620,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,621,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,622,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,623,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,105,5,'V~M',1,0,'BAS',0,'',0,NULL),(21,624,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,625,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,626,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,627,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,628,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,629,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,630,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,631,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,632,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,106,5,'V~M',1,0,'BAS',0,'',0,NULL),(20,633,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,634,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,635,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,636,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,637,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,638,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,639,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,640,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(29,641,'truncate_trailing_zeros','jo_users',1,'56','truncate_trailing_zeros','Truncate Trailing Zeros',1,2,'0',100,7,76,1,'V~O',1,0,'BAS',1,'<b> Truncate Trailing Zeros </b> <br/><br/>It truncated trailing 0s in any of Currency, Decimal and Percentage Field types<br/><br/><b>Ex:</b><br/>If value is 89.00000 then <br/>decimal and Percentage fields were shows 89<br/>currency field type - shows 89.00<br/>',0,NULL),(29,644,'dayoftheweek','jo_users',1,'16','dayoftheweek','Starting Day of the week',1,2,'Monday',100,1,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,645,'callduration','jo_users',1,'16','callduration','Default Call Duration',1,2,'5',100,7,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,646,'othereventduration','jo_users',1,'16','othereventduration','Other Event Duration',1,2,'5',100,8,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(23,647,'pre_tax_total','jo_invoice',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(22,648,'pre_tax_total','jo_salesorder',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,59,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,649,'pre_tax_total','jo_purchaseorder',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(20,650,'pre_tax_total','jo_quotes',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,47,3,'N~O',1,0,'BAS',1,'',0,NULL),(29,651,'calendarsharedtype','jo_users',1,'16','calendarsharedtype','Calendar Shared Type',1,2,'Public',100,12,108,3,'V~O',1,0,'BAS',1,'',0,NULL),(6,652,'isconvertedfromlead','jo_account',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,24,9,1,'C~O',1,0,'BAS',1,'',0,NULL),(4,653,'isconvertedfromlead','jo_contactdetails',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,29,4,1,'C~O',1,0,'BAS',1,'',0,NULL),(2,654,'isconvertedfromlead','jo_potential',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,19,1,1,'C~O',1,0,'BAS',1,'',0,NULL),(29,655,'default_record_view','jo_users',1,'16','default_record_view','Default Record View',1,2,'Summary',100,22,77,1,'V~O',1,0,'BAS',1,'',0,NULL),(23,656,'received','jo_invoice',1,'72','received','Received',1,2,'0',100,24,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(23,657,'balance','jo_invoice',1,'72','balance','Balance',1,2,'0',100,25,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,658,'paid','jo_purchaseorder',1,'72','paid','Paid',1,2,'0',100,24,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,659,'balance','jo_purchaseorder',1,'72','balance','Balance',1,2,'0',100,25,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(7,660,'emailoptout','jo_leaddetails',1,'56','emailoptout','Email Opt Out',1,0,'',100,24,13,1,'C~O',1,0,'BAS',1,'',0,NULL),(23,663,'s_h_percent','jo_invoice',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,103,5,'N~O',0,1,'BAS',0,'',0,NULL),(20,664,'s_h_percent','jo_quotes',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,106,5,'N~O',0,1,'BAS',0,'',0,NULL),(21,665,'s_h_percent','jo_purchaseorder',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,105,5,'N~O',0,1,'BAS',0,'',0,NULL),(22,666,'s_h_percent','jo_salesorder',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,104,5,'N~O',0,1,'BAS',0,'',0,NULL),(29,667,'leftpanelhide','jo_users',1,'56','leftpanelhide','Left Panel Hide',1,2,'0',100,23,77,1,'V~O',1,0,'BAS',1,'',0,NULL),(2,668,'contact_id','jo_potential',1,'10','contact_id','Contact Name',1,2,'',100,4,1,1,'V~O',1,0,'BAS',1,'',1,NULL),(13,669,'contact_id','jo_troubletickets',1,'10','contact_id','Contact Name',1,2,'',100,3,25,1,'V~O',1,0,'BAS',1,'',1,NULL),(29,670,'rowheight','jo_users',1,'16','rowheight','Row Height',1,2,'medium',100,24,77,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,671,'defaulteventstatus','jo_users',1,'15','defaulteventstatus','Default Event Status',1,2,'Planned',100,9,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,672,'defaultactivitytype','jo_users',1,'15','defaultactivitytype','Default Activity Type',1,2,'Call',100,10,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,673,'hidecompletedevents','jo_users',1,'56','hidecompletedevents','LBL_HIDE_COMPLETED_EVENTS',1,2,'0',100,13,108,1,'C~O',1,0,'BAS',1,'',0,NULL),(14,696,'purchase_cost','jo_products',1,'71','purchase_cost','Purchase Cost',1,0,'',100,5,32,1,'N~O',1,0,'BAS',1,'',0,NULL),(23,698,'potential_id','jo_invoice',1,'10','potential_id','Potential Name',1,2,'',100,26,65,1,'I~O',1,0,'BAS',1,'',0,NULL),(29,699,'defaultcalendarview','jo_users',1,'16','defaultcalendarview','Default Calendar View',1,0,'MyCalendar',100,14,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(23,700,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,14,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,701,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,15,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,702,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,16,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,703,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,15,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,704,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,16,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,705,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,17,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,706,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,15,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,707,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,16,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,708,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,17,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,709,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,18,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(2,713,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,20,1,2,'V~O',3,7,'BAS',0,'',0,NULL),(4,714,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,30,4,2,'V~O',3,7,'BAS',0,'',0,NULL),(6,715,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,25,9,2,'V~O',3,5,'BAS',0,'',0,NULL),(7,716,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,25,13,2,'V~O',3,7,'BAS',0,'',0,NULL),(8,717,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,17,2,'V~O',3,4,'BAS',0,'',0,NULL),(9,718,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,19,2,'V~O',3,5,'BAS',0,'',0,NULL),(10,719,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,21,2,'V~O',3,1,'BAS',0,'',0,NULL),(13,720,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,18,25,2,'V~O',3,5,'BAS',0,'',0,NULL),(14,721,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,31,2,'V~O',3,6,'BAS',0,'',0,NULL),(16,722,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,37,2,'V~O',3,7,'BAS',0,'',0,NULL),(18,723,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,40,2,'V~O',3,4,'BAS',0,'',0,NULL),(19,724,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,8,44,2,'V~O',3,4,'BAS',0,'',0,NULL),(20,725,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,24,47,2,'V~O',3,2,'BAS',0,'',0,NULL),(21,726,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,26,53,2,'V~O',3,2,'BAS',0,'',0,NULL),(22,727,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,24,59,2,'V~O',3,2,'BAS',0,'',0,NULL),(23,728,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,27,65,2,'V~O',3,2,'BAS',0,'',0,NULL),(26,729,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,17,72,2,'V~O',3,8,'BAS',0,'',0,NULL),(10,735,'click_count','jo_email_track',1,'25','click_count','Click Count',1,2,'0',100,14,21,3,'I~O',0,2,'BAS',0,'',0,NULL),(2,736,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,21,1,6,'C~O',3,8,'BAS',0,'',0,NULL),(4,737,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,31,4,6,'C~O',3,8,'BAS',0,'',0,NULL),(6,738,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,26,9,6,'C~O',3,6,'BAS',0,'',0,NULL),(7,739,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,26,13,6,'C~O',3,8,'BAS',0,'',0,NULL),(8,740,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,14,17,6,'C~O',3,5,'BAS',0,'',0,NULL),(9,741,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,19,6,'C~O',3,6,'BAS',0,'',0,NULL),(10,742,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,15,21,6,'C~O',3,3,'BAS',0,'',0,NULL),(13,743,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,19,25,6,'C~O',3,6,'BAS',0,'',0,NULL),(14,744,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,31,6,'C~O',3,7,'BAS',0,'',0,NULL),(16,745,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,37,6,'C~O',3,8,'BAS',0,'',0,NULL),(18,746,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,14,40,6,'C~O',3,5,'BAS',0,'',0,NULL),(19,747,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,9,44,6,'C~O',3,5,'BAS',0,'',0,NULL),(20,748,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,25,47,6,'C~O',3,3,'BAS',0,'',0,NULL),(21,749,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,27,53,6,'C~O',3,3,'BAS',0,'',0,NULL),(22,750,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,25,59,6,'C~O',3,3,'BAS',0,'',0,NULL),(23,751,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,28,65,6,'C~O',3,3,'BAS',0,'',0,NULL),(26,752,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,18,72,6,'C~O',3,9,'BAS',0,'',0,NULL),(2,758,'tags','jo_potential',1,'1','tags','tags',1,2,'',100,22,1,6,'V~O',3,9,'BAS',0,'',0,NULL),(4,759,'tags','jo_contactdetails',1,'1','tags','tags',1,2,'',100,32,4,6,'V~O',3,9,'BAS',0,'',0,NULL),(6,760,'tags','jo_account',1,'1','tags','tags',1,2,'',100,27,9,6,'V~O',3,7,'BAS',0,'',0,NULL),(7,761,'tags','jo_leaddetails',1,'1','tags','tags',1,2,'',100,27,13,6,'V~O',3,9,'BAS',0,'',0,NULL),(8,762,'tags','jo_notes',1,'1','tags','tags',1,2,'',100,15,17,6,'V~O',3,6,'BAS',0,'',0,NULL),(9,763,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,25,19,6,'V~O',3,7,'BAS',0,'',0,NULL),(10,764,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,16,21,6,'V~O',3,4,'BAS',0,'',0,NULL),(13,765,'tags','jo_troubletickets',1,'1','tags','tags',1,2,'',100,20,25,6,'V~O',3,7,'BAS',0,'',0,NULL),(14,766,'tags','jo_products',1,'1','tags','tags',1,2,'',100,25,31,6,'V~O',3,8,'BAS',0,'',0,NULL),(16,767,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,25,37,6,'V~O',3,9,'BAS',0,'',0,NULL),(18,768,'tags','jo_vendor',1,'1','tags','tags',1,2,'',100,15,40,6,'V~O',3,6,'BAS',0,'',0,NULL),(19,769,'tags','jo_pricebook',1,'1','tags','tags',1,2,'',100,10,44,6,'V~O',3,6,'BAS',0,'',0,NULL),(20,770,'tags','jo_quotes',1,'1','tags','tags',1,2,'',100,26,47,6,'V~O',3,4,'BAS',0,'',0,NULL),(21,771,'tags','jo_purchaseorder',1,'1','tags','tags',1,2,'',100,28,53,6,'V~O',3,4,'BAS',0,'',0,NULL),(22,772,'tags','jo_salesorder',1,'1','tags','tags',1,2,'',100,26,59,6,'V~O',3,4,'BAS',0,'',0,NULL),(23,773,'tags','jo_invoice',1,'1','tags','tags',1,2,'',100,29,65,6,'V~O',3,4,'BAS',0,'',0,NULL),(26,774,'tags','jo_campaign',1,'1','tags','tags',1,2,'',100,19,72,6,'V~O',3,10,'BAS',0,'',0,NULL),(20,780,'region_id','jo_quotes',1,'16','region_id','Tax Region',0,2,'',100,18,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,781,'region_id','jo_purchaseorder',1,'16','region_id','Tax Region',0,2,'',100,16,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,782,'region_id','jo_salesorder',1,'16','region_id','Tax Region',0,2,'',100,19,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,783,'region_id','jo_invoice',1,'16','region_id','Tax Region',0,2,'',100,17,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(47,784,'customer','jo_modcomments',1,'10','customer','Customer',1,2,'',100,5,100,3,'V~O',1,0,'BAS',1,'',0,NULL),(47,785,'userid','jo_modcomments',1,'10','userid','UserId',1,2,'',100,6,100,3,'V~O',1,0,'BAS',1,'',0,NULL),(47,786,'reasontoedit','jo_modcomments',1,'19','reasontoedit','ReasonToEdit',1,2,'',100,7,100,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,787,'is_private','jo_modcomments',1,'7','is_private','Is Private',1,2,'',100,8,100,1,'I~O',1,0,'BAS',1,'',0,NULL),(47,788,'filename','jo_modcomments',1,'61','filename','Attachment',1,0,'',100,9,100,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,789,'related_email_id','jo_modcomments',1,'1','related_email_id','Related Email Id',1,2,'0',100,10,100,1,'I~O',1,0,'BAS',1,'',0,NULL),(43,790,'projecttaskstatus','jo_projecttask',1,'15','projecttaskstatus','Status',1,2,'',100,8,94,1,'V~O',0,6,'BAS',1,'',0,NULL),(43,791,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,10,94,6,'C~O',3,8,'BAS',0,'',0,NULL),(43,792,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,9,94,2,'V~O',3,7,'BAS',0,'',0,NULL),(43,793,'tags','jo_projecttask',1,'1','tags','tags',1,2,'',100,11,94,6,'V~O',3,9,'BAS',0,'',0,NULL),(44,794,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,10,97,2,'V~O',3,5,'BAS',0,'',0,NULL),(44,795,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,11,97,6,'C~O',3,6,'BAS',0,'',0,NULL),(44,796,'tags','jo_project',1,'1','tags','tags',1,2,'',100,12,97,6,'V~O',3,7,'BAS',0,'',0,NULL),(44,797,'isconvertedfrompotential','jo_project',1,'56','isconvertedfrompotential','Is Converted From Opportunity',1,2,'',100,13,97,1,'C~O',1,0,'BAS',1,'',0,NULL),(44,798,'potentialid','jo_project',1,'10','potentialid','Potential Name',1,2,'',100,14,97,1,'I~O',1,0,'BAS',1,'',0,NULL);
+INSERT INTO `jo_field` VALUES (6,1,'accountname','jo_account',1,'2','accountname','Account Name',1,0,'',100,1,9,1,'V~M',0,1,'BAS',1,NULL,1,0),(6,2,'account_no','jo_account',1,'4','account_no','Account No',1,0,'',100,2,9,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(6,3,'phone','jo_account',1,'11','phone','Phone',1,2,'',100,4,9,1,'V~O',2,2,'BAS',1,NULL,0,1),(6,4,'website','jo_account',1,'17','website','Website',1,2,'',100,3,9,1,'V~O',2,3,'BAS',1,NULL,0,1),(6,5,'fax','jo_account',1,'11','fax','Fax',1,2,'',100,6,9,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,6,'tickersymbol','jo_account',1,'1','tickersymbol','Ticker Symbol',1,2,'',100,5,9,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,7,'otherphone','jo_account',1,'11','otherphone','Other Phone',1,2,'',100,8,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,8,'parentid','jo_account',1,'51','account_id','Member Of',1,2,'',100,7,9,1,'I~O',1,NULL,'BAS',0,NULL,0,0),(6,9,'email1','jo_account',1,'13','email1','Email',1,2,'',100,10,9,1,'E~O',1,NULL,'BAS',1,NULL,0,1),(6,10,'employees','jo_account',1,'7','employees','Employees',1,2,'',100,9,9,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(6,11,'email2','jo_account',1,'13','email2','Other Email',1,2,'',100,11,9,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(6,12,'ownership','jo_account',1,'1','ownership','Ownership',1,2,'',100,12,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,13,'rating','jo_account',1,'15','rating','Rating',1,2,'',100,14,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,14,'industry','jo_account',1,'15','industry','industry',1,2,'',100,13,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,15,'siccode','jo_account',1,'1','siccode','SIC Code',1,2,'',100,16,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,16,'account_type','jo_account',1,'15','accounttype','Type',1,2,'',100,15,9,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(6,17,'annualrevenue','jo_account',1,'71','annual_revenue','Annual Revenue',1,2,'',100,18,9,1,'N~O',1,NULL,'ADV',1,NULL,0,0),(6,18,'emailoptout','jo_account',1,'56','emailoptout','Email Opt Out',1,0,'',100,17,9,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(6,19,'notify_owner','jo_account',1,'56','notify_owner','Notify Owner',1,2,'',10,20,9,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(6,20,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,19,9,1,'V~M',0,4,'BAS',1,NULL,1,0),(6,21,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,22,9,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(6,22,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,21,9,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(6,23,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,23,9,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(6,24,'bill_street','jo_accountbillads',1,'21','bill_street','Billing Address',1,2,'',100,1,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,25,'ship_street','jo_accountshipads',1,'21','ship_street','Shipping Address',1,2,'',100,2,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,26,'bill_city','jo_accountbillads',1,'1','bill_city','Billing City',1,2,'',100,5,11,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(6,27,'ship_city','jo_accountshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,28,'bill_state','jo_accountbillads',1,'1','bill_state','Billing State',1,2,'',100,7,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,29,'ship_state','jo_accountshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,30,'bill_code','jo_accountbillads',1,'1','bill_code','Billing Code',1,2,'',100,9,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,31,'ship_code','jo_accountshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,32,'bill_country','jo_accountbillads',1,'1','bill_country','Billing Country',1,2,'',100,11,11,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(6,33,'ship_country','jo_accountshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,34,'bill_pobox','jo_accountbillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,35,'ship_pobox','jo_accountshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,11,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(6,36,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,12,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,37,'salutation','jo_leaddetails',1,'55','salutationtype','Salutation',1,0,'',100,1,13,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,38,'firstname','jo_leaddetails',1,'55','firstname','First Name',1,0,'',100,2,13,1,'V~O',2,1,'BAS',1,NULL,1,0),(7,39,'lead_no','jo_leaddetails',1,'4','lead_no','Lead No',1,0,'',100,3,13,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(7,40,'phone','jo_leadaddress',1,'11','phone','Phone',1,2,'',100,5,13,1,'V~O',2,4,'BAS',1,NULL,0,1),(7,41,'lastname','jo_leaddetails',1,'255','lastname','Last Name',1,0,'',100,4,13,1,'V~M',0,2,'BAS',1,NULL,1,0),(7,42,'mobile','jo_leadaddress',1,'11','mobile','Mobile',1,2,'',100,7,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,43,'company','jo_leaddetails',1,'2','company','Company',1,2,'',100,6,13,1,'V~O',2,3,'BAS',1,NULL,1,0),(7,44,'fax','jo_leadaddress',1,'11','fax','Fax',1,2,'',100,9,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,45,'designation','jo_leaddetails',1,'1','designation','Designation',1,2,'',100,8,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,46,'email','jo_leaddetails',1,'13','email','Email',1,2,'',100,11,13,1,'E~O',2,5,'BAS',1,NULL,0,1),(7,47,'leadsource','jo_leaddetails',1,'15','leadsource','Lead Source',1,2,'',100,10,13,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,48,'website','jo_leadsubdetails',1,'17','website','Website',1,2,'',100,13,13,1,'V~O',1,NULL,'ADV',1,NULL,1,0),(7,49,'industry','jo_leaddetails',1,'15','industry','Industry',1,2,'',100,12,13,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(7,50,'leadstatus','jo_leaddetails',1,'15','leadstatus','Lead Status',1,2,'',100,15,13,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,51,'annualrevenue','jo_leaddetails',1,'71','annualrevenue','Annual Revenue',1,2,'',100,14,13,1,'N~O',1,NULL,'ADV',1,NULL,0,0),(7,52,'rating','jo_leaddetails',1,'15','rating','Rating',1,2,'',100,17,13,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(7,53,'noofemployees','jo_leaddetails',1,'1','noofemployees','No Of Employees',1,2,'',100,16,13,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(7,54,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,19,13,1,'V~M',0,6,'BAS',1,NULL,1,0),(7,55,'secondaryemail','jo_leaddetails',1,'13','secondaryemail','Secondary Email',1,2,'',100,18,13,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(7,56,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,21,13,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(7,57,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,20,13,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(7,58,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,23,13,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(7,59,'lane','jo_leadaddress',1,'21','lane','Street',1,2,'',100,1,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,60,'code','jo_leadaddress',1,'1','code','Postal Code',1,2,'',100,3,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,61,'city','jo_leadaddress',1,'1','city','City',1,2,'',100,4,15,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,62,'country','jo_leadaddress',1,'1','country','Country',1,2,'',100,5,15,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(7,63,'state','jo_leadaddress',1,'1','state','State',1,2,'',100,6,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,64,'pobox','jo_leadaddress',1,'1','pobox','Po Box',1,2,'',100,2,15,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(7,65,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,16,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,66,'salutation','jo_contactdetails',1,'55','salutationtype','Salutation',1,0,'',100,1,4,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,67,'firstname','jo_contactdetails',1,'55','firstname','First Name',1,0,'',100,2,4,1,'V~O',2,1,'BAS',1,NULL,1,0),(4,68,'contact_no','jo_contactdetails',1,'4','contact_no','Contact Id',1,0,'',100,3,4,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(4,69,'phone','jo_contactdetails',1,'11','phone','Office Phone',1,2,'',100,5,4,1,'V~O',2,4,'BAS',1,NULL,0,1),(4,70,'lastname','jo_contactdetails',1,'255','lastname','Last Name',1,0,'',100,4,4,1,'V~M',0,2,'BAS',1,NULL,1,0),(4,71,'mobile','jo_contactdetails',1,'11','mobile','Mobile',1,2,'',100,7,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,72,'accountid','jo_contactdetails',1,'51','account_id','Account Name',1,0,'',100,6,4,1,'I~O',2,3,'BAS',1,NULL,1,0),(4,73,'homephone','jo_contactsubdetails',1,'11','homephone','Home Phone',1,2,'',100,9,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,74,'leadsource','jo_contactsubdetails',1,'15','leadsource','Lead Source',1,2,'',100,8,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,75,'otherphone','jo_contactsubdetails',1,'11','otherphone','Other Phone',1,2,'',100,11,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,76,'title','jo_contactdetails',1,'1','title','Title',1,2,'',100,10,4,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,77,'fax','jo_contactdetails',1,'11','fax','Fax',1,2,'',100,13,4,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,78,'department','jo_contactdetails',1,'1','department','Department',1,2,'',100,12,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,79,'birthday','jo_contactsubdetails',1,'5','birthday','Birthdate',1,2,'',100,16,4,1,'D~O',1,NULL,'ADV',1,NULL,0,0),(4,80,'email','jo_contactdetails',1,'13','email','Email',1,2,'',100,15,4,1,'E~O',2,5,'BAS',1,NULL,0,1),(4,81,'reportsto','jo_contactdetails',1,'57','contact_id','Reports To',1,2,'',100,18,4,1,'V~O',1,NULL,'ADV',0,NULL,0,0),(4,82,'assistant','jo_contactsubdetails',1,'1','assistant','Assistant',1,2,'',100,17,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,83,'secondaryemail','jo_contactdetails',1,'13','secondaryemail','Secondary Email',1,2,'',100,20,4,1,'E~O',1,NULL,'ADV',1,NULL,0,0),(4,84,'assistantphone','jo_contactsubdetails',1,'11','assistantphone','Assistant Phone',1,2,'',100,19,4,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(4,85,'donotcall','jo_contactdetails',1,'56','donotcall','Do Not Call',1,2,'',100,22,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,86,'emailoptout','jo_contactdetails',1,'56','emailoptout','Email Opt Out',1,0,'',100,21,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,87,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,24,4,1,'V~M',0,6,'BAS',1,NULL,1,0),(4,88,'reference','jo_contactdetails',1,'56','reference','Reference',1,2,'',10,23,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,89,'notify_owner','jo_contactdetails',1,'56','notify_owner','Notify Owner',1,2,'',10,26,4,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,90,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,25,4,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(4,91,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,27,4,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(4,92,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,28,4,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(4,93,'portal','jo_customerdetails',1,'56','portal','Portal User',1,2,'',100,1,6,1,'C~O',1,NULL,'ADV',1,NULL,0,0),(4,94,'support_start_date','jo_customerdetails',1,'5','support_start_date','Support Start Date',1,2,'',100,2,6,1,'D~O',1,NULL,'ADV',1,NULL,0,0),(4,95,'support_end_date','jo_customerdetails',1,'5','support_end_date','Support End Date',1,2,'',100,3,6,1,'D~O~OTH~GE~support_start_date~Support Start Date',1,NULL,'ADV',1,NULL,0,0),(4,96,'mailingstreet','jo_contactaddress',1,'21','mailingstreet','Mailing Street',1,2,'',100,1,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,97,'otherstreet','jo_contactaddress',1,'21','otherstreet','Other Street',1,2,'',100,2,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,98,'mailingcity','jo_contactaddress',1,'1','mailingcity','Mailing City',1,2,'',100,5,7,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,99,'othercity','jo_contactaddress',1,'1','othercity','Other City',1,2,'',100,6,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,100,'mailingstate','jo_contactaddress',1,'1','mailingstate','Mailing State',1,2,'',100,7,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,101,'otherstate','jo_contactaddress',1,'1','otherstate','Other State',1,2,'',100,8,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,102,'mailingzip','jo_contactaddress',1,'1','mailingzip','Mailing Zip',1,2,'',100,9,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,103,'otherzip','jo_contactaddress',1,'1','otherzip','Other Zip',1,2,'',100,10,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,104,'mailingcountry','jo_contactaddress',1,'1','mailingcountry','Mailing Country',1,2,'',100,11,7,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(4,105,'othercountry','jo_contactaddress',1,'1','othercountry','Other Country',1,2,'',100,12,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,106,'mailingpobox','jo_contactaddress',1,'1','mailingpobox','Mailing Po Box',1,2,'',100,3,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,107,'otherpobox','jo_contactaddress',1,'1','otherpobox','Other Po Box',1,2,'',100,4,7,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,108,'imagename','jo_contactdetails',1,'69','imagename','Contact Image',1,2,'',100,1,71,1,'V~O',3,NULL,'ADV',0,NULL,0,0),(4,109,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,8,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,110,'potentialname','jo_potential',1,'2','potentialname','Potential Name',1,0,'',100,1,1,1,'V~M',0,1,'BAS',1,NULL,1,0),(2,111,'potential_no','jo_potential',1,'4','potential_no','Potential No',1,0,'',100,2,1,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(2,112,'amount','jo_potential',1,'71','amount','Amount',1,2,'',100,5,1,1,'N~O',2,5,'BAS',1,NULL,0,1),(2,113,'related_to','jo_potential',1,'10','related_to','Related To',1,0,'',100,3,1,1,'V~O',0,2,'BAS',1,NULL,0,1),(2,114,'closingdate','jo_potential',1,'23','closingdate','Expected Close Date',1,2,'',100,8,1,1,'D~M',2,3,'BAS',1,NULL,1,0),(2,115,'potentialtype','jo_potential',1,'15','opportunity_type','Type',1,2,'',100,7,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,116,'nextstep','jo_potential',1,'1','nextstep','Next Step',1,2,'',100,10,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,117,'leadsource','jo_potential',1,'15','leadsource','Lead Source',1,2,'',100,9,1,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(2,118,'sales_stage','jo_potential',1,'15','sales_stage','Sales Stage',1,2,'',100,12,1,1,'V~M',2,4,'BAS',1,NULL,0,1),(2,119,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,11,1,1,'V~M',0,6,'BAS',1,NULL,1,0),(2,120,'probability','jo_potential',1,'9','probability','Probability',1,2,'',100,14,1,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(2,121,'campaignid','jo_potential',1,'58','campaignid','Campaign Source',1,2,'',100,13,1,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(2,122,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,16,1,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(2,123,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,1,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(2,124,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,17,1,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(2,125,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,3,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,126,'campaignname','jo_campaign',1,'2','campaignname','Campaign Name',1,0,'',100,1,72,1,'V~M',0,1,'BAS',1,NULL,1,0),(26,127,'campaign_no','jo_campaign',1,'4','campaign_no','Campaign No',1,0,'',100,2,72,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(26,128,'campaigntype','jo_campaign',1,'15','campaigntype','Campaign Type',1,2,'',100,5,72,1,'V~O',2,3,'BAS',1,NULL,1,0),(26,129,'product_id','jo_campaign',1,'59','product_id','Product',1,2,'',100,6,72,1,'I~O',2,5,'BAS',1,NULL,0,0),(26,130,'campaignstatus','jo_campaign',1,'15','campaignstatus','Campaign Status',1,2,'',100,4,72,1,'V~O',2,6,'BAS',1,NULL,1,0),(26,131,'closingdate','jo_campaign',1,'23','closingdate','Expected Close Date',1,2,'',100,8,72,1,'D~M',2,2,'BAS',1,NULL,1,0),(26,132,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,3,72,1,'V~M',0,7,'BAS',1,NULL,1,0),(26,133,'numsent','jo_campaign',1,'9','numsent','Num Sent',1,2,'',100,12,72,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,134,'sponsor','jo_campaign',1,'1','sponsor','Sponsor',1,2,'',100,9,72,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,135,'targetaudience','jo_campaign',1,'1','targetaudience','Target Audience',1,2,'',100,7,72,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(26,136,'targetsize','jo_campaign',1,'1','targetsize','TargetSize',1,2,'',100,10,72,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,137,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,11,72,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(26,138,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,13,72,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(26,139,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,16,72,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(26,140,'expectedresponse','jo_campaign',1,'15','expectedresponse','Expected Response',1,2,'',100,3,74,1,'V~O',2,4,'BAS',1,NULL,0,0),(26,141,'expectedrevenue','jo_campaign',1,'71','expectedrevenue','Expected Revenue',1,2,'',100,4,74,1,'N~O',1,NULL,'BAS',1,NULL,1,0),(26,142,'budgetcost','jo_campaign',1,'71','budgetcost','Budget Cost',1,2,'',100,1,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,143,'actualcost','jo_campaign',1,'71','actualcost','Actual Cost',1,2,'',100,2,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,144,'expectedresponsecount','jo_campaign',1,'1','expectedresponsecount','Expected Response Count',1,2,'',100,7,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,145,'expectedsalescount','jo_campaign',1,'1','expectedsalescount','Expected Sales Count',1,2,'',100,5,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,146,'expectedroi','jo_campaign',1,'71','expectedroi','Expected ROI',1,2,'',100,9,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,147,'actualresponsecount','jo_campaign',1,'1','actualresponsecount','Actual Response Count',1,2,'',100,8,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,148,'actualsalescount','jo_campaign',1,'1','actualsalescount','Actual Sales Count',1,2,'',100,6,74,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(26,149,'actualroi','jo_campaign',1,'71','actualroi','Actual ROI',1,2,'',100,10,74,1,'N~O',1,NULL,'BAS',1,NULL,0,0),(26,150,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,79,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(4,151,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(6,152,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(7,153,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(26,154,'campaignrelstatus','jo_campaignrelstatus',1,'16','campaignrelstatus','Status',1,0,'0',100,1,NULL,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(13,155,'ticket_no','jo_troubletickets',1,'4','ticket_no','Ticket No',1,0,'',100,14,25,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(13,156,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,5,25,1,'V~M',0,4,'BAS',1,NULL,1,0),(13,157,'parent_id','jo_troubletickets',1,'10','parent_id','Related To',1,0,'',100,2,25,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(13,158,'priority','jo_troubletickets',1,'15','ticketpriorities','Priority',1,2,'',100,7,25,1,'V~M',2,3,'BAS',1,NULL,0,1),(13,159,'product_id','jo_troubletickets',1,'59','product_id','Product Name',1,2,'',100,6,25,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(13,160,'severity','jo_troubletickets',1,'15','ticketseverities','Severity',1,2,'',100,9,25,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(13,161,'status','jo_troubletickets',1,'15','ticketstatus','Status',1,2,'',100,8,25,1,'V~M',1,2,'BAS',1,NULL,1,0),(13,162,'category','jo_troubletickets',1,'15','ticketcategories','Category',1,2,'',100,11,25,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(13,163,'update_log','jo_troubletickets',1,'19','update_log','Update History',1,1,'',100,12,25,3,'V~O',1,NULL,'BAS',0,NULL,0,0),(13,164,'hours','jo_troubletickets',1,'1','hours','Hours',1,2,'',100,10,25,1,'N~O',1,NULL,'BAS',1,'This gives the estimated hours for the Ticket.<br>When the same ticket is added to a Service Contract,based on the Tracking Unit of the Service Contract,Used units is updated whenever a ticket is Closed.',0,0),(13,165,'days','jo_troubletickets',1,'1','days','Days',1,2,'',100,11,25,1,'N~O',1,NULL,'BAS',1,'This gives the estimated days for the Ticket.<br>When the same ticket is added to a Service Contract,based on the Tracking Unit of the Service Contract,Used units is updated whenever a ticket is Closed.',0,0),(13,166,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,10,25,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(13,167,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,13,25,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(13,168,'from_portal','jo_ticketcf',1,'56','from_portal','From Portal',1,0,'',100,14,25,3,'C~O',3,NULL,'BAS',0,NULL,0,0),(13,169,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,17,25,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(13,170,'title','jo_troubletickets',1,'22','ticket_title','Title',1,0,'',100,1,25,1,'V~M',0,1,'BAS',1,NULL,1,0),(13,171,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,28,1,'V~O',2,4,'BAS',1,NULL,1,0),(13,172,'solution','jo_troubletickets',1,'19','solution','Solution',1,0,'',100,1,29,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(13,173,'comments','jo_ticketcomments',1,'19','comments','Add Comment',1,1,'',100,1,30,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(14,174,'productname','jo_products',1,'2','productname','Product Name',1,0,'',100,1,31,1,'V~M',0,1,'BAS',1,NULL,1,0),(14,175,'product_no','jo_products',1,'4','product_no','Product No',1,0,'',100,2,31,1,'V~O',3,NULL,'BAS',0,NULL,0,1),(14,176,'productcode','jo_products',1,'1','productcode','Part Number',1,2,'',100,4,31,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(14,177,'discontinued','jo_products',1,'56','discontinued','Product Active',1,2,'1',100,3,31,1,'V~O',2,2,'BAS',1,NULL,0,1),(14,178,'manufacturer','jo_products',1,'15','manufacturer','Manufacturer',1,2,'',100,6,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,179,'productcategory','jo_products',1,'15','productcategory','Product Category',1,2,'',100,6,31,1,'V~O',1,NULL,'BAS',1,NULL,0,1),(14,180,'sales_start_date','jo_products',1,'5','sales_start_date','Sales Start Date',1,2,'',100,5,31,1,'D~O',1,NULL,'BAS',1,NULL,0,0),(14,181,'sales_end_date','jo_products',1,'5','sales_end_date','Sales End Date',1,2,'',100,8,31,1,'D~O~OTH~GE~sales_start_date~Sales Start Date',1,NULL,'BAS',1,NULL,0,0),(14,182,'start_date','jo_products',1,'5','start_date','Support Start Date',1,2,'',100,7,31,1,'D~O',1,NULL,'BAS',1,NULL,0,0),(14,183,'expiry_date','jo_products',1,'5','expiry_date','Support Expiry Date',1,2,'',100,10,31,1,'D~O~OTH~GE~start_date~Start Date',1,NULL,'BAS',1,NULL,0,0),(14,184,'website','jo_products',1,'17','website','Website',1,2,'',100,14,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,185,'vendor_id','jo_products',1,'75','vendor_id','Vendor Name',1,2,'',100,13,31,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(14,186,'mfr_part_no','jo_products',1,'1','mfr_part_no','Mfr PartNo',1,2,'',100,16,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,187,'vendor_part_no','jo_products',1,'1','vendor_part_no','Vendor PartNo',1,2,'',100,15,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,188,'serialno','jo_products',1,'1','serial_no','Serial No',1,2,'',100,18,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,189,'productsheet','jo_products',1,'1','productsheet','Product Sheet',1,2,'',100,17,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,190,'glacct','jo_products',1,'15','glacct','GL Account',1,2,'',100,20,31,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(14,191,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,19,31,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(14,192,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,21,31,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(14,193,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,31,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(14,194,'unit_price','jo_products',1,'72','unit_price','Unit Price',1,0,'',100,1,32,1,'N~O',2,3,'BAS',0,NULL,1,0),(14,195,'commissionrate','jo_products',1,'9','commissionrate','Commission Rate',1,2,'',100,2,32,1,'N~O',1,NULL,'BAS',1,NULL,1,0),(14,196,'taxclass','jo_products',1,'83','taxclass','Taxes',1,2,'',100,4,32,1,'V~O',2,NULL,'BAS',1,NULL,0,0),(14,197,'usageunit','jo_products',1,'15','usageunit','Usage Unit',1,2,'',100,1,33,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(14,198,'qty_per_unit','jo_products',1,'1','qty_per_unit','Qty/Unit',1,2,'',100,2,33,1,'N~O',1,NULL,'ADV',1,NULL,1,0),(14,199,'qtyinstock','jo_products',1,'1','qtyinstock','Qty In Stock',1,2,'',100,3,33,1,'NN~O',0,4,'ADV',1,NULL,0,1),(14,200,'reorderlevel','jo_products',1,'1','reorderlevel','Reorder Level',1,2,'',100,4,33,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(14,201,'smownerid','jo_crmentity',1,'53','assigned_user_id','Handler',1,0,'',100,5,33,1,'V~M',0,5,'BAS',1,NULL,0,0),(14,202,'qtyindemand','jo_products',1,'1','qtyindemand','Qty In Demand',1,2,'',100,6,33,1,'I~O',1,NULL,'ADV',1,NULL,0,0),(14,203,'imagename','jo_products',1,'69','imagename','Product Image',1,2,'',100,1,35,1,'V~O',3,NULL,'ADV',0,NULL,0,0),(14,204,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,36,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(8,205,'title','jo_notes',1,'2','notes_title','Title',1,0,'',100,1,17,1,'V~M',0,1,'BAS',1,NULL,1,0),(8,206,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,5,17,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(8,207,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,6,17,2,'DT~O',3,NULL,'BAS',0,NULL,1,0),(8,208,'filename','jo_notes',1,'28','filename','File Name',1,2,'',100,3,18,1,'V~O',0,NULL,'BAS',0,NULL,1,0),(8,209,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,4,17,1,'V~M',0,3,'BAS',1,NULL,1,0),(8,210,'notecontent','jo_notes',1,'19','notecontent','Note',1,2,'',100,1,82,1,'V~O',1,NULL,'BAS',0,NULL,0,0),(8,211,'filetype','jo_notes',1,'1','filetype','File Type',1,2,'',100,5,18,2,'V~O',3,0,'BAS',0,NULL,0,0),(8,212,'filesize','jo_notes',1,'1','filesize','File Size',1,2,'',100,4,18,2,'I~O',3,0,'BAS',0,NULL,0,0),(8,213,'filelocationtype','jo_notes',1,'27','filelocationtype','Download Type',1,0,'',100,1,18,1,'V~O',0,0,'BAS',0,NULL,0,0),(8,214,'fileversion','jo_notes',1,'1','fileversion','Version',1,2,'',100,6,18,1,'V~O',1,0,'BAS',1,NULL,0,0),(8,215,'filestatus','jo_notes',1,'56','filestatus','Active',1,2,'1',100,2,18,1,'V~O',1,0,'BAS',1,NULL,0,0),(8,216,'filedownloadcount','jo_notes',1,'1','filedownloadcount','Download Count',1,2,'',100,7,18,2,'I~O',3,0,'BAS',0,NULL,0,0),(8,217,'folderid','jo_notes',1,'26','folderid','Folder Name',1,2,'',100,2,17,1,'V~O',2,2,'BAS',1,NULL,1,0),(8,218,'note_no','jo_notes',1,'4','note_no','Document No',1,0,'',100,3,17,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(8,219,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,17,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,220,'date_start','jo_activity',1,'6','date_start','Date & Time Sent',1,0,'',100,1,21,1,'DT~M~time_start~Time Start',1,NULL,'BAS',1,NULL,0,0),(10,221,'semodule','jo_activity',1,'2','parent_type','Sales Enity Module',1,0,'',100,2,21,3,'',1,NULL,'BAS',1,NULL,0,0),(10,222,'activitytype','jo_activity',1,'2','activitytype','Activtiy Type',1,0,'',100,3,21,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,223,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,5,21,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(10,224,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,23,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(10,225,'name','jo_attachments',1,'61','filename','Attachment',1,0,'',100,2,23,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,226,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,24,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(10,227,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,9,23,1,'T~O',1,NULL,'BAS',1,NULL,0,0),(10,228,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,10,22,1,'DT~O',3,NULL,'BAS',0,NULL,0,0),(10,229,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,11,21,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(10,230,'access_count','jo_email_track',1,'25','access_count','Access Count',1,0,'0',100,6,21,3,'I~O',1,NULL,'BAS',0,NULL,0,0),(10,231,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,21,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(9,232,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,19,1,'V~M',0,1,'BAS',1,NULL,1,0),(9,233,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,2,19,1,'V~M',0,4,'BAS',1,NULL,1,0),(9,234,'date_start','jo_activity',1,'6','date_start','Start Date & Time',1,0,'',100,3,19,1,'DT~M~time_start',0,2,'BAS',1,NULL,1,0),(9,235,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,4,19,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(9,236,'time_end','jo_activity',1,'2','time_end','End Time',1,0,'',100,4,19,3,'T~O',1,NULL,'BAS',1,NULL,1,0),(9,237,'due_date','jo_activity',1,'23','due_date','Due Date',1,0,'',100,5,19,1,'D~M~OTH~GE~date_start~Start Date & Time',1,NULL,'BAS',1,NULL,1,0),(9,238,'crmid','jo_seactivityrel',1,'66','parent_id','Related To',1,0,'',100,7,19,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(9,239,'contactid','jo_cntactivityrel',1,'57','contact_id','Contact Name',1,0,'',100,8,19,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(9,240,'status','jo_activity',1,'15','taskstatus','Status',1,0,'',100,8,19,1,'V~M',0,3,'BAS',1,NULL,0,0),(9,241,'eventstatus','jo_activity',1,'15','eventstatus','Status',1,0,'',100,9,19,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,242,'priority','jo_activity',1,'15','taskpriority','Priority',1,0,'',100,10,19,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,243,'sendnotification','jo_activity',1,'56','sendnotification','Send Notification',1,0,'',100,11,19,1,'C~O',1,NULL,'BAS',1,NULL,0,0),(9,244,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,14,19,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(9,245,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,19,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(9,246,'activitytype','jo_activity',1,'15','activitytype','Activity Type',1,0,'',100,16,19,3,'V~O',1,NULL,'BAS',1,NULL,1,0),(9,247,'visibility','jo_activity',1,'16','visibility','Visibility',1,0,'',100,17,19,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,248,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,20,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,249,'duration_hours','jo_activity',1,'63','duration_hours','Duration',1,0,'',100,17,19,3,'T~O',1,NULL,'BAS',1,NULL,0,0),(9,250,'duration_minutes','jo_activity',1,'16','duration_minutes','Duration Minutes',1,0,'',100,18,19,3,'T~O',1,NULL,'BAS',1,NULL,0,0),(9,251,'location','jo_activity',1,'1','location','Location',1,0,'',100,19,19,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(9,252,'reminder_time','jo_activity_reminder',1,'30','reminder_time','Send Reminder',1,0,'',100,1,110,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(9,253,'recurringtype','jo_activity',1,'16','recurringtype','Recurrence',1,0,'',100,6,19,3,'O~O',1,NULL,'BAS',1,NULL,1,0),(9,254,'notime','jo_activity',1,'56','notime','No Time',1,0,'',100,20,19,3,'C~O',1,NULL,'BAS',1,NULL,0,0),(9,255,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,19,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(16,256,'subject','jo_activity',1,'2','subject','Subject',1,0,'',100,1,37,1,'V~M',0,1,'BAS',1,NULL,1,0),(16,257,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,2,37,1,'V~M',0,6,'BAS',1,NULL,1,0),(16,258,'date_start','jo_activity',1,'6','date_start','Start Date & Time',1,0,'',100,3,37,1,'DT~M~time_start',0,2,'BAS',1,NULL,1,0),(16,259,'time_start','jo_activity',1,'2','time_start','Time Start',1,0,'',100,4,37,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(16,260,'due_date','jo_activity',1,'23','due_date','End Date',1,0,'',100,5,37,1,'D~M~OTH~GE~date_start~Start Date & Time',0,5,'BAS',1,NULL,1,0),(16,261,'time_end','jo_activity',1,'2','time_end','End Time',1,0,'',100,5,37,3,'T~M',1,NULL,'BAS',1,NULL,1,0),(16,262,'recurringtype','jo_activity',1,'16','recurringtype','Recurrence',1,0,'',100,6,107,1,'O~O',1,NULL,'BAS',1,NULL,1,0),(16,263,'duration_hours','jo_activity',1,'63','duration_hours','Duration',1,0,'',100,7,37,3,'I~M',1,NULL,'BAS',1,NULL,0,0),(16,264,'duration_minutes','jo_activity',1,'16','duration_minutes','Duration Minutes',1,0,'',100,8,37,3,'O~O',1,NULL,'BAS',1,NULL,0,0),(16,265,'crmid','jo_seactivityrel',1,'66','parent_id','Related To',1,0,'',100,9,109,1,'I~O',1,NULL,'BAS',1,NULL,1,0),(16,266,'eventstatus','jo_activity',1,'15','eventstatus','Status',1,0,'',100,10,37,1,'V~M',0,3,'BAS',1,NULL,0,0),(16,267,'sendnotification','jo_activity',1,'56','sendnotification','Send Notification',1,0,'',100,11,37,1,'C~O',1,NULL,'BAS',1,NULL,0,0),(16,268,'activitytype','jo_activity',1,'15','activitytype','Activity Type',1,0,'',100,12,37,1,'V~M',0,4,'BAS',1,NULL,1,0),(16,269,'location','jo_activity',1,'1','location','Location',1,0,'',100,13,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,270,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,14,37,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(16,271,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,15,37,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(16,272,'priority','jo_activity',1,'15','taskpriority','Priority',1,0,'',100,16,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,273,'notime','jo_activity',1,'56','notime','No Time',1,0,'',100,17,37,3,'C~O',1,NULL,'BAS',1,NULL,0,0),(16,274,'visibility','jo_activity',1,'16','visibility','Visibility',1,0,'',100,18,37,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,275,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,37,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(16,276,'description','jo_crmentity',1,'19','description','Description',1,0,'',100,1,41,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(16,277,'reminder_time','jo_activity_reminder',1,'30','reminder_time','Send Reminder',1,0,'',100,1,40,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(16,278,'contactid','jo_cntactivityrel',1,'57','contact_id','Contact Name',1,0,'',100,1,109,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(18,279,'vendorname','jo_vendor',1,'2','vendorname','Vendor Name',1,0,'',100,1,40,1,'V~M',0,1,'BAS',1,NULL,1,0),(18,280,'vendor_no','jo_vendor',1,'4','vendor_no','Vendor No',1,0,'',100,2,40,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(18,281,'phone','jo_vendor',1,'1','phone','Phone',1,2,'',100,4,40,1,'V~O',2,2,'BAS',1,NULL,0,1),(18,282,'email','jo_vendor',1,'13','email','Email',1,2,'',100,3,40,1,'E~O',2,3,'BAS',1,NULL,0,1),(18,283,'website','jo_vendor',1,'17','website','Website',1,2,'',100,6,40,1,'V~O',1,NULL,'BAS',1,NULL,0,1),(18,284,'glacct','jo_vendor',1,'15','glacct','GL Account',1,2,'',100,5,40,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(18,285,'category','jo_vendor',1,'1','category','Category',1,2,'',100,8,40,1,'V~O',1,NULL,'BAS',1,NULL,1,0),(18,286,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,7,40,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(18,287,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,9,40,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(18,288,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,12,40,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(18,289,'street','jo_vendor',1,'21','street','Street',1,2,'',100,1,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,290,'pobox','jo_vendor',1,'1','pobox','Po Box',1,2,'',100,2,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,291,'city','jo_vendor',1,'1','city','City',1,2,'',100,3,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,292,'state','jo_vendor',1,'1','state','State',1,2,'',100,4,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,293,'postalcode','jo_vendor',1,'1','postalcode','Postal Code',1,2,'',100,5,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,294,'country','jo_vendor',1,'1','country','Country',1,2,'',100,6,42,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(18,295,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,43,1,'V~O',1,NULL,'ADV',1,NULL,0,0),(19,296,'bookname','jo_pricebook',1,'2','bookname','Price Book Name',1,0,'',100,1,44,1,'V~M',0,1,'BAS',1,NULL,1,0),(19,297,'pricebook_no','jo_pricebook',1,'4','pricebook_no','PriceBook No',1,0,'',100,3,44,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(19,298,'active','jo_pricebook',1,'56','active','Active',1,2,'1',100,2,44,1,'C~O',2,2,'BAS',1,NULL,1,0),(19,299,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,4,44,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(19,300,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,5,44,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(19,301,'currency_id','jo_pricebook',1,'117','currency_id','Currency',1,0,'',100,5,44,1,'I~M',0,3,'BAS',0,NULL,0,0),(19,302,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,44,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(19,303,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,46,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(20,304,'quote_no','jo_quotes',1,'4','quote_no','Quote No',1,0,'',100,3,47,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(20,305,'subject','jo_quotes',1,'2','subject','Subject',1,0,'',100,1,47,1,'V~M',1,NULL,'BAS',1,NULL,1,0),(20,306,'potentialid','jo_quotes',1,'76','potential_id','Potential Name',1,2,'',100,2,47,1,'I~O',3,NULL,'BAS',1,NULL,1,0),(20,307,'quotestage','jo_quotes',1,'15','quotestage','Quote Stage',1,2,'',100,4,47,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(20,308,'validtill','jo_quotes',1,'5','validtill','Valid Till',1,2,'',100,5,47,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(20,309,'contactid','jo_quotes',1,'57','contact_id','Contact Name',1,2,'',100,6,47,1,'V~O',3,NULL,'BAS',1,NULL,0,1),(20,310,'carrier','jo_quotes',1,'15','carrier','Carrier',1,2,'',100,8,47,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,311,'subtotal','jo_quotes',1,'72','hdnSubTotal','Sub Total',1,2,'',100,9,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,312,'shipping','jo_quotes',1,'1','shipping','Shipping',1,2,'',100,10,47,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,313,'inventorymanager','jo_quotes',1,'77','assigned_user_id1','Inventory Manager',1,2,'',100,11,47,1,'I~O',3,NULL,'BAS',1,NULL,0,0),(20,314,'adjustment','jo_quotes',1,'72','txtAdjustment','Adjustment',1,2,'',100,20,47,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(20,315,'total','jo_quotes',1,'72','hdnGrandTotal','Total',1,2,'',100,14,47,3,'N~O',3,NULL,'BAS',1,NULL,0,1),(20,316,'taxtype','jo_quotes',1,'16','hdnTaxType','Tax Type',1,2,'',100,14,47,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,317,'discount_percent','jo_quotes',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,14,106,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,318,'discount_amount','jo_quotes',1,'72','hdnDiscountAmount','Discount Amount',1,2,'',100,14,106,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,319,'s_h_amount','jo_quotes',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,320,'accountid','jo_quotes',1,'73','account_id','Account Name',1,2,'',100,16,47,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(20,321,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,17,47,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(20,322,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,18,47,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(20,323,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,19,47,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(20,324,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,47,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(20,325,'currency_id','jo_quotes',1,'117','currency_id','Currency',1,2,'1',100,20,47,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(20,326,'conversion_rate','jo_quotes',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,21,47,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(20,327,'bill_street','jo_quotesbillads',1,'24','bill_street','Billing Address',1,2,'',100,1,49,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(20,328,'ship_street','jo_quotesshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,49,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(20,329,'bill_city','jo_quotesbillads',1,'1','bill_city','Billing City',1,2,'',100,5,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,330,'ship_city','jo_quotesshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,331,'bill_state','jo_quotesbillads',1,'1','bill_state','Billing State',1,2,'',100,7,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,332,'ship_state','jo_quotesshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,333,'bill_code','jo_quotesbillads',1,'1','bill_code','Billing Code',1,2,'',100,9,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,334,'ship_code','jo_quotesshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,335,'bill_country','jo_quotesbillads',1,'1','bill_country','Billing Country',1,2,'',100,11,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,336,'ship_country','jo_quotesshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,337,'bill_pobox','jo_quotesbillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,338,'ship_pobox','jo_quotesshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,49,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(20,339,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,52,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(20,340,'terms_conditions','jo_quotes',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,51,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(21,341,'purchaseorder_no','jo_purchaseorder',1,'4','purchaseorder_no','PurchaseOrder No',1,0,'',100,2,53,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(21,342,'subject','jo_purchaseorder',1,'2','subject','Subject',1,0,'',100,1,53,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(21,343,'vendorid','jo_purchaseorder',1,'81','vendor_id','Vendor Name',1,0,'',100,3,53,1,'I~M',3,NULL,'BAS',1,NULL,1,0),(21,344,'requisition_no','jo_purchaseorder',1,'1','requisition_no','Requisition No',1,2,'',100,4,53,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,345,'tracking_no','jo_purchaseorder',1,'1','tracking_no','Tracking Number',1,2,'',100,5,53,1,'V~O',3,NULL,'BAS',1,NULL,1,0),(21,346,'contactid','jo_purchaseorder',1,'57','contact_id','Contact Name',1,2,'',100,6,53,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(21,347,'duedate','jo_purchaseorder',1,'5','duedate','Due Date',1,2,'',100,7,53,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(21,348,'carrier','jo_purchaseorder',1,'15','carrier','Carrier',1,2,'',100,8,53,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,349,'adjustment','jo_purchaseorder',1,'72','txtAdjustment','Adjustment',1,2,'',100,10,53,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(21,350,'salescommission','jo_purchaseorder',1,'1','salescommission','Sales Commission',1,2,'',100,11,53,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,351,'exciseduty','jo_purchaseorder',1,'1','exciseduty','Excise Duty',1,2,'',100,12,53,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,352,'total','jo_purchaseorder',1,'72','hdnGrandTotal','Total',1,2,'',100,13,53,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(21,353,'subtotal','jo_purchaseorder',1,'72','hdnSubTotal','Sub Total',1,2,'',100,14,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,354,'taxtype','jo_purchaseorder',1,'16','hdnTaxType','Tax Type',1,2,'',100,14,53,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,355,'discount_percent','jo_purchaseorder',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,14,105,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,356,'discount_amount','jo_purchaseorder',1,'72','hdnDiscountAmount','Discount Amount',1,0,'',100,14,105,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,357,'s_h_amount','jo_purchaseorder',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,358,'postatus','jo_purchaseorder',1,'15','postatus','Status',1,2,'',100,15,53,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(21,359,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,16,53,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(21,360,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,17,53,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(21,361,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,18,53,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(21,362,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,53,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(21,363,'currency_id','jo_purchaseorder',1,'117','currency_id','Currency',1,2,'1',100,19,53,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(21,364,'conversion_rate','jo_purchaseorder',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,20,53,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(21,365,'bill_street','jo_pobillads',1,'24','bill_street','Billing Address',1,2,'',100,1,55,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(21,366,'ship_street','jo_poshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,55,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(21,367,'bill_city','jo_pobillads',1,'1','bill_city','Billing City',1,2,'',100,5,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,368,'ship_city','jo_poshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,369,'bill_state','jo_pobillads',1,'1','bill_state','Billing State',1,2,'',100,7,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,370,'ship_state','jo_poshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,371,'bill_code','jo_pobillads',1,'1','bill_code','Billing Code',1,2,'',100,9,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,372,'ship_code','jo_poshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,373,'bill_country','jo_pobillads',1,'1','bill_country','Billing Country',1,2,'',100,11,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,374,'ship_country','jo_poshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,375,'bill_pobox','jo_pobillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,376,'ship_pobox','jo_poshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,55,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(21,377,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,58,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(21,378,'terms_conditions','jo_purchaseorder',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,57,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,379,'salesorder_no','jo_salesorder',1,'4','salesorder_no','SalesOrder No',1,0,'',100,4,59,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(22,380,'subject','jo_salesorder',1,'2','subject','Subject',1,0,'',100,1,59,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(22,381,'potentialid','jo_salesorder',1,'76','potential_id','Potential Name',1,2,'',100,2,59,1,'I~O',3,NULL,'BAS',1,NULL,0,0),(22,382,'customerno','jo_salesorder',1,'1','customerno','Customer No',1,2,'',100,3,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,383,'quoteid','jo_salesorder',1,'78','quote_id','Quote Name',1,2,'',100,5,59,1,'I~O',3,NULL,'BAS',0,NULL,1,0),(22,384,'purchaseorder','jo_salesorder',1,'1','jo_purchaseorder','Purchase Order',1,2,'',100,5,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,385,'contactid','jo_salesorder',1,'57','contact_id','Contact Name',1,2,'',100,6,59,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(22,386,'duedate','jo_salesorder',1,'5','duedate','Due Date',1,2,'',100,8,59,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(22,387,'carrier','jo_salesorder',1,'15','carrier','Carrier',1,2,'',100,9,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,388,'pending','jo_salesorder',1,'1','pending','Pending',1,2,'',100,10,59,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,389,'sostatus','jo_salesorder',1,'15','sostatus','Status',1,2,'',100,11,59,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(22,390,'adjustment','jo_salesorder',1,'72','txtAdjustment','Adjustment',1,2,'',100,12,59,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(22,391,'salescommission','jo_salesorder',1,'1','salescommission','Sales Commission',1,2,'',100,13,59,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,392,'exciseduty','jo_salesorder',1,'1','exciseduty','Excise Duty',1,2,'',100,13,59,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,393,'total','jo_salesorder',1,'72','hdnGrandTotal','Total',1,2,'',100,14,59,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(22,394,'subtotal','jo_salesorder',1,'72','hdnSubTotal','Sub Total',1,2,'',100,15,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,395,'taxtype','jo_salesorder',1,'16','hdnTaxType','Tax Type',1,2,'',100,15,59,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,396,'discount_percent','jo_salesorder',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,15,104,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,397,'discount_amount','jo_salesorder',1,'72','hdnDiscountAmount','Discount Amount',1,0,'',100,15,104,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,398,'s_h_amount','jo_salesorder',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,15,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,399,'accountid','jo_salesorder',1,'73','account_id','Account Name',1,2,'',100,16,59,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(22,400,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,17,59,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(22,401,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,18,59,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(22,402,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,19,59,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(22,403,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,59,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,404,'currency_id','jo_salesorder',1,'117','currency_id','Currency',1,2,'1',100,20,59,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(22,405,'conversion_rate','jo_salesorder',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,21,59,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(22,406,'bill_street','jo_sobillads',1,'24','bill_street','Billing Address',1,2,'',100,1,61,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(22,407,'ship_street','jo_soshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,61,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(22,408,'bill_city','jo_sobillads',1,'1','bill_city','Billing City',1,2,'',100,5,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,409,'ship_city','jo_soshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,410,'bill_state','jo_sobillads',1,'1','bill_state','Billing State',1,2,'',100,7,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,411,'ship_state','jo_soshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,412,'bill_code','jo_sobillads',1,'1','bill_code','Billing Code',1,2,'',100,9,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,413,'ship_code','jo_soshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,414,'bill_country','jo_sobillads',1,'1','bill_country','Billing Country',1,2,'',100,11,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,415,'ship_country','jo_soshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,416,'bill_pobox','jo_sobillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,417,'ship_pobox','jo_soshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,61,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(22,418,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,64,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,419,'terms_conditions','jo_salesorder',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,63,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(22,420,'enable_recurring','jo_salesorder',1,'56','enable_recurring','Enable Recurring',1,0,'',100,1,83,1,'C~O',3,NULL,'BAS',0,NULL,0,0),(22,421,'recurring_frequency','jo_invoice_recurring_info',1,'16','recurring_frequency','Frequency',1,0,'',100,2,83,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,422,'start_period','jo_invoice_recurring_info',1,'5','start_period','Start Period',1,0,'',100,3,83,1,'D~O',3,NULL,'BAS',0,NULL,0,0),(22,423,'end_period','jo_invoice_recurring_info',1,'5','end_period','End Period',1,0,'',100,4,83,1,'D~O~OTH~G~start_period~Start Period',3,NULL,'BAS',0,NULL,0,0),(22,424,'payment_duration','jo_invoice_recurring_info',1,'16','payment_duration','Payment Duration',1,0,'',100,5,83,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(22,425,'invoice_status','jo_invoice_recurring_info',1,'15','invoicestatus','Invoice Status',1,0,'',100,6,83,1,'V~M',3,NULL,'BAS',0,NULL,0,0),(23,426,'subject','jo_invoice',1,'2','subject','Subject',1,0,'',100,1,65,1,'V~M',3,NULL,'BAS',1,NULL,1,0),(23,427,'salesorderid','jo_invoice',1,'80','salesorder_id','Sales Order',1,2,'',100,2,65,1,'I~O',3,NULL,'BAS',0,NULL,1,0),(23,428,'customerno','jo_invoice',1,'1','customerno','Customer No',1,2,'',100,3,65,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,429,'contactid','jo_invoice',1,'57','contact_id','Contact Name',1,2,'',100,4,65,1,'I~O',3,NULL,'BAS',1,NULL,0,1),(23,430,'invoicedate','jo_invoice',1,'5','invoicedate','Invoice Date',1,2,'',100,5,65,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(23,431,'duedate','jo_invoice',1,'5','duedate','Due Date',1,2,'',100,6,65,1,'D~O',3,NULL,'BAS',1,NULL,0,0),(23,432,'purchaseorder','jo_invoice',1,'1','jo_purchaseorder','Purchase Order',1,2,'',100,8,65,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,433,'adjustment','jo_invoice',1,'72','txtAdjustment','Adjustment',1,2,'',100,9,65,3,'NN~O',3,NULL,'BAS',1,NULL,0,0),(23,434,'salescommission','jo_invoice',1,'1','salescommission','Sales Commission',1,2,'',10,13,65,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,435,'exciseduty','jo_invoice',1,'1','exciseduty','Excise Duty',1,2,'',100,11,65,1,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,436,'subtotal','jo_invoice',1,'72','hdnSubTotal','Sub Total',1,2,'',100,12,65,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,437,'total','jo_invoice',1,'72','hdnGrandTotal','Total',1,2,'',100,13,65,3,'N~O',3,NULL,'BAS',1,NULL,1,0),(23,438,'taxtype','jo_invoice',1,'16','hdnTaxType','Tax Type',1,2,'',100,13,65,3,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,439,'discount_percent','jo_invoice',1,'1','hdnDiscountPercent','Discount Percent',1,2,'',100,13,103,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,440,'discount_amount','jo_invoice',1,'72','hdnDiscountAmount','Discount Amount',1,2,'',100,13,103,5,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,441,'s_h_amount','jo_invoice',1,'72','hdnS_H_Amount','S&H Amount',1,2,'',100,14,57,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,442,'accountid','jo_invoice',1,'73','account_id','Account Name',1,2,'',100,14,65,1,'I~M',3,NULL,'BAS',1,NULL,0,1),(23,443,'invoicestatus','jo_invoice',1,'15','invoicestatus','Status',1,2,'',100,15,65,1,'V~O',3,NULL,'BAS',1,NULL,0,1),(23,444,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,16,65,1,'V~M',3,NULL,'BAS',1,NULL,0,1),(23,445,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,17,65,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(23,446,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,18,65,2,'DT~O',3,NULL,'BAS',0,NULL,0,0),(23,447,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,22,65,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(23,448,'currency_id','jo_invoice',1,'117','currency_id','Currency',1,2,'1',100,19,65,3,'I~O',3,NULL,'BAS',1,NULL,0,0),(23,449,'conversion_rate','jo_invoice',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,20,65,3,'N~O',3,NULL,'BAS',1,NULL,0,0),(23,450,'bill_street','jo_invoicebillads',1,'24','bill_street','Billing Address',1,2,'',100,1,67,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(23,451,'ship_street','jo_invoiceshipads',1,'24','ship_street','Shipping Address',1,2,'',100,2,67,1,'V~M',3,NULL,'BAS',1,NULL,0,0),(23,452,'bill_city','jo_invoicebillads',1,'1','bill_city','Billing City',1,2,'',100,5,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,453,'ship_city','jo_invoiceshipads',1,'1','ship_city','Shipping City',1,2,'',100,6,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,454,'bill_state','jo_invoicebillads',1,'1','bill_state','Billing State',1,2,'',100,7,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,455,'ship_state','jo_invoiceshipads',1,'1','ship_state','Shipping State',1,2,'',100,8,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,456,'bill_code','jo_invoicebillads',1,'1','bill_code','Billing Code',1,2,'',100,9,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,457,'ship_code','jo_invoiceshipads',1,'1','ship_code','Shipping Code',1,2,'',100,10,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,458,'bill_country','jo_invoicebillads',1,'1','bill_country','Billing Country',1,2,'',100,11,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,459,'ship_country','jo_invoiceshipads',1,'1','ship_country','Shipping Country',1,2,'',100,12,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,460,'bill_pobox','jo_invoicebillads',1,'1','bill_pobox','Billing Po Box',1,2,'',100,3,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,461,'ship_pobox','jo_invoiceshipads',1,'1','ship_pobox','Shipping Po Box',1,2,'',100,4,67,1,'V~O',3,NULL,'BAS',1,NULL,0,0),(23,462,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,70,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(23,463,'terms_conditions','jo_invoice',1,'19','terms_conditions','Terms & Conditions',1,2,'',100,1,69,1,'V~O',3,NULL,'ADV',1,NULL,0,0),(23,464,'invoice_no','jo_invoice',1,'4','invoice_no','Invoice No',1,0,'',100,3,65,1,'V~O',3,NULL,'BAS',0,NULL,1,0),(29,465,'user_name','jo_users',1,'106','user_name','User Name',1,0,'',11,1,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,466,'is_admin','jo_users',1,'156','is_admin','Admin',1,0,'',3,7,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,467,'user_password','jo_users',1,'99','user_password','Password',1,0,'',30,5,75,4,'P~M',1,NULL,'BAS',1,NULL,0,0),(29,468,'confirm_password','jo_users',1,'99','confirm_password','Confirm Password',1,0,'',30,6,75,4,'P~M',1,NULL,'BAS',1,NULL,0,0),(29,469,'first_name','jo_users',1,'1','first_name','First Name',1,0,'',30,3,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,470,'last_name','jo_users',1,'2','last_name','Last Name',1,0,'',30,4,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,471,'roleid','jo_user2role',1,'98','roleid','Role',1,0,'',200,8,75,1,'V~M',1,NULL,'BAS',1,NULL,0,0),(29,472,'email1','jo_users',1,'104','email1','Email',1,0,'',100,2,75,1,'E~M',1,NULL,'BAS',1,NULL,0,0),(29,473,'status','jo_users',1,'115','status','Status',1,0,'Active',100,10,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,474,'activity_view','jo_users',1,'16','activity_view','Default Activity View',1,0,'',100,6,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,475,'lead_view','jo_users',1,'16','lead_view','Default Lead View',1,0,'',100,9,75,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,476,'hour_format','jo_users',1,'16','hour_format','Calendar Hour Format',1,0,'12',100,4,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,477,'end_hour','jo_users',1,'116','end_hour','Day ends at',1,0,'',100,11,75,3,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,478,'start_hour','jo_users',1,'16','start_hour','Day starts at',1,0,'',100,2,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,479,'is_owner','jo_users',1,'1','is_owner','Account Owner',0,2,'0',100,12,75,5,'V~O',0,1,'BAS',0,NULL,0,0),(29, 480, 'title', 'jo_users', 1, '1', 'title', 'Title', 1, 0, '', 50, 9, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 481, 'phone_work', 'jo_users', 1, '11', 'phone_work', 'Office Phone', 1, 0, '', 50, 13, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 482, 'department', 'jo_users', 1, '1', 'department', 'Department', 1, 0, '', 50, 11, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 483, 'phone_mobile', 'jo_users', 1, '11', 'phone_mobile', 'Mobile', 1, 0, '', 50, 15, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 484, 'reports_to_id', 'jo_users', 1, '101', 'reports_to_id', 'Reports To', 1, 0, '', 50, 16, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29,485,'phone_other','jo_users',1,'11','phone_other','Other Phone',1,0,'',50,11,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,486,'email2','jo_users',1,'13','email2','Other Email',1,0,'',100,4,77,1,'E~O',1,NULL,'BAS',1,NULL,0,0),(29,487,'phone_fax','jo_users',1,'11','phone_fax','Fax',1,0,'',50,2,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,488,'secondaryemail','jo_users',1,'13','secondaryemail','Secondary Email',1,0,'',100,6,77,1,'E~O',1,NULL,'BAS',1,NULL,0,0),(29, 489, 'phone_home', 'jo_users', 1, '11', 'phone_home', 'Home Phone', 1, 0, '', 50, 17, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 490, 'date_format', 'jo_users', 1, '16', 'date_format', 'Date Format', 1, 0, '', 30, 3, 76, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29,491,'signature','jo_users',1,'21','signature','Signature',1,0,'',250,13,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29, 492, 'description', 'jo_users', 1, '21', 'description', 'Description', 1, 0, '', 250, 20, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 493, 'address_street', 'jo_users', 1, '21', 'address_street', 'Street Address', 1, 0, '', 250, 27, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 494, 'address_city', 'jo_users', 1, '1', 'address_city', 'City', 1, 0, '', 100, 29, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 495, 'address_state', 'jo_users', 1, '1', 'address_state', 'State', 1, 0, '', 100, 31, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 496, 'address_postalcode', 'jo_users', 1, '1', 'address_postalcode', 'Postal Code', 1, 0, '', 100, 30, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29, 497, 'address_country', 'jo_users', 1, '1', 'address_country', 'Country', 1, 0, '', 100, 28, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29,498,'accesskey','jo_users',1,'3','accesskey','Webservice Access Key',1,0,'',100,2,81,2,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,499,'time_zone','jo_users',1,'16','time_zone','Time Zone',1,0,'',200,5,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29,500,'currency_id','jo_users',1,'117','currency_id','Currency',1,0,'',100,1,76,1,'I~O',1,NULL,'BAS',1,NULL,0,0),(29,501,'currency_grouping_pattern','jo_users',1,'16','currency_grouping_pattern','Digit Grouping Pattern',1,0,'',100,2,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Digit Grouping Pattern</b> <br/><br/>This pattern specifies the format in which the currency separator will be placed.',0,0),(29,502,'currency_decimal_separator','jo_users',1,'16','currency_decimal_separator','Decimal Separator',1,0,'.',2,3,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Decimal Separator</b> <br/><br/>Decimal separator specifies the separator to be used to separate the fractional values from the whole number part. <br/><b>Eg:</b> <br/>. => 123.45 <br/>, => 123,45 <br/>\' => 123\'45 <br/>  => 123 45 <br/>$ => 123$45 <br/>',0,0),(29,503,'currency_grouping_separator','jo_users',1,'16','currency_grouping_separator','Digit Grouping Separator',1,0,',',2,4,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Grouping Separator</b> <br/><br/>Grouping separator specifies the separator to be used to group the whole number part into hundreds, thousands etc. <br/><b>Eg:</b> <br/>. => 123.456.789 <br/>, => 123,456,789 <br/>\' => 123\'456\'789 <br/>  => 123 456 789 <br/>$ => 123$456$789 <br/>',0,0),(29,504,'currency_symbol_placement','jo_users',1,'16','currency_symbol_placement','Symbol Placement',1,0,'',20,5,76,1,'V~O',1,NULL,'BAS',1,'<b>Currency - Symbol Placement</b> <br/><br/>Symbol Placement allows you to configure the position of the currency symbol with respect to the currency value.<br/><b>Eg:</b> <br/>$1.0 => $123,456,789.50 <br/>1.0$ => 123,456,789.50$ <br/>',0,0),(29,505,'imagename','jo_users',1,'105','imagename','User Image',1,0,'',250,10,80,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29, 506, 'internal_mailer', 'jo_users', 1, '56', 'internal_mailer', 'INTERNAL_MAIL_COMPOSER', 1, 0, '', 50, 21, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29,507,'theme','jo_users',1,'31','theme','Theme',1,0,'softed',100,16,77,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29, 508, 'language', 'jo_users', 1, '32', 'language', 'Language', 1, 0, 'en_us', 100, 22, 75, 1, 'V~O', 1, NULL, 'BAS', 1, NULL, 0, 0),(29,509,'reminder_interval','jo_users',1,'16','reminder_interval','Reminder Interval',1,0,'',100,11,108,1,'V~O',1,NULL,'BAS',1,NULL,0,0),(29, 510, 'default_landing_page', 'jo_users', 1, '16', 'default_landing_page', 'Default Landing Page', 1, 2, 'Home', 100, 23, 75, 1, 'V~O', 1, 0, 'BAS', 1, NULL, 0, 0),(29,511,'default_dashboard_view','jo_users',1,'16','default_dashboard_view','Default Dashboard View',1,2,'1',1,20,0,1,'V~O',1,0,'BAS',1,NULL,0,0),(10,512,'from_email','jo_emaildetails',1,'12','from_email','From',1,2,'',100,1,21,3,'V~M',3,NULL,'BAS',0,NULL,0,0),(10,513,'to_email','jo_emaildetails',1,'8','saved_toid','To',1,2,'',100,2,21,1,'V~M',3,NULL,'BAS',0,NULL,0,0),(10,514,'cc_email','jo_emaildetails',1,'8','ccmail','CC',1,2,'',1000,3,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,515,'bcc_email','jo_emaildetails',1,'8','bccmail','BCC',1,2,'',1000,4,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,516,'idlists','jo_emaildetails',1,'357','parent_id','Parent ID',1,2,'',1000,5,21,1,'V~O',3,NULL,'BAS',0,NULL,0,0),(10,517,'email_flag','jo_emaildetails',1,'16','email_flag','Email Flag',1,2,'',1000,6,21,3,'V~O',3,NULL,'BAS',0,NULL,0,0),(36,518,'servicename','jo_service',1,'2','servicename','Service Name',1,0,'',100,1,86,1,'V~M',0,1,'BAS',1,'',1,NULL),(36,519,'service_no','jo_service',1,'4','service_no','Service No',1,0,'',100,2,86,1,'V~O',3,0,'BAS',0,'',1,NULL),(36,520,'discontinued','jo_service',1,'56','discontinued','Service Active',1,2,'1',100,4,86,1,'V~O',2,3,'BAS',1,'',0,NULL),(36,521,'sales_start_date','jo_service',1,'5','sales_start_date','Sales Start Date',1,2,'',100,9,86,1,'D~O',1,0,'BAS',1,'',0,NULL),(36,522,'sales_end_date','jo_service',1,'5','sales_end_date','Sales End Date',1,2,'',100,10,86,1,'D~O~OTH~GE~sales_start_date~Sales Start Date',1,0,'BAS',1,'',0,NULL),(36,523,'start_date','jo_service',1,'5','start_date','Support Start Date',1,2,'',100,11,86,1,'D~O',1,0,'BAS',1,'',0,NULL),(36,524,'expiry_date','jo_service',1,'5','expiry_date','Support Expiry Date',1,2,'',100,12,86,1,'D~O~OTH~GE~start_date~Start Date',1,0,'BAS',1,'',0,NULL),(36,525,'website','jo_service',1,'17','website','Website',1,2,'',100,6,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,526,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,13,86,2,'DT~O',3,0,'BAS',0,'',0,NULL),(36,527,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,14,86,2,'DT~O',3,0,'BAS',0,'',0,NULL),(36,528,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,16,86,3,'V~O',3,0,'BAS',0,'',0,NULL),(36,529,'service_usageunit','jo_service',1,'15','service_usageunit','Usage Unit',1,2,'',100,3,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,530,'qty_per_unit','jo_service',1,'1','qty_per_unit','No of Units',1,2,'',100,5,86,1,'N~O',1,0,'BAS',1,'',1,NULL),(36,531,'smownerid','jo_crmentity',1,'53','assigned_user_id','Owner',1,0,'',100,8,86,1,'I~O',1,0,'BAS',1,'',0,NULL),(36,532,'servicecategory','jo_service',1,'15','servicecategory','Service Category',1,2,'',100,7,86,1,'V~O',1,0,'BAS',1,'',0,NULL),(36,533,'unit_price','jo_service',1,'72','unit_price','Price',1,0,'',100,1,87,1,'N~O',2,2,'BAS',0,'',1,NULL),(36,534,'taxclass','jo_service',1,'83','taxclass','Taxes',1,2,'',100,4,87,1,'V~O',2,0,'BAS',1,'',0,NULL),(36,535,'commissionrate','jo_service',1,'9','commissionrate','Commission Rate',1,2,'',100,2,87,1,'N~O',1,0,'BAS',1,'',1,NULL),(36,536,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,89,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,537,'direction','jo_pbxmanager',1,'1','direction','Direction',1,2,'',100,1,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,538,'callstatus','jo_pbxmanager',1,'1','callstatus','Call Status',1,2,'',100,2,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,539,'starttime','jo_pbxmanager',1,'70','starttime','Start Time',1,2,'',100,7,90,1,'DT~O',1,0,'BAS',1,'',1,NULL),(37,540,'endtime','jo_pbxmanager',1,'70','endtime','End Time',1,2,'',100,8,90,1,'DT~O',1,0,'BAS',1,'',0,NULL),(37,541,'totalduration','jo_pbxmanager',1,'7','totalduration','Total Duration',1,2,'',100,10,90,1,'I~O',1,0,'BAS',1,'',0,NULL),(37,542,'billduration','jo_pbxmanager',1,'7','billduration','Bill Duration',1,2,'',100,11,90,1,'I~O',1,0,'BAS',1,'',0,NULL),(37,543,'recordingurl','jo_pbxmanager',1,'17','recordingurl','Recording URL',1,2,'',100,9,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,544,'sourceuuid','jo_pbxmanager',1,'1','sourceuuid','Source UUID',1,2,'',100,12,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,545,'gateway','jo_pbxmanager',1,'1','gateway','Gateway',1,2,'',100,13,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,546,'customer','jo_pbxmanager',1,'10','customer','Customer',1,2,'',100,3,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,547,'user','jo_pbxmanager',1,'52','user','User',1,2,'',100,4,90,1,'V~O',1,0,'BAS',1,'',1,NULL),(37,548,'customernumber','jo_pbxmanager',1,'11','customernumber','Customer Number',1,2,'',100,5,90,1,'V~M',1,0,'BAS',1,'',0,NULL),(37,549,'customertype','jo_pbxmanager',1,'1','customertype','Customer Type',1,2,'',100,6,90,1,'V~O',1,0,'BAS',1,'',0,NULL),(37,550,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,14,90,1,'V~M',1,0,'BAS',1,'',0,NULL),(37,551,'createdtime','jo_crmentity',1,'70','CreatedTime','Created Time',1,2,'',100,15,90,2,'DT~O',1,0,'BAS',1,'',0,NULL),(37,552,'modifiedtime','jo_crmentity',1,'70','ModifiedTime','Modified Time',1,2,'',100,16,90,2,'DT~O',1,0,'BAS',1,'',0,NULL),(29, 553, 'phone_crm_extension', 'jo_users', 1, '11', 'phone_crm_extension', 'CRM Phone Extension', 1, 2, '', 100, 24, 75, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, NULL),(42,554,'projectmilestonename','jo_projectmilestone',1,'2','projectmilestonename','Project Milestone Name',1,2,'',100,1,91,1,'V~M',0,1,'BAS',1,'',1,NULL),(42,555,'projectmilestonedate','jo_projectmilestone',1,'5','projectmilestonedate','Milestone Date',1,2,'',100,5,91,1,'D~O',0,3,'BAS',1,'',1,NULL),(42,556,'projectid','jo_projectmilestone',1,'10','projectid','Related to',1,0,'',100,4,91,1,'V~M',0,4,'BAS',1,'',0,NULL),(42,557,'projectmilestonetype','jo_projectmilestone',1,'15','projectmilestonetype','Type',1,2,'',100,7,91,1,'V~O',1,0,'BAS',1,'',1,NULL),(42,558,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,6,91,1,'V~M',0,2,'BAS',1,'',0,NULL),(42,559,'projectmilestone_no','jo_projectmilestone',2,'4','projectmilestone_no','Project Milestone No',1,0,'',100,2,91,1,'V~O',3,4,'BAS',0,'',0,NULL),(42,560,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,1,92,2,'DT~O',1,0,'BAS',1,'',0,NULL),(42,561,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,2,92,2,'DT~O',1,0,'BAS',1,'',0,NULL),(42,562,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,3,92,3,'V~O',3,0,'BAS',0,'',0,NULL),(42,563,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,93,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,564,'projecttaskname','jo_projecttask',1,'2','projecttaskname','Project Task Name',1,2,'',100,1,94,1,'V~M',0,1,'BAS',1,'',1,NULL),(43,565,'projecttasktype','jo_projecttask',1,'15','projecttasktype','Type',1,2,'',100,4,94,1,'V~O',1,0,'BAS',1,'',1,NULL),(43,566,'projecttaskpriority','jo_projecttask',1,'15','projecttaskpriority','Priority',1,2,'',100,3,94,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,567,'projectid','jo_projecttask',1,'10','projectid','Related to',1,0,'',100,6,94,1,'V~M',0,5,'BAS',1,'',0,NULL),(43,568,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,7,94,1,'V~M',0,2,'BAS',1,'',1,NULL),(43,569,'projecttasknumber','jo_projecttask',1,'7','projecttasknumber','Project Task Number',1,2,'',100,5,94,1,'I~O',1,0,'BAS',1,'',0,NULL),(43,570,'projecttask_no','jo_projecttask',2,'4','projecttask_no','Project Task No',1,0,'',100,2,94,1,'V~O',3,4,'BAS',0,'',0,NULL),(43,571,'projecttaskprogress','jo_projecttask',1,'15','projecttaskprogress','Progress',1,2,'',100,1,95,1,'V~O',1,0,'BAS',1,'',1,NULL),(43,572,'projecttaskhours','jo_projecttask',1,'7','projecttaskhours','Worked Hours',1,2,'',100,2,95,1,'V~O',1,0,'BAS',1,'',0,NULL),(43,573,'startdate','jo_projecttask',1,'5','startdate','Start Date',1,2,'',100,3,95,1,'D~O',0,3,'BAS',1,'',1,NULL),(43,574,'enddate','jo_projecttask',1,'5','enddate','End Date',1,2,'',100,4,95,1,'D~O~OTH~GE~startdate~Start Date',1,0,'BAS',1,'',1,NULL),(43,575,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,5,95,2,'DT~O',1,0,'BAS',1,'',0,NULL),(43,576,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,6,95,2,'DT~O',1,0,'BAS',1,'',0,NULL),(43,577,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,95,3,'V~O',3,0,'BAS',0,'',0,NULL),(43,578,'description','jo_crmentity',1,'19','description','description',1,2,'',100,1,96,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,579,'projectname','jo_project',1,'2','projectname','Project Name',1,2,'',100,1,97,1,'V~M',0,1,'BAS',1,'',1,NULL),(44,580,'startdate','jo_project',1,'23','startdate','Start Date',1,2,'',100,3,97,1,'D~O',0,3,'BAS',1,'',1,NULL),(44,581,'targetenddate','jo_project',1,'23','targetenddate','Target End Date',1,2,'',100,5,97,1,'D~O~OTH~GE~startdate~Start Date',0,4,'BAS',1,'',1,NULL),(44,582,'actualenddate','jo_project',1,'23','actualenddate','Actual End Date',1,2,'',100,6,97,1,'D~O~OTH~GE~startdate~Start Date',1,0,'BAS',1,'',0,NULL),(44,583,'projectstatus','jo_project',1,'15','projectstatus','Status',1,2,'',100,7,97,1,'V~O',1,0,'BAS',1,'',1,NULL),(44,584,'projecttype','jo_project',1,'15','projecttype','Type',1,2,'',100,8,97,1,'V~O',1,0,'BAS',1,'',1,NULL),(44,585,'linktoaccountscontacts','jo_project',1,'10','linktoaccountscontacts','Related to',1,2,'',100,9,97,1,'V~O',1,0,'BAS',1,'',0,1),(44,586,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,4,97,1,'V~M',0,2,'BAS',1,'',1,NULL),(44,587,'project_no','jo_project',2,'4','project_no','Project No',1,0,'',100,2,97,1,'V~O',3,0,'BAS',0,'',0,NULL),(44,588,'targetbudget','jo_project',1,'7','targetbudget','Target Budget',1,2,'',100,1,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,589,'projecturl','jo_project',1,'17','projecturl','Project Url',1,2,'',100,2,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,590,'projectpriority','jo_project',1,'15','projectpriority','Priority',1,2,'',100,3,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,591,'progress','jo_project',1,'15','progress','Progress',1,2,'',100,4,98,1,'V~O',1,0,'BAS',1,'',0,NULL),(44,592,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,2,'',100,5,98,2,'DT~O',1,0,'BAS',1,'',0,NULL),(44,593,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,6,98,2,'DT~O',1,0,'BAS',1,'',0,NULL),(44,594,'modifiedby','jo_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,98,3,'V~O',3,0,'BAS',0,'',0,NULL),(44,595,'description','jo_crmentity',1,'19','description','Description',1,2,'',100,1,99,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,596,'commentcontent','jo_modcomments',1,'19','commentcontent','Comment',1,0,'',100,4,100,1,'V~M',0,4,'BAS',2,'',1,NULL),(47,597,'smownerid','jo_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,1,101,1,'V~M',0,1,'BAS',2,'',1,NULL),(47,598,'createdtime','jo_crmentity',1,'70','createdtime','Created Time',1,0,'',100,5,101,2,'DT~O',0,2,'BAS',0,'',0,NULL),(47,599,'modifiedtime','jo_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,6,101,2,'DT~O',0,3,'BAS',0,'',0,NULL),(47,600,'related_to','jo_modcomments',1,'10','related_to','Related To',1,2,'',100,2,101,1,'V~M',2,5,'BAS',2,'',0,NULL),(47,601,'smcreatorid','jo_crmentity',1,'52','creator','Creator',1,2,'',100,4,101,2,'V~O',1,0,'BAS',1,'',0,NULL),(47,602,'parent_comments','jo_modcomments',1,'10','parent_comments','Related To Comments',1,2,'',100,7,101,1,'V~O',1,0,'BAS',1,'',0,NULL),(2,603,'forecast_amount','jo_potential',1,'71','forecast_amount','Forecast Amount',1,2,'',100,18,1,1,'N~O',1,0,'BAS',0,'',0,NULL),(29,604,'no_of_currency_decimals','jo_users',1,'16','no_of_currency_decimals','Number Of Currency Decimals',1,2,'2',100,6,76,1,'V~O',1,0,'BAS',1,'<b>Currency - Number of Decimal places</b> <br/><br/>Number of decimal places specifies how many number of decimals will be shown after decimal separator.<br/><b>Eg:</b> 123.00',0,NULL),(23,605,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,103,5,'V~M',1,0,'BAS',0,'',0,NULL),(23,606,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,607,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,608,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,609,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,610,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,611,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,612,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,613,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,614,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,104,5,'V~M',1,0,'BAS',0,'',0,NULL),(22,615,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,616,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,617,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,618,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,619,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,620,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,621,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,622,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,623,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,105,5,'V~M',1,0,'BAS',0,'',0,NULL),(21,624,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,625,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,626,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,627,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,628,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,629,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,630,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(21,631,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,632,'productid','jo_inventoryproductrel',1,'10','productid','Item Name',0,2,'',100,1,106,5,'V~M',1,0,'BAS',0,'',0,NULL),(20,633,'quantity','jo_inventoryproductrel',1,'7','quantity','Quantity',0,2,'',100,2,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,634,'listprice','jo_inventoryproductrel',1,'71','listprice','List Price',0,2,'',100,3,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,635,'comment','jo_inventoryproductrel',1,'19','comment','Item Comment',0,2,'',100,4,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,636,'discount_amount','jo_inventoryproductrel',1,'71','discount_amount','Item Discount Amount',0,2,'',100,5,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,637,'discount_percent','jo_inventoryproductrel',1,'7','discount_percent','Item Discount Percent',0,2,'',100,6,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,638,'tax1','jo_inventoryproductrel',1,'83','tax1','VAT',0,2,'',100,7,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,639,'tax2','jo_inventoryproductrel',1,'83','tax2','Sales',0,2,'',100,8,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,640,'tax3','jo_inventoryproductrel',1,'83','tax3','Service',0,2,'',100,9,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(29,641,'truncate_trailing_zeros','jo_users',1,'56','truncate_trailing_zeros','Truncate Trailing Zeros',1,2,'0',100,7,76,1,'V~O',1,0,'BAS',1,'<b> Truncate Trailing Zeros </b> <br/><br/>It truncated trailing 0s in any of Currency, Decimal and Percentage Field types<br/><br/><b>Ex:</b><br/>If value is 89.00000 then <br/>decimal and Percentage fields were shows 89<br/>currency field type - shows 89.00<br/>',0,NULL),(29,644,'dayoftheweek','jo_users',1,'16','dayoftheweek','Starting Day of the week',1,2,'Monday',100,1,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,645,'callduration','jo_users',1,'16','callduration','Default Call Duration',1,2,'5',100,7,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,646,'othereventduration','jo_users',1,'16','othereventduration','Other Event Duration',1,2,'5',100,8,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(23,647,'pre_tax_total','jo_invoice',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(22,648,'pre_tax_total','jo_salesorder',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,59,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,649,'pre_tax_total','jo_purchaseorder',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(20,650,'pre_tax_total','jo_quotes',1,'72','pre_tax_total','Pre Tax Total',1,2,'',100,23,47,3,'N~O',1,0,'BAS',1,'',0,NULL),(29,651,'calendarsharedtype','jo_users',1,'16','calendarsharedtype','Calendar Shared Type',1,2,'Public',100,12,108,3,'V~O',1,0,'BAS',1,'',0,NULL),(6,652,'isconvertedfromlead','jo_account',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,24,9,1,'C~O',1,0,'BAS',1,'',0,NULL),(4,653,'isconvertedfromlead','jo_contactdetails',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,29,4,1,'C~O',1,0,'BAS',1,'',0,NULL),(2,654,'isconvertedfromlead','jo_potential',1,'56','isconvertedfromlead','Is Converted From Lead',1,2,'no',100,19,1,1,'C~O',1,0,'BAS',1,'',0,NULL),(29, 655, 'default_record_view', 'jo_users', 1, '16', 'default_record_view', 'Default Record View', 1, 2, 'Summary', 100, 25, 75, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, NULL),(23,656,'received','jo_invoice',1,'72','received','Received',1,2,'0',100,24,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(23,657,'balance','jo_invoice',1,'72','balance','Balance',1,2,'0',100,25,65,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,658,'paid','jo_purchaseorder',1,'72','paid','Paid',1,2,'0',100,24,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(21,659,'balance','jo_purchaseorder',1,'72','balance','Balance',1,2,'0',100,25,53,3,'N~O',1,0,'BAS',1,'',0,NULL),(7,660,'emailoptout','jo_leaddetails',1,'56','emailoptout','Email Opt Out',1,0,'',100,24,13,1,'C~O',1,0,'BAS',1,'',0,NULL),(23,663,'s_h_percent','jo_invoice',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,103,5,'N~O',0,1,'BAS',0,'',0,NULL),(20,664,'s_h_percent','jo_quotes',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,106,5,'N~O',0,1,'BAS',0,'',0,NULL),(21,665,'s_h_percent','jo_purchaseorder',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,105,5,'N~O',0,1,'BAS',0,'',0,NULL),(22,666,'s_h_percent','jo_salesorder',1,'1','hdnS_H_Percent','S&H Percent',0,2,'',100,10,104,5,'N~O',0,1,'BAS',0,'',0,NULL),(29, 667, 'leftpanelhide', 'jo_users', 1, '56', 'leftpanelhide', 'Left Panel Hide', 1, 2, '0', 100, 26, 75, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, NULL),(2,668,'contact_id','jo_potential',1,'10','contact_id','Contact Name',1,2,'',100,4,1,1,'V~O',1,0,'BAS',1,'',1,NULL),(13,669,'contact_id','jo_troubletickets',1,'10','contact_id','Contact Name',1,2,'',100,3,25,1,'V~O',1,0,'BAS',1,'',1,NULL),(29,670,'rowheight','jo_users',1,'16','rowheight','Row Height',1,2,'medium',100,24,77,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,671,'defaulteventstatus','jo_users',1,'15','defaulteventstatus','Default Event Status',1,2,'Planned',100,9,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,672,'defaultactivitytype','jo_users',1,'15','defaultactivitytype','Default Activity Type',1,2,'Call',100,10,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(29,673,'hidecompletedevents','jo_users',1,'56','hidecompletedevents','LBL_HIDE_COMPLETED_EVENTS',1,2,'0',100,13,108,1,'C~O',1,0,'BAS',1,'',0,NULL),(14,696,'purchase_cost','jo_products',1,'71','purchase_cost','Purchase Cost',1,0,'',100,5,32,1,'N~O',1,0,'BAS',1,'',0,NULL),(23,698,'potential_id','jo_invoice',1,'10','potential_id','Potential Name',1,2,'',100,26,65,1,'I~O',1,0,'BAS',1,'',0,NULL),(29,699,'defaultcalendarview','jo_users',1,'16','defaultcalendarview','Default Calendar View',1,0,'MyCalendar',100,14,108,1,'V~O',1,0,'BAS',1,'',0,NULL),(23,700,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,14,103,5,'V~O',1,0,'BAS',0,'',0,NULL),(23,701,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,15,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,702,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,16,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,703,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,15,106,5,'V~O',1,0,'BAS',0,'',0,NULL),(20,704,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,16,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(20,705,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,17,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,706,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,15,105,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,707,'image','jo_inventoryproductrel',1,'56','image','Image',0,1,'',100,16,104,5,'V~O',1,0,'BAS',0,'',0,NULL),(22,708,'purchase_cost','jo_inventoryproductrel',1,'71','purchase_cost','Purchase Cost',0,1,'',100,17,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,709,'margin','jo_inventoryproductrel',1,'71','margin','Margin',0,1,'',100,18,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(2,713,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,20,1,2,'V~O',3,7,'BAS',0,'',0,NULL),(4,714,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,30,4,2,'V~O',3,7,'BAS',0,'',0,NULL),(6,715,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,25,9,2,'V~O',3,5,'BAS',0,'',0,NULL),(7,716,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,25,13,2,'V~O',3,7,'BAS',0,'',0,NULL),(8,717,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,17,2,'V~O',3,4,'BAS',0,'',0,NULL),(9,718,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,19,2,'V~O',3,5,'BAS',0,'',0,NULL),(10,719,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,21,2,'V~O',3,1,'BAS',0,'',0,NULL),(13,720,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,18,25,2,'V~O',3,5,'BAS',0,'',0,NULL),(14,721,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,31,2,'V~O',3,6,'BAS',0,'',0,NULL),(16,722,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,23,37,2,'V~O',3,7,'BAS',0,'',0,NULL),(18,723,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,13,40,2,'V~O',3,4,'BAS',0,'',0,NULL),(19,724,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,8,44,2,'V~O',3,4,'BAS',0,'',0,NULL),(20,725,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,24,47,2,'V~O',3,2,'BAS',0,'',0,NULL),(21,726,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,26,53,2,'V~O',3,2,'BAS',0,'',0,NULL),(22,727,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,24,59,2,'V~O',3,2,'BAS',0,'',0,NULL),(23,728,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,27,65,2,'V~O',3,2,'BAS',0,'',0,NULL),(26,729,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,17,72,2,'V~O',3,8,'BAS',0,'',0,NULL),(10,735,'click_count','jo_email_track',1,'25','click_count','Click Count',1,2,'0',100,14,21,3,'I~O',0,2,'BAS',0,'',0,NULL),(2,736,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,21,1,6,'C~O',3,8,'BAS',0,'',0,NULL),(4,737,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,31,4,6,'C~O',3,8,'BAS',0,'',0,NULL),(6,738,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,26,9,6,'C~O',3,6,'BAS',0,'',0,NULL),(7,739,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,26,13,6,'C~O',3,8,'BAS',0,'',0,NULL),(8,740,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,14,17,6,'C~O',3,5,'BAS',0,'',0,NULL),(9,741,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,19,6,'C~O',3,6,'BAS',0,'',0,NULL),(10,742,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,15,21,6,'C~O',3,3,'BAS',0,'',0,NULL),(13,743,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,19,25,6,'C~O',3,6,'BAS',0,'',0,NULL),(14,744,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,31,6,'C~O',3,7,'BAS',0,'',0,NULL),(16,745,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,24,37,6,'C~O',3,8,'BAS',0,'',0,NULL),(18,746,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,14,40,6,'C~O',3,5,'BAS',0,'',0,NULL),(19,747,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,9,44,6,'C~O',3,5,'BAS',0,'',0,NULL),(20,748,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,25,47,6,'C~O',3,3,'BAS',0,'',0,NULL),(21,749,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,27,53,6,'C~O',3,3,'BAS',0,'',0,NULL),(22,750,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,25,59,6,'C~O',3,3,'BAS',0,'',0,NULL),(23,751,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,28,65,6,'C~O',3,3,'BAS',0,'',0,NULL),(26,752,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,18,72,6,'C~O',3,9,'BAS',0,'',0,NULL),(2,758,'tags','jo_potential',1,'1','tags','tags',1,2,'',100,22,1,6,'V~O',3,9,'BAS',0,'',0,NULL),(4,759,'tags','jo_contactdetails',1,'1','tags','tags',1,2,'',100,32,4,6,'V~O',3,9,'BAS',0,'',0,NULL),(6,760,'tags','jo_account',1,'1','tags','tags',1,2,'',100,27,9,6,'V~O',3,7,'BAS',0,'',0,NULL),(7,761,'tags','jo_leaddetails',1,'1','tags','tags',1,2,'',100,27,13,6,'V~O',3,9,'BAS',0,'',0,NULL),(8,762,'tags','jo_notes',1,'1','tags','tags',1,2,'',100,15,17,6,'V~O',3,6,'BAS',0,'',0,NULL),(9,763,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,25,19,6,'V~O',3,7,'BAS',0,'',0,NULL),(10,764,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,16,21,6,'V~O',3,4,'BAS',0,'',0,NULL),(13,765,'tags','jo_troubletickets',1,'1','tags','tags',1,2,'',100,20,25,6,'V~O',3,7,'BAS',0,'',0,NULL),(14,766,'tags','jo_products',1,'1','tags','tags',1,2,'',100,25,31,6,'V~O',3,8,'BAS',0,'',0,NULL),(16,767,'tags','jo_activity',1,'1','tags','tags',1,2,'',100,25,37,6,'V~O',3,9,'BAS',0,'',0,NULL),(18,768,'tags','jo_vendor',1,'1','tags','tags',1,2,'',100,15,40,6,'V~O',3,6,'BAS',0,'',0,NULL),(19,769,'tags','jo_pricebook',1,'1','tags','tags',1,2,'',100,10,44,6,'V~O',3,6,'BAS',0,'',0,NULL),(20,770,'tags','jo_quotes',1,'1','tags','tags',1,2,'',100,26,47,6,'V~O',3,4,'BAS',0,'',0,NULL),(21,771,'tags','jo_purchaseorder',1,'1','tags','tags',1,2,'',100,28,53,6,'V~O',3,4,'BAS',0,'',0,NULL),(22,772,'tags','jo_salesorder',1,'1','tags','tags',1,2,'',100,26,59,6,'V~O',3,4,'BAS',0,'',0,NULL),(23,773,'tags','jo_invoice',1,'1','tags','tags',1,2,'',100,29,65,6,'V~O',3,4,'BAS',0,'',0,NULL),(26,774,'tags','jo_campaign',1,'1','tags','tags',1,2,'',100,19,72,6,'V~O',3,10,'BAS',0,'',0,NULL),(20,780,'region_id','jo_quotes',1,'16','region_id','Tax Region',0,2,'',100,18,106,5,'N~O',1,0,'BAS',0,'',0,NULL),(21,781,'region_id','jo_purchaseorder',1,'16','region_id','Tax Region',0,2,'',100,16,105,5,'N~O',1,0,'BAS',0,'',0,NULL),(22,782,'region_id','jo_salesorder',1,'16','region_id','Tax Region',0,2,'',100,19,104,5,'N~O',1,0,'BAS',0,'',0,NULL),(23,783,'region_id','jo_invoice',1,'16','region_id','Tax Region',0,2,'',100,17,103,5,'N~O',1,0,'BAS',0,'',0,NULL),(47,784,'customer','jo_modcomments',1,'10','customer','Customer',1,2,'',100,5,100,3,'V~O',1,0,'BAS',1,'',0,NULL),(47,785,'userid','jo_modcomments',1,'10','userid','UserId',1,2,'',100,6,100,3,'V~O',1,0,'BAS',1,'',0,NULL),(47,786,'reasontoedit','jo_modcomments',1,'19','reasontoedit','ReasonToEdit',1,2,'',100,7,100,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,787,'is_private','jo_modcomments',1,'7','is_private','Is Private',1,2,'',100,8,100,1,'I~O',1,0,'BAS',1,'',0,NULL),(47,788,'filename','jo_modcomments',1,'61','filename','Attachment',1,0,'',100,9,100,1,'V~O',1,0,'BAS',1,'',0,NULL),(47,789,'related_email_id','jo_modcomments',1,'1','related_email_id','Related Email Id',1,2,'0',100,10,100,1,'I~O',1,0,'BAS',1,'',0,NULL),(43,790,'projecttaskstatus','jo_projecttask',1,'15','projecttaskstatus','Status',1,2,'',100,8,94,1,'V~O',0,6,'BAS',1,'',0,NULL),(43,791,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,10,94,6,'C~O',3,8,'BAS',0,'',0,NULL),(43,792,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,9,94,2,'V~O',3,7,'BAS',0,'',0,NULL),(43,793,'tags','jo_projecttask',1,'1','tags','tags',1,2,'',100,11,94,6,'V~O',3,9,'BAS',0,'',0,NULL),(44,794,'source','jo_crmentity',1,'1','source','Source',1,2,'',100,10,97,2,'V~O',3,5,'BAS',0,'',0,NULL),(44,795,'starred','jo_crmentity_user_field',1,'56','starred','starred',1,2,'',100,11,97,6,'C~O',3,6,'BAS',0,'',0,NULL),(44,796,'tags','jo_project',1,'1','tags','tags',1,2,'',100,12,97,6,'V~O',3,7,'BAS',0,'',0,NULL),(44,797,'isconvertedfrompotential','jo_project',1,'56','isconvertedfrompotential','Is Converted From Opportunity',1,2,'',100,13,97,1,'C~O',1,0,'BAS',1,'',0,NULL),(44,798,'potentialid','jo_project',1,'10','potentialid','Potential Name',1,2,'',100,14,97,1,'I~O',1,0,'BAS',1,'',0,NULL);
 /*!40000 ALTER TABLE `jo_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4485,7 +4484,7 @@ DROP TABLE IF EXISTS `jo_field_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_field_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4511,7 +4510,7 @@ CREATE TABLE `jo_fieldmodulerel` (
   `relmodule` varchar(100) NOT NULL,
   `status` varchar(10) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4520,7 +4519,7 @@ CREATE TABLE `jo_fieldmodulerel` (
 
 LOCK TABLES `jo_fieldmodulerel` WRITE;
 /*!40000 ALTER TABLE `jo_fieldmodulerel` DISABLE KEYS */;
-INSERT INTO `jo_fieldmodulerel` VALUES (113,'Potentials','Accounts',NULL,0),(546,'PBXManager','Leads',NULL,NULL),(546,'PBXManager','Contacts',NULL,NULL),(546,'PBXManager','Accounts',NULL,NULL),(556,'ProjectMilestone','Project',NULL,NULL),(567,'ProjectTask','Project',NULL,NULL),(585,'Project','Accounts',NULL,NULL),(585,'Project','Contacts',NULL,NULL),(600,'ModComments','Leads',NULL,NULL),(600,'ModComments','Contacts',NULL,NULL),(600,'ModComments','Accounts',NULL,NULL),(602,'ModComments','ModComments',NULL,NULL),(600,'ModComments','Potentials',NULL,NULL),(600,'ModComments','Project',NULL,NULL),(600,'ModComments','ProjectTask',NULL,NULL),(605,'Invoice','Products',NULL,NULL),(605,'Invoice','Services',NULL,NULL),(614,'SalesOrder','Products',NULL,NULL),(614,'SalesOrder','Services',NULL,NULL),(623,'PurchaseOrder','Products',NULL,NULL),(623,'PurchaseOrder','Services',NULL,NULL),(632,'Quotes','Products',NULL,NULL),(632,'Quotes','Services',NULL,NULL),(643,'ModComments','Contacts',NULL,NULL),(600,'ModComments','HelpDesk',NULL,NULL),(668,'Potentials','Contacts',NULL,NULL),(157,'HelpDesk','Accounts',NULL,NULL),(669,'HelpDesk','Contacts',NULL,NULL),(238,'Accounts','Calendar',NULL,NULL),(238,'Leads','Calendar',NULL,NULL),(238,'HelpDesk','Calendar',NULL,NULL),(238,'Campaigns','Calendar',NULL,NULL),(238,'Potentials','Calendar',NULL,NULL),(238,'PurchaseOrder','Calendar',NULL,NULL),(238,'SalesOrder','Calendar',NULL,NULL),(238,'Quotes','Calendar',NULL,NULL),(238,'Invoice','Calendar',NULL,NULL),(239,'Contacts','Calendar',NULL,NULL),(698,'Invoice','Potentials',NULL,NULL),(600,'ModComments','Invoice',NULL,NULL),(600,'ModComments','Quotes',NULL,NULL),(600,'ModComments','PurchaseOrder',NULL,NULL),(600,'ModComments','SalesOrder',NULL,NULL),(785,'Project','Potentials',NULL,NULL);
+INSERT INTO `jo_fieldmodulerel` VALUES (113,'Potentials','Accounts',NULL,0),(546,'PBXManager','Leads',NULL,NULL),(546,'PBXManager','Contacts',NULL,NULL),(546,'PBXManager','Accounts',NULL,NULL),(556,'ProjectMilestone','Project',NULL,NULL),(567,'ProjectTask','Project',NULL,NULL),(585,'Project','Accounts',NULL,NULL),(585,'Project','Contacts',NULL,NULL),(600,'ModComments','Leads',NULL,NULL),(600,'ModComments','Contacts',NULL,NULL),(600,'ModComments','Accounts',NULL,NULL),(602,'ModComments','ModComments',NULL,NULL),(600,'ModComments','Potentials',NULL,NULL),(600,'ModComments','Project',NULL,NULL),(600,'ModComments','ProjectTask',NULL,NULL),(605,'Invoice','Products',NULL,NULL),(605,'Invoice','Services',NULL,NULL),(614,'SalesOrder','Products',NULL,NULL),(614,'SalesOrder','Services',NULL,NULL),(623,'PurchaseOrder','Products',NULL,NULL),(623,'PurchaseOrder','Services',NULL,NULL),(632,'Quotes','Products',NULL,NULL),(632,'Quotes','Services',NULL,NULL),(643,'ModComments','Contacts',NULL,NULL),(600,'ModComments','HelpDesk',NULL,NULL),(668,'Potentials','Contacts',NULL,NULL),(157,'HelpDesk','Accounts',NULL,NULL),(669,'HelpDesk','Contacts',NULL,NULL),(238,'Accounts','Calendar',NULL,NULL),(238,'Leads','Calendar',NULL,NULL),(238,'HelpDesk','Calendar',NULL,NULL),(238,'Campaigns','Calendar',NULL,NULL),(238,'Potentials','Calendar',NULL,NULL),(238,'PurchaseOrder','Calendar',NULL,NULL),(238,'SalesOrder','Calendar',NULL,NULL),(238,'Quotes','Calendar',NULL,NULL),(238,'Invoice','Calendar',NULL,NULL),(239,'Contacts','Calendar',NULL,NULL),(698,'Invoice','Potentials',NULL,NULL),(600,'ModComments','Invoice',NULL,NULL),(600,'ModComments','Quotes',NULL,NULL),(600,'ModComments','PurchaseOrder',NULL,NULL),(600,'ModComments','SalesOrder',NULL,NULL),(798,'Project','Potentials',NULL,NULL);
 /*!40000 ALTER TABLE `jo_fieldmodulerel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4539,7 +4538,7 @@ CREATE TABLE `jo_freetagged_objects` (
   `module` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`tag_id`,`tagger_id`,`object_id`),
   KEY `freetagged_objects_tag_id_tagger_id_object_id_idx` (`tag_id`,`tagger_id`,`object_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4565,7 +4564,7 @@ CREATE TABLE `jo_freetags` (
   `visibility` varchar(100) NOT NULL DEFAULT 'PRIVATE',
   `owner` int(19) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4586,7 +4585,7 @@ DROP TABLE IF EXISTS `jo_freetags_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_freetags_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4615,7 +4614,7 @@ CREATE TABLE `jo_glacct` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`glacctid`),
   UNIQUE KEY `glacct_glacct_idx` (`glacct`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4637,7 +4636,7 @@ DROP TABLE IF EXISTS `jo_glacct_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_glacct_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4662,7 +4661,7 @@ CREATE TABLE `jo_google_oauth2` (
   `access_token` varchar(500) DEFAULT NULL,
   `refresh_token` varchar(500) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4687,7 +4686,7 @@ CREATE TABLE `jo_google_sync_fieldmapping` (
   `google_field_type` varchar(255) DEFAULT NULL,
   `google_custom_label` varchar(255) DEFAULT NULL,
   `user` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4712,7 +4711,7 @@ CREATE TABLE `jo_google_sync_settings` (
   `clientgroup` varchar(255) DEFAULT NULL,
   `direction` varchar(50) DEFAULT NULL,
   `enabled` tinyint(3) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4736,7 +4735,7 @@ CREATE TABLE `jo_group2grouprel` (
   `containsgroupid` int(19) NOT NULL,
   PRIMARY KEY (`groupid`,`containsgroupid`),
   CONSTRAINT `fk_2_jo_group2grouprel` FOREIGN KEY (`groupid`) REFERENCES `jo_groups` (`groupid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4761,7 +4760,7 @@ CREATE TABLE `jo_group2role` (
   PRIMARY KEY (`groupid`,`roleid`),
   KEY `fk_2_jo_group2role` (`roleid`),
   CONSTRAINT `fk_2_jo_group2role` FOREIGN KEY (`roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4787,7 +4786,7 @@ CREATE TABLE `jo_group2rs` (
   PRIMARY KEY (`groupid`,`roleandsubid`),
   KEY `fk_2_jo_group2rs` (`roleandsubid`),
   CONSTRAINT `fk_2_jo_group2rs` FOREIGN KEY (`roleandsubid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4813,7 +4812,7 @@ CREATE TABLE `jo_groups` (
   `description` text,
   PRIMARY KEY (`groupid`),
   UNIQUE KEY `groups_groupname_idx` (`groupname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4837,7 +4836,7 @@ CREATE TABLE `jo_home_layout` (
   `userid` int(19) NOT NULL,
   `layout` int(19) NOT NULL DEFAULT '4',
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4863,7 +4862,7 @@ CREATE TABLE `jo_homedashbd` (
   PRIMARY KEY (`stuffid`),
   KEY `stuff_stuffid_idx` (`stuffid`),
   CONSTRAINT `fk_1_jo_homedashbd` FOREIGN KEY (`stuffid`) REFERENCES `jo_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4890,7 +4889,7 @@ CREATE TABLE `jo_homedefault` (
   PRIMARY KEY (`stuffid`),
   KEY `stuff_stuffid_idx` (`stuffid`),
   CONSTRAINT `fk_1_jo_homedefault` FOREIGN KEY (`stuffid`) REFERENCES `jo_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4919,7 +4918,7 @@ CREATE TABLE `jo_homemodule` (
   PRIMARY KEY (`stuffid`),
   KEY `stuff_stuffid_idx` (`stuffid`),
   CONSTRAINT `fk_1_jo_homemodule` FOREIGN KEY (`stuffid`) REFERENCES `jo_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4943,7 +4942,7 @@ CREATE TABLE `jo_homemoduleflds` (
   `fieldname` varchar(100) DEFAULT NULL,
   KEY `stuff_stuffid_idx` (`stuffid`),
   CONSTRAINT `fk_1_jo_homemoduleflds` FOREIGN KEY (`stuffid`) REFERENCES `jo_homemodule` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4967,7 +4966,7 @@ CREATE TABLE `jo_homereportchart` (
   `reportid` int(19) DEFAULT NULL,
   `reportcharttype` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`stuffid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4997,7 +4996,7 @@ CREATE TABLE `jo_homestuff` (
   KEY `stuff_stuffid_idx` (`stuffid`),
   KEY `fk_1_jo_homestuff` (`userid`),
   CONSTRAINT `fk_1_jo_homestuff` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5019,7 +5018,7 @@ DROP TABLE IF EXISTS `jo_homestuff_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_homestuff_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5045,7 +5044,7 @@ CREATE TABLE `jo_hour_format` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`hour_formatid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5067,7 +5066,7 @@ DROP TABLE IF EXISTS `jo_hour_format_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_hour_format_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5126,7 +5125,7 @@ CREATE TABLE `jo_import_maps` (
   `is_published` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `import_maps_assigned_user_id_module_name_deleted_idx` (`assigned_user_id`,`module`,`name`,`deleted`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5185,7 +5184,7 @@ CREATE TABLE `jo_industry` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`industryid`),
   UNIQUE KEY `industry_industry_idx` (`industry`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5207,7 +5206,7 @@ DROP TABLE IF EXISTS `jo_industry_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_industry_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5232,7 +5231,7 @@ CREATE TABLE `jo_inventory_tandc` (
   `type` varchar(30) NOT NULL,
   `tandc` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5254,7 +5253,7 @@ DROP TABLE IF EXISTS `jo_inventory_tandc_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_inventory_tandc_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5285,7 +5284,7 @@ CREATE TABLE `jo_inventorycharges` (
   `taxes` varchar(1024) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`chargeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5308,7 +5307,7 @@ DROP TABLE IF EXISTS `jo_inventorychargesrel`;
 CREATE TABLE `jo_inventorychargesrel` (
   `recordid` int(19) NOT NULL,
   `charges` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5335,7 +5334,7 @@ CREATE TABLE `jo_inventorynotification` (
   `label` varchar(50) DEFAULT NULL,
   `status` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`notificationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5357,7 +5356,7 @@ DROP TABLE IF EXISTS `jo_inventorynotification_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_inventorynotification_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5399,7 +5398,7 @@ CREATE TABLE `jo_inventoryproductrel` (
   KEY `inventoryproductrel_id_idx` (`id`),
   KEY `inventoryproductrel_productid_idx` (`productid`),
   CONSTRAINT `fk_crmid_jo_inventoryproductrel` FOREIGN KEY (`id`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5420,7 +5419,7 @@ DROP TABLE IF EXISTS `jo_inventoryproductrel_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_inventoryproductrel_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5446,7 +5445,7 @@ CREATE TABLE `jo_inventoryshippingrel` (
   `shtax2` decimal(7,3) DEFAULT NULL,
   `shtax3` decimal(7,3) DEFAULT NULL,
   KEY `inventoryishippingrel_id_idx` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5470,7 +5469,7 @@ CREATE TABLE `jo_inventorysubproductrel` (
   `sequence_no` int(10) NOT NULL,
   `productid` int(19) NOT NULL,
   `quantity` int(19) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5501,7 +5500,7 @@ CREATE TABLE `jo_inventorytaxinfo` (
   `regions` text,
   PRIMARY KEY (`taxid`),
   KEY `inventorytaxinfo_taxname_idx` (`taxname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5523,7 +5522,7 @@ DROP TABLE IF EXISTS `jo_inventorytaxinfo_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_inventorytaxinfo_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5548,7 +5547,7 @@ CREATE TABLE `jo_invitees` (
   `inviteeid` int(19) NOT NULL,
   `status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`activityid`,`inviteeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5608,7 +5607,7 @@ CREATE TABLE `jo_invoice` (
   KEY `fk_2_jo_invoice` (`salesorderid`),
   CONSTRAINT `fk_2_jo_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE,
   CONSTRAINT `fk_crmid_jo_invoice` FOREIGN KEY (`invoiceid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5637,7 +5636,7 @@ CREATE TABLE `jo_invoice_recurring_info` (
   `invoice_status` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`salesorderid`),
   CONSTRAINT `fk_salesorderid_jo_invoice_recurring_info` FOREIGN KEY (`salesorderid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5666,7 +5665,7 @@ CREATE TABLE `jo_invoicebillads` (
   `bill_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`invoicebilladdressid`),
   CONSTRAINT `fk_1_jo_invoicebillads` FOREIGN KEY (`invoicebilladdressid`) REFERENCES `jo_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5689,7 +5688,7 @@ CREATE TABLE `jo_invoicecf` (
   `invoiceid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`invoiceid`),
   CONSTRAINT `fk_1_jo_invoicecf` FOREIGN KEY (`invoiceid`) REFERENCES `jo_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5718,7 +5717,7 @@ CREATE TABLE `jo_invoiceshipads` (
   `ship_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`invoiceshipaddressid`),
   CONSTRAINT `fk_1_jo_invoiceshipads` FOREIGN KEY (`invoiceshipaddressid`) REFERENCES `jo_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5746,7 +5745,7 @@ CREATE TABLE `jo_invoicestatus` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`invoicestatusid`),
   UNIQUE KEY `invoicestatus_invoiestatus_idx` (`invoicestatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5768,7 +5767,7 @@ DROP TABLE IF EXISTS `jo_invoicestatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_invoicestatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5798,7 +5797,7 @@ CREATE TABLE `jo_invoicestatushistory` (
   PRIMARY KEY (`historyid`),
   KEY `invoicestatushistory_invoiceid_idx` (`invoiceid`),
   CONSTRAINT `fk_1_jo_invoicestatushistory` FOREIGN KEY (`invoiceid`) REFERENCES `jo_invoice` (`invoiceid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5827,7 +5826,7 @@ CREATE TABLE `jo_language` (
   `isdefault` int(1) DEFAULT NULL,
   `active` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5849,7 +5848,7 @@ DROP TABLE IF EXISTS `jo_language_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_language_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5875,7 +5874,7 @@ CREATE TABLE `jo_lead_view` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`lead_viewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5897,7 +5896,7 @@ DROP TABLE IF EXISTS `jo_lead_view_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_lead_view_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5931,7 +5930,7 @@ CREATE TABLE `jo_leadaddress` (
   `leadaddresstype` varchar(30) DEFAULT 'Billing',
   PRIMARY KEY (`leadaddressid`),
   CONSTRAINT `fk_1_jo_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `jo_leaddetails` (`leadid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5991,7 +5990,7 @@ CREATE TABLE `jo_leaddetails` (
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
   CONSTRAINT `fk_1_jo_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6014,7 +6013,7 @@ CREATE TABLE `jo_leadscf` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`leadid`),
   CONSTRAINT `fk_1_jo_leadscf` FOREIGN KEY (`leadid`) REFERENCES `jo_leaddetails` (`leadid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6041,7 +6040,7 @@ CREATE TABLE `jo_leadsource` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`leadsourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6063,7 +6062,7 @@ DROP TABLE IF EXISTS `jo_leadsource_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_leadsource_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6090,7 +6089,7 @@ CREATE TABLE `jo_leadstage` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`leadstageid`),
   UNIQUE KEY `leadstage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6117,7 +6116,7 @@ CREATE TABLE `jo_leadstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`leadstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6139,7 +6138,7 @@ DROP TABLE IF EXISTS `jo_leadstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_leadstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6167,7 +6166,7 @@ CREATE TABLE `jo_leadsubdetails` (
   `empct` int(10) DEFAULT '0',
   PRIMARY KEY (`leadsubscriptionid`),
   CONSTRAINT `fk_1_jo_leadsubdetails` FOREIGN KEY (`leadsubscriptionid`) REFERENCES `jo_leaddetails` (`leadid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6200,7 +6199,7 @@ CREATE TABLE `jo_links` (
   `parent_link` int(19) DEFAULT NULL,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6222,7 +6221,7 @@ DROP TABLE IF EXISTS `jo_links_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_links_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6247,10 +6246,10 @@ CREATE TABLE `jo_loginhistory` (
   `user_name` varchar(255) DEFAULT NULL,
   `user_ip` varchar(25) NOT NULL,
   `logout_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `login_time` datetime DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`login_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6288,7 +6287,7 @@ CREATE TABLE `jo_mail_accounts` (
   `status` varchar(10) DEFAULT NULL,
   `set_default` int(2) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6319,7 +6318,7 @@ CREATE TABLE `jo_mailer_queue` (
   `failed` int(1) NOT NULL DEFAULT '0',
   `failreason` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6344,7 +6343,7 @@ CREATE TABLE `jo_mailer_queueattachments` (
   `name` varchar(100) DEFAULT NULL,
   `encoding` varchar(50) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6368,7 +6367,7 @@ CREATE TABLE `jo_mailer_queueinfo` (
   `name` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `type` varchar(7) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6403,7 +6402,7 @@ CREATE TABLE `jo_mailscanner` (
   `scanfrom` varchar(10) DEFAULT 'ALL',
   `time_zone` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`scannerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6430,7 +6429,7 @@ CREATE TABLE `jo_mailscanner_actions` (
   `lookup` varchar(30) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
   PRIMARY KEY (`actionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6458,7 +6457,7 @@ CREATE TABLE `jo_mailscanner_folders` (
   `enabled` int(1) DEFAULT NULL,
   PRIMARY KEY (`folderid`),
   KEY `folderid_idx` (`folderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6483,7 +6482,7 @@ CREATE TABLE `jo_mailscanner_ids` (
   `crmid` int(11) DEFAULT NULL,
   `refids` text,
   KEY `scanner_message_ids_idx` (`scannerid`,`messageid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6505,7 +6504,7 @@ DROP TABLE IF EXISTS `jo_mailscanner_ruleactions`;
 CREATE TABLE `jo_mailscanner_ruleactions` (
   `ruleid` int(11) DEFAULT NULL,
   `actionid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6539,7 +6538,7 @@ CREATE TABLE `jo_mailscanner_rules` (
   `cc` varchar(255) DEFAULT NULL,
   `bcc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ruleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6567,7 +6566,7 @@ CREATE TABLE `jo_manufacturer` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`manufacturerid`),
   UNIQUE KEY `manufacturer_manufacturer_idx` (`manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6589,7 +6588,7 @@ DROP TABLE IF EXISTS `jo_manufacturer_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_manufacturer_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6702,7 +6701,7 @@ CREATE TABLE `jo_modentity_num` (
   PRIMARY KEY (`num_id`),
   UNIQUE KEY `num_idx` (`num_id`),
   KEY `semodule_active_idx` (`semodule`,`active`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6724,7 +6723,7 @@ DROP TABLE IF EXISTS `jo_modentity_num_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_modentity_num_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6860,7 +6859,7 @@ CREATE TABLE `jo_module_dashboard_widgets` (
   PRIMARY KEY (`id`),
   KEY `dashboardtabid` (`dashboardtabid`),
   CONSTRAINT `jo_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`dashboardtabid`) REFERENCES `jo_dashboard_tabs` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6885,7 +6884,7 @@ CREATE TABLE `jo_no_of_currency_decimals` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`no_of_currency_decimalsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6907,7 +6906,7 @@ DROP TABLE IF EXISTS `jo_no_of_currency_decimals_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_no_of_currency_decimals_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6931,7 +6930,7 @@ CREATE TABLE `jo_notebook_contents` (
   `userid` int(19) NOT NULL,
   `notebookid` int(19) NOT NULL,
   `contents` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6968,7 +6967,7 @@ CREATE TABLE `jo_notes` (
   KEY `notes_title_idx` (`title`),
   KEY `notes_notesid_idx` (`notesid`),
   CONSTRAINT `fk_1_jo_notes` FOREIGN KEY (`notesid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6991,7 +6990,7 @@ CREATE TABLE `jo_notescf` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`notesid`),
   CONSTRAINT `fk_notesid_jo_notescf` FOREIGN KEY (`notesid`) REFERENCES `jo_notes` (`notesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7020,8 +7019,11 @@ CREATE TABLE `jo_notification` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   `action_type` varchar(40) NOT NULL,
+  `fieldname` varchar(50) DEFAULT NULL,
+  `oldvalue` text,
+  `newvalue` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7042,7 +7044,7 @@ DROP TABLE IF EXISTS `jo_notification_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_notification_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7072,7 +7074,7 @@ CREATE TABLE `jo_notificationscheduler` (
   `type` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`schedulednotificationid`),
   UNIQUE KEY `notificationscheduler_schedulednotificationname_idx` (`schedulednotificationname`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7094,7 +7096,7 @@ DROP TABLE IF EXISTS `jo_notificationscheduler_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_notificationscheduler_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7123,7 +7125,7 @@ CREATE TABLE `jo_opportunity_type` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`opptypeid`),
   UNIQUE KEY `opportunity_type_opportunity_type_idx` (`opportunity_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7145,7 +7147,7 @@ DROP TABLE IF EXISTS `jo_opportunity_type_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_opportunity_type_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7173,7 +7175,7 @@ CREATE TABLE `jo_opportunitystage` (
   `probability` decimal(3,2) DEFAULT '0.00',
   PRIMARY KEY (`potstageid`),
   UNIQUE KEY `opportunitystage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7198,7 +7200,7 @@ CREATE TABLE `jo_org_share_action2tab` (
   PRIMARY KEY (`share_action_id`,`tabid`),
   KEY `fk_2_jo_org_share_action2tab` (`tabid`),
   CONSTRAINT `fk_2_jo_org_share_action2tab` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7222,7 +7224,7 @@ CREATE TABLE `jo_org_share_action_mapping` (
   `share_action_id` int(19) NOT NULL,
   `share_action_name` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`share_action_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7257,7 +7259,7 @@ CREATE TABLE `jo_organizationdetails` (
   `logo` text,
   `vatid` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7279,7 +7281,7 @@ DROP TABLE IF EXISTS `jo_organizationdetails_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_organizationdetails_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7305,7 +7307,7 @@ CREATE TABLE `jo_othereventduration` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`othereventdurationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7327,7 +7329,7 @@ DROP TABLE IF EXISTS `jo_othereventduration_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_othereventduration_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7354,7 +7356,7 @@ CREATE TABLE `jo_parenttab` (
   `visible` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`parenttabid`),
   KEY `parenttab_parenttabid_parenttabl_label_visible_idx` (`parenttabid`,`parenttab_label`,`visible`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7382,7 +7384,7 @@ CREATE TABLE `jo_parenttabrel` (
   KEY `fk_2_jo_parenttabrel` (`parenttabid`),
   CONSTRAINT `fk_1_jo_parenttabrel` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE,
   CONSTRAINT `fk_2_jo_parenttabrel` FOREIGN KEY (`parenttabid`) REFERENCES `jo_parenttab` (`parenttabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7408,7 +7410,7 @@ CREATE TABLE `jo_payment_duration` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7430,7 +7432,7 @@ DROP TABLE IF EXISTS `jo_payment_duration_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_payment_duration_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7575,7 +7577,7 @@ CREATE TABLE `jo_pdfmaker` (
   `header` text,
   `footer` text,
   PRIMARY KEY (`pdfmakerid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7597,7 +7599,7 @@ DROP TABLE IF EXISTS `jo_pdfmaker_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_pdfmaker_seq` (
   `accountid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7621,7 +7623,7 @@ CREATE TABLE `jo_pdfmakersettings` (
   `id` int(19) NOT NULL,
   `version` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7646,7 +7648,7 @@ CREATE TABLE `jo_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7675,7 +7677,7 @@ CREATE TABLE `jo_picklist_dependency` (
   `targetvalues` text,
   `criteria` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7696,7 +7698,7 @@ DROP TABLE IF EXISTS `jo_picklist_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_picklist_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7721,7 +7723,7 @@ CREATE TABLE `jo_picklist_transitions` (
   `module` varchar(100) NOT NULL,
   `transition_data` varchar(1000) NOT NULL,
   PRIMARY KEY (`fieldname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7742,7 +7744,7 @@ DROP TABLE IF EXISTS `jo_picklistvalues_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_picklistvalues_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7772,7 +7774,7 @@ CREATE TABLE `jo_pobillads` (
   `bill_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`pobilladdressid`),
   CONSTRAINT `fk_1_jo_pobillads` FOREIGN KEY (`pobilladdressid`) REFERENCES `jo_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7800,7 +7802,7 @@ CREATE TABLE `jo_portal` (
   `createdtime` datetime DEFAULT NULL,
   PRIMARY KEY (`portalid`),
   KEY `portal_portalname_idx` (`portalname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7831,7 +7833,7 @@ CREATE TABLE `jo_portalinfo` (
   `isactive` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_1_jo_portalinfo` FOREIGN KEY (`id`) REFERENCES `jo_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7860,7 +7862,7 @@ CREATE TABLE `jo_poshipads` (
   `ship_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`poshipaddressid`),
   CONSTRAINT `fk_1_jo_poshipads` FOREIGN KEY (`poshipaddressid`) REFERENCES `jo_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7888,7 +7890,7 @@ CREATE TABLE `jo_postatus` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`postatusid`),
   UNIQUE KEY `postatus_postatus_idx` (`postatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7910,7 +7912,7 @@ DROP TABLE IF EXISTS `jo_postatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_postatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7940,7 +7942,7 @@ CREATE TABLE `jo_postatushistory` (
   PRIMARY KEY (`historyid`),
   KEY `postatushistory_purchaseorderid_idx` (`purchaseorderid`),
   CONSTRAINT `fk_1_jo_postatushistory` FOREIGN KEY (`purchaseorderid`) REFERENCES `jo_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7996,7 +7998,7 @@ CREATE TABLE `jo_potential` (
   KEY `potentail_sales_stage_idx` (`sales_stage`),
   KEY `potentail_sales_stage_amount_idx` (`amount`,`sales_stage`),
   CONSTRAINT `fk_1_jo_potential` FOREIGN KEY (`potentialid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8019,7 +8021,7 @@ CREATE TABLE `jo_potentialscf` (
   `potentialid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`potentialid`),
   CONSTRAINT `fk_1_jo_potentialscf` FOREIGN KEY (`potentialid`) REFERENCES `jo_potential` (`potentialid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8050,7 +8052,7 @@ CREATE TABLE `jo_potstagehistory` (
   PRIMARY KEY (`historyid`),
   KEY `potstagehistory_potentialid_idx` (`potentialid`),
   CONSTRAINT `fk_1_jo_potstagehistory` FOREIGN KEY (`potentialid`) REFERENCES `jo_potential` (`potentialid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8078,7 +8080,7 @@ CREATE TABLE `jo_pricebook` (
   `tags` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`pricebookid`),
   CONSTRAINT `fk_1_jo_pricebook` FOREIGN KEY (`pricebookid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8101,7 +8103,7 @@ CREATE TABLE `jo_pricebookcf` (
   `pricebookid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pricebookid`),
   CONSTRAINT `fk_1_jo_pricebookcf` FOREIGN KEY (`pricebookid`) REFERENCES `jo_pricebook` (`pricebookid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8129,7 +8131,7 @@ CREATE TABLE `jo_pricebookproductrel` (
   KEY `pricebookproductrel_pricebookid_idx` (`pricebookid`),
   KEY `pricebookproductrel_productid_idx` (`productid`),
   CONSTRAINT `fk_1_jo_pricebookproductrel` FOREIGN KEY (`pricebookid`) REFERENCES `jo_pricebook` (`pricebookid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8155,7 +8157,7 @@ CREATE TABLE `jo_priority` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`priorityid`),
   UNIQUE KEY `priority_priority_idx` (`priority`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8183,7 +8185,7 @@ CREATE TABLE `jo_productcategory` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`productcategoryid`),
   UNIQUE KEY `productcategory_productcategory_idx` (`productcategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8205,7 +8207,7 @@ DROP TABLE IF EXISTS `jo_productcategory_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_productcategory_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8229,7 +8231,7 @@ CREATE TABLE `jo_productcf` (
   `productid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_jo_productcf` FOREIGN KEY (`productid`) REFERENCES `jo_products` (`productid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8253,7 +8255,7 @@ CREATE TABLE `jo_productcurrencyrel` (
   `currencyid` int(11) NOT NULL,
   `converted_price` decimal(28,8) DEFAULT NULL,
   `actual_price` decimal(28,8) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8310,7 +8312,7 @@ CREATE TABLE `jo_products` (
   `tags` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_jo_products` FOREIGN KEY (`productid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8337,7 +8339,7 @@ CREATE TABLE `jo_producttaxrel` (
   KEY `producttaxrel_productid_idx` (`productid`),
   KEY `producttaxrel_taxid_idx` (`taxid`),
   CONSTRAINT `fk_crmid_jo_producttaxrel` FOREIGN KEY (`productid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8362,7 +8364,7 @@ CREATE TABLE `jo_profile` (
   `description` text,
   `directly_related_to_role` int(1) DEFAULT '0',
   PRIMARY KEY (`profileid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8392,7 +8394,7 @@ CREATE TABLE `jo_profile2field` (
   KEY `profile2field_profileid_tabid_fieldname_idx` (`profileid`,`tabid`),
   KEY `profile2field_tabid_profileid_idx` (`tabid`,`profileid`),
   KEY `profile2field_visible_profileid_idx` (`visible`,`profileid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8419,7 +8421,7 @@ CREATE TABLE `jo_profile2globalpermissions` (
   PRIMARY KEY (`profileid`,`globalactionid`),
   KEY `idx_profile2globalpermissions` (`profileid`,`globalactionid`),
   CONSTRAINT `fk_1_jo_profile2globalpermissions` FOREIGN KEY (`profileid`) REFERENCES `jo_profile` (`profileid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8446,7 +8448,7 @@ CREATE TABLE `jo_profile2standardpermissions` (
   `permissions` int(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`tabid`,`operation`),
   KEY `profile2standardpermissions_profileid_tabid_operation_idx` (`profileid`,`tabid`,`operation`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8471,7 +8473,7 @@ CREATE TABLE `jo_profile2tab` (
   `tabid` int(10) DEFAULT NULL,
   `permissions` int(10) NOT NULL DEFAULT '0',
   KEY `profile2tab_profileid_tabid_idx` (`profileid`,`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8498,7 +8500,7 @@ CREATE TABLE `jo_profile2utility` (
   `permission` int(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`tabid`,`activityid`),
   KEY `profile2utility_profileid_tabid_activityid_idx` (`profileid`,`tabid`,`activityid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8520,7 +8522,7 @@ DROP TABLE IF EXISTS `jo_profile_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_profile_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8548,7 +8550,7 @@ CREATE TABLE `jo_progress` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`progressid`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8570,7 +8572,7 @@ DROP TABLE IF EXISTS `jo_progress_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_progress_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8711,7 +8713,7 @@ CREATE TABLE `jo_projectmilestonetype` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projectmilestonetypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8733,7 +8735,7 @@ DROP TABLE IF EXISTS `jo_projectmilestonetype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projectmilestonetype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8761,7 +8763,7 @@ CREATE TABLE `jo_projectpriority` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projectpriorityid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8783,7 +8785,7 @@ DROP TABLE IF EXISTS `jo_projectpriority_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projectpriority_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8811,7 +8813,7 @@ CREATE TABLE `jo_projectstatus` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projectstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8833,7 +8835,7 @@ DROP TABLE IF EXISTS `jo_projectstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projectstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8944,7 +8946,7 @@ CREATE TABLE `jo_projecttaskpriority` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projecttaskpriorityid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8966,7 +8968,7 @@ DROP TABLE IF EXISTS `jo_projecttaskpriority_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projecttaskpriority_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8994,7 +8996,7 @@ CREATE TABLE `jo_projecttaskprogress` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projecttaskprogressid`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9016,7 +9018,7 @@ DROP TABLE IF EXISTS `jo_projecttaskprogress_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projecttaskprogress_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9044,7 +9046,7 @@ CREATE TABLE `jo_projecttaskstatus` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projecttaskstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9066,7 +9068,7 @@ DROP TABLE IF EXISTS `jo_projecttaskstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projecttaskstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9094,7 +9096,7 @@ CREATE TABLE `jo_projecttasktype` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projecttasktypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9116,7 +9118,7 @@ DROP TABLE IF EXISTS `jo_projecttasktype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projecttasktype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9144,7 +9146,7 @@ CREATE TABLE `jo_projecttype` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projecttypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9166,7 +9168,7 @@ DROP TABLE IF EXISTS `jo_projecttype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_projecttype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9224,7 +9226,7 @@ CREATE TABLE `jo_purchaseorder` (
   KEY `purchaseorder_contactid_idx` (`contactid`),
   CONSTRAINT `fk_4_jo_purchaseorder` FOREIGN KEY (`vendorid`) REFERENCES `jo_vendor` (`vendorid`) ON DELETE CASCADE,
   CONSTRAINT `fk_crmid_jo_purchaseorder` FOREIGN KEY (`purchaseorderid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9247,7 +9249,7 @@ CREATE TABLE `jo_purchaseordercf` (
   `purchaseorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`purchaseorderid`),
   CONSTRAINT `fk_1_jo_purchaseordercf` FOREIGN KEY (`purchaseorderid`) REFERENCES `jo_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9300,7 +9302,7 @@ CREATE TABLE `jo_quotes` (
   KEY `quotes_contactid_idx` (`contactid`),
   CONSTRAINT `fk_3_jo_quotes` FOREIGN KEY (`potentialid`) REFERENCES `jo_potential` (`potentialid`) ON DELETE CASCADE,
   CONSTRAINT `fk_crmid_jo_quotes` FOREIGN KEY (`quoteid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9329,7 +9331,7 @@ CREATE TABLE `jo_quotesbillads` (
   `bill_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`quotebilladdressid`),
   CONSTRAINT `fk_1_jo_quotesbillads` FOREIGN KEY (`quotebilladdressid`) REFERENCES `jo_quotes` (`quoteid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9352,7 +9354,7 @@ CREATE TABLE `jo_quotescf` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`quoteid`),
   CONSTRAINT `fk_1_jo_quotescf` FOREIGN KEY (`quoteid`) REFERENCES `jo_quotes` (`quoteid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9381,7 +9383,7 @@ CREATE TABLE `jo_quotesshipads` (
   `ship_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`quoteshipaddressid`),
   CONSTRAINT `fk_1_jo_quotesshipads` FOREIGN KEY (`quoteshipaddressid`) REFERENCES `jo_quotes` (`quoteid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9409,7 +9411,7 @@ CREATE TABLE `jo_quotestage` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`quotestageid`),
   UNIQUE KEY `quotestage_quotestage_idx` (`quotestage`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9431,7 +9433,7 @@ DROP TABLE IF EXISTS `jo_quotestage_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_quotestage_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9461,7 +9463,7 @@ CREATE TABLE `jo_quotestagehistory` (
   PRIMARY KEY (`historyid`),
   KEY `quotestagehistory_quoteid_idx` (`quoteid`),
   CONSTRAINT `fk_1_jo_quotestagehistory` FOREIGN KEY (`quoteid`) REFERENCES `jo_quotes` (`quoteid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9488,7 +9490,7 @@ CREATE TABLE `jo_rating` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`rating_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9510,7 +9512,7 @@ DROP TABLE IF EXISTS `jo_rating_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_rating_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9536,7 +9538,7 @@ CREATE TABLE `jo_recurring_frequency` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9558,7 +9560,7 @@ DROP TABLE IF EXISTS `jo_recurring_frequency_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_recurring_frequency_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9589,7 +9591,7 @@ CREATE TABLE `jo_recurringevents` (
   PRIMARY KEY (`recurringid`),
   KEY `fk_1_jo_recurringevents` (`activityid`),
   CONSTRAINT `fk_1_jo_recurringevents` FOREIGN KEY (`activityid`) REFERENCES `jo_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9616,7 +9618,7 @@ CREATE TABLE `jo_recurringtype` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`recurringeventid`),
   UNIQUE KEY `recurringtype_status_idx` (`recurringtype`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9638,7 +9640,7 @@ DROP TABLE IF EXISTS `jo_recurringtype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_recurringtype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9672,7 +9674,7 @@ CREATE TABLE `jo_relatedlists` (
   `relationtype` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`relation_id`),
   KEY `relatedlists_relation_id_idx` (`relation_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9699,7 +9701,7 @@ CREATE TABLE `jo_relatedlists_rb` (
   `rel_column` varchar(200) DEFAULT NULL,
   `ref_column` varchar(200) DEFAULT NULL,
   `related_crm_ids` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9720,7 +9722,7 @@ DROP TABLE IF EXISTS `jo_relatedlists_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_relatedlists_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9751,7 +9753,7 @@ CREATE TABLE `jo_relcriteria` (
   PRIMARY KEY (`queryid`,`columnindex`),
   KEY `relcriteria_queryid_idx` (`queryid`),
   CONSTRAINT `fk_1_jo_relcriteria` FOREIGN KEY (`queryid`) REFERENCES `jo_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9777,7 +9779,7 @@ CREATE TABLE `jo_relcriteria_grouping` (
   `group_condition` varchar(256) DEFAULT NULL,
   `condition_expression` text,
   PRIMARY KEY (`groupid`,`queryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9803,7 +9805,7 @@ CREATE TABLE `jo_reminder_interval` (
   `sortorderid` int(19) NOT NULL,
   `presence` int(1) NOT NULL,
   PRIMARY KEY (`reminder_intervalid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9825,7 +9827,7 @@ DROP TABLE IF EXISTS `jo_reminder_interval_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_reminder_interval_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9861,7 +9863,7 @@ CREATE TABLE `jo_report` (
   KEY `report_queryid_idx` (`queryid`),
   KEY `report_folderid_idx` (`folderid`),
   CONSTRAINT `fk_2_jo_report` FOREIGN KEY (`queryid`) REFERENCES `jo_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9888,7 +9890,7 @@ CREATE TABLE `jo_report_sharegroups` (
   KEY `jo_groups_groupid_ibfk_1` (`groupid`),
   CONSTRAINT `jo_groups_groupid_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `jo_groups` (`groupid`) ON DELETE CASCADE,
   CONSTRAINT `jo_report_reportid_ibfk_2` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9914,7 +9916,7 @@ CREATE TABLE `jo_report_sharerole` (
   KEY `jo_role_roleid_ibfk_1` (`roleid`),
   CONSTRAINT `jo_report_reportid_ibfk_3` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE,
   CONSTRAINT `jo_role_roleid_ibfk_1` FOREIGN KEY (`roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9940,7 +9942,7 @@ CREATE TABLE `jo_report_sharers` (
   KEY `jo_rolesd_rsid_ibfk_1` (`rsid`),
   CONSTRAINT `jo_report_reportid_ibfk_4` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE,
   CONSTRAINT `jo_rolesd_rsid_ibfk_1` FOREIGN KEY (`rsid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9966,7 +9968,7 @@ CREATE TABLE `jo_report_shareusers` (
   KEY `jo_users_userid_ibfk_1` (`userid`),
   CONSTRAINT `jo_reports_reportid_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE,
   CONSTRAINT `jo_users_userid_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9994,7 +9996,7 @@ CREATE TABLE `jo_reportdatefilter` (
   PRIMARY KEY (`datefilterid`),
   KEY `reportdatefilter_datefilterid_idx` (`datefilterid`),
   CONSTRAINT `fk_1_jo_reportdatefilter` FOREIGN KEY (`datefilterid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10017,7 +10019,7 @@ DROP TABLE IF EXISTS `jo_reportfilters`;
 CREATE TABLE `jo_reportfilters` (
   `filterid` int(19) NOT NULL,
   `name` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10043,7 +10045,7 @@ CREATE TABLE `jo_reportfolder` (
   `description` varchar(250) DEFAULT '',
   `state` varchar(50) DEFAULT 'SAVED',
   PRIMARY KEY (`folderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10070,7 +10072,7 @@ CREATE TABLE `jo_reportgroupbycolumn` (
   `dategroupbycriteria` varchar(250) DEFAULT NULL,
   KEY `fk_1_jo_reportgroupbycolumn` (`reportid`),
   CONSTRAINT `fk_1_jo_reportgroupbycolumn` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10095,7 +10097,7 @@ CREATE TABLE `jo_reportmodules` (
   `secondarymodules` varchar(250) DEFAULT '',
   PRIMARY KEY (`reportmodulesid`),
   CONSTRAINT `fk_1_jo_reportmodules` FOREIGN KEY (`reportmodulesid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10119,7 +10121,7 @@ CREATE TABLE `jo_reportsharing` (
   `reportid` int(19) NOT NULL,
   `shareid` int(19) NOT NULL,
   `setype` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10146,7 +10148,7 @@ CREATE TABLE `jo_reportsortcol` (
   PRIMARY KEY (`sortcolid`,`reportid`),
   KEY `fk_1_jo_reportsortcol` (`reportid`),
   CONSTRAINT `fk_1_jo_reportsortcol` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10173,7 +10175,7 @@ CREATE TABLE `jo_reportsummary` (
   PRIMARY KEY (`reportsummaryid`,`summarytype`,`columnname`),
   KEY `reportsummary_reportsummaryid_idx` (`reportsummaryid`),
   CONSTRAINT `fk_1_jo_reportsummary` FOREIGN KEY (`reportsummaryid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10197,7 +10199,7 @@ CREATE TABLE `jo_reporttype` (
   `data` text,
   PRIMARY KEY (`reportid`),
   CONSTRAINT `fk_1_jo_reporttype` FOREIGN KEY (`reportid`) REFERENCES `jo_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10223,7 +10225,7 @@ CREATE TABLE `jo_role` (
   `depth` int(19) DEFAULT NULL,
   `allowassignedrecordsto` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10253,7 +10255,7 @@ CREATE TABLE `jo_role2picklist` (
   KEY `fk_2_jo_role2picklist` (`picklistid`),
   CONSTRAINT `fk_1_jo_role2picklist` FOREIGN KEY (`roleid`) REFERENCES `jo_role` (`roleid`) ON DELETE CASCADE,
   CONSTRAINT `fk_2_jo_role2picklist` FOREIGN KEY (`picklistid`) REFERENCES `jo_picklist` (`picklistid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10278,7 +10280,7 @@ CREATE TABLE `jo_role2profile` (
   `profileid` int(11) NOT NULL,
   PRIMARY KEY (`roleid`,`profileid`),
   KEY `role2profile_roleid_profileid_idx` (`roleid`,`profileid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10300,7 +10302,7 @@ DROP TABLE IF EXISTS `jo_role_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_role_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10326,7 +10328,7 @@ CREATE TABLE `jo_rollupcomments_settings` (
   `tabid` int(19) NOT NULL,
   `rollup_status` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`rollupid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10351,7 +10353,7 @@ CREATE TABLE `jo_rowheight` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`rowheightid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10373,7 +10375,7 @@ DROP TABLE IF EXISTS `jo_rowheight_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_rowheight_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10401,7 +10403,7 @@ CREATE TABLE `jo_sales_stage` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`sales_stage_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10423,7 +10425,7 @@ DROP TABLE IF EXISTS `jo_sales_stage_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_sales_stage_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10450,7 +10452,7 @@ CREATE TABLE `jo_salesmanactivityrel` (
   KEY `salesmanactivityrel_activityid_idx` (`activityid`),
   KEY `salesmanactivityrel_smid_idx` (`smid`),
   CONSTRAINT `fk_2_jo_salesmanactivityrel` FOREIGN KEY (`smid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10476,7 +10478,7 @@ CREATE TABLE `jo_salesmanattachmentsrel` (
   KEY `salesmanattachmentsrel_smid_idx` (`smid`),
   KEY `salesmanattachmentsrel_attachmentsid_idx` (`attachmentsid`),
   CONSTRAINT `fk_2_jo_salesmanattachmentsrel` FOREIGN KEY (`attachmentsid`) REFERENCES `jo_attachments` (`attachmentsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10502,7 +10504,7 @@ CREATE TABLE `jo_salesmanticketrel` (
   KEY `salesmanticketrel_smid_idx` (`smid`),
   KEY `salesmanticketrel_id_idx` (`id`),
   CONSTRAINT `fk_2_jo_salesmanticketrel` FOREIGN KEY (`smid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10561,7 +10563,7 @@ CREATE TABLE `jo_salesorder` (
   KEY `salesorder_contactid_idx` (`contactid`),
   CONSTRAINT `fk_3_jo_salesorder` FOREIGN KEY (`vendorid`) REFERENCES `jo_vendor` (`vendorid`) ON DELETE CASCADE,
   CONSTRAINT `fk_crmid_jo_salesorder` FOREIGN KEY (`salesorderid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10584,7 +10586,7 @@ CREATE TABLE `jo_salesordercf` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`salesorderid`),
   CONSTRAINT `fk_1_jo_salesordercf` FOREIGN KEY (`salesorderid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10611,7 +10613,7 @@ CREATE TABLE `jo_salutationtype` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`salutationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10633,7 +10635,7 @@ DROP TABLE IF EXISTS `jo_salutationtype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_salutationtype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10660,7 +10662,7 @@ CREATE TABLE `jo_scheduled_reports` (
   `format` varchar(10) DEFAULT NULL,
   `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`reportid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10717,7 +10719,7 @@ CREATE TABLE `jo_seactivityrel` (
   KEY `seactivityrel_activityid_idx` (`activityid`),
   KEY `seactivityrel_crmid_idx` (`crmid`),
   CONSTRAINT `fk_2_jo_seactivityrel` FOREIGN KEY (`crmid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10738,7 +10740,7 @@ DROP TABLE IF EXISTS `jo_seactivityrel_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_seactivityrel_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10766,7 +10768,7 @@ CREATE TABLE `jo_seattachmentsrel` (
   KEY `seattachmentsrel_crmid_idx` (`crmid`),
   KEY `seattachmentsrel_attachmentsid_crmid_idx` (`attachmentsid`,`crmid`),
   CONSTRAINT `fk_2_jo_seattachmentsrel` FOREIGN KEY (`crmid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10792,7 +10794,7 @@ CREATE TABLE `jo_selectcolumn` (
   PRIMARY KEY (`queryid`,`columnindex`),
   KEY `selectcolumn_queryid_idx` (`queryid`),
   CONSTRAINT `fk_1_jo_selectcolumn` FOREIGN KEY (`queryid`) REFERENCES `jo_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10818,7 +10820,7 @@ CREATE TABLE `jo_selectquery` (
   `numofobjects` int(19) DEFAULT '0',
   PRIMARY KEY (`queryid`),
   KEY `selectquery_queryid_idx` (`queryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10840,7 +10842,7 @@ DROP TABLE IF EXISTS `jo_selectquery_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_selectquery_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10868,7 +10870,7 @@ CREATE TABLE `jo_senotesrel` (
   KEY `senotesrel_crmid_idx` (`crmid`),
   CONSTRAINT `fk1_crmid` FOREIGN KEY (`crmid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_2_jo_senotesrel` FOREIGN KEY (`notesid`) REFERENCES `jo_notes` (`notesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10896,7 +10898,7 @@ CREATE TABLE `jo_seproductsrel` (
   KEY `seproductsrel_productid_idx` (`productid`),
   KEY `seproductrel_crmid_idx` (`crmid`),
   CONSTRAINT `fk_2_jo_seproductsrel` FOREIGN KEY (`productid`) REFERENCES `jo_products` (`productid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10963,7 +10965,7 @@ CREATE TABLE `jo_service_usageunit` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`service_usageunitid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10985,7 +10987,7 @@ DROP TABLE IF EXISTS `jo_service_usageunit_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_service_usageunit_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11013,7 +11015,7 @@ CREATE TABLE `jo_servicecategory` (
   `sortorderid` int(11) DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`servicecategoryid`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11035,7 +11037,7 @@ DROP TABLE IF EXISTS `jo_servicecategory_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_servicecategory_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11085,7 +11087,7 @@ CREATE TABLE `jo_seticketsrel` (
   KEY `seticketsrel_crmid_idx` (`crmid`),
   KEY `seticketsrel_ticketid_idx` (`ticketid`),
   CONSTRAINT `fk_2_jo_seticketsrel` FOREIGN KEY (`ticketid`) REFERENCES `jo_troubletickets` (`ticketid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11109,7 +11111,7 @@ CREATE TABLE `jo_settings_blocks` (
   `label` varchar(250) DEFAULT NULL,
   `sequence` int(19) DEFAULT NULL,
   PRIMARY KEY (`blockid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11131,7 +11133,7 @@ DROP TABLE IF EXISTS `jo_settings_blocks_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_settings_blocks_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11164,7 +11166,7 @@ CREATE TABLE `jo_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_jo_settings_field` (`blockid`),
   CONSTRAINT `fk_1_jo_settings_field` FOREIGN KEY (`blockid`) REFERENCES `jo_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11173,7 +11175,7 @@ CREATE TABLE `jo_settings_field` (
 
 LOCK TABLES `jo_settings_field` WRITE;
 /*!40000 ALTER TABLE `jo_settings_field` DISABLE KEYS */;
-INSERT INTO `jo_settings_field` VALUES (1,1,'LBL_USERS','fa fa-user','LBL_USER_DESCRIPTION','Users/Settings/List',1,0,1),(2,1,'LBL_ROLES','fa fa-registered','LBL_ROLE_DESCRIPTION','Roles/Settings/Index',2,0,0),(3,1,'LBL_PROFILES','fa fa-user-plus','LBL_PROFILE_DESCRIPTION','Profiles/Settings/List',3,0,0),(4,1,'USERGROUPLIST','fa fa-users','LBL_GROUP_DESCRIPTION','Groups/Settings/List',5,0,0),(5,1,'LBL_SHARING_ACCESS','fa fa-share-alt','LBL_SHARING_ACCESS_DESCRIPTION','SharingAccess/Settings/Index',4,0,0),(6,1,'LBL_LOGIN_HISTORY_DETAILS','fa fa-history','LBL_LOGIN_HISTORY_DESCRIPTION','LoginHistory/Settings/List',6,0,0),(7,6,'VTLIB_LBL_MODULE_MANAGER','fa fa-chain','VTLIB_LBL_MODULE_MANAGER_DESCRIPTION','ModuleManager/Settings/List',1,0,1),(8,8,'LBL_PICKLIST_EDITOR','fa fa-file-text-o','LBL_PICKLIST_DESCRIPTION','Picklist/Settings/Index',6,0,1),(9,8,'LBL_PICKLIST_DEPENDENCY','fa fa-list','LBL_PICKLIST_DEPENDENCY_DESCRIPTION','PickListDependency/Settings/List',7,0,0),(10,8,'LBL_COMPANY_DETAILS','fa fa-building-o','LBL_COMPANY_DESCRIPTION','Head/Settings/CompanyDetails',1,0,0),(11,8,'LBL_MAIL_SERVER_SETTINGS','fa fa-server','LBL_MAIL_SERVER_DESCRIPTION','Head/Settings/OutgoingServerDetail',4,0,0),(12,8,'LBL_CURRENCY_SETTINGS','fa fa-usd','LBL_CURRENCY_DESCRIPTION','Currency/Settings/List',3,0,0),(13,10,'LBL_TAX_SETTINGS','fa fa-money','LBL_TAX_DESCRIPTION','Head/Settings/TaxIndex',1,0,0),(15,10,'INVENTORYTERMSANDCONDITIONS','fa fa-info-circle','LBL_INV_TANDC_DESCRIPTION','Head/Settings/TermsAndConditionsEdit',2,0,0),(16,6,'LBL_CUSTOMIZE_MODENT_NUMBER','fa fa-sort-numeric-desc','LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION','Head/Settings/CustomRecordNumbering',4,0,0),(17,4,'LBL_MAIL_SCANNER','fa fa-envelope-o','LBL_MAIL_SCANNER_DESCRIPTION','MailConverter/Settings/List',5,0,0),(18,7,'LBL_LIST_WORKFLOWS','fa fa-sitemap','LBL_LIST_WORKFLOWS_DESCRIPTION','Workflows/Settings/List',3,0,1),(19,8,'Configuration Editor','fa fa-pencil-square-o','LBL_CONFIG_EDITOR_DESCRIPTION','Head/Settings/ConfigEditorDetail',5,0,0),(20,7,'Scheduler','fa fa-clock-o','Allows you to Configure Cron Task','CronTasks/Settings/List',2,0,0),(21,4,'Duplicate Check','fa fa-copy','DuplicateCheck','DuplicateCheck/Settings/List',7,0,0),(22,4,'Address Lookup','fa fa-search-plus','Auto Fill the address fields in each module','AddressLookup/Settings/List',8,0,0),(23,5,'LBL_PBXMANAGER','fa fa-phone','PBXManager module Configuration','PBXManager/Settings/Index',2,0,0),(24,4,'ModTracker','set-IcoLoginHistory.gif','LBL_MODTRACKER_DESCRIPTION','ModTracker/BasicSettings/Settings/ModTracker',9,0,0),(26,7,'Webforms','fa fa-file-zip-o','LBL_WEBFORMS_DESCRIPTION','Webforms/Settings/List',1,0,0),(28,6,'LBL_EDIT_FIELDS','fa fa-codepen','LBL_LAYOUT_EDITOR_DESCRIPTION','LayoutEditor/Settings/Index',2,0,0),(29,9,'LBL_LEAD_MAPPING','fa fa-exchange','NULL','Leads/Settings/MappingDetail',1,0,1),(30,9,'LBL_OPPORTUNITY_MAPPING','fa fa-map-signs','NULL','Potentials/Settings/MappingDetail',2,0,1),(31,11,'My Preferences','fa fa-user','NULL','Users/Settings/PreferenceDetail/1',1,0,1),(32,11,'Calendar Settings','fa fa-calendar-check-o','NULL','Users/Settings/Calendar/1',2,0,1),(33,11,'LBL_MY_TAGS','fa fa-tags','NULL','Tags/Settings/List/1',3,0,1),(34,11,'LBL_MENU_MANAGEMENT','fa fa-bars','NULL','MenuManager/Settings/Index',4,0,1),(35,12,'LBL_GOOGLE','fa fa-google','NULL','Contacts/Settings/Extension/Google/Index/settings',1,0,1),(36,6,'Module Studio','fa fa-video-camera','LBL_MODULEDESIGNER_DESCRIPTION','ModuleDesigner/Settings/Index',3,0,0),(37,13,'Contributors','fa fa-plus-square','Contributors','Head/Settings/Credits',1,0,0),(38,13,'License','fa fa-exclamation-triangle','License','Head/Settings/License',2,0,0),(39,4,'Google Settings','fa fa-cogs','Google Synchronization','Google/Settings/GoogleSettings',12,1,0),(40,6,'Language Editor','fa fa-pencil','LBL_LANGUAGE_EDITOR','LanguageEditor/Settings/Index',3,0,0),(41,11,'Notifications','fa fa-bell','Notifications','Notifications/Settings/Index',5,0,0),(42,4,'Masquerade User','fa fa-street-view','Masquerade User','PortalUser/Settings/Index',6,0,0);
+INSERT INTO `jo_settings_field` VALUES (1,1,'LBL_USERS','fa fa-user','LBL_USER_DESCRIPTION','Users/Settings/List',1,0,1),(2,1,'LBL_ROLES','fa fa-registered','LBL_ROLE_DESCRIPTION','Roles/Settings/Index',2,0,0),(3,1,'LBL_PROFILES','fa fa-user-plus','LBL_PROFILE_DESCRIPTION','Profiles/Settings/List',3,0,0),(4,1,'USERGROUPLIST','fa fa-users','LBL_GROUP_DESCRIPTION','Groups/Settings/List',5,0,0),(5,1,'LBL_SHARING_ACCESS','fa fa-share-alt','LBL_SHARING_ACCESS_DESCRIPTION','SharingAccess/Settings/Index',4,0,0),(6,1,'LBL_LOGIN_HISTORY_DETAILS','fa fa-history','LBL_LOGIN_HISTORY_DESCRIPTION','LoginHistory/Settings/List',6,0,0),(7,6,'VTLIB_LBL_MODULE_MANAGER','fa fa-chain','VTLIB_LBL_MODULE_MANAGER_DESCRIPTION','ModuleManager/Settings/List',1,0,1),(8,8,'LBL_PICKLIST_EDITOR','fa fa-file-text-o','LBL_PICKLIST_DESCRIPTION','Picklist/Settings/Index',6,0,1),(9,8,'LBL_PICKLIST_DEPENDENCY','fa fa-list','LBL_PICKLIST_DEPENDENCY_DESCRIPTION','PickListDependency/Settings/List',7,0,0),(10,8,'LBL_COMPANY_DETAILS','fa fa-building-o','LBL_COMPANY_DESCRIPTION','Head/Settings/CompanyDetails',1,0,0),(11,8,'LBL_MAIL_SERVER_SETTINGS','fa fa-server','LBL_MAIL_SERVER_DESCRIPTION','Head/Settings/OutgoingServerDetail',4,0,0),(12,8,'LBL_CURRENCY_SETTINGS','fa fa-usd','LBL_CURRENCY_DESCRIPTION','Currency/Settings/List',3,0,0),(13,10,'LBL_TAX_SETTINGS','fa fa-money','LBL_TAX_DESCRIPTION','Head/Settings/TaxIndex',1,0,0),(15,10,'INVENTORYTERMSANDCONDITIONS','fa fa-info-circle','LBL_INV_TANDC_DESCRIPTION','Head/Settings/TermsAndConditionsEdit',2,0,0),(16,6,'LBL_CUSTOMIZE_MODENT_NUMBER','fa fa-sort-numeric-desc','LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION','Head/Settings/CustomRecordNumbering',4,0,0),(17, 9, 'LBL_MAIL_SCANNER', 'fa fa-envelope-o', 'LBL_MAIL_SCANNER_DESCRIPTION', 'MailConverter/Settings/List', 5, 0, 0),(18,7,'LBL_LIST_WORKFLOWS','fa fa-sitemap','LBL_LIST_WORKFLOWS_DESCRIPTION','Workflows/Settings/List',3,0,1),(19,8,'Configuration Editor','fa fa-pencil-square-o','LBL_CONFIG_EDITOR_DESCRIPTION','Head/Settings/ConfigEditorDetail',5,0,0),(20,7,'Scheduler','fa fa-clock-o','Allows you to Configure Cron Task','CronTasks/Settings/List',2,0,0),(21, 8, 'Duplicate Check', 'fa fa-copy', 'DuplicateCheck', 'DuplicateCheck/Settings/List', 7, 0, 0),(22, 8, 'Address Lookup', 'fa fa-search-plus', 'Auto Fill the address fields in each module', 'AddressLookup/Settings/List', 8, 0, 0),(23,12,'LBL_PBXMANAGER','fa fa-phone','PBXManager module Configuration','PBXManager/Settings/Index',2,0,0),(24,4,'ModTracker','set-IcoLoginHistory.gif','LBL_MODTRACKER_DESCRIPTION','ModTracker/BasicSettings/Settings/ModTracker',9,0,0),(26,7,'Webforms','fa fa-file-zip-o','LBL_WEBFORMS_DESCRIPTION','Webforms/Settings/List',1,0,0),(28,6,'LBL_EDIT_FIELDS','fa fa-codepen','LBL_LAYOUT_EDITOR_DESCRIPTION','LayoutEditor/Settings/Index',2,0,0),(29,9,'LBL_LEAD_MAPPING','fa fa-exchange','NULL','Leads/Settings/MappingDetail',1,0,1),(30,9,'LBL_OPPORTUNITY_MAPPING','fa fa-map-signs','NULL','Potentials/Settings/MappingDetail',2,0,1),(31,11,'My Preferences','fa fa-user','NULL','Users/Settings/PreferenceDetail/1',1,0,1),(32,11,'Calendar Settings','fa fa-calendar-check-o','NULL','Users/Settings/Calendar/1',2,0,1),(33,11,'LBL_MY_TAGS','fa fa-tags','NULL','Tags/Settings/List/1',3,0,1),(34,11,'LBL_MENU_MANAGEMENT','fa fa-bars','NULL','MenuManager/Settings/Index',4,0,1),(35,12,'LBL_GOOGLE','fa fa-google','NULL','Contacts/Settings/Extension/Google/Index/settings',1,0,1),(36,6,'Module Studio','fa fa-video-camera','LBL_MODULEDESIGNER_DESCRIPTION','ModuleDesigner/Settings/Index',3,0,0),(37,13,'Contributors','fa fa-plus-square','Contributors','Head/Settings/Credits',1,0,0),(38,13,'License','fa fa-exclamation-triangle','License','Head/Settings/License',2,0,0),(39,4,'Google Settings','fa fa-cogs','Google Synchronization','Google/Settings/GoogleSettings',12,1,0),(40,6,'Language Editor','fa fa-pencil','LBL_LANGUAGE_EDITOR','LanguageEditor/Settings/Index',3,0,0),(41,11,'Notifications','fa fa-bell','Notifications','Notifications/Settings/Index',5,0,0),(42,12,'Masquerade User','fa fa-street-view','Masquerade User','PortalUser/Settings/Index',6,0,0);
 /*!40000 ALTER TABLE `jo_settings_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -11186,7 +11188,7 @@ DROP TABLE IF EXISTS `jo_settings_field_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_settings_field_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11210,7 +11212,7 @@ CREATE TABLE `jo_sharedcalendar` (
   `userid` int(19) NOT NULL,
   `sharedid` int(19) NOT NULL,
   PRIMARY KEY (`userid`,`sharedid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11234,7 +11236,7 @@ CREATE TABLE `jo_shareduserinfo` (
   `shareduserid` int(19) NOT NULL DEFAULT '0',
   `color` varchar(50) DEFAULT NULL,
   `visible` int(19) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11265,7 +11267,7 @@ CREATE TABLE `jo_shippingtaxinfo` (
   `regions` text,
   PRIMARY KEY (`taxid`),
   KEY `shippingtaxinfo_taxname_idx` (`taxname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11287,7 +11289,7 @@ DROP TABLE IF EXISTS `jo_shippingtaxinfo_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_shippingtaxinfo_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11340,7 +11342,7 @@ CREATE TABLE `jo_soapservice` (
   `id` int(19) DEFAULT NULL,
   `type` varchar(25) DEFAULT NULL,
   `sessionid` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11369,7 +11371,7 @@ CREATE TABLE `jo_sobillads` (
   `bill_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`sobilladdressid`),
   CONSTRAINT `fk_1_jo_sobillads` FOREIGN KEY (`sobilladdressid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11398,7 +11400,7 @@ CREATE TABLE `jo_soshipads` (
   `ship_pobox` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`soshipaddressid`),
   CONSTRAINT `fk_1_jo_soshipads` FOREIGN KEY (`soshipaddressid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11426,7 +11428,7 @@ CREATE TABLE `jo_sostatus` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`sostatusid`),
   UNIQUE KEY `sostatus_sostatus_idx` (`sostatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11448,7 +11450,7 @@ DROP TABLE IF EXISTS `jo_sostatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_sostatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11478,7 +11480,7 @@ CREATE TABLE `jo_sostatushistory` (
   PRIMARY KEY (`historyid`),
   KEY `sostatushistory_salesorderid_idx` (`salesorderid`),
   CONSTRAINT `fk_1_jo_sostatushistory` FOREIGN KEY (`salesorderid`) REFERENCES `jo_salesorder` (`salesorderid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11504,7 +11506,7 @@ CREATE TABLE `jo_sqltimelog` (
   `started` decimal(20,6) DEFAULT NULL,
   `ended` decimal(20,6) DEFAULT NULL,
   `loggedon` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11529,7 +11531,7 @@ CREATE TABLE `jo_start_hour` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`start_hourid`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11551,7 +11553,7 @@ DROP TABLE IF EXISTS `jo_start_hour_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_start_hour_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11577,7 +11579,7 @@ CREATE TABLE `jo_status` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11599,7 +11601,7 @@ DROP TABLE IF EXISTS `jo_status_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_status_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11630,7 +11632,7 @@ CREATE TABLE `jo_systems` (
   `server_path` varchar(256) DEFAULT NULL,
   `from_email_field` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11667,7 +11669,7 @@ CREATE TABLE `jo_tab` (
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
   KEY `tab_tabid_idx` (`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11693,7 +11695,7 @@ CREATE TABLE `jo_tab_info` (
   `prefvalue` varchar(256) DEFAULT NULL,
   KEY `fk_1_jo_tab_info` (`tabid`),
   CONSTRAINT `fk_1_jo_tab_info` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11721,7 +11723,7 @@ CREATE TABLE `jo_taskpriority` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`taskpriorityid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11743,7 +11745,7 @@ DROP TABLE IF EXISTS `jo_taskpriority_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_taskpriority_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11771,7 +11773,7 @@ CREATE TABLE `jo_taskstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`taskstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11793,7 +11795,7 @@ DROP TABLE IF EXISTS `jo_taskstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_taskstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11820,7 +11822,7 @@ CREATE TABLE `jo_taxclass` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`taxclassid`),
   UNIQUE KEY `taxclass_carrier_idx` (`taxclass`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11842,7 +11844,7 @@ DROP TABLE IF EXISTS `jo_taxclass_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_taxclass_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11866,7 +11868,7 @@ CREATE TABLE `jo_taxregions` (
   `regionid` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`regionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11893,7 +11895,7 @@ CREATE TABLE `jo_ticketcategories` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`ticketcategories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11915,7 +11917,7 @@ DROP TABLE IF EXISTS `jo_ticketcategories_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ticketcategories_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11940,7 +11942,7 @@ CREATE TABLE `jo_ticketcf` (
   `from_portal` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   CONSTRAINT `fk_1_jo_ticketcf` FOREIGN KEY (`ticketid`) REFERENCES `jo_troubletickets` (`ticketid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11969,7 +11971,7 @@ CREATE TABLE `jo_ticketcomments` (
   PRIMARY KEY (`commentid`),
   KEY `ticketcomments_ticketid_idx` (`ticketid`),
   CONSTRAINT `fk_1_jo_ticketcomments` FOREIGN KEY (`ticketid`) REFERENCES `jo_troubletickets` (`ticketid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -11996,7 +11998,7 @@ CREATE TABLE `jo_ticketpriorities` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`ticketpriorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12018,7 +12020,7 @@ DROP TABLE IF EXISTS `jo_ticketpriorities_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ticketpriorities_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12046,7 +12048,7 @@ CREATE TABLE `jo_ticketseverities` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`ticketseverities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12068,7 +12070,7 @@ DROP TABLE IF EXISTS `jo_ticketseverities_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ticketseverities_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12096,7 +12098,7 @@ CREATE TABLE `jo_ticketstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`ticketstatus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12118,7 +12120,7 @@ DROP TABLE IF EXISTS `jo_ticketstatus_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ticketstatus_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12144,7 +12146,7 @@ CREATE TABLE `jo_time_zone` (
   `sortorderid` int(19) NOT NULL DEFAULT '0',
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`time_zoneid`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12166,7 +12168,7 @@ DROP TABLE IF EXISTS `jo_time_zone_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_time_zone_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12194,7 +12196,7 @@ CREATE TABLE `jo_tmp_read_group_rel_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`relatedtabid`,`sharedgroupid`),
   KEY `tmp_read_group_rel_sharing_per_userid_sharedgroupid_tabid` (`userid`,`sharedgroupid`,`tabid`),
   CONSTRAINT `fk_4_jo_tmp_read_group_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12220,7 +12222,7 @@ CREATE TABLE `jo_tmp_read_group_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`sharedgroupid`),
   KEY `tmp_read_group_sharing_per_userid_sharedgroupid_idx` (`userid`,`sharedgroupid`),
   CONSTRAINT `fk_3_jo_tmp_read_group_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12247,7 +12249,7 @@ CREATE TABLE `jo_tmp_read_user_rel_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`relatedtabid`,`shareduserid`),
   KEY `tmp_read_user_rel_sharing_per_userid_shared_reltabid_idx` (`userid`,`shareduserid`,`relatedtabid`),
   CONSTRAINT `fk_4_jo_tmp_read_user_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12273,7 +12275,7 @@ CREATE TABLE `jo_tmp_read_user_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`shareduserid`),
   KEY `tmp_read_user_sharing_per_userid_shareduserid_idx` (`userid`,`shareduserid`),
   CONSTRAINT `fk_3_jo_tmp_read_user_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12300,7 +12302,7 @@ CREATE TABLE `jo_tmp_write_group_rel_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`relatedtabid`,`sharedgroupid`),
   KEY `tmp_write_group_rel_sharing_per_userid_sharedgroupid_tabid_idx` (`userid`,`sharedgroupid`,`tabid`),
   CONSTRAINT `fk_4_jo_tmp_write_group_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12326,7 +12328,7 @@ CREATE TABLE `jo_tmp_write_group_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`sharedgroupid`),
   KEY `tmp_write_group_sharing_per_UK1` (`userid`,`sharedgroupid`),
   CONSTRAINT `fk_3_jo_tmp_write_group_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12353,7 +12355,7 @@ CREATE TABLE `jo_tmp_write_user_rel_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`relatedtabid`,`shareduserid`),
   KEY `tmp_write_user_rel_sharing_per_userid_sharduserid_tabid_idx` (`userid`,`shareduserid`,`tabid`),
   CONSTRAINT `fk_4_jo_tmp_write_user_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12379,7 +12381,7 @@ CREATE TABLE `jo_tmp_write_user_sharing_per` (
   PRIMARY KEY (`userid`,`tabid`,`shareduserid`),
   KEY `tmp_write_user_sharing_per_userid_shareduserid_idx` (`userid`,`shareduserid`),
   CONSTRAINT `fk_3_jo_tmp_write_user_sharing_per` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12405,7 +12407,7 @@ CREATE TABLE `jo_tracker` (
   `item_id` varchar(36) DEFAULT NULL,
   `item_summary` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12446,7 +12448,7 @@ CREATE TABLE `jo_troubletickets` (
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
   CONSTRAINT `fk_1_jo_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12474,7 +12476,7 @@ CREATE TABLE `jo_usageunit` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`usageunitid`),
   UNIQUE KEY `usageunit_usageunit_idx` (`usageunit`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12496,7 +12498,7 @@ DROP TABLE IF EXISTS `jo_usageunit_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_usageunit_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12522,7 +12524,7 @@ CREATE TABLE `jo_user2mergefields` (
   `fieldid` int(19) DEFAULT NULL,
   `visible` int(2) DEFAULT NULL,
   KEY `userid_tabid_idx` (`userid`,`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12547,7 +12549,7 @@ CREATE TABLE `jo_user2role` (
   PRIMARY KEY (`userid`),
   KEY `user2role_roleid_idx` (`roleid`),
   CONSTRAINT `fk_2_jo_user2role` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12574,7 +12576,7 @@ CREATE TABLE `jo_user_module_preferences` (
   PRIMARY KEY (`userid`,`tabid`),
   KEY `fk_2_jo_user_module_preferences` (`tabid`),
   CONSTRAINT `fk_2_jo_user_module_preferences` FOREIGN KEY (`tabid`) REFERENCES `jo_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12672,7 +12674,7 @@ CREATE TABLE `jo_users` (
   PRIMARY KEY (`id`),
   KEY `user_user_name_idx` (`user_name`),
   KEY `user_user_password_idx` (`user_password`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12699,7 +12701,7 @@ CREATE TABLE `jo_users2group` (
   KEY `users2group_groupname_uerid_idx` (`groupid`,`userid`),
   KEY `fk_2_jo_users2group` (`userid`),
   CONSTRAINT `fk_2_jo_users2group` FOREIGN KEY (`userid`) REFERENCES `jo_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12727,7 +12729,7 @@ CREATE TABLE `jo_users_last_import` (
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`assigned_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12748,7 +12750,7 @@ DROP TABLE IF EXISTS `jo_users_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_users_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12771,7 +12773,7 @@ DROP TABLE IF EXISTS `jo_userscf`;
 CREATE TABLE `jo_userscf` (
   `usersid` int(19) NOT NULL,
   PRIMARY KEY (`usersid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12794,7 +12796,7 @@ CREATE TABLE `jo_usersgrouprel` (
   `usersid` int(11) NOT NULL,
   `groupname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`usersid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12832,7 +12834,7 @@ CREATE TABLE `jo_vendor` (
   `tags` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `fk_1_jo_vendor` FOREIGN KEY (`vendorid`) REFERENCES `jo_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12855,7 +12857,7 @@ CREATE TABLE `jo_vendorcf` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `fk_1_jo_vendorcf` FOREIGN KEY (`vendorid`) REFERENCES `jo_vendor` (`vendorid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12881,7 +12883,7 @@ CREATE TABLE `jo_vendorcontactrel` (
   KEY `vendorcontactrel_vendorid_idx` (`vendorid`),
   KEY `vendorcontactrel_contact_idx` (`contactid`),
   CONSTRAINT `fk_2_jo_vendorcontactrel` FOREIGN KEY (`vendorid`) REFERENCES `jo_vendor` (`vendorid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12905,7 +12907,7 @@ CREATE TABLE `jo_version` (
   `old_version` varchar(30) DEFAULT NULL,
   `current_version` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12914,7 +12916,7 @@ CREATE TABLE `jo_version` (
 
 LOCK TABLES `jo_version` WRITE;
 /*!40000 ALTER TABLE `jo_version` DISABLE KEYS */;
-INSERT INTO `jo_version` VALUES (1,'1.3','1.3');
+INSERT INTO `jo_version` VALUES (1,'1.5','1.5');
 /*!40000 ALTER TABLE `jo_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -12927,7 +12929,7 @@ DROP TABLE IF EXISTS `jo_version_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_version_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12955,7 +12957,7 @@ CREATE TABLE `jo_visibility` (
   `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`visibilityid`),
   UNIQUE KEY `visibility_visibility_idx` (`visibility`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12977,7 +12979,7 @@ DROP TABLE IF EXISTS `jo_visibility_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_visibility_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13011,7 +13013,7 @@ CREATE TABLE `jo_vtaddressmapping` (
   `isenabled` int(1) DEFAULT '0',
   `fieldset` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13025,30 +13027,30 @@ INSERT INTO `jo_vtaddressmapping` VALUES (1,NULL,'Contacts','YToxOntpOjA7czoyOiI
 UNLOCK TABLES;
 
 --
--- Table structure for table `jo_vtduplicatechecksettings`
+-- Table structure for table `jo_duplicatechecksettings`
 --
 
-DROP TABLE IF EXISTS `jo_vtduplicatechecksettings`;
+DROP TABLE IF EXISTS `jo_duplicatechecksettings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jo_vtduplicatechecksettings` (
+CREATE TABLE `jo_duplicatechecksettings` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `modulename` varchar(50) DEFAULT NULL,
   `fieldstomatch` text,
   `isenabled` int(1) DEFAULT '1',
   `crosscheck` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `jo_vtduplicatechecksettings`
+-- Dumping data for table `jo_duplicatechecksettings`
 --
 
-LOCK TABLES `jo_vtduplicatechecksettings` WRITE;
-/*!40000 ALTER TABLE `jo_vtduplicatechecksettings` DISABLE KEYS */;
-INSERT INTO `jo_vtduplicatechecksettings` VALUES (1,'Contacts',NULL,1,0),(2,'Leads',NULL,1,0),(3,'Accounts',NULL,1,0),(4,'Potentials',NULL,1,0),(5,'Products',NULL,1,0),(6,'Services',NULL,1,0),(7,'HelpDesk',NULL,1,0),(8,'Project',NULL,1,0),(9,'ProjectTask',NULL,1,0),(10,'ProjectMilestone',NULL,1,0),(11,'Vendors',NULL,1,0),(12,'Calendar',NULL,1,0),(13,'Campaigns',NULL,1,0),(14,'Quotes',NULL,1,0),(15,'PurchaseOrder',NULL,1,0),(16,'SalesOrder',NULL,1,0),(17,'Invoice',NULL,1,0),(18,'PriceBooks',NULL,1,0),(19,'Documents',NULL,1,0),(20,'Emails',NULL,1,0),(21,'Events',NULL,1,0),(22,'Users',NULL,1,0),(23,'PBXManager',NULL,1,0),(24,'ModComments',NULL,1,0),(25,'SMSNotifier',NULL,1,0),(26,'deleteconflict',NULL,1,0),(27,'assignedto',NULL,1,0),(28,'DuplicateCheck',NULL,1,0);
-/*!40000 ALTER TABLE `jo_vtduplicatechecksettings` ENABLE KEYS */;
+LOCK TABLES `jo_duplicatechecksettings` WRITE;
+/*!40000 ALTER TABLE `jo_duplicatechecksettings` DISABLE KEYS */;
+INSERT INTO `jo_duplicatechecksettings` VALUES (1,'Contacts',NULL,1,0),(2,'Leads',NULL,1,0),(3,'Accounts',NULL,1,0),(4,'Potentials',NULL,1,0),(5,'Products',NULL,1,0),(6,'Services',NULL,1,0),(7,'HelpDesk',NULL,1,0),(8,'Project',NULL,1,0),(9,'ProjectTask',NULL,1,0),(10,'ProjectMilestone',NULL,1,0),(11,'Vendors',NULL,1,0),(12,'Calendar',NULL,1,0),(13,'Campaigns',NULL,1,0),(14,'Quotes',NULL,1,0),(15,'PurchaseOrder',NULL,1,0),(16,'SalesOrder',NULL,1,0),(17,'Invoice',NULL,1,0),(18,'PriceBooks',NULL,1,0),(19,'Documents',NULL,1,0),(20,'Emails',NULL,1,0),(21,'Events',NULL,1,0),(22,'Users',NULL,1,0),(23,'PBXManager',NULL,1,0),(24,'ModComments',NULL,1,0),(25,'SMSNotifier',NULL,1,0),(26,'deleteconflict',NULL,1,0),(27,'assignedto',NULL,1,0),(28,'DuplicateCheck',NULL,1,0);
+/*!40000 ALTER TABLE `jo_duplicatechecksettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -13139,7 +13141,7 @@ CREATE TABLE `jo_wordtemplates` (
   `filetype` varchar(20) NOT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`templateid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13165,7 +13167,7 @@ CREATE TABLE `jo_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13192,7 +13194,7 @@ CREATE TABLE `jo_ws_entity_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `jo_idx_1_tablename_fieldname` (`table_name`,`field_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13214,7 +13216,7 @@ DROP TABLE IF EXISTS `jo_ws_entity_fieldtype_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ws_entity_fieldtype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13240,7 +13242,7 @@ CREATE TABLE `jo_ws_entity_name` (
   `index_field` varchar(50) NOT NULL,
   `table_name` varchar(50) NOT NULL,
   PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13265,7 +13267,7 @@ CREATE TABLE `jo_ws_entity_referencetype` (
   `type` varchar(25) NOT NULL,
   PRIMARY KEY (`fieldtypeid`,`type`),
   CONSTRAINT `jo_fk_1_actors_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `jo_ws_entity_fieldtype` (`fieldtypeid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13287,7 +13289,7 @@ DROP TABLE IF EXISTS `jo_ws_entity_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ws_entity_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13312,7 +13314,7 @@ CREATE TABLE `jo_ws_entity_tables` (
   `table_name` varchar(50) NOT NULL,
   PRIMARY KEY (`webservice_entity_id`,`table_name`),
   CONSTRAINT `fk_1_jo_ws_actor_tables` FOREIGN KEY (`webservice_entity_id`) REFERENCES `jo_ws_entity` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13337,7 +13339,7 @@ CREATE TABLE `jo_ws_fieldinfo` (
   `property_name` varchar(32) DEFAULT NULL,
   `property_value` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13363,7 +13365,7 @@ CREATE TABLE `jo_ws_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `uitype_idx` (`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13391,7 +13393,7 @@ CREATE TABLE `jo_ws_operation` (
   `type` varchar(8) NOT NULL,
   `prelogin` int(3) NOT NULL,
   PRIMARY KEY (`operationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13417,7 +13419,7 @@ CREATE TABLE `jo_ws_operation_parameters` (
   `type` varchar(64) NOT NULL,
   `sequence` int(11) NOT NULL,
   PRIMARY KEY (`operationid`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13439,7 +13441,7 @@ DROP TABLE IF EXISTS `jo_ws_operation_seq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jo_ws_operation_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13464,7 +13466,7 @@ CREATE TABLE `jo_ws_referencetype` (
   `type` varchar(25) NOT NULL,
   PRIMARY KEY (`fieldtypeid`,`type`),
   CONSTRAINT `fk_1_jo_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `jo_ws_fieldtype` (`fieldtypeid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13490,7 +13492,7 @@ CREATE TABLE `jo_ws_userauthtoken` (
   `expiretime` int(19) NOT NULL,
   PRIMARY KEY (`userid`,`expiretime`),
   UNIQUE KEY `userid_idx` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13574,7 +13576,7 @@ CREATE TABLE `jo_wsapp_logs_basic` (
   `vt_skip_count` int(11) DEFAULT NULL,
   `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13605,7 +13607,7 @@ CREATE TABLE `jo_wsapp_logs_details` (
   `vt_skip_info` mediumtext,
   KEY `jo_wsapp_logs_basic_ibfk_1` (`id`),
   CONSTRAINT `jo_wsapp_logs_basic_ibfk_1` FOREIGN KEY (`id`) REFERENCES `jo_wsapp_logs_basic` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13709,7 +13711,7 @@ CREATE TABLE `rc_server_details` (
   `account_type` varchar(100) DEFAULT NULL,
   `port` int(19) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13733,7 +13735,7 @@ CREATE TABLE `rc_settings` (
   `meta_key` varchar(255) DEFAULT NULL,
   `meta_value` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13762,7 +13764,7 @@ CREATE TABLE `searches` (
   PRIMARY KEY (`search_id`),
   KEY `search_user_id_idx` (`user_id`),
   CONSTRAINT `user_id_fk_searches` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13789,7 +13791,7 @@ CREATE TABLE `session` (
   `vars` text,
   PRIMARY KEY (`sess_id`),
   KEY `session_changed_idx` (`changed`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13812,7 +13814,7 @@ CREATE TABLE `system` (
   `name` varchar(255) NOT NULL,
   `value` text,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -13844,7 +13846,7 @@ CREATE TABLE `users` (
   `jo_user_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `user_username_idx` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

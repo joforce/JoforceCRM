@@ -28,7 +28,17 @@ class Users_Import_View extends Head_Import_View {
             }
         }
 	}
-        
+     
+     public function initializeMappingParameters(Head_Request $request) {
+        parent::initializeMappingParameters($request); 
+        $moduleName = $request->getModule();
+        $moduleModel = Head_Module_Model::getInstance($moduleName);
+        $moduleFields = $moduleModel->getFields();
+
+        $viewer = $this->getViewer($request);
+        $viewer->assign('IMPORTABLE_FIELDS', $moduleModel->getImportableFieldModels($moduleName));
+       }
+
     public function process(Head_Request $request) {
         if($request->getMode() != 'undoImport') {
             parent::process($request);

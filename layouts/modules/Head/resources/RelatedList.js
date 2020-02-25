@@ -162,8 +162,8 @@ jQuery.Class("Head_RelatedList_Js",{
 	},
     
     /**
-	 * Function to fetch popup params
-	 */
+     * Function to fetch popup params
+     */
     getPopupParams : function(){
 		var parameters = {};
 		var parameters = {
@@ -171,8 +171,8 @@ jQuery.Class("Head_RelatedList_Js",{
 			'src_module' : this.parentModuleName,
 			'src_record' : this.parentRecordId,
 			'multi_select' : true,
-            'view' : 'Popup',
-            'relationId' : this.getSelectedTabElement().data('relationId')
+    		        'view' : 'Popup',
+		        'relationId' : this.getSelectedTabElement().data('relationId')
 		};
 		return parameters;
 	},

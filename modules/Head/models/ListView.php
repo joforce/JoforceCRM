@@ -258,10 +258,7 @@ class Head_ListView_Model extends Head_Base_Model {
 
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
-		if($pagingModel->get('view_name') == 'Forecast')
-			$listQuery .= " LIMIT $startIndex,".(51);
-		else
-			$listQuery .= " LIMIT $startIndex,".($pageLimit+1);
+		$listQuery .= " LIMIT $startIndex,".($pageLimit+1);
 
 		$listResult = $db->pquery($listQuery, array());
 

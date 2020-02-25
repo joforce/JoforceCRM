@@ -174,7 +174,7 @@ class Head_Import_View extends Head_Index_View {
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
 			$moduleModel = Head_Module_Model::getInstance($moduleName);
-
+			
 			$viewer = $this->getViewer($request);
 			$autoMerge = $request->get('auto_merge');  
 			if(!$autoMerge) {

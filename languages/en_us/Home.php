@@ -38,5 +38,7 @@ $languageStrings = array(
         'LBL_USER_MANAGEMENT' => 'User & Access Control',
         'LBL_ACCESS_MANAGEMENT' => 'Access Management',
         'LBL_MODULE_MANAGER' => 'Module Management',
-        'LBL_NOTIFICATIONS' => 'Notifications',
+	'LBL_NOTIFICATIONS' => 'Notifications',
+	'LBL_MARK_ALL_AS_READ' => 'Mark all as read',
+	'LBL_CLEAR_ALL_NOTIFICATIONS' => 'Clear all Notifications'
        );

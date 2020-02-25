@@ -73,10 +73,15 @@ class Calendar_Save_Action extends Head_Save_Action {
 			$loadUrl = 'index.php?'.$request->getReturnURL();
 		}
 
-		if($save_status == 'true')
-			header ("Location: ".$site_URL.$module_name."/view/Edit");
-		else
+		if($save_status == 'true') {
+		    if($module_name == 'Events') {
+			header ("Location: ".$site_URL."Calendar/view/Edit/mode/".$module_name);
+		    } else {
+			header ("Location: ".$site_URL.$module_name."/view/Edit/mode/".$module_name);
+		    }
+		} else {
 			header("Location: $loadUrl");
+		}
 	}
 
 	/**

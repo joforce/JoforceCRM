@@ -10,7 +10,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="editViewPageDiv">
-	<div class="col-sm-12 col-xs-12 main-scroll joforce-bg">
+	<div class="col-sm-12 col-xs-12 main-scroll joforce-bg" style="padding-bottom: 100px !important;">
 		<form class="form-horizontal" id="EditView" name="EditProfile" method="post" action="index.php" enctype="multipart/form-data">
 			<div class="editViewHeader">
 				{if $RECORD_MODEL->getId()}

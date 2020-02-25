@@ -12,7 +12,7 @@ Settings_Head_List_Js("Settings_Workflows_List_Js", {
     triggerCreate : function(url) {
         var selectedModule = jQuery('#moduleFilter').val();
         if(selectedModule.length > 0) {
-            url += '/'+selectedModule
+            url += '&'+'source_module=' + selectedModule
         }
         window.location.href = url;
     }

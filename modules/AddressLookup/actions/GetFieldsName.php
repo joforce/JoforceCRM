@@ -20,11 +20,19 @@ class AddressLookup_GetFieldsName_Action extends Head_Action_Controller
         $fieldSetList = array();
         $fieldSetTotalList = array();
         $modulename = $request->get('moduleName');
+       
         if(file_exists($root_directory.'/modules/Settings/AddressLookup/APIkey.php'))
             include_once("$root_directory/modules/Settings/AddressLookup/APIkey.php");  
         else
             $APIkey='';
-
+        if($modulename == 'Users'){
+            $checkEnable =1;
+            $result = array();
+            $fieldname = array('address_street');
+            $result[] = $fieldname;
+           
+        }
+        else{
         $checkEnable = $adb->pquery("SELECT isenabled FROM jo_vtaddressmapping WHERE modulename = ?",array($modulename));	
         $checkEnable = $adb->fetch_array($checkEnable);
         $checkEnable = $checkEnable['isenabled'];
@@ -57,6 +65,7 @@ class AddressLookup_GetFieldsName_Action extends Head_Action_Controller
         else    {
             $result = "Not Enabled";
         }
+     }
 
         $response = new Head_Response();
         $response->setEmitType(Head_Response::$EMIT_JSON);

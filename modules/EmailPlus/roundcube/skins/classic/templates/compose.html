@@ -8,6 +8,7 @@
 <roundcube:endif />
 <script type="text/javascript" src="/functions.js"></script>
 <script type="text/javascript" src="/splitter.js"></script>
+<script type="text/javascript" src="../../../libraries/jquery/jquery_windowmsg.js"></script>
 <style type="text/css">
 #compose-contacts { width: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1-5 : 195" />px; }
 #compose-container { left: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1+5 : 205" />px; }
@@ -167,7 +168,7 @@
                 <roundcube:object name="composeAttachmentList" id="attachmentslist" loadingIcon="/images/display/loading_blue.gif" icon_pos="left" />
             </div>
             <div class="boxfooter">
-                <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
+                <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="UI.show_uploadform(event);return false" content=" " />
             </div>
         </div>
         <roundcube:object name="fileDropArea" id="compose-attachments" />

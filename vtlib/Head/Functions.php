@@ -151,7 +151,7 @@ class Head_Functions {
 
 		if ($reload) {
 			global $adb;
-			$result = $adb->pquery('SELECT * FROM jo_tab', array());
+			$result = $adb->pquery('SELECT * FROM jo_tab');
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']]  = $row;
@@ -557,6 +557,7 @@ class Head_Functions {
 			//create new folder
 			mkdir($filepath . $year);
 			$yearPath = $filepath.$year;
+			chmod($yearPath, 0777);
 			exec("chown -R $permissions  $yearPath");
 		}
 

@@ -21,7 +21,7 @@ class Settings_DuplicateCheck_updateConflict_View extends Settings_Head_Index_Vi
 		if($checked == 'true')
 			$isenabled = 1;
 
-		$adb->pquery("update jo_vtduplicatechecksettings set isenabled = ? where modulename = ?",array( $isenabled, 'deleteconflict'));
+		$adb->pquery("update jo_duplicatechecksettings set isenabled = ? where modulename = ?",array( $isenabled, 'deleteconflict'));
 		die('SUCCESS');
 	}
 }

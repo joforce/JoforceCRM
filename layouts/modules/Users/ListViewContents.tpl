@@ -29,7 +29,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<input type="hidden" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
 
-	<div id="table-content" class="table-container">
+	<div id="table-content" class="table-container userpage-search">
 		<form name='list' id='listedit' action='' onsubmit="return false;">
 			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
 				<thead>
@@ -37,6 +37,7 @@
 						<th>
 							{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 						</th>
+
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{if $LISTVIEW_HEADER->getName() neq 'last_name' and $LISTVIEW_HEADER->getName() neq 'email1' and $LISTVIEW_HEADER->getName() neq 'status'}
 								{if $LISTVIEW_HEADER->getName() eq 'first_name'}
@@ -59,11 +60,17 @@
 								</th>
 							{/if}
 						{/foreach}
+						<th>
+						     <i class="fa fa-search cursorPointer user-search-2" id="" {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
+						</th>
+						   
 					</tr>
+					
+					
 				</thead>
 				<tbody class="overflow-y">
 					{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
-						<tr class="searchRow">
+						<tr class="searchRow" >
 							<th class="inline-search-btn">
 								<div class="table-actions">
 									<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
@@ -79,8 +86,12 @@
 									<input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
 								</th>
 							{/foreach}
+							<th></th>
 						</tr>
+
 					{/if}
+
+
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 							<td class="listViewRecordActions">
@@ -104,14 +115,21 @@
 														{/if}
 													{/foreach}
 													{if $IMAGE_DETAILS[0]['id'] eq null}
-														<div class='col-lg-2'>
-															<i class="fa fa-user userDefaultIcon"></i>
+														<div class='col-lg-1 mr15'>
+														   <div class="use-icon" >
+														     
+
+															      <span >
+															        <strong>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)|substr:0:2} </strong>
+															      </span>
+															  
+															</div>
 														</div>
 													{/if}
-													<div class="usersinfo col-lg-9 textOverflowEllipsis" title="{$LISTVIEW_ENTRY->get('last_name')}">
+													<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 " title="{$LISTVIEW_ENTRY->get('last_name')}">
 														<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)} {$LISTVIEW_ENTRY->get('last_name')}</a>
 													</div>
-													<div class="usersinfo col-lg-9 textOverflowEllipsis">
+													<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 ">
 														{$LISTVIEW_ENTRY->get('email1')}
 													</div>
 												</div>
@@ -138,7 +156,7 @@
 									<center>
 										{if $SEARCH_VALUE eq 'Active'}
 											{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-											{vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')},{if $IS_MODULE_EDITABLE} <a style="color:blue" href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE_USER',$MODULE)}</a>{/if}
+											{vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')},{if $IS_MODULE_EDITABLE} <a style="color:" class="joforce-link" href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE_USER',$MODULE)}</a>{/if}
 										{else}
 											{vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')}
 										{/if}
@@ -155,3 +173,14 @@
 		<div id="scroller" class="scroller-div"></div>
 	</div>
 {/strip}
+
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.user-search-2').click(function(){
+		$('.searchRow').toggleClass('user-search-row');
+	});
+});
+</script>
+{/literal}

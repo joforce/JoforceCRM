@@ -6,11 +6,19 @@
 		font-size: 14px;
 		font-weight: 800;
 	}
-	a.homepage_link::before{  
-		content:"" !important;
+	.panel-group .panel-heading a:before {
+	    content: "\2212" !important;
+	    font-weight: 500;
+	    font-size: 25px;
+	}
+
+	.panel-group .panel-heading a.collapsed:before {
+	    content: "\002B" !important;
+	    font-weight: 500;
+	    font-size: 25px;
 	}
 </style>
-<div class="row">
+<div class="row" style="margin: 20px;">
 	<div class="panel-group" id="accordions">
 		<div class="panel panel-default">
 			<div class="panel-heading">

@@ -14,7 +14,7 @@ $app = new Slim\App();
 
 $container = $app->getContainer();
 
-$container['db'] = function() use ($adb)  {
+$container['db'] = function () use ($adb) {
     return $adb;
 };
 
@@ -39,13 +39,13 @@ $container['notAllowedHandler'] = function ($container) {
     };
 };
 
-$container['graphql'] = function() use ($adb, $container) {
+$container['graphql'] = function () use ($adb, $container) {
     $current_user = CRMEntity::getInstance('Users');
     $current_user->retrieveCurrentUserInfoFromFile($container['jwt']->data->userId);
     return new GraphQL(new JoHelper($adb, $current_user));
 };
 
-$container['JoHelper'] = function() use ($adb, $container) {
+$container['JoHelper'] = function () use ($adb, $container) {
     $current_user = CRMEntity::getInstance('Users');
     $current_user->retrieveCurrentUserInfoFromFile($container['jwt']->data->userId);
     return new JoHelper($adb, $current_user);
@@ -72,7 +72,7 @@ $app->post('/authorize', function ($request, $response, $args) use ($app, $conta
     global $application_unique_key;
     $requested_data = $request->getParsedBody();
     // If credentials are not passed, return error
-    if(empty($requested_data['username']) || empty($requested_data['password']))  {
+    if (empty($requested_data['username']) || empty($requested_data['password'])) {
         $response_data = ['success' => false, 'message' => 'Username and password is mandatory'];
         return $response->withJson($response_data, 401);
     }
@@ -82,7 +82,7 @@ $app->post('/authorize', function ($request, $response, $args) use ($app, $conta
     $current_user->column_fields['user_name'] = $requested_data['username'];
 
     // If credentials are wrong, return
-    if(!$current_user->doLogin($requested_data['password']))  {
+    if (!$current_user->doLogin($requested_data['password'])) {
         $response_data = ['success' => false, 'message' => 'Authentication invalid'];
         return $response->withJson($response_data, 401);
     }
@@ -93,7 +93,7 @@ $app->post('/authorize', function ($request, $response, $args) use ($app, $conta
     $issued_at = time();
     $jwt_data = [
         'iat'  => $issued_at,
-        'jti'  => base64_encode(mcrypt_create_iv(32)),
+        'jti'  => base64_encode(generateRandomString(30)),
         'iss'  => $container['environment']['SERVER_NAME'],
         'nbf'  => $issued_at + 1,
         'exp'  => $issued_at + 86400,
@@ -126,14 +126,14 @@ $app->get('/me', function ($request, $response) use ($container) {
     $user_image = $userModel->getImageDetails();
 
     $user_profile_url = null;
-    if($user_image) {
-        if(isset($user_image[0]['id']) && !empty($user_image[0]['id'])) {
+    if ($user_image) {
+        if (isset($user_image[0]['id']) && !empty($user_image[0]['id'])) {
             $user_profile_url = $site_URL . $user_image[0]['path'] . '_' . $user_image[0]['name'];
         }
     }
 
     $user_info->user_profile_url = $user_profile_url;
-    $user_info->user_currency_id = fetchCurrency($user_info->userId); 
+    $user_info->user_currency_id = fetchCurrency($user_info->userId);
 
     return $response->withJson($user_info, 200);
 });
@@ -177,7 +177,18 @@ $app->post('/location', function ($request, $response) {
     $request_for_responce = $this->JoHelper->returnLocationDetails($requested_data);
 
     return $response->withJson($request_for_responce, 200);
-
 });
 
 $app->run();
+
+//function to generate random string.
+function generateRandomString($length = 10)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}

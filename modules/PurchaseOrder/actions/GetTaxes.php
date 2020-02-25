@@ -50,6 +50,7 @@ class PurchaseOrder_GetTaxes_Action extends Inventory_GetTaxes_Action {
 			$namesList[$id]				= decode_html($recordModel->getName());
 			$quantitiesList[$id]		= $recordModel->get('qtyinstock');
 			$descriptionsList[$id]		= decode_html($recordModel->get('description'));
+			$listPriceValuesList[$id]	= $recordModel->getListPriceValues($recordModel->getId());
 
 			$priceDetails = $recordModel->getPriceDetails();
 			foreach ($priceDetails as $currencyDetails) {
@@ -58,12 +59,14 @@ class PurchaseOrder_GetTaxes_Action extends Inventory_GetTaxes_Action {
 				}
 			}
 			$listPricesList[$id] = (float)$recordModel->get('unit_price') * (float)$conversionRate;
+			foreach ($currencies as $currencyInfo) {
+				if ($currencyId == $currencyInfo['curid']) {
+					$conversionRate = $currencyInfo['conversionrate'];
+					break;
+				}
+			}
 			$purchaseCostsList[$id] = round((float)$recordModel->get('purchase_cost') * (float)$conversionRate, $decimalPlace);
 			$baseCurrencyIdsList[$id] = getProductBaseCurrency($id, $recordModel->getModuleName());
-
-			foreach($currencies as $currency) {
-				$listPriceValuesList[$id][$currency['currency_id']] = $currency['conversionrate'] * (float)$recordModel->get('purchase_cost');
-			}
 
 			if ($recordModel->getModuleName() == 'Products') {
 				$productIdsList[] = $id;

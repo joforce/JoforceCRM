@@ -8,7 +8,7 @@
 
 <body>
 <div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
-<h2>{vtranslate('LBL_RELATED_LIST_LINK_TO_MODULE', $QUALIFIED_MODULE)} - {vtranslate($a_relatedList.relatedModule, $QUALIFIED_MODULE)}</h2>
+<h2>{vtranslate('LBL_RELATED_LIST_LINK_TO_MODULE', $QUALIFIED_MODULE)} - {vtranslate($a_relatedList.relatedModule, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <table id="form" style="font-size:12px;">
 <tr>
@@ -28,7 +28,7 @@
 <tr><td colspan="2">&nbsp;</td></tr>
 <tr><td style="vertical-align: top;">{vtranslate("LBL_RELATED_LIST_NAME", $QUALIFIED_MODULE)}</td>
 	<td>
-		<select name="name" onchange="setRelatedListName(this)">
+		<select name="name" onchange="setRelatedListName(this)" class="inputElement select2 ">
 			<option value="get_related_list" {if empty($a_relatedList.functionName) || $a_relatedList.functionName == 'get_related_list'}selected="selected"{/if}>get_related_list</option>
 			<option value="get_dependents_list" {if $a_relatedList.functionName == 'get_dependents_list'}selected="selected"{/if}>get_dependents_list</option>
 			<option value="get_attachments" {if $a_relatedList.functionName == 'get_attachments'}selected="selected"{/if}>get_attachments</option>
@@ -59,11 +59,16 @@
 <tr>
 	<td colspan="2">&nbsp;</td>
 </tr>
-<tr>
+<!-- <tr>
 	<td>&nbsp;</td>
 	<td><input type="button" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></td>
-</tr>
+</tr> -->
 </table>
+<div class="modal-footer rel-save-btn">
+	
+	<center><input type="button" class="btn btn-success" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
+
+</div>
 </div>
 
 <script type="text/javascript">

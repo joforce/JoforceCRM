@@ -6844,7 +6844,7 @@
 		<opt platform="mysql">Engine=InnoDB</opt>
 	</table>
 	<!-- Vtiger Duplicate Checking Module Table -->
-	<table name="jo_vtduplicatechecksettings">
+	<table name="jo_duplicatechecksettings">
 		<field name="id" type="I" size="19">
 			<key />
 		<autoincrement />

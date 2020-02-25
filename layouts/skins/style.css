@@ -12,14 +12,14 @@ body{font-family:'OpenSans-Regular',sans-serif;font-size:12px;-webkit-font-smoot
 .app-footer img {margin-right: 10px; margin-top: 5px;}
 .main-container{position:relative;min-height:100%}
 .main-container:before,.main-container:after{content:" ";display:block;clear:both}
-@media(min-width:992px){.global-nav .logo-container{display:inline-block;width:150px;z-index:2;padding-left:6%;margin-top:1px}
+@media(min-width:992px){.global-nav .logo-container{display:inline-block;width:100px;z-index:2;padding-left:6%;margin-top:1px}
 .app-nav .module-action-bar{padding-left:42px;top:0;padding-right:0;position:absolute;width:100%;height:42px;border-bottom:1px solid #ddd}
 .app-nav .module-action-bar .module-action-content{background:#fbfbfb;height:41px}
 .app-nav .module-action-bar .module-action-content .navbar-right{margin-right:0}
 .main-container .module-nav{display:inline-block;width:42px;z-index:10;position:absolute;bottom:0;top:0;left:0;min-height:100%;background-color:#303030;background:#303030}
 .main-container .sidebar-essentials{display:inline-block;width:240px;z-index:1;position:absolute;bottom:0;top:0;left:42px;min-height:100%;background:#fff;border-right:1px solid #ddd}
-.main-container .content-area{width:100%;padding-left:283px;padding-top:15px;min-height:768px}
-.main-container .settingsPageDiv{min-height:768px;padding-left:230px}
+.main-container .content-area{width:100%;padding-left:283px;padding-top:15px;min-height:560px;}
+.main-container .settingsPageDiv{min-height:auto;padding-left:230px}
 .main-container .settingsNav{height:100%}
 .app-nav .module-action-bar-full{padding-left:0}
 }.quickLinksDiv{margin:10px 0}
@@ -44,8 +44,8 @@ body{font-family:'OpenSans-Regular',sans-serif;font-size:12px;-webkit-font-smoot
 .vt-notification .fa-exclamation-circle{color:#f10404}
 .vt-notification .fa-check-circle{color:#4ebf4e}
 .vt-notification [data-notify="message"]{color:#eaeaea}
-.company-logo{height:40px;width:150px;margin:0;display:inline-block;margin-left:1px}
-.company-logo img{height:100%;width:auto}
+.company-logo{height:40px;width:100px !important;margin:0;display:inline-block;margin-left:1px}
+.company-logo img{height:40px;width:100 !important;}
 .navbar .fa{font-size:15px}
 .navbar .joicon{display:inline-block;font-size:16px;position:relative}
 .global-nav .navbar-nav>li div a{padding:15px}
@@ -496,7 +496,7 @@ strong,b,th{font-family:'OpenSans-Semibold','ProximaNova-Semibold',sans-serif;fo
 .navigationButton[disabled]{opacity:.2;pointer-events:none;cursor:not-allowed}
 .moduleResults-container{background-color:#fbfbfb}
 .textSearchPreviousPageButton>i,.textSearchNextPageButton>i{font-size:1.5em}
-#EditView .editViewBody{position:relative;width:auto;margin-top:15px;margin-bottom:2%}
+#EditView .editViewBody{position:relative;width:auto;margin-bottom:2%}
 #EditView .editViewBody .editViewContents{margin-bottom:0}
 #EditView .editViewFooter{position:fixed;bottom:0;width:100%;background-color:#eee;z-index:1000;padding:7px}
 .op0.fadeInx{opacity:1}
@@ -1016,12 +1016,12 @@ hr{margin:10px 0}
 .blockHeader .btn-group{margin-top:4px}
 .input-info-addon{display:inline-block;margin:1px 10px;vertical-align:top}
 .input-select-addon{background:0;border:0}
-.editViewBody .editViewContents{max-height:100%;padding-bottom:50px}
+.editViewBody .editViewContents{max-height:100%;padding-bottom:70px}
 .help-inline{padding:5px;display:inline-block;border:1px solid #ddd;background:#f3f3f3;margin-left:-15px;float:left}
 .listViewEntriesCheckBox,.input-group input[type="checkbox"]{vertical-align:middle}
 .overlayPageContent .modal-overlay-footer{margin:0}
 .full-width .modal-overlay-footer{margin-left:0!important}
-.modal-overlay-footer{position:fixed;bottom:0;background:#efefef;border-left:42px solid #303030;height:60px;left:0;right:0;padding:15px;text-align:right;border-top:1px solid #e5e5e5;z-index:6}
+.modal-overlay-footer{position:fixed;bottom:40px;background:#efefef;border-left:42px solid #303030;height:50px;left:0;right:0;padding:10px;text-align:right;border-top:1px solid #e5e5e5;z-index:6}
 .modal-footer-overwrite-style{position:initial;margin-left:0!important}
 .ui-slider .ui-slider-handle{z-index:0}
 .settingsPageDiv .modal-overlay-footer{margin-left:230px;border-left:0 solid}
@@ -1452,7 +1452,7 @@ a.btnReport,a.btnReport:hover{color:white}
 .column.l9{width:37.5%}
 .selectedReport{background:#fff!important}
 .tweetSummary{float:left;display:inline-block;width:90%;margin-left:5px}
-#reportDetails table tr td.summary{border-bottom:0;border-top:0}
+#reportDetails table tr td.summary{/*border-bottom:0;*/border-top:0}
 #popupPageContainer{float:none}
 .popupEntriesDiv{width:100%;height:430px;overflow:hidden;position:relative}
 .popupEntriesTableContainer{width:100%;min-width:800px}

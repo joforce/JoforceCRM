@@ -10,4 +10,14 @@
 {* modules/Head/views/Popup.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<DIV>TEMPLATE: layout/modules/Head/PopupFooter.tpl</DIV>
+{strip}
+	{* javascript files *}
+	{include file='JSResources.tpl'|@vtemplate_path}
+	</body>
+</html>
+{/strip}
+<script type=text/javascript>
+	jQuery(document).ready(function() {
+		jQuery.triggerParentEvent('Head.OnPopupWindowLoad.Event');
+	});
+</script>

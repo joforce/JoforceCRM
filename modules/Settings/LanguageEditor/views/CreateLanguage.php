@@ -20,8 +20,8 @@ class Settings_LanguageEditor_CreateLanguage_View extends Settings_Head_Index_Vi
                 $viewer = $this->getViewer($request);
                 $userModuleModel = Users_Module_Model::getInstance('Users');
 
-                $viewer->assign('LANGUAGES', $userModuleModel->getLanguagesList()); //echo "<pre>"; print_r($userModuleModel->getLanguagesList());die;
-                
+                $viewer->assign('LANGUAGES', $userModuleModel->getLanguagesList());
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
                 $viewer->view('CreateLanguage.tpl', $qualifiedModuleName);
         }
 }

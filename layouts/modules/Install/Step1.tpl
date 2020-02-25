@@ -11,14 +11,6 @@
 <div class="row main-container" id="page1">
 	<div class="gs-info">
 	 {include file="Sidebar.tpl"|vtemplate_path:'Install'}
-		<footer class="noprint">
-			<div class="vtFooter">
-				<p>
-					{vtranslate('POWEREDBY')} 
-					&copy; {date('Y')}
-				</p>
-			</div>
-		</footer>
 	</div>
 	<div class="inner-container">
 	<div class="mobile-view"><i class="fa fa-arrow-left"></i></div>
@@ -57,7 +49,7 @@
 			</div>
             <div class="row">
                 <div>
-                    <span class='' style='margin-left:22%;'> To continue installing Joforce, you must agree to the terms of the <b><a href='#' class='show_licence'>license agreement</a></b> </span>
+                    <span class='msg'> To continue installing Joforce, you must agree to the terms of the <b><a href='#' class='show_licence'>license agreement</a></b> </span>
                 </div>
             </div>
             <div class="row">

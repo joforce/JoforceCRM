@@ -24,7 +24,7 @@
 								<div class="col-lg-2 recordImage commentInfoHeader" style ="width:50px; height:50px; font-size: 30px;" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}" data-relatedto = "{$COMMENT->get('related_to')}">
 									{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 									{if !empty($IMAGE_PATH)}
-										<img src="{$IMAGE_PATH}" width="100%" height="100%" align="left">
+										<img src="{$SITEURL}{$IMAGE_PATH}" width="100%" height="100%" align="left">
 									{else}
 										<div class="name"><span><strong> {$CREATOR_NAME|substr:0:2} </strong></span></div>
 									{/if}

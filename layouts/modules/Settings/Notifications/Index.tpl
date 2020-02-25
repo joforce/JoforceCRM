@@ -7,56 +7,82 @@
 * All Rights Reserved.
 * Contributor(s): JoForce.com
 ************************************************************************************}
-{* modules/Settings/MenuManager/views/Index.php *}
-
-{* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
-	<div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
-	</div>
-
+{strip}
+    <div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
         <div class="col-sm-12">
-                <div class="row">
-                        <div class=" vt-default-callout vt-info-callout">
-                                <h4 class="vt-callout-header"><span class="fa fa-info-circle"></span>{vtranslate('LBL_INFO', $QUALIFIED_MODULE_NAME)}</h4>
-                                <p>{vtranslate('LBL_NOTIFICATION_SETTINGS_INFO', $QUALIFIED_MODULE_NAME)}</p>
-                        </div>
-                </div>
-        </div>
-
-	<div class="notification-enable">
-		<input type="checkbox" id="global-notification-box" name="global-notification-box" {if $GLOBAL_SETTINGS} checked{/if} />
-		<input type="hidden" name="global-notification" id="global-notification" value="{if $GLOBAL_SETTINGS} enabled {else} disabled {/if}" />
-		<label for="global-notification-box">Enable Notifications</label>
+	    <div class="row">
+		<div class=" vt-default-callout vt-info-callout">
+		    <h4 class="vt-callout-header"><span class="fa fa-info-circle"></span>{vtranslate('LBL_INFO', $QUALIFIED_MODULE_NAME)}</h4>
+		    <p>{vtranslate('LBL_NOTIFICATION_SETTINGS_INFO', $QUALIFIED_MODULE_NAME)}</p>
+		</div>
+	    </div>
 	</div>
 
-	<form type="POST" id="notification-editor-form" class="form-horizontal">
-		<div id="notification-editor-div" {if !$GLOBAL_SETTINGS} style="display:none;" {/if} >
-			{foreach from=$PERMITTED_MODULES key=PERMITTED_MODULE item=PERMITTED_MODULE_SETTINGS}
-				<div class="notification-editor-module">
-					<span class="accordion-module"><b>{vtranslate($PERMITTED_MODULE, $PERMITTED_MODULE)}</b>
-					<span class="toggle-icon fa fa-caret-down" style="display: block;"></span></span>
-					<div class="accordion-panel">
-						<div class="notification-message">
-							<input type="checkbox" name="{$PERMITTED_MODULE}_assigned" class="check-box" 
-								{if $PERMITTED_MODULE_SETTINGS['assigned'] == 'true'} checked {/if} />
-							<label>Record is assigned to you</label>
-						</div>
-						<div class="notification-message">
-							<input type="checkbox" name="{$PERMITTED_MODULE}_following" class="check-box" 
-								{if $PERMITTED_MODULE_SETTINGS['following'] == 'true'} checked {/if} />
-							<label>Updates on following record</label>
-						</div>
-					</div>					
-				</div>
-			{/foreach}
+        <form method="POST" id="notification-editor-form" class="form-horizontal" action="{$SITEURL}index.php?module=Notifications&parent=Settings&action=SaveSettings">
+	    <div class="notification-enable col-lg-10" style="text-align:center;">
+		<div class="col-lg-6">
+	            <input type="checkbox" id="global-notification" name="global-notification" {if $GLOBAL_SETTINGS} checked{/if} data-value="{if $GLOBAL_SETTINGS}enabled{else}disabled{/if}" />
+	            <label>Enable Notifications</label>
 		</div>
+		<div class='col-lg-4'>
+		    <button class="btn btn-success save-section pull-right" id="save-settings" type="submit">
+                    	<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong>
+		    </button>
+		</div>
+	    </div>
 
-		<div class='modal-overlay-footer clearfix'>
-                        <div class=" row clearfix">
-       	                        <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-               	                        <button type='submit' class='btn btn-primary saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+	    <div id="notification-editor-div" {if !$GLOBAL_SETTINGS} style="display:none;" {/if} >
+	    	<table id="listview-table" class="table listview-table" style="max-width: 90%;table-layout: fixed;margin: auto;">
+		    <thead>
+{**		    	<tr class="listViewContentHeader">
+			    <th><label>Notifications For All record I can view</label></th>
+			    <th>
+				<input type="checkbox" id="notification-for-all" name="notification-for-all" {if $notify_all}checked{/if} data-value="{if $notify_all}enabled{else}disabled{/if}" />
+				<div class="input-info-addon">
+				    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="" data-original-title="Enable this to notify activities which are related to all records you can view & edit"></i>
+				</div>
+			    </th>
+			    <th>
+			    </th>
+		    	</tr>
+		    </thead>**}
+		    <tbody class="overflow-y">
+		    	<tr class="listViewContentHeader">
+		    	    <td><label>Module</label></td>
+			    <td>
+				<label>Updates on record (assigned to me)</label>
+                                <div class="input-info-addon">
+                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="" data-original-title="When Record is assigned to you and any updates on the records which are assigned to you"></i>
                                 </div>
-                        </div>
-                </div>
+			    </td>
+			    <td><label>Updates on following record</label></td>
+		    	</tr>
+		    	{foreach from=$PERMITTED_MODULES key=PERMITTED_MODULE item=PERMITTED_MODULE_SETTINGS}
+			    {assign var=tabid value=getTabid($PERMITTED_MODULE)}
+			    {if in_array($tabid, $user_permitted_modules)}
+			    	<tr class="listViewEntries">
+			    	    <td class="listViewEntryValue textOverflowEllipsis">
+				    	<span class=""><b>{vtranslate($PERMITTED_MODULE, $PERMITTED_MODULE)}</b></span>
+				    </td>
+			    	    <td class="listViewEntryValue textOverflowEllipsis">
+				    	<input type="checkbox" name="{$PERMITTED_MODULE}_assigned" class="check-box" {if $PERMITTED_MODULE_SETTINGS['assigned'] == 'true'} checked {/if} />
+				    </td>
+			    	    <td class="listViewEntryValue textOverflowEllipsis">
+				    	<input type="checkbox" name="{$PERMITTED_MODULE}_following" class="check-box" {if $PERMITTED_MODULE_SETTINGS['following'] == 'true'} checked {/if} />
+				    </td>
+			    	</tr>
+			    {/if}
+		    	{/foreach}
+		    </tbody>
+	    	</table>
+	    </div>
 	</form>
-</div>
+    </div>
+{/strip}
+
+<style>
+.listViewContentHeader td, .listViewEntries  td{
+    text-align: center; 
+    vertical-align: middle;
+}
+</style>

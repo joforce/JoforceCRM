@@ -24,3 +24,8 @@
 </div>
 </td>
 </table>
+
+     <div class="row">
+	  <button class="btn btn-primary events-next-btn ">Next</button>
+	  <button class="btn btn-default events-prev-btn ">Previous</button>
+      </div>

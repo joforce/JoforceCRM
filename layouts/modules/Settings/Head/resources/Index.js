@@ -21,8 +21,6 @@ Head_Index_Js("Settings_Head_Index_Js",{
 		}
 		Head_Helper_Js.showPnotify(params);
 	}
-
-
 },{
 	registerDeleteShortCutEvent : function(shortCutBlock) {
 		var thisInstance = this;
@@ -195,9 +193,11 @@ Head_Index_Js("Settings_Head_Index_Js",{
 				sections : '.instaSearch',
 				markMatches: true,
 				onFilterComplete: function(matchedItems) {
+					$("#accordion").removeClass('hide');
 					if(jQuery('.search-list').val().length <= 0){
 						jQuery('.instaSearch').find('.widgetContainer').closest('.panel-collapse').filter('.in').removeClass('in');
 						jQuery('.instaSearch').find('.indicator').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+						$("#accordion").addClass('hide');
 						return;
 					}
 					jQuery('.instaSearch').find('[data-instafilta-hide="false"]').closest('.panel-collapse').filter(':not(.in)').addClass('in').height('');
@@ -226,6 +226,95 @@ Head_Index_Js("Settings_Head_Index_Js",{
                                 app.helper.hideProgress();
                         });
 		});
+        },
+
+        registerSettingsSearchDropdownEvent : function() {
+                $(document).mouseup(function(e) {
+                    var container = $(".settingsgroup");
+                    // if the target of the click isn't the container nor a descendant of the container
+                    if (!container.is(e.target) && container.has(e.target).length === 0) {
+                        $("#settingsMenuSearch").val('');
+                        $("#accordion").addClass('hide');
+                    }
+                });
+
+		//For settings index search
+		$(document).mouseup(function(e) {
+                    var container = $(".settings_search");
+                    // if the target of the click isn't the container nor a descendant of the container
+                    if (!container.is(e.target) && container.has(e.target).length === 0) {
+                        $("#search_settings").val('');
+                        $("#search_display").addClass('hide');
+                    }
+                });
+        },
+
+	registerIndexBasicSettingsEvents : function() {
+		this.registerIndexFilterSearch();
+		if(window.hasOwnProperty('Head_List_Js')) {
+			var listInstance = new Head_List_Js();
+			setTimeout(function(){
+                        	listInstance.registerFloatingThead();
+                        }, 10);
+
+                        app.event.on('Head.Post.MenuToggle', function() {
+                        	listInstance.reflowList();
+                        });
+                        listInstance.registerDynamicDropdownPosition();
+		}
+        },
+
+	registerIndexFilterSearch : function () {
+		var settings = jQuery('.settings_search');
+		var res = new Array();
+		jQuery('.search-settings').instaFilta({
+			targets: '.search_display',
+			markMatches: true,
+			onFilterComplete: function(matchedItems) {
+				$("#search_display").removeClass('hide');
+				var input  = jQuery('.search-settings').val();
+				if(input <= 0){
+					$("#search_display").addClass('hide');
+					$('#search_display').hide();
+					$('.admin-settings').show();
+					return;
+				}
+				$('#search_display ul').html('');
+				var results = $('div#knowledgeDomain').children('span').text();
+				search_count = 0;
+				$('.admin-settings').find('.module_search').each(function(){
+					var ul = $(this).children('.settings-list');						
+					ul.find('.para_list').each(function() {
+						parent_a = $(this).closest('.list_values').html();
+						var value = $(this).html();
+     						if(value.toLowerCase().indexOf(input) > -1){
+     							$("#search_display ul").append("<li class='list_values col-md-1'>"+parent_a+"</li>");
+     							search_count++;
+     							$('.admin-settings').hide();
+     				   		}
+					});
+				});
+				$("#search_display").show();
+     				if(search_count == 0){   		
+			   		$('#empty_settings').empty();
+     				   	$("#search_display ul").append("<li id='empty_settings'>No Result Found</li>");
+     				   	$("#search_display").show();
+     				   	$('.admin-settings').hide();
+     				}
+			}
+		});
+	},
+
+	registerIndexSettingsSearchDropdownEvent : function() {
+		$(document).mouseup(function(e) {
+		    var container = $(".settings_search");
+		    // if the target of the click isn't the container nor a descendant of the container
+		    if (!container.is(e.target) && container.has(e.target).length === 0) {
+		        $("#search_settings").val('');
+			$("#search_display").addClass('hide');
+			$('.admin-settings').show();
+		    }
+		});
 	},
 
 	registerEvents: function() {
@@ -238,6 +327,8 @@ Head_Index_Js("Settings_Head_Index_Js",{
 		this.registerSettingShortCutAlignmentEvent();
 		this.registerBasicSettingsEvents();
 		this.registerMasqueradeUserOption();
+		this.registerSettingsSearchDropdownEvent();
+		this.registerIndexSettingsSearchDropdownEvent();
+		this.registerIndexBasicSettingsEvents();
 	}
-
 });

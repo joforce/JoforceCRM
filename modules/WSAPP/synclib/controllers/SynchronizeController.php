@@ -17,6 +17,7 @@ require_once 'modules/WSAPP/synclib/connectors/HeadConnector.php';
 require_once 'includes/database/PearDatabase.php';
 
 require_once 'modules/WSAPP/api/ws/Register.php';
+require_once 'modules/WSAPP/WSAPPLogs.php';
 
 abstract class WSAPP_SynchronizeController {
 	

@@ -245,7 +245,7 @@ class DuplicateCheck_Field_Model extends Head_Field_Model {
 		}*/
 		//$fieldID = array($sourceModule);
 		//print_r($fieldID);
-		$query = "SELECT fieldstomatch FROM jo_vtduplicatechecksettings WHERE modulename=?";
+		$query = "SELECT fieldstomatch FROM jo_duplicatechecksettings WHERE modulename=?";
 		$result = $db->pquery($query, array($sourceModule));
 		$numOfRows = $db->num_rows($result);
 		$fetchResult = $db->fetch_array($result);

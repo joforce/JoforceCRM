@@ -15,7 +15,7 @@
 		<title>Joforce</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-		<link REL="SHORTCUT ICON" HREF="layouts/skins/images/favicon.ico">
+		<link REL="SHORTCUT ICON" href="layouts/skins/images/favicon.ico">
 		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" />
@@ -275,6 +275,11 @@
                     $('.skip-the-form').show();
                 }
             });
+	  
+	    $('[name="serverType"]').on('change', function()  {
+		var Servertype = $('[name="serverType"]').val();
+ 		var Server = $('[name="server"]').val(Servertype);
+	    });
 
             // Submit the form
             $('.form-submit').on('click', function()    {
@@ -284,6 +289,7 @@
                 }
                 else if(current_step == 2)  {
                     $('#OutgoingServerForm').submit();
+		    $('.form-submit').attr('disabled','disabled');
                 }
                 else if(current_step == 3)  {
                     $('.user_setup').submit();
@@ -307,6 +313,7 @@
                             $('#current-step').val(next_step);
 
                             $('.step-'+current_step).hide();
+			    $('.form-submit').removeAttr('disabled');
                             $('.step-'+next_step).show();
 
                             // Show back button
@@ -315,6 +322,7 @@
                         }
                         else    {
                             // Show message
+			    $('.form-submit').removeAttr('disabled');
                             $('.notification-section').html("<div class='alert alert-danger'>"+data.error.message+"</div>");
                         }
                     },

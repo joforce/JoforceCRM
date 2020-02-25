@@ -16,8 +16,8 @@
                 </div>
                 <hr>
                 <div class="contents row form-group">
-                    <div class="col-lg-offset-1 col-lg-2 col-md-2 col-sm-2 control-label fieldLabel"><label>{vtranslate('LBL_SELECT_MODULE', 'Head')}</label></div>
-                    <div class="fieldValue col-lg-4 col-md-4 col-sm-4 ">
+                    <div class="col-lg-offset-1 col-lg-2 col-md-2 col-sm-2 control-label fieldLabel pr0"><label>{vtranslate('LBL_SELECT_MODULE', 'Head')}</label></div>
+                    <div class="fieldValue col-lg-4 col-md-4 col-sm-4 pl0">
                         <select class="select2-container select2 inputElement col-sm-6 selectModule">
                             {foreach item=MODULE_NAME from=$INVENTORY_MODULES}
                                 <option value={$MODULE_NAME}>{vtranslate({$MODULE_NAME}, {$MODULE_NAME})}</option>
@@ -27,7 +27,7 @@
                 </div>
                 <br>
                 <div class="col-lg-offset-1 col-lg-11 col-md-11 col-sm-11">
-                    <textarea class=" TCContent form-control" rows="10" placeholder="{vtranslate('LBL_SPECIFY_TERMS_AND_CONDITIONS', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
+                    <textarea class=" TCContent form-control" rows="10" placeholder="{vtranslate('LBL_SPECIFY_TERMS_AND_CONDITIONS', $QUALIFIED_MODULE)}" style="width:100%;font-size:14px;" >{$CONDITION_TEXT}</textarea>
                 </div>
                 <div class='clearfix'></div>
                 <br>

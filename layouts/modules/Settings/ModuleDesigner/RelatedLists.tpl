@@ -10,7 +10,7 @@
 	{/foreach}
 	</ul>	
 	<div id="md-related-list-other-module">
-		<button id="md_related_list_other_module">{vtranslate('LBL_RELATED_LIST_OTHER_MODULE', $QUALIFIED_MODULE)}</button>
+		<button id="md_related_list_other_module" class="btn btn-primary other-module">{vtranslate('LBL_RELATED_LIST_OTHER_MODULE', $QUALIFIED_MODULE)}</button>
 	</div>
 </div>
 </td>
@@ -22,6 +22,11 @@
 </div>
 </td>
 </table>
+
+    <div class="row">
+    	 <button class="btn btn-primary related-next-btn ">Next</button>
+	  <button class="btn btn-default related-prev-btn ">Previous</button>
+    </div>
 
 <div id="md_related_list_dialog_form" title="{vtranslate('LBL_RELATED_LIST_OTHER_MODULE', $QUALIFIED_MODULE)}"> 
   <form>

@@ -1274,7 +1274,7 @@ Head.Class("Head_Detail_Js",{
 				}
 				fieldElement = fieldElement.filter('[type="checkbox"]');
 			} else if(fieldType == 'reference'){
-				ajaxEditNewValue = fieldElement.data('value');
+				ajaxEditNewValue = fieldElement[0].defaultValue;
 			}
 
 			// prev Value should be taken based on field Type
@@ -2164,7 +2164,6 @@ Head.Class("Head_Detail_Js",{
 		e.preventDefault();
 		var self = this;
 		var currentTarget = jQuery(e.currentTarget);
-		console.log(currentTarget);
 		var moduleName = currentTarget.attr('module');
 		var recordId = currentTarget.attr('record');
 		var rollupId = currentTarget.attr('rollupid');
@@ -2198,7 +2197,6 @@ Head.Class("Head_Detail_Js",{
 				'type' : 'GET',
 				'url' : url
 			};
-			console.log(params);
 			app.request.get(params).then(function(err, data){
 				app.helper.hideProgress();
 				contents.html(data);				
@@ -3152,8 +3150,48 @@ Head.Class("Head_Detail_Js",{
 
 });
 
-    $(document).ready(function(){
-        if (document.querySelector('.sidebar-essentials') !== null) {
-            $('.main-container .content-area').css('padding-left','200px');
-        }
+$(document).ready(function(){
+    if (document.querySelector('.sidebar-essentials') !== null) {
+	$('.main-container .content-area').css('padding-left','200px');
+    }
+});
+
+$(document).ready(function(){
+    var recordId = app.getRecordId();
+    var moduleName = app.getModuleName();
+    var view_type = _META.view;
+
+    if(view_type == 'Detail') {
+	postParams = {};
+	postParams['module'] = moduleName;
+	postParams['action'] = 'UpdatePickvalue';
+	postParams['recordId'] = recordId;
+	postParams['type'] = 'onload';
+
+	app.request.post({data:postParams}).then(function(err,data){
+	    if(data != null){
+	    	$('.pipe-stage').html(data);
+		$('[data-toggle="tooltip"]').tooltip();
+	    }
+    	});
+    }
+
+    $('#pipeline_stages').on('click', '.pipe-stage li', function() {
+	var stage_id = $(this).attr('id');
+	var recordId = app.getRecordId();
+	var moduleName = app.getModuleName();
+
+	postParams['module'] = moduleName;
+	postParams['action'] = 'UpdatePickvalue';
+	postParams['recordId'] = recordId;
+	postParams['type'] = 'update';
+	postParams['stage_id'] = stage_id;
+
+	app.request.post({data:postParams}).then(function(err,data){
+	    if(data != null){
+		$('.pipe-stage').html(data);
+		$('[data-toggle="tooltip"]').tooltip();
+	    }
+	});
     });
+});

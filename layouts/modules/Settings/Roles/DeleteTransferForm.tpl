@@ -13,7 +13,7 @@
     <div class="modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('LBL_DELETE_ROLE', $QUALIFIED_MODULE)}|cat:" - "|cat:{$RECORD_MODEL->getName()}}
         {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
-        <div class="modal-content">
+        <div class="modal-content roles-modal">
             <form class="form-horizontal" id="roleDeleteForm" method="post" action="index.php">
                 <input type="hidden" name="module" value="{$MODULE}" />
                 <input type="hidden" name="parent" value="Settings" />

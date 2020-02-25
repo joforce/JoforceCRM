@@ -7,76 +7,125 @@
 * All Rights Reserved.
 * Contributor(s): JoForce.com
 ************************************************************************************}
-<div>
-	{if !$NOTHING}
-	<form method="post" action="{$SITEURL}index.php?module=LanguageEditor&parent=Settings&action=SaveFile">
-		<input type="hidden" name="file-path" id="file-path" value="{$FILE_PATH}" />
-		
-		<table class="table table-responsive language-table">
-			<thead>
-				<th></th>
-				<th></th>
-			</thead>
-			
-			<tbody>
-				{if $LANGUAGE_STRING_ARRAY}
-				<tr style="border-bottom: 4px solid #ccc;">
-                                        <td><b>LABELS</b></td>
-                                        <td><div class="fa fa-plus" id="add-new-label" type="button" data-hint="lbl"></div></td>
-                                </tr>
-				{foreach item=MEANING key=LABEL from=$LANGUAGE_STRING_ARRAY }
-				<tr>
-					<td>{$LABEL}</td>
-					<td name="{$LABEL}" class="{$LABEL} meaning">
-						<input type="text" value="{$MEANING}" class="language-input {$LABEL}" readonly />
-						<span data-label="{$LABEL}" class="fa fa-pencil editor" style="display:none;"></span>
-						<div class="language-edit" style="display:none;">
-	                                                <span class="fa fa-check save-edit" data-label="{$LABEL}" data-hint="lbl"></span>
-        	                                        <span class="fa fa-close close-edit" ></span>
-						</div>
-					</td>
-				</tr>
-				{/foreach}
-				{/if}
-				
-				<tr style="display:none" class="dummy-row" id="dummy">
-                                        <td><input type="text" value='' class="language-input new-label" style="border-bottom: 1px solid #1C7C54;" /></td>
-                                        <td name="" class="meaning active-editable">
-                                                <input type="text" value="" class="language-input new-value" />
-                                                <span data-label="" class="fa fa-pencil editor" style="display:none;"></span>
-                                                <div class="language-edit">
-                                                        <span class="fa fa-check save-add-edit new-one" data-label="" ></span>
-                                                        <span class="fa fa-close close-edit new-one" ></span>
-                                                </div>
-                                        </td>
-                                </tr>
-			
-				<tr style="border-bottom: 4px solid #ccc;">
-					<td></td>
-					<td></td>
-				</tr>
-				<tr style="border-bottom: 4px solid #ccc;">
-                                        <td><b>JS LABELS</b></td>
-                                        <td><div class="fa fa-plus" id="add-new-js-label" type="button" data-hint="js_lbl"></div></td>
-                                </tr>
-				
-				{if $JS_LANGUAGE_STRING_ARRAY}
-				{foreach item=JS_MEANING key=JS_LABEL from=$JS_LANGUAGE_STRING_ARRAY }
-                                <tr>
-                                        <td>{$JS_LABEL}</td>
-                                        <td name="{$JS_LABEL}" class="{$JS_LABEL} meaning" id="{$JS_LABEL}">
-						<input type="text" value="{$JS_MEANING}" class="language-input {$JS_LABEL}" readonly />
-						<span data-label="{$JS_LABEL}" class="fa fa-pencil editor" style="display:none;"></span>
-						<div class="language-edit" style="display:none;">
-                                                        <span class="fa fa-check save-edit" data-label="{$JS_LABEL}" data-hint="js_lbl"></span>
-                                                        <span class="fa fa-close close-edit"></span>
-                                                </div>
-					</td>
-                                </tr>
-                                {/foreach}
-				{/if}
-			</tbody>
-		</table>
-	</form>
-	{/if}
+
+<input type="hidden" name="file-path" id="file-path" value="{$FILE}" />
+<input type="hidden" name="filename" id="filename" value="{$SAVE_FILE}" />
+<div class="row">
+    <div class="language-editor-module outside-border mt30">
+	<div class="accordion-module labels-content">
+	    <h3 class="panel-title">{vtranslate('LBL_MODULE_LABELS', $QUALIFIED_MODULE)}
+		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span>
+	    </h3>
+	</div>
+
+	<table class="table table-responsive language-table accordion-panel table-hover mt30" id="module_labels" style="display:none">
+	    <thead>
+		<th>{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}</th>
+		<th class="label-button">{vtranslate('LBL_TRANSLATION', $QUALIFIED_MODULE)}
+		    <button class="btn btn-primary" id="add-new-label" data-hint="lbl">
+		    	<i class="fa fa-plus" data-hint="lbl" type="button"></i>
+		    </button>
+	    	</th>
+	    </thead>
+	    <tbody>
+	    	{if !$NOTHING}
+		    {if $LANGUAGE_STRING_ARRAY}
+		    	{include file="PicklistEditAjax.tpl"|vtemplate_path:$QUALIFIED_MODULE HINT='lbl'}
+		    {else}
+			<tr></tr>
+		    {/if}
+		{else}
+		    <tr></tr>
+	   	{/if}
+	    </tbody>
+	</table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="language-editor-module outside-border">
+	<div class="accordion-module labels-content">
+	    <h3>{vtranslate('LBL_JAVA_LABELS', $QUALIFIED_MODULE)}
+		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span>
+	    </h3>
+	</div>
+	<table class="table table-responsive language-table accordion-panel table-hover mt30" id="js_module_labels" style="display:none">
+	    <thead>
+		<th>{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}</th>
+		<th class="label-button">{vtranslate('LBL_TRANSLATION', $QUALIFIED_MODULE)}
+		    <button class="btn btn-primary" id="add-new-js-label" data-hint="js_lbl">
+			<i class="fa fa-plus" data-hint="lbl" type="button"></i>
+		    </button>
+		</th>
+	    </thead>
+	    <tbody>
+		<tr></tr>
+	        {if !$NOTHING}  
+        	    {if $JS_LANGUAGE_STRING_ARRAY}
+			{include file="PicklistEditAjax.tpl"|vtemplate_path:$QUALIFIED_MODULE LANGUAGE_STRING_ARRAY=$JS_LANGUAGE_STRING_ARRAY HINT='js_lbl'}
+		    {else}
+			<tr></tr>
+		    {/if}
+		{else}
+		    <tr></tr>
+        	{/if}
+	    </tbody>
+	</table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="customfields-languageeditor language-editor-module outside-border">
+	<div class="row">
+	    <div class="accordion-module labels-content">
+		<h3>{vtranslate('LBL_CUSTOM_FIELD_LABELS', $QUALIFIED_MODULE)}
+		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span></h3>
+	    </div>
+	    <table class="table table-responsive language-table accordion-panel table-hover mt30" style="display:none">
+		<thead>
+		    <tr>
+			<th>{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}</th>
+			<th>{vtranslate('LBL_TRANSLATION', $QUALIFIED_MODULE)}</th>
+		    </tr>
+		</thead>
+		<tbody id="customfield-tbody">
+	            {include file="PicklistEditAjax.tpl"|vtemplate_path:$QUALIFIED_MODULE LANGUAGE_STRING_ARRAY=$CF_LANGUAGE_STRING_ARRAY HINT='lbl'}
+        	</tbody>
+	    </table>
+	</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="picklist-languageeditor language-editor-module outside-border">
+	<div class="accordion-module labels-content picklist">
+	    <h3>{vtranslate('PICKLIST VALUES AND LABELS', $QUALIFIED_MODULE)}
+		<span class="toggle-icon fa fa-caret-right rotate" style="display:inline-block;"></span>
+	    </h3>
+	</div>
+
+	<table class="table table-responsive language-table accordion-panel table-hover picklist mt30" style="display:none">
+	    <thead>
+		<tr class="row accordion-heading">
+		    <th class="col-sm-2">
+		    	<label>{vtranslate('SELECT_PICKLIST', $QUALIFIED_MODULE)} : </label>
+		    </th>
+		    <th class="col-sm-4">
+		    	<select class="langugeeditor-picklist select2 inputElement" id="langugeeditor-picklist">
+			    <option value=''>Select</option>
+			    {foreach from=$MODULE_PICKLIST_FIELDS key=fieldname item=fieldlabel}
+			    	<option value="{$fieldname}">{vtranslate($fieldlabel, $MODULE)}</option>
+			    {/foreach}
+			</select>
+		    </th>
+		</tr>
+	        <tr>
+		    <th>{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}</th>
+		    <th>{vtranslate('LBL_TRANSLATION', $QUALIFIED_MODULE)}</th>
+		</tr>
+	    </thead>
+	    <tbody id="picklist-tbody">
+	    </tbody>
+	</table>
+    </div>
 </div>

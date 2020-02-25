@@ -133,8 +133,14 @@ Head.Class('Head_BasicSearch_Js',{},{
 		jQuery('.search-link .keyword-input').on('VT_SEARCH_INTIATED',function(e,args){
 			var val = args.searchValue;
 			var url = '?module=Head&view=ListAjax&mode=searchAll&value='+encodeURIComponent(val);
+			var params = {
+                            'module': 'Head',
+                            'view': 'ListAjax',
+                            'mode': 'searchAll',
+                            'value': encodeURIComponent(val),
+                    	};
 			app.helper.showProgress();
-			app.request.get({'url': url}).then(function (error, data) {
+			app.request.get({data: params}).then(function (error, data) {
 				if (error == null) {
 					app.helper.hideProgress();
 					app.helper.loadPageOverlay(data).then(function (modal) {

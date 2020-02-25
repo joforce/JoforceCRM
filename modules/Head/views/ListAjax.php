@@ -115,13 +115,13 @@ class Head_ListAjax_View extends Head_List_View {
 		// For Mobile API, search for specific module
 		if(!empty($searchModule))   {
 		    $matchingRecords = [];
-            $searchableModules = Head_Module_Model::getSearchableModules();
-            if(array_key_exists($searchModule, $searchableModules)) {
-                $searchedRecords = Head_Record_Model::getSearchResult($searchValue, $searchModule);
-                $matchingRecords[$searchModule] = isset($searchedRecords[$searchModule]) ? $searchedRecords[$searchModule] : [];
-            }
-            return $matchingRecords;
-        }
+	            $searchableModules = Head_Module_Model::getSearchableModules();
+        	    if(array_key_exists($searchModule, $searchableModules)) {
+                	$searchedRecords = Head_Record_Model::getSearchResult($searchValue, $searchModule);
+	                $matchingRecords[$searchModule] = isset($searchedRecords[$searchModule]) ? $searchedRecords[$searchModule] : [];
+        	    }
+	            return $matchingRecords;
+        	}
 
 		$searchableModules = Head_Module_Model::getSearchableModules();
 		$matchingRecords = array();

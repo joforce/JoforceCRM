@@ -24,7 +24,7 @@
                 <input type="hidden" name="picklistName" value="{$FIELD_MODEL->get('name')}" />
                 <div class="modal-body tabbable">
                     <div class="form-group">
-                        <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
+                        <div class="control-label col-sm-4 col-xs-4 ml5">{vtranslate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
                         <div class="controls col-sm-4 col-xs-4">
                             <select class="select2 form-control" multiple="" id="deleteValue" name="delete_value[]" >
                                 {foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
@@ -36,7 +36,7 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
+                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
                         <div class="controls  col-sm-4 col-xs-4">
                             <select id="replaceValue" name="replace_value" class="select2 form-control" data-validation-engine="validate[required]">
                                 {foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}

@@ -9,31 +9,18 @@
  *************************************************************************************/
 
 Head_Popup_Js('Inventory_Popup_Js',{},{
-	
-	searchHandler : function() {
-		var self = this;
-		var aDeferred = jQuery.Deferred();
-		var completeParams = self.getCompleteParams();
-		completeParams['page'] = 1;
-		return this.getPageRecords(completeParams).then(
-			function(data){
-				self.registerEventForBackToProductsButtonClick();
-				aDeferred.resolve(data);
-			});
-		return aDeferred.promise();
-	},
-
-	registerSubproductsClick : function() {
-		var self = this;
-		var popupPageContainer = this.getPopupPageContainer();
-		this.parentProductEle = popupPageContainer.clone(true, true);
-		popupPageContainer.on('click','.subproducts', function(e){
-			e.stopPropagation();
-			var rowElement = jQuery(e.currentTarget).closest('tr');
-
-			var params = {};
+    
+    registerSubproductsClick : function() {
+        var self = this;
+        var popupPageContainer = this.getPopupPageContainer();
+        this.parentProductEle = popupPageContainer.clone(true, true);
+        popupPageContainer.on('click','.subproducts', function(e){
+            e.stopPropagation();
+            var rowElement = jQuery(e.currentTarget).closest('tr');
+            
+            var params = {};
 			params.view = 'SubProductsPopup';
-			params.module = app.getModuleName();
+			params.module = self.getModuleName();
 			params.multi_select = true;
 			params.subProductsPopup = true;
 			params.productid = rowElement.data('id');
@@ -42,57 +29,40 @@ Head_Popup_Js('Inventory_Popup_Js',{},{
 			jQuery('#pageToJump').val('1');
 			jQuery('#orderBy').val('');
 			jQuery("#sortOrder").val('');
-			app.request.get({'data':params}).then(function(error, data){
-				jQuery('#popupContentsDiv').html(data);
-				jQuery('#totalPageCount').text('');
-				vtUtils.applyFieldElementsView(jQuery('#popupContentsDiv'));
-				self.registerEventForBackToProductsButtonClick();
-				self.registerPostPopupLoadEvents();
-				jQuery('#pageNumber',popupPageContainer).val(1);
-				jQuery('#pageToJump',popupPageContainer).val(1);
-				self.updatePagination();
-			});
-		});
-	},
-
-	getCompleteParams : function() {
-		var params = this._super();
-		var subProductsPopup = jQuery('#subProductsPopup').val();
-		var parentProductId = jQuery('#parentProductId').val();
-		if(typeof subProductsPopup != "undefined" && typeof parentProductId != "undefined") {
-			params['subProductsPopup'] = subProductsPopup;
-			params['productid'] = parentProductId;
-			params['view'] = 'SubProductsPopupAjax';
-		}
-		params['module'] = jQuery('#EditView').find('[name="module"]').val();
-		return params;
-	},
-
-	/**
-	 * Function to get Page Jump Params
-	 */
-	getPageJumpParams : function(){
-		var params = this.getCompleteParams();
-		params['view'] = 'PopupAjax';
-		params['mode'] = 'getPageCount';
-		params['module'] = this.getModuleName();
-		return params;
-	},
-
-	/**
+            app.request.get({'data':params}).then(function(error, data){
+                jQuery('#popupContentsDiv').html(data);
+                jQuery('#totalPageCount').text('');
+                self.registerEventForBackToProductsButtonClick();
+            });
+        });
+    },
+    
+    getCompleteParams : function() {
+        var params = this._super();
+        var subProductsPopup = jQuery('#subProductsPopup').val();
+        var parentProductId = jQuery('#parentProductId').val();
+        if(typeof subProductsPopup != "undefined" && typeof parentProductId != "undefined") {
+            params['subProductsPopup'] = subProductsPopup;
+            params['productid'] = parentProductId;
+            params['view'] = 'SubProductsPopupAjax';
+        }
+        return params;
+        
+    },
+    
+    /**
 	 * Function to register event for back to products button click
 	 */
 	registerEventForBackToProductsButtonClick : function(){
-		var self = this;
+        var self = this;
 		jQuery('#backToProducts').on('click',function(){
-		self.getPopupPageContainer().html(self.parentProductEle.html());
-			self.registerPostPopupLoadEvents();
-		});
+			self.getPopupPageContainer().html(self.parentProductEle.html());
+		})
 	},
-
-	registerEvents : function(){
-		this._super();
-		this.registerSubproductsClick();
-	}
+    
+    registerEvents : function(){
+        this._super();
+        this.registerSubproductsClick();
+    }
 });
 

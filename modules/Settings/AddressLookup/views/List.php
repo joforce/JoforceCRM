@@ -14,11 +14,11 @@ class Settings_AddressLookup_List_View extends Settings_Head_Index_View
             header("location:{$site_URL}AddressLookup/Settings/List?sourceModule=Campaigns");
 
         if($_REQUEST['success'])    {
-            echo "<div style='height:20px; font-size:12px; margin-bottom:6px; padding:5px; height: 15px; length:100%; text-align: center; margin-left: 20%; margin-top:40px;margin-right:100px; display: inline-block;' class='pull-right fa fa-times-circle fa-2x alert alert-success notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Settings Saved Successfully </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
+            echo "<div style='height:20px; font-size:12px; margin-bottom:6px; padding:5px; height: 27px; length:100%; text-align: center; margin-left: 20%; margin-top:20px;margin-right:100px; display: inline-block;' class='pull-right fa fa-times-circle fa-2x alert alert-success notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Settings Saved Successfully </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
         }
 
         if($_REQUEST['error'])  {
-            echo "<div style='height:20px; font-size:12px; margin-bottom:6px;padding:5px; height: 15px; length:100%; text-align: center; margin-left: 20%; margin-top:40px; display: inline-block; margin-right:100px;' class='pull-right fa fa-times-circle fa-2x alert alert-danger notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Unfortunately Unsaved Changes </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
+            echo "<div style='height:20px; font-size:12px; margin-bottom:6px;padding:5px; height: 27px; length:100%; text-align: center; margin-left: 20%; margin-top:20px; display: inline-block; margin-right:100px;' class='pull-right fa fa-times-circle fa-2x alert alert-danger notificationArea' id='notificationArea' onclick='clearNotificationArea();'> <span> Unfortunately Unsaved Changes </span><script>function clearNotificationArea(){ $('#notificationArea').hide(); }</script> </div>";
         }
 
         if($_REQUEST['check']){

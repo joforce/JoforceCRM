@@ -48,7 +48,7 @@ class Head_RelationListView_Model extends Head_Base_Model {
 		$parentRecordModule = $this->getParentRecordModel();
 		$parentModule = $parentRecordModule->getModule();
 
-		$createViewUrl = $relatedModel->getCreateRecordUrl().'&returnmode=showRelatedList&returntab_label='.$this->tab_label.
+		$createViewUrl = $relatedModel->getCreateRecordUrl().'?returnmode=showRelatedList&returntab_label='.$this->tab_label.
 							'&returnrecord='.$parentRecordModule->getId().'&returnmodule='.$parentModule->getName().
 							'&returnview=Detail&returnrelatedModuleName='.$this->getRelatedModuleModel()->getName().
 							'&returnrelationId='.$relationModel->getId();
@@ -94,7 +94,7 @@ class Head_RelationListView_Model extends Head_Base_Model {
 		$parentRecordModule = $this->getParentRecordModel();
 		$parentModule = $parentRecordModule->getModule();
 
-		$createViewUrl = $relatedModel->getCreateEventRecordUrl().'&returnmode=showRelatedList&returntab_label='.$relationModel->get('label').
+		$createViewUrl = $relatedModel->getCreateEventRecordUrl().'?returnmode=showRelatedList&returntab_label='.$relationModel->get('label').
 							'&returnrecord='.$parentRecordModule->getId().'&returnmodule='.$parentModule->get('name').
 							'&returnview=Detail&returnrelatedModuleName=Calendar'.
 							'&returnrelationId='.$relationModel->getId();
@@ -112,7 +112,7 @@ class Head_RelationListView_Model extends Head_Base_Model {
 		$parentRecordModule = $this->getParentRecordModel();
 		$parentModule = $parentRecordModule->getModule();
 
-		$createViewUrl = $relatedModel->getCreateTaskRecordUrl().'&returnmode=showRelatedList&returntab_label='.$relationModel->get('label').
+		$createViewUrl = $relatedModel->getCreateTaskRecordUrl().'?returnmode=showRelatedList&returntab_label='.$relationModel->get('label').
 							'&returnrecord='.$parentRecordModule->getId().'&returnmodule='.$parentModule->get('name').
 							'&returnview=Detail&returnrelatedModuleName=Calendar'.
 							'&returnrelationId='.$relationModel->getId();

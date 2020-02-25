@@ -17,11 +17,6 @@
 	<div class="row main-container step5" id="page5">
         <div class="gs-info">
 	        {include file="Sidebar.tpl"|vtemplate_path:'Install'}
-            <footer class="noprint">
-                <div class="vtFooter">
-                    <p> {vtranslate('POWEREDBY')} &copy; {date('Y')} </p>
-                </div>
-            </footer>
         </div>
 	    <div class="inner-container">
 	        <div class="mobile-view"><i class="fa fa-arrow-left"></i></div>
@@ -33,7 +28,7 @@
 			{if $DB_CONNECTION_INFO['flag'] neq true}
 				<div class="offset2 row" id="errorMessage">
 					<div class="col-sm-10 col-sm-offset-1">
-						<div class="alert alert-error">
+						<div class="alert alert-error" style="color: #0d4426;">
 							{$DB_CONNECTION_INFO['error_msg']}
 							{$DB_CONNECTION_INFO['error_msg_info']}
 						</div>
@@ -92,13 +87,21 @@
 					<div class="button-container">
 						<input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
 						{if $DB_CONNECTION_INFO['flag'] eq true}
-							<input type="button" class="btn btn-large btn-primary btn-next" value="{vtranslate('Install','Install')}" name="step7"/>
+							<input type="button" class="btn btn-large btn-primary btn-next but" value="{vtranslate('Install','Install')}" name="step7"/>
 						{/if}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+    <footer class="app-footer">
+    <a href="//www.joforce.com" target="_blank">
+        <img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
+    </a>
+    <p>
+        Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
+    </p>
+    </footer>
 </form>
 <div id="progressIndicator" class="row main-container hide" style="color: #30302; background: #F4F4F4">
     <div class="inner-container" style="width:100% !important;float:left !important;">

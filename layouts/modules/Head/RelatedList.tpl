@@ -37,6 +37,7 @@
 					<thead>
 						<tr class="listViewHeaders">
 							<th style="min-width:100px">
+								<i class="fa fa-search cursorPointer" id="joforce-table-search" style="float:right;margin-left:25px;"></i>
 							</th>
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								{* hide time_start,time_end columns in the list as they are merged with with Start Date and End Date fields *}
@@ -100,10 +101,9 @@
 										{/if}
 									{/if}
 									{if $RELATED_MODULE_NAME eq 'PriceBooks'}
-										<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
-											class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
-											<i class="fa fa-pencil" title="{vtranslate('LBL_EDIT', $MODULE)}"></i>
-										</a>
+										<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}" class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
+											<i class="fa fa-usd" title="{vtranslate('LBL_EDIT', $MODULE)} {vtranslate('LBL_OF_PRICE', $MODULE)}"></i>
+										</a> &nbsp;&nbsp;
 									{/if}
 									{if $IS_EDITABLE && $RELATED_RECORD->isEditable()}
 										<a name="relationEdit" data-url="{$RELATED_RECORD->getRelatedEditViewUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil"></i></a> &nbsp;&nbsp;

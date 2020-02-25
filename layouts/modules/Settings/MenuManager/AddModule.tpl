@@ -40,7 +40,7 @@
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							{if count($HIDDEN_MODULES) gt 0}
 								{foreach item=MODULE_NAME from=$HIDDEN_MODULES}
-									<span class="btn-group" style="margin-bottom: 10px; margin-left: 25px; margin-right: -15px;">
+									<span class="btn-group">
 										<buttton class="btn addButton btn-default module-buttons addModule" data-module="{$MODULE_NAME}" style="text-transform: inherit;margin-right:15px">{vtranslate($MODULE_NAME, $MODULE_NAME)}&nbsp;&nbsp;
 											<i class="fa fa-plus"></i>
 										</buttton>

@@ -88,7 +88,7 @@
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
     <span class="col-lg-1" style="line-height: 30px;">
-		<i class="deleteCondition glyphicon glyphicon-trash" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+		<i class="deleteCondition fa fa-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
 	</span>
 </div>
 {/strip}

@@ -12,10 +12,10 @@
 -->*}
 
 <div style="visibility: hidden; height: 0px;" id="defaultValuesElementsContainer">
-	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
+	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$IMPORTABLE_FIELDS}
 	<span id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue">
 		{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
-		{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
+		{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist' || ($FOR_MODULE eq 'Users' && $_FIELD_TYPE eq 'userRole')}
 			<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="select2 inputElement width75per">
             {if $_FIELD_NAME neq 'hdnTaxType'} <option value="">{vtranslate('LBL_SELECT_OPTION','Head')}</option> {/if}
 			{foreach item=_PICKLIST_DETAILS from=$_FIELD_INFO->getPicklistDetails()}
