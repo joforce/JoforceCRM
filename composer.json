@@ -4,7 +4,7 @@
         "webonyx/graphql-php": "^0.11.5",
         "tuupola/slim-jwt-auth": "^2.3",
         "ezyang/htmlpurifier": "^4.9",
-        "google/apiclient": "1.1.x-dev"
+        "google/apiclient": "^2.0"
     },
     "autoload": {
         "psr-4": {

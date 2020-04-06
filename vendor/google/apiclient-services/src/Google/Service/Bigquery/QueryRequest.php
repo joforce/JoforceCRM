@@ -18,6 +18,7 @@
 class Google_Service_Bigquery_QueryRequest extends Google_Collection
 {
   protected $collection_key = 'queryParameters';
+  public $connectionProperties;
   protected $defaultDatasetType = 'Google_Service_Bigquery_DatasetReference';
   protected $defaultDatasetDataType = '';
   public $dryRun;
@@ -33,6 +34,14 @@ class Google_Service_Bigquery_QueryRequest extends Google_Collection
   public $useLegacySql;
   public $useQueryCache;
 
+  public function setConnectionProperties($connectionProperties)
+  {
+    $this->connectionProperties = $connectionProperties;
+  }
+  public function getConnectionProperties()
+  {
+    return $this->connectionProperties;
+  }
   /**
    * @param Google_Service_Bigquery_DatasetReference
    */

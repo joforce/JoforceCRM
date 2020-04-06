@@ -23,6 +23,9 @@ class Google_Service_Bigquery_Dataset extends Google_Collection
   public $creationTime;
   protected $datasetReferenceType = 'Google_Service_Bigquery_DatasetReference';
   protected $datasetReferenceDataType = '';
+  protected $defaultEncryptionConfigurationType = 'Google_Service_Bigquery_EncryptionConfiguration';
+  protected $defaultEncryptionConfigurationDataType = '';
+  public $defaultPartitionExpirationMs;
   public $defaultTableExpirationMs;
   public $description;
   public $etag;
@@ -69,6 +72,28 @@ class Google_Service_Bigquery_Dataset extends Google_Collection
   public function getDatasetReference()
   {
     return $this->datasetReference;
+  }
+  /**
+   * @param Google_Service_Bigquery_EncryptionConfiguration
+   */
+  public function setDefaultEncryptionConfiguration(Google_Service_Bigquery_EncryptionConfiguration $defaultEncryptionConfiguration)
+  {
+    $this->defaultEncryptionConfiguration = $defaultEncryptionConfiguration;
+  }
+  /**
+   * @return Google_Service_Bigquery_EncryptionConfiguration
+   */
+  public function getDefaultEncryptionConfiguration()
+  {
+    return $this->defaultEncryptionConfiguration;
+  }
+  public function setDefaultPartitionExpirationMs($defaultPartitionExpirationMs)
+  {
+    $this->defaultPartitionExpirationMs = $defaultPartitionExpirationMs;
+  }
+  public function getDefaultPartitionExpirationMs()
+  {
+    return $this->defaultPartitionExpirationMs;
   }
   public function setDefaultTableExpirationMs($defaultTableExpirationMs)
   {

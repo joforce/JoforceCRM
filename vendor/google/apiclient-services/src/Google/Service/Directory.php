@@ -19,9 +19,8 @@
  * Service definition for Directory (directory_v1).
  *
  * <p>
- * The Admin SDK Directory API lets you view and manage enterprise resources
- * such as users and groups, administrative notifications, security features,
- * and more.</p>
+ * Manages enterprise resources such as users and groups, administrative
+ * notifications, security features, and more.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -113,6 +112,9 @@ class Google_Service_Directory extends Google_Service
   /** View user schemas on your domain. */
   const ADMIN_DIRECTORY_USERSCHEMA_READONLY =
       "https://www.googleapis.com/auth/admin.directory.userschema.readonly";
+  /** View and manage your data across Google Cloud Platform services. */
+  const CLOUD_PLATFORM =
+      "https://www.googleapis.com/auth/cloud-platform";
 
   public $asps;
   public $channels;
@@ -127,7 +129,6 @@ class Google_Service_Directory extends Google_Service
   public $notifications;
   public $orgunits;
   public $privileges;
-  public $resolvedAppAccessSettings;
   public $resources_buildings;
   public $resources_calendars;
   public $resources_features;
@@ -143,13 +144,15 @@ class Google_Service_Directory extends Google_Service
   /**
    * Constructs the internal representation of the Directory service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://www.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
     $this->servicePath = 'admin/directory/v1/';
+    $this->batchPath = 'batch/admin/directory_v1';
     $this->version = 'directory_v1';
     $this->serviceName = 'admin';
 
@@ -562,7 +565,19 @@ class Google_Service_Directory extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
+                'orderBy' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'query' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'sortOrder' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -709,6 +724,10 @@ class Google_Service_Directory extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'includeDerivedMembership' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ),
                 'maxResults' => array(
                   'location' => 'query',
@@ -1064,24 +1083,6 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->resolvedAppAccessSettings = new Google_Service_Directory_Resource_ResolvedAppAccessSettings(
-        $this,
-        $this->serviceName,
-        'resolvedAppAccessSettings',
-        array(
-          'methods' => array(
-            'GetSettings' => array(
-              'path' => 'resolvedappaccesssettings',
-              'httpMethod' => 'GET',
-              'parameters' => array(),
-            ),'ListTrustedApps' => array(
-              'path' => 'trustedapps',
-              'httpMethod' => 'GET',
-              'parameters' => array(),
-            ),
-          )
-        )
-    );
     $this->resources_buildings = new Google_Service_Directory_Resource_ResourcesBuildings(
         $this,
         $this->serviceName,
@@ -1127,6 +1128,10 @@ class Google_Service_Directory extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'coordinatesSource' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
               ),
             ),'list' => array(
               'path' => 'customer/{customer}/resources/buildings',
@@ -1136,6 +1141,14 @@ class Google_Service_Directory extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'patch' => array(
@@ -1152,6 +1165,10 @@ class Google_Service_Directory extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'coordinatesSource' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
               ),
             ),'update' => array(
               'path' => 'customer/{customer}/resources/buildings/{buildingId}',
@@ -1166,6 +1183,10 @@ class Google_Service_Directory extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'coordinatesSource' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),
@@ -1332,6 +1353,10 @@ class Google_Service_Directory extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
                 'pageToken' => array(
                   'location' => 'query',

@@ -20,8 +20,12 @@ class Google_Service_Spanner_ExecuteSqlRequest extends Google_Model
   protected $paramTypesType = 'Google_Service_Spanner_Type';
   protected $paramTypesDataType = 'map';
   public $params;
+  public $partitionToken;
   public $queryMode;
+  protected $queryOptionsType = 'Google_Service_Spanner_QueryOptions';
+  protected $queryOptionsDataType = '';
   public $resumeToken;
+  public $seqno;
   public $sql;
   protected $transactionType = 'Google_Service_Spanner_TransactionSelector';
   protected $transactionDataType = '';
@@ -48,6 +52,14 @@ class Google_Service_Spanner_ExecuteSqlRequest extends Google_Model
   {
     return $this->params;
   }
+  public function setPartitionToken($partitionToken)
+  {
+    $this->partitionToken = $partitionToken;
+  }
+  public function getPartitionToken()
+  {
+    return $this->partitionToken;
+  }
   public function setQueryMode($queryMode)
   {
     $this->queryMode = $queryMode;
@@ -56,6 +68,20 @@ class Google_Service_Spanner_ExecuteSqlRequest extends Google_Model
   {
     return $this->queryMode;
   }
+  /**
+   * @param Google_Service_Spanner_QueryOptions
+   */
+  public function setQueryOptions(Google_Service_Spanner_QueryOptions $queryOptions)
+  {
+    $this->queryOptions = $queryOptions;
+  }
+  /**
+   * @return Google_Service_Spanner_QueryOptions
+   */
+  public function getQueryOptions()
+  {
+    return $this->queryOptions;
+  }
   public function setResumeToken($resumeToken)
   {
     $this->resumeToken = $resumeToken;
@@ -63,6 +89,14 @@ class Google_Service_Spanner_ExecuteSqlRequest extends Google_Model
   public function getResumeToken()
   {
     return $this->resumeToken;
+  }
+  public function setSeqno($seqno)
+  {
+    $this->seqno = $seqno;
+  }
+  public function getSeqno()
+  {
+    return $this->seqno;
   }
   public function setSql($sql)
   {

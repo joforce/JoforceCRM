@@ -39,7 +39,7 @@ class Google_Service_TPU_Resource_ProjectsLocationsTensorflowVersions extends Go
     return $this->call('get', array($params), "Google_Service_TPU_TensorFlowVersion");
   }
   /**
-   * Lists TensorFlow versions supported by this API.
+   * List TensorFlow versions supported by this API.
    * (tensorflowVersions.listProjectsLocationsTensorflowVersions)
    *
    * @param string $parent The parent resource name.

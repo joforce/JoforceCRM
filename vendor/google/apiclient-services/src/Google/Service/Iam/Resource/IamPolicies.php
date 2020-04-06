@@ -26,6 +26,30 @@
 class Google_Service_Iam_Resource_IamPolicies extends Google_Service_Resource
 {
   /**
+   * Lints a Cloud IAM policy object or its sub fields. Currently supports
+   * google.iam.v1.Binding.condition.
+   *
+   * Each lint operation consists of multiple lint validation units. Each unit
+   * inspects the input object in regard to a particular linting aspect and issues
+   * a google.iam.admin.v1.LintResult disclosing the result.
+   *
+   * The set of applicable validation units is determined by the Cloud IAM server
+   * and is not configurable.
+   *
+   * Regardless of any lint issues or their severities, successful calls to
+   * `lintPolicy` return an HTTP 200 OK status code. (iamPolicies.lintPolicy)
+   *
+   * @param Google_Service_Iam_LintPolicyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Iam_LintPolicyResponse
+   */
+  public function lintPolicy(Google_Service_Iam_LintPolicyRequest $postBody, $optParams = array())
+  {
+    $params = array('postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('lintPolicy', array($params), "Google_Service_Iam_LintPolicyResponse");
+  }
+  /**
    * Returns a list of services that support service level audit logging
    * configuration for the given resource. (iamPolicies.queryAuditableServices)
    *

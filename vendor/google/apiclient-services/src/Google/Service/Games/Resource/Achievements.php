@@ -106,6 +106,9 @@ class Google_Service_Games_Resource_Achievements extends Google_Service_Resource
    *
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string builtinGameId Override used only by built-in games in Play
+   * Games application.
    * @return Google_Service_Games_AchievementUnlockResponse
    */
   public function unlock($achievementId, $optParams = array())
@@ -120,6 +123,9 @@ class Google_Service_Games_Resource_Achievements extends Google_Service_Resource
    *
    * @param Google_Service_Games_AchievementUpdateMultipleRequest $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string builtinGameId Override used only by built-in games in Play
+   * Games application.
    * @return Google_Service_Games_AchievementUpdateMultipleResponse
    */
   public function updateMultiple(Google_Service_Games_AchievementUpdateMultipleRequest $postBody, $optParams = array())

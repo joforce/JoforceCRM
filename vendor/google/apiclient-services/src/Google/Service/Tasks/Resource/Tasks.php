@@ -67,7 +67,9 @@ class Google_Service_Tasks_Resource_Tasks extends Google_Service_Resource
     return $this->call('get', array($params), "Google_Service_Tasks_Task");
   }
   /**
-   * Creates a new task on the specified task list. (tasks.insert)
+   * Creates a new task on the specified task list. Fails with HTTP code 403 or
+   * 429 after reaching the storage limit of 100,000 tasks per account.
+   * (tasks.insert)
    *
    * @param string $tasklist Task list identifier.
    * @param Google_Service_Tasks_Task $postBody
@@ -103,7 +105,7 @@ class Google_Service_Tasks_Resource_Tasks extends Google_Service_Resource
    * @opt_param string dueMin Lower bound for a task's due date (as a RFC 3339
    * timestamp) to filter by. Optional. The default is not to filter by due date.
    * @opt_param string maxResults Maximum number of task lists returned on one
-   * page. Optional. The default is 100.
+   * page. Optional. The default is 20 (max allowed: 100).
    * @opt_param string pageToken Token specifying the result page to return.
    * Optional.
    * @opt_param bool showCompleted Flag indicating whether completed tasks are

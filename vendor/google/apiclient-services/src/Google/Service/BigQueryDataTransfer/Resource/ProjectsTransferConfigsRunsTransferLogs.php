@@ -29,8 +29,10 @@ class Google_Service_BigQueryDataTransfer_Resource_ProjectsTransferConfigsRunsTr
    * Returns user facing log messages for the data transfer run.
    * (transferLogs.listProjectsTransferConfigsRunsTransferLogs)
    *
-   * @param string $parent Transfer run name in the form:
-   * `projects/{project_id}/transferConfigs/{config_Id}/runs/{run_id}`.
+   * @param string $parent Required. Transfer run name in the form:
+   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` or `project
+   * s/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_
+   * id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Pagination token, which can be used to request a

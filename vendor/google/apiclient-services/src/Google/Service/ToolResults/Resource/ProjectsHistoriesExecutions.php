@@ -85,7 +85,7 @@ class Google_Service_ToolResults_Resource_ProjectsHistoriesExecutions extends Go
     return $this->call('get', array($params), "Google_Service_ToolResults_Execution");
   }
   /**
-   * Lists Histories for a given Project.
+   * Lists Executions for a given History.
    *
    * The executions are sorted by creation_time in descending order. The
    * execution_id key will be used to order the executions with the same

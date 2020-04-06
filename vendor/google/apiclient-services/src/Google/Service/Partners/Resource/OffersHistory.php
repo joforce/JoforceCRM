@@ -31,6 +31,12 @@ class Google_Service_Partners_Resource_OffersHistory extends Google_Service_Reso
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string requestMetadata.partnersSessionId Google Partners session
+   * ID.
+   * @opt_param string requestMetadata.userOverrides.userId Logged-in user ID to
+   * impersonate instead of the user's ID.
+   * @opt_param string pageToken Token to retrieve a specific page.
+   * @opt_param int pageSize Maximum number of rows to return per page.
    * @opt_param string requestMetadata.trafficSource.trafficSourceId Identifier to
    * indicate where the traffic comes from. An identifier has multiple letters
    * created by a team which redirected the traffic to us.
@@ -49,12 +55,6 @@ class Google_Service_Partners_Resource_OffersHistory extends Google_Service_Reso
    * @opt_param string requestMetadata.trafficSource.trafficSubId Second level
    * identifier to indicate where the traffic comes from. An identifier has
    * multiple letters created by a team which redirected the traffic to us.
-   * @opt_param string requestMetadata.userOverrides.userId Logged-in user ID to
-   * impersonate instead of the user's ID.
-   * @opt_param string requestMetadata.partnersSessionId Google Partners session
-   * ID.
-   * @opt_param string pageToken Token to retrieve a specific page.
-   * @opt_param int pageSize Maximum number of rows to return per page.
    * @return Google_Service_Partners_ListOffersHistoryResponse
    */
   public function listOffersHistory($optParams = array())

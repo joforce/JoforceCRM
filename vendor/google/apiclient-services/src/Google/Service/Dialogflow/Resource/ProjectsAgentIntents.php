@@ -32,11 +32,11 @@ class Google_Service_Dialogflow_Resource_ProjectsAgentIntents extends Google_Ser
    *
    * @param string $parent Required. The name of the agent to delete all entities
    * types for. Format: `projects//agent`.
-   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest $postBody
+   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2BatchDeleteIntentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dialogflow_GoogleLongrunningOperation
    */
-  public function batchDelete($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest $postBody, $optParams = array())
+  public function batchDelete($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2BatchDeleteIntentsRequest $postBody, $optParams = array())
   {
     $params = array('parent' => $parent, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -49,11 +49,11 @@ class Google_Service_Dialogflow_Resource_ProjectsAgentIntents extends Google_Ser
    *
    * @param string $parent Required. The name of the agent to update or create
    * intents in. Format: `projects//agent`.
-   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest $postBody
+   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2BatchUpdateIntentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dialogflow_GoogleLongrunningOperation
    */
-  public function batchUpdate($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest $postBody, $optParams = array())
+  public function batchUpdate($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2BatchUpdateIntentsRequest $postBody, $optParams = array())
   {
     $params = array('parent' => $parent, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -64,28 +64,30 @@ class Google_Service_Dialogflow_Resource_ProjectsAgentIntents extends Google_Ser
    *
    * @param string $parent Required. The agent to create a intent for. Format:
    * `projects//agent`.
-   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent $postBody
+   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string intentView Optional. The resource view to apply to the
    * returned intent.
-   * @opt_param string languageCode Optional. The language of training phrases,
-   * parameters and rich messages defined in `intent`. If not specified, the
-   * agent's default language is used. [More than a dozen
-   * languages](https://dialogflow.com/docs/reference/language) are supported.
-   * Note: languages must be enabled in the agent, before they can be used.
-   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent
+   * @opt_param string languageCode Optional. The language used to access
+   * language-specific data. If not specified, the agent's default language is
+   * used. For more information, see [Multilingual intent and entity
+   * data](https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-
+   * entity).
+   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent
    */
-  public function create($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent $postBody, $optParams = array())
+  public function create($parent, Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent $postBody, $optParams = array())
   {
     $params = array('parent' => $parent, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('create', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent");
+    return $this->call('create', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent");
   }
   /**
-   * Deletes the specified intent. (intents.delete)
+   * Deletes the specified intent and its direct or indirect followup intents.
+   * (intents.delete)
    *
-   * @param string $name Required. The name of the intent to delete. Format:
+   * @param string $name Required. The name of the intent to delete. If this
+   * intent has direct or indirect followup intents, we also delete them. Format:
    * `projects//agent/intents/`.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dialogflow_GoogleProtobufEmpty
@@ -105,18 +107,18 @@ class Google_Service_Dialogflow_Resource_ProjectsAgentIntents extends Google_Ser
    *
    * @opt_param string intentView Optional. The resource view to apply to the
    * returned intent.
-   * @opt_param string languageCode Optional. The language to retrieve training
-   * phrases, parameters and rich messages for. If not specified, the agent's
-   * default language is used. [More than a dozen
-   * languages](https://dialogflow.com/docs/reference/language) are supported.
-   * Note: languages must be enabled in the agent, before they can be used.
-   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent
+   * @opt_param string languageCode Optional. The language used to access
+   * language-specific data. If not specified, the agent's default language is
+   * used. For more information, see [Multilingual intent and entity
+   * data](https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-
+   * entity).
+   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent
    */
   public function get($name, $optParams = array())
   {
     $params = array('name' => $name);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent");
+    return $this->call('get', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent");
   }
   /**
    * Returns the list of all intents in the specified agent.
@@ -126,49 +128,49 @@ class Google_Service_Dialogflow_Resource_ProjectsAgentIntents extends Google_Ser
    * `projects//agent`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string languageCode Optional. The language used to access
+   * language-specific data. If not specified, the agent's default language is
+   * used. For more information, see [Multilingual intent and entity
+   * data](https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-
+   * entity).
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous list request.
    * @opt_param int pageSize Optional. The maximum number of items to return in a
    * single page. By default 100 and at most 1000.
    * @opt_param string intentView Optional. The resource view to apply to the
    * returned intent.
-   * @opt_param string languageCode Optional. The language to list training
-   * phrases, parameters and rich messages for. If not specified, the agent's
-   * default language is used. [More than a dozen
-   * languages](https://dialogflow.com/docs/reference/language) are supported.
-   * Note: languages must be enabled in the agent before they can be used.
-   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1ListIntentsResponse
+   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2ListIntentsResponse
    */
   public function listProjectsAgentIntents($parent, $optParams = array())
   {
     $params = array('parent' => $parent);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1ListIntentsResponse");
+    return $this->call('list', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2ListIntentsResponse");
   }
   /**
    * Updates the specified intent. (intents.patch)
    *
-   * @param string $name Required for all methods except `create` (`create`
-   * populates the name automatically. The unique identifier of this intent.
-   * Format: `projects//agent/intents/`.
-   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent $postBody
+   * @param string $name The unique identifier of this intent. Required for
+   * Intents.UpdateIntent and Intents.BatchUpdateIntents methods. Format:
+   * `projects//agent/intents/`.
+   * @param Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string intentView Optional. The resource view to apply to the
-   * returned intent.
-   * @opt_param string languageCode Optional. The language of training phrases,
-   * parameters and rich messages defined in `intent`. If not specified, the
-   * agent's default language is used. [More than a dozen
-   * languages](https://dialogflow.com/docs/reference/language) are supported.
-   * Note: languages must be enabled in the agent, before they can be used.
+   * @opt_param string languageCode Optional. The language used to access
+   * language-specific data. If not specified, the agent's default language is
+   * used. For more information, see [Multilingual intent and entity
+   * data](https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-
+   * entity).
    * @opt_param string updateMask Optional. The mask to control which fields get
    * updated.
-   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent
+   * @opt_param string intentView Optional. The resource view to apply to the
+   * returned intent.
+   * @return Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent
    */
-  public function patch($name, Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent $postBody, $optParams = array())
+  public function patch($name, Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent $postBody, $optParams = array())
   {
     $params = array('name' => $name, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent");
+    return $this->call('patch', array($params), "Google_Service_Dialogflow_GoogleCloudDialogflowV2Intent");
   }
 }

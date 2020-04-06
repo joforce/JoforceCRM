@@ -18,16 +18,28 @@
 class Google_Service_AndroidManagement_ApplicationPolicy extends Google_Collection
 {
   protected $collection_key = 'permissionGrants';
+  public $accessibleTrackIds;
   public $defaultPermissionPolicy;
   public $delegatedScopes;
+  public $disabled;
   public $installType;
   public $lockTaskAllowed;
   public $managedConfiguration;
+  protected $managedConfigurationTemplateType = 'Google_Service_AndroidManagement_ManagedConfigurationTemplate';
+  protected $managedConfigurationTemplateDataType = '';
   public $minimumVersionCode;
   public $packageName;
   protected $permissionGrantsType = 'Google_Service_AndroidManagement_PermissionGrant';
   protected $permissionGrantsDataType = 'array';
 
+  public function setAccessibleTrackIds($accessibleTrackIds)
+  {
+    $this->accessibleTrackIds = $accessibleTrackIds;
+  }
+  public function getAccessibleTrackIds()
+  {
+    return $this->accessibleTrackIds;
+  }
   public function setDefaultPermissionPolicy($defaultPermissionPolicy)
   {
     $this->defaultPermissionPolicy = $defaultPermissionPolicy;
@@ -43,6 +55,14 @@ class Google_Service_AndroidManagement_ApplicationPolicy extends Google_Collecti
   public function getDelegatedScopes()
   {
     return $this->delegatedScopes;
+  }
+  public function setDisabled($disabled)
+  {
+    $this->disabled = $disabled;
+  }
+  public function getDisabled()
+  {
+    return $this->disabled;
   }
   public function setInstallType($installType)
   {
@@ -67,6 +87,20 @@ class Google_Service_AndroidManagement_ApplicationPolicy extends Google_Collecti
   public function getManagedConfiguration()
   {
     return $this->managedConfiguration;
+  }
+  /**
+   * @param Google_Service_AndroidManagement_ManagedConfigurationTemplate
+   */
+  public function setManagedConfigurationTemplate(Google_Service_AndroidManagement_ManagedConfigurationTemplate $managedConfigurationTemplate)
+  {
+    $this->managedConfigurationTemplate = $managedConfigurationTemplate;
+  }
+  /**
+   * @return Google_Service_AndroidManagement_ManagedConfigurationTemplate
+   */
+  public function getManagedConfigurationTemplate()
+  {
+    return $this->managedConfigurationTemplate;
   }
   public function setMinimumVersionCode($minimumVersionCode)
   {

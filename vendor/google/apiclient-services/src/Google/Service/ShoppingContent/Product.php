@@ -17,16 +17,13 @@
 
 class Google_Service_ShoppingContent_Product extends Google_Collection
 {
-  protected $collection_key = 'warnings';
+  protected $collection_key = 'taxes';
   public $additionalImageLinks;
-  public $additionalProductTypes;
+  public $adsGrouping;
+  public $adsLabels;
+  public $adsRedirect;
   public $adult;
-  public $adwordsGrouping;
-  public $adwordsLabels;
-  public $adwordsRedirect;
   public $ageGroup;
-  protected $aspectsType = 'Google_Service_ShoppingContent_ProductAspect';
-  protected $aspectsDataType = 'array';
   public $availability;
   public $availabilityDate;
   public $brand;
@@ -34,24 +31,23 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public $color;
   public $condition;
   public $contentLanguage;
-  protected $customAttributesType = 'Google_Service_ShoppingContent_ProductCustomAttribute';
+  protected $costOfGoodsSoldType = 'Google_Service_ShoppingContent_Price';
+  protected $costOfGoodsSoldDataType = '';
+  protected $customAttributesType = 'Google_Service_ShoppingContent_CustomAttribute';
   protected $customAttributesDataType = 'array';
-  protected $customGroupsType = 'Google_Service_ShoppingContent_ProductCustomGroup';
-  protected $customGroupsDataType = 'array';
   public $customLabel0;
   public $customLabel1;
   public $customLabel2;
   public $customLabel3;
   public $customLabel4;
   public $description;
-  protected $destinationsType = 'Google_Service_ShoppingContent_ProductDestination';
-  protected $destinationsDataType = 'array';
   public $displayAdsId;
   public $displayAdsLink;
   public $displayAdsSimilarIds;
   public $displayAdsTitle;
   public $displayAdsValue;
   public $energyEfficiencyClass;
+  public $excludedDestinations;
   public $expirationDate;
   public $gender;
   public $googleProductCategory;
@@ -59,6 +55,7 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public $id;
   public $identifierExists;
   public $imageLink;
+  public $includedDestinations;
   protected $installmentType = 'Google_Service_ShoppingContent_Installment';
   protected $installmentDataType = '';
   public $isBundle;
@@ -68,17 +65,18 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   protected $loyaltyPointsType = 'Google_Service_ShoppingContent_LoyaltyPoints';
   protected $loyaltyPointsDataType = '';
   public $material;
+  public $maxEnergyEfficiencyClass;
   public $maxHandlingTime;
+  public $minEnergyEfficiencyClass;
   public $minHandlingTime;
   public $mobileLink;
   public $mpn;
   public $multipack;
   public $offerId;
-  public $onlineOnly;
   public $pattern;
   protected $priceType = 'Google_Service_ShoppingContent_Price';
   protected $priceDataType = '';
-  public $productType;
+  public $productTypes;
   public $promotionIds;
   protected $salePriceType = 'Google_Service_ShoppingContent_Price';
   protected $salePriceDataType = '';
@@ -98,17 +96,17 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public $sizeSystem;
   public $sizeType;
   public $sizes;
+  public $source;
   public $targetCountry;
+  public $taxCategory;
   protected $taxesType = 'Google_Service_ShoppingContent_ProductTax';
   protected $taxesDataType = 'array';
   public $title;
+  public $transitTimeLabel;
   protected $unitPricingBaseMeasureType = 'Google_Service_ShoppingContent_ProductUnitPricingBaseMeasure';
   protected $unitPricingBaseMeasureDataType = '';
   protected $unitPricingMeasureType = 'Google_Service_ShoppingContent_ProductUnitPricingMeasure';
   protected $unitPricingMeasureDataType = '';
-  public $validatedDestinations;
-  protected $warningsType = 'Google_Service_ShoppingContent_Error';
-  protected $warningsDataType = 'array';
 
   public function setAdditionalImageLinks($additionalImageLinks)
   {
@@ -118,13 +116,29 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->additionalImageLinks;
   }
-  public function setAdditionalProductTypes($additionalProductTypes)
+  public function setAdsGrouping($adsGrouping)
   {
-    $this->additionalProductTypes = $additionalProductTypes;
+    $this->adsGrouping = $adsGrouping;
   }
-  public function getAdditionalProductTypes()
+  public function getAdsGrouping()
   {
-    return $this->additionalProductTypes;
+    return $this->adsGrouping;
+  }
+  public function setAdsLabels($adsLabels)
+  {
+    $this->adsLabels = $adsLabels;
+  }
+  public function getAdsLabels()
+  {
+    return $this->adsLabels;
+  }
+  public function setAdsRedirect($adsRedirect)
+  {
+    $this->adsRedirect = $adsRedirect;
+  }
+  public function getAdsRedirect()
+  {
+    return $this->adsRedirect;
   }
   public function setAdult($adult)
   {
@@ -134,30 +148,6 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->adult;
   }
-  public function setAdwordsGrouping($adwordsGrouping)
-  {
-    $this->adwordsGrouping = $adwordsGrouping;
-  }
-  public function getAdwordsGrouping()
-  {
-    return $this->adwordsGrouping;
-  }
-  public function setAdwordsLabels($adwordsLabels)
-  {
-    $this->adwordsLabels = $adwordsLabels;
-  }
-  public function getAdwordsLabels()
-  {
-    return $this->adwordsLabels;
-  }
-  public function setAdwordsRedirect($adwordsRedirect)
-  {
-    $this->adwordsRedirect = $adwordsRedirect;
-  }
-  public function getAdwordsRedirect()
-  {
-    return $this->adwordsRedirect;
-  }
   public function setAgeGroup($ageGroup)
   {
     $this->ageGroup = $ageGroup;
@@ -165,20 +155,6 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getAgeGroup()
   {
     return $this->ageGroup;
-  }
-  /**
-   * @param Google_Service_ShoppingContent_ProductAspect
-   */
-  public function setAspects($aspects)
-  {
-    $this->aspects = $aspects;
-  }
-  /**
-   * @return Google_Service_ShoppingContent_ProductAspect
-   */
-  public function getAspects()
-  {
-    return $this->aspects;
   }
   public function setAvailability($availability)
   {
@@ -237,32 +213,32 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
     return $this->contentLanguage;
   }
   /**
-   * @param Google_Service_ShoppingContent_ProductCustomAttribute
+   * @param Google_Service_ShoppingContent_Price
+   */
+  public function setCostOfGoodsSold(Google_Service_ShoppingContent_Price $costOfGoodsSold)
+  {
+    $this->costOfGoodsSold = $costOfGoodsSold;
+  }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
+  public function getCostOfGoodsSold()
+  {
+    return $this->costOfGoodsSold;
+  }
+  /**
+   * @param Google_Service_ShoppingContent_CustomAttribute
    */
   public function setCustomAttributes($customAttributes)
   {
     $this->customAttributes = $customAttributes;
   }
   /**
-   * @return Google_Service_ShoppingContent_ProductCustomAttribute
+   * @return Google_Service_ShoppingContent_CustomAttribute
    */
   public function getCustomAttributes()
   {
     return $this->customAttributes;
-  }
-  /**
-   * @param Google_Service_ShoppingContent_ProductCustomGroup
-   */
-  public function setCustomGroups($customGroups)
-  {
-    $this->customGroups = $customGroups;
-  }
-  /**
-   * @return Google_Service_ShoppingContent_ProductCustomGroup
-   */
-  public function getCustomGroups()
-  {
-    return $this->customGroups;
   }
   public function setCustomLabel0($customLabel0)
   {
@@ -312,20 +288,6 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->description;
   }
-  /**
-   * @param Google_Service_ShoppingContent_ProductDestination
-   */
-  public function setDestinations($destinations)
-  {
-    $this->destinations = $destinations;
-  }
-  /**
-   * @return Google_Service_ShoppingContent_ProductDestination
-   */
-  public function getDestinations()
-  {
-    return $this->destinations;
-  }
   public function setDisplayAdsId($displayAdsId)
   {
     $this->displayAdsId = $displayAdsId;
@@ -373,6 +335,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getEnergyEfficiencyClass()
   {
     return $this->energyEfficiencyClass;
+  }
+  public function setExcludedDestinations($excludedDestinations)
+  {
+    $this->excludedDestinations = $excludedDestinations;
+  }
+  public function getExcludedDestinations()
+  {
+    return $this->excludedDestinations;
   }
   public function setExpirationDate($expirationDate)
   {
@@ -429,6 +399,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getImageLink()
   {
     return $this->imageLink;
+  }
+  public function setIncludedDestinations($includedDestinations)
+  {
+    $this->includedDestinations = $includedDestinations;
+  }
+  public function getIncludedDestinations()
+  {
+    return $this->includedDestinations;
   }
   /**
    * @param Google_Service_ShoppingContent_Installment
@@ -498,6 +476,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->material;
   }
+  public function setMaxEnergyEfficiencyClass($maxEnergyEfficiencyClass)
+  {
+    $this->maxEnergyEfficiencyClass = $maxEnergyEfficiencyClass;
+  }
+  public function getMaxEnergyEfficiencyClass()
+  {
+    return $this->maxEnergyEfficiencyClass;
+  }
   public function setMaxHandlingTime($maxHandlingTime)
   {
     $this->maxHandlingTime = $maxHandlingTime;
@@ -505,6 +491,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getMaxHandlingTime()
   {
     return $this->maxHandlingTime;
+  }
+  public function setMinEnergyEfficiencyClass($minEnergyEfficiencyClass)
+  {
+    $this->minEnergyEfficiencyClass = $minEnergyEfficiencyClass;
+  }
+  public function getMinEnergyEfficiencyClass()
+  {
+    return $this->minEnergyEfficiencyClass;
   }
   public function setMinHandlingTime($minHandlingTime)
   {
@@ -546,14 +540,6 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->offerId;
   }
-  public function setOnlineOnly($onlineOnly)
-  {
-    $this->onlineOnly = $onlineOnly;
-  }
-  public function getOnlineOnly()
-  {
-    return $this->onlineOnly;
-  }
   public function setPattern($pattern)
   {
     $this->pattern = $pattern;
@@ -576,13 +562,13 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->price;
   }
-  public function setProductType($productType)
+  public function setProductTypes($productTypes)
   {
-    $this->productType = $productType;
+    $this->productTypes = $productTypes;
   }
-  public function getProductType()
+  public function getProductTypes()
   {
-    return $this->productType;
+    return $this->productTypes;
   }
   public function setPromotionIds($promotionIds)
   {
@@ -724,6 +710,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   {
     return $this->sizes;
   }
+  public function setSource($source)
+  {
+    $this->source = $source;
+  }
+  public function getSource()
+  {
+    return $this->source;
+  }
   public function setTargetCountry($targetCountry)
   {
     $this->targetCountry = $targetCountry;
@@ -731,6 +725,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getTargetCountry()
   {
     return $this->targetCountry;
+  }
+  public function setTaxCategory($taxCategory)
+  {
+    $this->taxCategory = $taxCategory;
+  }
+  public function getTaxCategory()
+  {
+    return $this->taxCategory;
   }
   /**
    * @param Google_Service_ShoppingContent_ProductTax
@@ -753,6 +755,14 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getTitle()
   {
     return $this->title;
+  }
+  public function setTransitTimeLabel($transitTimeLabel)
+  {
+    $this->transitTimeLabel = $transitTimeLabel;
+  }
+  public function getTransitTimeLabel()
+  {
+    return $this->transitTimeLabel;
   }
   /**
    * @param Google_Service_ShoppingContent_ProductUnitPricingBaseMeasure
@@ -781,27 +791,5 @@ class Google_Service_ShoppingContent_Product extends Google_Collection
   public function getUnitPricingMeasure()
   {
     return $this->unitPricingMeasure;
-  }
-  public function setValidatedDestinations($validatedDestinations)
-  {
-    $this->validatedDestinations = $validatedDestinations;
-  }
-  public function getValidatedDestinations()
-  {
-    return $this->validatedDestinations;
-  }
-  /**
-   * @param Google_Service_ShoppingContent_Error
-   */
-  public function setWarnings($warnings)
-  {
-    $this->warnings = $warnings;
-  }
-  /**
-   * @return Google_Service_ShoppingContent_Error
-   */
-  public function getWarnings()
-  {
-    return $this->warnings;
   }
 }

@@ -30,8 +30,8 @@ class Google_Service_Cloudbilling_Resource_Projects extends Google_Service_Resou
    * must have [permission to view the project](https://cloud.google.com/docs
    * /permissions-overview#h.bgs0oxofvnoo ). (projects.getBillingInfo)
    *
-   * @param string $name The resource name of the project for which billing
-   * information is retrieved. For example, `projects/tokyo-rain-123`.
+   * @param string $name Required. The resource name of the project for which
+   * billing information is retrieved. For example, `projects/tokyo-rain-123`.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Cloudbilling_ProjectBillingInfo
    */
@@ -51,13 +51,14 @@ class Google_Service_Cloudbilling_Resource_Projects extends Google_Service_Resou
    * usage charges.
    *
    * *Note:* Incurred charges that have not yet been reported in the transaction
-   * history of the Google Cloud Console may be billed to the new billing account,
-   * even if the charge occurred before the new billing account was assigned to
-   * the project.
+   * history of the GCP Console might be billed to the new billing account, even
+   * if the charge occurred before the new billing account was assigned to the
+   * project.
    *
    * The current authenticated user must have ownership privileges for both the
    * [project](https://cloud.google.com/docs/permissions-overview#h.bgs0oxofvnoo )
-   * and the [billing account](https://support.google.com/cloud/answer/4430947).
+   * and the [billing account](https://cloud.google.com/billing/docs/how-to
+   * /billing-access).
    *
    * You can disable billing on the project by setting the `billing_account_name`
    * field to empty. This action disassociates the current billing account from
@@ -73,9 +74,9 @@ class Google_Service_Cloudbilling_Resource_Projects extends Google_Service_Resou
    * billing, you should always call this method with the name of an *open*
    * billing account. (projects.updateBillingInfo)
    *
-   * @param string $name The resource name of the project associated with the
-   * billing information that you want to update. For example, `projects/tokyo-
-   * rain-123`.
+   * @param string $name Required. The resource name of the project associated
+   * with the billing information that you want to update. For example, `projects
+   * /tokyo-rain-123`.
    * @param Google_Service_Cloudbilling_ProjectBillingInfo $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Cloudbilling_ProjectBillingInfo

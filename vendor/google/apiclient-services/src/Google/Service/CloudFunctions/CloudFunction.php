@@ -20,12 +20,17 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   public $availableMemoryMb;
   public $description;
   public $entryPoint;
+  public $environmentVariables;
   protected $eventTriggerType = 'Google_Service_CloudFunctions_EventTrigger';
   protected $eventTriggerDataType = '';
   protected $httpsTriggerType = 'Google_Service_CloudFunctions_HttpsTrigger';
   protected $httpsTriggerDataType = '';
+  public $ingressSettings;
   public $labels;
+  public $maxInstances;
   public $name;
+  public $network;
+  public $runtime;
   public $serviceAccountEmail;
   public $sourceArchiveUrl;
   protected $sourceRepositoryType = 'Google_Service_CloudFunctions_SourceRepository';
@@ -35,6 +40,8 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   public $timeout;
   public $updateTime;
   public $versionId;
+  public $vpcConnector;
+  public $vpcConnectorEgressSettings;
 
   public function setAvailableMemoryMb($availableMemoryMb)
   {
@@ -59,6 +66,14 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   public function getEntryPoint()
   {
     return $this->entryPoint;
+  }
+  public function setEnvironmentVariables($environmentVariables)
+  {
+    $this->environmentVariables = $environmentVariables;
+  }
+  public function getEnvironmentVariables()
+  {
+    return $this->environmentVariables;
   }
   /**
    * @param Google_Service_CloudFunctions_EventTrigger
@@ -88,6 +103,14 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   {
     return $this->httpsTrigger;
   }
+  public function setIngressSettings($ingressSettings)
+  {
+    $this->ingressSettings = $ingressSettings;
+  }
+  public function getIngressSettings()
+  {
+    return $this->ingressSettings;
+  }
   public function setLabels($labels)
   {
     $this->labels = $labels;
@@ -96,6 +119,14 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   {
     return $this->labels;
   }
+  public function setMaxInstances($maxInstances)
+  {
+    $this->maxInstances = $maxInstances;
+  }
+  public function getMaxInstances()
+  {
+    return $this->maxInstances;
+  }
   public function setName($name)
   {
     $this->name = $name;
@@ -103,6 +134,22 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   public function getName()
   {
     return $this->name;
+  }
+  public function setNetwork($network)
+  {
+    $this->network = $network;
+  }
+  public function getNetwork()
+  {
+    return $this->network;
+  }
+  public function setRuntime($runtime)
+  {
+    $this->runtime = $runtime;
+  }
+  public function getRuntime()
+  {
+    return $this->runtime;
   }
   public function setServiceAccountEmail($serviceAccountEmail)
   {
@@ -173,5 +220,21 @@ class Google_Service_CloudFunctions_CloudFunction extends Google_Model
   public function getVersionId()
   {
     return $this->versionId;
+  }
+  public function setVpcConnector($vpcConnector)
+  {
+    $this->vpcConnector = $vpcConnector;
+  }
+  public function getVpcConnector()
+  {
+    return $this->vpcConnector;
+  }
+  public function setVpcConnectorEgressSettings($vpcConnectorEgressSettings)
+  {
+    $this->vpcConnectorEgressSettings = $vpcConnectorEgressSettings;
+  }
+  public function getVpcConnectorEgressSettings()
+  {
+    return $this->vpcConnectorEgressSettings;
   }
 }

@@ -15,14 +15,19 @@
  * the License.
  */
 
-class Google_Service_Compute_ManagedInstance extends Google_Model
+class Google_Service_Compute_ManagedInstance extends Google_Collection
 {
+  protected $collection_key = 'instanceHealth';
   public $currentAction;
   public $id;
   public $instance;
+  protected $instanceHealthType = 'Google_Service_Compute_ManagedInstanceInstanceHealth';
+  protected $instanceHealthDataType = 'array';
   public $instanceStatus;
   protected $lastAttemptType = 'Google_Service_Compute_ManagedInstanceLastAttempt';
   protected $lastAttemptDataType = '';
+  protected $versionType = 'Google_Service_Compute_ManagedInstanceVersion';
+  protected $versionDataType = '';
 
   public function setCurrentAction($currentAction)
   {
@@ -48,6 +53,20 @@ class Google_Service_Compute_ManagedInstance extends Google_Model
   {
     return $this->instance;
   }
+  /**
+   * @param Google_Service_Compute_ManagedInstanceInstanceHealth
+   */
+  public function setInstanceHealth($instanceHealth)
+  {
+    $this->instanceHealth = $instanceHealth;
+  }
+  /**
+   * @return Google_Service_Compute_ManagedInstanceInstanceHealth
+   */
+  public function getInstanceHealth()
+  {
+    return $this->instanceHealth;
+  }
   public function setInstanceStatus($instanceStatus)
   {
     $this->instanceStatus = $instanceStatus;
@@ -69,5 +88,19 @@ class Google_Service_Compute_ManagedInstance extends Google_Model
   public function getLastAttempt()
   {
     return $this->lastAttempt;
+  }
+  /**
+   * @param Google_Service_Compute_ManagedInstanceVersion
+   */
+  public function setVersion(Google_Service_Compute_ManagedInstanceVersion $version)
+  {
+    $this->version = $version;
+  }
+  /**
+   * @return Google_Service_Compute_ManagedInstanceVersion
+   */
+  public function getVersion()
+  {
+    return $this->version;
   }
 }

@@ -28,10 +28,13 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   public $gclid;
   public $kind;
   public $limitAdTracking;
+  public $matchId;
   public $mobileDeviceId;
+  public $nonPersonalizedAd;
   public $ordinal;
   public $quantity;
   public $timestampMicros;
+  public $treatmentForUnderage;
   public $value;
 
   public function setChildDirectedTreatment($childDirectedTreatment)
@@ -112,6 +115,14 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   {
     return $this->limitAdTracking;
   }
+  public function setMatchId($matchId)
+  {
+    $this->matchId = $matchId;
+  }
+  public function getMatchId()
+  {
+    return $this->matchId;
+  }
   public function setMobileDeviceId($mobileDeviceId)
   {
     $this->mobileDeviceId = $mobileDeviceId;
@@ -119,6 +130,14 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   public function getMobileDeviceId()
   {
     return $this->mobileDeviceId;
+  }
+  public function setNonPersonalizedAd($nonPersonalizedAd)
+  {
+    $this->nonPersonalizedAd = $nonPersonalizedAd;
+  }
+  public function getNonPersonalizedAd()
+  {
+    return $this->nonPersonalizedAd;
   }
   public function setOrdinal($ordinal)
   {
@@ -143,6 +162,14 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   public function getTimestampMicros()
   {
     return $this->timestampMicros;
+  }
+  public function setTreatmentForUnderage($treatmentForUnderage)
+  {
+    $this->treatmentForUnderage = $treatmentForUnderage;
+  }
+  public function getTreatmentForUnderage()
+  {
+    return $this->treatmentForUnderage;
   }
   public function setValue($value)
   {

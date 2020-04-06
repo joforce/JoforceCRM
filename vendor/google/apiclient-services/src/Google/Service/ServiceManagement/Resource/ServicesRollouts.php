@@ -35,11 +35,15 @@ class Google_Service_ServiceManagement_Resource_ServicesRollouts extends Google_
    * Operations will be automatically cancelled so that the latest Rollout will
    * not be blocked by previous Rollouts.
    *
+   * Only the 100 most recent (in any state) and the last 10 successful (if not
+   * already part of the set of 100 most recent) rollouts are kept for each
+   * service. The rest will be deleted eventually.
+   *
    * Operation (rollouts.create)
    *
-   * @param string $serviceName The name of the service.  See the [overview
-   * ](/service-management/overview) for naming requirements.  For example:
-   * `example.googleapis.com`.
+   * @param string $serviceName Required. The name of the service.  See the
+   * [overview](/service-management/overview) for naming requirements.  For
+   * example: `example.googleapis.com`.
    * @param Google_Service_ServiceManagement_Rollout $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_ServiceManagement_Operation
@@ -53,10 +57,10 @@ class Google_Service_ServiceManagement_Resource_ServicesRollouts extends Google_
   /**
    * Gets a service configuration rollout. (rollouts.get)
    *
-   * @param string $serviceName The name of the service.  See the [overview
-   * ](/service-management/overview) for naming requirements.  For example:
-   * `example.googleapis.com`.
-   * @param string $rolloutId The id of the rollout resource.
+   * @param string $serviceName Required. The name of the service.  See the
+   * [overview](/service-management/overview) for naming requirements.  For
+   * example: `example.googleapis.com`.
+   * @param string $rolloutId Required. The id of the rollout resource.
    * @param array $optParams Optional parameters.
    * @return Google_Service_ServiceManagement_Rollout
    */
@@ -70,18 +74,18 @@ class Google_Service_ServiceManagement_Resource_ServicesRollouts extends Google_
    * Lists the history of the service configuration rollouts for a managed
    * service, from the newest to the oldest. (rollouts.listServicesRollouts)
    *
-   * @param string $serviceName The name of the service.  See the [overview
-   * ](/service-management/overview) for naming requirements.  For example:
-   * `example.googleapis.com`.
+   * @param string $serviceName Required. The name of the service.  See the
+   * [overview](/service-management/overview) for naming requirements.  For
+   * example: `example.googleapis.com`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken The token of the page to retrieve.
    * @opt_param int pageSize The max number of items to include in the response
-   * list.
-   * @opt_param string filter Use `filter` to return subset of rollouts. The
-   * following filters are supported:   -- To limit the results to only those in
-   * [status](google.api.servicemanagement.v1.RolloutStatus) 'SUCCESS',      use
-   * filter='status=SUCCESS'   -- To limit the results to those in
+   * list. Page size is 50 if not specified. Maximum value is 100.
+   * @opt_param string filter Required. Use `filter` to return subset of rollouts.
+   * The following filters are supported:   -- To limit the results to only those
+   * in      [status](google.api.servicemanagement.v1.RolloutStatus) 'SUCCESS',
+   * use filter='status=SUCCESS'   -- To limit the results to those in
    * [status](google.api.servicemanagement.v1.RolloutStatus) 'CANCELLED'      or
    * 'FAILED', use filter='status=CANCELLED OR status=FAILED'
    * @return Google_Service_ServiceManagement_ListServiceRolloutsResponse

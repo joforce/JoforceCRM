@@ -16,14 +16,14 @@
  */
 
 /**
- * Service definition for YouTubeAnalytics (v1).
+ * Service definition for YouTubeAnalytics (v2).
  *
  * <p>
  * Retrieves your YouTube Analytics data.</p>
  *
  * <p>
  * For more information about this service, see the API
- * <a href="http://developers.google.com/youtube/analytics/" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/youtube/analytics" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -53,14 +53,16 @@ class Google_Service_YouTubeAnalytics extends Google_Service
   /**
    * Constructs the internal representation of the YouTubeAnalytics service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://www.googleapis.com/';
-    $this->servicePath = 'youtube/analytics/v1/';
-    $this->version = 'v1';
+    $this->rootUrl = $rootUrl ?: 'https://youtubeanalytics.googleapis.com/';
+    $this->servicePath = '';
+    $this->batchPath = 'batch';
+    $this->version = 'v2';
     $this->serviceName = 'youtubeAnalytics';
 
     $this->groupItems = new Google_Service_YouTubeAnalytics_Resource_GroupItems(
@@ -70,21 +72,20 @@ class Google_Service_YouTubeAnalytics extends Google_Service
         array(
           'methods' => array(
             'delete' => array(
-              'path' => 'groupItems',
+              'path' => 'v2/groupItems',
               'httpMethod' => 'DELETE',
               'parameters' => array(
-                'id' => array(
+                'onBehalfOfContentOwner' => array(
                   'location' => 'query',
                   'type' => 'string',
-                  'required' => true,
                 ),
-                'onBehalfOfContentOwner' => array(
+                'id' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
               ),
             ),'insert' => array(
-              'path' => 'groupItems',
+              'path' => 'v2/groupItems',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'onBehalfOfContentOwner' => array(
@@ -93,15 +94,14 @@ class Google_Service_YouTubeAnalytics extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => 'groupItems',
+              'path' => 'v2/groupItems',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'groupId' => array(
+                'onBehalfOfContentOwner' => array(
                   'location' => 'query',
                   'type' => 'string',
-                  'required' => true,
                 ),
-                'onBehalfOfContentOwner' => array(
+                'groupId' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -117,21 +117,20 @@ class Google_Service_YouTubeAnalytics extends Google_Service
         array(
           'methods' => array(
             'delete' => array(
-              'path' => 'groups',
+              'path' => 'v2/groups',
               'httpMethod' => 'DELETE',
               'parameters' => array(
-                'id' => array(
+                'onBehalfOfContentOwner' => array(
                   'location' => 'query',
                   'type' => 'string',
-                  'required' => true,
                 ),
-                'onBehalfOfContentOwner' => array(
+                'id' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
               ),
             ),'insert' => array(
-              'path' => 'groups',
+              'path' => 'v2/groups',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'onBehalfOfContentOwner' => array(
@@ -140,9 +139,17 @@ class Google_Service_YouTubeAnalytics extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => 'groups',
+              'path' => 'v2/groups',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'onBehalfOfContentOwner' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'id' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -151,17 +158,9 @@ class Google_Service_YouTubeAnalytics extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'onBehalfOfContentOwner' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
               ),
             ),'update' => array(
-              'path' => 'groups',
+              'path' => 'v2/groups',
               'httpMethod' => 'PUT',
               'parameters' => array(
                 'onBehalfOfContentOwner' => array(
@@ -180,56 +179,52 @@ class Google_Service_YouTubeAnalytics extends Google_Service
         array(
           'methods' => array(
             'query' => array(
-              'path' => 'reports',
+              'path' => 'v2/reports',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'includeHistoricalChannelData' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
                 'ids' => array(
                   'location' => 'query',
                   'type' => 'string',
-                  'required' => true,
-                ),
-                'start-date' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'end-date' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'metrics' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
                 ),
                 'currency' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'startIndex' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
                 'dimensions' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'endDate' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
                 'filters' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'include-historical-channel-data' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'max-results' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
                 'sort' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'start-index' => array(
+                'startDate' => array(
                   'location' => 'query',
-                  'type' => 'integer',
+                  'type' => 'string',
+                ),
+                'metrics' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),

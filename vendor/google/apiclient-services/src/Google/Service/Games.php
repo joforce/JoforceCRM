@@ -33,12 +33,9 @@ class Google_Service_Games extends Google_Service
   /** View and manage its own configuration data in your Google Drive. */
   const DRIVE_APPDATA =
       "https://www.googleapis.com/auth/drive.appdata";
-  /** Share your Google+ profile information and view and manage your game activity. */
+  /** Create, edit, and delete your Google Play Games activity. */
   const GAMES =
       "https://www.googleapis.com/auth/games";
-  /** Know the list of people in your circles, your age range, and language. */
-  const PLUS_LOGIN =
-      "https://www.googleapis.com/auth/plus.login";
 
   public $achievementDefinitions;
   public $achievements;
@@ -48,8 +45,6 @@ class Google_Service_Games extends Google_Service
   public $metagame;
   public $players;
   public $pushtokens;
-  public $questMilestones;
-  public $quests;
   public $revisions;
   public $rooms;
   public $scores;
@@ -59,13 +54,15 @@ class Google_Service_Games extends Google_Service
   /**
    * Constructs the internal representation of the Games service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://www.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
     $this->servicePath = 'games/v1/';
+    $this->batchPath = 'batch/games/v1';
     $this->version = 'v1';
     $this->serviceName = 'games';
 
@@ -181,11 +178,20 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'builtinGameId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
               ),
             ),'updateMultiple' => array(
               'path' => 'achievements/updateMultiple',
               'httpMethod' => 'POST',
-              'parameters' => array(),
+              'parameters' => array(
+                'builtinGameId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
             ),
           )
         )
@@ -217,7 +223,12 @@ class Google_Service_Games extends Google_Service
             ),'played' => array(
               'path' => 'applications/played',
               'httpMethod' => 'POST',
-              'parameters' => array(),
+              'parameters' => array(
+                'builtinGameId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
             ),'verify' => array(
               'path' => 'applications/{applicationId}/verify',
               'httpMethod' => 'GET',
@@ -427,82 +438,6 @@ class Google_Service_Games extends Google_Service
               'path' => 'pushtokens',
               'httpMethod' => 'PUT',
               'parameters' => array(),
-            ),
-          )
-        )
-    );
-    $this->questMilestones = new Google_Service_Games_Resource_QuestMilestones(
-        $this,
-        $this->serviceName,
-        'questMilestones',
-        array(
-          'methods' => array(
-            'claim' => array(
-              'path' => 'quests/{questId}/milestones/{milestoneId}/claim',
-              'httpMethod' => 'PUT',
-              'parameters' => array(
-                'questId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'milestoneId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'requestId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->quests = new Google_Service_Games_Resource_Quests(
-        $this,
-        $this->serviceName,
-        'quests',
-        array(
-          'methods' => array(
-            'accept' => array(
-              'path' => 'quests/{questId}/accept',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'questId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'language' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'players/{playerId}/quests',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'playerId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'language' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
             ),
           )
         )

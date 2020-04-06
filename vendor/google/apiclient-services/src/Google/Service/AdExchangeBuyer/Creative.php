@@ -24,6 +24,8 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public $hTMLSnippet;
   public $accountId;
   public $adChoicesDestinationUrl;
+  protected $adTechnologyProvidersType = 'Google_Service_AdExchangeBuyer_CreativeAdTechnologyProviders';
+  protected $adTechnologyProvidersDataType = '';
   public $advertiserId;
   public $advertiserName;
   public $agencyId;
@@ -33,6 +35,7 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public $clickThroughUrl;
   protected $correctionsType = 'Google_Service_AdExchangeBuyer_CreativeCorrections';
   protected $correctionsDataType = 'array';
+  public $creativeStatusIdentityType;
   public $dealsStatus;
   public $detectedDomains;
   protected $filteringReasonsType = 'Google_Service_AdExchangeBuyer_CreativeFilteringReasons';
@@ -52,6 +55,7 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public $vendorType;
   public $version;
   public $videoURL;
+  public $videoVastXML;
   public $width;
 
   public function setHTMLSnippet($hTMLSnippet)
@@ -77,6 +81,20 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public function getAdChoicesDestinationUrl()
   {
     return $this->adChoicesDestinationUrl;
+  }
+  /**
+   * @param Google_Service_AdExchangeBuyer_CreativeAdTechnologyProviders
+   */
+  public function setAdTechnologyProviders(Google_Service_AdExchangeBuyer_CreativeAdTechnologyProviders $adTechnologyProviders)
+  {
+    $this->adTechnologyProviders = $adTechnologyProviders;
+  }
+  /**
+   * @return Google_Service_AdExchangeBuyer_CreativeAdTechnologyProviders
+   */
+  public function getAdTechnologyProviders()
+  {
+    return $this->adTechnologyProviders;
   }
   public function setAdvertiserId($advertiserId)
   {
@@ -147,6 +165,14 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public function getCorrections()
   {
     return $this->corrections;
+  }
+  public function setCreativeStatusIdentityType($creativeStatusIdentityType)
+  {
+    $this->creativeStatusIdentityType = $creativeStatusIdentityType;
+  }
+  public function getCreativeStatusIdentityType()
+  {
+    return $this->creativeStatusIdentityType;
   }
   public function setDealsStatus($dealsStatus)
   {
@@ -293,6 +319,14 @@ class Google_Service_AdExchangeBuyer_Creative extends Google_Collection
   public function getVideoURL()
   {
     return $this->videoURL;
+  }
+  public function setVideoVastXML($videoVastXML)
+  {
+    $this->videoVastXML = $videoVastXML;
+  }
+  public function getVideoVastXML()
+  {
+    return $this->videoVastXML;
   }
   public function setWidth($width)
   {

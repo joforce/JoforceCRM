@@ -19,11 +19,11 @@
  * Service definition for CloudBuild (v1).
  *
  * <p>
- * Builds container images in the cloud.</p>
+ * Creates and manages builds on Google Cloud Platform.</p>
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://cloud.google.com/container-builder/docs/" target="_blank">Documentation</a>
+ * <a href="https://cloud.google.com/cloud-build/docs/" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -41,13 +41,15 @@ class Google_Service_CloudBuild extends Google_Service
   /**
    * Constructs the internal representation of the CloudBuild service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://cloudbuild.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://cloudbuild.googleapis.com/';
     $this->servicePath = '';
+    $this->batchPath = 'batch';
     $this->version = 'v1';
     $this->serviceName = 'cloudbuild';
 
@@ -158,15 +160,15 @@ class Google_Service_CloudBuild extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -244,6 +246,14 @@ class Google_Service_CloudBuild extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
               ),
             ),'patch' => array(

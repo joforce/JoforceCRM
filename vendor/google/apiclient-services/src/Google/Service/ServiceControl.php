@@ -19,8 +19,8 @@
  * Service definition for ServiceControl (v1).
  *
  * <p>
- * Google Service Control provides control plane functionality to managed
- * services, such as logging, monitoring, and status checks.</p>
+ * Provides control plane functionality to managed services, such as logging,
+ * monitoring, and status checks.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -43,13 +43,15 @@ class Google_Service_ServiceControl extends Google_Service
   /**
    * Constructs the internal representation of the ServiceControl service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://servicecontrol.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://servicecontrol.googleapis.com/';
     $this->servicePath = '';
+    $this->batchPath = 'batch';
     $this->version = 'v1';
     $this->serviceName = 'servicecontrol';
 
@@ -79,38 +81,8 @@ class Google_Service_ServiceControl extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'endReconciliation' => array(
-              'path' => 'v1/services/{serviceName}:endReconciliation',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'serviceName' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'releaseQuota' => array(
-              'path' => 'v1/services/{serviceName}:releaseQuota',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'serviceName' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),'report' => array(
               'path' => 'v1/services/{serviceName}:report',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'serviceName' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'startReconciliation' => array(
-              'path' => 'v1/services/{serviceName}:startReconciliation',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'serviceName' => array(

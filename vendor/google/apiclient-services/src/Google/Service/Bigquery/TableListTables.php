@@ -17,12 +17,16 @@
 
 class Google_Service_Bigquery_TableListTables extends Google_Model
 {
+  protected $clusteringType = 'Google_Service_Bigquery_Clustering';
+  protected $clusteringDataType = '';
   public $creationTime;
   public $expirationTime;
   public $friendlyName;
   public $id;
   public $kind;
   public $labels;
+  protected $rangePartitioningType = 'Google_Service_Bigquery_RangePartitioning';
+  protected $rangePartitioningDataType = '';
   protected $tableReferenceType = 'Google_Service_Bigquery_TableReference';
   protected $tableReferenceDataType = '';
   protected $timePartitioningType = 'Google_Service_Bigquery_TimePartitioning';
@@ -31,6 +35,20 @@ class Google_Service_Bigquery_TableListTables extends Google_Model
   protected $viewType = 'Google_Service_Bigquery_TableListTablesView';
   protected $viewDataType = '';
 
+  /**
+   * @param Google_Service_Bigquery_Clustering
+   */
+  public function setClustering(Google_Service_Bigquery_Clustering $clustering)
+  {
+    $this->clustering = $clustering;
+  }
+  /**
+   * @return Google_Service_Bigquery_Clustering
+   */
+  public function getClustering()
+  {
+    return $this->clustering;
+  }
   public function setCreationTime($creationTime)
   {
     $this->creationTime = $creationTime;
@@ -78,6 +96,20 @@ class Google_Service_Bigquery_TableListTables extends Google_Model
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param Google_Service_Bigquery_RangePartitioning
+   */
+  public function setRangePartitioning(Google_Service_Bigquery_RangePartitioning $rangePartitioning)
+  {
+    $this->rangePartitioning = $rangePartitioning;
+  }
+  /**
+   * @return Google_Service_Bigquery_RangePartitioning
+   */
+  public function getRangePartitioning()
+  {
+    return $this->rangePartitioning;
   }
   /**
    * @param Google_Service_Bigquery_TableReference

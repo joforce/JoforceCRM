@@ -19,8 +19,8 @@
  * Service definition for Digitalassetlinks (v1).
  *
  * <p>
- * API for discovering relationships between online assets such as web sites or
- * mobile apps.</p>
+ * Discovers relationships between online assets such as websites or mobile
+ * apps.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -39,13 +39,15 @@ class Google_Service_Digitalassetlinks extends Google_Service
   /**
    * Constructs the internal representation of the Digitalassetlinks service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://digitalassetlinks.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://digitalassetlinks.googleapis.com/';
     $this->servicePath = '';
+    $this->batchPath = 'batch';
     $this->version = 'v1';
     $this->serviceName = 'digitalassetlinks';
 
@@ -102,10 +104,6 @@ class Google_Service_Digitalassetlinks extends Google_Service
               'path' => 'v1/statements:list',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'source.androidApp.certificate.sha256Fingerprint' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'relation' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -115,6 +113,10 @@ class Google_Service_Digitalassetlinks extends Google_Service
                   'type' => 'string',
                 ),
                 'source.androidApp.packageName' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'source.androidApp.certificate.sha256Fingerprint' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),

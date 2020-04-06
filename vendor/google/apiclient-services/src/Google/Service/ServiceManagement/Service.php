@@ -39,8 +39,6 @@ class Google_Service_ServiceManagement_Service extends Google_Collection
   protected $endpointsDataType = 'array';
   protected $enumsType = 'Google_Service_ServiceManagement_Enum';
   protected $enumsDataType = 'array';
-  protected $experimentalType = 'Google_Service_ServiceManagement_Experimental';
-  protected $experimentalDataType = '';
   protected $httpType = 'Google_Service_ServiceManagement_Http';
   protected $httpDataType = '';
   public $id;
@@ -69,8 +67,6 @@ class Google_Service_ServiceManagement_Service extends Google_Collection
   protected $typesDataType = 'array';
   protected $usageType = 'Google_Service_ServiceManagement_Usage';
   protected $usageDataType = '';
-  protected $visibilityType = 'Google_Service_ServiceManagement_Visibility';
-  protected $visibilityDataType = '';
 
   /**
    * @param Google_Service_ServiceManagement_Api
@@ -219,20 +215,6 @@ class Google_Service_ServiceManagement_Service extends Google_Collection
   public function getEnums()
   {
     return $this->enums;
-  }
-  /**
-   * @param Google_Service_ServiceManagement_Experimental
-   */
-  public function setExperimental(Google_Service_ServiceManagement_Experimental $experimental)
-  {
-    $this->experimental = $experimental;
-  }
-  /**
-   * @return Google_Service_ServiceManagement_Experimental
-   */
-  public function getExperimental()
-  {
-    return $this->experimental;
   }
   /**
    * @param Google_Service_ServiceManagement_Http
@@ -433,19 +415,5 @@ class Google_Service_ServiceManagement_Service extends Google_Collection
   public function getUsage()
   {
     return $this->usage;
-  }
-  /**
-   * @param Google_Service_ServiceManagement_Visibility
-   */
-  public function setVisibility(Google_Service_ServiceManagement_Visibility $visibility)
-  {
-    $this->visibility = $visibility;
-  }
-  /**
-   * @return Google_Service_ServiceManagement_Visibility
-   */
-  public function getVisibility()
-  {
-    return $this->visibility;
   }
 }

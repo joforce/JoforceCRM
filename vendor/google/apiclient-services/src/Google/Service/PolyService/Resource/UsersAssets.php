@@ -36,6 +36,8 @@ class Google_Service_PolyService_Resource_UsersAssets extends Google_Service_Res
    * must pass an OAuth token with the request.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param int pageSize The maximum number of assets to be returned. This
+   * value must be between `1` and `100`. Defaults to `20`.
    * @opt_param string visibility The visibility of the assets to be returned.
    * Defaults to VISIBILITY_UNSPECIFIED which returns all assets.
    * @opt_param string orderBy Specifies an ordering for assets. Acceptable values
@@ -46,8 +48,6 @@ class Google_Service_PolyService_Resource_UsersAssets extends Google_Service_Res
    * @opt_param string pageToken Specifies a continuation token from a previous
    * search whose results were split into multiple pages. To get the next page,
    * submit the same request specifying the value from next_page_token.
-   * @opt_param int pageSize The maximum number of assets to be returned. This
-   * value must be between `1` and `100`. Defaults to `20`.
    * @return Google_Service_PolyService_ListUserAssetsResponse
    */
   public function listUsersAssets($name, $optParams = array())

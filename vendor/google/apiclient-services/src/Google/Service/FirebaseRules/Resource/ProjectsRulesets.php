@@ -103,7 +103,7 @@ class Google_Service_FirebaseRules_Resource_ProjectsRulesets extends Google_Serv
    * Filters on `Ruleset.create_time` should use the `date` function which parses
    * strings that conform to the RFC 3339 date/time specifications.
    *
-   * Example: `create_time > date("2017-01-01") AND name=UUID-*`
+   * Example: `create_time > date("2017-01-01T00:00:00Z") AND name=UUID-*`
    * @return Google_Service_FirebaseRules_ListRulesetsResponse
    */
   public function listProjectsRulesets($name, $optParams = array())

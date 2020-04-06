@@ -34,7 +34,7 @@ class Google_Service_YouTube extends Google_Service
   /** Manage your YouTube account. */
   const YOUTUBE =
       "https://www.googleapis.com/auth/youtube";
-  /** Manage your YouTube account. */
+  /** See, edit, and permanently delete your YouTube videos, ratings, comments and captions. */
   const YOUTUBE_FORCE_SSL =
       "https://www.googleapis.com/auth/youtube.force-ssl";
   /** View your YouTube account. */
@@ -57,7 +57,6 @@ class Google_Service_YouTube extends Google_Service
   public $channels;
   public $commentThreads;
   public $comments;
-  public $fanFundingEvents;
   public $guideCategories;
   public $i18nLanguages;
   public $i18nRegions;
@@ -66,6 +65,8 @@ class Google_Service_YouTube extends Google_Service
   public $liveChatMessages;
   public $liveChatModerators;
   public $liveStreams;
+  public $members;
+  public $membershipsLevels;
   public $playlistItems;
   public $playlists;
   public $search;
@@ -81,13 +82,15 @@ class Google_Service_YouTube extends Google_Service
   /**
    * Constructs the internal representation of the YouTube service.
    *
-   * @param Google_Client $client
+   * @param Google_Client $client The client used to deliver requests.
+   * @param string $rootUrl The root URL used for requests to the service.
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://www.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
     $this->servicePath = 'youtube/v3/';
+    $this->batchPath = 'batch/youtube/v3';
     $this->version = 'v3';
     $this->serviceName = 'youtube';
 
@@ -640,38 +643,6 @@ class Google_Service_YouTube extends Google_Service
           )
         )
     );
-    $this->fanFundingEvents = new Google_Service_YouTube_Resource_FanFundingEvents(
-        $this,
-        $this->serviceName,
-        'fanFundingEvents',
-        array(
-          'methods' => array(
-            'list' => array(
-              'path' => 'fanFundingEvents',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'part' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'hl' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),
-          )
-        )
-    );
     $this->guideCategories = new Google_Service_YouTube_Resource_GuideCategories(
         $this,
         $this->serviceName,
@@ -1184,6 +1155,66 @@ class Google_Service_YouTube extends Google_Service
                 'onBehalfOfContentOwnerChannel' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->members = new Google_Service_YouTube_Resource_Members(
+        $this,
+        $this->serviceName,
+        'members',
+        array(
+          'methods' => array(
+            'list' => array(
+              'path' => 'members',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'part' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'filterByMemberChannelId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'hasAccessToLevel' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'mode' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->membershipsLevels = new Google_Service_YouTube_Resource_MembershipsLevels(
+        $this,
+        $this->serviceName,
+        'membershipsLevels',
+        array(
+          'methods' => array(
+            'list' => array(
+              'path' => 'membershipsLevels',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'part' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),

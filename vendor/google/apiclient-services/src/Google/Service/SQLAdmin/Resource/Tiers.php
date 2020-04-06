@@ -19,15 +19,15 @@
  * The "tiers" collection of methods.
  * Typical usage is:
  *  <code>
- *   $sqladminService = new Google_Service_SQLAdmin(...);
- *   $tiers = $sqladminService->tiers;
+ *   $sqlService = new Google_Service_SQLAdmin(...);
+ *   $tiers = $sqlService->tiers;
  *  </code>
  */
 class Google_Service_SQLAdmin_Resource_Tiers extends Google_Service_Resource
 {
   /**
-   * Lists all available service tiers for Google Cloud SQL, for example D1, D2.
-   * For related information, see Pricing. (tiers.listTiers)
+   * Lists all available machine types (tiers) for Cloud SQL, for example,
+   * db-n1-standard-1. For related information, see Pricing. (tiers.listTiers)
    *
    * @param string $project Project ID of the project for which to list tiers.
    * @param array $optParams Optional parameters.

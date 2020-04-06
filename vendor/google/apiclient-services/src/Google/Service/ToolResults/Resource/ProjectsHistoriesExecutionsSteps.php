@@ -26,6 +26,38 @@
 class Google_Service_ToolResults_Resource_ProjectsHistoriesExecutionsSteps extends Google_Service_Resource
 {
   /**
+   * Lists accessibility clusters for a given Step
+   *
+   * May return any of the following canonical error codes:
+   *
+   * - PERMISSION_DENIED - if the user is not authorized to read project -
+   * INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if an
+   * argument in the request happens to be invalid; e.g. if the locale format is
+   * incorrect - NOT_FOUND - if the containing Step does not exist
+   * (steps.accessibilityClusters)
+   *
+   * @param string $name A full resource name of the step. For example, projects
+   * /my-project/histories/bh.1234567890abcdef/executions/
+   * 1234567890123456789/steps/bs.1234567890abcdef
+   *
+   * Required.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string locale The accepted format is the canonical Unicode format
+   * with hyphen as a delimiter. Language must be lowercase, Language Script -
+   * Capitalized, Region - UPPERCASE. See
+   * http://www.unicode.org/reports/tr35/#Unicode_locale_identifier for details.
+   *
+   * Required.
+   * @return Google_Service_ToolResults_ListStepAccessibilityClustersResponse
+   */
+  public function accessibilityClusters($name, $optParams = array())
+  {
+    $params = array('name' => $name);
+    $params = array_merge($params, $optParams);
+    return $this->call('accessibilityClusters', array($params), "Google_Service_ToolResults_ListStepAccessibilityClustersResponse");
+  }
+  /**
    * Creates a Step.
    *
    * The returned Step will have the id set.
@@ -37,15 +69,9 @@ class Google_Service_ToolResults_Resource_ProjectsHistoriesExecutionsSteps exten
    * step is too large (more than 10Mib) - NOT_FOUND - if the containing Execution
    * does not exist (steps.create)
    *
-   * @param string $projectId A Project id.
-   *
-   * Required.
-   * @param string $historyId A History id.
-   *
-   * Required.
-   * @param string $executionId A Execution id.
-   *
-   * Required.
+   * @param string $projectId Required. A Project id.
+   * @param string $historyId Required. A History id.
+   * @param string $executionId Required. An Execution id.
    * @param Google_Service_ToolResults_Step $postBody
    * @param array $optParams Optional parameters.
    *

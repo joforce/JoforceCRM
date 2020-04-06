@@ -52,7 +52,8 @@ class Google_Service_Tasks_Resource_Tasklists extends Google_Service_Resource
   }
   /**
    * Creates a new task list and adds it to the authenticated user's task lists.
-   * (tasklists.insert)
+   * Fails with HTTP code 403 or 429 after reaching the storage limit of 2,000
+   * lists. (tasklists.insert)
    *
    * @param Google_Service_Tasks_TaskList $postBody
    * @param array $optParams Optional parameters.
@@ -70,7 +71,7 @@ class Google_Service_Tasks_Resource_Tasklists extends Google_Service_Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string maxResults Maximum number of task lists returned on one
-   * page. Optional. The default is 100.
+   * page. Optional. The default is 20 (max allowed: 100).
    * @opt_param string pageToken Token specifying the result page to return.
    * Optional.
    * @return Google_Service_Tasks_TaskLists

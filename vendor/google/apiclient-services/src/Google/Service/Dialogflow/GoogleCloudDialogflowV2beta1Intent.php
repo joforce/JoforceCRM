@@ -21,6 +21,7 @@ class Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent extends Googl
   public $action;
   public $defaultResponsePlatforms;
   public $displayName;
+  public $endInteraction;
   public $events;
   protected $followupIntentInfoType = 'Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1IntentFollowupIntentInfo';
   protected $followupIntentInfoDataType = 'array';
@@ -28,6 +29,7 @@ class Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent extends Googl
   public $isFallback;
   protected $messagesType = 'Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1IntentMessage';
   protected $messagesDataType = 'array';
+  public $mlDisabled;
   public $mlEnabled;
   public $name;
   protected $outputContextsType = 'Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Context';
@@ -65,6 +67,14 @@ class Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent extends Googl
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  public function setEndInteraction($endInteraction)
+  {
+    $this->endInteraction = $endInteraction;
+  }
+  public function getEndInteraction()
+  {
+    return $this->endInteraction;
   }
   public function setEvents($events)
   {
@@ -117,6 +127,14 @@ class Google_Service_Dialogflow_GoogleCloudDialogflowV2beta1Intent extends Googl
   public function getMessages()
   {
     return $this->messages;
+  }
+  public function setMlDisabled($mlDisabled)
+  {
+    $this->mlDisabled = $mlDisabled;
+  }
+  public function getMlDisabled()
+  {
+    return $this->mlDisabled;
   }
   public function setMlEnabled($mlEnabled)
   {

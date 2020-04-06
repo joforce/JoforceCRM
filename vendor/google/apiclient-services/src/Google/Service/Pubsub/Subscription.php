@@ -18,6 +18,11 @@
 class Google_Service_Pubsub_Subscription extends Google_Model
 {
   public $ackDeadlineSeconds;
+  protected $deadLetterPolicyType = 'Google_Service_Pubsub_DeadLetterPolicy';
+  protected $deadLetterPolicyDataType = '';
+  protected $expirationPolicyType = 'Google_Service_Pubsub_ExpirationPolicy';
+  protected $expirationPolicyDataType = '';
+  public $labels;
   public $messageRetentionDuration;
   public $name;
   protected $pushConfigType = 'Google_Service_Pubsub_PushConfig';
@@ -32,6 +37,42 @@ class Google_Service_Pubsub_Subscription extends Google_Model
   public function getAckDeadlineSeconds()
   {
     return $this->ackDeadlineSeconds;
+  }
+  /**
+   * @param Google_Service_Pubsub_DeadLetterPolicy
+   */
+  public function setDeadLetterPolicy(Google_Service_Pubsub_DeadLetterPolicy $deadLetterPolicy)
+  {
+    $this->deadLetterPolicy = $deadLetterPolicy;
+  }
+  /**
+   * @return Google_Service_Pubsub_DeadLetterPolicy
+   */
+  public function getDeadLetterPolicy()
+  {
+    return $this->deadLetterPolicy;
+  }
+  /**
+   * @param Google_Service_Pubsub_ExpirationPolicy
+   */
+  public function setExpirationPolicy(Google_Service_Pubsub_ExpirationPolicy $expirationPolicy)
+  {
+    $this->expirationPolicy = $expirationPolicy;
+  }
+  /**
+   * @return Google_Service_Pubsub_ExpirationPolicy
+   */
+  public function getExpirationPolicy()
+  {
+    return $this->expirationPolicy;
+  }
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  public function getLabels()
+  {
+    return $this->labels;
   }
   public function setMessageRetentionDuration($messageRetentionDuration)
   {

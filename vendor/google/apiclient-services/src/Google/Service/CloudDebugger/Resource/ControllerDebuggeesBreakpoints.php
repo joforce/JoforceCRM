@@ -40,7 +40,7 @@ class Google_Service_CloudDebugger_Resource_ControllerDebuggeesBreakpoints exten
    * removes them from the active list to avoid setting those breakpoints again.
    * (breakpoints.listControllerDebuggeesBreakpoints)
    *
-   * @param string $debuggeeId Identifies the debuggee.
+   * @param string $debuggeeId Required. Identifies the debuggee.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool successOnTimeout If set to `true` (recommended), returns
@@ -71,7 +71,7 @@ class Google_Service_CloudDebugger_Resource_ControllerDebuggeesBreakpoints exten
    * semantics. These may only make changes such as canonicalizing a value or
    * snapping the location to the correct line of code. (breakpoints.update)
    *
-   * @param string $debuggeeId Identifies the debuggee being debugged.
+   * @param string $debuggeeId Required. Identifies the debuggee being debugged.
    * @param string $id Breakpoint identifier, unique in the scope of the debuggee.
    * @param Google_Service_CloudDebugger_UpdateActiveBreakpointRequest $postBody
    * @param array $optParams Optional parameters.

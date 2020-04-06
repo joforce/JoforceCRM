@@ -17,14 +17,17 @@
 
 class Google_Service_Compute_Snapshot extends Google_Collection
 {
-  protected $collection_key = 'licenses';
+  protected $collection_key = 'storageLocations';
+  public $autoCreated;
   public $creationTimestamp;
   public $description;
   public $diskSizeGb;
+  public $downloadBytes;
   public $id;
   public $kind;
   public $labelFingerprint;
   public $labels;
+  public $licenseCodes;
   public $licenses;
   public $name;
   public $selfLink;
@@ -37,7 +40,16 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   public $status;
   public $storageBytes;
   public $storageBytesStatus;
+  public $storageLocations;
 
+  public function setAutoCreated($autoCreated)
+  {
+    $this->autoCreated = $autoCreated;
+  }
+  public function getAutoCreated()
+  {
+    return $this->autoCreated;
+  }
   public function setCreationTimestamp($creationTimestamp)
   {
     $this->creationTimestamp = $creationTimestamp;
@@ -61,6 +73,14 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   public function getDiskSizeGb()
   {
     return $this->diskSizeGb;
+  }
+  public function setDownloadBytes($downloadBytes)
+  {
+    $this->downloadBytes = $downloadBytes;
+  }
+  public function getDownloadBytes()
+  {
+    return $this->downloadBytes;
   }
   public function setId($id)
   {
@@ -93,6 +113,14 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   public function getLabels()
   {
     return $this->labels;
+  }
+  public function setLicenseCodes($licenseCodes)
+  {
+    $this->licenseCodes = $licenseCodes;
+  }
+  public function getLicenseCodes()
+  {
+    return $this->licenseCodes;
   }
   public function setLicenses($licenses)
   {
@@ -185,5 +213,13 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   public function getStorageBytesStatus()
   {
     return $this->storageBytesStatus;
+  }
+  public function setStorageLocations($storageLocations)
+  {
+    $this->storageLocations = $storageLocations;
+  }
+  public function getStorageLocations()
+  {
+    return $this->storageLocations;
   }
 }

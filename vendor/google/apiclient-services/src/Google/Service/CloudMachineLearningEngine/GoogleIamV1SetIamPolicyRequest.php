@@ -19,6 +19,7 @@ class Google_Service_CloudMachineLearningEngine_GoogleIamV1SetIamPolicyRequest e
 {
   protected $policyType = 'Google_Service_CloudMachineLearningEngine_GoogleIamV1Policy';
   protected $policyDataType = '';
+  public $updateMask;
 
   /**
    * @param Google_Service_CloudMachineLearningEngine_GoogleIamV1Policy
@@ -33,5 +34,13 @@ class Google_Service_CloudMachineLearningEngine_GoogleIamV1SetIamPolicyRequest e
   public function getPolicy()
   {
     return $this->policy;
+  }
+  public function setUpdateMask($updateMask)
+  {
+    $this->updateMask = $updateMask;
+  }
+  public function getUpdateMask()
+  {
+    return $this->updateMask;
   }
 }
