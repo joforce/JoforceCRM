@@ -1,10 +1,10 @@
-# JoForceCRM
+# Joforce
 
-Open Source CRM gets better with JoForce. With all your sales communication in one place, JoForce helps you boost your Sales multifold.
+Open Source CRM gets better with Joforce. With all your sales communication in one place, Joforce helps you boost your Sales multifold.
 
-## Why JoForce?
+## Why Joforce?
 
-JoForce is the best Open Source CRM that helps you boost your sales multifold with all your sales communication in one place. It has all the features to manage your customer information within the CRM. Now your salesman can work efficiently without juggling between multiple tools to drive sales. JoForce gives value to your money and helps you get the major functionalities of a CRM. With JoForce you can have better control over your data.
+Joforce is the best Open Source CRM that helps you boost your sales multifold with all your sales communication in one place. It has all the features to manage your customer information within the CRM. Now your salesman can work efficiently without juggling between multiple tools to drive sales. Joforce gives value to your money and helps you get the major functionalities of a CRM. With JoForce you can have better control over your data.
 
 ### Powerful Studio Tools
 
@@ -12,11 +12,11 @@ This powerful Module Studio gives everything you need to create a new CRM module
 
 ### Human Readable URLs
 
-With the neat intuitively meaningful URLs, JoForce ensures the resource remains in same URL. This allows more durable & reliable bookmarking for easy access
+With the neat intuitively meaningful URLs, Joforce ensures the resource remains in same URL. This allows more durable & reliable bookmarking for easy access
 
 ### Sync Google Calendar
 
-Seamlessly synchronize calendar events and contacts between Google Calendar & JoForce. You can Create, Modify or remove in either application to keep data updated.
+Seamlessly synchronize calendar events and contacts between Google Calendar & Joforce. You can Create, Modify or remove in either application to keep data updated.
 
 ### Emails Within CRM
 
