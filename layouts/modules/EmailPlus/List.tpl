@@ -14,7 +14,10 @@ $(document).ready( function(){
 } );
 </script>
 {if $FAILED eq 'true'}
-<div class='notification'  style="text-align:center; margin-top:50px;color:red;font-size:16px;">Connection Failed. Please check your credentials or enable less secure connection.</div>
+<div class='notification'  style="text-align:center; margin-top:50px;color:red;font-size:16px;"><p>Connection Failed. Please check your credentials or enable less secure connection.</p> 
+<p>
+<a href="https://myaccount.google.com/lesssecureapps">Click Here to enable less secure connection </a><p>
+</div>
 {else}
 <iframe id="roundcube_interface" style="width: 100%; height: 590px;" src="{$URL}" frameborder="0"> </iframe>
 <input type="hidden" value="" id="temp_field" name="temp_field"/>

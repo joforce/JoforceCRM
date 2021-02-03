@@ -24,8 +24,8 @@ class Install_Utils_Model {
 	'User Privileges Directory' => './user_privileges/',
 	'Modules Directory' => './modules/',
 	'Cron Modules Directory' => './cron/modules/',
-	'Vtlib Test Directory' => './cache/vtlib/',
-	'Vtlib Test HTML Directory' => './cache/vtlib/HTML',
+	'Modlib Test Directory' => './cache/modlib/',
+	'Modlib Test HTML Directory' => './cache/modlib/HTML',
 	'Mail Merge Template Directory' => './cache/wordtemplatedownload/',
 	'Product Image Directory' => './cache/product/',
 	'User Image Directory' => './cache/user/',
@@ -41,9 +41,9 @@ class Install_Utils_Model {
     public static function getFailedPermissionsFiles() {
 	$writableFilesAndFolders = self::$writableFilesAndFolders;
 	$failedPermissions = array();
-	require_once ('includes/utils/VtlibUtils.php');
+	require_once ('includes/utils/ModlibUtils.php');
 	foreach ($writableFilesAndFolders as $index => $value) {
-	    if (!vtlib_isWriteable($value)) {
+	    if (!modlib_isWriteable($value)) {
 		$failedPermissions[$index] = $value;
 	    }
 	}
@@ -434,10 +434,12 @@ class Install_Utils_Model {
 	    $error_msg_info = getTranslatedString('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
 	} elseif(!$db_exist_status) {
 	    $error_msg = $db_name.' -> '.getTranslatedString('ERR_DB_NOT_FOUND', 'Install');
-	} elseif(!$db_utf8_support) {
+	} 
+	/*elseif(!$db_utf8_support) {
             $error_msg =  '<p>'. $db_name.' -> '.getTranslatedString('ERR_DB_NOT_UTF8', 'Install') .'<p>';
 	    $error_msg .= '<p> Change the charater set by "ALTER DATABASE '.$db_name.' CHARACTER SET utf8 COLLATE utf8_general_ci;"</p>';
-	} else {
+	}*/
+       	else {
 	    $dbCheckResult['flag'] = true;
 	    return $dbCheckResult;
 	}
@@ -445,42 +447,5 @@ class Install_Utils_Model {
 	$dbCheckResult['error_msg'] = $error_msg;
 	$dbCheckResult['error_msg_info'] = $error_msg_info;
 	return $dbCheckResult;
-    }
-
-    /**
-     * Function installs all the available modules
-     */
-    public static function installModules() {
-	require_once('vtlib/Head/Package.php');
-	require_once('vtlib/Head/Module.php');
-	require_once('includes/utils/utils.php');
-
-	$moduleFolders = array('packages/head/mandatory', 'packages/head/optional', 'packages/head/marketplace');
-	foreach($moduleFolders as $moduleFolder) {
-	    if ($handle = opendir($moduleFolder)) {
-		while (false !== ($file = readdir($handle))) {
-		    $packageNameParts = explode(".",$file);
-		    if($packageNameParts[count($packageNameParts)-1] != 'zip'){
-			continue;
-		    }
-		    array_pop($packageNameParts);
-		    $packageName = implode("",$packageNameParts);
-		    if (!empty($packageName)) {
-			$packagepath = "$moduleFolder/$file";
-			$package = new Head_Package();
-			$module = $package->getModuleNameFromZip($packagepath);
-			if($module != null) {
-			    $moduleInstance = Head_Module::getInstance($module);
-			    if($moduleInstance) {
-				updateVtlibModule($module, $packagepath);
-			    } else {
-				installVtlibModule($module, $packagepath);
-			    }
-			}
-		    }
-		}
-		closedir($handle);
-	    }
-	}
     }
 }

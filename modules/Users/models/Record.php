@@ -209,7 +209,6 @@ class Users_Record_Model extends Head_Record_Model {
 		//TODO : Remove the global dependency
 		$currentUser = vglobal('current_user');
 		if(!empty($currentUser)) {
-			
 			// Optimization to avoid object creation every-time
 			// Caching is per-id as current_user can get swapped at runtime (ex. workflow)
 			$currentUserModel = NULL;
@@ -217,7 +216,7 @@ class Users_Record_Model extends Head_Record_Model {
 				$currentUserModel = self::$currentUserModels[$currentUser->id];
 				if ($currentUser->column_fields['modifiedtime'] != $currentUserModel->get('modifiedtime')) {
 					$currentUserModel = NULL;
-		}
+				}
 			}
 			if (!$currentUserModel) {
 				$currentUserModel = self::getInstanceFromUserObject($currentUser);

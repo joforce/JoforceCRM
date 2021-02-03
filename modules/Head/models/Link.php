@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-include_once 'vtlib/Head/Link.php';
+include_once 'libraries/modlib/Head/Link.php';
 
 /**
  * Head Link Model Class
@@ -136,10 +136,17 @@ class Head_Link_Model extends Head_Link {
 
 	public function isPageLoadLink() {
 		$url = $this->get('linkurl');
-		if(strpos($url, 'index')){
+                if(strpos($url, 'index')){
+                        return false;
+                }
+                if(filter_var($url, FILTER_VALIDATE_URL)) {
+                        return true;
+		}
+
+		if(strpos($url, '(') && strpos($url, ')')) {
 			return false;
 		}
-		return true;
+                return true;
 	}
 
 	public function convertToNativeLink() {

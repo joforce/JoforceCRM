@@ -11,7 +11,7 @@
 
 {strip}
    <div class="listViewPageDiv" id="listViewContent">
-      <div class="col-sm-12 col-xs-12 joforce-bg">
+      <div class="">
          <div id="listview-actions" class="listview-actions-container">
             <div class="list-content row workflowListContainer" id="list-content">
             {/strip}

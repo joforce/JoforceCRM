@@ -20,7 +20,7 @@ require_once('includes/Zend/Json.php');
 require_once('modules/Calendar/iCalLastImport.php');
 
 require_once('includes/utils/utils.php');
-require_once('data/CRMEntity.php');
+require_once('includes/data/CRMEntity.php');
 
 global $import_dir,$current_user,$mod_strings,$app_strings,$currentModule;
 
@@ -94,12 +94,12 @@ if($_REQUEST['step']!='undo'){
 	$smarty->assign("IMP", $import_mod_strings);
 	$smarty->assign("THEME", $theme);
 	$smarty->assign("IMAGE_PATH", $image_path);
-	$parent_tab = vtlib_purify($_SESSION['import_parenttab']);
+	$parent_tab = modlib_purify($_SESSION['import_parenttab']);
 	if(empty($parent_Tab)){
 		$parent_tab = getParentTab();
 	}
-	$smarty->assign("MODULE", vtlib_purify($_REQUEST['module']));
-	$smarty->assign("SINGLE_MOD", vtlib_purify($_REQUEST['module']));
+	$smarty->assign("MODULE", modlib_purify($_REQUEST['module']));
+	$smarty->assign("SINGLE_MOD", modlib_purify($_REQUEST['module']));
 	$smarty->assign("CATEGORY", $parent_tab);
 	//@session_unregister("import_parenttab");
 		$smarty->display("Buttons_List1.tpl");
@@ -129,12 +129,12 @@ if($_REQUEST['step']!='undo'){
 	$smarty->assign("IMP", $import_mod_strings);
 	$smarty->assign("THEME", $theme);
 	$smarty->assign("IMAGE_PATH", $image_path);
-	$parent_tab = vtlib_purify($_SESSION['import_parenttab']);
+	$parent_tab = modlib_purify($_SESSION['import_parenttab']);
 	if(empty($parent_Tab)){
 		$parent_tab = getParentTab();
 	}
-	$smarty->assign("MODULE", vtlib_purify($_REQUEST['module']));
-	$smarty->assign("SINGLE_MOD", vtlib_purify($_REQUEST['module']));
+	$smarty->assign("MODULE", modlib_purify($_REQUEST['module']));
+	$smarty->assign("SINGLE_MOD", modlib_purify($_REQUEST['module']));
 	$smarty->assign("CATEGORY", $parent_tab);
 	//@session_unregister("import_parenttab");
 		$smarty->display("Buttons_List1.tpl");

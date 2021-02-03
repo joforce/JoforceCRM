@@ -8,7 +8,6 @@
 * Contributor(s): JoForce.com
 ************************************************************************************}
 <div class="editViewPageDiv editViewContainer" id="EditViewPipeline" style="padding-top:0px;">
-    <div class="col-lg-12 col-md-12 col-sm-12 joforce-bg">
 	<div class="ml15">
             <h3 style="margin-top: 0px;margin-left:4px;" >{vtranslate('KANBAN_SETTINGS', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('PIPELINE_CONFIGURATION', $QUALIFIED_MODULE)}
         </div>
@@ -118,12 +117,11 @@
 	<div class='modal-overlay-footer clearfix'>
             <div class="row clearfix">
                 <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-                    <button class="btn btn-success save-section" id="save-pipeline" type="submit" name="saveButton">
+                    <button class="btn btn-primary save-section" id="save-pipeline" type="submit" name="saveButton">
                     	<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong>
                     </button>
-		    <a class='cancelLink' href="{$SITEURL}Pipeline/Settings/Index">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+		    <a class='cancelLink btn btn-secondary' href="{$SITEURL}Pipeline/Settings/Index">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </div>
             </div>
         </div>
-    </div>
 </div>

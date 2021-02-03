@@ -54,8 +54,8 @@
                             <td>
                                 <select name="Contacts[sync_direction]" class="inputElement select2 row" style="min-width: 250px;">
                                     <option value="11" {if $CONTACTS_SYNC_DIRECTION eq 11} selected {/if}> {vtranslate('LBL_SYNC_BOTH_WAYS', $MODULE)} </option>
-                                    <option value="10" {if $CONTACTS_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_VTIGER', $MODULE)} </option>
-                                    <option value="01" {if $CONTACTS_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_VTIGER_TO_GOOGLE', $MODULE)} </option>
+                                    <option value="10" {if $CONTACTS_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_JOFORCE', $MODULE)} </option>
+                                    <option value="01" {if $CONTACTS_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_JOFORCE_TO_GOOGLE', $MODULE)} </option>
                                 </select>
                             </td>
                         </tr>
@@ -76,8 +76,8 @@
                             <td>
                                 <select name="Calendar[sync_direction]" class="inputElement select2 row" style="min-width: 250px;">
                                     <option value="11" {if $CALENDAR_SYNC_DIRECTION eq 11} selected {/if}> {vtranslate('LBL_SYNC_BOTH_WAYS', $MODULE)} </option>
-                                    <option value="10" {if $CALENDAR_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_VTIGER', $MODULE)} </option>
-                                    <option value="01" {if $CALENDAR_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_VTIGER_TO_GOOGLE', $MODULE)} </option>
+                                    <option value="10" {if $CALENDAR_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_JOFORCE', $MODULE)} </option>
+                                    <option value="01" {if $CALENDAR_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_JOFORCE_TO_GOOGLE', $MODULE)} </option>
                                 </select>
                             </td>
                         </tr>
@@ -136,7 +136,7 @@
             <div>
                 <button id="saveSettings" type="submit" class="btn btn-primary saveButton">{vtranslate('LBL_SAVE_SETTINGS', $MODULENAME)}</button>
                 {if $PARENT neq 'Settings'}
-                    <a type="reset" data-url="{$MODULE_MODEL->getBaseExtensionUrl($SOURCEMODULE)}" class="cancelLink navigationLink">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
+                    <a type="reset" data-url="{$MODULE_MODEL->getBaseExtensionUrl($SOURCEMODULE)}" class="cancelLink btn btn-secondary navigationLink">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
                 {/if}
             </div>
         </div>

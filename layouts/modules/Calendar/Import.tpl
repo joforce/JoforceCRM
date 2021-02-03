@@ -29,8 +29,8 @@
 			</div>
 			<div class="modal-footer">
 				<center>
-					<button class="btn btn-success" type="submit" name="saveButton" onclick="return Calendar_List_Js.import()" >{vtranslate('LBL_IMPORT', $MODULE)}</button>
-					&nbsp;&nbsp;<a class='cancelLink' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<button class="btn btn-primary" type="submit" name="saveButton" onclick="return Calendar_List_Js.import()" >{vtranslate('LBL_IMPORT', $MODULE)}</button>
+					&nbsp;&nbsp;<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</center>
 			</div>
 		</form>

@@ -81,7 +81,7 @@ class <ModuleName> extends Head_CRMEntity {
 	* @param String Module name
 	* @param String Event Type
 	*/
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
  		if($eventType == 'module.postinstall') {
  			//Enable ModTracker for the module
  			static::enableModTracker($moduleName);
@@ -101,7 +101,7 @@ class <ModuleName> extends Head_CRMEntity {
 	 */
 	public static function enableModTracker($moduleName)
 	{
-		include_once 'vtlib/Head/Module.php';
+		include_once 'libraries/modlib/Head/Module.php';
 		include_once 'modules/ModTracker/ModTracker.php';
 			
 		//Enable ModTracker for the module

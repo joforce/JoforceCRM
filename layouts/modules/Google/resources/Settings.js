@@ -57,7 +57,7 @@ Head.Class("Google_Settings_Js", {
     registerFieldMappingClickEvent : function() {
         var thisInstance = this;
         jQuery('a#syncSetting').on('click',function(e) {
-			var syncModule = jQuery(e.currentTarget).data('syncModule');
+		var syncModule = jQuery(e.currentTarget).data('sync-module');
                 var params = {
                     module : 'Google',
                     view : 'Setting',
@@ -164,7 +164,7 @@ Head.Class("Google_Settings_Js", {
             
             var vtigerFieldSelectElement = '<select class="jo_field_name col-sm-12" data-category="'+selectionType+'">';
             if(!Object.keys(vtigerFields).length) {
-                alert(app.vtranslate('JS_SUITABLE_VTIGER_FIELD_NOT_AVAILABLE_FOR_MAPPING'));
+                alert(app.vtranslate('JS_SUITABLE_JOFORCE_FIELD_NOT_AVAILABLE_FOR_MAPPING'));
                 return;
             }
             
@@ -182,7 +182,7 @@ Head.Class("Google_Settings_Js", {
                 }
             });
             if(numberOfOptions == 0) {
-                alert(app.vtranslate('JS_SUITABLE_VTIGER_FIELD_NOT_AVAILABLE_FOR_MAPPING'));
+                alert(app.vtranslate('JS_SUITABLE_JOFORCE_FIELD_NOT_AVAILABLE_FOR_MAPPING'));
                 return;
             }
             

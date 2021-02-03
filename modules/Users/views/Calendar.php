@@ -34,7 +34,7 @@ class Users_Calendar_View extends Head_Detail_View {
 	 * @return <String>
 	 */
 	public function preProcessTplName(Head_Request $request) {
-		return 'CalendarDetailViewPreProcess.tpl';
+		return 'PreferenceDetailViewPreProcess.tpl';
 	}
 
 	public function preProcess(Head_Request $request, $display=true) {
@@ -148,6 +148,11 @@ class Users_Calendar_View extends Head_Detail_View {
 			$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                     	$viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
 			$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+
+			$userCurrencyInfo = getCurrencySymbolandCRate($currentUser->get('currency_id'));
+			$viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+			//Get User Notifications
+			$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
 
 			if($display) {
 				$this->preProcessDisplay($request);

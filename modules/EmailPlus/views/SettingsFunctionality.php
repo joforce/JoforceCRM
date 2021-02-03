@@ -14,6 +14,7 @@
                         $email = $adb->query_result($getUserId, 0, 'email');
                         $get_password = $adb->query_result($getUserId, 0, 'password');
                         $password = base64_decode($get_password);
+                        $enabletype = $adb->query_result($getUserId, 0, 'enabletype');
                         $moduleName = $request->getModule();
                         if(!empty($moduleName)) {
                                 $moduleModel = Head_Module_Model::getInstance($moduleName);
@@ -33,6 +34,7 @@
 
                                 $viewer->assign('QUICK_LINKS', $linkModels);
                         }
+                        $viewer->assign('ENABLETYPE', $enabletype);
                         $viewer->assign('SERVER', $server_name);
                         $viewer->assign('TYPE', $account_type);
                         $viewer->assign('PORT', $port);

@@ -53,12 +53,12 @@ class Users_List_View extends Settings_Head_List_View {
 		$searchParams = $request->get('search_params');
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
-			$faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		}else{
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
-			$faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 
 		if(empty ($pageNumber)){
@@ -152,6 +152,7 @@ class Users_List_View extends Settings_Head_List_View {
 		$viewer->assign('COLUMN_NAME',$orderBy);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT',$noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);

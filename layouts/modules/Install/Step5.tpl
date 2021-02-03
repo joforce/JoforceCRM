@@ -99,7 +99,7 @@
         <img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
     </a>
     <p>
-        Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
+        Copyright © Joforce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
     </p>
     </footer>
 </form>
@@ -124,7 +124,7 @@
                             <div class="col-md-8">
                                 <h3> Zapier Integration </h3>
 		                        <p> As a part of Sales, Marketing and Support team, every one of us may work across different apps. When all these app based works are handled right from your CRM, would it be awesome?</p>
-		                        <p> Connect with your favourite app that you use everyday and get things done right from JoForce via Zapier. Build Workflows and automate your day-to-day activities. </p>
+		                        <p> Connect with your favourite app that you use everyday and get things done right from Joforce via Zapier. Build Workflows and automate your day-to-day activities. </p>
                             </div>
                         </div>
                         <div class="item">
@@ -133,7 +133,7 @@
                             </div>
                             <div class="col-md-8">
                                 <h3> Email</h3>
-                                <p> Bring email communication within CRM by integrating your email client to JoForce. Now you can send and receive emails from JoForce. Gives a look-&-feel, that you’re inside your email inbox. Send email from JoForce and get it automatically logged in your JoForce and email client as well.  </p>
+                                <p> Bring email communication within CRM by integrating your email client to Joforce. Now you can send and receive emails from Joforce. Gives a look-&-feel, that you’re inside your email inbox. Send email from Joforce and get it automatically logged in your Joforce and email client as well.  </p>
                             </div>
                         </div>
                         <div class="item">
@@ -172,7 +172,7 @@
                         <div class="col-md-8">
                             <h3> Google Integration </h3>
                             <p> Google Calendar - Never miss out any of your important appointments, track & organize all your activities from one place. </p>
-                            <p> Google contacts - All your contact info at one spot. Keep your Google & JoForce Contact info sync in just a click. </p>
+                            <p> Google contacts - All your contact info at one spot. Keep your Google & Joforce Contact info sync in just a click. </p>
                         </div>
                     </div>
                 </div>

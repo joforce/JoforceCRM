@@ -192,23 +192,20 @@ var Settings_Roles_Js = {
 	},
 	
 	registerShowNewProfilePrivilegesEvent : function() {
-		jQuery('[name="profile_directly_related_to_role"]').on('change',function(e){
-			var target = jQuery(e.currentTarget);
-			var hanlder = target.data('handler');
-			var container = jQuery('[data-content="'+ hanlder + '"]');
+		var hanlder = 'new';
+		var container = jQuery('[data-content="'+ hanlder + '"]');
  
-            vtUtils.hideValidationMessage(jQuery('#profilesList'));            
-			if(hanlder === 'new'){
-				Settings_Roles_Js.getProfilePriviliges();
-				return false;
-			}else {
-				jQuery('#profilesList', container).removeClass('hide');
-                Settings_Roles_Js.registerProfileEvents();
-			}
-            
-			jQuery('[data-content]').not(container).fadeOut('slow',function(){
-				container.fadeIn('slow');
-			});
+                vtUtils.hideValidationMessage(jQuery('#profilesList'));            
+		if(hanlder === 'new'){
+			Settings_Roles_Js.getProfilePriviliges();
+			return false;
+		}else {
+			jQuery('#profilesList', container).removeClass('hide');
+               		Settings_Roles_Js.registerProfileEvents();
+		}
+           
+		jQuery('[data-content]').not(container).fadeOut('slow',function(){
+			container.fadeIn('slow');
 		});
 	},
 

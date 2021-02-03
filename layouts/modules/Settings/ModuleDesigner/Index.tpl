@@ -1,4 +1,4 @@
-<div class="joforce-bg" style="width:97% !important;">
+<div class="" style="width:97% !important;">
     <div class="row-fluid widget_header" style="">
 	<div class="col-md-12">
 	    <a href="index.php?module={$MODULE}&view=Index&parent=Settings"><h3>{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</h3></a>

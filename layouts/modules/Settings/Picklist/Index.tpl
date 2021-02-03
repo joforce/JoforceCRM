@@ -10,8 +10,7 @@
 {* modules/Settings/Picklist/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer " id="listViewContent">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal joforce-bg" >
+<div class="listViewPageDiv detailViewContainer form-horizontal" id="listViewContent">
         <br>
         <div class="detailViewInfo">
             <div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0">
@@ -38,5 +37,4 @@
             {/if}
         </div>
 
-    </div>
 </div>

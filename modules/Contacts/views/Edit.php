@@ -26,7 +26,6 @@ class Contacts_Edit_View extends Head_Edit_View {
 		}
 
 		$viewer = $this->getViewer($request);
-
 		$salutationFieldModel = Head_Field_Model::getInstance('salutationtype', $recordModel->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');

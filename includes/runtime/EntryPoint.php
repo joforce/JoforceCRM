@@ -24,7 +24,7 @@ vimport ('includes.runtime.JavaScript');
 
 vimport ('includes.runtime.LanguageHandler');
 vimport ('includes.runtime.Cache');
-vimport ('vtlib.Head.Runtime');
+vimport ('modlib.Head.Runtime');
 
 abstract class Head_EntryPoint {
 

@@ -11,7 +11,6 @@
 
 {strip}
     <div class="leadsFieldMappingListPageDiv">
-        <div class="col-sm-12 col-xs-12 joforce-bg">
             <div class="row settingsHeader">
                 <span class="col-sm-12">
                     <span class="pull-right">
@@ -23,7 +22,7 @@
             </div>
             <br/>
             <div class="contents table-container" id="detailView">
-                <table id="listview-table" class="table listview-table">
+                <table id="listview-table" class="table listview-table" style="margin-bottom:2%;">
                     <thead>
                         <tr>
                             <th></th>
@@ -32,15 +31,20 @@
                             <th colspan="3" >{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
                         </tr>
                         <tr>
-                            <th><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></th>
                             {foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
                                 <th><b>{vtranslate($LABEL, $LABEL)}</b></th>
                             {/foreach}
+                            <th><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></th>                        
                         </tr>
                     </thead>
                     <tbody>
                         {foreach key=MAPPING_ID item=MAPPING from=$MODULE_MODEL->getMapping()}
                             <tr class="listViewEntries" data-cfmid="{$MAPPING_ID}">
+                                <td>{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
+                                <td>{vtranslate({$MAPPING['Leads']['fieldDataType']}, $QUALIFIED_MODULE)}</td>
+                                <td>{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
+                                <td>{vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
+                                <td>{vtranslate({$MAPPING['Potentials']['label']}, 'Potentials')}</td>
                                 <td>
                                     {if $MAPPING['editable'] eq 1}
                                         {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
@@ -51,12 +55,7 @@
                                             </div>
                                         {/foreach}
                                     {/if}
-                                </td>
-                                <td>{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
-                                <td>{vtranslate({$MAPPING['Leads']['fieldDataType']}, $QUALIFIED_MODULE)}</td>
-                                <td>{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
-                                <td>{vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
-                                <td>{vtranslate({$MAPPING['Potentials']['label']}, 'Potentials')}</td>
+                                </td>                                
                             </tr>
                         {/foreach}
                     </tbody>
@@ -65,6 +64,5 @@
             <div id="scroller_wrapper" class="bottom-fixed-scroll">
                 <div id="scroller" class="scroller-div"></div>
             </div>
-	</div>
     </div>
 {/strip}

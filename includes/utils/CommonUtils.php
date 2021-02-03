@@ -455,10 +455,10 @@ function getEntityFieldNameDisplay($module, $fieldsName, $fieldValues) {
 }
 
 // vtiger cache utility
-require_once('includes/utils/VTCacheUtils.php');
+require_once('includes/utils/CacheUtils.php');
 
-// vtlib customization: Extended vtiger CRM utlitiy functions
-require_once('includes/utils/VtlibUtils.php');
+// modlib customization: Extended vtiger CRM utlitiy functions
+require_once('includes/utils/ModlibUtils.php');
 
 // END
 
@@ -489,5 +489,3 @@ function updateRecordLabel($module,$recordId){
 function get_group_options() {
     return Head_Functions::get_group_options();
 }
-
-?>

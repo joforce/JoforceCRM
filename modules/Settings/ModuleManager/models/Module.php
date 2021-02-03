@@ -51,7 +51,7 @@ class Settings_ModuleManager_Module_Model extends Head_Module_Model {
 	 */
 	public function disableModule($moduleName) {
 		//Handling events after disable module
-		vtlib_toggleModuleAccess($moduleName, false);
+		modlib_toggleModuleAccess($moduleName, false);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Settings_ModuleManager_Module_Model extends Head_Module_Model {
 	 */
 	public function enableModule($moduleName) {
 		//Handling events after enable module
-		vtlib_toggleModuleAccess($moduleName, true);
+		modlib_toggleModuleAccess($moduleName, true);
 	}
 
 

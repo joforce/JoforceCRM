@@ -11,5 +11,14 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-	{include file="DetailViewFullContents.tpl"|vtemplate_path:$MODULE}
+	{assign var=summary_view_modules value=array('Contacts', 'Accounts', 'Leads', 'Invoice', 'SalesOrder', 'PurchaseOrder', 'Quotes', 'HelpDesk','Potentials', 'Project')}
+	{if in_array($MODULE_NAME, $summary_view_modules)}
+	    <form id="detailView" class="clearfix" method="POST" style="position: relative">
+	        <div class="col-lg-12 resizable-summary-view">
+        	        {include file='SummaryViewWidgets.tpl'|vtemplate_path:$MODULE_NAME}
+	        </div>
+	    </form>
+	{else}
+	    {include file="DetailViewFullContents.tpl"|vtemplate_path:$MODULE}
+	{/if}
 {/strip}

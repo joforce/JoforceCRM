@@ -84,10 +84,10 @@
 
 	<div class="modal-footer ">
             <center>
-            	<button class="btn btn-success save-section" id="save-pipeline" type="submit" name="saveButton">
+            	<button class="btn btn-primary save-section" id="save-pipeline" type="submit" name="saveButton">
                     <strong>Save</strong>
             	</button>
-            	<a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+            	<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
             </center>
     	</div>
     </div>  

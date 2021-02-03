@@ -8,7 +8,7 @@
 ************************************************************************************}
 
 {strip}
-	<div class="listViewContentDiv col-lg-12 joforce-bg">
+	<div class="">
 		<h4>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h4>
 		<hr>
 		{if !$RECORD_EXISTS}
@@ -53,8 +53,8 @@
 							{/if}>
 							<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_RULE', $QUALIFIED_MODULE)}
 						</button>
-						<button href="javascript:void(0);" data-toggle="dropdown" class="btn btn-default" style="margin-left: 4px;">
-							{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE_NAME)}&nbsp;<i class="caret"></i>
+						<button href="javascript:void(0);" data-toggle="dropdown" class="btn btn-default dropdown-toggle" style="margin-left: 4px;">
+							{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE_NAME)}
 						</button>
 						<ul class="dropdown-menu pull-right">
 							{foreach item=LINK from=$RECORD->getRecordLinks()}

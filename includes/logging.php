@@ -35,6 +35,6 @@ require_once(LOG4PHP_DIR.'/LoggerManager.php');
 require_once(LOG4PHP_DIR.'/LoggerPropertyConfigurator.php');
 
 $config = new LoggerPropertyConfigurator();
-$config->configure('log4php.properties');
+$config->configure('config/log4php.properties');
 
 ?>

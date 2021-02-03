@@ -11,8 +11,18 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="row conditionRow" style="margin-bottom: 10px;">
-	<span class="col-lg-4 col-md-4 col-sm-4">
+<div class="conditionRow condition_group {if ($COUNT) eq 0} left {else} {if ($COUNT %2) eq 0} right  {else} left {/if}{/if}" style="margin-bottom: 10px;">
+<div class="form-group">
+	<div class="pull-right">
+	<span class="col-lg-1" style="line-height: 30px;">
+	<i class="deleteCondition fa fa-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+</span>
+	</div>
+</div>
+<div class="Condition_add">
+<div class="add_border_withoutradious padding">
+<div class="fields_inline">
+	<span class="col-lg-7 col-md-4 col-sm-4">
 		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -66,7 +76,7 @@
 			{/foreach}
 		</select>
 	</span>
-	<span class="conditionComparator col-lg-3 col-md-3 col-sm-3">
+	<span class="conditionComparator col-lg-5 col-md-3 col-sm-3">
 		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="comparator" data-placeholder="{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
@@ -77,7 +87,8 @@
 			{/foreach}
 		</select>
 	</span>
-	<span class="col-lg-4 col-md-4 col-sm-4  fieldUiHolder">
+</div>
+	<span class="col-lg-12 col-md-4 col-sm-4  fieldUiHolder">
 		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
 	</span>
 	<span class="hide">
@@ -87,8 +98,7 @@
 		{/if}
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
-    <span class="col-lg-1" style="line-height: 30px;">
-		<i class="deleteCondition fa fa-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
-	</span>
+	</div>
+</div>
 </div>
 {/strip}

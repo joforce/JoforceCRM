@@ -27,11 +27,11 @@ class Settings_ModuleDesigner_InstallModule_Action extends Settings_Head_Index_A
 	    $error_message = getTranslatedString("LBL_ERROR_PARAM", $qualifiedModuleName);
 	    $success = false;
 	} else {	
-	    require_once("vtlib/Head/Module.php");
+	    require_once("libraries/modlib/Head/Module.php");
 	    $module = Head_Module::getInstance($request->get("name"));
 			
 	    if(empty($module)) {
-		require_once("vtlib/Head/PackageImport.php");
+		require_once("libraries/modlib/Head/PackageImport.php");
 				
 		$packageImport = new Head_PackageImport();
 		$packageImport->import($request->get("zip"));
@@ -86,7 +86,7 @@ class Settings_ModuleDesigner_InstallModule_Action extends Settings_Head_Index_A
 		}
 	    } else {
 		if($request->get("version") != $module->version) {	
-		    require_once("vtlib/Head/PackageUpdate.php");
+		    require_once("libraries/modlib/Head/PackageUpdate.php");
 		    $packageUpdate = new Head_PackageUpdate();
 		    $packageUpdate->update($module, $request->get("zip"));
 					

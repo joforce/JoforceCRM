@@ -126,7 +126,7 @@ class Head_Util_Helper {
 	 * @throws AppException
 	 */
 	public static function validateStringForSql($string, $skipEmpty=true) {
-		if (vtlib_purifyForSql($string, $skipEmpty)) {
+		if (modlib_purifyForSql($string, $skipEmpty)) {
 			return $string;
 		}
 		return false;
@@ -882,7 +882,7 @@ class Head_Util_Helper {
 	}
 
 	public static function getBrowserInfo() {
-		$u_agent = vtlib_purify($_SERVER['HTTP_USER_AGENT']);
+		$u_agent = modlib_purify($_SERVER['HTTP_USER_AGENT']);
 		$bname = 'Unknown';
 		$platform = 'Unknown';
 		$version = "";

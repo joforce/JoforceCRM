@@ -28,7 +28,6 @@ class Head_UpdatePicklistValue_Action extends Head_Save_Action {
         $recordModel->set('id', $record_id);
         $recordModel->set('mode', 'edit');
 
-        $fieldModelList = $moduleModel->getFields();
         $recordModel->set($picklist_name, $new_picklist_value); // update value here
 	$recordModel->save();
 

@@ -94,7 +94,7 @@ class Campaigns extends CRMEntity {
 		$log->debug("Entering get_accounts(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 
@@ -107,8 +107,8 @@ class Campaigns extends CRMEntity {
 			$is_CampaignStatusAllowed = (getFieldVisibilityPermission('Accounts', $current_user->id, 'campaignrelstatus','readwrite') == '0')? true : false;
 		}
 
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -193,7 +193,7 @@ class Campaigns extends CRMEntity {
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 
@@ -206,8 +206,8 @@ class Campaigns extends CRMEntity {
 			$is_CampaignStatusAllowed = (getFieldVisibilityPermission('Contacts', $current_user->id, 'campaignrelstatus','readwrite') == '0')? true : false;
 		}
 
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -293,7 +293,7 @@ class Campaigns extends CRMEntity {
         $log->debug("Entering get_leads(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 
@@ -306,8 +306,8 @@ class Campaigns extends CRMEntity {
 			$is_CampaignStatusAllowed  = (getFieldVisibilityPermission('Leads', $current_user->id, 'campaignrelstatus','readwrite') == '0')? true : false;
 		}
 
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -389,11 +389,11 @@ class Campaigns extends CRMEntity {
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -450,11 +450,11 @@ class Campaigns extends CRMEntity {
 		$log->debug("Entering get_activities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 

@@ -64,7 +64,7 @@
                              {else}
                                  {vtranslate($FIELD_MODEL->get('label'), $MODULE)}
                              {/if}
-                             &nbsp; {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
+                             &nbsp; {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}
                          </div>
                          </div>
                          <div class="col-md-7 pl0">

@@ -1,0 +1,204 @@
+/* select2 */
+.select2-container-multi .select2-choices .select2-search-choice {
+  font-family: "Lato", sans-serif !important; font-size: 15px; }
+
+.select2-results .select2-result-label {
+  font-family: "Lato", sans-serif !important; font-size: 15px; }
+
+.select2-results .select2-highlighted {
+  background-color: #0c4da2 !important; }
+
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #0c4da2 !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #0c4da2; }
+
+.select2-drop-active {
+  border-color: #0c4da2 !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #0c4da2; }
+
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #0c4da2 !important;
+  -webkit-box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #0c4da2 !important;
+  box-shadow: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #0c4da2 !important;
+  -webkit-transition: 0 0 4px 1px rgba(142, 68, 173, 0.3), 0 0 0 1px #0c4da2 !important; }
+
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #0c4da2 !important;
+  box-shadow: none !important; }
+
+.select2 {
+    border-radius: 3px !important;
+    height: 40px !important;
+    box-shadow: none !important;
+}
+.inputElement.select2-container {
+  box-shadow: none !important;
+  width: 100% !important;
+    border-radius: 5px !important;
+    background: none;
+    height: 35px;
+    border: 1px solid #ccc !important;
+    padding:0;
+    font-size: 15px;
+    /*height: 100%;*/
+}
+
+  .inputElement.select2-container .select2-choices {
+    height: 30px;
+    border:1px solid #ccc;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    border-color: #f2f2f2 !important;
+    background: none !important;
+    position: relative;
+    top: 1px; }
+    .inputElement.select2-container .select2-choices:hover {
+      background: none; }
+    .inputElement.select2-container .select2-choices:focus {
+      border-color: #0c4da2;
+      box-shadow: none; }
+  .inputElement.select2-container .select2-choice {
+    height: 100% !important;
+    border:none !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    border-color: #f2f2f2 !important;
+    background: none !important;
+    position: relative;
+    top: 1px; }
+    .inputElement.select2-container .select2-choice:hover {
+      background: none; }
+    .inputElement.select2-container .select2-choice:focus {
+      border-color: #0c4da2;
+      box-shadow: none; }
+.select2-container {
+  box-shadow: none !important; }
+  .select2-container .select2-choices {
+    height: 28px;
+    border:1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    background: none !important;
+    position: relative;
+    top: 1px; }
+    .select2-container .select2-choices:hover {
+      background: none;
+      border-color: #969696 !important; }
+    .select2-container .select2-choices:focus {
+      border-color: #0c4da2; }
+  .select2-container .select2-choice {
+    height: 28px;
+    border:1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    background: none !important;
+    position: relative;
+    top: 1px; }
+    .select2-container .select2-choice:hover {
+      background: none;
+      border-color: #969696 !important; }
+    .select2-container .select2-choice:focus {
+      border-color: #0c4da2; }
+  .select2-container .select2-choice.input-error {
+    border:1px solid #ccc !important;
+    border-bottom: 1px solid #b94a48 !important; }
+
+  .select2-results .select2-highlighted {
+  background: #0c4da2 !important; }
+
+.select2-container .select2-choice div {
+  background: none !important;
+  border:1px solid #ccc !important; }
+
+.select2-drop {
+  border: 1px solid #0c4da2 !important;
+  box-shadow: none !important; }
+
+.select2-drop.select2-drop-above {
+  border-bottom: 1px solid #0c4da2; }
+
+.select2-drop-active {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2) !important; }
+
+.select2-search {
+  box-shadow: none !important; }
+  .select2-search input {
+    box-shadow: none !important;
+    border:1px solid #ccc;
+    border-bottom: 1px solid #f2f2f2 !important;
+    border-radius: 5px !important; }
+
+.select2-input {
+  border:1px solid #ccc !important;
+  border-bottom: 1px solid #f2f2f2 !important;
+  b!importantorder-radius: 5px !important;
+  box-shadow: none !important; }
+  .select2-input:hover {
+    border-color: #969696 !important;
+    box-shadow: none; }
+    .select2-input:focus {
+    border-color: #0c4da2 !important;
+    box-shadow: 0px 1px 0px 0px rgba(154, 0, 219, 0.3) !important; }
+
+.select2-choices {
+  border:1px solid #ccc !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #e8e8e8 !important; }
+
+.select2-container.select2-container-multi.select2.inputElement.select2-dropdown-open {
+  border-color: #0c4da2 !important; }
+
+.inputElement.select2.name-prefix {
+  width: 30% !important;
+  margin-top: -4px; }
+
+.select2-drop.select2-drop-multi {
+  z-index: 11001 !important; }
+
+  #md-body #md-module-name tbody tr td .select2-container.select2, #md-body table tbody tr td .select2-container.select2 {
+    width: 30% !important; }
+
+.modal-body .quickCreateContent .massEditTable .inputElement.select2.name-prefix {
+  width: 78px !important; }
+
+.select2_search_div {
+  width: 150px !important;margin: 7px 0px 0px 36px;
+  overflow: hidden !important; }
+
+  .settingsPageDiv.content-area.clearfix #listview-actions tr.searchRow li.select2-search-field {
+    width: 150px; }
+  .settingsPageDiv.content-area.clearfix #listview-actions tr.searchRow li .select2-input.ignore-validation {
+    width: 150px !important; }
+
+#md-body #md-module-name tbody tr td .select2-container.select2, #md-body table tbody tr td .select2-container.select2 {
+  width: 100% !important; }
+
+table.listview-table thead tr.searchRow th:last-child .select2_search_div {
+  display: none; }
+
+.select2-container-multi .select2-choices{min-height:28px;border-radius:1px;border-color:#aaa;position:initial;z-index:3}
+.select2-container-multi .select2-choices .select2-search-field input{height:29px;padding:1px 10px}
+.select2-container-multi .select2-choices .select2-search-choice{cursor:move}
+.select2-container .select2-choice{position:initial;font-weight:100!important}
+.inputElement.select2-container .select2-choice{border-radius:0 2px 2px 0;height:28px}
+.listViewEntryValue .select2-container-multi .select2-choices{min-height:26px}
+.select2-container .select2-choice .select2-arrow{margin-right:0}
+.referencefield-wrapper .select2-container-multi{height:auto!important;float:left}
+form[name="notification_settings"] .select2-choice{height:28px;border-radius:0}
+.dashboardWidgetHeader .userList .select2{width:100%!important}
+.select2-container .select2-choice{height:29px;border-radius:1px}
+.workflowListContainer .select2-container .select2-choice{height:36px}
+.workflowListContainer .select2-container .select2-choice>.select2-chosen{margin-left:10px;padding-top:6px;font-size:16px}
+.input-group .form-control,.select2-container-multi .select2-choices{z-index:1}
+#SLAEditContainer .select2.inputElement.EmailTemplates,#editTagContainer .select2.inputElement.EmailTemplates{width:90%}
+#SLAEditContainer .select2.inputElement,#editTagContainer .select2.inputElement{width:40%}
+#SLAEditContainer .select2-container-multi,#editTagContainer .select2-container-multi{width:82%}
+.select2-chosen,.select2-choice>span:first-child,.select2-container .select2-choices .select2-search-field input{padding:6px 8px;border:none !important;}
+.uploadview-content .inputElement.select2,#uploadToDriveContainer .inputElement.select2{width:170px}
+.select2-container.select2-container-multi.select2,.editViewPageDiv .select2-container.select2-container-multi.select2{height:auto!important; background-color: #fff;}
+.summaryViewFields .select2-container-multi.inputElement.form-control .quickCreateContent .select2-container.select2-container-multi.select2,#massEditContainer .select2-container.select2-container-multi.select2{width:150px;height:auto!important}
+.summaryViewFields .select2-container-multi.inputElement.form-control .quickCreateContent .select2-container.select2-container-multi.select2 .input-save-wrap,#massEditContainer .select2-container.select2-container-multi.select2 .input-save-wrap{float:right;margin-right:25px}
+.select2-result[class*=joicon-],.select2-result[class*=fa]{font-size:12px;padding:5px 10px}
+.select2-result[class*=joicon-] .select2-result-label,.select2-result[class*=fa] .select2-result-label{display:inline-block}
+li.select2-search-choice div{white-space:nowrap}
+.Assigned .fa-search{ padding: 0px 40px;}

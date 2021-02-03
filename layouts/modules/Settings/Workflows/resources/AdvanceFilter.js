@@ -45,6 +45,14 @@ Head_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
     addNewCondition : function(conditionGroupElement){
         var basicElement = jQuery('.basic',conditionGroupElement);
         var newRowElement = basicElement.find('.conditionRow').clone(true,true);
+        let count = basicElement.siblings('.conditionList').children().length;
+        if(count % 2 != 0){
+            newRowElement.addClass('right');
+            newRowElement.removeClass('left');
+        }else{
+            newRowElement.addClass('left');
+            newRowElement.removeClass('right');
+        }
         jQuery('select',newRowElement).addClass('select2');
         var conditionList = jQuery('.conditionList', conditionGroupElement);
         conditionList.append(newRowElement);
@@ -171,12 +179,10 @@ Head_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
         var conditionGroups = jQuery('.conditionGroup', filterContainer);
         conditionGroups.each(function(index,domElement){
             var groupElement = jQuery(domElement);
-
             var conditions = jQuery('.conditionList .conditionRow',groupElement);
             if(conditions.length <=0) {
                 return true;
             }
-
             var iterationValues = {};
             conditions.each(function(i, conditionDomElement){
                 var rowElement = jQuery(conditionDomElement);
@@ -244,7 +250,6 @@ Head_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
                         }
                     }
                 }
-
                 if(jQuery('[name="valuetype"]', rowElement).val() == 'false' || (jQuery('[name="valuetype"]', rowElement).length == 0)) {
                     rowValues['valuetype'] = 'rawtext';
                 }

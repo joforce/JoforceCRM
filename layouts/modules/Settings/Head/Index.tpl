@@ -10,11 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class = "settings_search" style="height:10px;">
-	    <input type ='text' class="search-settings pull-right" id="search_settings" style="" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}">
-	</div>
-
 	<div class="col-lg-12 col-sm-12 col-md-12 admin-settings">
+
 	    {foreach item=BLOCK_MENUS from=$SETTINGS_MENUS}
         	{assign var=BLOCK_NAME value=$BLOCK_MENUS->getLabel()}
                 {assign var=BLOCK_MENU_ITEMS value=$BLOCK_MENUS->getMenuItems()}

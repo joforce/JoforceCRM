@@ -28,20 +28,19 @@ require_once('includes/utils/EditViewUtils.php');
 require_once('includes/utils/CommonUtils.php');
 require_once('includes/utils/InventoryUtils.php');
 require_once('includes/utils/SearchUtils.php');
-require_once('includes/FormValidationUtil.php');
 require_once('includes/events/SqlResultIterator.inc');
 require_once('includes/fields/DateTimeField.php');
 require_once('includes/fields/CurrencyField.php');
-require_once('data/CRMEntity.php');
-require_once 'vtlib/Head/Language.php';
+require_once('includes/data/CRMEntity.php');
+require_once 'libraries/modlib/Head/Language.php';
 require_once("includes/ListView/ListViewSession.php");
 
-require_once 'vtlib/Head/Functions.php';
-require_once 'vtlib/Head/Deprecated.php';
+require_once 'libraries/modlib/Head/Functions.php';
+require_once 'libraries/modlib/Head/Deprecated.php';
 
 require_once 'includes/runtime/Cache.php';
 require_once 'modules/Head/helpers/Util.php';
-require_once 'vtlib/Head/AccessControl.php';
+require_once 'libraries/modlib/Head/AccessControl.php';
 // Constants to be defined here
 
 // For Migration status.
@@ -60,6 +59,13 @@ define("CV_STATUS_PUBLIC", 3);
 define("RB_RECORD_DELETED", 'delete');
 define("RB_RECORD_INSERTED", 'insert');
 define("RB_RECORD_UPDATED", 'update');
+
+//Icons for listview
+define('downsortImage', "icon-chevron-down");
+define('downfaSortImage', "fa-arrow-down");
+define('upsortImage', "icon-chevron-up");
+define('upfaSortImage', "fa-arrow-up");
+define('defaultfaSortImage', "fa-arrow-down");
 
 /** Function to return a full name
   * @param $row -- row:: Type integer
@@ -115,8 +121,35 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
     $log->debug("Entering get_user_array(".$add_blank.",". $status.",".$assigned_user.",".$private.") method ...");
     global $current_user;
     if(isset($current_user) && $current_user->id != '') {
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
     }
     static $user_array = null;
     if(!$module){
@@ -171,8 +204,35 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
     $log->debug("Entering get_user_array(".$add_blank.",". $status.",".$assigned_user.",".$private.") method ...");
     global $current_user;
     if(isset($current_user) && $current_user->id != '') {
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
     }
     static $group_array = null;
     if(!$module) {
@@ -382,7 +442,7 @@ function getColumnFields($module) {
     $log->debug("in getColumnFields ".$module);
 
     // Lookup in cache for information
-    $cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+    $cachedModuleFields = CacheUtils::lookupFieldInfo_Module($module);
 
     if($cachedModuleFields === false) {
 	global $adb;
@@ -406,7 +466,7 @@ function getColumnFields($module) {
         if($noofrows) {
 	    while($resultrow = $adb->fetch_array($result)) {
         	// Update information to cache for re-use
-        	VTCacheUtils::updateFieldInfo(
+        	CacheUtils::updateFieldInfo(
         	    $resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'],
         	    $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'],
         	    $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
@@ -415,14 +475,14 @@ function getColumnFields($module) {
      	}
 
         // For consistency get information from cache
-	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = CacheUtils::lookupFieldInfo_Module($module);
     }
 
     if($module == 'Calendar') {
-	$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+	$cachedEventsFields = CacheUtils::lookupFieldInfo_Module('Events');
 	if (!$cachedEventsFields) {
             getColumnFields('Events');
-            $cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+            $cachedEventsFields = CacheUtils::lookupFieldInfo_Module('Events');
         }
         
 	if (!$cachedModuleFields) {
@@ -549,7 +609,7 @@ function getRecordOwnerId($record) {
     $ownerArr=Array();
 
     // Look at cache first for information
-    $ownerId = VTCacheUtils::lookupRecordOwner($record);
+    $ownerId = CacheUtils::lookupRecordOwner($record);
 
     if($ownerId === false) {
 	$query="select smownerid from jo_crmentity where crmid = ?";
@@ -557,19 +617,19 @@ function getRecordOwnerId($record) {
 	if($adb->num_rows($result) > 0) {
 	    $ownerId=$adb->query_result($result,0,'smownerid');
 	    // Update cache for re-use
-	    VTCacheUtils::updateRecordOwner($record, $ownerId);
+	    CacheUtils::updateRecordOwner($record, $ownerId);
 	}
     }
 
     if($ownerId) {
 	// Look at cache first for information
-	$count = VTCacheUtils::lookupOwnerType($ownerId);
+	$count = CacheUtils::lookupOwnerType($ownerId);
 
 	if($count === false) {
 	    $sql_result = $adb->pquery('SELECT 1 FROM jo_users WHERE id = ?', array($ownerId));
 	    $count = $adb->query_result($sql_result, 0, 1);
 	    // Update cache for re-use
-	    VTCacheUtils::updateOwnerType($ownerId, $count);
+	    CacheUtils::updateOwnerType($ownerId, $count);
 	}
 	if($count > 0)
 	    $ownerArr['Users'] = $ownerId;
@@ -1001,6 +1061,54 @@ function _html_to_utf8 ($data) {
 function _questionify($v) {
     return "?";
 }
+function get_privileges($userid){
+  global $adb;
+  $user_query =  $adb->pquery("SELECT * FROM jo_privileges where user_id=?",array($userid));
+          $user_count = $adb->num_rows($user_query);
+          if($user_count > 0){
+              $user_privilege =  $adb->query_result($user_query,0,'user_privilege');
+              $decode_user_privilege_value = json_decode(html_entity_decode($user_privilege));
+              foreach ($decode_user_privilege_value as $key => $value) {
+                
+                if(is_object($value)){
+                  $value = (array) $value;
+                  foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                      $value[$decode_key] = (array) $decode_value;
+                    }
+                  }
+                  $$key = $value;
+                }else{
+                  $$key = $value;
+                }
+                
+              }
+          }
+}
+function get_sharingprivileges($userid){
+  global $adb;
+  $user_query =  $adb->pquery("SELECT * FROM jo_privileges where user_id=?",array($userid));
+          $user_count = $adb->num_rows($user_query);
+          if($user_count > 0){
+              $sharing_privilege =  $adb->query_result($user_query,0,'sharing_privilege');
+              $decode_sharing_privilege_value = json_decode(html_entity_decode($sharing_privilege));
+              foreach ($decode_sharing_privilege_value as $key => $value) {
+                
+                if(is_object($value)){
+                  $value = (array) $value;
+                  foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                      $value[$decode_key] = (array) $decode_value;
+                    }
+                  }
+                  $$key = $value;
+                }else{
+                  $$key = $value;
+                }
+                
+              }
+          }
+}
 
 /**
  * Function to generate question marks for a given list of items
@@ -1340,7 +1448,7 @@ function getCallerInfo($number){
  */
 function get_use_asterisk($id){
     global $adb;
-    if(!vtlib_isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no'){
+    if(!modlib_isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no'){
 	return false;
     }
     $sql = "select * from jo_asteriskextensions where userid = ?";
@@ -1496,23 +1604,23 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 }
 
 /**
- * Track install/update vtlib module in current run.
+ * Track install/update modlib module in current run.
  */
-$_installOrUpdateVtlibModule = array();
+$_installOrUpdateModlibModule = array();
 
-/* Function to install Vtlib Compliant modules
+/* Function to install Modlib Compliant modules
  * @param - $packagename - Name of the module
  * @param - $packagepath - Complete path to the zip file of the Module
   */
-function installVtlibModule($packagename, $packagepath, $customized=false) {
-    global $log, $Head_Utils_Log, $_installOrUpdateVtlibModule;
+function installModlibModule($packagename, $packagepath, $customized=false) {
+    global $log, $Head_Utils_Log, $_installOrUpdateModlibModule;
     if(!file_exists($packagepath)) return;
 
-    if (isset($_installOrUpdateVtlibModule[$packagename.$packagepath])) return;
-    $_installOrUpdateVtlibModule[$packagename.$packagepath] = 'install';
+    if (isset($_installOrUpdateModlibModule[$packagename.$packagepath])) return;
+    $_installOrUpdateModlibModule[$packagename.$packagepath] = 'install';
 
-    require_once('vtlib/Head/Package.php');
-    require_once('vtlib/Head/Module.php');
+    require_once('libraries/modlib/Head/Package.php');
+    require_once('libraries/modlib/Head/Module.php');
     $Head_Utils_Log = defined('INSTALLATION_MODE_DEBUG')? INSTALLATION_MODE_DEBUG : true;
     $package = new Head_Package();
 
@@ -1524,7 +1632,7 @@ function installVtlibModule($packagename, $packagepath, $customized=false) {
     $module = $package->getModuleNameFromZip($packagepath);
     // Customization
     if($package->isLanguageType()) {
-	require_once('vtlib/Head/Language.php');
+	require_once('libraries/modlib/Head/Language.php');
 	$languagePack = new Head_Language();
 	@$languagePack->import($packagepath, true);
 	return;
@@ -1548,24 +1656,24 @@ function installVtlibModule($packagename, $packagepath, $customized=false) {
     }
 }
 
-/* Function to update Vtlib Compliant modules
+/* Function to update Modlib Compliant modules
  * @param - $module - Name of the module
  * @param - $packagepath - Complete path to the zip file of the Module
  */
-function updateVtlibModule($module, $packagepath) {
-    global $log, $_installOrUpdateVtlibModule;
+function updateModlibModule($module, $packagepath) {
+    global $log, $_installOrUpdateModlibModule;
     if(!file_exists($packagepath)) return;
 
-    if (isset($_installOrUpdateVtlibModule[$module.$packagepath])) return;
-    $_installOrUpdateVtlibModule[$module.$packagepath] = 'update';
+    if (isset($_installOrUpdateModlibModule[$module.$packagepath])) return;
+    $_installOrUpdateModlibModule[$module.$packagepath] = 'update';
 
-    require_once('vtlib/Head/Package.php');
-    require_once('vtlib/Head/Module.php');
+    require_once('libraries/modlib/Head/Package.php');
+    require_once('libraries/modlib/Head/Module.php');
     $Head_Utils_Log = defined('INSTALLATION_MODE_DEBUG')? INSTALLATION_MODE_DEBUG : true;
     $package = new Head_Package();
 
     if($package->isLanguageType($packagepath)) {
-	require_once('vtlib/Head/Language.php');
+	require_once('libraries/modlib/Head/Language.php');
 	$languagePack = new Head_Language();
 	$languagePack->update(null, $packagepath, true);
 	return;
@@ -1751,7 +1859,7 @@ function getTabInfo($tabId) {
  */
 function getBlockName($blockid) {
     global $adb;
-    $blockname = VTCacheUtils::lookupBlockLabelWithId($blockid);
+    $blockname = CacheUtils::lookupBlockLabelWithId($blockid);
 
     if(!empty($blockid) && $blockname === false){
 	$block_res = $adb->pquery('SELECT blocklabel FROM jo_blocks WHERE blockid = ?',array($blockid));
@@ -1760,7 +1868,7 @@ function getBlockName($blockid) {
 	} else {
 	    $blockname = '';
 	}
-	VTCacheUtils::updateBlockLabelWithId($blockname, $blockid);
+	CacheUtils::updateBlockLabelWithId($blockname, $blockid);
     }
     return $blockname;
 }
@@ -1864,14 +1972,14 @@ function getInventoryModules() {
     return $inventoryModules;
 }
 
-/* Function to only initialize the update of Vtlib Compliant modules
+/* Function to only initialize the update of Modlib Compliant modules
  * @param - $module - Name of the module
  * @param - $packagepath - Complete path to the zip file of the Module
  */
-function initUpdateVtlibModule($module, $packagepath) {
+function initUpdateModlibModule($module, $packagepath) {
     global $log;
-    require_once('vtlib/Head/Package.php');
-    require_once('vtlib/Head/Module.php');
+    require_once('libraries/modlib/Head/Package.php');
+    require_once('libraries/modlib/Head/Module.php');
     $Head_Utils_Log = true;
     $package = new Head_Package();
 
@@ -1930,7 +2038,7 @@ function isLeadConverted($leadId) {
 function getSelectedRecords($input,$module,$idstring,$excludedRecords) {
     global $current_user, $adb;
     if($idstring == 'relatedListSelectAll') {
-	$recordid = vtlib_purify($input['recordid']);
+	$recordid = modlib_purify($input['recordid']);
 	if($module == 'Accounts') {
 	    $result = getCampaignAccountIds($recordid);
 	}
@@ -1983,7 +2091,7 @@ function getSelectedRecords($input,$module,$idstring,$excludedRecords) {
 
 function getSelectAllQuery($input,$module) {
     global $adb,$current_user;
-    $viewid = vtlib_purify($input['viewname']);
+    $viewid = modlib_purify($input['viewname']);
 
     if($module == "Calendar") {
 	$listquery = getListQuery($module);
@@ -2008,7 +2116,7 @@ function getSelectAllQuery($input,$module) {
 	$query = $queryGenerator->getQuery();
 
 	if($module == 'Documents') {
-	    $folderid = vtlib_purify($input['folderidstring']);
+	    $folderid = modlib_purify($input['folderidstring']);
 	    $folderid = str_replace(';', ',', $folderid);
 	    $query .= " AND jo_notes.folderid in (".$folderid.")";
 	}
@@ -2074,8 +2182,8 @@ function dateDiff($d1, $d2){
 function getExportRecordIds($moduleName, $viewid, $input) {
     global $adb, $current_user, $list_max_entries_per_page;
 
-    $idstring = vtlib_purify($input['idstring']);
-    $export_data = vtlib_purify($input['export_data']);
+    $idstring = modlib_purify($input['idstring']);
+    $export_data = modlib_purify($input['export_data']);
 
     if (in_array($moduleName, getInventoryModules()) && $export_data == 'currentpage') {
 	$queryGenerator = new QueryGenerator($moduleName, $current_user);
@@ -2258,7 +2366,7 @@ function getCurrentWeekRange($date) {
 function getRecordGroupId($record) {
     global $adb;
     // Look at cache first for information
-    $groupId = VTCacheUtils::lookupRecordGroup($record);
+    $groupId = CacheUtils::lookupRecordGroup($record);
 
     if ($groupId === false) {
 	$query = "SELECT smgroupid FROM jo_crmentity WHERE crmid = ?";
@@ -2266,7 +2374,7 @@ function getRecordGroupId($record) {
 	if ($adb->num_rows($result) > 0) {
 	    $groupId = $adb->query_result($result, 0, 'smgroupid');
 	    // Update cache forupdateRecordGroup re-use
-	    VTCacheUtils::updateRecordGroup($record, $groupId);
+	    CacheUtils::updateRecordGroup($record, $groupId);
 	}
     }
     return $groupId;
@@ -2672,6 +2780,47 @@ function getMasqueradeUserActionPermission() {
     return false;
 }
 
+function getNotPermittedRelatedRecordPermission($module_name) {
+    global $current_user;
+    $user_id = $current_user->id;
+    $profile_array = getUserProfile($user_id);
+    foreach($profile_array as $profile) {
+        $profile_instance = Settings_Profiles_Record_Model::getInstanceById($profile);
+        $action_permission = $profile_instance->hasModuleActionPermission($module_name, 15);
+        if($action_permission) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getMasqueradeUserRecordDetails() {
+    global $current_user,$adb;
+    $user_id = $current_user->id;
+    $query = $adb->pquery('select jo_masqueradeuserdetails.record_id as record_id, jo_masqueradeuserdetails.masquerade_module as masquerade_module from jo_masqueradeuserdetails where portal_id = ?', array($user_id));
+    $num_of_rows = $adb->num_rows($query);
+    if($num_of_rows > 0) {
+        $result = $adb->fetch_array($query);
+        return $result;
+    } else {
+        return array();
+    }
+}
+
+function getRelatedModules($module) {
+        global $adb;
+        $tabvalue = getTabid($module);
+        $query = "SELECT jo_tab.tabid, jo_tab.name,jo_relatedlists.name as functionname,jo_relatedlists.relation_id FROM jo_relatedlists
+            INNER JOIN jo_tab ON jo_tab.tabid = jo_relatedlists.related_tabid
+            WHERE jo_relatedlists.tabid = ?";
+        $result = $adb->pquery($query, array($tabvalue));
+        $Related_Modules = array();
+        while ($rowvalue = $adb->fetchByAssoc($result)) {
+            $Related_Modules[$rowvalue['name']] = $rowvalue;
+        }
+        return $Related_Modules;
+}
+
 /**
  * Function to get global masquerade user permission
  **/
@@ -2738,6 +2887,29 @@ function getPicklistValueId($picklist_name , $roleid, $picklist_value) {
     return $pick_values['picklistvalueid'];
 }
 
+function convertUrlToArray($url){
+    global $site_URL;
+    $url = str_replace($site_URL, "", $url);
+    $explodes = explode("?", $url);
+
+    $canonical = explode("/", $explodes[0]);
+    $request_vars = $explodes[1];
+    $return = array();
+
+    if(!empty($request_vars)) {
+        $urlExploded = explode("&", $request_vars);
+        foreach ($urlExploded as $param){
+            $explodedPar = explode("=", $param);
+            $return[$explodedPar[0]] = $explodedPar[1];
+        }
+    }
+
+    if(!empty($return)) {
+        $canonical = array_merge($canonical, $return);
+    }
+    return $canonical;
+}
+
 /**
  * Function to return the First & lastname of user 
  **/
@@ -2749,4 +2921,79 @@ function getUserFirstAndLastName($user_id) {
     $name = $user_values['first_name'] .' '.$user_values['last_name'];
     return $name;
 }
-?>
+
+function URLCheck($url) {
+    global $site_URL;
+    if(strpos($url, $site_URL) !== false) {
+        return $url;
+    } else {
+        return $site_URL.$url;
+    }
+}
+
+function getCurrentUserFieldDetailsFromTable($columnname) {
+    global $current_user, $adb;
+    $userid = $current_user->id;
+    $user_query = $adb->pquery('select * from jo_users where id=?', array($userid));
+    $user_values = $adb->fetch_array($user_query);
+    $field_value = $user_values[$columnname];
+    return $field_value;
+}
+
+/**
+ * Function to get one email field of a module
+ **/
+function getModuleEmailField($source_modules){
+	global $adb;
+	$tabid = getTabid($source_modules);
+        //no email field accessible in the module. since its only association pick up the field any way.
+        $query="SELECT fieldid,fieldlabel,columnname,fieldname FROM jo_field WHERE tabid=? and uitype=13 and presence in (0,2)";
+        $result = $adb->pquery($query, array($tabid));
+
+	//pick up the first field.
+	$fieldname = '';
+	if($adb->num_rows($result) > 0) {
+		$fieldname = $adb->query_result($result,0,'fieldname');
+	}
+        return $fieldname;
+}
+
+/**
+ * Function to get one phone field of a module
+ **/
+function getModulePhoneField($source_modules){
+        global $adb;
+        $tabid = getTabid($source_modules);
+        //no email field accessible in the module. since its only association pick up the field any way.
+        $query="SELECT fieldid,fieldlabel,columnname,fieldname FROM jo_field WHERE tabid=? and uitype=11 and presence in (0,2)";
+        $result = $adb->pquery($query, array($tabid));
+
+        //pick up the first field.
+        $fieldname = '';
+        if($adb->num_rows($result) > 0) {
+                $fieldname = $adb->query_result($result,0,'fieldname');
+        }
+        return $fieldname;
+}
+
+function getRelatedRecordDetails($recordId, $module, $relationModuleName){
+	$parentRecordModel = Head_Record_Model::getInstanceById($recordId);
+	$relation_model = Head_RelationListView_Model::getInstance($parentRecordModel, $relationModuleName, $label=false);
+	$pagingModel = new Head_Paging_Model();
+	$pagingModel->set('page',1);
+	$pagingModel->set('_relatedlistcount', 100);
+	$entries = $relation_model->getEntries($pagingModel);
+	return $entries;
+}
+
+function getRelatedRecordSumValue($recordId, $module, $relatedModuleName, $req_field = false) {
+	global $current_user;
+	$currency = $current_user->currency_symbol;
+	$entries = getRelatedRecordDetails($recordId, $module, $relatedModuleName);
+	if(empty($req_field)) {return count($entries);}
+	$sum = 0;
+	foreach($entries as $crmid => $record_obj) {
+		$sum = $sum + $record_obj->get($req_field);
+	}
+	return $currency.$sum;
+}

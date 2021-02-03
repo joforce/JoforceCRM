@@ -88,6 +88,7 @@ class Users_Save_Action extends Head_Save_Action {
 	}
 
 	public function process(Head_Request $request) {
+		$adb = PearDatabase::getInstance();
 		$result = Head_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
@@ -129,9 +130,19 @@ class Users_Save_Action extends Head_Save_Action {
 			
 			require_once('modules/Emails/mail.php');
 			send_mail($module, $to_email, $from_name, $from_email, $subject, $contents, '', '', '', '', '', '', '', '');
+			$new_date = Head_Datetime_UIType::getDBDateTimeValue($request->get('masqueradeuserenddate'));
+			$query = $adb->pquery('select * from jo_masqueradeuserdetails where customerid = ?', array($request->get('record_id')));
+			$result = $adb->num_rows($query);
+			if($result < 1){
+				$adb->pquery("insert into jo_masqueradeuserdetails values (?,?,?,?,?)", array($request->get('record_id'), $recordModel->getId(),$request->get('related_module'), $new_date,$new_date));
+
+			}else{
+				$adb->pquery('UPDATE jo_masqueradeuserdetails SET  support_end_date= ? WHERE record_id=?', array($new_date,$request->get('record_id')));
+				$adb->pquery('UPDATE jo_masqueradeuserdetails SET portal_id= ? WHERE record_id=?', array($recordModel->getId(),$request->get('record_id')));
+			}
 		}
-		if ($masquerade_user_status) {		 	
-			$loadUrl = $site_URL.'Contacts/view/Detail/'.$request->get('record_id');
+		if ($masquerade_user_status) {	
+				$loadUrl = $site_URL.'Contacts/view/Detail/'.$request->get('record_id');
 		}else{
 			if ($request->get('relationOperation')) {
 				$parentRecordModel = Head_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));

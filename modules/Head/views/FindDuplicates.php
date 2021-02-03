@@ -18,7 +18,7 @@ class Head_FindDuplicates_View extends Head_List_View {
 	}
 
 	public function preProcessTplName(Head_Request $request) {
-		return 'FindDuplicatePreProcess.tpl';
+		return 'ListViewPreProcess.tpl';
 	}
 
 	function process (Head_Request $request) {

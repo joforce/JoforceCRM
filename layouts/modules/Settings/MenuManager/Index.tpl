@@ -10,7 +10,6 @@
 {* modules/Settings/MenuManager/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
     <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
     </div>
     <div class="col-sm-12">
@@ -60,7 +59,7 @@
 			        {assign var=linkurl value=$tabarray['linkurl']}
 				<li class="custom-menu-list main-menu-container noConnect" data-menuname="{$tabarray['name']}">
                                     <span class="menu-name">{$linklabel}</span>
-	                            <span class="pull-right close-menu remove-main-menu">X</span>
+	                            <span class="pull-right close-menu remove-main-menu fa fa-close"></span>
                                 </li>
 			    {/if}
 			{/foreach}
@@ -71,7 +70,7 @@
 	<div class="col-lg-8 mt10">
 	    <div class="menu-box" style="overflow:hidden;">
 		<div class = "custom-menu-header more-menu-header pull-right">More Section
-		    <i id="add_new_menu_bar" type="button" class="addButton add-module-buttons fa fa-plus pull-right" title="Add Section" ></i>
+		    <i id="add_new_menu_bar" type="button" class="addButton btn-primary fa fa-plus pull-right" title="Add Section" ></i>
         	</div>
 		{assign var=default_main_sections value=[ '0' => 'MARKETING', 
 							  '1' => 'SALES',
@@ -122,4 +121,3 @@
 	    </div>
 	</div>
     </div>
-</div>

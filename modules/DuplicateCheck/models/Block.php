@@ -77,7 +77,7 @@ class DuplicateCheck_Block_Model extends Head_Block_Model {
 
 	/**
 	 * Function to retrieve block instance from Head_Block object
-	 * @param Head_Block $blockObject - vtlib block object
+	 * @param Head_Block $blockObject - modlib block object
 	 * @return Head_Block_Model
 	 */
 	public static function getInstanceFromBlockObject(Head_Block $blockObject) {

@@ -186,7 +186,7 @@ class HelpDesk extends CRMEntity {
 			{
 				if($files['name'] != '' && $files['size'] > 0)
 				{
-					$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+					$files['original_name'] = modlib_purify($_REQUEST[$fileindex.'_hidden']);
 					$file_saved = $this->uploadAndSaveFile($id,$module,$files);
 				}
 			}
@@ -204,11 +204,11 @@ class HelpDesk extends CRMEntity {
 		$log->debug("Entering get_activities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -346,7 +346,20 @@ class HelpDesk extends CRMEntity {
 	{
 		global $log,$current_user;
 		$log->debug("Entering getColumnNames_Hd() method ...");
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
 			$sql1 = "select fieldlabel from jo_field where tabid=13 and block <> 30 and jo_field.uitype <> '61' and jo_field.presence in (0,2)";
@@ -782,10 +795,10 @@ case when (jo_users.user_name not like '') then $userNameSql else jo_groups.grou
     
     function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
 		global $currentModule;
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
+        modlib_setup_modulevars($related_module, $other);
 
         $returnset = '&return_module='.$currentModule.'&return_action=CallRelatedList&return_id='.$id;
 

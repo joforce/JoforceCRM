@@ -11,6 +11,39 @@
  * *********************************************************************************** */
 
 class Accounts_Detail_View extends Head_Detail_View {
+	function preProcess(Head_Request $request, $display=true) {
+		global $adb;
+		$viewer = $this->getViewer($request);
+		$recordId = $request->get('record');
+		$inventoryModules = array('Invoice' => array('id' => 'invoiceid', 'table' => 'jo_invoice'),
+			'Quotes' => array('id' => 'quoteid', 'table' => 'jo_quotes'),
+			'SalesOrder' => array('id' => 'salesorderid', 'table' => 'jo_salesorder'),
+		);
+		$totalValue = array();
+		foreach($inventoryModules as $key => $singleModule){
+			$total = 0;
+			$query = $adb->pquery("select total from jo_crmentityrel join {$singleModule['table']} on {$singleModule['id']} = relcrmid where crmid = ? and relmodule = ?", array($recordId, $key));
+			if($adb->num_rows($query) > 0){
+				while($result = $adb->fetch_array($query)){
+					$total += $result['total'];
+				}
+				$totalValue[$key] = $total;
+			}
+			else{
+				$totalValue[$key] = 0;
+			}
+		}
+		$getRelatedDeals = getRelatedRecordSumValue($recordId, $request->getModule(), 'Potentials', 'amount');
+		$getTicketCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'HelpDesk');
+		$getCallsCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'Calendar');
+
+		$totalValue['Potentials'] = $getRelatedDeals? $getRelatedDeals : 0;
+		$totalValue['HelpDesk'] = $getTicketCount? $getTicketCount : 0;
+		$totalValue['Calendar'] = $getCallsCount? $getCallsCount : 0;
+
+		$viewer->assign('TOTAL', $totalValue);
+		parent::preProcess($request);
+	}
 
 	/**
 	 * Function to get activities

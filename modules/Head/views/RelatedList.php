@@ -59,12 +59,12 @@ class Head_RelatedList_View extends Head_Index_View {
 		$sortOrder = $request->get('sortorder');
 		if($sortOrder == 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'icon-chevron-down';
-            $faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'icon-chevron-up';
-            $faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 		if(!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
@@ -124,7 +124,8 @@ class Head_RelatedList_View extends Head_Index_View {
 		$viewer->assign('SORT_ORDER',$sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);
 		$viewer->assign('SORT_IMAGE',$sortImage);
-        $viewer->assign('FASORT_IMAGE',$faSortImage);
+	        $viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 		$viewer->assign('COLUMN_NAME',$orderBy);
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());

@@ -49,7 +49,7 @@
                             {if !$SEARCH_MODE_RESULTS}
                                 <div class="table-actions">
                                     <div class="dropdown" style="float:left;">
-                                        <span class="input dropdown-toggle" data-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
+                                        <span class="input" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
                                             <input class="listViewEntriesMainCheckBox" type="checkbox">
                                         </span>
                                     </div>
@@ -74,15 +74,15 @@
                                 <a href="#" class="{if $NO_SORTING}noSorting{else}listViewContentHeaderValues{/if}" {if !$NO_SORTING}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}"{/if}>
                                     {if !$NO_SORTING}
                                         {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-                                            <i class="fa fa-sort {$FASORT_IMAGE}"></i>
+                                            <i class="fa pull-right {$FASORT_IMAGE}"></i>
                                         {else}
-                                            <i class="fa fa-sort customsort"></i>
+                                            <i class="fa {$DEFAULT_SORT} pull-right"></i>
                                         {/if}
                                     {/if}
-                                    &nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}&nbsp;
+                                    <span>{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}</span>
                                 </a>
                                 {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-                                    <a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
+                                    <a href="#" class="removeSorting pull-right">x</a>
                                 {/if}
                             </th>
                         {/foreach}

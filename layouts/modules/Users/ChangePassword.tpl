@@ -24,7 +24,7 @@
 							{if !$CURRENT_USER_MODEL->isAdminUser()}
 								<label class="control-label fieldLabel col-sm-5 pl0 pr0">
 									{vtranslate('LBL_OLD_PASSWORD', $MODULE)}&nbsp;
-									<span class="red-border"></span>
+									<span class="red-border">*</span>
 								</label>
 								<div class="controls fieldValue col-sm-6 pl0">
 									<input type="password" name="old_password" class="form-control inputElement" data-rule-required="true"/>
@@ -35,7 +35,7 @@
 						<div class="form-group">
 							<label class="control-label fieldLabel col-sm-5 pl0 pr0">
 								{vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
-								<span class="red-border"></span>
+								<span class="red-border">*</span>
 							</label>
 							<div class="controls fieldValue col-xs-6 pl0">
 								<input type="password" class="form-control inputElement	" name="new_password" data-rule-required="true" autofocus="autofocus"/>
@@ -45,7 +45,7 @@
 						<div class="form-group">
 							<label class="control-label fieldLabel col-sm-5 pl0 pr0">
 								{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
-								<span class="red-border"></span>
+								<span class="red-border">*</span>
 							</label>
 							<div class="controls fieldValue col-xs-6 pl0">
 								<input type="password" class="form-control inputElement	" name="confirm_password" data-rule-required="true"/>

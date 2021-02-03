@@ -70,7 +70,7 @@ if ($allow_exports=='none' || ( $allow_exports=='admin' && ! is_admin($current_u
 ?>
 	<script type='text/javascript'>
 		alert("<?php echo $app_strings['NOT_PERMITTED_TO_EXPORT']?>");
-		window.location="index.php?module=<?php echo vtlib_purify($_REQUEST['module']) ?>&action=index";
+		window.location="index.php?module=<?php echo modlib_purify($_REQUEST['module']) ?>&action=index";
 	</script>
 	
 	<?php exit; ?>
@@ -104,7 +104,7 @@ function export($type){
     $content = '';
 
     if ($type != ""){
-		// vtlib customization: Hook to dynamically include required module file.
+		// modlib customization: Hook to dynamically include required module file.
 		// Refer to the logic in setting $currentModule in index.php
 		$focus = CRMEntity::getInstance($type);
     }
@@ -116,8 +116,8 @@ function export($type){
 	$sorder = $focus->getSortOrder();
 	$order_by = $focus->getOrderBy();
 
-    $search_type = vtlib_purify($_REQUEST['search_type']);
-    $export_data = vtlib_purify($_REQUEST['export_data']);
+    $search_type = modlib_purify($_REQUEST['search_type']);
+    $export_data = modlib_purify($_REQUEST['export_data']);
 	
 	if(isset($_SESSION['export_where']) && $_SESSION['export_where']!='' && $search_type == 'includesearch'){
 		$where =$_SESSION['export_where'];
@@ -139,7 +139,7 @@ function export($type){
 	list($idstring, $export_data) = split("#@@#",getExportRecordIds($type, $viewid, $_REQUEST));
 	
 	if(($search_type == 'withoutsearch' || $search_type == 'includesearch') && $export_data == 'selecteddata'){
-		$idstring = getSelectedRecords($_REQUEST, $type, $idstring, vtlib_purify($_REQUEST['excludedRecords']));
+		$idstring = getSelectedRecords($_REQUEST, $type, $idstring, modlib_purify($_REQUEST['excludedRecords']));
 		if($type == 'Accounts' && count($idstring) > 0) {
 			$query .= ' and jo_account.accountid in ('. generateQuestionMarks($idstring) .')';
 			array_push($params, $idstring);
@@ -178,7 +178,7 @@ function export($type){
 			array_push($params, $idstring);
 		}
 		else if(count($idstring) > 0) {
-			// vtlib customization: Hook to make the export feature available for custom modules.
+			// modlib customization: Hook to make the export feature available for custom modules.
 			$query .= " and $focus->table_name.$focus->table_index in (" . generateQuestionMarks($idstring) . ')';
 			array_push($params, $idstring);
 			// END
@@ -256,7 +256,7 @@ function export($type){
 }
 
 /** Send the output header and invoke function for contents output */
-$moduleName = vtlib_purify($_REQUEST['module']);
+$moduleName = modlib_purify($_REQUEST['module']);
 $moduleName = getTranslatedString($moduleName, $moduleName);
 $moduleName = str_replace(" ","_",$moduleName);
 header("Content-Disposition:attachment;filename=$moduleName.csv");
@@ -265,7 +265,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT" );
 header("Cache-Control: post-check=0, pre-check=0", false );
 
-export(vtlib_purify($_REQUEST['module']));
+export(modlib_purify($_REQUEST['module']));
 
 exit;
 

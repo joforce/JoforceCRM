@@ -52,7 +52,7 @@
 </style>
 {/literal}
 {strip}
-    <div class="container-fluid joforce-bg" id="layoutEditorContainer">
+    <div class="settings-duplicate-check" id="settings-duplicate-check">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row-fluid">
             <div class="col-sm-12">
@@ -93,7 +93,6 @@
 	            <hr class='hr-dotted' style='width:100%;'>
 		    <h4 style="position: relative; top: 25px;">{vtranslate('LBL_CONFIGURE_FIELD_RULE', $MODULE)}</h4>  
                	    <div>
-		    	{**<button class="btn joforce-default" onclick="window.location.reload();" style="float:right" value="Save">Cancel</button>**}
 			<button class="btn btn-primary vtduplicateform_submit" name="savebutton" style="float:right" type="button" value="Save" id='vtduplicateform_submit'>{vtranslate('LBL_SAVE', $MODULE)}</button>
                     </div>
 

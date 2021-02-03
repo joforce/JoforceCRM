@@ -52,7 +52,7 @@ class Users_Logout_Action extends Head_Action_Controller {
      */
     private function logoutRoundcube()
     {
-        global $site_URL, $adb;
+        global $site_URL, $adb ,$application_unique_key;;
         require_once 'modules/EmailPlus/RoundcubeLogin.class.php';
         $url = $site_URL . 'modules/EmailPlus/roundcube/';
         $account = EmailPlus_Autologin_Model::getAutologinUsers();
@@ -61,12 +61,14 @@ class Users_Logout_Action extends Head_Action_Controller {
         if (empty($IsUpdated)) {
             $adb->pquery('update users set jo_user_id = ? where username = ?', array($current_user->id, $account['email']));
         }
-
-        if ($account) {
+        $hash_key = md5($application_unique_key . date('dFYaG'));
+        
+        if ($account) {  
             $url .= '?server=' . $account['name'];
             $url .= '&port=' . $account['port'];
+            $url .= '&jo_token=' . $hash_key; 
             $rcl = new RoundcubeLogin($url, false);
-            if ($rcl->isLoggedIn()) {
+            if ($rcl->isLoggedIn()) { 
                 $rcl->logout();
             }
         }

@@ -184,11 +184,11 @@ Head_Detail_Js("Potentials_Detail_Js",{
 		container.on('click', '.accordion-group', function (e) { 
 			var currentElement = jQuery(e.currentTarget).find('.Project_faAngle');
 			if (jQuery('.Project_FieldInfo').hasClass('in')) {
-				currentElement.removeClass('fa-angle-up');
-				currentElement.addClass('fa-angle-down');
+				currentElement.removeClass('fa-arrow-up');
+				currentElement.addClass('fa-arrow-down');
 			} else {
-				currentElement.removeClass('fa-angle-down');
-				currentElement.addClass('fa-angle-up');
+				currentElement.removeClass('fa-arrow-down');
+				currentElement.addClass('fa-arrow-up');
 			}
 		});
 

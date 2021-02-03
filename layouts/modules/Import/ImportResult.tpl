@@ -25,16 +25,17 @@
     </div>
     <div class='modal-overlay-footer border1px clearfix'>
        <div class="row clearfix">
-            <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-                <button name="next" class="btn btn-primary btn-lg"
-                        onclick="return Head_Import_Js.triggerImportAction();">{'LBL_IMPORT_MORE'|@vtranslate:$MODULE}</button>
+            <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 ' style="display:flex;justify-content:center">
+                {* <button name="next" class="btn btn-primary btn-lg"
+                        onclick="return Head_Import_Js.triggerImportAction();">{'LBL_IMPORT_MORE'|@vtranslate:$MODULE}</button>*}
+                <a type="button" name="next" class="btn btn-primary btn-lg" href="{$SITEURL}{$FOR_MODULE}/view/Import">{'LBL_IMPORT_MORE'|@vtranslate:$MODULE}</a>                      
                 &nbsp;&nbsp;&nbsp;
                 {if $MERGE_ENABLED eq '0'}
                     <button name="next" class="btn btn-danger btn-lg"
                             onclick="Head_Import_Js.undoImport('index.php?module={$FOR_MODULE}&view=Import&mode=undoImport&foruser={$OWNER_ID}')">{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</button>
                     &nbsp;&nbsp;&nbsp;
                 {/if}
-                <button class='btn btn-success btn-lg' data-dismiss="modal" onclick="Head_Import_Js.loadListRecords();">{vtranslate('LBL_FINISH', $MODULE)}</button>
+                <button class='btn btn-success btn-lg cancelLink' data-dismiss="modal" onclick="Head_Import_Js.loadListRecords();">{vtranslate('LBL_FINISH', $MODULE)}</button>
             </div>
         </div>
     </div>

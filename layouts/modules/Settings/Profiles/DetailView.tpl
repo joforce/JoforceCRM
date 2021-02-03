@@ -10,8 +10,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-	<div class="detailViewContainer full-height">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-sm-12 col-xs-12 joforce-bg main-scroll">
+	<div class="detailViewContainer full-height main-scroll">
 			<div class="detailViewTitle form-horizontal" id="profilePageHeader">
 				<div class="clearfix row">
 					<div class="col-sm-10 col-md-10 col-sm-10">
@@ -218,6 +217,5 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 {/strip}

@@ -12,71 +12,86 @@
 /*
  * Workflow Task Record Model Class
  */
-require_once 'modules/com_jo_workflow/include.inc';
-require_once 'modules/com_jo_workflow/VTTaskManager.inc';
+require_once 'modules/Workflow/include.inc';
+require_once 'modules/Workflow/TaskManager.inc';
 
-class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model {
+class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model
+{
 
 	const TASK_STATUS_ACTIVE = 1;
 
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('task_id');
 	}
 
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('summary');
 	}
 
-	public function isActive() {
+	public function isActive()
+	{
 		return $this->get('status') == self::TASK_STATUS_ACTIVE;
 	}
 
-	public function getTaskObject() {
+	public function getTaskObject()
+	{
 		return $this->task_object;
 	}
 
-	public function setTaskObject($task) {
+	public function setTaskObject($task)
+	{
 		$this->task_object = $task;
 		return $this;
 	}
 
-	public function getTaskManager() {
+	public function getTaskManager()
+	{
 		return $this->task_manager;
 	}
 
-	public function setTaskManager($tm) {
+	public function setTaskManager($tm)
+	{
 		$this->task_manager = $tm;
 	}
 
-	public function getEditViewUrl() {
-	    global $site_URL;
-	    return $site_URL . 'Workflows/Settings/EditTask?type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
-	}
-    
-    public function getV7EditViewUrl() {
-        global $site_URL;
-        return $site_URL . 'Workflows/Settings/EditV7Task?type='.$this->getTaskType()->getName().'&task_id='.$this->getId().'&for_workflow='.$this->getWorkflow()->getId();
+	public function getEditViewUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/EditTask?type=' . $this->getTaskType()->getName() . '&task_id=' . $this->getId() . '&for_workflow=' . $this->getWorkflow()->getId();
 	}
 
-	public function getDeleteActionUrl() {
-		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=Delete&task_id='.$this->getId();
+	public function getV7EditViewUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/EditV7Task?type=' . $this->getTaskType()->getName() . '&task_id=' . $this->getId() . '&for_workflow=' . $this->getWorkflow()->getId();
 	}
 
-	public function getChangeStatusUrl() {
-		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=ChangeStatus&task_id='.$this->getId();
+	public function getDeleteActionUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=Delete&task_id=' . $this->getId();
 	}
 
-	public function getWorkflow() {
+	public function getChangeStatusUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=ChangeStatus&task_id=' . $this->getId();
+	}
+
+	public function getWorkflow()
+	{
 		return $this->workflow;
 	}
 
-	public function setWorkflowFromInstance($workflowModel) {
+	public function setWorkflowFromInstance($workflowModel)
+	{
 		$this->workflow = $workflowModel;
 		return $this;
 	}
 
-	public function getTaskType() {
-		if(!$this->task_type) {
+	public function getTaskType()
+	{
+		if (!$this->task_type) {
 			$taskObject = $this->getTaskObject();
 			$taskClass = get_class($taskObject);
 			$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
@@ -84,38 +99,42 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model {
 		return $this->task_type;
 	}
 
-	public static function getAllForWorkflow($workflowModel, $active=false) {
+	public static function getAllForWorkflow($workflowModel, $active = false)
+	{
 		$db = PearDatabase::getInstance();
 
-		$tm = new VTTaskManager($db);
+		$tm = new TaskManager($db);
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
 		$taskModels = array();
-		foreach($tasks as $task) {
-			if(!$active || $task->active == self::TASK_STATUS_ACTIVE) {
+		foreach ($tasks as $task) {
+			if (!$active || $task->active == self::TASK_STATUS_ACTIVE) {
 				$taskModels[$task->id] = self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 			}
 		}
 		return $taskModels;
 	}
 
-	public static function getInstance($taskId, $workflowModel=null) {
+	public static function getInstance($taskId, $workflowModel = null)
+	{
 		$db = PearDatabase::getInstance();
-		$tm = new VTTaskManager($db);
+		$tm = new TaskManager($db);
 		$task = $tm->retrieveTask($taskId);
-		if($workflowModel == null) {
+		if ($workflowModel == null) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($task->workflowId);
 		}
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 	}
 
-	public static function getCleanInstance($workflowModel, $taskName) {
+	public static function getCleanInstance($workflowModel, $taskName)
+	{
 		$db = PearDatabase::getInstance();
-		$tm = new VTTaskManager($db);
+		$tm = new TaskManager($db);
 		$task = $tm->createTask($taskName, $workflowModel->getId());
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 	}
 
-	public static function getInstanceFromTaskObject($task, $workflowModel, $tm) {
+	public static function getInstanceFromTaskObject($task, $workflowModel, $tm)
+	{
 		$taskId = $task->id;
 		$summary = $task->summary;
 		$status = $task->active;
@@ -123,20 +142,22 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Head_Record_Model {
 		$taskModel = new self();
 		$taskModel->setTaskManager($tm);
 		return $taskModel->set('task_id', $taskId)->set('summary', $summary)->set('status', $status)
-				->setTaskObject($task)->setWorkflowFromInstance($workflowModel);
+			->setTaskObject($task)->setWorkflowFromInstance($workflowModel);
 	}
 
 	/**
 	 * Function deletes workflow task
 	 */
-	public function delete() {
+	public function delete()
+	{
 		$this->task_manager->deleteTask($this->getId());
 	}
 
 	/**
 	 * Function saves workflow task
 	 */
-	public function save() {
+	public function save()
+	{
 		$taskObject = $this->getTaskObject();
 		$this->task_manager->saveTask($taskObject);
 	}

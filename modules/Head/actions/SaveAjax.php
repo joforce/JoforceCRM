@@ -12,9 +12,9 @@
 class Head_SaveAjax_Action extends Head_Save_Action {
 
 	public function process(Head_Request $request) {
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
 		$recordModel = $this->saveRecord($request);
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', false);
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', false);
 
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = array();

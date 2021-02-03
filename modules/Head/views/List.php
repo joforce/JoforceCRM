@@ -261,12 +261,12 @@ class Head_List_View extends Head_Index_View {
 
 	if($sortOrder == "ASC"){
 	    $nextSortOrder = "DESC";
-	    $sortImage = "icon-chevron-down";
-	    $faSortImage = "fa-sort-desc";
+	    $sortImage = downsortImage;//"icon-chevron-down";
+	    $faSortImage = downfaSortImage;//"fa-angle-down";
 	} else {
 	    $nextSortOrder = "ASC";
-	    $sortImage = "icon-chevron-up";
-	    $faSortImage = "fa-sort-asc";
+	    $sortImage = upsortImage;//"icon-chevron-up";
+	    $faSortImage = upfaSortImage;//"fa-angle-up";
 	}
 
 	if(empty ($pageNumber)){
@@ -375,6 +375,7 @@ class Head_List_View extends Head_Index_View {
 	    $this->pagingModel = $pagingModel;
 	}
 	$viewer->assign('PAGE_NUMBER',$pageNumber);
+	$viewer->assign('NO_OF_PAGES', $this->getPageCount($request, true));
 
 	if(!$this->moduleFieldStructure) {
 	    $recordStructure = Head_RecordStructure_Model::getInstanceForModule($listViewModel->getModule(), Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
@@ -396,6 +397,7 @@ class Head_List_View extends Head_Index_View {
 	$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);
 	$viewer->assign('SORT_IMAGE',$sortImage);
 	$viewer->assign('FASORT_IMAGE',$faSortImage);
+	$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 	$viewer->assign('COLUMN_NAME',$orderBy);
 	$viewer->assign('VIEWNAME',$this->viewName);
 
@@ -529,7 +531,7 @@ class Head_List_View extends Head_Index_View {
      * Function to get the page count for list
      * @return total number of pages
      */
-    function getPageCount(Head_Request $request){
+    function getPageCount(Head_Request $request, $count_only = false){
 	$listViewCount = $this->getListViewCount($request);
 	$pagingModel = new Head_Paging_Model();
 	$pageLimit = $pagingModel->getPageLimit();
@@ -540,9 +542,13 @@ class Head_List_View extends Head_Index_View {
 	$result = array();
 	$result['page'] = $pageCount;
 	$result['numberOfRecords'] = $listViewCount;
-	$response = new Head_Response();
-	$response->setResult($result);
-	$response->emit();
+	if(empty($count_only)) {
+	    $response = new Head_Response();
+	    $response->setResult($result);
+	    $response->emit();
+	} else {
+	    return $result;
+	}
     }
 
     public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {

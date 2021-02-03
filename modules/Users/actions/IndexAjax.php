@@ -26,15 +26,12 @@ class Users_IndexAjax_Action extends Head_BasicAjax_Action {
 	}
     
     public function toggleLeftPanel (Head_Request $request) {
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$recordModel = Head_Record_Model::getInstanceById($currentUser->getId(), 'Users');
-        $recordModel->set('leftpanelhide',$request->get('showPanel'));
-        $recordModel->leftpanelhide = $request->get('showPanel');
-        $recordModel->set('mode','edit');
-	
+	global $adb;
+	$currentUser = Users_Record_Model::getCurrentUserModel();
+
         $response = new Head_Response();
-        try{
-            $recordModel->save();
+	try{
+	    $adb->pquery('update jo_users set leftpanelhide = ? where id = ?', array($request->get('showPanel'), $currentUser->getId()));
             $response->setResult(array('success'=>true));
         }catch(Exception $e){
             $response->setError($e->getCode(),$e->getMessage());

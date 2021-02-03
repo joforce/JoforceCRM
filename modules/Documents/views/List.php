@@ -117,12 +117,12 @@ class Documents_List_View extends Head_List_View {
 
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
-			$faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		}else{
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
-			$faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 
 		if(empty ($pageNumber)){
@@ -217,6 +217,9 @@ class Documents_List_View extends Head_List_View {
 			$this->pagingModel = $pagingModel;
 		}
 		$viewer->assign('PAGE_NUMBER',$pageNumber);
+		$viewer->assign('SORT_IMAGE',$sortImage);
+		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 
 		if(!$this->moduleFieldStructure) {
 			$recordStructure = Head_RecordStructure_Model::getInstanceForModule($listViewModel->getModule(), Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);

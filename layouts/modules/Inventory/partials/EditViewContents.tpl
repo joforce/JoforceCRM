@@ -127,7 +127,7 @@
                             <div class="col-lg-6 col-sm-12 col-md-6 pr0 pl0">
                             <div class="col-lg-4 col-sm-4 col-md-4 pr0 pl0">
                              <div class="fieldLabel alignMiddle">
-                             {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
+                             {if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}
                              {if $isReferenceField eq "reference"}
                                  {if $refrenceListCount > 1}
                                      {assign var="REFERENCED_MODULE_ID" value=$FIELD_MODEL->get('fieldvalue')}

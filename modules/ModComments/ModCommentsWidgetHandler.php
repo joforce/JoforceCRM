@@ -10,11 +10,11 @@
  ************************************************************************************/
 global $currentModule;
 
-$widgetName = vtlib_purify($_REQUEST['widget']);
-$criteria = vtlib_purify($_REQUEST['criteria']);
+$widgetName = modlib_purify($_REQUEST['widget']);
+$criteria = modlib_purify($_REQUEST['criteria']);
 
 $widgetController = CRMEntity::getInstance($currentModule);
 $widgetInstance = $widgetController->getWidget($widgetName);
 $widgetInstance->setCriteria($criteria);
 
-echo $widgetInstance->process( array('ID' => vtlib_purify($_REQUEST['parentid'])) );
+echo $widgetInstance->process( array('ID' => modlib_purify($_REQUEST['parentid'])) );

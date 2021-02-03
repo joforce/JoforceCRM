@@ -118,7 +118,11 @@ class Settings_Head_Index_View extends Head_Basic_View {
                 $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                 $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
                 $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
- 
+                $userCurrencyInfo = getCurrencySymbolandCRate($current_user->currency_id);
+                $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+                //Get User Notifications
+		$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
+
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		if($display) {
 			$this->preProcessDisplay($request);
@@ -171,7 +175,7 @@ class Settings_Head_Index_View extends Head_Basic_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Head.resources.Head',
+			//'modules.Head.resources.Head',
 			'modules.Settings.Head.resources.Head',
 			'modules.Settings.Head.resources.Edit',
 			"modules.Settings.$moduleName.resources.$moduleName",

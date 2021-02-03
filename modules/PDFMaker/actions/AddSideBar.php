@@ -17,7 +17,7 @@ class PDFMaker_AddSideBar_Action extends Head_BasicAjax_Action {
 			$getLinkId = $adb->pquery('select * from jo_links where tabid = ? and linklabel = ? and linktype = ?', array($tabId, $linklabel, $linktype));
 			$linkId = $adb->query_result($getLinkId, 0, 'linkid');
 			if(empty($linkId)){
-				include_once('vtlib/Head/Module.php');
+				include_once('libraries/modlib/Head/Module.php');
 				$moduleInstance = Head_Module::getInstance($module);
 				$moduleInstance->addLink($linktype, $linklabel, $handler_path);
 				$response = new Head_Response();

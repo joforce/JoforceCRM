@@ -43,11 +43,11 @@
                         {if $LISTVIEW_ENTRIES_COUNT neq '0'}
                             <center>
                                 <footer>
-                                    <button class="btn btn-success addProducts" type="submit">
+                                    <button class="btn btn-primary addProducts" type="submit">
                                         <i class="fa fa-plus"></i>&nbsp;
                                         <strong>{vtranslate('LBL_ADD_TO_PRODUCTS',$MODULE)}</strong>
                                     </button>
-                                    <a class="cancelLink" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                                    <a class="cancelLink btn btn-secondary" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                                 </footer>
                             </center>
                         {/if}

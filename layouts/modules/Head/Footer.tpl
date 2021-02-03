@@ -13,7 +13,7 @@
 	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
     </a>
     <p>
-	Powered By <a class="joforce-link" href="https://smackcoders.com" target="_blank">Smackcoders</a>
+	Powered By <a class="joforce-link" href="https://www.smackcoders.com" target="_blank">Smackcoders</a>
     </p>
 </footer>
 </div>

@@ -11,7 +11,7 @@
 	<div class="widget_header col-lg-12">
 		<h4>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h4>
 		<hr>
-	</div>
+	
 	<div class="container-fluid">
 		{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 		<form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
@@ -37,8 +37,8 @@
 			<div class="modal-overlay-footer clearfix">
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
-						<button type="submit" class="btn btn-success saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-						<a class="cancelLink" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<button type="submit" class="btn btn-primary saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+						<a class="cancelLink btn btn-secondary" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>

@@ -268,7 +268,13 @@ Head.Class("Head_List_Js", {
 		this.addComponent('Head_MergeRecords_Js');
 		this.addModuleSpecificComponent('Pagination');
 		this.addComponent('Head_Tag_Js');
-},
+
+		$(document).on('click', '.link-as-menu',function(e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+		        window.open(url, '_blank');
+		});
+	},
 	addIndexComponent: function () {
 		this.addModuleSpecificComponent('Index', 'Head', app.getParentModuleName());
 	},
@@ -378,13 +384,17 @@ Head.Class("Head_List_Js", {
 		postData = jQuery.extend(postData, listSelectAllParams);
 
 		app.helper.showProgress();
+		// app.request.get({data: postData}).then(function (error, data) {
+		// 	app.helper.loadPageContentOverlay(data).then(function (container) {
+		// 		container.find('form#exportForm').on('submit', function () {
+		// 			jQuery(this).find('button[type="submit"]').attr('disabled', 'disabled');
+		// 			app.helper.hidePageContentOverlay();
+		// 		});
+		// 	});
+		// 	app.helper.hideProgress();
+		// });
 		app.request.get({data: postData}).then(function (error, data) {
-			app.helper.loadPageContentOverlay(data).then(function (container) {
-				container.find('form#exportForm').on('submit', function () {
-					jQuery(this).find('button[type="submit"]').attr('disabled', 'disabled');
-					app.helper.hidePageContentOverlay();
-				});
-			});
+			app.helper.showModal(data)
 			app.helper.hideProgress();
 		});
 	},
@@ -395,9 +405,9 @@ Head.Class("Head_List_Js", {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
 			if (sortOrderVal === 'ASC') {
-				jQuery('i', e.currentTarget).addClass('fa-sort-asc');
+				jQuery('i', e.currentTarget).addClass('fa-arrow-down');
 			} else {
-				jQuery('i', e.currentTarget).addClass('fa-sort-desc');
+				jQuery('i', e.currentTarget).addClass('fa-arrow-up');
 			}
 			listViewContainer.find('[name="sortOrder"]').val(sortOrderVal);
 			listViewContainer.find('[name="orderBy"]').val(fieldName);
@@ -562,7 +572,6 @@ Head.Class("Head_List_Js", {
 			var searchContributorElement = jQuery(domElement);
 			var fieldName = searchContributorElement.attr('name');
 			var fieldInfo = uimeta.field.get(fieldName);
-
 			/**
 			 *  If we have any related record fields in the list, then list search will not work.
 			 *  Because, uimeta will only hold field info of current module not all related modules
@@ -600,9 +609,7 @@ Head.Class("Head_List_Js", {
 			var searchOperator = 'c';
 			if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
-					|| fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
-					fieldInfo.type == "picklist") {
+			} else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer" || fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" || fieldInfo.type == "picklist") {
 				searchOperator = 'e';
 			}
 			var storedOperator = searchContributorElement.parent().parent().find('.operatorValue').val();
@@ -708,7 +715,7 @@ Head.Class("Head_List_Js", {
 		var currentPageElement = container.find('#pageNumber');
 		var currentPageNumber = parseInt(currentPageElement.val());
 		var newPageNumber = parseInt(container.find('#pageToJump').val());
-		var totalPages = parseInt(container.find('#totalPageCount').text());
+		var totalPages = parseInt(container.find('#tl_no_of_pages').val());
 		if (newPageNumber > totalPages) {
 			var message = app.vtranslate('JS_PAGE_NOT_EXIST');
 			app.helper.showErrorNotification({'message': message})
@@ -2068,6 +2075,29 @@ Head.Class("Head_List_Js", {
 		app.event.on(paginationObj.pageJumpSubmitButtonClickEvent, function (event, currentEle) {
 			thisInstance.pageJumpOnSubmit(currentEle);
 		});
+
+		listViewContainer.on('click', '.page-link', function(e) {
+			e.preventDefault();
+			if($(this).hasClass('previous-link')){
+			    current_page = parseInt($('#current_page_number').val());
+			    if(current_page == 1) return false;
+			    else req_page = current_page-1;
+			} else if($(this).hasClass('next-link')) {
+			    current_page = parseInt($('#current_page_number').val());
+			    last_page = parseInt($('#tl_no_of_pages').val());
+                            if(current_page == last_page) return false;
+                            else req_page = current_page+1;
+			} else if($(this).hasClass('disabled')) {
+			    return false;
+			} else {
+			    req_page = $(this).data('page');
+			}
+
+			var urlParams = {};
+			listViewContainer.find("#pageNumber").val(req_page);
+			urlParams['page'] = req_page;
+			thisInstance.loadListViewRecords(urlParams);
+		});
 	},
 	saveTag: function (callerParams) {
 		var aDeferred = jQuery.Deferred();
@@ -2230,6 +2260,10 @@ Head.Class("Head_List_Js", {
 		var self = this;
 		var recordSelectTrackerObj = self.getRecordSelectTrackerInstance();
 
+		if($('.listViewMassActions .dropdown-toggle').hasClass('btn-disabled')) {
+		    $('.listViewMassActions .listViewActionsContainer').css({'pointer-events':' none','cursor': 'not-allowed'});
+		}
+
 		var selectedIds = recordSelectTrackerObj.getSelectedIds();
 		if (selectedIds != '') {
 			self.enableListViewActions();
@@ -2237,14 +2271,16 @@ Head.Class("Head_List_Js", {
 			self.disableListViewActions();
 		}
 		self.registerDynamicDropdownPosition();
-		self.registerDropdownPosition();
+		//self.registerDropdownPosition();
 
 	},
 	enableListViewActions: function () {
+                $('#table-content #listview-table #listview-actions').removeClass('disable-click');
 		jQuery('.btn-group.listViewActionsContainer').find('button').removeAttr('disabled').removeClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('li').removeClass('hide');
 	},
 	disableListViewActions: function () {
+                $('#table-content #listview-table #listview-actions').addClass('disable-click');
 		jQuery('.btn-group.listViewActionsContainer').find('button').attr('disabled', "disabled").addClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('.dropdown-toggle').removeAttr("disabled");
 		jQuery('.btn-group.listViewActionsContainer').find('li').addClass('hide');
@@ -2309,8 +2345,7 @@ Head.Class("Head_List_Js", {
 						ui.item.removeClass('active');
 					}
 				});
-
-				container.find('.searchAvailFields').instaFilta({
+				$('.availFiedlsContainer').find('.searchAvailFields').instaFilta({
 					onFilterComplete: function (macthedItems) {
 						if (macthedItems.length > 0) {
 							jQuery.each(macthedItems, function (i, ele) {
@@ -2339,7 +2374,7 @@ Head.Class("Head_List_Js", {
 				});
 
 				//remove selected field event
-				selectedFieldsList.on('click', '.removeField', function (e) {
+				selectedFieldsList.find('li .removeField').live('click', ' ', function (e) {
 					var selectedFieldsEles = selectedFieldsList.find('.item');
 					if (selectedFieldsEles.length <= 1) {
 						app.helper.showErrorNotification({message: app.vtranslate('Atleast one field should be selected')});
@@ -2351,9 +2386,8 @@ Head.Class("Head_List_Js", {
 					targetFieldEle.removeClass('hide');
 					sourceFieldEle.remove();
 				});
-
-				//add available field to selected list
-				availFieldsList.on('click', '.item', function (e) {
+				
+				availFieldsList.find('.instafilta-section .item').live('click', '.item', function (e) {
 					var selectedFieldsEles = selectedFieldsList.find('.item');
 					if (selectedFieldsEles.length > 15) {
 						app.helper.showErrorNotification({message: app.vtranslate('JS_ADD_MAX_15_ITEMS')});
@@ -2366,21 +2400,23 @@ Head.Class("Head_List_Js", {
 					targetFieldEle.attr('data-columnname', sourceFieldEle.attr('data-columnname'));
 					targetFieldEle.attr('data-field-id', sourceFieldEle.attr('data-field-id'));
 					targetFieldEle.find('.fieldLabel').html(sourceFieldEle.find('.fieldLabel').html());
-					targetFieldEle.appendTo(selectedFieldsList);
+					$('#selectedFieldsList').append(targetFieldEle);
 					sourceFieldEle.addClass('hide');
 				});
 
-				var configColumnsForm = container.find('.configColumnsForm');
-				var params = {
-					submitHandler: function (form) {
-						var formData = jQuery(form).serializeFormData();
+				var configColumnsForm = $('.configColumnsForm');
+				$('.configColumnsForm').find('.modal-footer .cancelLink').live('click',' ',function (e) {
+					e.stopImmediatePropagation();
+				});
+
+				$('.configColumnsForm').find('.modal-footer .btn-primary').live('click',' ',function (e) {
+					var formData = jQuery('.configColumnsForm').serializeFormData();
 						var columnsList = [];
-						var selectedFieldEles = selectedFieldsList.find('.item');
+						var selectedFieldEles = $('#selectedFieldsList').find('.item');
 						jQuery.each(selectedFieldEles, function (i, e) {
 							var ele = jQuery(e);
 							columnsList.push(ele.attr('data-cv-columnname'));
 						});
-
 						formData.source_module = app.module();
 						formData.columnslist = JSON.stringify(columnsList);
 						app.helper.showProgress();
@@ -2397,9 +2433,8 @@ Head.Class("Head_List_Js", {
 								window.location.href = url;
 							}
 						});
-					}
-				};
-
+				});
+				
 				configColumnsForm.vtValidate(params);
 			}
 
@@ -2493,6 +2528,12 @@ Head.Class("Head_List_Js", {
 	},
 
 	registerButtonClicks : function () {
+		$("#product_shopview").click( function() {
+                var site_url = jQuery('#joforce_site_url').val();
+                var module_name = $(this).data('modulename');
+                var pagenumber = $('#pageNumber').val();
+                window.location.href = site_url + module_name+"/view/Shopview?page=" + pagenumber;
+            });
             $("#forecast-view").click( function() {
                 var site_url = jQuery('#joforce_site_url').val();
                 var cvid = $(this).data('cvid');
@@ -2539,23 +2580,15 @@ Head.Class("Head_List_Js", {
 
 		this.registerPostListLoadListener();
 		this.registerPostLoadListViewActions();
+		if($('.listViewActionsContainer .listViewMassActions .dropdown-toggle').is(":disabled")) {
+		    $('#table-content #listview-table #listview-actions').addClass('disable-click');
+		}
 		app.event.on('post.listViewMassEditSave', function () {
 			var urlParams = {};
 			thisInstance.loadListViewRecords(urlParams);
 			thisInstance.clearList();
 		});
 		this.registerEventToShowQuickPreview();
-		//reference fields quick preview handled in Head.js
-//        this.registerEventToHandleStickyHeadOnWindowScroll();
-//        if(jQuery('#listViewContent').find('table.listview-table').length){
-//            if(jQuery('.sticky-wrap').length == 0){
-//                stickyheader.controller();
-//                var container = this.getListViewContainer();
-//                container.find('.sticky-thead').addClass('listview-table');
-//                app.helper.dynamicListViewHorizontalScroll();
-//            }
-//        }
-//      
 		//floatTHead, some timeout so correct height can be caught for computations
 		setTimeout(function () {
 //			thisInstance.registerFloatingThead();
@@ -2568,7 +2601,6 @@ Head.Class("Head_List_Js", {
 		this.registerDynamicDropdownPosition();
 		this.registerHeaderReflowOnListSearchSelections();
 
-		this.registerDropdownPosition();
 		//For Pagination
 		thisInstance.initializePaginationEvents();
 		//END
@@ -2611,7 +2643,7 @@ Head.Class("Head_List_Js", {
 			var fbottom = 'auto';
 
 			if (container === "#page") {
-				currtargetTop = dropdown.offset().top + dropdown.height();
+				currtargetTop = dropdown.offset().top;// + dropdown.height();
 				currtargetLeft = dropdown.offset().left;
 				dropdownBottom = jQuery(window).height() - currtargetTop + dropdown.height();
 
@@ -2700,9 +2732,10 @@ Head.Class("Head_List_Js", {
 			'width': width
 		});
 		tableContainer.perfectScrollbar('update');
-		$table.floatThead('reflow');
+//		$table.floatThead('reflow');
 	},
 	registerFloatingThead: function () {
+		return;
 		if (typeof $.fn.perfectScrollbar !== 'function' || typeof $.fn.floatThead !== 'function') {
 			return;
 		}

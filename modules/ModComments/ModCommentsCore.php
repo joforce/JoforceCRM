@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once('data/CRMEntity.php');
-require_once('data/Tracker.php');
-require_once 'vtlib/Head/Module.php';
+require_once('includes/data/CRMEntity.php');
+require_once('includes/data/Tracker.php');
+require_once 'libraries/modlib/Head/Module.php';
 
 class ModCommentsCore extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
@@ -179,7 +179,7 @@ class ModCommentsCore extends CRMEntity {
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other =  CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			modlib_setup_modulevars($related_module, $other);
 
 			if(!in_array($other->table_name, $joinedTables)) {
 				$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -200,8 +200,35 @@ class ModCommentsCore extends CRMEntity {
 	 */
 	function getListViewSecurityParameter($module) {
 		global $current_user;
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 
 		$sec_query = '';
 		$tabid = getTabid($module);
@@ -276,7 +303,7 @@ class ModCommentsCore extends CRMEntity {
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			modlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
@@ -285,9 +312,35 @@ class ModCommentsCore extends CRMEntity {
 
 		if($where != '') $query .= " WHERE ($where) AND $where_auto";
 		else $query .= " WHERE $where_auto";
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
 
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
 		// Security Check for Field Access
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3)
@@ -392,7 +445,7 @@ class ModCommentsCore extends CRMEntity {
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type) {
+	function modlib_handler($modulename, $event_type) {
 		if($event_type == 'module.postinstall') {
 			// TODO Handle post installation actions
 		} else if($event_type == 'module.disabled') {
@@ -436,4 +489,3 @@ class ModCommentsCore extends CRMEntity {
 	 */
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }
-?>

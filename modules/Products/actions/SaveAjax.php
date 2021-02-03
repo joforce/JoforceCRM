@@ -15,9 +15,9 @@ class Products_SaveAjax_Action extends Head_SaveAjax_Action {
 		//the new values are added to $_REQUEST for Ajax Save, are removing the Tax details depend on the 'ajxaction' value
 		$_REQUEST['action'] = 'MassEditSave';
 		$request->set('action', 'MassEditSave');
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode', false));
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode', false));
 		$recordModel = $this->saveRecord($request);
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', false);
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', false);
 
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = array();

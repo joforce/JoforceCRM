@@ -129,7 +129,10 @@ class Install_ConfigFileUtils_Model {
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-include('version.php');
+\$patch_version = '20200219'; // -ve timestamp before release, +ve timestamp after release.
+\$modified_database = '';
+\$jo_current_version = '2';
+\$_SESSION['jo_version'] = '{$jo_current_version}';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M

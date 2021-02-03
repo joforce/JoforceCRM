@@ -1664,7 +1664,7 @@ Head.Class("Calendar_Calendar_Js", {
 					jQuery(".essentials-toggle").removeClass("hide");
 					if (Calendar_Calendar_Js.sideBarEssentialsState === 'show') {
 						jQuery(".sidebar-essentials").removeClass("hide");
-						jQuery(".content-area").removeClass("full-width").css("padding-left","230px");
+						jQuery(".content-area").removeClass("full-width").css("padding-left","10px");
 					} else if (Calendar_Calendar_Js.sideBarEssentialsState === 'hidden') {
 						jQuery(".sidebar-essentials").addClass("hide");
 						jQuery(".content-area").addClass("full-width");

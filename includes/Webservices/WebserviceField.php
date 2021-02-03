@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 require_once 'includes/runtime/Cache.php';
-require_once 'vtlib/Head/Runtime.php';
+require_once 'libraries/modlib/Head/Runtime.php';
 
 class WebserviceField{
 	private $fieldId;

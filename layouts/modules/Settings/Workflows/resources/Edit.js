@@ -14,7 +14,17 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
     ckEditorInstance: false,
     fieldValueMap: false,
     workFlowsActionContainer : false,
-   
+    lineItemPopOverTemplate : '<div class="popover workflowPopover" role="tooltip" style="left: 0 !important;"><div class="arrow"></div>\n\
+                                <h3 class="popover-title"></h3>\n\
+                                <div class="popover-content"></div>\n\
+                                    <div class="modal-footer lineItemPopupModalFooter">\n\
+                                        <center>\n\
+                                        <button class="btn btn-success" type="button"  name="saveButton"><strong>'+app.vtranslate('JS_LBL_SAVE')+'</strong></button>\n\
+                                        <a href="#" class="popoverCancel" type="reset">'+app.vtranslate('JS_LBL_CANCEL')+'</a>\n\
+                                        </center>\n\
+                                    </div>\n\
+                                </div>',
+ 
     /**
      * Function to get the container which holds all the workflow elements
      * @return jQuery object
@@ -118,6 +128,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       }
       var isPopupShowing = false;
       container.on('click', '.getPopupUi', function (e) {
+        e.stopImmediatePropagation();
          // Added to prevent multiple clicks event
          if(isPopupShowing) {
              return false;
@@ -163,14 +174,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
                value = '';
             }
             var clonedBooleanElement = '<input type="checkbox" style="width: 30%;" class="fieldValue inputElement" value="' + value + '" data-input="true" >';
-            clonedPopupUi.find('.fieldValueContainer div').prepend(clonedBooleanElement);
 
-            var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
-            if (value == 'true:boolean' || value == '') {
-               clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
-            } else {
-               clonedPopupUi.find('.fieldValueContainer input').removeAttr('checked');
-            }
          }
          var callBackFunction = function (data) {
             isPopupShowing = false;
@@ -183,25 +187,61 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
             }          
             thisInstance.postShowModalAction(data, valueType);
             thisInstance.registerChangeFieldEvent(data);
+            let top = data.css("top");
+            data.css( "top", "-=120px" );
             thisInstance.registerSelectOptionEvent(data);
             thisInstance.registerPopUpSaveEvent(data, fieldUiHolder);
             thisInstance.registerRemoveModalEvent(data);
+             vtUtils.showSelect2ElementView(data.find('select.select2'));
+            vtUtils.registerEventForDateFields(data.find('.dateField').not('.ignore-ui-registration'));
+            vtUtils.registerEventForTimeFields(data.find('.timepicker-default'));
             data.find('.fieldValue').filter(':visible').trigger('focus');
          }
-         conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
-         jQuery('.clonedPopupUi').on('shown', function () {
+        // conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
+         var template = jQuery(thisInstance.lineItemPopOverTemplate);
+         var element = jQuery(e.currentTarget);
+            template.addClass('discountForm');
+            let lineItemsHolder = container;
+            var popOverTitle = 'Set Value';//discountUI.find('.popover_title').find('.variable').text(productTotal).closest('.popover_title').text();
+            element.popover({
+                'content' : clonedPopupUi,
+                'html' : true,
+                'placement' : 'top',
+                'animation' : true,
+                'title' : popOverTitle,
+                'trigger' : 'manual',
+                'template' : template,
+                'container' : lineItemsHolder
+                
+            });
+            element.one('shown.bs.popover', function(e) {
+
+                callBackFunction(jQuery('.popover'));
+
+                //callBackFunction(element, jQuery('.discountForm'));
+                  jQuery('.discountForm').find('.popoverCancel').on('click', function(e) {
+                    element.popover('destroy');
+                });
+                if(element.next('.popover').find('.popover-content').height() > 300) {
+                    app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
+                }
+            })
+            element.popover('toggle');
+
+         /*jQuery('.clonedPopupUi').on('shown', function () {
             if (typeof callBackFunction == 'function') {
                callBackFunction(jQuery('.clonedPopupUi', conditionsContainer));
             }
          });
          isPopupShowing = true;
          app.helper.showModal(jQuery('.clonedPopUp', conditionsContainer).find('.clonedPopupUi'), {cb: callBackFunction});
-      });
+    */  });
+
    },
    
    registerRemoveModalEvent: function (data) {
       data.on('click', '.closeModal', function (e) {
-         data.modal('hide');
+         data.popover('destroy');
       });
    },
    
@@ -227,7 +267,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
             }
          }
          fieldValueElement.val(fieldValue);
-         data.modal('hide');
+         data.popover('destroy');
       });
    },
    
@@ -288,49 +328,128 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       jQuery('.fieldValue', data).hide();
       jQuery('[data-' + uiType + ']', data).show();
    },
-   registerEventForShowModuleFilterCondition: function () {
+   registerEventForworkflownext: function () {
       var thisInstance = this;
-      jQuery('#module_name').on('change', function (e) {
-         var currentElement = jQuery(e.currentTarget);
-         var selectedOption = currentElement.find('option:selected');
-         jQuery('#workflowTriggerCreate').html(selectedOption.data('create-label'));
-         jQuery('#workflowTriggerUpdate').html(selectedOption.data('update-label'));
-         var params = {
+      $('.addaction').click(function(event){
+         event.stopImmediatePropagation();
+         jQuery('.workflow').children('.triggerDiv').last().children('span').addClass('workflow_nextLine');
+         var clone_row = jQuery('.workflowconditions_action').clone();
+         jQuery(clone_row).removeClass('workflowconditions_action').addClass('jo_workflow_action');
+         jQuery(clone_row).appendTo('.workflow');
+         jQuery('.jo_workflow_action').show();
+          thisInstance.setActionContainer(jQuery('.jo_workflow_action #workflow_action'));
+         thisInstance.registerEditTaskEvent();
+         thisInstance.registerTaskStatusChangeEvent();
+          thisInstance.registerTaskDeleteEvent();
+          jQuery(".taskStatus").bootstrapSwitch();
+         $(this).hide();
+      });
+      $('.basicnext').click(function(event){
+         let no =i= $(this).data('no');
+         $('#basicnext_'+i).parent().remove();
+         var clone_row = jQuery('.workflowconditions_anycondition').clone();
+         i = parseInt(i)+1;
+         $(this).attr('data-no',i);
+         let lastchild = '.'+ 'workflowconditions_'+(parseInt(i)-1);
+         jQuery(clone_row).attr('data-no',i);
+         let id = 'workflowconditions_'+i;
+         jQuery(clone_row).children().children('.workflowRndTxt').text('Condition '+(parseInt(i)));
+         jQuery(clone_row).removeClass('workflowconditions_anycondition').addClass(id);
+         jQuery(clone_row).insertAfter(lastchild);
+         jQuery('.'+id).show();
+         if(jQuery('.'+id).siblings('.jo_workflow_action').length >0){
+            jQuery('.'+id).children('span').addClass('workflow_nextLine');
+         }
+         id = '.workflowconditions_'+(parseInt(no));
+         $(id).children('span').addClass('workflow_nextLine');
+         id = 'basicnext_'+i;
+         let basictext = '<div class="actions"><a class="basicnext fieldValue" id = "'+id+'" data-no="'+i+'">+ Add Condition</a></div>';
+         jQuery(basictext).insertBefore('.jo_workflow_action');
+        var params = {
             'module': 'Workflows',
             'parent': 'Settings',
             'view': 'EditAjax',
             'mode': 'getWorkflowConditions',
             'record': jQuery("input[name='record']").val(),
-            'module_name': currentElement.val()
+            'condition': 'And',
+            'module_name': jQuery('#module_name').val()
          }
-         
          app.helper.showProgress();
          app.request.get({data: params}).then(function (error, data) {
             app.helper.hideProgress();
-            jQuery('#workflow_condition').html(data);
-            var advanceFilterContainer = jQuery('#advanceFilterContainer');
-            vtUtils.applyFieldElementsView(jQuery('#workflow_condition'));
+            id = '.workflowconditions_'+(parseInt(i));
+            $(id).children().children().children('#workflow_orcondition').html(data);
+            
+            $(id).children().children().children('#workflow_orcondition').find('.conditionList').empty();
+            var advanceFilterContainer = jQuery('#workflow_orcondition #advanceFilterContainer');
+            vtUtils.applyFieldElementsView($(id).children().children().children('#workflow_orcondition'));
             thisInstance.advanceFilterInstance = Workflows_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', advanceFilterContainer));
             thisInstance.getPopUp(advanceFilterContainer);
-            
             //Workflows actions
-            thisInstance.setActionContainer(jQuery('#workflow_action'));
+            thisInstance.setActionContainer(jQuery('.jo_workflow_action #workflow_action'));
             thisInstance.registerEditTaskEvent();
             thisInstance.registerTaskStatusChangeEvent();
             thisInstance.registerTaskDeleteEvent();
             jQuery(".taskStatus").bootstrapSwitch();
-            
-			app.helper.registerLeavePageWithoutSubmit(jQuery('#workflow_edit'));
+            app.helper.registerLeavePageWithoutSubmit(jQuery('#workflow_edit'));
+        });
+       thisInstance.registerEventForworkflownext();
+
+       });
+      },
+      registerEventForShowModuleFilterCondition: function () {
+         var thisInstance = this;
+         jQuery('.div_arrow').on('click', function (e) {
+            let class_name = $('#collapseOne').attr('class');
+            if(class_name=='collapse show' || class_name=='show collapse'){
+                $('.form_fields').removeClass('show_small');
+                jQuery('i',e.currentTarget).addClass('fa-angle-up');
+                jQuery('i',e.currentTarget).removeClass('fa-angle-down');
+            }else{
+                $('.form_fields').addClass('show_small');
+                jQuery('i',e.currentTarget).removeClass('fa-angle-up');
+                jQuery('i',e.currentTarget).addClass('fa-angle-down');
+            }
          });
-      });
-      jQuery('#module_name').trigger('change');
-   },
-   
+         jQuery('#module_name').on('change', function (e) {
+            var currentElement = jQuery(e.currentTarget);
+            var selectedOption = currentElement.find('option:selected');
+            jQuery('#workflowTriggerCreate').html(selectedOption.data('create-label'));
+            jQuery('#workflowTriggerUpdate').html(selectedOption.data('update-label'));
+            var params = {
+               'module': 'Workflows',
+               'parent': 'Settings',
+               'view': 'EditAjax',
+               'mode': 'getWorkflowConditions',
+               'record': jQuery("input[name='record']").val(),
+               'module_name': currentElement.val()
+            }
+            
+            app.helper.showProgress();
+            app.request.get({data: params}).then(function (error, data) {
+               app.helper.hideProgress();
+               jQuery('.editViewContents #workflow_condition').html(data);
+               var advanceFilterContainer = jQuery('#advanceFilterContainer');
+               vtUtils.applyFieldElementsView(jQuery('#workflow_condition'));
+               thisInstance.advanceFilterInstance = Workflows_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', advanceFilterContainer));
+               thisInstance.getPopUp(advanceFilterContainer);
+               thisInstance.setActionContainer(jQuery('#workflow_action'));
+               thisInstance.registerEditTaskEvent();
+               thisInstance.registerTaskStatusChangeEvent();
+               thisInstance.registerTaskDeleteEvent();
+               jQuery(".taskStatus").bootstrapSwitch();
+               
+            app.helper.registerLeavePageWithoutSubmit(jQuery('#workflow_edit'));
+            });
+         });
+         jQuery('#module_name').trigger('change');
+      },
    //Workflow action related api's
    registerEditTaskEvent: function () {
       var thisInstance = this;
       var container = this.getActionContainer();
       container.on('click', '[data-url]', function (e) {
+         
          var currentElement = jQuery(e.currentTarget);
          var url = currentElement.data('url') + '&module_name=' + jQuery('#module_name').val();
          app.helper.showProgress();
@@ -339,12 +458,11 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
             app.helper.loadPageContentOverlay(data).then(function(container) {
                 var container = jQuery(container);
                 var viewPortHeight = $(window).height();
-
                 var params = {
                     setHeight:(viewPortHeight-jQuery('.app-fixed-navbar').height()-container.find('.modal-header').height())+'px'
                 };
                 app.helper.showVerticalScroll(container.find('.modal-body.editTaskBody'), params);
-				thisInstance.registerVTCreateTodoTaskEvents();
+				thisInstance.registerCreateTodoTaskEvents();
 				var taskType = jQuery('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
 				if (typeof thisInstance[functionName] != 'undefined') {
@@ -355,6 +473,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
 				thisInstance.registerCheckSelectDateEvent();
             });
          });
+         e.stopImmediatePropagation();
       });
       container.on('click', '.editTask', function (e) {
           var currentElement = jQuery(e.currentTarget);
@@ -381,7 +500,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
                     setHeight:(viewPortHeight-jQuery('.app-fixed-navbar').height()-container.find('.modal-header').height())+'px'
                 };
                 app.helper.showVerticalScroll(container.find('.modal-body.editTaskBody'), params);
-                thisInstance.registerVTCreateTodoTaskEvents();
+                thisInstance.registerCreateTodoTaskEvents();
                 var taskType = jQuery('#taskType').val();
                 var functionName = 'register' + taskType + 'Events';
                 if (typeof thisInstance[functionName] != 'undefined') {
@@ -519,20 +638,20 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
         return id;
    },
    
-   VTUpdateFieldsTaskCustomValidation: function () {
+   UpdateFieldsTaskCustomValidation: function () {
       return this.checkDuplicateFieldsSelected();
    },
-   VTCreateEntityTaskCustomValidation: function () {
+   CreateEntityTaskCustomValidation: function () {
       return this.checkDuplicateFieldsSelected();
    },
-   VTCreateEventTaskCustomValidation: function () {
+   CreateEventTaskCustomValidation: function () {
       return this.checkStartAndEndDate();
    },
    checkStartAndEndDate: function () {
       var form = jQuery('#saveTask');
       var params = form.serializeFormData();
       var result = true;
-      if (params['taskType'] == 'VTCreateEventTask' && params['startDatefield'] == params['endDatefield']) {
+      if (params['taskType'] == 'CreateEventTask' && params['startDatefield'] == params['endDatefield']) {
          if (params['startDirection'] == params['endDirection']) {
             if (params['startDays'] > params['endDays'] && params['endDirection'] == 'after') {
                result = app.vtranslate('JS_CHECK_START_AND_END_DATE');
@@ -555,7 +674,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       jQuery.each(selectedFieldNames, function (i, ele) {
          var fieldName = jQuery(ele).attr("value");
          var taskType = jQuery('#taskType').val();
-         if (taskType == "VTUpdateFieldsTask") {
+         if (taskType == "UpdateFieldsTask") {
             var fields = jQuery('[data-workflow_columnname="' + fieldName + '"]').not(':hidden');
          } else {
             var fields = jQuery('[name="' + fieldName + '"]').not(':hidden');
@@ -567,15 +686,15 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       });
       return result;
    },
-   preSaveVTUpdateFieldsTask: function (tasktype) {
+   preSaveUpdateFieldsTask: function (tasktype) {
       var values = this.getValues(tasktype);
       jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
    },
-   preSaveVTCreateEntityTask: function (tasktype) {
+   preSaveCreateEntityTask: function (tasktype) {
       var values = this.getValues(tasktype);
       jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
    },
-   preSaveVTEmailTask: function (tasktype) {
+   preSaveEmailTask: function (tasktype) {
       var textAreaElement = jQuery('#content');
       //To keep the plain text value to the textarea which need to be
       //sent to server
@@ -594,10 +713,10 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       }
       return false;
    },
-   getVTCreateEntityTaskFieldList: function () {
+   getCreateEntityTaskFieldList: function () {
       return new Array('fieldname', 'value', 'valuetype', 'modulename');
    },
-   getVTUpdateFieldsTaskFieldList: function () {
+   getUpdateFieldsTaskFieldList: function () {
       return new Array('fieldname', 'value', 'valuetype');
    },
    getValues: function (tasktype) {
@@ -787,7 +906,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
          }
       });
    },
-   registerVTEmailTaskEvents: function () {
+   registerEmailTaskEvents: function () {
       var textAreaElement = jQuery('#content');
       var ckEditorInstance = this.getckEditorInstance();
       ckEditorInstance.loadCkEditor(textAreaElement);
@@ -796,10 +915,10 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       this.registerFillTaskFromEmailFieldEvent();
       this.registerCcAndBccEvents();
    },
-   registerVTCreateTodoTaskEvents: function () {
+   registerCreateTodoTaskEvents: function () {
       vtUtils.registerEventForTimeFields(jQuery('#saveTask'));
    },
-   registerVTUpdateFieldsTaskEvents: function () {
+   registerUpdateFieldsTaskEvents: function () {
       var thisInstance = this;
       this.registerAddFieldEvent();
       this.registerDeleteConditionEvent();
@@ -819,6 +938,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
    },
    registerAddFieldEvent: function () {
       jQuery('#addFieldBtn').on('click', function (e) {
+         e.stopImmediatePropagation();
          var newAddFieldContainer = jQuery('.basicAddFieldContainer').clone(true, true).removeClass('basicAddFieldContainer hide').addClass('conditionRow');
          jQuery('select', newAddFieldContainer).addClass('select2');
          jQuery('#save_fieldvaluemapping').append(newAddFieldContainer);
@@ -827,6 +947,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
    },
    registerDeleteConditionEvent: function () {
       jQuery('#saveTask').on('click', '.deleteCondition', function (e) {
+         e.stopImmediatePropagation();
          jQuery(e.currentTarget).closest('.conditionRow').remove();
       })
    },
@@ -887,7 +1008,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       var fieldValueMapping = this.getFieldValueMapping();
       var fieldValueMappingKey = fieldInfo.name;
       var taskType = jQuery('#taskType').val();
-      if (taskType == "VTUpdateFieldsTask") {
+      if (taskType == "UpdateFieldsTask") {
          fieldValueMappingKey = fieldInfo.workflow_columnname;
 		 if (fieldValueMappingKey === undefined || fieldValueMappingKey === null){
 			fieldValueMappingKey = selectedOption.val();
@@ -968,20 +1089,21 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       var fieldModel = this.fieldModelInstance;
       return  jQuery(fieldModel.getUiTypeSpecificHtml())
    },
-   registerVTCreateEventTaskEvents: function () {
+   registerCreateEventTaskEvents: function () {
       vtUtils.registerEventForTimeFields(jQuery('#saveTask'));
       this.registerRecurrenceFieldCheckBox();
       this.repeatMonthOptionsChangeHandling();
       this.registerRecurringTypeChangeEvent();
       this.registerRepeatMonthActions();
    },
-   registerVTCreateEntityTaskEvents: function () {
+   registerCreateEntityTaskEvents: function () {
       this.registerChangeCreateEntityEvent();
-      this.registerVTUpdateFieldsTaskEvents();
+      this.registerUpdateFieldsTaskEvents();
    },
    registerChangeCreateEntityEvent: function () {
       var thisInstance = this;
       jQuery('#createEntityModule').on('change', function (e) {
+         e.stopImmediatePropagation();
          var relatedModule = jQuery(e.currentTarget).val();
          var module_name = jQuery('#module_name').val();
          if( relatedModule == module_name ) {
@@ -1330,11 +1452,11 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
 			var currentRadioButtonElement = jQuery(e.currentTarget);
 			if(currentRadioButtonElement.hasClass('recreate')){
 				if(currentRadioButtonElement.is(':checked')){
-					advanceFilterContainer.removeClass('zeroOpacity');
+					advanceFilterContainer.removeClass('hide');
 					advanceFilterContainer.find('.conditionList').find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('change');
 				}
 			} else {
-				advanceFilterContainer.addClass('zeroOpacity');
+				advanceFilterContainer.addClass('hide');
 			}
 		});
 	},
@@ -1342,18 +1464,58 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
 	addComponents : function() {
         this._super();
 		this.addModuleSpecificComponent('Index','Head',app.getParentModuleName());
-	},
+   },
+   registerEventFornextaction : function() {
+      var thisInstance = this;
+      $()
+      $('.form-group').on('keypress','input[name="workflowname"]',function(e) {
+         let parent_formgroup = $(this).parent().parent().parent();
+        let class_name = $('#collapseOne').attr('class');
+        if(class_name=='collapse show' || class_name=='show collapse'){
+                parent_formgroup.children('.div_arrow').children().trigger('click');
+            }
+         console.log($('.form_fields').next().next());
+         if($('.form_fields').next().next().hasClass('hide')){
+            $('.form_fields').next().removeClass('hide');
+         }
+         
+      });
+      $('.form-group').on('keypress','textarea[name="summary"]',function(e) {
+         let parent_formgroup = $(this).parent().parent();
+         parent_formgroup.next().removeClass('hide');
+      });
+      $('.form-group').on('click','.nextlink a',function(e) {
+         let parent_formgroup = $(this).closest('.form-group');
+         if(parent_formgroup.next().next().length ==0){
+            parent_formgroup.next().parent().next().removeClass('hide');
+         }
+         parent_formgroup.next().removeClass('hide');
+         let datagroup = $(this).data('group');
+         if(datagroup == 'condition'){
+            parent_formgroup.next().removeClass('hide');
+            parent_formgroup.next().next().removeClass('hide');
+            jQuery('#module_name').trigger('change');
+         }else if(datagroup == 'trigger'){
+            parent_formgroup.next().next().removeClass('hide');
+         }
+         else if(datagroup == 'action'){
+            parent_formgroup.next().next().removeClass('hide');
+         }
+         parent_formgroup.remove();
+      });
+ },
    
     registerEvents: function () {
-        this.registerEventForShowModuleFilterCondition();
-        this.registerFormSubmitEvent();
-        this.registerEnableFilterOption();
+      this.registerEventForworkflownext();
+      this.registerEventForShowModuleFilterCondition();
+      this.registerFormSubmitEvent();
+      this.registerEnableFilterOption();
 		this.registerEventForScheduledWorkflow();
 		this.registerEventForChangeInScheduledType();
-        this.registerEventForChangeWorkflowState();
+      this.registerEventForChangeWorkflowState();
+      this.registerEventFornextaction();
     }
 });
-
 //http://stackoverflow.com/questions/946534/insert-text-into-textarea-with-jquery
 jQuery.fn.extend({
 	insertAtCaret: function(myValue) {

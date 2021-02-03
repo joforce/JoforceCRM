@@ -507,11 +507,11 @@ function insertIntoRecurringTable(& $recurObj)
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -775,8 +775,35 @@ function insertIntoRecurringTable(& $recurObj)
 		$user_id=$seed_user->retrieve_user_id($username);
 		$current_user=$seed_user;
 		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
@@ -834,8 +861,35 @@ function insertIntoRecurringTable(& $recurObj)
 		$user_id=$seed_user->retrieve_user_id($user_name);
 		$current_user=$seed_user;
 		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
@@ -1052,8 +1106,35 @@ function insertIntoRecurringTable(& $recurObj)
 	}
 
 	public function getNonAdminAccessControlQuery($module, $user,$scope='') {
-		require('user_privileges/user_privileges_'.$user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$user->id.'.php');
+  		$get_userdetails = get_privileges($user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 		$query = ' ';
 		$tabId = getTabid($module);
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]

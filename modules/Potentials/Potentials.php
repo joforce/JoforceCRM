@@ -111,8 +111,35 @@ class Potentials extends CRMEntity {
 	function create_list_query($order_by, $where)
 	{
 		global $log,$current_user;
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	        require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
         	$tab_id = getTabid("Potentials");
 		$log->debug("Entering create_list_query(".$order_by.",". $where.") method ...");
 		// Determine if the jo_account name is present in the where clause.
@@ -198,11 +225,11 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -267,11 +294,11 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering get_activities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -337,11 +364,11 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -488,11 +515,11 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -548,11 +575,11 @@ class Potentials extends CRMEntity {
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -789,10 +816,10 @@ class Potentials extends CRMEntity {
     
     function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
 		global $currentModule;
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
+        modlib_setup_modulevars($related_module, $other);
 
         $returnset = '&return_module='.$currentModule.'&return_action=CallRelatedList&return_id='.$id;
 
@@ -822,7 +849,7 @@ class Potentials extends CRMEntity {
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
 		if ($moduleName == 'Potentials') {
 			$db = PearDatabase::getInstance();
 			if ($eventType == 'module.disabled') {

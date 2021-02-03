@@ -18,8 +18,8 @@
             {else}
                 {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
             {/if}
-            <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-success" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
-            <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+            <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
+            <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
         </center>
 	</div>
 {/strip}

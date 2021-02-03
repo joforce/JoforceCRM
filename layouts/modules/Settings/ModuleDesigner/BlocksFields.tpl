@@ -10,7 +10,7 @@
 </td>
 <td>
 
-<div id="md-add-block-btn" class="btn btn-primary module-buttons">
+<div id="md-add-block-btn" class="btn btn-primary">
 	<img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/block.png" alt="{vtranslate('LBL_ADD_BLOCK_ALT', $QUALIFIED_MODULE)}"/> <a href="#" onclick="md_addBlock(); return false;">{vtranslate('LBL_ADD_BLOCK', $QUALIFIED_MODULE)}</a>
 </div>
 

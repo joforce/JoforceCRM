@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
-<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
+<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
+<script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
 </head>
 
 <body>
-<div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
+<div style="font-family: Roboto, sans-serif !important;">
 <h2>{vtranslate('LBL_CUSTOM_LINK', $QUALIFIED_MODULE)} - {vtranslate({$a_customLink.type}, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <table id="form" style="font-size:12px;">

@@ -10,6 +10,14 @@
 {* modules/Head/views/Detail.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="recordDetails">
-    {include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$SUMMARY_RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
-</div>
+
+{strip}
+        {assign var=summary_view_modules value=array('Contacts', 'Accounts', 'Leads', 'Invoice', 'SalesOrder', 'PurchaseOrder', 'Quotes', 'HelpDesk','Potentials', 'Project')}
+        <div class="recordDetails">
+	    {if in_array($MODULE_NAME, $summary_view_modules)}
+                {include file='SummaryViewContents.tpl'|@vtemplate_path:$MODULE_NAME}
+            {else}
+	    	{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$SUMMARY_RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	    {/if}
+	</div>
+{/strip}

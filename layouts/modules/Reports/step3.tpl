@@ -72,9 +72,9 @@
         <div class="modal-overlay-footer border1px clearfix">
             <div class="row clearfix">
                 <div class="textAlignCenter col-lg-12 col-md-12 col-sm-12 ">
-                    <button type="button" class="btn btn-secondary backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-success" id="generateReport"><strong>{vtranslate('LBL_GENERATE_REPORT',$MODULE)}</strong></button>&nbsp;&nbsp;
-                    <a class="cancelLink" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+                    <button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary" id="generateReport"><strong>{vtranslate('LBL_GENERATE_REPORT',$MODULE)}</strong></button>&nbsp;&nbsp;
+                    <a class="cancelLink btn btn-secondary" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
                 </div>
             </div>
         </div>

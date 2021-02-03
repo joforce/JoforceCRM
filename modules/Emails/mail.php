@@ -13,7 +13,7 @@
 
 require_once("modules/Emails/class.phpmailer.php");
 require_once 'includes/utils/CommonUtils.php';
-require_once 'includes/utils/VTCacheUtils.php';
+require_once 'includes/utils/CacheUtils.php';
 
 /**   Function used to send email
   *   $module 		-- current module
@@ -48,13 +48,13 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 
 	//if the newly defined from email field is set, then use this email address as the from address
 	//and use the username as the reply-to address
-	$cachedFromEmail = VTCacheUtils::getOutgoingMailFromEmailAddress();
+	$cachedFromEmail = CacheUtils::getOutgoingMailFromEmailAddress();
 	if($cachedFromEmail === null) {
 		$query = "select from_email_field from jo_systems where server_type=?";
 		$params = array('email');
 		$result = $adb->pquery($query,$params);
 		$from_email_field = $adb->query_result($result,0,'from_email_field');
-		VTCacheUtils::setOutgoingMailFromEmailAddress($from_email_field);
+		CacheUtils::setOutgoingMailFromEmailAddress($from_email_field);
 	}
 
 	if(isUserInitiated()) {
@@ -151,14 +151,14 @@ function addSignature($contents, $fromname, $fromEmail = '') {
 	global $adb;
 	$adb->println("Inside the function addSignature");
 
-	$sign = VTCacheUtils::getUserSignature($fromname);
+	$sign = CacheUtils::getUserSignature($fromname);
 	if ($sign == null) {
-		$sign = VTCacheUtils::getUserSignature($fromEmail);
+		$sign = CacheUtils::getUserSignature($fromEmail);
 		$result = $adb->pquery("select signature, first_name, last_name from jo_users where user_name=? or user_name=? or email1=? or email2=? or secondaryemail=?", array($fromname, $fromEmail, $fromEmail, $fromEmail, $fromEmail));
 		$sign = $adb->query_result($result,0,"signature");
-		VTCacheUtils::setUserSignature($fromname, $sign);
-		VTCacheUtils::setUserSignature($fromEmail, $sign);
-		VTCacheUtils::setUserFullName($fromname, $adb->query_result($result,0,"first_name").' '.$adb->query_result($result,0,"last_name"));
+		CacheUtils::setUserSignature($fromname, $sign);
+		CacheUtils::setUserSignature($fromEmail, $sign);
+		CacheUtils::setUserFullName($fromname, $adb->query_result($result,0,"first_name").' '.$adb->query_result($result,0,"last_name"));
 	}
 
 	$sign = nl2br($sign);
@@ -211,7 +211,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 
 	//Handle the from name and email for HelpDesk
 	$mail->From = $from_email;
-	$userFullName = trim(VTCacheUtils::getUserFullName($from_name));
+	$userFullName = trim(CacheUtils::getUserFullName($from_name));
 	if ($from_name == $HELPDESK_SUPPORT_NAME) {
 		$userFullName = $HELPDESK_SUPPORT_NAME;
 	}
@@ -220,7 +220,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 		$num_rows = $adb->num_rows($rs);
 		if($num_rows > 0) {
 			$fullName = getFullNameFromQResult($rs, 0, 'Users');
-			VTCacheUtils::setUserFullName($from_name, $fullName);
+			CacheUtils::setUserFullName($from_name, $fullName);
 		}
 	} else {
 		$from_name = $userFullName;
@@ -647,6 +647,3 @@ function getDefaultAssigneeEmailIds($groupId) {
 		return array();
 	}
 }
-
-
-?>

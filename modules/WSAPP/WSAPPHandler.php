@@ -12,11 +12,11 @@ class WSAPPHandler extends VTEventHandler {
 
 	function handleEvent($eventName, $data) {
 
-		if($eventName == 'vtiger.entity.beforesave') {
+		if($eventName == 'jo.entity.beforesave') {
 			// Entity is about to be saved, take required action
 		}
 
-		if($eventName == 'vtiger.entity.aftersave') {
+		if($eventName == 'jo.entity.aftersave') {
 			// Entity has been saved, take next action
 		}
 	}

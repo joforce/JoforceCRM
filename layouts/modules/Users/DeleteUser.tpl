@@ -48,9 +48,19 @@
                     {/if}
                 </div>
             </div>
-            {include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+            <div class="modal-footer" style="margin-bottom:6%;">
+              <center>
+                {if $BUTTON_NAME neq null}
+                  {assign var=BUTTON_LABEL value=$BUTTON_NAME}
+                {else}
+                  {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
+                {/if}
+                <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
+                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+            </center>
+          </div>
         </form>
     </div>
-            </div>     
+  </div>     
 {/strip}
 

@@ -5,24 +5,26 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 
 {include file="modules/Head/partials/Topbar.tpl"}
 {assign var=IS_LIST_VIEW value=true}
-<div class="container-fluid app-nav">
-	<div class="row">
-		{include file="partials/SidebarHeader.tpl"|vtemplate_path:$MODULE}
-		{include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
-	</div>
+<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
+    <div class="row">
+	{include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
+    </div>
 </div>
 </nav>
 <div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-60' tabindex='-1' role='dialog' aria-hidden='true'>
-	<div class="data">
-	</div>
-	<div class="modal-dialog">
-	</div>
-</div>  
+    <div class="data">
+    </div>
+    <div class="modal-dialog">
+    </div>
+</div>
 <div class="main-container main-container-{$MODULE}">
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="listViewPageDiv content-area full-width" id="listViewContent">
-
+	<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
+            {include file="partials/SidebarAppMenu.tpl"|vtemplate_path:$MODULE}
+	</div>
+    <div class="quick-panel"></div>
+	<div class="listViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="listViewContent" >

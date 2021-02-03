@@ -133,7 +133,7 @@ function Validate(module,fieldName,fieldValues,fieldId,currentId,record_view,dup
 	    var resultantCount = data[0][0];
             var count = resultantCount + 2;
             var count_of_fields=data[0][2][0];
-            var count_of_fieldName=data[0][2][1];
+            var count_of_fieldName = data[0][2][1];
             var fieldlabel = data[0][1]['fieldlabel'];
             var uitype =data[1][0];
             var crosscount=data[1][2];
@@ -157,20 +157,20 @@ function Validate(module,fieldName,fieldValues,fieldId,currentId,record_view,dup
                             continue;
                         }
                     }
-    		    if(count_of_fields==1) {
-                        var recordname=data[0][i][count_of_fieldName]; 
+    		    if(count_of_fields == 1) {
+                        var recordname = data[0][i][count_of_fieldName[0]]; 
 		    } else {
                         if(data[0][i]['firstname']) {
                             var recordname = data[0][i][count_of_fieldName[0]] + ' '+data[0][i][count_of_fieldName[1]];
 			} else {
                             var recordname = data[0][i][count_of_fieldName[1]];
                         }
-                        var recordid = data[0][i]['recordid'];          
-                       
-                        var urlpath = site_url+module+"/view/Detail/"+recordid;
-                        makeDiv +="<u><a href="+urlpath+" style='color:white' target=_blank>"+recordname+' '+' ( #'+recordid+' ) '+"</a></u>";
-                        makeDiv +="<br/>";
 		    }
+                    var recordid = data[0][i]['recordid'];          
+                       
+                    var urlpath = site_url+module+"/view/Detail/"+recordid;
+                    makeDiv +="<u><a href="+urlpath+" style='color:white' target=_blank>"+recordname+' '+' ( #'+recordid+' ) '+"</a></u>";
+                    makeDiv +="<br/>";
                     vtUtils.showValidationMessage($('#'+fieldId), makeDiv, 'anything else');
                     vtUtils.showValidationMessage($('#'+fieldId+'_chzn'), makeDiv, 'anything else');
 		}

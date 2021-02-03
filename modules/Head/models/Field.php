@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-include_once 'vtlib/Head/Field.php';
+include_once 'libraries/modlib/Head/Field.php';
 
 /**
  * Head Field Model Class
@@ -410,7 +410,7 @@ class Head_Field_Model extends Head_Field {
 
 	/**
 	 * Static Function to get the instance fo Head Field Model from a given Head_Field object
-	 * @param Head_Field $fieldObj - vtlib field object
+	 * @param Head_Field $fieldObj - modlib field object
 	 * @return Head_Field_Model instance
 	 */
 	public static function getInstanceFromFieldObject(Head_Field $fieldObj) {

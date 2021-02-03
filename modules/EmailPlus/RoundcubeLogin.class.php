@@ -158,8 +158,8 @@ class RoundcubeLogin {
      * @var string
      */     
     private $hostname;
-	
-	private $username = false;
+    
+    private $username = false;
 
     /**
      * Roundcube port. Automatically defaults
@@ -423,11 +423,11 @@ class RoundcubeLogin {
                 $host = "127.0.0.1";
             }
         } 
-		/* opensaas
-		if(false!==$pos=strrpos($host, ":".$port)) {
-			$host = substr($host, 0, $pos);
-		}
-		*/
+        /* opensaas
+        if(false!==$pos=strrpos($host, ":".$port)) {
+            $host = substr($host, 0, $pos);
+        }
+        */
         if ($isSSL) {
             $host = "ssl://$host";
         }    
@@ -561,4 +561,3 @@ class RoundcubeLogin {
 class RoundcubeLoginException extends Exception { }
 
 // End of class RoundcubeLogin
- 

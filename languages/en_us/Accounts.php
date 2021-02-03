@@ -14,6 +14,7 @@ $languageStrings = array(
 	'SINGLE_Accounts' => 'Organization',
 	'LBL_ADD_RECORD' => 'Add Organization',
 	'LBL_RECORDS_LIST' => 'Organization List',
+	'LBL_CONVERT_USER' => 'Masquerade User',
 
 	// Blocks
 	'LBL_ACCOUNT_INFORMATION' => 'Organization Details',

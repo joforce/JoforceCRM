@@ -164,17 +164,16 @@ class PBXManager_ListView_Model extends Head_ListView_Model {
         }
 
         //Adding the HTML content based on the callstatus and direction to the records
-        foreach ($listViewEntries as $recordId => $record) {
+	foreach ($listViewEntries as $recordId => $record) { 
             //To Replace RecordingUrl by Icon
             $recordingUrl = explode('>', $listViewEntries[$recordId]['recordingurl']);
             $url = explode('<', $recordingUrl[1]);
-            if ($url[0] != '' && $listViewEntries[$recordId]['callstatus'] == 'completed') {
+            if ($url[0] != '') {
                 $listViewEntries[$recordId]['recordingurl'] = $recordingUrl[0] . '>' . '<i class="icon-volume-up"></i>' . '</a>';
             } else {
                 $listViewEntries[$recordId]['recordingurl'] = '';
-            }
+	    }
 
-            
             if ($listViewEntries[$recordId]['direction'] == 'outbound') {
                 if ($listViewEntries[$recordId]['callstatus'] == 'ringing' || $listViewEntries[$recordId]['callstatus'] == 'in-progress') {
                     $listViewEntries[$recordId]['callstatus'] = '<span class="label label-info"><i class="icon-arrow-up icon-white">

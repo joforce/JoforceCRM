@@ -28,7 +28,7 @@ class Calendar_Calendar_View extends Head_Index_View
     }
 
 	protected function preProcessTplName(Head_Request $request) {
-		return 'CalendarViewPreProcess.tpl';
+		return 'ListViewPreProcess.tpl';
 	}
 
 	public function getHeaderScripts(Head_Request $request) {

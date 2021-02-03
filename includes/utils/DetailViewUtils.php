@@ -25,6 +25,6 @@
 require_once('includes/database/PearDatabase.php');
 require_once('includes/ComboUtil.php'); //new
 require_once('includes/utils/CommonUtils.php'); //new
-require_once('vtlib/Head/Language.php');
+require_once('libraries/modlib/Head/Language.php');
 require_once('modules/PickList/PickListUtils.php');
 

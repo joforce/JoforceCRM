@@ -114,7 +114,7 @@ class ListViewSession {
 
 			$instance = CRMEntity::getInstance($currentModule);
 			$instance->getNonAdminAccessControlQuery($currentModule, $current_user);
-			vtlib_setup_modulevars($currentModule, $instance);
+			modlib_setup_modulevars($currentModule, $instance);
 			if($currentModule=='Documents' && !empty($folderId)){
 				$list_query = preg_replace("/[\n\r\s]+/"," ",$list_query);
 				$list_query = explode('ORDER BY', $list_query);

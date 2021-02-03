@@ -52,6 +52,11 @@ class Head_Detail_View extends Head_Index_View {
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
+
+	        $pipeline_model = new Settings_Pipeline_Module_Model();
+        	$pipeine_modules = $pipeline_model->getPipelineEnabledModules();
+	        $kanban_view = (in_array($moduleName, $pipeine_modules)) ? true : false;
+
 		if(!$this->record){
 			$this->record = Head_DetailView_Model::getInstance($moduleName, $recordId);
 		}
@@ -71,6 +76,8 @@ class Head_Detail_View extends Head_Index_View {
 		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('kanban_view_enabled' ,$kanban_view);
+		$viewer->assign('MASQUERADEUSERMODULE', $masquerade_user_module);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 
@@ -158,8 +165,28 @@ class Head_Detail_View extends Head_Index_View {
 
 		//Head7 - TO show custom view name in Module Header
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
-
+		/*masquerade for contacts*/
+		$query = getMasqueradeUserRecordDetails();
+		$result = $query['support_end_date'];
+		$viewer->assign('RESULT', $result);
+		/*masquerade for contacts*/
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+
+                $recordStrucure = Head_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Head_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
+
+                $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
+                $viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+
+                $viewer->assign('MODULE_NAME', $moduleName);
+                $viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
+                $viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+                $pagingModel = new Head_Paging_Model();
+                $viewer->assign('PAGING_MODEL', $pagingModel);
+
+                $picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+                $viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Head_Functions::jsonEncode($picklistDependencyDatasource));
+
+
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -306,6 +333,7 @@ class Head_Detail_View extends Head_Index_View {
 			$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 			return $viewer->view('OverlayDetailView.tpl', $moduleName);
 		} else {
+			$viewer->assign('MODULE_MODEL', $moduleModel);
 			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 		}
 	}
@@ -398,10 +426,14 @@ class Head_Detail_View extends Head_Index_View {
 	 * @param Head_Request $request
 	 */
 	function showHistory(Head_Request $request){
+		//$moduleName = $request->getModule();
+		//$viewer = $this->getViewer($request);
+		//echo $viewer->view('History.tpl', $moduleName, true);
 		$moduleName = $request->getModule();
+                $this->_showRecentActivities($request);
 
-		$viewer = $this->getViewer($request);
-		echo $viewer->view('History.tpl', $moduleName, true);
+                $viewer = $this->getViewer($request);
+                echo $viewer->view('RecentActivities.tpl', $moduleName, true);
 	}
 
 	/**

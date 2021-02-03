@@ -83,7 +83,7 @@ class HeadCRMObjectMeta extends EntityMeta {
 		
 		global $adb;
 		
-		$active = vtlib_isModuleActive($this->getTabName());
+		$active = modlib_isModuleActive($this->getTabName());
 		if($active == false){
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
@@ -92,8 +92,20 @@ class HeadCRMObjectMeta extends EntityMeta {
 			$this->hasDeleteAccess = false;
 			return;
 		}
-		
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		$get_userdetails = get_privileges($this->user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0){
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
@@ -393,7 +405,20 @@ class HeadCRMObjectMeta extends EntityMeta {
 		global $adb;
 		
 		$tabid = $this->getTabId();
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		$get_userdetails = get_privileges($this->user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0){
 			$sql = "select *, '0' as readonly from jo_field where tabid =? and block in (".generateQuestionMarks($block).") and displaytype in (1,2,3,4,5,6)";
 			$params = array($tabid, $block);	

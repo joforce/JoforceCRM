@@ -10,7 +10,7 @@
 {strip}
 	<div style="padding-left: 15px;">
        <div id="table-content" class="table-container">
-		<table id="listview-table"  class="table {if $TASK_LIST eq '0'}listview-table-norecords {else} listview-table{/if} ">
+		<table id="listview-table"  class="table {if $TASK_LIST eq '0'}listview-table-norecords {else} listview-table{/if} table-bordered">
 			<thead>
 				<tr class="listViewContentHeader">
 					<th width="20%">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>

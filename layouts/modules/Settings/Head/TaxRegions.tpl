@@ -16,7 +16,7 @@
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 			<div class="col-lg-4 marginLeftZero textOverflowEllipsis">
 				<div class="marginBottom10px">
-					<button type="button" class="btn btn-default addRegion addButton module-buttons pull-right" data-url="?module=Head&parent=Settings&view=TaxAjax&mode=editTaxRegion" data-type="1">
+					<button type="button" class="btn btn-primary addRegion addButton pull-right" data-url="?module=Head&parent=Settings&view=TaxAjax&mode=editTaxRegion" data-type="1">
                         <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_REGION', $QUALIFIED_MODULE)}</button>
 				</div>
 				<table class="table table-bordered taxRegionsTable" style="table-layout: fixed">

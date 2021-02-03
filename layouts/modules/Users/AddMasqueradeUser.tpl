@@ -23,6 +23,7 @@
 	    <div class="">
 		<form class="masquerade-modal-form" action="index.php" method="post">
 		    <input type="hidden" name="module" value="{$MODULE}"/>
+            <input type="hidden" name="related_module" value="Contacts"/>
 		    <input type="hidden" name="record_id" value="{$RECORD_ID}"/>
 		    <input type="hidden" name="action" value="Save" />
 		    <input type="hidden" name="defaultCallDuration" value=5 />
@@ -147,6 +148,16 @@
                                 <input type="text" name="secondaryemail" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('sec</div>ondaryemail')}" />
                             </div>
                         </div>
+            <div class="col-md-12 pl0 mt10">
+                            <div class="col-md-5 pl0 pr0">
+                                <label class="fieldLabel alignMiddle">{vtranslate('Masquerade User end date', $MODULE)}</label>
+                            </div>
+                            <div class="col-md-7 pl0">
+
+                            <input id="masqueradeuserenddate" type="text" class="inputElement dateField form-control "  data-fieldtype="date" name="masqueradeuserenddate" data-date-format="mm-dd-yyyy" value="" />
+                                
+                            </div>
+                        </div>
                     </div>
 		</form>
 	    </div>
@@ -154,10 +165,10 @@
 
         <div class="modal-footer ">
             <center>
-            	<button class="btn btn-success save-masquerade-user" id="save-masquerade-user" type="submit" name="saveButton" data-type="module">
+            	<button class="btn btn-primary save-masquerade-user" id="save-masquerade-user" type="submit" name="saveButton" data-type="module">
                     <strong>Save</strong>
                 </button>
-                <a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
             </center>
 	</div>
     </div>

@@ -121,7 +121,7 @@
     </div>
     <div class="modal-footer">
         <center>
-            <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+            <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
         </center>
         </div>
     </div>

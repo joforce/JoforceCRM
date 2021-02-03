@@ -9,34 +9,38 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_CreateEntity_View extends Settings_Head_Index_View {
+class Settings_Workflows_CreateEntity_View extends Settings_Head_Index_View
+{
 
-	public function process(Head_Request $request) {
+	public function process(Head_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$workflowId = $request->get('for_workflow');
-        if ($workflowId) {
+		if ($workflowId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 			$selectedModule = $workflowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
-            $selectedModuleName = $request->get('module_name');
+			$selectedModuleName = $request->get('module_name');
 			$selectedModule = Head_Module_Model::getInstance($selectedModuleName);
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-        
-		$taskType = 'VTCreateEntityTask';
-        $taskModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $taskType);
+
+		$taskType = 'CreateEntityTask';
+		$taskModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $taskType);
 
 		$taskTypeModel = $taskModel->getTaskType();
 		$viewer->assign('TASK_TYPE_MODEL', $taskTypeModel);
 
 		$viewer->assign('TASK_TEMPLATE_PATH', $taskTypeModel->getTemplatePath());
-		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workflowModel,
-																			Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDITTASK);
-        $recordStructureInstance->setTaskRecordModel($taskModel);
+		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule(
+			$workflowModel,
+			Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDITTASK
+		);
+		$recordStructureInstance->setTaskRecordModel($taskModel);
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
@@ -51,8 +55,8 @@ class Settings_Workflows_CreateEntity_View extends Settings_Head_Index_View {
 		$viewer->assign('RELATED_MODULE_MODEL', $relatedModuleModel);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
 		$viewer->assign('MODULE_MODEL', $workflowModuleModel);
-		$viewer->assign('SOURCE_MODULE',$workflowModuleModel->getName());
-		$viewer->assign('RELATED_MODULE_MODEL_NAME','');
+		$viewer->assign('SOURCE_MODULE', $workflowModuleModel->getName());
+		$viewer->assign('RELATED_MODULE_MODEL_NAME', '');
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('CreateEntity.tpl', $qualifiedModuleName);
 	}

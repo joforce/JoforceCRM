@@ -349,9 +349,12 @@ Head.Class('Documents_Index_Js', {
 			if(!e) {
 				app.helper.showModal(resp, {
 					'cb' : function(modalContainer) {
-						self.registerUploadDocumentEvents(modalContainer);
-						self.applyScrollToModal(modalContainer);
-						self.registerQuickCreateEvents(modalContainer);
+						var form = modalContainer.find('form');
+						if(form.length == '1'){
+							self.registerUploadDocumentEvents(modalContainer);
+							self.applyScrollToModal(modalContainer);
+							self.registerQuickCreateEvents(modalContainer);
+						}
 					}
 				});
 			}

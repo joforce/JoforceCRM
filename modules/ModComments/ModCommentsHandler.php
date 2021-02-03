@@ -9,25 +9,27 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-require_once 'modules/com_jo_workflow/VTEventHandler.inc';
+require_once 'modules/Workflow/EventHandler.inc';
 require_once 'modules/Emails/mail.php';
 require_once 'modules/HelpDesk/HelpDesk.php';
 
-class ModCommentsHandler extends VTEventHandler {
+class ModCommentsHandler extends VTEventHandler
+{
 
-	function handleEvent($eventName, $data) {
+	function handleEvent($eventName, $data)
+	{
 
-		if($eventName == 'vtiger.entity.beforesave') {
+		if ($eventName == 'jo.entity.beforesave') {
 			// Entity is about to be saved, take required action
 		}
 
-		if($eventName == 'vtiger.entity.aftersave') {
+		if ($eventName == 'jo.entity.aftersave') {
 			$db = PearDatabase::getInstance();
 
 			$relatedToId = $data->get('related_to');
-            $relatedInfo = array();
-            $relatedInfo['module'] = $data->focus->moduleName;
-            $relatedInfo['id'] = $data->focus->id;
+			$relatedInfo = array();
+			$relatedInfo['module'] = $data->focus->moduleName;
+			$relatedInfo['id'] = $data->focus->id;
 			if ($relatedToId && $data->getModuleName() == 'ModComments') {
 				$moduleName = getSalesEntityType($relatedToId);
 				$focus = CRMEntity::getInstance($moduleName);
@@ -37,30 +39,30 @@ class ModCommentsHandler extends VTEventHandler {
 				if ($fromPortal) {
 					$focus->column_fields['from_portal'] = $fromPortal;
 				}
-				if($data->isNew()) {
+				if ($data->isNew()) {
 					// we need to update related to modified and last modified by, whenever a comment is added
 					$focus->trackLinkedInfo($moduleName, $relatedToId, $data->getModuleName(), $data->getId());
 				}
 
 				//if its Internal comment, workflow should not trigger
 				$isPrivateComment = $data->get('is_private');
-				if(!$isPrivateComment) {
-					$entityData = VTEntityData::fromCRMEntity($focus);
+				if (!$isPrivateComment) {
+					$entityData = EntityData::fromCRMEntity($focus);
 
-					$wfs = new VTWorkflowManager($db);
-					$relatedToEventHandler = new VTWorkflowEventHandler();
+					$wfs = new WorkflowManager($db);
+					$relatedToEventHandler = new EventHandler();
 					$relatedToEventHandler->workflows = $wfs->getWorkflowsForModuleSupportingComments($entityData->getModuleName());
 
 					$wsId = vtws_getWebserviceEntityId($entityData->getModuleName(), $entityData->getId());
 					$fromPortal = $entityData->get('from_portal');
 
-					$util = new VTWorkflowUtils();
-					$entityCache = new VTEntityCache($util->adminUser());
+					$util = new WorkflowUtils();
+					$entityCache = new EntityCache($util->adminUser());
 
 					$entityCacheData = $entityCache->forId($wsId);
 					$entityCacheData->set('from_portal', $fromPortal);
 					$entityCache->cache[$wsId] = $entityCacheData;
-					$relatedToEventHandler->handleEvent($eventName, $entityData, $entityCache,$relatedInfo);
+					$relatedToEventHandler->handleEvent($eventName, $entityData, $entityCache, $relatedInfo);
 					$util->revertUser();
 				}
 			}
@@ -69,7 +71,8 @@ class ModCommentsHandler extends VTEventHandler {
 }
 
 
-function CustomerCommentFromPortal($entityData) {
+function CustomerCommentFromPortal($entityData)
+{
 	$adb = PearDatabase::getInstance();
 
 	$data = $entityData->getData();
@@ -79,43 +82,44 @@ function CustomerCommentFromPortal($entityData) {
 	$relatedToId = explode('x', $relatedToWSId);
 	$moduleName = getSalesEntityType($relatedToId[1]);
 
-	if($moduleName == 'HelpDesk' && !empty($customerWSId)) {
+	if ($moduleName == 'HelpDesk' && !empty($customerWSId)) {
 		$ownerIdInfo = getRecordOwnerId($relatedToId[1]);
-		if(!empty($ownerIdInfo['Users'])) {
+		if (!empty($ownerIdInfo['Users'])) {
 			$ownerId = $ownerIdInfo['Users'];
 			$ownerName = getOwnerName($ownerId);
-			$toEmail = getUserEmailId('id',$ownerId);
+			$toEmail = getUserEmailId('id', $ownerId);
 		}
-		if(!empty($ownerIdInfo['Groups'])) {
+		if (!empty($ownerIdInfo['Groups'])) {
 			$ownerId = $ownerIdInfo['Groups'];
 			$groupInfo = getGroupName($ownerId);
 			$ownerName = $groupInfo[0];
 			$toEmail = implode(',', getDefaultAssigneeEmailIds($ownerId));
 		}
-		$subject = getTranslatedString('LBL_RESPONDTO_TICKETID', $moduleName)."##". $relatedToId[1]."## ". getTranslatedString('LBL_CUSTOMER_PORTAL', $moduleName);
-		$contents = getTranslatedString('Dear', $moduleName)." ".$ownerName.","."<br><br>"
-					.getTranslatedString('LBL_CUSTOMER_COMMENTS', $moduleName)."<br><br>
-					<b>".$data['commentcontent']."</b><br><br>"
-					.getTranslatedString('LBL_RESPOND', $moduleName)."<br><br>"
-					.getTranslatedString('LBL_REGARDS', $moduleName)."<br>"
-					.getTranslatedString('LBL_SUPPORT_ADMIN', $moduleName);
+		$subject = getTranslatedString('LBL_RESPONDTO_TICKETID', $moduleName) . "##" . $relatedToId[1] . "## " . getTranslatedString('LBL_CUSTOMER_PORTAL', $moduleName);
+		$contents = getTranslatedString('Dear', $moduleName) . " " . $ownerName . "," . "<br><br>"
+			. getTranslatedString('LBL_CUSTOMER_COMMENTS', $moduleName) . "<br><br>
+					<b>" . $data['commentcontent'] . "</b><br><br>"
+			. getTranslatedString('LBL_RESPOND', $moduleName) . "<br><br>"
+			. getTranslatedString('LBL_REGARDS', $moduleName) . "<br>"
+			. getTranslatedString('LBL_SUPPORT_ADMIN', $moduleName);
 
 		$customerId = explode('x', $customerWSId);
 
 		$result = $adb->pquery("SELECT email FROM jo_contactdetails WHERE contactid=?", array($customerId[0]));
-		$fromEmail = $adb->query_result($result,0,'email');
+		$fromEmail = $adb->query_result($result, 0, 'email');
 
-		send_mail('HelpDesk', $toEmail,'', $fromEmail, $subject, $contents);
+		send_mail('HelpDesk', $toEmail, '', $fromEmail, $subject, $contents);
 	}
 }
 
-function TicketOwnerComments($entityData) {
+function TicketOwnerComments($entityData)
+{
 	global $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
 	$adb = PearDatabase::getInstance();
 
 	//if commented from portal by the customer, then ignore this
 	$customer = $entityData->get('customer');
-	if(!empty($customer)) return;
+	if (!empty($customer)) return;
 
 	$wsParentId = $entityData->get('related_to');
 	$parentIdParts = explode('x', $wsParentId);
@@ -124,29 +128,31 @@ function TicketOwnerComments($entityData) {
 
 	$isNew = $entityData->isNew();
 
-	if($moduleName == 'HelpDesk') {
+	if ($moduleName == 'HelpDesk') {
 		$ticketFocus = CRMEntity::getInstance($moduleName);
 		$ticketFocus->retrieve_entity_info($parentId, $moduleName);
 		$ticketFocus->id = $parentId;
 
-		if(!$isNew) {
+		if (!$isNew) {
 			$reply = 'Re : ';
 		} else {
 			$reply = '';
 		}
 
-		$subject = $ticketFocus->column_fields['ticket_no'] . ' [ '.getTranslatedString('LBL_TICKET_ID', $moduleName)
-							.' : '.$parentId.' ] '.$reply.$ticketFocus->column_fields['ticket_title'];
+		$subject = $ticketFocus->column_fields['ticket_no'] . ' [ ' . getTranslatedString('LBL_TICKET_ID', $moduleName)
+			. ' : ' . $parentId . ' ] ' . $reply . $ticketFocus->column_fields['ticket_title'];
 
 		$emailOptOut = 0;
 		$contactId = $ticketFocus->column_fields['contact_id'];
 		$accountId = $ticketFocus->column_fields['parent_id'];
 		//To get the emailoptout jo_field value and then decide whether send mail about the tickets or not
-		if(!empty($contactId)) {
-			$result = $adb->pquery('SELECT email, emailoptout FROM jo_contactdetails WHERE contactid=?',
-										array($contactId));
-			$emailOptOut = $adb->query_result($result,0,'emailoptout');
-			$parentEmail = $contactMailId = $adb->query_result($result,0,'email');
+		if (!empty($contactId)) {
+			$result = $adb->pquery(
+				'SELECT email, emailoptout FROM jo_contactdetails WHERE contactid=?',
+				array($contactId)
+			);
+			$emailOptOut = $adb->query_result($result, 0, 'emailoptout');
+			$parentEmail = $contactMailId = $adb->query_result($result, 0, 'email');
 			$displayValueArray = getEntityName('Contacts', $contactId);
 			if (!empty($displayValueArray)) {
 				foreach ($displayValueArray as $key => $value) {
@@ -156,28 +162,29 @@ function TicketOwnerComments($entityData) {
 			$parentName = $contactName;
 
 			//Get the status of the jo_portal user. if the customer is active then send the jo_portal link in the mail
-			if($parentEmail != '') {
+			if ($parentEmail != '') {
 				$sql = "SELECT * FROM jo_portalinfo WHERE user_name=?";
-				$isPortalUser = $adb->query_result($adb->pquery($sql, array($parentEmail)),0,'isactive');
+				$isPortalUser = $adb->query_result($adb->pquery($sql, array($parentEmail)), 0, 'isactive');
 			}
-		} else if(!empty($accountId)) {
-			$result = $adb->pquery("SELECT accountname, emailoptout, email1 FROM jo_account WHERE accountid=?",
-										array($accountId));
-			$emailOptOut = $adb->query_result($result,0,'emailoptout');
-			$parentEmail = $adb->query_result($result,0,'email1');
-			$parentName = $adb->query_result($result,0,'accountname');
-
+		} else if (!empty($accountId)) {
+			$result = $adb->pquery(
+				"SELECT accountname, emailoptout, email1 FROM jo_account WHERE accountid=?",
+				array($accountId)
+			);
+			$emailOptOut = $adb->query_result($result, 0, 'emailoptout');
+			$parentEmail = $adb->query_result($result, 0, 'email1');
+			$parentName = $adb->query_result($result, 0, 'accountname');
 		}
 		//added condition to check the emailoptout
-		if($emailOptOut == 0) {
-			$entityData = VTEntityData::fromCRMEntity($ticketFocus);
+		if ($emailOptOut == 0) {
+			$entityData = EntityData::fromCRMEntity($ticketFocus);
 
-			if($isPortalUser == 1){
-				$bodysubject = getTranslatedString('Ticket No', $moduleName) .": " . $ticketFocus->column_fields['ticket_no']
-					. "<br>" . getTranslatedString('LBL_TICKET_ID', $moduleName).' : '.$parentId.'<br> '
-					.getTranslatedString('LBL_SUBJECT', $moduleName).$ticketFocus->column_fields['ticket_title'];
+			if ($isPortalUser == 1) {
+				$bodysubject = getTranslatedString('Ticket No', $moduleName) . ": " . $ticketFocus->column_fields['ticket_no']
+					. "<br>" . getTranslatedString('LBL_TICKET_ID', $moduleName) . ' : ' . $parentId . '<br> '
+					. getTranslatedString('LBL_SUBJECT', $moduleName) . $ticketFocus->column_fields['ticket_title'];
 
-				$emailBody = $bodysubject.'<br><br>'.HelpDesk::getPortalTicketEmailContents($entityData);
+				$emailBody = $bodysubject . '<br><br>' . HelpDesk::getPortalTicketEmailContents($entityData);
 			} else {
 				$emailBody = HelpDesk::getTicketEmailContents($entityData);
 			}

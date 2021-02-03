@@ -5,15 +5,12 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 
 {strip}
     {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
     <div class="col-sm-12 col-xs-12">
-        {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-        <div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Head')}">
-            <span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>
-        </div>
         <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
         <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
         <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -49,17 +46,17 @@
                     </th>
                     {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                         <th>
+                            {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
+                                <a href="#" class="removeSorting pull-right">x</a>
+                            {/if}
                             <a href="#" class="listViewContentHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}">
                                 {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-                                    <i class="fa fa-sort {$FASORT_IMAGE}"></i>
+                                    <i class="fa pull-right {$FASORT_IMAGE}"></i>
                                 {else}
-                                    <i class="fa fa-sort customsort"></i>
+                                    <i class="fa {$DEFAULT_SORT} pull-right"></i>
                                 {/if}
-                                &nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}&nbsp;
+                                <span>{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</span>
                             </a>
-                            {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-                                <a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-                                {/if}
                         </th>
                     {/foreach}
                     </tr>

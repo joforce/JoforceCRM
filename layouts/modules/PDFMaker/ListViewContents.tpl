@@ -11,10 +11,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg">
-	{if $MODULE neq 'EmailTemplates' && $SEARCH_MODE_RESULTS neq true}
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-	{/if}
+<div class="col-sm-12 col-xs-12 joforce-bg-list">
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
 	<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -51,41 +48,6 @@
 				<thead>
 					<tr class="listViewContentHeader">
 						<th>
-<!--							{if !$SEARCH_MODE_RESULTS}
-					<div class="table-actions">
-						<div class="dropdown" style="float:left;">
-							<span class="input dropdown-toggle" data-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
-								<input class="listViewEntriesMainCheckBox" type="checkbox">
-							</span>
-						</div>
-						{if $MODULE_MODEL->isFilterColumnEnabled()}
-							<div id="listColumnFilterContainer">
-								<div class="listColumnFilter {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}disabled{/if}"  
-									 {if $CURRENT_CV_MODEL->isCvEditable()}
-										 title="{vtranslate('LBL_CLICK_HERE_TO_MANAGE_LIST_COLUMNS',$MODULE)}"
-									 {else}
-										 {if $CURRENT_CV_MODEL->get('viewname') eq 'All' and !$CURRENT_USER_MODEL->isAdminUser()} 
-											 title="{vtranslate('LBL_SHARED_LIST_NON_ADMIN_MESSAGE',$MODULE)}"
-										 {elseif !$CURRENT_CV_MODEL->isMine()}
-											 {assign var=CURRENT_CV_USER_ID value=$CURRENT_CV_MODEL->get('userid')}
-											 {if !Head_Functions::isUserExist($CURRENT_CV_USER_ID)}
-												 {assign var=CURRENT_CV_USER_ID value=Users::getActiveAdminId()}
-											 {/if}
-											 title="{vtranslate('LBL_SHARED_LIST_OWNER_MESSAGE',$MODULE, getUserFullName($CURRENT_CV_USER_ID))}"
-										 {/if}
-									 {/if}
-									 {if $MODULE eq 'Documents'}style="width: 10%;"{/if}
-									 data-toggle="tooltip" data-placement="bottom" data-container="body">
-									<i class="fa fa-th-large"></i>
-								</div>
-							</div>
-						{/if}
-						<i class="fa fa-search cursorPointer" id="joforce-table-search"></i>
-
-					</div>
-				{elseif $SEARCH_MODE_RESULTS}
-					{vtranslate('LBL_ACTIONS',$MODULE)}
-				{/if}-->
 				</th>
 
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -95,19 +57,19 @@
 						{assign var=NO_SORTING value=0}
 					{/if}
 					<th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if}>
+						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
+							<a href="#" class="removeSorting pull-right">x</a>
+						{/if}
 						<a href="#" class="{if $NO_SORTING}noSorting{else}listViewContentHeaderValues{/if}" {if !$NO_SORTING}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}"{/if} data-field-id='{$LISTVIEW_HEADER->getId()}'>
 							{if !$NO_SORTING}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-									<i class="fa fa-sort {$FASORT_IMAGE}"></i>
+									<i class="fa pull-right {$FASORT_IMAGE}"></i>
 								{else}
-									<i class="fa fa-sort customsort"></i>
+									<i class="fa {$DEFAULT_SORT} pull-right"></i>
 								{/if}
 							{/if}
 							&nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}&nbsp;
 						</a>
-						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-							<a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-							{/if}
 					</th>
 				{/foreach}
 				</tr>

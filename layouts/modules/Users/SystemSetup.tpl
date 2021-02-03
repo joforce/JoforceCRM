@@ -10,7 +10,7 @@
 {strip}
 <html lang="en">
     <head>
-	<title>JoForce Setup</title>
+	<title>Joforce Setup</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link REL="SHORTCUT ICON" HREF="layouts/skins/images/favicon.ico">
@@ -20,14 +20,14 @@
 	<style type="text/css">
 	    {literal}
 		body{
-			font-family: "Lucida Grande", Tahoma, Verdana;
+			font-family: 'Crimson Text', serif !important;
 			background: #F4FAFC;
 			color : #555;
 			font-size: 13px;
 			min-height: 98%;
 		}
 		p{
-			font-family: "Lucida Grande", Tahoma,Verdana;
+			font-family: 'Crimson Text', serif !important;
 			font-size: 14px;
 		}
 		.offset2{
@@ -58,6 +58,8 @@
 			box-shadow: 0 0 5px #ccc;
 			min-height: 375px;
 			*padding: 0 15px;
+			width: 95%;
+		        margin: auto;
 		}
 		.logo{
 			padding: 15px 0 ;
@@ -121,7 +123,7 @@
 			min-height: 130px;
 		}
 		.module_list{
-			background: #1C7C54;
+			background: #0444a7;
 			border-radius: 3px 0;
 			right:0;
 			bottom: 0;
@@ -221,12 +223,12 @@
 			background-position: 0 0;
 		}
 		.btn-primary, .btn-success {
-			background: #1C7C54 !important;
-			border-color: #1C7C54 !important; 
+			background: #0444a7 !important;
+			border-color: #0444a7 !important; 
 		}
 		.btn-primary:hover, .btn-primary:active, .btn-success:hover, .btn-success:active {
-			background: #176746 !important;
-			border-color: #176746 !important; \
+			background: #0444a7 !important;
+			border-color: #0444a7 !important;
 		}
 	    {/literal}
 	</style>
@@ -309,7 +311,7 @@ console.log(data);
 		<div class="span12 inner-container">
 		    <div class="row-fluid">
 			<div class="span8">
-			    <h3 style="display: inline-block;float:left;"> What would you like to use JoForce for? </h3> 
+			    <h3 style="display: inline-block;float:left;"> What would you like to use Joforce for? </h3> 
 			    <p style="display: inline-block;float:left;margin-top:4px;">&nbsp;&nbsp;(Select features you want to enable)</p>
 			</div>
 			<div class="span4">

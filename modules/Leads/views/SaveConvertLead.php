@@ -43,7 +43,7 @@ class Leads_SaveConvertLead_View extends Head_View_Controller {
 
 		$availableModules = array('Accounts', 'Contacts', 'Potentials');
 		foreach ($availableModules as $module) {
-			if(vtlib_isModuleActive($module)&& in_array($module, $modules)) {
+			if(modlib_isModuleActive($module)&& in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
 

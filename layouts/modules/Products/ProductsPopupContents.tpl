@@ -44,11 +44,11 @@
                                 <th>
                                     <a href="javascript:void(0);" class="listViewContentHeaderValues listViewHeaderValues {if $LISTVIEW_HEADER->get('name') eq 'listprice'} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}">
                                         {if $ORDER_BY eq $LISTVIEW_HEADER->get('name')}
-                                            <i class="fa fa-sort {$FASORT_IMAGE}"></i>
+                                            <i class="fa pull-right {$FASORT_IMAGE}"></i>
                                         {else}
-                                            <i class="fa fa-sort customsort"></i>
+                                            <i class="fa {$DEFAULT_SORT} pull-right"></i>
                                         {/if}
-                                        &nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}&nbsp;
+                                        <span>{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</span>
                                     </a>
                                 </th>
                             {/foreach}

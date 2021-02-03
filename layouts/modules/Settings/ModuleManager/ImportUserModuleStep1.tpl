@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="detailViewContainer col-lg-12 col-md-12 col-sm-12 joforce-bg" id="importModules">
+	<div class="" id="importModules">
 		<div class="widget_header row col-lg-12 col-md-12 col-sm-12">
 			<h4>{vtranslate('LBL_IMPORT_MODULE_FROM_ZIP', $QUALIFIED_MODULE)}</h4>
 		</div>
@@ -43,7 +43,7 @@
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
 						<button class="btn btn-primary saveButton" disabled="disabled" type="submit" name="importFromZip"><strong>{vtranslate('LBL_IMPORT', $MODULE)}</strong></button>&nbsp;&nbsp;
-						<a class="cancelLink" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink btn btn-secondary" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>

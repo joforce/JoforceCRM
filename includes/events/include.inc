@@ -10,15 +10,15 @@
  *************************************************************************************/
 
 	require_once 'libraries/antlr/antlr.php';
-	require_once 'VTEventConditionSymbol.php';
-	require_once 'VTEventCondition.php';
-	require_once 'VTEventConditionParserLexer.php';
-	require_once 'VTEventConditionParserParser.php';
-	require_once 'VTEntityData.inc';
-	require_once 'VTEntityType.inc';
+	require_once 'EventConditionSymbol.php';
+	require_once 'EventCondition.php';
+	require_once 'EventConditionParserLexer.php';
+	require_once 'EventConditionParserParser.php';
+	require_once 'EntityData.inc';
+	require_once 'EntityType.inc';
 	require_once 'VTEventHandler.inc';
-	require_once 'VTEventsManager.inc';
-	require_once 'VTEventTrigger.inc';
-    require_once 'VTBatchData.inc';
-    require_once 'VTBatchEventTrigger.inc';
+	require_once 'EventsManager.inc';
+	require_once 'EventTrigger.inc';
+    require_once 'BatchData.inc';
+    require_once 'BatchEventTrigger.inc';
 ?>

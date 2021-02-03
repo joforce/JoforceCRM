@@ -17,7 +17,7 @@
                 <div class="row-fluid"><span class="span7 "> {vtranslate('LBL_UPDATED',$MODULE_NAME)} :</span> <span class='span5 '>{$RECORD['update']} </span></div>
                 <div class="row-fluid"><span class="span7 "> {vtranslate('LBL_DELETED',$MODULE_NAME)} :</span> <span class='span5 '>{$RECORD['delete']} </span></div>
                 {if $RECORD['more']}
-					<div class="row-fluid"><span style='background:#FFFBCF;' class="span11" title="{vtranslate('LBL_MORE_VTIGER',$MODULE_NAME)}">{vtranslate('LBL_MORE_VTIGER',$MODULE_NAME)}</span>
+					<div class="row-fluid"><span style='background:#FFFBCF;' class="span11" title="{vtranslate('LBL_MORE_JOFORCE',$MODULE_NAME)}">{vtranslate('LBL_MORE_JOFORCE',$MODULE_NAME)}</span>
                 {/if}    
             </div>
          {else}

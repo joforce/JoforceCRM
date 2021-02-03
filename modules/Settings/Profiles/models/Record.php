@@ -57,7 +57,7 @@ class Settings_Profiles_Record_Model extends Settings_Head_Record_Model {
 	 */
 	public function getEditViewUrl() {
         global $site_URL;
-		return $site_URL.'Profiles/Settings/Edit/'.$this->getId();
+		return $site_URL.'Profiles/Settings/Edit?record='.$this->getId();
 	}
 
 	/**

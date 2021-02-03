@@ -19,22 +19,22 @@
  * return type void
  */
 
-function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
+function updateStk($product_id, $qty, $mode, $ext_prod_arr, $module)
 {
 	global $log;
-	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".$ext_prod_arr.",".$module.") method ...");
+	$log->debug("Entering updateStk(" . $product_id . "," . $qty . "," . $mode . "," . $ext_prod_arr . "," . $module . ") method ...");
 	global $adb;
 	global $current_user;
 
-	$log->debug("Inside updateStk function, module=".$module);
+	$log->debug("Inside updateStk function, module=" . $module);
 	$log->debug("Product Id = $product_id & Qty = $qty");
 
 	$prod_name = getProductName($product_id);
-	$qtyinstk= getProductQtyInStock($product_id);
-	$log->debug("Prd Qty in Stock ".$qtyinstk);
+	$qtyinstk = getProductQtyInStock($product_id);
+	$log->debug("Prd Qty in Stock " . $qtyinstk);
 
-	$upd_qty = $qtyinstk-$qty;
-	sendPrdStckMail($product_id,$upd_qty,$prod_name,$qtyinstk,$qty,$module);
+	$upd_qty = $qtyinstk - $qty;
+	sendPrdStckMail($product_id, $upd_qty, $prod_name, $qtyinstk, $qty, $module);
 
 	$log->debug("Exiting updateStk method ...");
 }
@@ -50,27 +50,26 @@ function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
  * return type void
  */
 
-function sendPrdStckMail($product_id,$upd_qty,$prod_name,$qtyinstk,$qty,$module)
+function sendPrdStckMail($product_id, $upd_qty, $prod_name, $qtyinstk, $qty, $module)
 {
 	global $log;
-	$log->debug("Entering sendPrdStckMail(".$product_id.",".$upd_qty.",".$prod_name.",".$qtyinstk.",".$qty.",".$module.") method ...");
+	$log->debug("Entering sendPrdStckMail(" . $product_id . "," . $upd_qty . "," . $prod_name . "," . $qtyinstk . "," . $qty . "," . $module . ") method ...");
 	global $current_user;
 	global $adb;
 	$reorderlevel = getPrdReOrderLevel($product_id);
-	$log->debug("Inside sendPrdStckMail function, module=".$module);
-	$log->debug("Prd reorder level ".$reorderlevel);
-	if($upd_qty < $reorderlevel)
-	{	
+	$log->debug("Inside sendPrdStckMail function, module=" . $module);
+	$log->debug("Prd reorder level " . $reorderlevel);
+	if ($upd_qty < $reorderlevel) {
 		//send mail to the handler
 		$handlerType = '';
 		$handler = getRecordOwnerId($product_id);
-		foreach($handler as $type=>$id){
+		foreach ($handler as $type => $id) {
 			$handlerType = $type;
-			$handler=$id;
+			$handler = $id;
 		}
 
 		$handler_name = getOwnerName($handler);
-		if($handlerType == 'Users') {
+		if ($handlerType == 'Users') {
 			$to_address = getUserEmail($handler);
 		} else {
 			$to_address = implode(',', getDefaultAssigneeEmailIds($handler));
@@ -79,63 +78,57 @@ function sendPrdStckMail($product_id,$upd_qty,$prod_name,$qtyinstk,$qty,$module)
 			return;
 		}
 		//Get the email details from database;
-		if($module == 'SalesOrder')
-		{
+		if ($module == 'SalesOrder') {
 			$notification_table = 'SalesOrderNotification';
 			$quan_name = '{SOQUANTITY}';
 		}
-		if($module == 'Quotes')
-		{
+		if ($module == 'Quotes') {
 			$notification_table = 'QuoteNotification';
 			$quan_name = '{QUOTEQUANTITY}';
 		}
-		if($module == 'Invoice')
-		{
+		if ($module == 'Invoice') {
 			$notification_table = 'InvoiceNotification';
 		}
 		$query = "select * from jo_inventorynotification where notificationname=?";
 		$result = $adb->pquery($query, array($notification_table));
 
-		$subject = $adb->query_result($result,0,'notificationsubject');
-		$body = $adb->query_result($result,0,'notificationbody');
-		$status = $adb->query_result($result,0,'status');
+		$subject = $adb->query_result($result, 0, 'notificationsubject');
+		$body = $adb->query_result($result, 0, 'notificationbody');
+		$status = $adb->query_result($result, 0, 'status');
 
-		if($status == 0 || $status == '')
-				return false;
+		if ($status == 0 || $status == '')
+			return false;
 
-		$subject = str_replace('{PRODUCTNAME}',$prod_name,$subject);
-		$body = str_replace('{HANDLER}',$handler_name,$body);
-		$body = str_replace('{PRODUCTNAME}',$prod_name,$body);
-		if($module == 'Invoice')
-		{
-			$body = str_replace('{CURRENTSTOCK}',$upd_qty,$body);
-			$body = str_replace('{REORDERLEVELVALUE}',$reorderlevel,$body);
+		$subject = str_replace('{PRODUCTNAME}', $prod_name, $subject);
+		$body = str_replace('{HANDLER}', $handler_name, $body);
+		$body = str_replace('{PRODUCTNAME}', $prod_name, $body);
+		if ($module == 'Invoice') {
+			$body = str_replace('{CURRENTSTOCK}', $upd_qty, $body);
+			$body = str_replace('{REORDERLEVELVALUE}', $reorderlevel, $body);
+		} else {
+			$body = str_replace('{CURRENTSTOCK}', $qtyinstk, $body);
+			$body = str_replace($quan_name, $qty, $body);
 		}
-		else
-		{
-			$body = str_replace('{CURRENTSTOCK}',$qtyinstk,$body);
-			$body = str_replace($quan_name,$qty,$body);
-		}
-		$body = str_replace('{CURRENTUSER}',$current_user->user_name,$body);
+		$body = str_replace('{CURRENTUSER}', $current_user->user_name, $body);
 
-		$mail_status = send_mail($module,$to_address,$current_user->user_name,$current_user->email1,decode_html($subject),nl2br(to_html($body)));
+		$mail_status = send_mail($module, $to_address, $current_user->user_name, $current_user->email1, decode_html($subject), nl2br(to_html($body)));
 	}
 	$log->debug("Exiting sendPrdStckMail method ...");
 }
 
 /**This function is used to get the reorder level of a product
-*Param $product_id - product id
-*Returns type numeric
-*/
+ *Param $product_id - product id
+ *Returns type numeric
+ */
 
 function getPrdReOrderLevel($product_id)
 {
 	global $log;
-	$log->debug("Entering getPrdReOrderLevel(".$product_id.") method ...");
+	$log->debug("Entering getPrdReOrderLevel(" . $product_id . ") method ...");
 	global $adb;
 	$query1 = "SELECT reorderlevel FROM jo_products WHERE productid = ?";
-	$result=$adb->pquery($query1, array($product_id));
-	$reorderlevel= $adb->query_result($result,0,"reorderlevel");
+	$result = $adb->pquery($query1, array($product_id));
+	$reorderlevel = $adb->query_result($result, 0, "reorderlevel");
 	$log->debug("Exiting getPrdReOrderLevel method ...");
 	return $reorderlevel;
 }
@@ -150,7 +143,7 @@ function getTaxId($type)
 	$log->debug("Entering into getTaxId($type) function.");
 
 	$res = $adb->pquery("SELECT taxid FROM jo_inventorytaxinfo WHERE taxname=?", array($type));
-	$taxid = $adb->query_result($res,0,'taxid');
+	$taxid = $adb->query_result($res, 0, 'taxid');
 
 	$log->debug("Exiting from getTaxId($type) function. return value=$taxid");
 	return $taxid;
@@ -168,7 +161,7 @@ function getTaxPercentage($type)
 	$taxpercentage = '';
 
 	$res = $adb->pquery("SELECT percentage FROM jo_inventorytaxinfo WHERE taxname = ?", array($type));
-	$taxpercentage = $adb->query_result($res,0,'percentage');
+	$taxpercentage = $adb->query_result($res, 0, 'percentage');
 
 	$log->debug("Exiting from getTaxPercentage($type) function. return value=$taxpercentage");
 	return $taxpercentage;
@@ -180,7 +173,7 @@ function getTaxPercentage($type)
  *	@param id  $default       - if 'default' then first look for product's tax percentage and product's tax is empty then it will return the default configured tax percentage, else it will return the product's tax (not look for default value)
  *	return int $taxpercentage - taxpercentage corresponding to the Tax type from jo_inventorytaxinfo jo_table
  */
-function getProductTaxPercentage($type,$productid,$default='')
+function getProductTaxPercentage($type, $productid, $default = '')
 {
 	global $adb, $log, $current_user;
 	$log->debug("Entering into getProductTaxPercentage($type,$productid) function.");
@@ -190,15 +183,15 @@ function getProductTaxPercentage($type,$productid,$default='')
 	$res = $adb->pquery("SELECT taxpercentage, jo_producttaxrel.regions FROM jo_inventorytaxinfo
 							INNER JOIN jo_producttaxrel ON jo_inventorytaxinfo.taxid = jo_producttaxrel.taxid
 							WHERE jo_producttaxrel.productid = ? AND jo_inventorytaxinfo.taxname = ?", array($productid, $type));
-	$taxpercentage = $adb->query_result($res,0,'taxpercentage');
+	$taxpercentage = $adb->query_result($res, 0, 'taxpercentage');
 
 	//This is to retrive the default configured value if the taxpercentage related to product is empty
-	if($taxpercentage == '' && $default == 'default')
+	if ($taxpercentage == '' && $default == 'default')
 		$taxpercentage = getTaxPercentage($type);
 
 
 	$log->debug("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
-	if($current_user->truncate_trailing_zeros == true) {
+	if ($current_user->truncate_trailing_zeros == true) {
 		$taxpercentage = decimalFormat($taxpercentage);
 	}
 	return array('percentage' => $taxpercentage, 'regions' => Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'regions'))));
@@ -216,17 +209,17 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
 	global $log, $adb;
 	$log->debug("Entering into function addInventoryHistory($module, $id, $relatedname, $total, $history_fieldvalue)");
 
-	$history_table_array = Array(
-					"PurchaseOrder"=>"jo_postatushistory",
-					"SalesOrder"=>"jo_sostatushistory",
-					"Quotes"=>"jo_quotestagehistory",
-					"Invoice"=>"jo_invoicestatushistory"
-				    );
+	$history_table_array = array(
+		"PurchaseOrder" => "jo_postatushistory",
+		"SalesOrder" => "jo_sostatushistory",
+		"Quotes" => "jo_quotestagehistory",
+		"Invoice" => "jo_invoicestatushistory"
+	);
 
 	$histid = $adb->getUniqueID($history_table_array[$module]);
- 	$modifiedtime = $adb->formatDate(date('Y-m-d H:i:s'), true);
- 	$query = "insert into $history_table_array[$module] values(?,?,?,?,?,?)";
-	$qparams = array($histid,$id,$relatedname,$total,$history_fldval,$modifiedtime);
+	$modifiedtime = $adb->formatDate(date('Y-m-d H:i:s'), true);
+	$query = "insert into $history_table_array[$module] values(?,?,?,?,?,?)";
+	$qparams = array($histid, $id, $relatedname, $total, $history_fldval, $modifiedtime);
 	$adb->pquery($query, $qparams);
 
 	$log->debug("Exit from function addInventoryHistory");
@@ -239,30 +232,30 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
  *      @param string $id - crmid or empty, getting crmid to get tax values..
  *	return array $taxtypes - return all the tax types as a array
  */
-function getAllTaxes($available='all', $sh='',$mode='',$id='')
+function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 {
 	global $adb, $log;
 	$log->debug("Entering into the function getAllTaxes($available,$sh,$mode,$id)");
-	$taxtypes = Array();
-	if($sh != '' && $sh == 'sh') {
+	$taxtypes = array();
+	if ($sh != '' && $sh == 'sh') {
 		$tablename = 'jo_shippingtaxinfo';
-		$value_table='jo_inventoryshippingrel';
-		if($mode == 'edit' && $id != '') {
+		$value_table = 'jo_inventoryshippingrel';
+		if ($mode == 'edit' && $id != '') {
 			$sql = "SELECT * FROM $tablename WHERE deleted=0";
 			$result = $adb->pquery($sql, array());
-			$noofrows=$adb->num_rows($result);
-			for($i=0; $i<$noofrows; $i++) {
-				$taxname					= $adb->query_result($result,$i,'taxname');
-				$taxtypes[$i]['taxid']		= $adb->query_result($result,$i,'taxid');
+			$noofrows = $adb->num_rows($result);
+			for ($i = 0; $i < $noofrows; $i++) {
+				$taxname					= $adb->query_result($result, $i, 'taxname');
+				$taxtypes[$i]['taxid']		= $adb->query_result($result, $i, 'taxid');
 				$taxtypes[$i]['taxname']	= $taxname;
-				$inventory_tax_val_result	= $adb->pquery("SELECT $taxname FROM $value_table WHERE id=?",array($id));
+				$inventory_tax_val_result	= $adb->pquery("SELECT $taxname FROM $value_table WHERE id=?", array($id));
 				$taxtypes[$i]['percentage']	= $adb->query_result($inventory_tax_val_result, 0, $taxname);;
-				$taxtypes[$i]['taxlabel']	= $adb->query_result($result,$i,'taxlabel');
-				$taxtypes[$i]['deleted']	= $adb->query_result($result,$i,'deleted');
-				$taxtypes[$i]['type']		= $adb->query_result($result,$i,'type');
-				$taxtypes[$i]['method']		= $adb->query_result($result,$i,'method');
-				$taxtypes[$i]['compoundon']	= $adb->query_result($result,$i,'compoundon');
-				$taxtypes[$i]['regions']	= $adb->query_result($result,$i,'regions');
+				$taxtypes[$i]['taxlabel']	= $adb->query_result($result, $i, 'taxlabel');
+				$taxtypes[$i]['deleted']	= $adb->query_result($result, $i, 'deleted');
+				$taxtypes[$i]['type']		= $adb->query_result($result, $i, 'type');
+				$taxtypes[$i]['method']		= $adb->query_result($result, $i, 'method');
+				$taxtypes[$i]['compoundon']	= $adb->query_result($result, $i, 'compoundon');
+				$taxtypes[$i]['regions']	= $adb->query_result($result, $i, 'regions');
 				$taxtypes[$i]['percentage']	= $adb->query_result($inventory_tax_val_result, 0, $taxname);;
 			}
 		} else {
@@ -286,8 +279,8 @@ function getAllTaxes($available='all', $sh='',$mode='',$id='')
 		}
 	} else {
 		$tablename = 'jo_inventorytaxinfo';
-		$value_table='jo_inventoryproductrel';
-		if($mode == 'edit' && $id != '' ) {
+		$value_table = 'jo_inventoryproductrel';
+		if ($mode == 'edit' && $id != '') {
 			//Getting total no of taxes
 			$result_ids = array();
 			$result = $adb->pquery("select taxname,taxid from $tablename", array());
@@ -309,7 +302,7 @@ function getAllTaxes($available='all', $sh='',$mode='',$id='')
 				$insert_str .= "?";
 				$where_ids = "taxid in ($insert_str) or";
 			}
-			$res = $adb->pquery("select * from $tablename  where $where_ids  deleted=0 order by taxid",$result_ids);
+			$res = $adb->pquery("select * from $tablename  where $where_ids  deleted=0 order by taxid", $result_ids);
 		} else {
 			//This where condition is added to get all products or only availble products
 			if ($available != 'all' && $available == 'available') {
@@ -342,36 +335,30 @@ function getAllTaxes($available='all', $sh='',$mode='',$id='')
  *	@param string $available - available or empty or available_associated where as default is all, if available then the taxes which are available now will be returned, if all then all taxes will be returned otherwise if the value is available_associated then all the associated taxes even they are not available and all the available taxes will be retruned
  *	@return array $tax_details - tax details as a array with productid, taxid, taxname, percentage and deleted
  */
-function getTaxDetailsForProduct($productid, $available='all')
+function getTaxDetailsForProduct($productid, $available = 'all')
 {
 	global $log, $adb;
 	$log->debug("Entering into function getTaxDetailsForProduct($productid)");
 	$tax_details = array();
-	if($productid != '')
-	{
+	if ($productid != '') {
 		//where condition added to avoid to retrieve the non available taxes
 		$where = '';
-		if($available != 'all' && $available == 'available')
-		{
+		if ($available != 'all' && $available == 'available') {
 			$where = ' and jo_inventorytaxinfo.deleted=0';
 		}
-		if($available != 'all' && $available == 'available_associated')
-		{
+		if ($available != 'all' && $available == 'available_associated') {
 			$query = "SELECT jo_producttaxrel.*, jo_inventorytaxinfo.*, jo_inventorytaxinfo.regions AS taxregions, jo_producttaxrel.regions AS productregions FROM jo_inventorytaxinfo left JOIN jo_producttaxrel ON jo_inventorytaxinfo.taxid = jo_producttaxrel.taxid WHERE (jo_producttaxrel.productid = ? or jo_inventorytaxinfo.deleted=0) AND method != 'Deducted' GROUP BY jo_inventorytaxinfo.taxid";
-		}
-		else
-		{
+		} else {
 			$query = "SELECT jo_producttaxrel.*, jo_inventorytaxinfo.*, jo_inventorytaxinfo.regions AS taxregions, jo_producttaxrel.regions AS productregions FROM jo_inventorytaxinfo INNER JOIN jo_producttaxrel ON jo_inventorytaxinfo.taxid = jo_producttaxrel.taxid WHERE jo_producttaxrel.productid = ? AND method != 'Deducted' $where";
 		}
 		$params = array($productid);
 
 		//Postgres 8 fixes
- 		if( $adb->dbType == "pgsql")
- 		    $query = fixPostgresQuery( $query, $log, 0);
+		if ($adb->dbType == "pgsql")
+			$query = fixPostgresQuery($query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
-		for($i=0;$i<$adb->num_rows($res);$i++)
-		{
+		for ($i = 0; $i < $adb->num_rows($res); $i++) {
 			$tax_details[$i]['productid']	= $adb->query_result($res, $i, 'productid');
 			$tax_details[$i]['taxid']		= $adb->query_result($res, $i, 'taxid');
 			$tax_details[$i]['taxname']		= $adb->query_result($res, $i, 'taxname');
@@ -382,11 +369,9 @@ function getTaxDetailsForProduct($productid, $available='all')
 			$tax_details[$i]['type']		= $adb->query_result($res, $i, 'type');
 			$tax_details[$i]['regions']		= Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'taxregions')));
 			$tax_details[$i]['compoundon']	= Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'compoundon')));
-			$tax_details[$i]['productregions']= Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'productregions')));
+			$tax_details[$i]['productregions'] = Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'productregions')));
 		}
-	}
-	else
-	{
+	} else {
 		$log->debug("Product id is empty. we cannot retrieve the associated products.");
 	}
 
@@ -401,22 +386,22 @@ function getTaxDetailsForProduct($productid, $available='all')
  */
 function deleteInventoryProductDetails($focus)
 {
-	global $log, $adb,$updateInventoryProductRel_update_product_array;
-	$log->debug("Entering into function deleteInventoryProductDetails(".$focus->id.").");
+	global $log, $adb, $updateInventoryProductRel_update_product_array;
+	$log->debug("Entering into function deleteInventoryProductDetails(" . $focus->id . ").");
 
-	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from jo_inventoryproductrel WHERE id=?",array($focus->id));
+	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from jo_inventoryproductrel WHERE id=?", array($focus->id));
 	$numrows = $adb->num_rows($product_info);
-	for($index = 0;$index <$numrows;$index++){
-		$productid = $adb->query_result($product_info,$index,'productid');
-		$sequence_no = $adb->query_result($product_info,$index,'sequence_no');
-		$qty = $adb->query_result($product_info,$index,'quantity');
-		$incrementondel = $adb->query_result($product_info,$index,'incrementondel');
+	for ($index = 0; $index < $numrows; $index++) {
+		$productid = $adb->query_result($product_info, $index, 'productid');
+		$sequence_no = $adb->query_result($product_info, $index, 'sequence_no');
+		$qty = $adb->query_result($product_info, $index, 'quantity');
+		$incrementondel = $adb->query_result($product_info, $index, 'incrementondel');
 
-		if($incrementondel){
-			$focus->update_product_array[$focus->id][$sequence_no][$productid]= $qty;
-			$subProdQuery = $adb->pquery('SELECT productid, quantity from jo_inventorysubproductrel WHERE id=? AND sequence_no=?', array($focus->id,$sequence_no));
+		if ($incrementondel) {
+			$focus->update_product_array[$focus->id][$sequence_no][$productid] = $qty;
+			$subProdQuery = $adb->pquery('SELECT productid, quantity from jo_inventorysubproductrel WHERE id=? AND sequence_no=?', array($focus->id, $sequence_no));
 			if ($adb->num_rows($subProdQuery) > 0) {
-				for($j=0; $j<$adb->num_rows($subProdQuery); $j++){
+				for ($j = 0; $j < $adb->num_rows($subProdQuery); $j++) {
 					$subProdId = $adb->query_result($subProdQuery, $j, 'productid');
 					$subProdQty = $adb->query_result($subProdQuery, $j, 'quantity');
 					$focus->update_product_array[$focus->id][$sequence_no][$subProdId] = $subProdQty * $qty;
@@ -425,26 +410,27 @@ function deleteInventoryProductDetails($focus)
 		}
 	}
 	$updateInventoryProductRel_update_product_array = $focus->update_product_array;
-    $adb->pquery("delete from jo_inventoryproductrel where id=?", array($focus->id));
-    $adb->pquery("delete from jo_inventorysubproductrel where id=?", array($focus->id));
-    $adb->pquery("delete from jo_inventoryshippingrel where id=?", array($focus->id));
+	$adb->pquery("delete from jo_inventoryproductrel where id=?", array($focus->id));
+	$adb->pquery("delete from jo_inventorysubproductrel where id=?", array($focus->id));
+	$adb->pquery("delete from jo_inventoryshippingrel where id=?", array($focus->id));
 
-	$log->debug("Exit from function deleteInventoryProductDetails(".$focus->id.")");
+	$log->debug("Exit from function deleteInventoryProductDetails(" . $focus->id . ")");
 }
 
-function updateInventoryProductRel($entity) {
-	global $log, $adb,$updateInventoryProductRel_update_product_array,$updateInventoryProductRel_deduct_stock;
+function updateInventoryProductRel($entity)
+{
+	global $log, $adb, $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
 	$update_product_array = $updateInventoryProductRel_update_product_array;
-	$log->debug("Entering into function updateInventoryProductRel(".$entity_id.").");
+	$log->debug("Entering into function updateInventoryProductRel(" . $entity_id . ").");
 
-	if(!empty($update_product_array)) {
-		foreach($update_product_array as $id=>$seq) {
-			foreach($seq as $seq=>$product_info) {
-				foreach($product_info as $key=>$index) {
-					$updqtyinstk= getProductQtyInStock($key);
-					$upd_qty = $updqtyinstk+$index;
+	if (!empty($update_product_array)) {
+		foreach ($update_product_array as $id => $seq) {
+			foreach ($seq as $seq => $product_info) {
+				foreach ($product_info as $key => $index) {
+					$updqtyinstk = getProductQtyInStock($key);
+					$upd_qty = $updqtyinstk + $index;
 					updateProductQty($key, $upd_qty);
 				}
 			}
@@ -458,50 +444,50 @@ function updateInventoryProductRel($entity) {
 	}
 
 	$statusChanged = false;
-	$vtEntityDelta = new VTEntityDelta ();
-	$oldEntity = $vtEntityDelta->getOldValue($moduleName, $entity_id, $statusFieldName);
+	$EntityDelta = new EntityDelta();
+	$oldEntity = $EntityDelta->getOldValue($moduleName, $entity_id, $statusFieldName);
 	$recordDetails = $entity->getData();
-	$statusChanged = $vtEntityDelta->hasChanged($moduleName, $entity_id, $statusFieldName);
-	if($statusChanged && $moduleName === 'Invoice') {
-		if($recordDetails[$statusFieldName] == $statusFieldValue) {
-			$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=0 WHERE id=?",array($entity_id));
+	$statusChanged = $EntityDelta->hasChanged($moduleName, $entity_id, $statusFieldName);
+	if ($statusChanged && $moduleName === 'Invoice') {
+		if ($recordDetails[$statusFieldName] == $statusFieldValue) {
+			$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=0 WHERE id=?", array($entity_id));
 			$updateInventoryProductRel_deduct_stock = false;
-			if(empty($update_product_array)) {
+			if (empty($update_product_array)) {
 				addProductsToStock($entity_id);
 			}
-		} elseif($oldEntity == $statusFieldValue) {
+		} elseif ($oldEntity == $statusFieldValue) {
 			$updateInventoryProductRel_deduct_stock = false;
 			deductProductsFromStock($entity_id);
 		}
-	} elseif($recordDetails[$statusFieldName] == $statusFieldValue) {
+	} elseif ($recordDetails[$statusFieldName] == $statusFieldValue) {
 		$updateInventoryProductRel_deduct_stock = false;
 	}
 
-	if($updateInventoryProductRel_deduct_stock) {
-		$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=1 WHERE id=?",array($entity_id));
+	if ($updateInventoryProductRel_deduct_stock) {
+		$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=1 WHERE id=?", array($entity_id));
 
-		$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?",array($entity_id));
+		$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?", array($entity_id));
 		$numrows = $adb->num_rows($product_info);
-		for($index = 0;$index <$numrows;$index++) {
-			$productid = $adb->query_result($product_info,$index,'productid');
-			$qty = $adb->query_result($product_info,$index,'quantity');
-			$sequence_no = $adb->query_result($product_info,$index,'sequence_no');
-			$qtyinstk= getProductQtyInStock($productid);
-			$upd_qty = $qtyinstk-$qty;
+		for ($index = 0; $index < $numrows; $index++) {
+			$productid = $adb->query_result($product_info, $index, 'productid');
+			$qty = $adb->query_result($product_info, $index, 'quantity');
+			$sequence_no = $adb->query_result($product_info, $index, 'sequence_no');
+			$qtyinstk = getProductQtyInStock($productid);
+			$upd_qty = $qtyinstk - $qty;
 			updateProductQty($productid, $upd_qty);
-			$sub_prod_query = $adb->pquery("SELECT productid, quantity from jo_inventorysubproductrel WHERE id=? AND sequence_no=?",array($entity_id,$sequence_no));
-			if($adb->num_rows($sub_prod_query)>0) {
-				for($j=0;$j<$adb->num_rows($sub_prod_query);$j++) {
-					$sub_prod_id = $adb->query_result($sub_prod_query,$j,"productid");
+			$sub_prod_query = $adb->pquery("SELECT productid, quantity from jo_inventorysubproductrel WHERE id=? AND sequence_no=?", array($entity_id, $sequence_no));
+			if ($adb->num_rows($sub_prod_query) > 0) {
+				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
 					$subProductQty = $adb->query_result($sub_prod_query, $j, 'quantity');
-					$sqtyinstk= getProductQtyInStock($sub_prod_id);
-					$supd_qty = $sqtyinstk-($qty * $subProductQty);
+					$sqtyinstk = getProductQtyInStock($sub_prod_id);
+					$supd_qty = $sqtyinstk - ($qty * $subProductQty);
 					updateProductQty($sub_prod_id, $supd_qty);
 				}
 			}
 		}
 
-		$log->debug("Exit from function updateInventoryProductRel(".$entity_id.")");
+		$log->debug("Exit from function updateInventoryProductRel(" . $entity_id . ")");
 	}
 
 	if ($moduleName === 'PurchaseOrder') {
@@ -512,10 +498,10 @@ function updateInventoryProductRel($entity) {
 			global $itemQuantitiesList;
 
 			$statusChanged = false;
-			$vtEntityDelta = new VTEntityDelta ();
-			$oldEntity = $vtEntityDelta-> getOldValue($moduleName, $entity_id, $statusFieldName);
+			$EntityDelta = new EntityDelta();
+			$oldEntity = $EntityDelta->getOldValue($moduleName, $entity_id, $statusFieldName);
 			$recordDetails = $entity->getData();
-			$statusChanged = $vtEntityDelta->hasChanged($moduleName, $entity_id, $statusFieldName);
+			$statusChanged = $EntityDelta->hasChanged($moduleName, $entity_id, $statusFieldName);
 			if ($statusChanged && $itemQuantitiesList) {
 				$db = PearDatabase::getInstance();
 				$query = "SELECT postvalue FROM jo_modtracker_detail
@@ -525,16 +511,16 @@ function updateInventoryProductRel($entity) {
 				$numOfRows = $db->num_rows($result);
 
 				$statusStack = array();
-				for ($i=0; $i<$numOfRows; $i++) {
-					$statusStack[$i+1] = $db->query_result($result, $i, 'postvalue');
+				for ($i = 0; $i < $numOfRows; $i++) {
+					$statusStack[$i + 1] = $db->query_result($result, $i, 'postvalue');
 				}
 
 				$cancelledKey = array_search('Cancelled', $statusStack);
-				if (!$cancelledKey) {//First time triggering status as "Cancelled"
+				if (!$cancelledKey) { //First time triggering status as "Cancelled"
 					$cancelledKey = $numOfRows;
 				}
 
-				for($i=1; $i<=$cancelledKey; $i++) {
+				for ($i = 1; $i <= $cancelledKey; $i++) {
 					if ($statusStack[$i] === 'Received Shipment') {
 						//Reverting for quantities of line items
 						$deletedItems = ($itemQuantitiesList['deleted']) ? $itemQuantitiesList['deleted'] : array();
@@ -555,19 +541,19 @@ function updateInventoryProductRel($entity) {
 			$numOfRows = $db->num_rows($result);
 
 			$statusStack = array();
-			for ($i=0; $i<$numOfRows; $i++) {
-				$statusStack[$i+1] = $db->query_result($result, $i, 'postvalue');
+			for ($i = 0; $i < $numOfRows; $i++) {
+				$statusStack[$i + 1] = $db->query_result($result, $i, 'postvalue');
 			}
 
 			$isUpdateNeeded = false;
 			$recievedKey = array_search('Received Shipment', $statusStack);
 
-			if(CRMEntity::isBulkSaveMode() || !$recievedKey) {//From Import or First time triggering status as "Received Shipment"
+			if (CRMEntity::isBulkSaveMode() || !$recievedKey) { //From Import or First time triggering status as "Received Shipment"
 				$isUpdateNeeded = true;
 			}
-			
+
 			if ($recievedKey && !$isUpdateNeeded) {
-				for($i=1; $i<=$recievedKey; $i++) {
+				for ($i = 1; $i <= $recievedKey; $i++) {
 					if ($statusStack[$i] === 'Cancelled') {
 						$isUpdateNeeded = true;
 						break;
@@ -599,7 +585,7 @@ function updateInventoryProductRel($entity) {
 				addProductsToStock($entity_id);
 			}
 		}
-}
+	}
 }
 
 /**	Function used to save the Inventory product details for the passed entity
@@ -608,28 +594,23 @@ function updateInventoryProductRel($entity) {
  *	@param $update_prod_stock - true or false (default), if true we have to update the stock for PO only
  *	@return void
  */
-function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false', $updateDemand='')
+function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'false', $updateDemand = '')
 {
 	global $log, $adb;
-	$id=$focus->id;
+	$id = $focus->id;
 	$log->debug("Entering into function saveInventoryProductDetails($module).");
 	//Added to get the convertid
-	if(isset($_REQUEST['convert_from']) && $_REQUEST['convert_from'] !='')
-	{
-		$id=vtlib_purify($_REQUEST['return_id']);
-	}
-	else if(isset($_REQUEST['duplicate_from']) && $_REQUEST['duplicate_from'] !='')
-	{
-		$id=vtlib_purify($_REQUEST['duplicate_from']);
+	if (isset($_REQUEST['convert_from']) && $_REQUEST['convert_from'] != '') {
+		$id = modlib_purify($_REQUEST['return_id']);
+	} else if (isset($_REQUEST['duplicate_from']) && $_REQUEST['duplicate_from'] != '') {
+		$id = modlib_purify($_REQUEST['duplicate_from']);
 	}
 
-	$ext_prod_arr = Array();
+	$ext_prod_arr = array();
 	$all_available_taxes = getAllTaxes('available', '', 'edit', $id);
-	if($focus->mode == 'edit')
-	{
+	if ($focus->mode == 'edit') {
 		$return_old_values = '';
-		if($module != 'PurchaseOrder')
-		{
+		if ($module != 'PurchaseOrder') {
 			$return_old_values = 'return_old_values';
 		}
 
@@ -639,69 +620,64 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	}
 	$tot_no_prod = $_REQUEST['totalProductCount'];
 	//If the taxtype is group then retrieve all available taxes, else retrive associated taxes for each product inside loop
-	$prod_seq=1;
-	for($i=1; $i<=$tot_no_prod; $i++)
-	{
+	$prod_seq = 1;
+	for ($i = 1; $i <= $tot_no_prod; $i++) {
 		//if the product is deleted then we should avoid saving the deleted products
-		if($_REQUEST["deleted".$i] == 1)
+		if ($_REQUEST["deleted" . $i] == 1)
 			continue;
 
-	    $prod_id = vtlib_purify($_REQUEST['hdnProductId'.$i]);
+		$prod_id = modlib_purify($_REQUEST['hdnProductId' . $i]);
 
 		//$product ids list will trimmed depending on the max_input_vars of $_POST array. But totalProductCount will be same.
 		if (!$prod_id) {
 			continue;
 		}
-		if(isset($_REQUEST['productDescription'.$i]))
-			$description = vtlib_purify($_REQUEST['productDescription'.$i]);
+		if (isset($_REQUEST['productDescription' . $i]))
+			$description = modlib_purify($_REQUEST['productDescription' . $i]);
 		/*else{
 			$desc_duery = "select jo_crmentity.description AS product_description from jo_crmentity where jo_crmentity.crmid=?";
 			$desc_res = $adb->pquery($desc_duery,array($prod_id));
 			$description = $adb->query_result($desc_res,0,"product_description");
 		}	*/
-        $qty = vtlib_purify($_REQUEST['qty'.$i]);
-        $listprice = vtlib_purify($_REQUEST['listPrice'.$i]);
-		$comment = vtlib_purify($_REQUEST['comment'.$i]);
-		$purchaseCost = vtlib_purify($_REQUEST['purchaseCost'.$i]);
-		$margin = vtlib_purify($_REQUEST['margin'.$i]);
+		$qty = modlib_purify($_REQUEST['qty' . $i]);
+		$listprice = modlib_purify($_REQUEST['listPrice' . $i]);
+		$comment = modlib_purify($_REQUEST['comment' . $i]);
+		$purchaseCost = modlib_purify($_REQUEST['purchaseCost' . $i]);
+		$margin = modlib_purify($_REQUEST['margin' . $i]);
 
-		if($module == 'SalesOrder') {
-			if($updateDemand == '-')
-			{
-				deductFromProductDemand($prod_id,$qty);
-			}
-			elseif($updateDemand == '+')
-			{
-				addToProductDemand($prod_id,$qty);
+		if ($module == 'SalesOrder') {
+			if ($updateDemand == '-') {
+				deductFromProductDemand($prod_id, $qty);
+			} elseif ($updateDemand == '+') {
+				addToProductDemand($prod_id, $qty);
 			}
 		}
 
 		$query = 'INSERT INTO jo_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase_cost, margin)
 					VALUES(?,?,?,?,?,?,?,?,?)';
-		$qparams = array($focus->id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description, $purchaseCost, $margin);
-		$adb->pquery($query,$qparams);
+		$qparams = array($focus->id, $prod_id, $prod_seq, $qty, $listprice, $comment, $description, $purchaseCost, $margin);
+		$adb->pquery($query, $qparams);
 
 		$lineitem_id = $adb->getLastInsertID();
 
-		$sub_prod_str = vtlib_purify($_REQUEST['subproduct_ids'.$i]);
+		$sub_prod_str = modlib_purify($_REQUEST['subproduct_ids' . $i]);
 		if (!empty($sub_prod_str)) {
-			 $sub_prod = split(',', rtrim($sub_prod_str, ','));
-			 foreach ($sub_prod as $subProductInfo) {
-				 list($subProductId, $subProductQty) = explode(':', $subProductInfo);
-				 $query = 'INSERT INTO jo_inventorysubproductrel VALUES(?, ?, ?, ?)';
-				 if (!$subProductQty) {
-					 $subProductQty = 1;
-				 }
-				 $qparams = array($focus->id, $prod_seq, $subProductId, $subProductQty);
-				$adb->pquery($query,$qparams);
+			$sub_prod = split(',', rtrim($sub_prod_str, ','));
+			foreach ($sub_prod as $subProductInfo) {
+				list($subProductId, $subProductQty) = explode(':', $subProductInfo);
+				$query = 'INSERT INTO jo_inventorysubproductrel VALUES(?, ?, ?, ?)';
+				if (!$subProductQty) {
+					$subProductQty = 1;
+				}
+				$qparams = array($focus->id, $prod_seq, $subProductId, $subProductQty);
+				$adb->pquery($query, $qparams);
 			}
 		}
 		$prod_seq++;
 
-		if($module != 'PurchaseOrder')
-		{
+		if ($module != 'PurchaseOrder') {
 			//update the stock with existing details
-			updateStk($prod_id,$qty,$focus->mode,$ext_prod_arr,$module);
+			updateStk($prod_id, $qty, $focus->mode, $ext_prod_arr, $module);
 		}
 
 		//we should update discount and tax details
@@ -709,23 +685,18 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		$updateparams = array();
 
 		//set the discount percentage or discount amount in update query, then set the tax values
-		if($_REQUEST['discount_type'.$i] == 'percentage')
-		{
+		if ($_REQUEST['discount_type' . $i] == 'percentage') {
 			$updatequery .= " discount_percent=?,";
-			array_push($updateparams, vtlib_purify($_REQUEST['discount_percentage'.$i]));
-		}
-		elseif($_REQUEST['discount_type'.$i] == 'amount')
-		{
+			array_push($updateparams, modlib_purify($_REQUEST['discount_percentage' . $i]));
+		} elseif ($_REQUEST['discount_type' . $i] == 'amount') {
 			$updatequery .= " discount_amount=?,";
-			$discount_amount = vtlib_purify($_REQUEST['discount_amount'.$i]);
+			$discount_amount = modlib_purify($_REQUEST['discount_amount' . $i]);
 			array_push($updateparams, $discount_amount);
 		}
 
 		$compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($focus->id, $module);
-		if($_REQUEST['taxtype'] == 'group')
-		{
-			for($tax_count=0;$tax_count<count($all_available_taxes);$tax_count++)
-			{
+		if ($_REQUEST['taxtype'] == 'group') {
+			for ($tax_count = 0; $tax_count < count($all_available_taxes); $tax_count++) {
 				$taxDetails = $all_available_taxes[$tax_count];
 				if ($taxDetails['method'] === 'Deducted') {
 					continue;
@@ -740,20 +711,17 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 				}
 
 				$tax_name = $taxDetails['taxname'];
-				$request_tax_name = $tax_name."_group_percentage";
+				$request_tax_name = $tax_name . "_group_percentage";
 				$tax_val = 0;
-				if(isset($_REQUEST[$request_tax_name])) {
-					$tax_val = vtlib_purify($_REQUEST[$request_tax_name]);
+				if (isset($_REQUEST[$request_tax_name])) {
+					$tax_val = modlib_purify($_REQUEST[$request_tax_name]);
 				}
 				$updatequery .= " $tax_name = ?,";
 				array_push($updateparams, $tax_val);
 			}
-		}
-		else
-		{
-			$taxes_for_product = getTaxDetailsForProduct($prod_id,'all');
-			for($tax_count=0;$tax_count<count($taxes_for_product);$tax_count++)
-			{
+		} else {
+			$taxes_for_product = getTaxDetailsForProduct($prod_id, 'all');
+			for ($tax_count = 0; $tax_count < count($taxes_for_product); $tax_count++) {
 				$taxDetails = $taxes_for_product[$tax_count];
 				if ($taxDetails['method'] === 'Compound') {
 					$compoundExistingInfo = $compoundTaxesInfo[$taxDetails['taxid']];
@@ -765,21 +733,21 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 					$compoundTaxesInfo[$taxDetails['taxid']] = array_unique($compoundFinalInfo);
 				}
 				$tax_name = $taxDetails['taxname'];
-				$request_tax_name = $tax_name."_percentage".$i;
+				$request_tax_name = $tax_name . "_percentage" . $i;
 
 				$updatequery .= " $tax_name = ?,";
-				array_push($updateparams, vtlib_purify($_REQUEST[$request_tax_name]));
+				array_push($updateparams, modlib_purify($_REQUEST[$request_tax_name]));
 			}
 		}
 
 		//Adding deduct tax value to query
-		for($taxCount=0; $taxCount<count($all_available_taxes); $taxCount++) {
+		for ($taxCount = 0; $taxCount < count($all_available_taxes); $taxCount++) {
 			if ($all_available_taxes[$taxCount]['method'] === 'Deducted') {
 				$taxName = $all_available_taxes[$taxCount]['taxname'];
-				$requestTaxName = $taxName.'_group_percentage';
+				$requestTaxName = $taxName . '_group_percentage';
 				$taxValue = 0;
-				if(isset($_REQUEST[$requestTaxName])) {
-					$taxValue = vtlib_purify($_REQUEST[$requestTaxName]);
+				if (isset($_REQUEST[$requestTaxName])) {
+					$taxValue = modlib_purify($_REQUEST[$requestTaxName]);
 				}
 
 				$updatequery .= " $taxName = ?,";
@@ -787,13 +755,13 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 			}
 		}
 
-		$updatequery = trim($updatequery, ',').' WHERE id = ? AND productid = ? AND lineitem_id = ?';
+		$updatequery = trim($updatequery, ',') . ' WHERE id = ? AND productid = ? AND lineitem_id = ?';
 		array_push($updateparams, $focus->id, $prod_id, $lineitem_id);
 
 		// jens 2006/08/19 - protect against empy update queries
- 		if( !preg_match( '/set\s+where/i', $updatequery)) {
- 		    $adb->pquery($updatequery,$updateparams);
- 		}
+		if (!preg_match('/set\s+where/i', $updatequery)) {
+			$adb->pquery($updatequery, $updateparams);
+		}
 	}
 
 	//we should update the netprice (subtotal), taxtype, group discount, S&H charge, S&H taxes, adjustment and total
@@ -801,59 +769,56 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 
 	$updatequery  = " update $focus->table_name set ";
 	$updateparams = array();
-	$subtotal = vtlib_purify($_REQUEST['subtotal']);
+	$subtotal = modlib_purify($_REQUEST['subtotal']);
 	$updatequery .= " subtotal=?,";
 	array_push($updateparams, $subtotal);
 
-    $pretaxTotal = vtlib_purify($_REQUEST['pre_tax_total']); 
- 	$updatequery .= " pre_tax_total=?,"; 
- 	array_push($updateparams, $pretaxTotal);
+	$pretaxTotal = modlib_purify($_REQUEST['pre_tax_total']);
+	$updatequery .= " pre_tax_total=?,";
+	array_push($updateparams, $pretaxTotal);
 
 	$updatequery .= " taxtype=?,";
 	array_push($updateparams, $_REQUEST['taxtype']);
 
 	//for discount percentage or discount amount
-	if($_REQUEST['discount_type_final'] == 'percentage')
-	{
+	if ($_REQUEST['discount_type_final'] == 'percentage') {
 		$updatequery .= " discount_percent=?,discount_amount=?,";
-		array_push($updateparams, vtlib_purify($_REQUEST['discount_percentage_final']));
+		array_push($updateparams, modlib_purify($_REQUEST['discount_percentage_final']));
 		array_push($updateparams, null);
-	}
-	elseif($_REQUEST['discount_type_final'] == 'amount')
-	{
-		$discount_amount_final = vtlib_purify($_REQUEST['discount_amount_final']);
+	} elseif ($_REQUEST['discount_type_final'] == 'amount') {
+		$discount_amount_final = modlib_purify($_REQUEST['discount_amount_final']);
 		$updatequery .= " discount_amount=?,discount_percent=?,";
 		array_push($updateparams, $discount_amount_final);
 		array_push($updateparams, null);
-	}elseif($_REQUEST['discount_type_final'] == 'zero') {
+	} elseif ($_REQUEST['discount_type_final'] == 'zero') {
 		$updatequery .= " discount_amount=?,discount_percent=?,";
 		array_push($updateparams, null);
 		array_push($updateparams, null);
 	}
-	
-	$shipping_handling_charge = vtlib_purify($_REQUEST['shipping_handling_charge']);
+
+	$shipping_handling_charge = modlib_purify($_REQUEST['shipping_handling_charge']);
 	$updatequery .= " s_h_amount=?,";
 	array_push($updateparams, $shipping_handling_charge);
 
 	//if the user gave - sign in adjustment then add with the value
 	$adjustmentType = '';
-	if($_REQUEST['adjustmentType'] == '-')
-		$adjustmentType = vtlib_purify($_REQUEST['adjustmentType']);
+	if ($_REQUEST['adjustmentType'] == '-')
+		$adjustmentType = modlib_purify($_REQUEST['adjustmentType']);
 
-	$adjustment = vtlib_purify($_REQUEST['adjustment']);
+	$adjustment = modlib_purify($_REQUEST['adjustment']);
 	$updatequery .= " adjustment=?,";
-	array_push($updateparams, $adjustmentType.$adjustment);
+	array_push($updateparams, $adjustmentType . $adjustment);
 
-	$total = vtlib_purify($_REQUEST['total']);
+	$total = modlib_purify($_REQUEST['total']);
 	$updatequery .= " total=?,";
 	array_push($updateparams, $total);
 
-	$updatequery .= ' compound_taxes_info = ?,'; 
+	$updatequery .= ' compound_taxes_info = ?,';
 	array_push($updateparams, Zend_Json::encode($compoundTaxesInfo));
 
 	if (isset($_REQUEST['region_id'])) {
 		$updatequery .= " region_id = ?,";
-		array_push($updateparams, vtlib_purify($_REQUEST['region_id']));
+		array_push($updateparams, modlib_purify($_REQUEST['region_id']));
 	}
 
 	//to save the S&H tax details in jo_inventoryshippingrel table
@@ -869,9 +834,9 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 
 	//$id_array = Array('PurchaseOrder'=>'purchaseorderid','SalesOrder'=>'salesorderid','Quotes'=>'quoteid','Invoice'=>'invoiceid');
 	//Added where condition to which entity we want to update these values
-	$updatequery .= " where ".$focus->table_index."=?";
+	$updatequery .= " where " . $focus->table_index . "=?";
 	array_push($updateparams, $focus->id);
-	$adb->pquery($updatequery,$updateparams);
+	$adb->pquery($updatequery, $updateparams);
 
 	$log->debug("Exit from function saveInventoryProductDetails($module).");
 }
@@ -887,14 +852,14 @@ function getInventoryTaxType($module, $id)
 	global $log, $adb;
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
-	
+
 	$focus = CRMEntity::getInstance($module);
 
 	$inventoryTable = $focus->table_name;
 	$inventoryId = $focus->table_index;
 
 	$res = $adb->pquery("SELECT taxtype FROM $inventoryTable WHERE $inventoryId=?", array($id));
-	$taxtype = $adb->query_result($res,0,'taxtype');
+	$taxtype = $adb->query_result($res, 0, 'taxtype');
 
 	$log->debug("Exit from function getInventoryTaxType($module, $id).");
 
@@ -921,11 +886,11 @@ function getInventoryCurrencyInfo($module, $id)
 						where $inventory_id=?", array($id));
 
 	$currency_info = array();
-	$currency_info['currency_id'] = $adb->query_result($res,0,'currency_id');
-	$currency_info['conversion_rate'] = $adb->query_result($res,0,'conv_rate');
-	$currency_info['currency_name'] = $adb->query_result($res,0,'currency_name');
-	$currency_info['currency_code'] = $adb->query_result($res,0,'currency_code');
-	$currency_info['currency_symbol'] = $adb->query_result($res,0,'currency_symbol');
+	$currency_info['currency_id'] = $adb->query_result($res, 0, 'currency_id');
+	$currency_info['conversion_rate'] = $adb->query_result($res, 0, 'conv_rate');
+	$currency_info['currency_name'] = $adb->query_result($res, 0, 'currency_name');
+	$currency_info['currency_code'] = $adb->query_result($res, 0, 'currency_code');
+	$currency_info['currency_symbol'] = $adb->query_result($res, 0, 'currency_symbol');
 
 	$log->debug("Exit from function getInventoryCurrencyInfo($module, $id).");
 
@@ -954,7 +919,7 @@ function getInventoryProductTaxValue($id, $productId, $taxName, $lineItemId = 0)
 	$res = $adb->pquery($query, $params);
 	$taxvalue = $adb->query_result($res, 0, $taxName);
 
-	if($taxvalue == '')
+	if ($taxvalue == '')
 		$taxvalue = 0;
 
 	$log->debug("Exit from function getInventoryProductTaxValue($id, $productId, $taxName, $lineItemId).");
@@ -973,9 +938,9 @@ function getInventorySHTaxPercent($id, $taxname)
 	$log->debug("Entering into function getInventorySHTaxPercent($id, $taxname)");
 
 	$res = $adb->pquery("select $taxname from jo_inventoryshippingrel where id= ?", array($id));
-	$taxpercentage = $adb->query_result($res,0,$taxname);
+	$taxpercentage = $adb->query_result($res, 0, $taxname);
 
-	if($taxpercentage == '')
+	if ($taxpercentage == '')
 		$taxpercentage = 0;
 
 	$log->debug("Exit from function getInventorySHTaxPercent($id, $taxname)");
@@ -987,7 +952,8 @@ function getInventorySHTaxPercent($id, $taxname)
  *  @param string available - if 'all' returns all the currencies, default value 'available' returns only the currencies which are available for use.
  *	return array $currency_details - return details of all the currencies as a array
  */
-function getAllCurrencies($available='available') {
+function getAllCurrencies($available = 'available')
+{
 	global $adb, $log;
 	$log->debug("Entering into function getAllCurrencies($available)");
 
@@ -995,24 +961,22 @@ function getAllCurrencies($available='available') {
 	if ($available != 'all') {
 		$sql .= " where currency_status='Active' and deleted=0";
 	}
-	$res=$adb->pquery($sql, array());
+	$res = $adb->pquery($sql, array());
 	$noofrows = $adb->num_rows($res);
 
-	for($i=0;$i<$noofrows;$i++)
-	{
-		$currency_details[$i]['currencylabel'] = $adb->query_result($res,$i,'currency_name');
-		$currency_details[$i]['currencycode'] = $adb->query_result($res,$i,'currency_code');
-		$currency_details[$i]['currencysymbol'] = $adb->query_result($res,$i,'currency_symbol');
-		$currency_details[$i]['curid'] = $adb->query_result($res,$i,'id');
+	for ($i = 0; $i < $noofrows; $i++) {
+		$currency_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
+		$currency_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
+		$currency_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
+		$currency_details[$i]['curid'] = $adb->query_result($res, $i, 'id');
 		/* alias key added to be consistent with result of InventoryUtils::getInventoryCurrencyInfo */
-		$currency_details[$i]['currency_id'] = $adb->query_result($res,$i,'id');
-		$currency_details[$i]['conversionrate'] = $adb->query_result($res,$i,'conversion_rate');
-		$currency_details[$i]['curname'] = 'curname' . $adb->query_result($res,$i,'id');
+		$currency_details[$i]['currency_id'] = $adb->query_result($res, $i, 'id');
+		$currency_details[$i]['conversionrate'] = $adb->query_result($res, $i, 'conversion_rate');
+		$currency_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
 	}
 
 	$log->debug("Entering into function getAllCurrencies($available)");
 	return $currency_details;
-
 }
 
 /**	Function used to get all the price details for different currencies which are associated to the given product
@@ -1021,14 +985,13 @@ function getAllCurrencies($available='available') {
  *  @param string $available - available or available_associated where as default is available, if available then the prices in the currencies which are available now will be returned, otherwise if the value is available_associated then prices of all the associated currencies will be retruned
  *	@return array $price_details - price details as a array with productid, curid, curname
  */
-function getPriceDetailsForProduct($productid, $unit_price, $available='available', $itemtype='Products')
+function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 {
 	global $log, $adb;
 	$log->debug("Entering into function getPriceDetailsForProduct($productid)");
-	if($productid != '')
-	{
+	if ($productid != '') {
 		$product_currency_id = getProductBaseCurrency($productid, $itemtype);
-		$product_base_conv_rate = getBaseConversionRateForProduct($productid,'edit',$itemtype);
+		$product_base_conv_rate = getBaseConversionRateForProduct($productid, 'edit', $itemtype);
 		// Detail View
 		if ($available == 'available_associated') {
 			$query = "select jo_currency_info.*, jo_productcurrencyrel.converted_price, jo_productcurrencyrel.actual_price
@@ -1047,27 +1010,26 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 		}
 
 		//Postgres 8 fixes
- 		if( $adb->dbType == "pgsql")
- 		    $query = fixPostgresQuery( $query, $log, 0);
+		if ($adb->dbType == "pgsql")
+			$query = fixPostgresQuery($query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
-		for($i=0;$i<$adb->num_rows($res);$i++)
-		{
+		for ($i = 0; $i < $adb->num_rows($res); $i++) {
 			$price_details[$i]['productid'] = $productid;
-			$price_details[$i]['currencylabel'] = $adb->query_result($res,$i,'currency_name');
-			$price_details[$i]['currencycode'] = $adb->query_result($res,$i,'currency_code');
-			$price_details[$i]['currencysymbol'] = $adb->query_result($res,$i,'currency_symbol');
-			$currency_id = $adb->query_result($res,$i,'id');
+			$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
+			$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
+			$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
+			$currency_id = $adb->query_result($res, $i, 'id');
 			$price_details[$i]['curid'] = $currency_id;
-			$price_details[$i]['curname'] = 'curname' . $adb->query_result($res,$i,'id');
-			$cur_value = $adb->query_result($res,$i,'actual_price');
+			$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
+			$cur_value = $adb->query_result($res, $i, 'actual_price');
 
 			// Get the conversion rate for the given currency, get the conversion rate of the product currency to base currency.
 			// Both together will be the actual conversion rate for the given currency.
-			$conversion_rate = $adb->query_result($res,$i,'conversion_rate');
+			$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
 			$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
-            $is_basecurrency = false;
+			$is_basecurrency = false;
 			if ($currency_id == $product_currency_id) {
 				$is_basecurrency = true;
 			}
@@ -1075,7 +1037,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 			if ($cur_value == null || $cur_value == '') {
 				$checkValue = false;
 				$price_details[$i]['check_value'] = false;
-				if	($unit_price != null) {
+				if ($unit_price != null) {
 					$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
 				} else {
 					$cur_value = '0';
@@ -1086,10 +1048,8 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 			$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 			$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 		}
-	}
-	else
-	{
-		if($available == 'available') { // Create View
+	} else {
+		if ($available == 'available') { // Create View
 			global $current_user;
 
 			$user_currency_id = fetchCurrency($current_user->id);
@@ -1099,18 +1059,17 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 			$params = array();
 
 			$res = $adb->pquery($query, $params);
-			for($i=0;$i<$adb->num_rows($res);$i++)
-			{
-				$price_details[$i]['currencylabel'] = $adb->query_result($res,$i,'currency_name');
-				$price_details[$i]['currencycode'] = $adb->query_result($res,$i,'currency_code');
-				$price_details[$i]['currencysymbol'] = $adb->query_result($res,$i,'currency_symbol');
-				$currency_id = $adb->query_result($res,$i,'id');
+			for ($i = 0; $i < $adb->num_rows($res); $i++) {
+				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
+				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
+				$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
+				$currency_id = $adb->query_result($res, $i, 'id');
 				$price_details[$i]['curid'] = $currency_id;
-				$price_details[$i]['curname'] = 'curname' . $adb->query_result($res,$i,'id');
+				$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
 
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 				// Both together will be the actual conversion rate for the given currency.
-				$conversion_rate = $adb->query_result($res,$i,'conversion_rate');
+				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
 				$user_cursym_convrate = getCurrencySymbolandCRate($user_currency_id);
 				$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
@@ -1138,7 +1097,8 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
  *	@param int $productid - product id for which we want to get the id of the base currency
  *  @return int $currencyid - id of the base currency for the given product
  */
-function getProductBaseCurrency($productid,$module='Products') {
+function getProductBaseCurrency($productid, $module = 'Products')
+{
 	global $adb, $log;
 	if ($module == 'Services') {
 		$sql = "select currency_id from jo_service where serviceid=?";
@@ -1156,7 +1116,8 @@ function getProductBaseCurrency($productid,$module='Products') {
  *  @param string $mode - Mode in which the function is called
  *  @return number $conversion_rate - conversion rate of the base currency for the given product based on the CRM base currency
  */
-function getBaseConversionRateForProduct($productid, $mode='edit', $module='Products') {
+function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
+{
 	global $adb, $log, $current_user;
 
 	if ($mode == 'edit') {
@@ -1184,41 +1145,41 @@ function getBaseConversionRateForProduct($productid, $mode='edit', $module='Prod
  *	@param array $product_ids - List of product id's for which we want to get the price based on given currency
  *  @return array $prices_list - List of prices for the given list of products based on the given currency in the form of 'product id' mapped to 'price value'
  */
-function getPricesForProducts($currencyid, $product_ids, $module='Products', $skipActualPrice = false) {
-	global $adb,$log,$current_user;
+function getPricesForProducts($currencyid, $product_ids, $module = 'Products', $skipActualPrice = false)
+{
+	global $adb, $log, $current_user;
 
 	$price_list = array();
 	if (count($product_ids) > 0) {
 		if ($module == 'Services') {
 			$query = "SELECT jo_currency_info.id, jo_currency_info.conversion_rate, " .
-					"jo_service.serviceid AS productid, jo_service.unit_price, " .
-					"jo_productcurrencyrel.actual_price " .
-					"FROM (jo_currency_info, jo_service) " .
-					"left join jo_productcurrencyrel on jo_service.serviceid = jo_productcurrencyrel.productid " .
-					"and jo_currency_info.id = jo_productcurrencyrel.currencyid " .
-					"where jo_service.serviceid in (". generateQuestionMarks($product_ids) .") and jo_currency_info.id = ?";
+				"jo_service.serviceid AS productid, jo_service.unit_price, " .
+				"jo_productcurrencyrel.actual_price " .
+				"FROM (jo_currency_info, jo_service) " .
+				"left join jo_productcurrencyrel on jo_service.serviceid = jo_productcurrencyrel.productid " .
+				"and jo_currency_info.id = jo_productcurrencyrel.currencyid " .
+				"where jo_service.serviceid in (" . generateQuestionMarks($product_ids) . ") and jo_currency_info.id = ?";
 		} else {
 			$query = "SELECT jo_currency_info.id, jo_currency_info.conversion_rate, " .
-					"jo_products.productid, jo_products.unit_price, " .
-					"jo_productcurrencyrel.actual_price " .
-					"FROM (jo_currency_info, jo_products) " .
-					"left join jo_productcurrencyrel on jo_products.productid = jo_productcurrencyrel.productid " .
-					"and jo_currency_info.id = jo_productcurrencyrel.currencyid " .
-					"where jo_products.productid in (". generateQuestionMarks($product_ids) .") and jo_currency_info.id = ?";
+				"jo_products.productid, jo_products.unit_price, " .
+				"jo_productcurrencyrel.actual_price " .
+				"FROM (jo_currency_info, jo_products) " .
+				"left join jo_productcurrencyrel on jo_products.productid = jo_productcurrencyrel.productid " .
+				"and jo_currency_info.id = jo_productcurrencyrel.currencyid " .
+				"where jo_products.productid in (" . generateQuestionMarks($product_ids) . ") and jo_currency_info.id = ?";
 		}
 		$params = array($product_ids, $currencyid);
 		$result = $adb->pquery($query, $params);
 
-		for($i=0;$i<$adb->num_rows($result);$i++)
-		{
+		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$product_id = $adb->query_result($result, $i, 'productid');
-			if(getFieldVisibilityPermission($module,$current_user->id,'unit_price') == '0') {
+			if (getFieldVisibilityPermission($module, $current_user->id, 'unit_price') == '0') {
 				$actual_price = (float)$adb->query_result($result, $i, 'actual_price');
 
 				if ($actual_price == null || $actual_price == '' || $skipActualPrice) {
 					$unit_price = $adb->query_result($result, $i, 'unit_price');
 					$product_conv_rate = $adb->query_result($result, $i, 'conversion_rate');
-					$product_base_conv_rate = getBaseConversionRateForProduct($product_id,'edit',$module);
+					$product_base_conv_rate = getBaseConversionRateForProduct($product_id, 'edit', $module);
 					$conversion_rate = $product_conv_rate * $product_base_conv_rate;
 
 					$actual_price = $unit_price * $conversion_rate;
@@ -1236,33 +1197,35 @@ function getPricesForProducts($currencyid, $product_ids, $module='Products', $sk
  *	@param int $pricebook_id - pricebook id for which we want to get the id of the currency used
  *  @return int $currencyid - id of the currency used for the given pricebook
  */
-function getPriceBookCurrency($pricebook_id) {
+function getPriceBookCurrency($pricebook_id)
+{
 	global $adb;
 	$result = $adb->pquery("select currency_id from jo_pricebook where pricebookid=?", array($pricebook_id));
-	$currency_id = $adb->query_result($result,0,'currency_id');
+	$currency_id = $adb->query_result($result, 0, 'currency_id');
 	return $currency_id;
 }
 
 // deduct products from stock - if status will be changed from cancel to other status.
-function deductProductsFromStock($recordId) {
+function deductProductsFromStock($recordId)
+{
 	global $adb;
-	$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=1 WHERE id=?",array($recordId));
+	$adb->pquery("UPDATE jo_inventoryproductrel SET incrementondel=1 WHERE id=?", array($recordId));
 
-	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?",array($recordId));
+	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?", array($recordId));
 	$numrows = $adb->num_rows($product_info);
-	for($index = 0;$index <$numrows;$index++) {
-		$productid = $adb->query_result($product_info,$index,'productid');
-		$qty = $adb->query_result($product_info,$index,'quantity');
-		$sequence_no = $adb->query_result($product_info,$index,'sequence_no');
-		$qtyinstk= getProductQtyInStock($productid);
-		$upd_qty = $qtyinstk-$qty;
+	for ($index = 0; $index < $numrows; $index++) {
+		$productid = $adb->query_result($product_info, $index, 'productid');
+		$qty = $adb->query_result($product_info, $index, 'quantity');
+		$sequence_no = $adb->query_result($product_info, $index, 'sequence_no');
+		$qtyinstk = getProductQtyInStock($productid);
+		$upd_qty = $qtyinstk - $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid, quantity FROM jo_inventorysubproductrel WHERE id=? AND sequence_no=?",array($recordId,$sequence_no));
-		if($adb->num_rows($sub_prod_query)>0) {
-			for($j=0;$j<$adb->num_rows($sub_prod_query);$j++) {
-				$sub_prod_id = $adb->query_result($sub_prod_query,$j,"productid");
-				$subProductQty = $adb->query_result($sub_prod_query, $j, 'quantity'); 
-				$sqtyinstk= getProductQtyInStock($sub_prod_id);
+		$sub_prod_query = $adb->pquery("SELECT productid, quantity FROM jo_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		if ($adb->num_rows($sub_prod_query) > 0) {
+			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
+				$subProductQty = $adb->query_result($sub_prod_query, $j, 'quantity');
+				$sqtyinstk = getProductQtyInStock($sub_prod_id);
 				$supd_qty = $sqtyinstk - ($qty * $subProductQty);
 				updateProductQty($sub_prod_id, $supd_qty);
 			}
@@ -1271,24 +1234,25 @@ function deductProductsFromStock($recordId) {
 }
 
 // Add Products to stock - status changed to cancel or delete the invoice
-function addProductsToStock($recordId) {
+function addProductsToStock($recordId)
+{
 	global $adb;
 
-	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?",array($recordId));
+	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from jo_inventoryproductrel WHERE id=?", array($recordId));
 	$numrows = $adb->num_rows($product_info);
-	for($index = 0;$index <$numrows;$index++) {
-		$productid = $adb->query_result($product_info,$index,'productid');
-		$qty = $adb->query_result($product_info,$index,'quantity');
-		$sequence_no = $adb->query_result($product_info,$index,'sequence_no');
-		$qtyinstk= getProductQtyInStock($productid);
-		$upd_qty = $qtyinstk+$qty;
+	for ($index = 0; $index < $numrows; $index++) {
+		$productid = $adb->query_result($product_info, $index, 'productid');
+		$qty = $adb->query_result($product_info, $index, 'quantity');
+		$sequence_no = $adb->query_result($product_info, $index, 'sequence_no');
+		$qtyinstk = getProductQtyInStock($productid);
+		$upd_qty = $qtyinstk + $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid, quantity FROM jo_inventorysubproductrel WHERE id=? AND sequence_no=?",array($recordId,$sequence_no));
-		if($adb->num_rows($sub_prod_query)>0) {
-			for($j=0;$j<$adb->num_rows($sub_prod_query);$j++) {
-				$sub_prod_id = $adb->query_result($sub_prod_query,$j,"productid");
-				$subProductQty = $adb->query_result($sub_prod_query, $j, 'quantity'); 
-				$sqtyinstk= getProductQtyInStock($sub_prod_id);
+		$sub_prod_query = $adb->pquery("SELECT productid, quantity FROM jo_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		if ($adb->num_rows($sub_prod_query) > 0) {
+			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
+				$subProductQty = $adb->query_result($sub_prod_query, $j, 'quantity');
+				$sqtyinstk = getProductQtyInStock($sub_prod_id);
 				$supd_qty = $sqtyinstk + ($qty * $subProductQty);
 				updateProductQty($sub_prod_id, $supd_qty);
 			}
@@ -1296,12 +1260,14 @@ function addProductsToStock($recordId) {
 	}
 }
 
-function getImportBatchLimit() {
+function getImportBatchLimit()
+{
 	$importBatchLimit = 100;
 	return $importBatchLimit;
 }
 
-function createRecords($obj) {
+function createRecords($obj)
+{
 	global $adb;
 	$moduleName = $obj->module;
 
@@ -1312,15 +1278,15 @@ function createRecords($obj) {
 	$focus = CRMEntity::getInstance($moduleName);
 
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$sql = 'SELECT * FROM ' . $tableName . ' WHERE status = '. Import_Data_Action::$IMPORT_RECORD_NONE .' GROUP BY subject';
+	$sql = 'SELECT * FROM ' . $tableName . ' WHERE status = ' . Import_Data_Action::$IMPORT_RECORD_NONE . ' GROUP BY subject';
 
-	if($obj->batchImport) {
+	if ($obj->batchImport) {
 		$importBatchLimit = getImportBatchLimit();
-		$sql .= ' LIMIT '. $importBatchLimit;
+		$sql .= ' LIMIT ' . $importBatchLimit;
 	} else if ($obj->paging) {
 		$configReader = new Import_Config_Model();
 		$pagingLimit = $configReader->get('importPagingLimit');
-		$sql .= ' LIMIT '.$pagingLimit;
+		$sql .= ' LIMIT ' . $pagingLimit;
 	}
 	$result = $adb->query($sql);
 	$numberOfRecords = $adb->num_rows($result);
@@ -1342,7 +1308,7 @@ function createRecords($obj) {
 		$subject = $row['subject'];
 		$subject = str_replace("\\", "\\\\", $subject);
 		$subject = str_replace('"', '""', $subject);
-		$sql = "SELECT * FROM $tableName WHERE status = ".Import_Data_Action::$IMPORT_RECORD_NONE." AND subject = '$subject'";
+		$sql = "SELECT * FROM $tableName WHERE status = " . Import_Data_Action::$IMPORT_RECORD_NONE . " AND subject = '$subject'";
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
 		$subjectRowIDs = array();
@@ -1354,11 +1320,11 @@ function createRecords($obj) {
 			} else {
 				$lineItemData = array();
 				foreach ($fieldMapping as $fieldName => $index) {
-					if($moduleFields[$fieldName]->getTableName() == 'jo_inventoryproductrel') {
+					if ($moduleFields[$fieldName]->getTableName() == 'jo_inventoryproductrel') {
 						$lineItemData[$fieldName] = $subjectRow[$fieldName];
 					}
 				}
-				array_push($lineItems,$lineItemData);
+				array_push($lineItems, $lineItemData);
 			}
 		}
 		foreach ($fieldMapping as $fieldName => $index) {
@@ -1369,12 +1335,12 @@ function createRecords($obj) {
 		}
 
 		if (!empty($lineItems)) {
-			if(method_exists($focus, 'importRecord')) {
+			if (method_exists($focus, 'importRecord')) {
 				$entityInfo = $focus->importRecord($obj, $fieldData, $lineItems);
 			}
 		}
 
-		if($entityInfo == null) {
+		if ($entityInfo == null) {
 			$entityInfo = array('id' => null, 'status' => $obj->getImportRecordStatus('failed'));
 		} else {
 			$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
@@ -1387,35 +1353,36 @@ function createRecords($obj) {
 	}
 
 	//Creating entity data of created records to trigger inventory workflow supporting product quantity update
-	require_once 'modules/com_jo_workflow/VTEventHandler.inc';
+	require_once 'modules/Workflow/EventHandler.inc';
 	if ($createdRecords) {
 		$inventoryModules = getInventoryModules();
 		$recordModels = Head_Record_Model::getInstancesFromIds($createdRecords, $moduleName);
 		foreach ($recordModels as $recordModel) {
-            $keyLabel[$recordModel->get("id")]=$recordModel->get("subject");
+			$keyLabel[$recordModel->get("id")] = $recordModel->get("subject");
 			$focus = $recordModel->getEntity();
-			$entityData = VTEntityData::fromCRMEntity($focus);
+			$entityData = EntityData::fromCRMEntity($focus);
 			$moduleName = $entityData->getModuleName();
 
 			if (in_array($moduleName, $inventoryModules)) {
-				$workflowManger = new VTWorkflowManager($adb);
-				$workflowHandler = new VTWorkflowEventHandler();
+				$workflowManger = new WorkflowManager($adb);
+				$workflowHandler = new EventHandler();
 				$workflowHandler->workflows = $workflowManger->getInventoryWorkflowsSupportingProductQtyUpdate($moduleName);
 				$workflowHandler->handleEvent($eventName, $entityData);
 			}
 		}
-        $query = "UPDATE jo_crmentity SET label= CASE crmid";
-        foreach ($keyLabel as $id => $value) {
-            $query .= " WHEN '$id' THEN '$value' ";
-        }
-        $query .= ' ELSE label END';
-        $adb->pquery($query,array());
+		$query = "UPDATE jo_crmentity SET label= CASE crmid";
+		foreach ($keyLabel as $id => $value) {
+			$query .= " WHEN '$id' THEN '$value' ";
+		}
+		$query .= ' ELSE label END';
+		$adb->pquery($query, array());
 	}
 	unset($result);
 	return true;
 }
 
-function isRecordExistInDB($fieldData, $moduleMeta, $user) {
+function isRecordExistInDB($fieldData, $moduleMeta, $user)
+{
 	global $adb, $log;
 	$moduleFields = $moduleMeta->getModuleFields();
 	$isRecordExist = false;
@@ -1426,7 +1393,7 @@ function isRecordExistInDB($fieldData, $moduleMeta, $user) {
 		if ($fieldInstance->getFieldDataType() == 'reference') {
 			$entityId = false;
 			if (!empty($fieldValue)) {
-				if(strpos($fieldValue, '::::') > 0) {
+				if (strpos($fieldValue, '::::') > 0) {
 					$fieldValueDetails = explode('::::', $fieldValue);
 				} else if (strpos($fieldValue, ':::') > 0) {
 					$fieldValueDetails = explode(':::', $fieldValue);
@@ -1462,7 +1429,8 @@ function isRecordExistInDB($fieldData, $moduleMeta, $user) {
 	return $isRecordExist;
 }
 
-function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
+function importRecord($obj, $inventoryFieldData, $lineItemDetails)
+{
 	global $adb, $log;
 	$moduleName = $obj->module;
 	$fieldMapping = $obj->fieldMapping;
@@ -1477,21 +1445,21 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
 	$lineItems = array();
 	foreach ($lineItemDetails as $index => $lineItemFieldData) {
 		$isLineItemExist = isRecordExistInDB($lineItemFieldData, $lineItemMeta, $obj->user);
-		if($isLineItemExist) {
+		if ($isLineItemExist) {
 			$count = $index;
 			$lineItemData = array();
 			$lineItemFieldData = $obj->transformForImport($lineItemFieldData, $lineItemMeta);
 			foreach ($fieldMapping as $fieldName => $index) {
-				if($moduleFields[$fieldName]->getTableName() == 'jo_inventoryproductrel') {
+				if ($moduleFields[$fieldName]->getTableName() == 'jo_inventoryproductrel') {
 					$lineItemData[$fieldName] = $lineItemFieldData[$fieldName];
-					if($fieldName != 'productid')
+					if ($fieldName != 'productid')
 						$inventoryFieldData[$fieldName] = '';
 				}
 			}
-			array_push($lineItems,$lineItemData);
+			array_push($lineItems, $lineItemData);
 		}
 	}
-	if (empty ($lineItems)) {
+	if (empty($lineItems)) {
 		return null;
 	} elseif ($isRecordExist == false) {
 		foreach ($lineItemDetails[$count] as $key => $value) {
@@ -1500,7 +1468,7 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
 	}
 
 	$fieldData = $obj->transformForImport($inventoryFieldData, $inventoryMeta);
-	if(empty($fieldData) || empty($lineItemDetails)) {
+	if (empty($fieldData) || empty($lineItemDetails)) {
 		return null;
 	}
 	if ($fieldData['currency_id'] == ' ') {
@@ -1516,35 +1484,40 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
 	return $entityInfo;
 }
 
-function getImportStatusCount($obj) {
+function getImportStatusCount($obj)
+{
 	global $adb;
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$result = $adb->query('SELECT status FROM '.$tableName. ' GROUP BY subject');
+	$result = $adb->query('SELECT status FROM ' . $tableName . ' GROUP BY subject');
 
-	$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
-			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);
+	$statusCount = array(
+		'TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
+		'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0
+	);
 
-	if($result) {
+	if ($result) {
 		$noOfRows = $adb->num_rows($result);
 		$statusCount['TOTAL'] = $noOfRows;
-		for($i=0; $i<$noOfRows; ++$i) {
+		for ($i = 0; $i < $noOfRows; ++$i) {
 			$status = $adb->query_result($result, $i, 'status');
-			if($obj->getImportRecordStatus('none') == $status) {
+			if ($obj->getImportRecordStatus('none') == $status) {
 				$statusCount['PENDING']++;
-
-			} elseif($obj->getImportRecordStatus('failed') == $status) {
+			} elseif ($obj->getImportRecordStatus('failed') == $status) {
 				$statusCount['FAILED']++;
-
 			} else {
 				$statusCount['IMPORTED']++;
-				switch($status) {
-					case $obj->getImportRecordStatus('created')	:	$statusCount['CREATED']++;
+				switch ($status) {
+					case $obj->getImportRecordStatus('created'):
+						$statusCount['CREATED']++;
 						break;
-					case $obj->getImportRecordStatus('skipped')	:	$statusCount['SKIPPED']++;
+					case $obj->getImportRecordStatus('skipped'):
+						$statusCount['SKIPPED']++;
 						break;
-					case $obj->getImportRecordStatus('updated')	:	$statusCount['UPDATED']++;
+					case $obj->getImportRecordStatus('updated'):
+						$statusCount['UPDATED']++;
 						break;
-					case $obj->getImportRecordStatus('merged')	:	$statusCount['MERGED']++;
+					case $obj->getImportRecordStatus('merged'):
+						$statusCount['MERGED']++;
 						break;
 				}
 			}
@@ -1553,28 +1526,29 @@ function getImportStatusCount($obj) {
 	return $statusCount;
 }
 
-function undoLastImport($obj, $user) {
+function undoLastImport($obj, $user)
+{
 	global $adb;
 	$moduleName = $obj->get('module');
 	$ownerId = $obj->get('foruser');
 	$owner = new Users();
 	$owner->id = $ownerId;
 	$owner->retrieve_entity_info($ownerId, 'Users');
-	
+
 	$dbTableName = Import_Utils_Helper::getDbTableName($owner);
-	
-	if(!is_admin($user) && $user->id != $owner->id) {
+
+	if (!is_admin($user) && $user->id != $owner->id) {
 		$viewer = new Head_Viewer();
 		$viewer->view('OperationNotPermitted.tpl', 'Head');
 		exit;
 	}
-	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE status = ". Import_Data_Controller::$IMPORT_RECORD_CREATED
-			." AND recordid IS NOT NULL GROUP BY subject");
+	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE status = " . Import_Data_Controller::$IMPORT_RECORD_CREATED
+		. " AND recordid IS NOT NULL GROUP BY subject");
 	$noOfRecords = $adb->num_rows($result);
 	$noOfRecordsDeleted = 0;
-	for($i=0; $i<$noOfRecords; ++$i) {
+	for ($i = 0; $i < $noOfRecords; ++$i) {
 		$recordId = $adb->query_result($result, $i, 'recordid');
-		if(isRecordExists($recordId) && isPermitted($moduleName, 'Delete', $recordId) == 'yes') {
+		if (isRecordExists($recordId) && isPermitted($moduleName, 'Delete', $recordId) == 'yes') {
 			$focus = CRMEntity::getInstance($moduleName);
 			$focus->id = $recordId;
 			$focus->trash($moduleName, $recordId);
@@ -1589,17 +1563,19 @@ function undoLastImport($obj, $user) {
 	$viewer->view('ImportUndoResult.tpl');
 }
 
-function getInventoryFieldsForExport($tableName) {
+function getInventoryFieldsForExport($tableName)
+{
 
-	$sql = ','.$tableName.'.adjustment AS "Adjustment", '.$tableName.'.total AS "Total", '.$tableName.'.subtotal AS "Sub Total", ';
-	$sql .= $tableName.'.taxtype AS "Tax Type", '.$tableName.'.discount_amount AS "Discount Amount", ';
-	$sql .= $tableName.'.discount_percent AS "Discount Percent", '.$tableName.'.s_h_amount AS "S&H Amount", ';
+	$sql = ',' . $tableName . '.adjustment AS "Adjustment", ' . $tableName . '.total AS "Total", ' . $tableName . '.subtotal AS "Sub Total", ';
+	$sql .= $tableName . '.taxtype AS "Tax Type", ' . $tableName . '.discount_amount AS "Discount Amount", ';
+	$sql .= $tableName . '.discount_percent AS "Discount Percent", ' . $tableName . '.s_h_amount AS "S&H Amount", ';
 	$sql .= 'jo_currency_info.currency_name as "Currency" ';
 
 	return $sql;
 }
 
-function getCurrencyId($fieldValue) {
+function getCurrencyId($fieldValue)
+{
 	global $adb;
 
 	$sql = 'SELECT id FROM jo_currency_info WHERE currency_name = ? AND deleted = 0';
@@ -1616,15 +1592,16 @@ function getCurrencyId($fieldValue) {
  * @global type $adb
  * @return type <array> - list of lineitem fields
  */
-function getLineItemFields(){
+function getLineItemFields()
+{
 	global $adb;
-	
+
 	$sql = 'SELECT DISTINCT columnname FROM jo_field WHERE tablename=?';
 	$result = $adb->pquery($sql, array('jo_inventoryproductrel'));
 	$lineItemdFields = array();
 	$num_rows = $adb->num_rows($result);
-	for($i=0; $i<$num_rows; $i++){
-		$lineItemdFields[] = $adb->query_result($result,$i, 'columnname');
+	for ($i = 0; $i < $num_rows; $i++) {
+		$lineItemdFields[] = $adb->query_result($result, $i, 'columnname');
 	}
 	return $lineItemdFields;
 }
@@ -1634,19 +1611,20 @@ function getLineItemFields(){
  * By default some fields like Quantity, List Price is not mandaroty for Invertory modules but
  * import fails if those fields are not mapped during import.
  */
-function getInventoryImportableMandatoryFeilds($module) {
+function getInventoryImportableMandatoryFeilds($module)
+{
 	$moduleModel = Head_Module_Model::getInstance($module);
 	$moduleMeta = $moduleModel->getModuleMeta();
 	$moduleFields = $moduleMeta->getAccessibleFields($module);
 	$mandatoryFields = array();
-	foreach($moduleFields as $fieldName => $fieldInstance) {
-		if($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $moduleMeta->isEditableField($fieldInstance)) {
+	foreach ($moduleFields as $fieldName => $fieldInstance) {
+		if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $moduleMeta->isEditableField($fieldInstance)) {
 			$mandatoryFields[$fieldName] = vtranslate($fieldInstance->getFieldLabelKey(), $module);
 		}
 	}
 
 	$defaultMandatoryFields = array('quantity', 'listprice');
-	foreach($defaultMandatoryFields as $fieldName) {
+	foreach ($defaultMandatoryFields as $fieldName) {
 		$fieldInstance = $moduleFields[$fieldName];
 		$mandatoryFields[$fieldName] = vtranslate($fieldInstance->getFieldLabelKey(), $module);
 	}
@@ -1658,12 +1636,13 @@ function getInventoryImportableMandatoryFeilds($module) {
  * Function to get all charges
  * @return <Array>
  */
-function getAllCharges() {
+function getAllCharges()
+{
 	$db = PearDatabase::getInstance();
 	$allChargesInfo = array();
 
 	$result = $db->pquery('SELECT * FROM jo_inventorycharges WHERE deleted = 0', array());
-	while($rowData = $db->fetch_array($result)) {
+	while ($rowData = $db->fetch_array($result)) {
 		$chargeInfo = array();
 		$chargeInfo['id']		= $rowData['chargeid'];
 		$chargeInfo['chargeid'] = $rowData['chargeid'];
@@ -1671,7 +1650,7 @@ function getAllCharges() {
 		$chargeInfo['format']	= $rowData['format'];
 		$chargeInfo['type']		= $rowData['type'];
 		$chargeInfo['value']	= $rowData['value'];
-		$chargeInfo['istaxable']= $rowData['istaxable'];
+		$chargeInfo['istaxable'] = $rowData['istaxable'];
 		$chargeInfo['deleted']	= $rowData['deleted'];
 		$chargeInfo['regions']	= Zend_Json::decode(html_entity_decode($rowData['regions']));
 		$chargeInfo['taxes']	= Zend_Json::decode(html_entity_decode($rowData['taxes']));
@@ -1685,12 +1664,13 @@ function getAllCharges() {
  * Function to get all regions
  * @return <Array>
  */
-function getAllRegions() {
+function getAllRegions()
+{
 	$db = PearDatabase::getInstance();
 	$allRegionsInfo = array();
 
 	$result = $db->pquery('SELECT * FROM jo_taxregions', array());
-	while($rowData = $db->fetch_array($result)) {
+	while ($rowData = $db->fetch_array($result)) {
 		$allRegionsInfo[$rowData['regionid']] = array('id' => $rowData['regionid'], 'name' => $rowData['name']);
 	}
 	return $allRegionsInfo;
@@ -1702,20 +1682,33 @@ function getAllRegions() {
  * @param <String> $moduleName
  * @return <Array>
  */
-function getCompoundTaxesInfoForInventoryRecord($recordId, $moduleName) {
+function getCompoundTaxesInfoForInventoryRecord($recordId, $moduleName)
+{
 	$compoundTaxesInfo = array();
 	$tableName = '';
-	switch($moduleName) {
-		case 'Quotes'		: $tableName = 'jo_quotes';			$index = 'quoteid';			break;
-		case 'Invoice'		: $tableName = 'jo_invoice';		$index = 'invoiceid';		break;
-		case 'SalesOrder'	: $tableName = 'jo_salesorder';		$index = 'salesorderid';	break;
-		case 'PurchaseOrder': $tableName = 'jo_purchaseorder';	$index = 'purchaseorderid';	break;
+	switch ($moduleName) {
+		case 'Quotes':
+			$tableName = 'jo_quotes';
+			$index = 'quoteid';
+			break;
+		case 'Invoice':
+			$tableName = 'jo_invoice';
+			$index = 'invoiceid';
+			break;
+		case 'SalesOrder':
+			$tableName = 'jo_salesorder';
+			$index = 'salesorderid';
+			break;
+		case 'PurchaseOrder':
+			$tableName = 'jo_purchaseorder';
+			$index = 'purchaseorderid';
+			break;
 	}
 
 	if ($recordId && $tableName) {
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery("SELECT compound_taxes_info FROM $tableName WHERE $index = ?", array($recordId));
-		while($rowData = $db->fetch_array($result)) {
+		while ($rowData = $db->fetch_array($result)) {
 			$info = $rowData['compound_taxes_info'];
 			if ($info !== NULL) {
 				$compoundTaxesInfo = Zend_Json::decode(html_entity_decode($info));
@@ -1724,5 +1717,3 @@ function getCompoundTaxesInfoForInventoryRecord($recordId, $moduleName) {
 	}
 	return $compoundTaxesInfo;
 }
-
-?>

@@ -10,7 +10,7 @@
 {* modules/Settings/MenuManager/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
+<div class="listViewPageDiv detailViewContainer" id="listViewContent">
     <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
     </div>
     <div class="col-sm-12">
@@ -76,7 +76,7 @@
 	    </tbody>
 		<tr style="display:none" class="dummy-row le-row" id="dummy">
 		    <td>
-			<input type="text" value='' class="language-input new-label" style="border-bottom: 1px solid #1C7C54;" />
+			<input type="text" value='' class="language-input new-label" style="border-bottom: 1px solid #0444a7;" />
 		    </td>
 		    <td name="" class="meaning active-editable">
                     	<input type="text" value="" class="language-input new-value" />

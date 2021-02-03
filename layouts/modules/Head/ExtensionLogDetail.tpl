@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-sm-8 col-xs-8"></div>
                 <div class="col-sm-4 col-xs-4">
-                    <a id="downloadCsv" href="index.php?module={$SOURCE_MODULE}&view=ExportExtensionLog&logid={$LOG_ID}&type={$TYPE}" type="button" class="btn addButton btn-default downloadCsv pull-right">
+                    <a id="downloadCsv" href="{$SITEURL}index.php?module={$SOURCE_MODULE}&view=ExportExtensionLog&logid={$LOG_ID}&type={$TYPE}" type="button" class="btn addButton btn-default downloadCsv pull-right">
                         <span class="fa fa-download" aria-hidden="true"></span><strong> {vtranslate('LBL_DOWNLOAD_AS_CSV', $MODULE)} </strong>
                     </a>
                 </div>

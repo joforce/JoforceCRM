@@ -45,6 +45,10 @@
 					{if $FORMAT neq 'ics'}
 						{include file='ImportStepTwo.tpl'|@vtemplate_path:'Import'}
 					{/if}
+					{if $FORMAT neq 'ics'}
+						<div class = "importBlockContainer hide" id="importStep3Conatiner">
+						</div>
+					{/if}
 				</div>
 			</form>
 		</div>
@@ -61,14 +65,23 @@
 							{else}
 								<button class="btn btn-success btn-lg" id ="importStep2" onclick="Head_Import_Js.importActionStep2();">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							{/if}
-							&nbsp;&nbsp;&nbsp;<a class='cancelLink' onclick="Head_Import_Js.loadListRecords();" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							&nbsp;&nbsp;&nbsp;
+							{* <a class='cancelLink' onclick="Head_Import_Js.loadListRecords();" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a> *}
+							<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 						<div id="importStepTwoButtonsDiv" class = "hide">
 							<button class="btn btn-default btn-lg" id="backToStep1" onclick="Head_Import_Js.bactToStep1();">{vtranslate('LBL_BACK', $MODULE)}</button>
 							&nbsp;&nbsp;&nbsp;<button name="next" class="btn btn-success btn-lg" id="uploadAndParse" onclick="Head_Import_Js.uploadAndParse('1');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							&nbsp;&nbsp;&nbsp;<button class="btn btn-primary btn-lg" id="skipDuplicateMerge" onclick="Head_Import_Js.uploadAndParse('0');">{vtranslate('Skip this step', $MODULE)}</button>
-							&nbsp;&nbsp;&nbsp;<a class='cancelLink' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							&nbsp;&nbsp;&nbsp;<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
+						<div id="importStepThreeButtonsDiv" class = "hide">
+							{* <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '> *}
+								<button type="submit" name="import" id="importButton" class="btn btn-success btn-lg" onclick="return Head_Import_Js.sanitizeAndSubmit()"
+										>{'LBL_IMPORT_BUTTON_LABEL'|@vtranslate:$MODULE}</button>
+								&nbsp;&nbsp;&nbsp;<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							{* </div>  *}
+                		</div>
 					{/if}
 				</div>
 			</div>

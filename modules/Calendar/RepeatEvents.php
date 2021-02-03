@@ -136,8 +136,8 @@ class Calendar_RepeatEvents {
 		$base_focus->id = $focus->id;
 		$parentId = $focus->column_fields['id'];
 		
-		$vtEntityDelta = new VTEntityDelta();
-        $delta = $vtEntityDelta->getEntityDelta('Events', $parentId, true);
+		$EntityDelta = new EntityDelta();
+        $delta = $EntityDelta->getEntityDelta('Events', $parentId, true);
 		$skip_focus_fields = Array ('record_id', 'createdtime', 'modifiedtime');
 		
 		if($focus->column_fields['mode'] == 'edit') {
@@ -397,5 +397,3 @@ class Calendar_RepeatEvents {
         }
     }
 }
-
-?>

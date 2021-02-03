@@ -1,15 +1,34 @@
-{*+**********************************************************************************
-* The contents of this file are subject to the vtiger CRM Public License Version 1.1
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-************************************************************************************}
+{*<!--                                                          
+  /*********************************************************************************
+  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0 
+  * ("License"); You may not use this file except in compliance with the License
+  * The Original Code is: vtiger CRM Open Source                  
+  * The Initial Developer of the Original Code is vtiger.
+  * Portions created by vtiger are Copyright (C) vtiger.
+  * All Rights Reserved.                                          
+  * Contributor(s): JoForce.com                                   
+  ********************************************************************************/
+  -->*}
 {strip}
-    <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
-    <div class="col-sm-12 col-xs-12">
-        {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}
+<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
+<div class="col-sm-12 col-xs-12">
+    <div class=" detailview-header-block">
+    	<div class="detailview-header">
+            <div class="row">
+	        <div class="col-sm-6 col-lg-6 col-md-6">
+	    	    <div class="recordBasicInfo">
+		        <div class="info-row">
+	                    <h4>
+            		        <span class="recordLabel pushDown" title="{$RECORD->getName()}">
+	        	            <span class="templatename">{$RECORD->getName()}</span>&nbsp;
+        	                </span>
+	                    </h4>
+            		</div>
+		    </div>
+	        </div>
+                {include file="DetailViewActions.tpl"|vtemplate_path:$MODULE}
+            </div>
+        </div>
         <div class="detailview-content container-fluid">
             <div class="details row">
                 <div class="block">

@@ -13,7 +13,6 @@
 
 {strip}
 <div class="listViewPageDiv " id="sharingAccessContainer">
-    <div class="col-sm-12 col-xs-12 joforce-bg">
         <form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
             <input type="hidden" name="module" value="SharingAccess" />
             <input type="hidden" name="action" value="SaveAjax" />
@@ -106,6 +105,5 @@
                 </div>
             </div>
         </form>
-    </div>
 </div>
 {/strip}

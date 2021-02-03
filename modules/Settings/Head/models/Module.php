@@ -199,7 +199,7 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 									 'Notifications'	=> $site_URL.'Notifications/Settings/Index'),
 					'LBL_EXTENSIONS'	=> array('LBL_GOOGLE'	=> $site_URL."Contacts/Settings/Extension/Google/Index/settings/$extension_blockid/$google_link_field_id")
 					);
-		if(!vtlib_isModuleActive('Google')) {
+		if(!modlib_isModuleActive('Google')) {
 			unset($settingsMenuList['LBL_EXTENSIONS']['LBL_GOOGLE']);
 		}
 

@@ -38,8 +38,8 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 */
 	public function hasGlobalReadPermission() {
 		return ($this->isAdminUser() ||
-				$this->getGlobalReadPermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
-				$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+				$this->getGlobalReadPermission() == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
+				$this->getGlobalWritePermission() == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * @return <Boolean> true/false
 	 */
 	public function hasGlobalWritePermission() {
-		return ($this->isAdminUser() || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+		return ($this->isAdminUser() || $this->getGlobalWritePermission() == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
 	}
 
 	public function hasGlobalPermission($actionId) {
@@ -67,8 +67,9 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 */
 	public function hasModulePermission($tabId) {
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
+
 		$moduleModel = Head_Module_Model::getInstance($tabId);
-		return (($this->isAdminUser() || $profileTabsPermissions[$tabId] === 0) && $moduleModel->isActive());
+		return (($this->isAdminUser() || $profileTabsPermissions[$tabId] == 0) && $moduleModel->isActive());
 	}
 
 	/**
@@ -84,7 +85,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
 		$moduleModel = Head_Module_Model::getInstance($tabId);
-		return (($this->isAdminUser() || $profileTabsPermissions[$tabId][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)
+		return (($this->isAdminUser() || $profileTabsPermissions[$tabId][$actionId] == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)
 				 && $moduleModel->isActive());
 	}
 
@@ -99,6 +100,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 			$instance->$key = $value;
 		}
 		$instance->setData($valueMap);
+
 		return $instance;
 	}
 
@@ -112,8 +114,20 @@ class Users_Privileges_Model extends Users_Record_Model {
 			return null;
 
 		$acl = Head_AccessControl::loadUserPrivileges($userId);
-		require("user_privileges/sharing_privileges_$userId.php");
-
+		$get_sharingdetails = get_sharingprivileges($userid);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
 		$valueMap = array();
 		$valueMap['id'] = $userId;
 		$valueMap['is_admin'] = (bool) $acl->is_admin;
@@ -133,7 +147,6 @@ class Users_Privileges_Model extends Users_Record_Model {
 		if(is_array($acl->user_info)) {
 			$valueMap = array_merge($valueMap, $acl->user_info);
 		}
-
 		return self::getInstance($valueMap);
 	}
 
@@ -193,7 +206,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 			$targetUserId = strval($targetUserId);
 		}
 		if($currentUserModel->isAdminUser() && !$recordModel->isAccountOwner()) {
-			if($targetUserId === $currentUserModel->getId() || !$recordModel->isAdminUser() || $currentUserModel->isAccountOwner()) {
+			if($targetUserId == $currentUserModel->getId() || !$recordModel->isAdminUser() || $currentUserModel->isAccountOwner()) {
 				return true;
 			}
 		}

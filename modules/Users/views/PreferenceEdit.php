@@ -40,7 +40,13 @@ Class Users_PreferenceEdit_View extends Head_Edit_View {
 			$user_id = $currentUser->id;
 	                $viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
         	        $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
-                	$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+			$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+
+	                $userCurrencyInfo = getCurrencySymbolandCRate($currentUser->currency_id);
+	                $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+        	        //Get User Notifications
+                	$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
+
 			$qualifiedModuleName = $request->getModule(false);
 			$menuModelsList = Head_Menu_Model::getAll(true);
 			$selectedModule = $request->getModule();

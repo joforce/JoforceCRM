@@ -9,12 +9,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class PDFMaker_Module_Model extends Head_Module_Model {
+class PDFMaker_Module_Model extends Head_Module_Model
+{
 
 	/**
 	 * Function to get Alphabet Search Field 
 	 */
-	public function getAlphabetSearchField() {
+	public function getAlphabetSearchField()
+	{
 		return 'templatename';
 	}
 
@@ -22,9 +24,10 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 	 * Function to get the url for the Create Record view of the module
 	 * @return <String> - url
 	 */
-	public function getCreateRecordUrl() {
-        global $site_URL;
-		return $site_URL. $this->get('name') . '/view/' . $this->getEditViewName();
+	public function getCreateRecordUrl()
+	{
+		global $site_URL;
+		return $site_URL . $this->get('name') . '/view/' . $this->getEditViewName();
 	}
 
 	/**
@@ -32,22 +35,26 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 	 * @param EmailtTemplates_Record_Model $recordModel
 	 * @return <integer> template id
 	 */
-	
-	public function isStarredEnabled(){
-                return false;
-        }
 
-	public function saveRecord($recordModel) {
+	public function isStarredEnabled()
+	{
+		return false;
+	}
+
+	public function saveRecord($recordModel)
+	{
 		$db = PearDatabase::getInstance();
 		$templateid = $recordModel->getId();
-		if(empty($templateid)){
+		if (empty($templateid)) {
 			$templateid = $db->getUniqueID('jo_pdfmaker');
 			$sql = "INSERT INTO jo_pdfmaker(name, module, description, body, header, footer, status, settings, pdfmakerid) VALUES (?,?,?,?,?,?,?,?,?)";
-		}else{
+		} else {
 			$sql = "UPDATE jo_pdfmaker SET name=?, module=?, description=?, body=?, header=?, footer=?, status=?, settings=? WHERE pdfmakerid = ?";
 		}
-		$params = array(decode_html($recordModel->get('name')), decode_html($recordModel->get('module')),
-				decode_html($recordModel->get('description')), $recordModel->get('body'), $recordModel->get('header'), $recordModel->get('footer'), $recordModel->get('status'), $recordModel->get('settings'), $templateid);
+		$params = array(
+			decode_html($recordModel->get('name')), decode_html($recordModel->get('module')),
+			decode_html($recordModel->get('description')), $recordModel->get('body'), $recordModel->get('header'), $recordModel->get('footer'), $recordModel->get('status'), $recordModel->get('settings'), $templateid
+		);
 		$db->pquery($sql, $params);
 		return $recordModel->setId($templateid);
 	}
@@ -56,17 +63,19 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 	 * Function to delete the email template
 	 * @param type $recordIds
 	 */
-	public function deleteRecord($recordModel) {
+	public function deleteRecord($recordModel)
+	{
 		$recordId = $recordModel->getId();
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM jo_pdfmaker WHERE pdfmakerid = ? ', array($recordId));
 	}
-	
+
 	/**
 	 * Function to delete all the email templates
 	 * @param type $recordIds
 	 */
-	public function deleteAllRecords() {
+	public function deleteAllRecords()
+	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM jo_pdfmaker', array());
 	}
@@ -75,16 +84,18 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 	 * Function to get template fields from modules
 	 * @return <array> template fields
 	 */
-	public function getAllModuleFields() {
+	public function getAllModuleFields()
+	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$allModuleList = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder', 'Products', 'Services');
+		$allModuleList = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder', 'Products', 'Services', 'Contacts', 'Accounts');
 		//$allRelFields = array();
 		//$allFields = array(); 
 		foreach ($allModuleList as $index => $module) {
-			$allFields = array(); $allRelFields = array();
-			if($module == 'Users'){
+			$allFields = array();
+			$allRelFields = array();
+			if ($module == 'Users') {
 				$fieldList = $this->getRelatedModuleFieldList($module, $currentUserModel);
-			}else{
+			} else {
 				$fieldList = $this->getRelatedFields($module, $currentUserModel);
 			}
 			foreach ($fieldList as $key => $field) {
@@ -92,28 +103,29 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 				$allFields[] = $option;
 				if (!empty($field['referencelist'])) {
 					foreach ($field['referencelist'] as $key => $relField) {
-						$relOption = array(vtranslate($field['fieldlabel'], $field['module']) . ':' . '(' . vtranslate($relField['module'], $relField['module']) . ')' . vtranslate($relField['fieldlabel'],$relField['module']), "$" . strtolower($field['module']) . "-" . $field['columnname'] . ":" . $relField['columnname'] . "$");
+						$relOption = array(vtranslate($field['fieldlabel'], $field['module']) . ':' . '(' . vtranslate($relField['module'], $relField['module']) . ')' . vtranslate($relField['fieldlabel'], $relField['module']), "$" . strtolower($field['module']) . "-" . $field['columnname'] . ":" . $relField['columnname'] . "$");
 						$allRelFields[] = $relOption;
 					}
 				}
 			}
-			if(is_array($allFields) && is_array($allRelFields)){
+			if (is_array($allFields) && is_array($allRelFields)) {
 				$allFields = array_merge($allFields, $allRelFields);
-				$allRelFields="";
+				$allRelFields = "";
 			}
 			$allOptions[$module] = $allFields;
 			$allFields = "";
 		}
 		return $allOptions;
 	}
-	
+
 	/**
 	 * Function to get module fields
 	 * @param type $module
 	 * @param type $currentUserModel
 	 * @return <arrau>
 	 */
-	function getRelatedFields($module, $currentUserModel) {
+	function getRelatedFields($module, $currentUserModel)
+	{
 		$handler = vtws_getModuleHandlerFromName($module, $currentUserModel);
 		$meta = $handler->getMeta();
 		$moduleFields = $meta->getModuleFields();
@@ -132,19 +144,19 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 				}
 			}
 			$returnData[] = array('module' => $module, 'fieldname' => $field->getFieldName(), 'columnname' => $field->getColumnName(), 'fieldlabel' => $field->getFieldLabelKey(), 'referencelist' => $referencelist);
-			
 		}
 		return $returnData;
 	}
-	
+
 	/**
 	 * Function to get related module fields
 	 * @param type $relModule
 	 * @param type $user
 	 * @return null
 	 */
-	
-	function getRelatedModuleFieldList($relModule, $user) {
+
+	function getRelatedModuleFieldList($relModule, $user)
+	{
 		$handler = vtws_getModuleHandlerFromName($relModule, $user);
 		$relMeta = $handler->getMeta();
 		if (!$relMeta->isModuleEntity()) {
@@ -153,10 +165,10 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 		$relModuleFields = $relMeta->getModuleFields();
 		$relModuleFieldList = array();
 		foreach ($relModuleFields as $relind => $relModuleField) {
-			if($relModule == 'Users') {
-				if($relModuleField->getFieldDataType() == 'string' || $relModuleField->getFieldDataType() == 'email' || $relModuleField->getFieldDataType() == 'phone') {
-					$skipFields = array(98,115,116,31,32);
-					if(!in_array($relModuleField->getUIType(), $skipFields) && $relModuleField->getFieldName() != 'asterisk_extension'){
+			if ($relModule == 'Users') {
+				if ($relModuleField->getFieldDataType() == 'string' || $relModuleField->getFieldDataType() == 'email' || $relModuleField->getFieldDataType() == 'phone') {
+					$skipFields = array(98, 115, 116, 31, 32);
+					if (!in_array($relModuleField->getUIType(), $skipFields) && $relModuleField->getFieldName() != 'asterisk_extension') {
 						$relModuleFieldList[] = array('module' => $relModule, 'fieldname' => $relModuleField->getFieldName(), 'columnname' => $relModuleField->getColumnName(), 'fieldlabel' => $relModuleField->getFieldLabelKey());
 					}
 				}
@@ -167,26 +179,28 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 		return $relModuleFieldList;
 	}
 
-        public function getAllModuleList(){
-                $moduleModels = parent::getEntityModules();
-                $restrictedModules = array('Emails', 'ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
-                foreach($moduleModels as $key => $moduleModel){
-                        if(in_array($moduleModel->getName(),$restrictedModules) || $moduleModel->get('isentitytype') != 1){
-                                unset($moduleModels[$key]);
-                        }
+	public function getAllModuleList()
+	{
+		$moduleModels = parent::getEntityModules();
+		$restrictedModules = array('Emails', 'ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
+		foreach ($moduleModels as $key => $moduleModel) {
+			if (in_array($moduleModel->getName(), $restrictedModules) || $moduleModel->get('isentitytype') != 1) {
+				unset($moduleModels[$key]);
+			}
 
-		$modules[] = $moduleModel->name;
-                }
-                return $modules;
-        }
+			$modules[] = $moduleModel->name;
+		}
+		return $modules;
+	}
 
-	
+
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of Head_Link_Model instances
 	 */
-	public function getSideBarLinks($linkParams) {
+	public function getSideBarLinks($linkParams)
+	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$links = Head_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
@@ -198,55 +212,58 @@ class PDFMaker_Module_Model extends Head_Module_Model {
 				'linkicon' => '',
 			),
 		);
-		foreach($quickLinks as $quickLink) {
+		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Head_Link_Model::getInstanceFromValues($quickLink);
 		}
 		return $links;
 	}
-	
-	public function getRecordIds($skipRecords){
+
+	public function getRecordIds($skipRecords)
+	{
 		$db = PearDatabase::getInstance();
-		
-		$query = 'SELECT pdfmakerid FROM jo_pdfmaker WHERE pdfmakerid NOT IN ('.generateQuestionMarks($skipRecords).')';
+
+		$query = 'SELECT pdfmakerid FROM jo_pdfmaker WHERE pdfmakerid NOT IN (' . generateQuestionMarks($skipRecords) . ')';
 		$result = $db->pquery($query, $skipRecords);
 		$num_rows = $db->num_rows($result);
 		$recordIds = array();
-		for($i; $i<$num_rows; $i++){
+		for ($i; $i < $num_rows; $i++) {
 			$recordIds[] = $db->query_result($result, $i, 'pdfmakerid');
 		}
 		return $recordIds;
 	}
 
-        /**
-         * Function to get emails related modules
-         * @return <Array> - list of modules 
-         */
-        public function getEmailRelatedModules() {
-                $userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	/**
+	 * Function to get emails related modules
+	 * @return <Array> - list of modules 
+	 */
+	public function getEmailRelatedModules()
+	{
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-                $relatedModules = vtws_listtypes(array('email'), Users_Record_Model::getCurrentUserModel());
-                $relatedModules = $relatedModules['types'];
+		$relatedModules = vtws_listtypes(array('email'), Users_Record_Model::getCurrentUserModel());
+		$relatedModules = $relatedModules['types'];
 
-                foreach ($relatedModules as $key => $moduleName) {
-                        if ($moduleName === 'Users') {
-                                unset($relatedModules[$key]);
-                        }
-                }
-                foreach ($relatedModules as $moduleName) {
-                        $moduleModel = Head_Module_Model::getInstance($moduleName);
-                        if($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleModel->getId())) {
-                                $emailRelatedModules[] = $moduleName;
-                        }
-                }
-                $emailRelatedModules[] = 'Users';
-                return $emailRelatedModules;
-        }
+		foreach ($relatedModules as $key => $moduleName) {
+			if ($moduleName === 'Users') {
+				unset($relatedModules[$key]);
+			}
+		}
+		foreach ($relatedModules as $moduleName) {
+			$moduleModel = Head_Module_Model::getInstance($moduleName);
+			if ($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleModel->getId())) {
+				$emailRelatedModules[] = $moduleName;
+			}
+		}
+		$emailRelatedModules[] = 'Users';
+		return $emailRelatedModules;
+	}
 
-    
-    /**
-     * Funxtion to identify if the module supports quick search or not
-     */
-    public function isQuickSearchEnabled() {
-        return false;
-    }
+
+	/**
+	 * Funxtion to identify if the module supports quick search or not
+	 */
+	public function isQuickSearchEnabled()
+	{
+		return false;
+	}
 }

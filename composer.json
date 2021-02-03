@@ -4,7 +4,10 @@
         "webonyx/graphql-php": "^0.11.5",
         "tuupola/slim-jwt-auth": "^2.3",
         "ezyang/htmlpurifier": "^4.9",
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+         "phpoffice/phpspreadsheet": "^1.15",
+        "michelf/php-markdown": "^1.9",
+        "mpdf/mpdf": "^8.0"
     },
     "autoload": {
         "psr-4": {

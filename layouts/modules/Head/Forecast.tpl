@@ -7,7 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************}
-<div class="main-container clearfix">
+<div class="col-sm-12 col-xs-12 joforce-bg  pl0 pr0 mt20">
     <input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}" />
     <input type="hidden" name="source_module_name" id="source_module_name" value="{$MODULE}">
     <input type="hidden" name="custom_view_id" id="custom_view_id" value="{$DEFAULT_CUSTOM_VIEW_ID}">
@@ -25,10 +25,18 @@
     <input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
     <input type='hidden' name="sum_field_name" value="{$sum_field_name}" id='sum_field_name'>
 
-    <div class = "col-sm-12 col-xs-12 content-area">
 	<input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}">
 	<input type="hidden" name="picklist_name" id="picklist_name" class="picklist_name" value="{$picklist_name}">
 	<input type="hidden" name="picklist_id" id="picklist_id" class="picklist_id" value="{$picklist_id}">
+
+	<div id="third-listview-actions" class="third-listview-actions-container">
+	    <div class=" col-md-4">
+            </div>
+	    <div class="col-md-5 msgsection"></div>
+            <div class="col-md-3">
+		{include file="kanban/Pagination_kanban.tpl"|vtemplate_path:"Head" SHOWPAGEJUMP=true}
+            </div>
+	</div>
 	<table style="overflow-x: auto;overflow-y: auto;">
 	    <tbody>
 		<tr>
@@ -61,7 +69,7 @@
 					        <div class="col-lg-12 drag-list">
 			                            <div class="col-lg-9 p0">
 
-							<a style="color:#1C7C54;" href="{$recordModel->getDetailViewUrl()}" class="table-list-front info-row rows headerAjaxEdit td" data-module-name="{$MODULE}">
+							<a style="color:#0444a7;" href="{$recordModel->getDetailViewUrl()}" class="table-list-front info-row rows headerAjaxEdit td" data-module-name="{$MODULE}">
 						            <span class="recordLabel" title="{$recordModel->getName()}">
 						            {foreach item=NAME_FIELD from=$SOURCE_MODULE_MODEL->getNameFields()}
 						                {assign var=FIELD_MODEL value=$SOURCE_MODULE_MODEL->getField($NAME_FIELD)}
@@ -96,5 +104,4 @@
 		</tr>
 	    </tbody>
 	</table>
-    </div>
 </div>

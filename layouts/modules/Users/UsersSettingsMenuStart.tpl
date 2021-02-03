@@ -11,11 +11,12 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="modules/Head/partials/Topbar.tpl"}
 
-<div class="container-fluid app-nav">
+<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
-        {include file="modules/Users/UsersSidebarHeader.tpl"}
+        {include file="modules/Head/partials/SidebarAppMenu.tpl"}
         {include file="modules/Users/UsersModuleHeader.tpl"}
     </div>
+    <div class="quick-panel"></div>
 </div>
 </nav>
  <div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>

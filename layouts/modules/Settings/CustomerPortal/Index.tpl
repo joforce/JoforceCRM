@@ -10,7 +10,6 @@
 
 {strip}
 	<div class="listViewPageDiv" id="listViewContent">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
 			<br>
 			<br>
 			<form id="customerPortalForm" name="customerPortalForm" action="index.php" method="POST" class="form-horizontal">
@@ -120,6 +119,5 @@
 
 				</div>
 			</form>
-		</div>
 	</div>
 {/strip}

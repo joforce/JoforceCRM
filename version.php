@@ -10,7 +10,7 @@
 
 $patch_version = '20200219'; // -ve timestamp before release, +ve timestamp after release.
 $modified_database = '';
-$jo_current_version = '1.5';
+$jo_current_version = '2.0-alpha-1';
 $_SESSION['jo_version'] = $jo_current_version;
 
 ?>

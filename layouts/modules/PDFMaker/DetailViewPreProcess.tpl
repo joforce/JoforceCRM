@@ -10,7 +10,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="modules/Head/partials/Topbar.tpl"}
 
-<div class="container-fluid app-nav">
+<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
         {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
     </div>
@@ -23,5 +23,10 @@
         </div>
     </div>
 <div class="container-fluid main-container">
+        <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
+            {include file="partials/SidebarAppMenu.tpl"|vtemplate_path:$MODULE}
+        </div>
+        <div class="quick-panel"></div>
+
     <div class="row">
         <div class="detailViewContainer viewContent clearfix">

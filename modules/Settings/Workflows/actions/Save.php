@@ -18,7 +18,6 @@ class Settings_Workflows_Save_Action extends Settings_Head_Basic_Action {
 		$conditions = $request->get('conditions');
 		$filterSavedInNew = $request->get('filtersavedinnew');
 		$executionCondition = $request->get('execution_condition');
-
 		if($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 		} else {
@@ -26,7 +25,7 @@ class Settings_Workflows_Save_Action extends Settings_Head_Basic_Action {
 			$workflowModel->set('name', $summary);
 		}
 
-		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+		require_once 'modules/Workflow/expression_engine/include.inc';
 		$response = new Head_Response();
 		if (!empty($conditions) && is_array($conditions)) {
 			foreach ($conditions as $info) {

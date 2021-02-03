@@ -14,9 +14,9 @@ class PickListHandler extends VTEventHandler {
 	function handleEvent($eventName, $entityData) {
 		global $log, $adb;
 
-		if($eventName == 'vtiger.picklist.afterrename') {
+		if($eventName == 'jo.picklist.afterrename') {
 			$this->operationsAfterPicklistRename($entityData);
-		} elseif($eventName == 'vtiger.picklist.afterdelete') {
+		} elseif($eventName == 'jo.picklist.afterdelete') {
 			$this->operationsAfterPicklistDelete($entityData);
 		}
 	}
@@ -95,7 +95,7 @@ class PickListHandler extends VTEventHandler {
 		}
 		
 		//update Workflows values
-		$query= 'SELECT workflow_id,test FROM com_jo_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+		$query= 'SELECT workflow_id,test FROM workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
 		$result = $db->pquery($query, array($moduleName,"%$oldValue%"));
 		$num_rows = $db->num_rows($result);
 		for($i = 0;$i < $num_rows; $i++) {
@@ -117,13 +117,13 @@ class PickListHandler extends VTEventHandler {
 					$decodedArrayConditions[$key] = $condition;
 				}
 				$condtion = Zend_Json::encode($decodedArrayConditions);
-				$query= 'UPDATE com_jo_workflows SET test=? where workflow_id=?';
+				$query= 'UPDATE workflows SET test=? where workflow_id=?';
 				$db->pquery($query, array($condtion, $row['workflow_id']));
 			}
 		}
 		
 		//update workflow task
-		$query = 'SELECT task,task_id,workflow_id FROM com_jo_workflowtasks where task LIKE ?';
+		$query = 'SELECT task,task_id,workflow_id FROM workflowtasks where task LIKE ?';
 		$result = $db->pquery($query, array("%$oldValue%"));
 		$num_rows = $db->num_rows($result);
 		
@@ -133,8 +133,8 @@ class PickListHandler extends VTEventHandler {
 			$taskComponents = explode(':', $task);
 			$classNameWithDoubleQuotes = $taskComponents[2];
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
-			require_once("modules/com_jo_workflow/VTTaskManager.inc");
-			require_once 'modules/com_jo_workflow/tasks/'.$className.'.inc';
+			require_once("modules/Workflow/TaskManager.inc");
+			require_once 'modules/Workflow/tasks/'.$className.'.inc';
 			$unserializeTask = unserialize($task);
 			if(array_key_exists("field_value_mapping",$unserializeTask)) {
 				$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
@@ -155,17 +155,17 @@ class PickListHandler extends VTEventHandler {
 					$updatedTask = Zend_Json::encode($fieldMapping);
 					$unserializeTask->field_value_mapping = $updatedTask;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			} else {
-				if($className == 'VTCreateEventTask') {
+				if($className == 'CreateEventTask') {
 					if($pickListFieldName == 'eventstatus') {
 						$pickListFieldName = 'status';
 					} elseif($pickListFieldName == 'activitytype') {
 						$pickListFieldName = 'eventType';
 					}
-				} elseif($className == 'VTCreateTodoTask'){
+				} elseif($className == 'CreateTodoTask'){
 					if($pickListFieldName == 'taskstatus') {
 						$pickListFieldName = 'status';
 					} elseif($pickListFieldName == 'taskpriority') {
@@ -182,7 +182,7 @@ class PickListHandler extends VTEventHandler {
 					$value = implode(',', $explodedValueArray);
 					$unserializeTask->$pickListFieldName = $value;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			}
@@ -246,7 +246,7 @@ class PickListHandler extends VTEventHandler {
 		
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
-			$query = 'SELECT workflow_id,test FROM com_jo_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+			$query = 'SELECT workflow_id,test FROM workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
 			$result = $db->pquery($query, array($moduleName,"%$value%"));
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -270,7 +270,7 @@ class PickListHandler extends VTEventHandler {
 						$decodedArrayConditions[$key] = $condition;
 					}
 					$condtion = Zend_Json::encode($decodedArrayConditions);
-					$query = 'UPDATE com_jo_workflows SET test=? where workflow_id=?';
+					$query = 'UPDATE workflows SET test=? where workflow_id=?';
 					$db->pquery($query, array($condtion, $row['workflow_id']));
 				}
 			}
@@ -279,7 +279,7 @@ class PickListHandler extends VTEventHandler {
 		
 		foreach ($valueToDelete as $value) {
 			//update workflow task
-			$query = 'SELECT task,task_id,workflow_id FROM com_jo_workflowtasks where task LIKE ?';
+			$query = 'SELECT task,task_id,workflow_id FROM workflowtasks where task LIKE ?';
 			$result = $db->pquery($query, array("%$value%"));
 			$num_rows = $db->num_rows($result);
 
@@ -289,8 +289,8 @@ class PickListHandler extends VTEventHandler {
 				$taskComponents = explode(':', $task);
 				$classNameWithDoubleQuotes = $taskComponents[2];
 				$className = str_replace('"', '', $classNameWithDoubleQuotes);
-				require_once("modules/com_jo_workflow/VTTaskManager.inc");
-				require_once 'modules/com_jo_workflow/tasks/' . $className . '.inc';
+				require_once("modules/Workflow/TaskManager.inc");
+				require_once 'modules/Workflow/tasks/' . $className . '.inc';
 				$unserializeTask = unserialize($task);
 				if (array_key_exists("field_value_mapping", $unserializeTask)) {
 					$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
@@ -313,17 +313,17 @@ class PickListHandler extends VTEventHandler {
 						$updatedTask = Zend_Json::encode($fieldMapping);
 						$unserializeTask->field_value_mapping = $updatedTask;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				} else {
-					if ($className == 'VTCreateEventTask') {
+					if ($className == 'CreateEventTask') {
 						if ($pickListFieldName == 'eventstatus') {
 							$pickListFieldName = 'status';
 						} elseif ($pickListFieldName == 'activitytype') {
 							$pickListFieldName = 'eventType';
 						}
-					} elseif ($className == 'VTCreateTodoTask') {
+					} elseif ($className == 'CreateTodoTask') {
 						if ($pickListFieldName == 'taskstatus') {
 							$pickListFieldName = 'status';
 						} elseif ($pickListFieldName == 'taskpriority') {
@@ -342,7 +342,7 @@ class PickListHandler extends VTEventHandler {
 						$value = implode(',', $explodedValueArray);
 						$unserializeTask->$pickListFieldName = $value;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				}
@@ -351,4 +351,3 @@ class PickListHandler extends VTEventHandler {
 
 	}
 }
-?>

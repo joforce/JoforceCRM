@@ -301,7 +301,11 @@ window.app = (function () {
 		controller: function () {
 			if (_controller == null) {
 				var controllerClass = this.getModuleSpecificViewClass(_view);
-				if (controllerClass) {
+				if(controllerClass === "Head_Import_Js") {
+					_controller = new window['Head_List_Js']();
+					_controller.intializeComponents();
+					_controller.registerEvents();
+				}else{					
 					_controller = new window[controllerClass]();
 					_controller.intializeComponents();
 					_controller.registerEvents();

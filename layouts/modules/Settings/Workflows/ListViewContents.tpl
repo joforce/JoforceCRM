@@ -44,10 +44,6 @@
 					<input class="searchWorkflows" type="text" type="text" value="{$SEARCH_VALUE}" placeholder="{vtranslate('LBL_WORKFLOW_SEARCH', $QUALIFIED_MODULE)}">
 				</div> 
 			</div>
-			<div class="col-md-3">
-				{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-				{include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
-			</div>
 		</div>
 		<div class="list-content row">
 			<div class="col-sm-12 col-xs-12 ">
@@ -156,10 +152,17 @@
 						</tbody>
 					</table>
 				</div>
-				<div id="scroller_wrapper" class="bottom-fixed-scroll">
-					<div id="scroller" class="scroller-div"></div>
-				</div>
 			</div>
 		</div>
+		<div class="row">
+            {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
+            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true HEADSHOW=false}
+	</div>
+	<div id="scroller_wrapper" class="bottom-fixed-scroll">
+		<div id="scroller" class="scroller-div"></div>
+	</div>
+
+	<div class="quickviewcontent hide" id="quickviewcontent" style="width:32%;">
+	</div>
 	</div>
 {/strip}

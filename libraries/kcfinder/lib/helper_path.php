@@ -4,9 +4,9 @@
   *
   *      @desc Path helper class
   *   @package KCFinder
-  *   @version 2.21
+  *   @version 2.51
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010 KCFinder Project
+  * @copyright 2010, 2011 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -21,7 +21,8 @@ class path {
 
     static function rel2abs_url($path) {
 		//added so absolute url's used instead of url's relative to server's root.
-		require '../config/config.inc.php';
+        require_once('../../config/config.inc.php');
+		//require '../config/config.inc.php';
 		$return = $site_URL."/$path";
 
         return $return;

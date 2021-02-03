@@ -35,7 +35,7 @@
                             </div>
                         </div>
                      </div>
-                     {if $TASK_TYPE_MODEL->get('tasktypename') eq "VTEmailTask" && $TASK_OBJECT->trigger != null}                   
+                     {if $TASK_TYPE_MODEL->get('tasktypename') eq "EmailTask" && $TASK_OBJECT->trigger != null}                   
                         {if ($TASK_OBJECT->trigger!=null)}
                            {assign var=trigger value=$TASK_OBJECT->trigger}
                            {assign var=days value=$trigger['days']}
@@ -96,8 +96,8 @@
 				<div class="modal-overlay-footer clearfix">
 					<div class="row clearfix">
 						<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-							<button type="submit" class="btn btn-success" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-							<a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<button type="submit" class="btn btn-primary" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+							<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 					</div>
 				</div>

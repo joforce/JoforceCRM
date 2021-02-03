@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-include_once 'vtlib/Head/Event.php';
+include_once 'libraries/modlib/Head/Event.php';
 include_once 'includes/Webservices/GetUpdates.php';
 
 class ModTracker {
@@ -32,7 +32,7 @@ class ModTracker {
 	* @param String Module name
 	* @param String Event Type
 	*/	
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
  		global $adb, $currentModule;
 		
 		$modtrackerModule = Head_Module::getInstance($currentModule);
@@ -57,14 +57,14 @@ class ModTracker {
 
 		}  else if($eventType == 'module.disabled') {
 			
-			$em = new VTEventsManager($adb);
+			$em = new EventsManager($adb);
 			$em->setHandlerInActive('ModTrackerHandler');
 			
 			// De-register Common Javascript
 			$modtrackerModule->deleteLink( 'HEADERSCRIPT', 'ModTrackerCommon_JS');
 
         }  else if($eventType == 'module.enabled') {
-			$em = new VTEventsManager($adb);
+			$em = new EventsManager($adb);
 			$em->setHandlerActive('ModTrackerHandler');
 			
 			// Register Common Javascript
@@ -396,4 +396,3 @@ class ModTracker {
         self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
     }
 }
-?>

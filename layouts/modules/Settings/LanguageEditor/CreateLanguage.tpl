@@ -17,11 +17,11 @@
         </div>
 
 	<div class="modal-body">
-	    <form class="main-menu-modal-form" action>
+	    <form class="main-menu-modal-form" id="languageeditor" method="post" action="index.php" enctype="multipart/form-data" >
         	<div class="language-content">
                	    <div style="margin-bottom:10px;">
                        	<span>{vtranslate('LBL_LANGUAGE_NAME', $QUALIFIED_MODULE)} :</span>
-                        <input class="inputElement" name="language-name" id="language-name">
+                        <input class="inputElement" name="language-name" id="language-name" >
                     </div>
 
                     <div style="margin-bottom:10px;">
@@ -44,10 +44,10 @@
 
 	<div class="modal-footer ">
 	    <center>
-		<button class="btn btn-success save-section" id="save-section" type="submit" name="saveButton">
+		<button class="btn btn-primary save-section" id="save-section" type="submit" name="saveButton">
 		    <strong>Save</strong>
 		</button>
-                <a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+                <a href="#" class="cancelLink  btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
             </center>
 	</div>
     </div>

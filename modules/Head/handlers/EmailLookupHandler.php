@@ -15,15 +15,15 @@ class EmailLookupHandler extends VTEventHandler{
     function handleEvent($eventName, $entityData) {
         $moduleName = $entityData->getModuleName();
         
-        if($eventName == 'vtiger.entity.aftersave'){
+        if($eventName == 'jo.entity.aftersave'){
             EmailLookupHandler::handleEmailLookupSaveEvent($entityData, $moduleName);
         }
         
-        if($eventName == 'vtiger.entity.afterdelete' || $eventName == 'vtiger.lead.convertlead'){
+        if($eventName == 'jo.entity.afterdelete' || $eventName == 'jo.lead.convertlead'){
             $this->handleEmailLookupDeleteEvent($entityData);
         }
         
-        if($eventName == 'vtiger.entity.afterrestore'){
+        if($eventName == 'jo.entity.afterrestore'){
             $this->handleEmailLookupRestoreEvent($entityData, $moduleName);
         }
     }
@@ -113,7 +113,7 @@ class EmailLookupBatchHandler extends VTEventHandler {
 
             $moduleName = $entityData->getModuleName();
             
-            if ($eventName == 'vtiger.batchevent.save') {
+            if ($eventName == 'jo.batchevent.save') {
                 EmailLookupHandler::handleEmailLookupSaveEvent($entityData, $moduleName);
             }
             

@@ -16,23 +16,34 @@
             {assign var=singular_module_name value=$notify_module_model->getSingularLabelKey()}
 
             {assign var=notify_recordid value=$NOTIFICATION['entity_id']}
-            {assign var=RECORD_MODEL value=Head_Record_Model::getInstanceById($notify_recordid, $notify_module)}
-            {assign var=detail_url value=$RECORD_MODEL->getDetailViewUrl()}
+            {assign var=notify_action value=$NOTIFICATION['action_type']}
+            {if !isEntityDeleted($NOTIFICATION['entity_id'])}
+    	        {assign var=RECORD_MODEL value=Head_Record_Model::getInstanceById($notify_recordid, $notify_module)}
+        	{assign var=detail_url value=$RECORD_MODEL->getDetailViewUrl()}
+            {else}
+    	        {if $notify_action neq 'Deleted'}
+                    {assign var=notify_action value='Deleted Record Action'}
+            	{/if}
+	    {/if}
 
             {assign var=editor_id value=$NOTIFICATION['user_id']}
             {assign var=editor_modal value=Users_Record_Model::getInstanceById($editor_id, 'Users')}
             {assign var=modifierName value=getUserFirstAndLastName($editor_id)}
 
-            {assign var=notify_action value=$NOTIFICATION['action_type']}
             {assign var=namefields value=$notify_module_model->getNameFields()}
 
 	    {if $COUNT < 5}
 		{assign var=EDITOR value=getUserName($NOTIFICATION['user_id'])}
 		{if $NOTIFICATION_MODULE == 'Calendar'}
-		    {assign var=MODULE value=vtranslate(vtlib_toSingular('Tasks'), $NOTIFICATION['module_name'])}
+		    {assign var=MODULE value=vtranslate(modlib_toSingular('Tasks'), $NOTIFICATION['module_name'])}
 		{else}
-		    {assign var=MODULE value=vtranslate(vtlib_toSingular($NOTIFICATION['module_name']), $NOTIFICATION['module_name'])}
+		    {assign var=MODULE value=vtranslate(modlib_toSingular($NOTIFICATION['module_name']), $NOTIFICATION['module_name'])}
 		{/if}
+                {if $notify_action eq 'Deleted'}
+		    <p>{$notify_action} {vtranslate($singular_module_name , $notify_module)}</p>
+                {elseif $notify_action eq 'Deleted Record Action'}
+                    <p> Action of deleted record - {vtranslate($singular_module_name , $notify_module)} </p>
+                {else}
 		<a {if $notify_action neq 'Deleted'} href="{$detail_url}" style="color:green;" {/if}>
                     {foreach item=NAME_FIELD from=$namefields}
                         <span class="{$NAME_FIELD}">{$RECORD_MODEL->get($NAME_FIELD)}</span>&nbsp;
@@ -67,6 +78,7 @@
 			{$notify_action} {vtranslate($singular_module_name , $notify_module)}
                     {/if}
                 </p>
+		{/if}
 	    {/if}
 	{/foreach}
 

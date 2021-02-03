@@ -10,8 +10,7 @@
 {* modules/Settings/Head/views/OutgoingServerEdit.php *}
 
 {strip}
-    <div class="editViewPageDiv editViewContainer" id="EditViewOutgoing" style="padding-top:0px;">
-	<div class="col-lg-12 col-md-12 col-sm-12 joforce-bg">
+    <div class="" id="EditViewOutgoing">
 	    <div class="ml15">
 		<h3 style="margin-top: 0px;margin-left:4px;" >{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_OUTGOING_SERVER_DESC', $QUALIFIED_MODULE)}
 	    </div>
@@ -78,12 +77,11 @@
 			<div class="row clearfix">
 			    <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 				<button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-				<a class='cancelLink' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+				<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 			    </div>
 			</div>
 		    </div>
 		</div>
 	    </form>
-	</div>
     </div>
 {/strip}

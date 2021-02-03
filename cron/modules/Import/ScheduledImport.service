@@ -10,8 +10,8 @@
  *************************************************************************************/
 
 
-$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
-$VTIGER_BULK_SAVE_MODE = true;
+$previousBulkSaveMode = $JOFORCE_BULK_SAVE_MODE;
+$JOFORCE_BULK_SAVE_MODE = true;
 
 require_once  'includes/Loader.php';
 require_once 'includes/runtime/Controller.php';
@@ -19,6 +19,6 @@ require_once 'includes/runtime/BaseModel.php';
 require_once 'includes/runtime/Globals.php';
 Import_Data_Action::runScheduledImport();
 
-$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
+$JOFORCE_BULK_SAVE_MODE = $previousBulkSaveMode;
 
 ?>

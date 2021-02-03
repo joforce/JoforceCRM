@@ -109,7 +109,7 @@ Head_Detail_Js("Reports_Detail_Js",{},{
             jQuery('#countValue').text(count);
             jQuery('#moreRecordsText').addClass('hide');
         }else{        
-            jQuery('#countValue').html('<img src="layouts/skins/images/loading.gif">');
+            jQuery('#countValue').html('<div class="joforce-loader"></div>');
             var params = {
                 'module' : app.getModuleName(),
                 'advanced_filter': advFilterCondition,

@@ -11,8 +11,8 @@
 $languageStrings = array(
 
 	// Footer
-	'APPTITLE' => 'JoForce',
-	'POWEREDBY'=> 'Powered by JoForce',
+	'APPTITLE' => 'Joforce',
+	'POWEREDBY'=> 'Powered by Joforce',
 	'LBL_READ_LICENSE' => 'Read License',
 	'LBL_PRIVACY_POLICY' => 'Privacy Policy',
 
@@ -81,12 +81,14 @@ $languageStrings = array(
 	'LBL_MARKETING_AND_SALES' => 'MARKETING & SALES',
 	'LBL_TOOLS_HEADER' => 'TOOLS',
 	'LBL_SUPPORT' => 'SUPPORT',
+	'SUPPORT' => 'Support',
 	'LBL_INVENTORY' => 'INVENTORY',
+	'INVENTORY' => 'Inventory',
 	'LBL_ANALYTICS' => 'ANALYTICS',
 	'LBL_CONTACT' => 'CONTACT MANAGEMENT',
 	'LBL_HOME' => 'Home',
 	'LBL_NO_ATTACHMENTS' => 'No Attachments',
-	'LBL_COMPOSE_EMAIL_WARNING' => ' Warning : Your email might land in spam. Add JoForce as an authorized sender for your domain. Learn more',
+	'LBL_COMPOSE_EMAIL_WARNING' => ' Warning : Your email might land in spam. Add Joforce as an authorized sender for your domain. Learn more',
 	// Common Link Labels
 	'LBL_REARRANGE_DASHBOARD_TABS' => 'Rearrange Tabs',
 	'LBL_DONE' => 'Done',
@@ -209,7 +211,7 @@ $languageStrings = array(
 	'Activities' => 'Activities',
 	'Portal' => 'Our Sites',
 	'Email Templates' => 'Email Templates',
-	'Recycle Bin' => 'Recycle Bin',
+	'Recycle Bin' => 'Trash',
 
 	//Basic String Translation
 	'LBL_ADD_RECORD' => 'Add Record',
@@ -218,6 +220,7 @@ $languageStrings = array(
 	'LBL_RECORD_SUMMARY' => 'Module Summary',
 	'LBL_RECORD_SUMMARY' => 'Module Details',
 	'LBL_ACCESS_DENIED_FOR' => 'Access Denied for',
+	'LBL_ACCESS_DENIED' => 'Access denied',
 	'LBL_GO_BACK' => 'Go back',
 	'LBL_NO_DATA_AVAILABLE' => 'No data available',
 
@@ -250,7 +253,7 @@ $languageStrings = array(
 	'LBL_ADD_GROUP' => 'Add Condition Group',
 	'LBL_FILTER_CONDITIONS' => 'List Conditions',
 	'LBL_ALL_CONDITIONS' => 'All Conditions',
-	'LBL_ALL_CONDITIONS_DESC' => 'All conditions must be met',
+	'LBL_ALL_CONDITIONS_DESC' => 'Condition must be met',
 	'LBL_ANY_CONDITIONS' => 'Any Conditions',
 	'LBL_ANY_CONDITIONS_DESC' => 'At least one of the conditions must be met',
 	'LBL_SELECT_FIELD' => 'Select Field',
@@ -277,6 +280,7 @@ $languageStrings = array(
 	'LBL_INDIVIDUAL' => 'Individual',
 	'LBL_GROUP' => 'Group',
 	'LBL_TOOLS' => 'Tools',
+	'TOOLS' => 'Tools',
 	'LBL_ITEM_NAME' => 'Item Name',
 	'LBL_QTY_IN_STOCK' => 'Stock',
 	'LBL_QTY' => 'Quantity',
@@ -509,7 +513,7 @@ $languageStrings = array(
 	'LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET' => 'Cannot remove default widget',
 	'LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST' => 'List already exists',
 	'LBL_TYPE_AND_SEARCH' => 'Type and Search',
-		'LBL_EXPORT_CURRENCY_TOOLTIP_TEXT'=>'For exporting Currency values in Line items, JoForce will use this setting to export as this currency. Any currency values outside the line items tables, will be exported as in User\'s preferred currency (selected in \'My Preferences\')',
+		'LBL_EXPORT_CURRENCY_TOOLTIP_TEXT'=>'For exporting Currency values in Line items, Joforce will use this setting to export as this currency. Any currency values outside the line items tables, will be exported as in User\'s preferred currency (selected in \'My Preferences\')',
 		'LBL_EXPORT_LINEITEM_CURRENCY'=>'Choose Currency (For Line Item Values)',
 		'LBL_EXPORT_USER_CURRENCY' =>'My preferred Currency',
 		'LBL_EXPORT_RECORD_CURRENCY'=>'Currency specified in Record',
@@ -715,7 +719,7 @@ $languageStrings = array(
 	'LBL_BLANK' => '-Blank-',
 
 	//PageTitle translations
-	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'JoForce On Demand',
+	'LBL_JOFORCE_CRM_HONEST_OPEN_SOURCE' => 'Joforce On Demand',
 
 	//Translations used in inventory modules for sopy address
 	'SINGLE_Accounts' => 'Organization',
@@ -962,7 +966,7 @@ $languageStrings = array(
 									You can edit your preferences later from \'User Name > My Preferences \'',
 	'LBL_CANNOT_BE_CHANGED_LATER' => 'Cannot be changed later',
 	'IMPORT_CONTACTS_GOOGLE_HELP_TEXT' => 'We can bring contacts from Google and <br> you can also enable bi-direction sync to keep our<br>
-									JoForce contacts and Google contacts(in selected group) updated.<br>
+									Joforce contacts and Google contacts(in selected group) updated.<br>
 									Click the button to authorize and get Contacts from Google.',
 	'IMPORT_CONTACTS_CSV_HELP_TEXT' => 'You can import Contacts from CSV file.',
 	'IMPORT_CONTACTS_CSV_HELP_TEXT2' => 'To Import Deals, Leads, Tickets, please look for Actions > Import button on any of the
@@ -977,7 +981,7 @@ $languageStrings = array(
 	'TELL_US_ABOUT_YOU_HELP_TEXT' => 'We continue to make improvements to the CRM, and <br>
 									 knowing our users better will help us prioritize enhancements.',
 	'TELL_US_ABOUT_YOU_HELP_TEXT_2' => 'The data you submitted here will not be revealed to anyone <Br>
-										outside JoForce.',
+										outside Joforce.',
 	'LBL_INVALID_IMAGE' => 'Invalid Image',
 	'LBL_IMPORT_CONTACTS' => 'Import Contacts',
 	'LBL_FROM_GOOGLE' => 'From Google',
@@ -992,8 +996,8 @@ $languageStrings = array(
 	'LBL_SOCIAL_DETAILS' => 'Link to social networks to find new customers, and respond to queries',
 	'LBL_SOCIAL_AUTHORIZE_HELP'=>'Connect with your companys twitter account to post your messages and track engagement',
 	'LBL_SOCIAL_AUTHORIZE' => 'Connect with Twitter',
-	'LBL_SOCIAL_LINKED' => 'Your JoForce is now linked to',
-	'LBL_ENTER_KEYWORDS_HELP'=>'JoForce will scan twitter and find messages with these words',
+	'LBL_SOCIAL_LINKED' => 'Your Joforce is now linked to',
+	'LBL_ENTER_KEYWORDS_HELP'=>'Joforce will scan twitter and find messages with these words',
 	'LBL_ENTER_KEYWORDS' => 'Enter Keywords',
 
 	 // Social Module Strings
@@ -1097,7 +1101,7 @@ $languageStrings = array(
 	'LBL_SHOW_MAP'=>'Show Map',
 	'LBL_ADD_TAB'=>'Add Tab',
 	'LBL_TAB_NAME'=>'Dashboard Name',
-	'LBL_SHARED_TAGS_ACCESS'=>'Shared tags are accessible by all users in JoForce',
+	'LBL_SHARED_TAGS_ACCESS'=>'Shared tags are accessible by all users in Joforce',
 	'LBL_GOTO_TAGS'=>'Go to Settings > My preferences > My Tags to Edit or Delete your private tags',
 	'LBL_UNLINK'=>'Unlink',
 	'LBL_SWITCH_TO_OLD'=>'Switch to old version',
@@ -1119,10 +1123,10 @@ $languageStrings = array(
 	'LBL_DATE' => 'Date',
 	'LBL_TIME' => 'Time',
 	'LBL_SKIPPED' => 'Skipped',
-	'vt_create' => 'Records Created in JoForce',
-	'vt_update' => 'Records Updated in JoForce',
-	'vt_delete' => 'Records Deleted in JoForce',
-	'vt_skip' => 'Records skipped in JoForce',
+	'vt_create' => 'Records Created in Joforce',
+	'vt_update' => 'Records Updated in Joforce',
+	'vt_delete' => 'Records Deleted in Joforce',
+	'vt_skip' => 'Records skipped in Joforce',
 	'app_create' => 'Records Created in %s',
 	'app_update' => 'Records Updated in %s',
 	'app_delete' => 'Records Deleted in %s',
@@ -1149,9 +1153,12 @@ $languageStrings = array(
 	'LBL_RECENT_COMMENTS' => 'Recent Comments',
 	'LBL_ENGAGEMENT_HISTORY' => 'Engagement History',
 	'LBL_NO_ENGAGEMENTS_FOUND' => 'No related Touchpoints',
-	'LBL_MARKETING' => 'MARKETING',
+	'LBL_MARKETING' => 'Marketing',
+	'MARKETING' => 'Marketing',
 	'LBL_SALES' => 'SALES',
+	'SALES' => 'Sales',
 	'LBL_PROJECT' => 'PROJECTS',
+	'PROJECT' => 'Project',
 	'LBL_TAGS' => 'Tags',
 	'LBL_SHARE_TAGS' => 'Public Tags',
 	'LBL_SHARE_TAG' => 'Shared Tag(s)',
@@ -1246,6 +1253,8 @@ $languageStrings = array(
 	'LBL_POST_YOUR_COMMENT_HERE' => 'Post your comment here',
 	// Phone Calls
 	'LBL_CLICK_TO_CALL' => 'Click-to-Call',
+	'LBL_CALL' => 'Call',
+	'LBL_CALLS' => 'Calls',
 	'LBL_SHOW_TOTAL_NUMBER_OF_RECORDS' => 'Click for this list size',
 
 	'LBL_GENERAL_FIELDS' => 'General Fields',
@@ -1297,8 +1306,8 @@ $languageStrings = array(
 	'LBL_ROLES' => 'Roles',
 	'LBL_ROLEANDSUBORDINATE' => 'Role and Subordinates',
 	'LBL_YOUR_LEARNING_SCORE' => 'Your CRM learning score',
-	'LBL_SWITCH_TO_VTIGER7_NOW' => 'Switch to JoForce by Feb 15th',
-	'LBL_VTIGER6_RETIREMENT_NOTICE' => 'This version will be retired on Feb 15th 2016',
+	'LBL_SWITCH_TO_JOFORCE_NOW' => 'Switch to Joforce by Feb 15th',
+	'LBL_JOFORCE6_RETIREMENT_NOTICE' => 'This version will be retired on Feb 15th 2016',
 	'ModTracker' => 'Updates',
 	'LBL_MAIL_SENT_SUCCESSFULLY' => 'Mail Sent Successfully',
 	'LBL_FAILED_TO_SEND' => 'Failed to Send',
@@ -1322,8 +1331,8 @@ $languageStrings = array(
 
 	'LBL_DUPLICATES' => 'Duplicates',
 	'LBL_DUPLICATES_DETECTED' => 'Duplicate(s) detected!',
-	'LBL_DUPLICATES_FOUND_MESSAGE' => 'This %s cannot be saved since duplicate %s exists in JoForce with matching values for %s.',
-	'LBL_VTIGER_NOTIFICATION' => 'Message from : JoForce System Notifications',
+	'LBL_DUPLICATES_FOUND_MESSAGE' => 'This %s cannot be saved since duplicate %s exists in Joforce with matching values for %s.',
+	'LBL_JOFORCE_NOTIFICATION' => 'Message from : Joforce System Notifications',
 	'LBL_DUPLICATION_FAILURE_FROM_WORKFLOWS' => 'The following %s could not be saved from "%s" workflow, as another %s exists with the same values.',
 	'LBL_DUPLICATION_FAILURE_FROM_WEBFORMS' => 'The following %s could not be saved from "%s" webform, as another %s exists with the same values.',
 	'LBL_DUPLICATION_FAILURE_FOR_ADMIN' => 'You can %s to modify duplicate prevention rules.',
@@ -1376,6 +1385,7 @@ $languageStrings = array(
 	'LBL_RECENT_UPDATES' => 'Recent Updates',
 	'LBL_VIEW_UPDATES_IN_DETAIL' => 'Read More ...',
 	'LBL_DEFAULT_DASHBOARD_TOOLTIP'=>'Make this dashboard as default by reordering it as the first tab!',
+	'LBL_BROWSE' => 'Browse',
 );
 
 $jsLanguageStrings = array(
@@ -1641,7 +1651,7 @@ $jsLanguageStrings = array(
 
 	// For Line Iteam Currency Symbol select while Import
 	'JS_CURRENCY_TOOLTIP_CONTENT_TITLE' => 'Line Items Currency',
-	'JS_CURRENCY_TOOLTIP_CONTENT_MESSAGE' => 'For importing Currency values in Line items, JoForce will use this setting to identify the currency. Any currency values outside the line items tables, are assumed to be in User\'s preferred currency (selected in \'My Preferences\')',
+	'JS_CURRENCY_TOOLTIP_CONTENT_MESSAGE' => 'For importing Currency values in Line items, Joforce will use this setting to identify the currency. Any currency values outside the line items tables, are assumed to be in User\'s preferred currency (selected in \'My Preferences\')',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Cannot select related Contacts for Leads',
 	'JS_TRY_LATER' => 'Please try later!',
 	'JS_FILE_NAME' => 'File Name',
@@ -1713,7 +1723,7 @@ $jsLanguageStrings = array(
 	'JS_PRINTTEMPLATEMODULE_DISABLED' => 'PrintTemplates module is disabled. Cannot perform the operation',
 	'JS_SENT_FOR_SIGNATURE' => 'Sent for signature',
 	'JS_FAILED_TO_SEND_FOR_SIGNATURE' => 'Failed to send for signing',
-	'JS_SUITABLE_VTIGER_FIELD_NOT_AVAILABLE_FOR_MAPPING' => 'Suitable JoForce field not available for mapping',
+	'JS_SUITABLE_JOFORCE_FIELD_NOT_AVAILABLE_FOR_MAPPING' => 'Suitable Joforce field not available for mapping',
 	'JS_SAVED_SUCCESSFULLY' => 'Settings saved successfully',
 	'phone' => 'Phone',
 	'email' => 'Email',
@@ -1792,7 +1802,7 @@ $jsLanguageStrings = array(
 	'JS_DEFAULT_ENABLED' => 'Default enabled',
 	'JS_DEFAULT_DISABLED' => 'Default disabled',
 	'JS_EDIT_FIELDS' => '%s Fields & Layout',
-	'JS_MORE_VTIGER' => 'There are more records to be synchronized in JoForce',
+	'JS_MORE_JOFORCE' => 'There are more records to be synchronized in Joforce',
 	'JS_MORE_GOOGLE' => 'There are more records to be synchronized in Google',
 	'JS_MORE_OFFICE365' => 'There are more records to be synchronized in Office365',
 	'JS_TOKEN_EXPIRED' => 'Office365 Authentication has expired. Click on Sign in with Office365 button to re-authorize.',
@@ -1839,7 +1849,7 @@ $jsLanguageStrings = array(
 	'JS_LBL_MY_PREFERENCES' => 'My Preferences',
 	'JS_LBL_MY_PREFERENCES_TEXT' => 'Configure your personal preferences including Timezone, Currency, Date Format. You can also upload profile picture from My Preferences.',
 	'JS_LBL_HELP' => 'Help',
-	'JS_LBL_HELP_TEXT' => 'Click on Help button to find Guides and FAQs, and use the Help menu dropdown to get assistance from JoForce support team',
+	'JS_LBL_HELP_TEXT' => 'Click on Help button to find Guides and FAQs, and use the Help menu dropdown to get assistance from Joforce support team',
 	'JS_LBL_RESTART_TOUR' => 'Restart Guided Tour',
 	'JS_LBL_RESTART_TOUR_TEXT' => 'Click here to start this tour again',
 	'JS_GOOGLE_REMOVE_SYNC_CONFIRMATION' => 'Revoke access will only remove existing Google authentication for Contacts and Calendar, it will not delete synchronized records. If you synchronize with same Google account again, duplicate records will be created. Are you sure you want to revoke access?',

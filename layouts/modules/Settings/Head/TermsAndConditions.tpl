@@ -8,8 +8,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="editViewContainer" id="TermsAndConditionsContainer">
-        <div class="col-sm-12 col-lg-12 col-md-12 form-horizontal joforce-bg">
+    <div class="editViewContainer form-horizontal" id="TermsAndConditionsContainer">
             <div class="block">
                 <div>
                     <h4>{vtranslate('LBL_TERMS_AND_CONDITIONS', $QUALIFIED_MODULE)}</h4>
@@ -32,7 +31,7 @@
                 <div class='clearfix'></div>
                 <br>
             </div>
-        </div><br>
+	<br>
         <div class='modal-overlay-footer clearfix '>
             <div class="row clearfix">
                 <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
@@ -40,7 +39,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 {/strip}
 

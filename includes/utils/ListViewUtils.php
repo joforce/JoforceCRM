@@ -38,8 +38,35 @@ function getListQuery($module, $where = '') {
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	global $current_user;
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 	$tab_id = getTabid($module);
 	$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'jo_users.first_name', 'last_name' =>
 				'jo_users.last_name'), 'Users');
@@ -497,7 +524,7 @@ function getListQuery($module, $where = '') {
 					WHERE deleted=0 AND status <> 'Inactive'" . $where;
 			break;
 		default:
-			// vtlib customization: Include the module file
+			// modlib customization: Include the module file
 			$focus = CRMEntity::getInstance($module);
 			$query = $focus->getListQuery($module, $where);
 		// END
@@ -543,7 +570,7 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 		}
 	}
 	if (isset($_REQUEST['viewname']) && $_REQUEST['viewname'] != '')
-		$lv_array['viewname'] = vtlib_purify($_REQUEST['viewname']);
+		$lv_array['viewname'] = modlib_purify($_REQUEST['viewname']);
 
 	if ($related == '')
 		$_SESSION['lvs'][$_REQUEST['module']] = $lv_array;

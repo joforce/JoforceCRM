@@ -38,7 +38,7 @@
             {assign var=RECORD_ID value=$LISTVIEW_ENTRY->getId()}
             {assign var="DOCUMENT_RECORD_MODEL" value=Head_Record_Model::getInstanceById($RECORD_ID)}
             {if $DOCUMENT_RECORD_MODEL->get('filename') && $DOCUMENT_RECORD_MODEL->get('filestatus')}
-                <li><a data-id="{$LISTVIEW_ENTRY->getId()}" name="viewfile" href="javascript:void(0)" data-filelocationtype="{$DOCUMENT_RECORD_MODEL->get('filelocationtype')}" data-filename="{$DOCUMENT_RECORD_MODEL->get('filename')}" onclick="Head_Header_Js.previewFile(event)">File Preview</a></li>
+                <li><a data-id="{$LISTVIEW_ENTRY->getId()}" name="viewfile" href="javascript:void(0)" data-filelocationtype="{$DOCUMENT_RECORD_MODEL->get('filelocationtype')}" data-filename="{$DOCUMENT_RECORD_MODEL->get('filename')}" onclick="Head_Header_Js.previewFile(event,{$LISTVIEW_ENTRY->getId()})">File Preview</a></li>
             {/if}
             {if $DOCUMENT_RECORD_MODEL->get('filename') && $DOCUMENT_RECORD_MODEL->get('filestatus') && $DOCUMENT_RECORD_MODEL->get('filelocationtype') eq 'I'}
                 <li><a data-id="{$LISTVIEW_ENTRY->getId()}" name="downloadfile" href="{$DOCUMENT_RECORD_MODEL->getDownloadFileURL()}">Download</a></li>

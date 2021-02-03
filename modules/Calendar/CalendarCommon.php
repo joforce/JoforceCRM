@@ -150,7 +150,7 @@ function twoDigit( $no ){
 
 function sendInvitation($inviteesid,$mode,$recordModel,$desc) {
 	global $current_user,$mod_strings;
-	require_once("vtlib/Head/Mailer.php");
+	require_once("libraries/modlib/Head/Mailer.php");
 	$invitees_array = explode(';',$inviteesid);
 	
 	if($desc['mode'] == 'edit') {
@@ -189,7 +189,7 @@ function sendInvitation($inviteesid,$mode,$recordModel,$desc) {
  */
 function calendarview_getSelectedUserId() {
 	global $current_user, $default_charset;
-	$only_for_user = htmlspecialchars(strip_tags(vtlib_purifyForSql($_REQUEST['onlyforuser'])),ENT_QUOTES,$default_charset);
+	$only_for_user = htmlspecialchars(strip_tags(modlib_purifyForSql($_REQUEST['onlyforuser'])),ENT_QUOTES,$default_charset);
 	if($only_for_user == '') $only_for_user = $current_user->id;
 	return $only_for_user;
 }

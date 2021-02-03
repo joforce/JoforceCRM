@@ -26,7 +26,7 @@
             <div id="appnav" class="navbar-right">
                 <ul class="nav navbar-nav">
                     {foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-                        <li><button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}  onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>
+                        <li><button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" type="button" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}  onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>
                                 <div class="fa fa-plus"></div>&nbsp;&nbsp;
                                {vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}
                             </button>
@@ -36,8 +36,8 @@
                     <li>
                     {if $LISTVIEW_LINKS['LISTVIEWSETTING']|@count gt 0}
                         <div class="settingsIcon">
-                            <button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown">
-                                <span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp; <span class="caret"></span>
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>
                             </button>
                             <ul class="listViewSetting dropdown-menu">
                                 {foreach item=LISTVIEW_SETTING from=$LISTVIEW_LINKS['LISTVIEWSETTING']}

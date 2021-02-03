@@ -58,11 +58,11 @@
                     {include file="partials/EditViewContents.tpl"|@vtemplate_path:'Inventory'}
                 </div>
             </div>
-            <div class='modal-footer overlayFooter'>
+            <div class='modal-footer overlayFooter' style='bottom:6%;'>
                 <center>
                     <footer>
-                        <button class="btn btn-success saveButton" type="submit">Save</button>
-                        <a class="cancelLink" data-dismiss="modal" type="reset">Cancel</a>
+                        <button class="btn btn-primary saveButton" type="submit">Save</button>
+                        <a class="cancelLink btn btn-secondary" data-dismiss="modal" type="reset">Cancel</a>
                     </footer>
                 </center>
             </div>

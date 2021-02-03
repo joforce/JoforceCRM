@@ -30,7 +30,7 @@ $languageStrings = array(
 	'LBL_ADD_NEW_DASHBOARD'=>'Add new dashboard',
 	'LBL_MAX_CHARACTERS_ALLOWED_DASHBOARD' => 'Maximum 30 characters are allowed for dashboard name.',
         'LBL_MODULES' => 'Modules',
-        'LBL_JOFORCE' => 'JoForce',
+        'LBL_JOFORCE' => 'Joforce',
 
         // Blocks
         'LBL_STUDIO' => 'Studio',

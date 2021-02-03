@@ -26,7 +26,7 @@
         
       <div class="modal-footer ">
             <center>
-                <a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
             </center>
       </div>
     </div>
@@ -101,10 +101,10 @@
 
               <div class="modal-footer ">
                     <center>
-                        <button class="btn btn-success save-main-menu" id="save-main-menu" type="submit" data-type="link" name="saveButton">
+                        <button class="btn btn-primary save-main-menu" id="save-main-menu" type="submit" data-type="link" name="saveButton">
 				<strong>Save</strong>
 			</button>
-                        <a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+                        <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
                     </center>
               </div>
         </div>	

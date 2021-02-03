@@ -18,15 +18,15 @@ class PBXManagerHandler extends VTEventHandler {
         if(!in_array($moduleName, $acceptedModule))
             return;
         
-        if ($eventName == 'vtiger.entity.aftersave') {
+        if ($eventName == 'jo.entity.aftersave') {
             PBXManagerHandler::handlePhoneLookUpSaveEvent($entityData, $moduleName);
         }
         
-        if($eventName == 'vtiger.entity.afterdelete'){
+        if($eventName == 'jo.entity.afterdelete'){
             PBXManagerHandler::handlePhoneLookupDeleteEvent($entityData);
         }
         
-        if($eventName == 'vtiger.entity.afterrestore'){
+        if($eventName == 'jo.entity.afterrestore'){
             $this->handlePhoneLookUpRestoreEvent($entityData, $moduleName);
         }
     }
@@ -91,11 +91,11 @@ class PBXManagerBatchHandler extends VTEventHandler {
             if(!in_array($moduleName, $acceptedModule))
                 return;
 
-            if ($eventName == 'vtiger.batchevent.save') {
+            if ($eventName == 'jo.batchevent.save') {
                 PBXManagerHandler::handlePhoneLookUpSaveEvent($entityData, $moduleName);
             }
             
-            if ($eventName == 'vtiger.batchevent.delete') {
+            if ($eventName == 'jo.batchevent.delete') {
                 PBXManagerHandler::handlePhoneLookupDeleteEvent($entityData);
             }
         }

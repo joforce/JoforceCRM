@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-	include_once 'vtlib/Head/PDF/inventory/HeaderViewer.php';
+	include_once 'libraries/modlib/Head/PDF/inventory/HeaderViewer.php';
 
 	class SalesOrderPDFHeaderViewer extends Head_PDF_InventoryHeaderViewer {
 

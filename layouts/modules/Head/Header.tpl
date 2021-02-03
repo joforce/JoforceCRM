@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<title> {if $PAGETITLE eq 'Head'} {vtranslate('JoForce', $QUALIFIED_MODULE)} {else} {vtranslate($PAGETITLE, $QUALIFIED_MODULE)} {/if} </title>
+	<title> {if $PAGETITLE eq 'Head'} {vtranslate('Joforce', $QUALIFIED_MODULE)} {else} {vtranslate($PAGETITLE, $QUALIFIED_MODULE)} {/if} </title>
 	<link rel="SHORTCUT ICON" href="{$SITEURL}layouts/skins/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -20,9 +20,15 @@
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jquery/select2/select2.css'>
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/select2-bootstrap/select2-bootstrap.css'>
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jo-icons/style.css' media="screen"/>
+	<link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/joforce-theme.css' media="screen"/>
         <link type="text/css" rel="stylesheet" href="{$SITEURL}layouts/skins/style.css" media="screen"/>
         <link rel="stylesheet" href="{$SITEURL}layouts/lib/jquery/floating-scroll/jquery.floatingscroll.css">
         <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/custom.css' media="screen"/>
+	<link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/custom-style.css' media="screen"/>
+	
+	<!-- newly added css - starts -->
+	<link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/semantic/accordion.css' media="screen"/>
+	<!-- newly added css -  ends -->
 
 	<input type="hidden" id="inventoryModules" value={ZEND_JSON::encode($INVENTORY_MODULES)}>
         {foreach key=index item=cssModel from=$STYLES}
@@ -58,7 +64,7 @@
     {assign var=CURRENT_USER_MODEL value=Users_Record_Model::getCurrentUserModel()}
 	<body data-skinpath="{Head_Theme::getBaseThemePath()}" data-language="{$LANGUAGE}" data-user-decimalseparator="{$CURRENT_USER_MODEL->get('currency_decimal_separator')}" data-user-dateformat="{$CURRENT_USER_MODEL->get('date_format')}"
           data-user-groupingseparator="{$CURRENT_USER_MODEL->get('currency_grouping_separator')}" data-user-numberofdecimals="{$CURRENT_USER_MODEL->get('no_of_currency_decimals')}" data-user-hourformat="{$CURRENT_USER_MODEL->get('hour_format')}"
-          data-user-calendar-reminder-interval="{$CURRENT_USER_MODEL->getCurrentUserActivityReminderInSeconds()}">
+          data-user-calendar-reminder-interval="{$CURRENT_USER_MODEL->getCurrentUserActivityReminderInSeconds()}" class="text-font-crimson">
             <input type="hidden" id="start_day" value="{$CURRENT_USER_MODEL->get('dayoftheweek')}" />
             <input type="hidden" id="joforce_site_url" value="{$SITEURL}"/>
 	    <div id="page">

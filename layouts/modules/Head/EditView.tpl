@@ -5,12 +5,9 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
-
 {strip}
-	<div class="main-container clearfix">
-		<div class="editViewPageDiv viewContent">
-			<div class="col-sm-12 col-xs-12 pr0 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
 				<form class="form-horizontal recordEditView joforce-bg" id="EditView" name="edit" method="post" action="{$SITEURL}index.php" enctype="multipart/form-data">
 					<div class="editViewBody">
 						<div class="editViewContents">
@@ -60,8 +57,8 @@
 						<div class="row clearfix">
 							<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton' data-savebtn="true">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-								<button type='submit' class='btn btn-secondary save-and-new-Button' id="save-and-new-Button">{vtranslate('LBL_SAVE_AND_NEW', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<button type='submit' class='btn btn-success save-and-new-Button' id="save-and-new-Button">{vtranslate('LBL_SAVE_AND_NEW', $MODULE)}</button>&nbsp;&nbsp;
+								<a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>

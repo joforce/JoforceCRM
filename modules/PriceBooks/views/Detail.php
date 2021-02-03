@@ -41,10 +41,12 @@ class PriceBooks_Detail_View extends Head_Detail_View {
 		$sortOrder = $request->get('sortorder');
 		if($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 		if(!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
@@ -89,6 +91,9 @@ class PriceBooks_Detail_View extends Head_Detail_View {
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
+		$viewer->assign('SORT_IMAGE',$sortImage);
+		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 
 		if ($parentRecordCurrencyDetails) {
 			$viewer->assign('PARENT_RECORD_CURRENCY_SYMBOL', $parentRecordCurrencyDetails['symbol']);

@@ -12,7 +12,6 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
     <div class="editViewPageDiv">
-        <div class="col-sm-12 col-xs-12 joforce-bg">
             <div class="editViewContainer container-fluid">
                 <br>
                 <form id="pickListDependencyForm" class="form-horizontal" method="POST">
@@ -81,12 +80,11 @@
                 <div class="row clearfix">
                     <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-secondary'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>
                 </form>
             </div>
-        </div>
     </div>
 {/strip}

@@ -11,7 +11,6 @@
 
 {strip}
     <div class="leadsFieldMappingEditPageDiv">
-        <div class="col-sm-12 col-xs-12 joforce-bg">
             <div class="editViewContainer ">
                 <form id="leadsMapping" method="POST">
                     <div class="editViewBody ">
@@ -26,24 +25,13 @@
                                         <th colspan="3" >{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
                                     </tr>
                                     <tr>
-                                        <td><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>
                                         {foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders()}
                                             <td><b>{vtranslate($LABEL, $LABEL)}</b></td>
                                         {/foreach}
+                                        <td><strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong></td>                                    
                                     </tr>
                                     {foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
                                         <tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">
-                                            <td>
-                                                {if $MAPPING_ARRAY['editable'] eq 1}
-                                                    {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
-                                                        <div class="table-actions">
-                                                            <span class="actionImages">
-                                                                <i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="fa fa-trash deleteMapping"></i>
-                                                            </span>
-                                                        </div>
-                                                    {/foreach}
-                                                {/if}
-                                            </td>
                                             <td>
                                                 <input type="hidden" name="mapping[{$smarty.foreach.mappingLoop.iteration}][mappingId]" value="{$MAPPING_ID}"/>
                                                 <select class="leadsFields select2 col-sm-12" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]" {if $MAPPING_ARRAY['editable'] eq 0} disabled {/if}>
@@ -99,6 +87,17 @@
                                                     {/foreach}
                                                 </select>
                                             </td>
+                                            <td>
+                                                {if $MAPPING_ARRAY['editable'] eq 1}
+                                                    {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
+                                                        <div class="table-actions">
+                                                            <span class="actionImages">
+                                                                <i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="fa fa-trash deleteMapping"></i>
+                                                            </span>
+                                                        </div>
+                                                    {/foreach}
+                                                {/if}
+                                            </td>                                            
                                         </tr>
                                     {/foreach}
                                     <tr class="hide newMapping listViewEntries">
@@ -165,14 +164,14 @@
                             </table>
                             <div class="row">
                                 <span class="col-sm-4">
-                                    <button id="addMapping" class="btn btn-secondary addButton module-buttons" type="button">
+                                    <button id="addMapping" class="btn btn-success addButton" type="button">
                                         <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}
                                     </button>
                                 </span>
                                 <span class="col-sm-8">
                                     <span class="pull-right">
                                         <button type="submit" class="btn btn-primary"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                                        <a class="cancelLink" type="reset" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
+                                        <a class="cancelLink btn btn-secondary" type="reset" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
                                     </span>
                                 </span>
                             </div>
@@ -180,6 +179,5 @@
                     </div>
 		</form>
             </div>
-	</div>
     </div>
 {/strip}

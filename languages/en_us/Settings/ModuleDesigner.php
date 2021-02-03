@@ -198,7 +198,7 @@ $jsLanguageStrings = array(
 	'LBL_EMPTY_FIELD_FILTER' => 'Error, Filters cannot have empty fields.',
 	'LBL_CANNOT_EDIT_REMOVE_FIELD' => 'You cannot edit/remove a non-editable field',
 	'LBL_MANDATORY_ENTITYFIELD' => 'An Identifier field is required.',
-	'LBL_VTIGER_DOESNT_LIKE_NAME' => 'JoForce does not like field called "name". Please choose another field name.',
+	'LBL_JOFORCE_DOESNT_LIKE_NAME' => 'Joforce does not like field called "name". Please choose another field name.',
 );
 
 ?>

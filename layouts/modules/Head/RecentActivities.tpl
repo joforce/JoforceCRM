@@ -12,8 +12,8 @@
         <input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
         <div class='history'>
             {if !empty($RECENT_ACTIVITIES)}
-                <ul class="updates_timeline">
-                    {foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES}
+                <div class="updates_timeline">
+                    {foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES key=key}
                         {assign var=PROCEED value= TRUE}
                         {if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
                             {assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
@@ -23,12 +23,7 @@
                         {/if}
                         {if $PROCEED}
                             {if $RECENT_ACTIVITY->isCreate()}
-                                <li>
-                                    <time class="update_time cursorDefault">
-                                        <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getParent()->get('createdtime'))}">
-                                            {Head_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}
-                                        </small>
-                                    </time>
+                                <div class="timeline-wrapper {if $key is odd}jotimeline-odd{else} inverted-timeline jotimeline-even {/if}">
                                     {assign var=USER_MODEL value=$RECENT_ACTIVITY->getModifiedBy()}
                                     {assign var=IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
                                     {if $IMAGE_DETAILS neq '' && $IMAGE_DETAILS[0] neq '' && $IMAGE_DETAILS[0].path eq ''}
@@ -38,25 +33,25 @@
                                     {else}
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
                                             {if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-                                                <div class="update_icon">
+                                                <div class="update_icon bg-info">
                                                     <img class="update_image" src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
                                                 </div>
                                             {/if}
                                         {/foreach}
                                     {/if}
                                     <div class="update_info">
-                                        <h5>
+                                        <h5 class="timeline-title">
                                             <span class="field-name">{$RECENT_ACTIVITY->getModifiedBy()->getName()}</span> {vtranslate('LBL_CREATED', $MODULE_NAME)}
                                         </h5>
+                                        <time class="update_time cursorDefault timeline-footer">
+                                            <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getParent()->get('createdtime'))}">
+                                            {Head_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}
+                                            </small>
+                                        </time>
                                     </div>
-                                </li>
+                                </div>
                             {else if $RECENT_ACTIVITY->isUpdate()}
-                                <li>
-                                    <time class="update_time cursorDefault">
-                                        <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">
-                                            {Head_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
-                                        </small>
-                                    </time>
+                                <div class="timeline-wrapper {if $key is odd}jotimeline-odd{else} inverted-timeline jotimeline-even {/if}">
                                     {assign var=USER_MODEL value=$RECENT_ACTIVITY->getModifiedBy()}
                                     {assign var=IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
                                     {if $IMAGE_DETAILS neq '' && $IMAGE_DETAILS[0] neq '' && $IMAGE_DETAILS[0].path eq ''}
@@ -66,7 +61,7 @@
                                     {else}
                                         {foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
                                             {if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-                                                <div class="update_icon">
+                                                <div class="update_icon bg-info">
                                                     <img class="update_image" src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" >
                                                 </div>
                                             {/if}
@@ -74,7 +69,7 @@
                                     {/if}
                                     <div class="update_info">
                                         <div> 
-                                            <h5>
+                                            <h5 class="timeline-title">
                                                 <span class="field-name">{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()} </span> {vtranslate('LBL_UPDATED', $MODULE_NAME)}
                                             </h5>
                                         </div>
@@ -99,29 +94,30 @@
                                                 <div class="update-to"><span class="field-name">{vtranslate('LBL_TO')}</span>&nbsp;<span><em style="white-space:pre-line;">{Head_Util_Helper::toHead6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))}</em></span>
                                                 </div>
                                             {/if}
+	                                    <time class="update_time cursorDefault timeline-footer">
+        	                                <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">
+                	                            {Head_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
+                        	                </small>
+                                	    </time>
                                             </div>
                                         {/if}
                                     {/foreach}
                                     </div>
-                                </li>
+                                </div>
 
                             {else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
                                 {assign var=RELATED_MODULE value= $RELATION->getLinkedRecord()->getModuleName()}
-                                <li>
-                                    <time class="update_time cursorDefault">
-                                        <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">
-                                            {Head_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))} </small>
-                                    </time>
+                                <div class="timeline-wrapper {if $key is odd}jotimeline-odd{else} inverted-timeline jotimeline-even {/if}">
                                     {if {$RELATED_MODULE|strtolower eq 'modcomments'}}
                                         {assign var="VICON_MODULES" value="joicon-chat"}
                                     {else}
                                         {assign var="VICON_MODULES" value="joicon-{$RELATED_MODULE|strtolower}"}
                                     {/if}
-                                    <div class="update_icon  bg-info-{$RELATED_MODULE|strtolower}">
+                                    <div class="update_icon bg-info bg-info-{$RELATED_MODULE|strtolower}">
 										<i class="update_image {$VICON_MODULES}"></i>
                                     </div>
                                     <div class="update_info">
-                                        <h5>
+                                        <h5 class="timeline-title">
                                             {assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
                                            <span class="field-name">
                                                 {vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
@@ -157,20 +153,24 @@
                                                     {/if}
                                             </span>
                                         </div>
+                                    	<time class="update_time cursorDefault timeline-footer">
+                                            <small title="{Head_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">
+                                            {Head_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))} </small>
+                                    	</time>
                                     </div>
-                                </li>
+                                </div>
                             {else if $RECENT_ACTIVITY->isRestore()}
                             {/if}
                         {/if}
                     {/foreach}
                     {if $PAGING_MODEL->isNextPageExists()}
-                        <li id='more_button'>
-                            <div class='update_icon' id="moreLink">
+                        <div id='more_button'>
+                            <div class='update_icon bg-info' id="moreLink">
                                 <button type="button" class="btn btn-success moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
                             </div>
-                        </li>
+                        </div>
                     {/if}
-                </ul>
+                </div>
             {else}
                 <div class="summaryWidgetContainer">
                     <p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>

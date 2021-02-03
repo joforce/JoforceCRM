@@ -20,7 +20,7 @@
 	//TODO : Eliminate below hacking solution
 	include_once 'includes/Webservices/Relation.php';
 
-	include_once 'vtlib/Head/Module.php';
+	include_once 'libraries/modlib/Head/Module.php';
 	include_once 'includes/main/WebUI.php';
 
 	require_once("libraries/HTTP_Session2/HTTP/Session2.php");

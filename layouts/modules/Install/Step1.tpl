@@ -26,11 +26,11 @@
 			<div class="row">
 				<div class="col-md-12 text-center">
 					<div class="welcome-div">
-						<h3>{vtranslate('LBL_WELCOME_TO_VTIGER7_SETUP_WIZARD', 'Install')}</h3>
-						{vtranslate('LBL_VTIGER7_SETUP_WIZARD_DESCRIPTION','Install')}
+						<h3>{vtranslate('LBL_WELCOME_TO_JOFORCE_SETUP_WIZARD', 'Install')}</h3>
+						{vtranslate('LBL_JOFORCE_SETUP_WIZARD_DESCRIPTION','Install')}
 					</div></div>
 					<div class="col-md-12 welcome-image text-center">
-					<img src="{'wizard_screen.png'|vimage_path}" width="78%" alt="Head Logo"/>
+					<img src="{'wizard_screen.png'|vimage_path}" width="70%" alt="Head Logo"/>
 				</div>
 				<div class="col-md-8 install-language text-center col-md-offset-2">
 					{assign var=LANGUAGES value=Install_Utils_model::getLanguageList()}

@@ -281,7 +281,20 @@ class Reports_Record_Model extends Head_Record_Model {
 		$current_user = vglobal('current_user');
 			$params = array();
 			$sql = ' SELECT jo_report.reportid,jo_report.reportname FROM jo_report ';
-			require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 			require_once('includes/utils/GetUserGroups.php');
 			$userGroups = new GetUserGroups();
 			$userGroups->getAllUserGroups($current_user->id);

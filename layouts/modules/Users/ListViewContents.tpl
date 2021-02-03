@@ -29,7 +29,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<input type="hidden" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
 
-	<div id="table-content" class="table-container userpage-search">
+	<div id="table-content" class="table-container userpage-search" style="margin-bottom:50px;">
 		<form name='list' id='listedit' action='' onsubmit="return false;">
 			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
 				<thead>
@@ -46,17 +46,18 @@
 									{assign var=HEADER_LABEL value=$LISTVIEW_HEADER->get('label')}
 								{/if}
 								<th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if} >
+									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
+										<a href="#" class="removeSorting pull-right">x</a>
+									{/if}
+
 									<a href="#" class="listViewContentHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}">
 										{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-											<i class="fa fa-sort {$FASORT_IMAGE}"></i>
+											<i class="fa pull-right {$FASORT_IMAGE}"></i>
 										{else}
-											<i class="fa fa-sort customsort"></i>
+											<i class="fa {$DEFAULT_SORT} pull-right"></i>
 										{/if}
-										&nbsp;{vtranslate($HEADER_LABEL, $MODULE)}&nbsp;
+										<span>{vtranslate($HEADER_LABEL, $MODULE)}</span>
 									</a>
-									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-										<a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-									{/if}
 								</th>
 							{/if}
 						{/foreach}

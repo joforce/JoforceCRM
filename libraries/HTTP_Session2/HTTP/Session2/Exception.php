@@ -46,7 +46,7 @@
  * PEAR/Exception.php
  * @ignore
  */
-require_once 'vtlib/thirdparty/network/PEAR.php';
+require_once 'libraries/modlib/thirdparty/network/PEAR.php';
 
 /**
  * HTTP_Session2_Exception

@@ -13,7 +13,7 @@ Head_RelatedList_Js("PriceBooks_RelatedList_Js",{},{
 	/**
 	 * Function to handle the popup show
 	 */
-	/*showSelectRelationPopup : function(){
+	showSelectRelationPopup : function(){
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Head_Popup_Js.getInstance();
@@ -27,7 +27,7 @@ Head_RelatedList_Js("PriceBooks_RelatedList_Js",{},{
 			}
 		);
 		return aDeferred.promise();
-	},*/
+	},
 	/**
 	 * Function to get params for show event invocation
 	 */

@@ -10,7 +10,7 @@
 *
  ********************************************************************************/
 require_once('includes/database/PearDatabase.php');
-require_once('data/CRMEntity.php');
+require_once('includes/data/CRMEntity.php');
 require_once('includes/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
@@ -119,8 +119,8 @@ class Reports extends CRMEntity{
 		if($reportid != "")
 		{
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
-			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
+			$cachedInfo = CacheUtils::lookupReport_Info($current_user->id, $reportid);
+			$subordinate_users = CacheUtils::lookupReport_SubordinateUsers($reportid);
 			
 			$reportModel = Reports_Record_Model::getCleanInstance($reportid);
 			$sharingType = $reportModel->get('sharingtype');
@@ -131,7 +131,20 @@ class Reports extends CRMEntity{
 				$params = array($reportid);
 
 				require_once('includes/utils/GetUserGroups.php');
-				require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
@@ -154,7 +167,7 @@ class Reports extends CRMEntity{
 				}
 
 				// Update subordinate user information for re-use
-				VTCacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
+				CacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
 				
 				//Report sharing for vtiger7
 				$queryObj = new stdClass();
@@ -167,7 +180,7 @@ class Reports extends CRMEntity{
 					$reportmodulesrow = $adb->fetch_array($result);
 
 					// Update information in cache now
-					VTCacheUtils::updateReport_Info(
+					CacheUtils::updateReport_Info(
 						$current_user->id, $reportid, $reportmodulesrow["primarymodule"],
 						$reportmodulesrow["secondarymodules"], $reportmodulesrow["reporttype"],
 						$reportmodulesrow["reportname"], $reportmodulesrow["description"],
@@ -176,7 +189,7 @@ class Reports extends CRMEntity{
 				}
 
 				// Re-look at cache to maintain code-consistency below
-				$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+				$cachedInfo = CacheUtils::lookupReport_Info($current_user->id, $reportid);
 			}
 
 			if($cachedInfo) {
@@ -227,9 +240,9 @@ class Reports extends CRMEntity{
 		$this->module_list = array();
 
 		// Prefetch module info to check active or not and also get list of tabs
-		$modulerows = vtlib_prefetchModuleActiveInfo(false);
+		$modulerows = modlib_prefetchModuleActiveInfo(false);
 
-		$cachedInfo = VTCacheUtils::lookupReport_ListofModuleInfos();
+		$cachedInfo = CacheUtils::lookupReport_ListofModuleInfos();
 
 		if($cachedInfo !== false) {
 			$this->module_list = $cachedInfo['module_list'];
@@ -318,7 +331,7 @@ class Reports extends CRMEntity{
 
 							$rel_mod = array();
 							foreach($old_related_modules[$module] as $key=>$name){
-								if(vtlib_isModuleActive($name) && isPermitted($name,'index','')){
+								if(modlib_isModuleActive($name) && isPermitted($name,'index','')){
 									$rel_mod[] = $name;
 								}
 							}
@@ -335,7 +348,7 @@ class Reports extends CRMEntity{
 					}
 				}
 				// Put the information in cache for re-use
-				VTCacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
+				CacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
 			}
 		}
 	}
@@ -495,7 +508,20 @@ class Reports extends CRMEntity{
 		}
 
 		if (strtolower($current_user->is_admin) != "on") {
-			require('user_privileges/user_privileges_'.$current_user->id.'.php');
+			        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 			require_once('includes/utils/GetUserGroups.php');
 			$userGroups = new GetUserGroups();
 			$userGroups->getAllUserGroups($current_user->id);
@@ -722,8 +748,20 @@ class Reports extends CRMEntity{
 			$tabid = array('9','16');
 		}
 		$params = array($tabid, $block);
-
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		//Security Check
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
 		{
@@ -934,7 +972,20 @@ class Reports extends CRMEntity{
 		global $adb;
 		global $log;
 		global $current_user;
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 
 		$tabid = getTabid($module);
 		foreach($this->module_list[$module] as $key=>$blockid)
@@ -1391,14 +1442,27 @@ function getEscapedColumns($selectedfields)
 
 			$selmod_field_disabled = true;
 			foreach($selected_mod as $smod){
-				if((stripos($fieldcolname,":".$smod."_")>-1) && vtlib_isModuleActive($smod)){
+				if((stripos($fieldcolname,":".$smod."_")>-1) && modlib_isModuleActive($smod)){
 					$selmod_field_disabled = false;
 					break;
 				}
 			}
 			if($selmod_field_disabled==false){
 				list($tablename,$colname,$module_field,$fieldname,$single) = split(":",$fieldcolname);
-				require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 				list($module,$field) = split("_",$module_field);
 				if(sizeof($permitted_fields) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				{
@@ -1623,7 +1687,20 @@ function getEscapedColumns($selectedfields)
 		global $adb;
 		global $log;
 		global $current_user;
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		$tabid = getTabid($module);
 		$escapedchars = Array('_SUM','_AVG','_MIN','_MAX');
 		$sparams = array($tabid);
@@ -1817,7 +1894,7 @@ function getReportRelatedModules($module,$focus)
 	global $related_modules;
 	global $mod_strings;
 	$optionhtml = Array();
-	if(vtlib_isModuleActive($module)){
+	if(modlib_isModuleActive($module)){
 		if(!empty($focus->related_modules[$module])) {
 			foreach($focus->related_modules[$module] as $rel_modules)
 			{
@@ -1916,4 +1993,3 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$irelcriteriagroupresult = $adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
 	}
 }
-?>

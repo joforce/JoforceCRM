@@ -333,8 +333,8 @@ s								 */
 	}
 
 	public function isModuleActive($module) {
-		include_once 'includes/utils/VtlibUtils.php';
-		if (vtlib_isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
+		include_once 'includes/utils/ModlibUtils.php';
+		if (modlib_isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}
 		return false;

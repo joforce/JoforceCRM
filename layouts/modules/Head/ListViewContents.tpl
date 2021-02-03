@@ -5,16 +5,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {* modules/Head/views/List.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg  pl0 pr0" style="width:100%; min-height: auto;">
-	{if $MODULE neq 'EmailTemplates' && $SEARCH_MODE_RESULTS neq true}
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-	{/if}
+<div class="col-sm-12 col-xs-12 joforce-bg-list  pl0 pr0">
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
 	<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -45,70 +43,67 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content" class="table-container" style="width:100%;">
+	<div id="table-content"  class="table-container" style="">
 	<div class="fixed-scroll-table">
 
-		<form name='list' id='listedit' action='' onsubmit="return false;">
-			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table" style="width: auto;">
-				<thead>
-					<tr class="listViewContentHeader">
-						<th>
-							{if !$SEARCH_MODE_RESULTS}
-								{include file="ListViewHeaderActionsLeft.tpl"|vtemplate_path:$MODULE}
-							{elseif $SEARCH_MODE_RESULTS}
-								{vtranslate('LBL_ACTIONS',$MODULE)}
-							{/if}
-						</th>
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+	    <form name='list' id='listedit' action='' onsubmit="return false;">
+		<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
+		    <thead>
+			<tr class="listViewContentHeader">
+			    <th>
+				{if !$SEARCH_MODE_RESULTS}
+				    {include file="ListViewHeaderActionsLeft.tpl"|vtemplate_path:$MODULE}
+				{elseif $SEARCH_MODE_RESULTS}
+				    {vtranslate('LBL_ACTIONS',$MODULE)}
+				{/if}
+
+				<!--{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
+				    <div class="table-actions">
+					<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+                                    </div>
+				{/if}-->
+			    </th>
+			    {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}					
 					{if $SEARCH_MODE_RESULTS and ($LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist')}
 						{assign var=NO_SORTING value=1}
 					{else}
 						{assign var=NO_SORTING value=0}
 					{/if}
 					<th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if}>
+						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
+						    <a href="#" class="removeSorting pull-right">x</a> 
+						{/if}
 						<a href="#" class="{if $NO_SORTING}noSorting{else}listViewContentHeaderValues{/if}" {if !$NO_SORTING}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}"{/if} data-field-id='{$LISTVIEW_HEADER->getId()}'>
 							{if !$NO_SORTING}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-									<i class="fa fa-sort {$FASORT_IMAGE}"></i>
+									<i class="fa pull-right {$FASORT_IMAGE}"></i>
 								{else}
-									<i class="fa fa-sort customsort"></i>
+									<i class="fa {$DEFAULT_SORT} pull-right"></i>
 								{/if}
 							{/if}
-							&nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}&nbsp;
+							<span>{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}</span>
 						</a>
-						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
-							<a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-							{/if}
+						<div class="inner-addon left-addon searchRow">
+						    {if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
+							<i class="fa fa-search"></i>
+                                                        {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+                                                        {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+                                                        <input data-val="{$FIELD_UI_TYPE_MODEL->getListSearchTemplateName()}" type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
+						    {/if}
+						</div>
 					</th>
-				{/foreach}
-					<th>
+			    {/foreach}
+			    <th>
                                         	{if !$SEARCH_MODE_RESULTS}
                                                 	{include file="ListViewHeaderActionsRight.tpl"|vtemplate_path:$MODULE}
                                                 {elseif $SEARCH_MODE_RESULTS}
                                                         {vtranslate('LBL_ACTIONS',$MODULE)}
                                                 {/if}
-                                      	</th>
-				</tr>
+                            </th>
+			</tr>
 
-				{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
-					<tr class="searchRow">
-						<th class="inline-search-btn">
-					<div class="table-actions">
-						<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
-					</div>
-					</th>
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th>
-							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-							{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
-							<input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
-						</th>
-					{/foreach}
-					</tr>
-
-				{/if}
-				</thead>
-				<tbody class="overflow-y">
+		    </thead>
+		    <tbody class="overflow-y">
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 						{assign var=DATA_ID value=$LISTVIEW_ENTRY->getId()}
 						{assign var=DATA_URL value=$LISTVIEW_ENTRY->getDetailViewUrl()}
@@ -205,7 +200,7 @@
 				{/foreach}
 				{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 					<tr class="emptyRecordsDiv">
-						{assign var=COLSPAN_WIDTH value={count($LISTVIEW_HEADERS)}+1}
+						{assign var=COLSPAN_WIDTH value={count($LISTVIEW_HEADERS)}+2}
 						<td colspan="{$COLSPAN_WIDTH}">
 							<div class="emptyRecordsContent">
 								{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
@@ -214,7 +209,8 @@
 									<a class="joforce-link" href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE')}</a>
 									{if Users_Privileges_Model::isPermitted($MODULE, 'Import') && $LIST_VIEW_MODEL->isImportEnabled()}
 										{vtranslate('LBL_OR', $MODULE)}
-										<a class="joforce-link" href="#" onclick="return Head_Import_Js.triggerImportAction()">{vtranslate('LBL_IMPORT', $MODULE)}</a>
+										{* <a class="joforce-link" href="#" onclick="return Head_Import_Js.triggerImportAction()">{vtranslate('LBL_IMPORT', $MODULE)}</a> *}
+										<a class="joforce-link" href="{$SITEURL}{$MODULE}/view/Import">{vtranslate('LBL_IMPORT', $MODULE)}</a>
 										{vtranslate($MODULE, $MODULE)}
 									{else}
 										{vtranslate($SINGLE_MODULE, $MODULE)}
@@ -228,26 +224,25 @@
 			</table>
 		</form>
 		</div>
-		
 	</div>
-
+	<div class="row">
+            {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
+            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true HEADSHOW=false}
+	</div>
 	<div id="scroller_wrapper" class="bottom-fixed-scroll">
 		<div id="scroller" class="scroller-div"></div>
 	</div>
 
-	<div class="quickviewcontent hide" id="quickviewcontent" style="width:32%;">
+	<div class="quickviewcontent hide" id="quickviewcontent" style="width:30%;">
 	</div>
 
 </div>
 
 <script type="text/javascript">
-	
-	$(document).ready(function(){	
-
-		$('.fixed-scroll-table').floatingScroll();		
-
+	$(document).ready(function(){
+		$('.fixed-scroll-table').floatingScroll();
 		var screenheight = $(window).height();
-		var alterheight = screenheight-168;
+		var alterheight = screenheight-180;
 		var testheight = document.getElementById("table-content").scrollHeight;
 
 		$('.fl-scrolls').css("top",alterheight+94).hide();
@@ -274,7 +269,5 @@
 				$('#table-content').css("height",alterheight);
 			}
 		});
-		
-
 	});
 </script>

@@ -8,12 +8,12 @@
  * Contributor(s): JoForce.com
  ************************************************************************************}
 <div class="table-actions">
-	<div class="dropdown" style="float:left;">
-        	<span class="input dropdown-toggle" data-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
+	<div class="dropdown" style="border:none !important;float:left;">
+        	<span class="input" style="opacity:1;" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
                 	<input class="listViewEntriesMainCheckBox" type="checkbox">
                 </span>
   	</div>
-	<div style="margin-left:25px;">
+	<div style="margin-left:25px;width:0px;">
 		{include file="ListViewHeaderMoreActionsLeft.tpl"|vtemplate_path:$MODULE}
 	</div>
 </div>

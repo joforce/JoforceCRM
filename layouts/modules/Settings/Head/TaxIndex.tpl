@@ -9,7 +9,7 @@
 {* modules/Settings/Head/views/TaxIndex.php *}
 
 {strip}
-	<div class="col-lg-12 col-md-12 col-sm-12 joforce-bg" id="TaxCalculationsContainer">
+	<div id="TaxCalculationsContainer">
 		<div class="editViewHeader">
 			<h4>{vtranslate('LBL_TAX_CALCULATIONS', $QUALIFIED_MODULE)}</h4>
 		</div>
@@ -28,7 +28,7 @@
 						{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
 						{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 						<div class="marginBottom10px">
-							<button type="button" class="btn btn-default addTax addButton btn-default module-buttons pull-right" data-url="{$CREATE_TAX_URL}" data-type="0">
+							<button type="button" class="btn btn-primary addTax addButton pull-right" data-url="{$CREATE_TAX_URL}" data-type="0">
 								<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}
 							</button>
 						</div>

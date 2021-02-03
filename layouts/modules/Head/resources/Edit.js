@@ -368,7 +368,7 @@ Head_Index_Js("Head_Edit_Js",{
                 inputElement.val("");
                 parentTdElement.find('input[name="'+fieldName+'"]').val("");
                 element.addClass('hide');
-                element.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
+                element.trigger(Head_Edit_Js.referenceDeSelectionEvent);
         });
     },
     proceedRegisterEvents : function(){

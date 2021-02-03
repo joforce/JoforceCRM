@@ -1,0 +1,796 @@
+/* responsive styles */
+@media(min-width:991px){
+    .global-nav .logo-container{display:inline-block;width:100px;z-index:2;padding-left:0;margin-top:1px}
+    .app-nav .module-action-bar{padding-left:42px;top:0;padding-right:0;position:absolute;width:100%;height:42px;border-bottom:1px solid #ddd}
+    .app-nav .module-action-bar .module-action-content{background:#fbfbfb;height:41px}
+    .app-nav .module-action-bar .module-action-content .navbar-right{margin-right:0}
+    .main-container .module-nav{display:inline-block;width:42px;z-index:10;position:absolute;bottom:0;top:0;left:0;min-height:100%;background-color:#303030;background:#303030}
+    .main-container .sidebar-essentials{display:inline-block;width:240px;z-index:1;position:absolute;bottom:0;top:0;left:42px;background:#fff;border-right:1px solid #ddd;padding-bottom: 30px !important;}
+    /* .main-container .content-area{width:80%;float: right;padding-left:283px;padding-top:15px;min-height:560px;} */
+    .main-container .content-area{width:80%;margin-left: 20%;padding-left:283px;padding-top:15px;min-height:560px;}
+    .main-container .settingsPageDiv{min-height:auto;padding-left:230px}
+    .main-container .settingsNav{height:100%}
+    .app-nav .module-action-bar-full{padding-left:0}
+    .nav>li>a.qc-button{padding:2px 3px;margin-top:13px;margin-right:15px;background:#3cb878;color:#fff;border-radius:20px}
+    .nav>li>a.qc-button span{vertical-align:top}
+  .module-action-bar #settingsMenuSearch {
+    margin-top: 10px; }
+  .module-action-bar #accordion {
+    left: 25px;
+    top: 44px;
+    z-index: 1;
+    max-width: 220px;
+    word-break: break-word;
+    overflow-x: hidden; } 
+    
+    
+}
+.listViewActions{ height: 0px;}
+   
+
+  .detailview-content .details  .relatedContainer{ background-color: #fff; border-radius: 10px; padding: 10px ;} 
+  
+  
+  .detailview-content .details.row .relatedHeader { background-color: transparent !important;}
+  #topbar-elements.full-topbar{ top: -10px;}
+@media(max-width:768px){
+    .module-action-bar .navbar-right{float:right;height:42px}
+    .module-action-bar .navbar-right .nav>li{display:inline-block}
+    .module-action-bar .navbar-right .nav>li a{padding:0 10px}
+    .global-nav .logo-container{border-bottom:0;width:150px}
+    .searchBox {    left: 100px !important;
+      top: 70px;}
+      
+    .app-nav .module-action-bar{height: 65px;
+      background: #f8f8f8 !important;
+      top: -60px;
+      z-index: -1000;}
+    }
+.module-action-bar .module-action-content .module-breadcrumb{ margin-top: 0px;}
+
+@media(max-width:991px){
+    .global-nav .logo-container{border-bottom:0;width:150px}
+    .notificationMessageHolder{left:45%}
+}
+
+@media(max-width:1200px){
+    .app-menus{max-height:100%;overflow-y:auto}
+}
+
+@media screen and (max-width: 700px) {
+  .editViewContents .fieldLabel {
+    border-bottom: none;
+    margin-bottom: 0px;
+    white-space: normal; }
+
+  .editViewPageDiv.viewContent {
+    width: 100%;
+    padding-right: 50px; } 
+}
+
+@media screen and (min-width: 701px) and (max-width: 1200px) {
+  .editViewPageDiv.viewContent {
+    width: 100%;
+    padding-right: 50px; } 
+    .module-action-bar .module-action-content .module-breadcrumb{ margin-top: 0px;}
+    .profile-img{ display: none;}
+    .logo-container a {display: none;}
+    .logo-container .mobilelogo{left: 65px;position: relative;z-index: 30;top: -57px; height: 27px;}
+    .settings_search{ margin-top: -24px;;}
+    .settingsmenu-starts{ width: 90% !important;}
+    .settings_search{top: -33px;}
+}
+
+@media screen and (min-width: 992px) {
+  .app-nav .module-action-bar {
+    padding-left: 0px; } 
+}
+
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+  .custom-nav {
+    display: none;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    top: 45px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1); }
+    .custom-nav ul.dropdown-menu {
+      overflow-y: auto;
+      left: 0px !important; }
+    .custom-nav li {
+      display: inherit;
+      margin: 0px; }
+      .custom-nav li a {
+        padding: 10px 30px 10px 10px !important; }
+      .custom-nav li .menu-header {
+        border-top: 1px solid #e8e8e8; }
+
+  .nav-responsive-tab {
+    display: block; }
+    .nav-responsive-tab ul {
+      margin-bottom: 0px !important; }
+      .nav-responsive-tab ul li {
+        padding: 10px;
+        cursor: pointer; } 
+}
+
+@media screen and (min-width: 801px) and (max-width: 1100px) {
+  .main-container {
+    display: flex; }
+    .main-container .sidebar-essentials {
+	    width:0;
+	    display: inline-block;
+	    width: 200px;
+	    z-index: 1;
+	    position: absolute;
+	    bottom: 0;
+	    top: 0;
+	    left: 42px;
+	    background: #fff;
+	    border-right: 1px solid #ddd;
+	    padding-bottom: 30px !important;
+    }
+    
+    /*#topbar-elements #navbar{display:none !important;}*/
+    #topbar-elements .search-link{float:right !important;}
+    .logo-container {display: inline-block !important;margin: 0 !important;padding: 0px !important;}
+    #topbar-elements.full-topbar{width: 88% !important;}
+    .main-container .content-area {
+      width: 100% !important; }
+  .admin-settings .settings-list li {
+    width: 15%;
+    white-space: normal; }
+
+  .detailViewSetting.dropdown-menu {
+    background: #fff !important;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) !important; }
+    .detailViewSetting.dropdown-menu li a {
+      color: #333 !important; }
+.detailViewButtoncontainer .joforce-detailview-btn {float: left !important;}
+  .draggable li {
+    margin-bottom: 46px !important; }
+
+  .nav-pills.nav-wizard li {
+    width: 25%;
+    display: inline-block;
+    margin: 5px 0px; }
+
+  .summaryWidgetContainer .joforce-detailview-btn .addButton {
+    margin-top: 5px; } 
+    .global-nav .app-navigator-container {
+  width: 80px !important; display:inline-block;}
+}
+
+@media screen and (max-width: 1000px) {
+  #page { min-height: 100% !important; }
+}
+
+@media all and (max-width: 330px) {
+    .custom-nav ul.dropdown-menu .mega-Menus li:hover nav ul li, .custom-nav ul.dropdown-menu .mega-Menus li:focus nav ul li {
+            display: block;
+            width: 94%; } 
+        .custom-nav ul.dropdown-menu .menu-Header nav ul li {
+          display: block;
+          width: 94%; } 
+}
+
+@media screen and (max-width: 800px) {
+  .dropdown-filter {
+   /* width: 40% !important; */}
+   
+
+   
+
+  .filter-open {
+    position: absolute;
+    z-index: 1000; } 
+  .main-container {
+    margin-top: 65px;
+    width: 100% !important; }
+
+  .dashBoardContainer .tabContainer .nav {
+    margin-top: 60px; }
+
+  .block {
+    padding: 0px !important; }
+
+  .bodyContents {
+    width: 100% !important; }
+
+  .contents {
+    width: 100% !important;
+    overflow: hidden; }
+
+  .settingsPageDiv.content-area.clearfix {
+    width: 100% !important; }
+
+ .main-container .sidebar-essentials {
+    width: 200px !important;
+    display:none;
+ }
+  .main-container .sidebar-essentials.shrinked-sidebar {
+    width: 0px !important;
+ }
+
+  .modal.myModal .modal-dialog .modal-content {
+    width: 100vw; }
+    .modal.myModal .modal-dialog .modal-content .modal-header {
+      width: 100vw; }
+    .modal.myModal .modal-dialog .modal-content .modal-footer {
+      width: 100vw; }
+
+  .draggable li {
+    margin-bottom: 46px !important; }
+
+      .detailview-table .fieldLabel {
+    display: inherit !important; }
+
+  .content-area {
+    padding-left: 0 10px !important; }
+    .content-area .form-horizontal {
+      overflow: hidden;
+      overflow-x: auto;
+      padding-left: 0px !important; }
+
+  .listViewPageDiv.content-area .floatThead-floatContainer.floatThead-container table thead .listViewContentHeader th .table-actions #joforce-table-search {
+    margin-left: 22% !important; }
+
+  .dashBoardTabContents {
+    width: 100%; }
+    .dashBoardTabContents .gridster_2 ul {
+      width: auto !important; }
+      .dashBoardTabContents .gridster_2 ul .dashboardWidget {
+        width: 100% !important; }
+
+  .fc-left {
+    width: 70%;
+    margin-left: 15%;
+    text-align: center; }
+
+  .fc-right {
+    margin-top: 10px;
+    width: 50%;
+    float: right !important; }
+    .fc-right .fc-button-group {
+      margin-left: 0.15em !important; }
+
+        .fc-center {
+    margin-top: 10px;
+    width: 50% !important;
+    float: left !important; }
+
+  .admin-settings .settings-list {
+    padding-left: 0px; }
+    .admin-settings .settings-list li {
+      width: 25%;
+      margin: 25px 40px 25px 25px; }
+
+  .detailViewSetting.dropdown-menu {
+    background: #fff !important;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) !important; }
+    .detailViewSetting.dropdown-menu li a {
+      color: #333 !important; }
+
+  .nav-pills.nav-wizard li {
+    width: 50%;
+    display: inline-block; }
+
+  .table.detailview-table.no-border tr td.fieldValue {
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto; }
+
+  .detailview-table .fieldLabel {
+    width: 40% !important; }
+
+  .clearfix.treeView ul {
+    padding: 0px; }
+
+  .editViewContents .form-group .fieldLabel, .editViewContents .form-group .fieldValue {
+    width: 100% !important; }
+
+
+  .usersListDiv .select2-container.select2 {
+    width: 100% !important; }
+
+  .editViewContents.table-container {
+    overflow-x: auto !important; }
+
+  .joforce-bg-prefer .logo {
+    padding: 0px !important; }
+
+  .menu-box .more-menu-section li.more-menu-list {
+    width: 100% !important; }
+
+  .crumbs li {
+    width: 32% !important; }
+    .crumbs li .stepNum {
+      font-size: 14px; }
+
+  .fieldLabel.control-label {
+    padding-left: 25px; }
+
+  .editFields.marginLeftZero .row-fluid.padding1per .fieldLabel {
+    width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+
+  .formChanged div {
+    width: 100% !important;
+    top: 0px !important; }
+
+      #detailViewLayout h4 {
+    top: 0px !important; }
+  #detailViewLayout .marginLeftZero div span {
+    margin-top: 10px !important; }
+
+  .blockFieldsList.blockFieldsSortable {
+    overflow-x: auto; }
+    .blockFieldsList.blockFieldsSortable .connectedSortable {
+      min-width: 100% !important; }
+
+  #vtaddresslookup {
+    width: 100% !important; }
+    #vtaddresslookup a:hover, #vtaddresslookup a:focus, #vtaddresslookup a:active {
+      color: #0c4da2 !important; }
+
+  .fieldLabel.textOverflowEllipsis span.muted {
+    width: 100% !important;
+    padding-left: 25px;
+    white-space: nowrap; }
+
+  .fieldValue {
+    padding-left: 25px !important; }
+
+  .importBlockContainer {
+    overflow: auto !important; } 
+  .viewContent .content-area {
+    padding-left: 15px !important; }
+
+  .content-area .form-horizontal {
+    padding-right: 0px; }
+
+  #listview-table tbody tr td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important; }
+
+  .quickviewcontent {
+    width: 100% !important;
+    left: 0px !important;
+    z-index: 1000; }
+    .quickviewcontent .record-header .hidden-sm, .quickviewcontent .record-header .hidden-xs {
+      display: block !important; }
+
+  table.listview-table thead tr th:first-child {
+    min-width: auto !important; }
+  table.listview-table thead tr th:last-child {
+    position: relative !important; }
+  table.listview-table thead tr th:nth-child(2) {
+    position: relative !important;
+    z-index: 100 !important;
+    left: 0px !important; }
+  table.listview-table tbody tr td:last-child {
+    position: relative !important; }
+  table.listview-table tbody tr td:nth-child(2) {
+    position: relative !important;
+    left: 0px !important; }
+
+  .table-container .fixed-scroll-table #listview-table.listview-table {
+    margin-left: 80px !important; }
+    .table-container .fixed-scroll-table #listview-table.listview-table thead tr th:first-child {
+      border-right: 1px solid #e8e8e8 !important; }
+          .table-container .fixed-scroll-table #listview-table.listview-table thead tr th:nth-child(2) {
+      border-right: none;
+      border-bottom: 1px solid #e8e8e8 !important;
+      background: none !important; }
+    .table-container .fixed-scroll-table #listview-table.listview-table thead tr th:last-child {
+      min-width: 80px !important; }
+    .table-container .fixed-scroll-table #listview-table.listview-table tbody tr td:first-child {
+      border-right: 1px solid #e8e8e8 !important; }
+    .table-container .fixed-scroll-table #listview-table.listview-table tbody tr td:nth-child(2) {
+      border-right: none !important;
+      background: none !important;
+      border-top: 1px solid #e8e8e8 !important; }
+      
+      .joforce-bg-list{ top: 35px;}
+      .detailViewPageDiv .module-breadcrumb{ margin-top: 30px;}
+      .related-tabs .nav-tabs{ right: 16px;}
+      #detailView .block h4 {
+        height: 49px;
+        padding: 16px 20px;}
+        .summary-table{ margin-top: 70px;;}
+        
+        .table.detailview-table.no-border tr td.fieldValue{left: 170px !important;top: 0px;float: none !important;}
+        #detailView td.fieldLabel{ float:none;}
+        .detailViewContainer .HistoryContainer, .detailViewContainer .recentActivitiesContainer, 
+        .related-tabs.row .details.row, .detailview-content .details.row .relatedHeader{ border-radius: 5px; padding: 10px !important;}
+        #searchResults-container{ margin-left: -300px;} 
+
+
+        .settingsgroup{float: right; }
+        .app-nav .module-action-bar{top: -53px;}
+          .module-action-bar #settingsMenuSearch{ top: -20px;}
+        #quickCreateModules a{    width: 33%;display: inline-block;float: left;}
+        .widget1{padding: 30px 60px !important;}
+        /* .card{ width: 55% !important; float: left; margin-right: 10px;} */
+        /* .summaryView{ width: 40% !important; position:unset; float: left;} */
+        .app-nav .module-action-bar{ top: 0px;}
+        .full-header .module-action-bar{ top: 0px;}
+        #topbar-elements.full-topbar{width:80% !important;}
+        .global-nav .full-topbar{}
+        .dashboardHeading.container-fluid{margin-top: -60px !important;}
+        .app-menus .search-link{ display:block !important; border-radius: 10px !important; 
+          margin-left: 35px !important;margin: 10px 6px 6px 5px !important;
+          width: 94%;}
+        
+        
+
+
+
+
+
+
+
+
+      .detailViewPageDiv .joforce-detailview-btn{margin: 0 71px;margin-left:15px;}
+      .table-container .fixed-scroll-table #listview-table.listview-table thead tr th:last-child{position: absolute;
+        right: 0px;
+        
+        height: 90px;
+        min-width: auto !important;
+        width: 55px !important;
+        z-index: 1000;
+        
+        background-color: #f7f9ff !important;
+        color: #504c4c !important;
+        border-left: double !important;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+         border-left: 3px solid #e8e8e8;}
+         .company-logo{height: 70px;
+          box-shadow:none;    margin: 0px 17px 4px 68px;box-shadow: 5px 7px 26px -5px transparent !important;}
+          .company-logo img{height: auto !important;
+            width: 60% !important;
+            margin: 21px 50px 10px 3px !important;}
+     #topbar-elements.full-topbar{}
+     .table-container .fixed-scroll-table #listview-table.listview-table thead tr th:last-child{ position: absolute !important;}
+     .table-container .fixed-scroll-table #listview-table.listview-table tbody tr td:last-child{position: absolute !important;}
+ 
+  .table-summary-view {
+    width: 100% !important; }
+  
+  .dropdown-filter .filter-open {
+    width: 250px !important; }
+
+  .hidden-sm.hidden-xs.recordImage {
+    display: block !important; }
+    .hidden-sm.hidden-xs.recordImage .name {
+      padding: 14px 20px; } 
+  .custom-nav {
+    display: none;
+    width: auto;
+    height: auto;
+    background: RGBA(33, 33, 33, 0.9);
+    position: absolute;
+    right: 10px;
+    z-index: 2; }
+    .custom-nav li {
+      display: block;
+      text-align: right; }
+      .custom-nav li a.menu-list {
+        color: #c2c2c2; }
+      .custom-nav li:hover a.menu-list {
+        color: #fff; }
+    .custom-nav li.custom-menu-list:hover a.menu-list {
+      color: #fff !important; }
+    .custom-nav li.custom-menu-list a:hover {
+      color: #fff !important; }
+    .custom-nav ul.dropdown-menu {
+      width: auto;
+      overflow-y: auto;
+      left: -35px !important; }
+      .custom-nav ul.dropdown-menu li.menu-content {
+        width: 50% !important;
+        height: auto !important;
+        text-align: left;
+        min-height: 250px !important; }
+        .custom-nav ul.dropdown-menu li.menu-content .menu-header {
+          border-top: 1px solid #e8e8e8; }
+        .custom-nav ul.dropdown-menu li.menu-content .mega-menus li {
+          text-align: left; }
+	    .nav-responsive {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 25px;
+    z-index: 1;
+    cursor: pointer; }
+
+  .user-image-mobile {
+    display: block !important;
+    position: absolute;
+    right: 50px;
+    bottom: 10px; }
+    .user-image-mobile li.dropdown {
+      list-style: none; }
+      .user-image-mobile li.dropdown ul.dropdown-menu {
+        left: 40px !important;
+        position: fixed; } 
+
+	#menu-toggle-action {display:none;}
+	#responsive-menu-toggle-action{display: inline-block !important;cursor: pointer;font-size:30px;position: relative;padding-bottom: 5px; top: 10px; left: 10px;}
+	#responsive-menu-toggle-action i {
+    width: 25px;
+    height: 25px;
+        font-size: 25px;
+    position: absolute;
+    right: 375px;
+}
+
+	.global-nav .app-navigator-container {
+	   
+	    display: inline-block;
+	}
+
+	.joforce-bg-list{margin:0 !important;}
+	.full-header {    width: 100% !important; }
+	.content-area.full-width {padding-left: 2% !important;    width: 100% !important;}
+	.module-header {width:100% !important; margin-left: 0% !important;}
+}
+
+@media only screen and (max-width: 300px) {
+ 
+  .settingsPageDiv .admin-settings {
+    margin-top: 0px; }
+  .settingsPageDiv #search_settings {
+    top: -45px;
+    right: 0%;
+    width: 93%; }
+  .settingsPageDiv #search_display ul li {
+    display: inline-block;
+    width: 50% !important; }
+  .settingsPageDiv #search_display #empty_settings {
+    text-align: center;
+    width: 100% !important; } 
+    
+}
+
+@media (min-width: 301px) and (max-width: 600px) {
+  .row-with-column{margin-top:30px;}
+  .joforce-bg-list{top: 50px;}
+  .app-nav .module-action-bar{     margin-top: 30px;
+    z-index: 3;}
+  .full-topbar .navbar-collapse{    top: 40px; margin-left: -42px !important;
+    left: -59px;
+    background: #fff;
+    border-top: none;
+    z-index: 3;
+    width: 500px;
+}
+.settingsmenu-starts{ width: 90% !important;}
+.nav .dropdown #gndropdown{ width: 35px;}
+.navbar-nav .open .dropdown-menu{ width: 280px;}
+.module-action-content .navbar-right{ margin-left: -190px; margin-top: 4px;}
+.global-notification-dropdown {
+  width: 400px;
+  min-height: 300px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+  #responsive-menu-toggle-action i {
+    width: 25px;
+    height: 25px;
+        font-size: 25px;
+    position: absolute;
+    right: 120px;
+}
+.navbar-nav .dropdown .profile-img{ display: none;}
+  li ul.dropdown-menu.profile-dropdown .profile-info .profile-footer .user-settings{ left: 10px;}
+  .user-image-mobile li.dropdown ul.dropdown-menu {
+    left: 170px !important;
+    position: fixed; }
+  .more-icons .nav-tabs{z-index: 1;} 
+  .record-header{ text-align: center;}
+  .hidden-sm .hidden-xs .recordImage .name{ padding:14px ​20px !important;}
+  .profile-img button{position: relative;
+    top: 31px;
+    left: 35px;}
+  .global-nav .search-link{ display: none !important;}
+  .company-logo img{display: none;}
+  .pagination{ margin: 0 0 0 0px;}
+  .mobilelogo{width: 150px;position: relative;top: 10px;left: 100px; display: block !important;}
+  .container-fluid .navbar-collapse{ top: 30px; z-index: 2; margin-left: -85px !important;
+     background-color: #fff; width: 390px; border-top: none;}
+   .navbar-right .navbar-nav{margin: 5px 70px;
+    width: 400px;}
+    .module-action-content .navbar-right .navbar-nav{ margin: 0px -120px 0px 24px;}
+  .nav li {display: table-cell;}
+  .navbar-nav li button{margin: 4px 3px !important;}
+  .dropdown-filter { position: relative !important; right: 56px !important;}
+  #searchResults-container{    max-height: 100vh !important;height: 70vh !important;width: 70% !important;}
+  .main-container .content-area{ overflow: inherit !important;}
+  .module-buttons.btn{ width: 46%; padding: 2px 5px !important; float: left;}
+  .module-breadcrumb{ display: none;}
+  #responsive-menu-toggle-action{display: inline-block !important;
+    cursor: pointer;
+    font-size: 30px;
+    position: relative;
+    padding-bottom: 5px;
+    top: 13px;
+    left: 40px;}
+    .search-link{margin-left: 70px !important; }
+  .settingsPageDiv .admin-settings {
+    margin-top: 0px; }
+  .settingsPageDiv #search_settings {
+    top: -2%;
+    right: 0%;
+    width: 93%; }
+  .settingsPageDiv #search_display ul li {
+    display: inline-block;
+    width: 50% !important; }
+  .settingsPageDiv #search_display #empty_settings {
+    text-align: center;
+    width: 100% !important; } 
+  .module-action-bar #settingsMenuSearch {
+    margin: 0px; }
+  .module-action-bar #accordion {
+    left: 15px;
+    top: 55px;
+    z-index: 1;
+    max-width: 220px;
+    word-break: break-word;
+    overflow-x: hidden; } 
+    .detailViewPageDiv .module-breadcrumb{ display: none;}
+    .detailViewPageDiv .joforce-detailview-btn{ margin:50px 0px 0px 0px;}
+    .joforce-detailview-btn .pull-right, .joforce-detailview-btn .btn-group{ margin-left: 5px;}
+}
+
+
+
+@media (min-width: 601px) and (max-width: 799px) {
+  .settingsPageDiv .admin-settings {
+    margin-top: 0px; }
+  .settingsPageDiv #search_settings {
+    top: -2%;
+    right: 0%;
+    width: 40%; }
+  .settingsPageDiv #search_display {
+    margin-top: 15px; }
+    .settingsPageDiv #search_display ul li {
+      display: inline-block;
+      width: 50% !important; }
+    .settingsPageDiv #search_display #empty_settings {
+      text-align: center;
+      width: 100% !important; } 
+}
+
+@media only screen and (min-width: 800px) {
+  .settingsPageDiv .admin-settings {
+    margin-top: 30px; }
+  .settingsPageDiv #search_settings {
+    top: 0%;
+    right: 0%;
+    width: 35%; }
+  .settingsPageDiv #search_display {
+    margin-top: 35px; }
+    .settingsPageDiv #search_display ul li {
+      display: inline-block;
+      width: 33% !important; }
+    .settingsPageDiv #search_display #empty_settings {
+      text-align: center;
+      width: 100% !important; } 
+}
+
+@media only screen and (min-width: 992px) {
+  .settingsPageDiv .admin-settings {
+    margin-top: 35px; }
+  .settingsPageDiv #search_settings {
+    top: 0%;
+    right: 0%;
+    width: 30%; }
+  .settingsPageDiv #search_display {
+    margin-top: 45px; }
+    .settingsPageDiv #search_display ul li {
+      display: inline-block;
+      width: 25% !important; }
+    .settingsPageDiv #search_display #empty_settings {
+      text-align: center;
+      width: 100% !important; } 
+}
+
+@media only screen and (min-width: 1200px) {
+  .settingsPageDiv .admin-settings {
+    margin-top: 50px; }
+  .settingsPageDiv #search_settings {
+    top: 0%;
+    right: 0%;
+    width: 25%; }
+  .settingsPageDiv #search_display {
+    margin-top: 75px; }
+    .settingsPageDiv #search_display ul li {
+      display: inline-block;
+      width: 20% !important; }
+    .settingsPageDiv #search_display #empty_settings {
+      text-align: center;
+      width: 100% !important; } 
+}
+
+@media only screen and (min-width: 1500px) {
+  .settingsPageDiv .admin-settings {
+    margin-top: 40px; }
+  .settingsPageDiv #search_settings {
+    top: 0%;
+    right: 0%;
+    width: 25%; }
+  .settingsPageDiv #search_display {
+    margin-top: 75px; }
+    .settingsPageDiv #search_display ul li {
+      display: inline-block;
+      width: 16% !important; }
+    .settingsPageDiv #search_display #empty_settings {
+      text-align: center;
+      width: 100% !important; } 
+}
+
+@media (max-width: 360px) {
+  .module-action-bar #settingsMenuSearch {
+    margin: 0px; }
+  .module-action-bar #accordion {
+    left: 15px;
+    top: 92px;
+    z-index: 1;
+    max-width: 220px;
+    word-break: break-word;
+    overflow-x: hidden; } 
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+  .module-action-bar #settingsMenuSearch {
+    margin: 0px; }
+  .module-action-bar #accordion {
+    left: 15px;
+    top: 55px;
+    z-index: 1;
+    max-width: 220px;
+    word-break: break-word;
+    overflow-x: hidden; } 
+}
+
+@media screen and (max-width: 400px) {
+   .user-image-mobile li.dropdown ul.dropdown-menu{
+        left: 13px !important;
+    }
+    li ul.dropdown-menu.profile-dropdown .profile-info .profile-content .p
+    {
+      width: 60px !important;
+      height: 60px !important;
+    }
+    li ul.dropdown-menu.profile-dropdown .profile-info .profile-content .p
+    {
+      font-size: 36px;
+      top: 6px;
+    }
+    #topbar-elements.full-topbar {    width: 80% !important;}
+}
+
+@media screen and (max-width: 600px) { 
+    .overlayPageContent.fade.in {
+      top: 35px !important;
+    }
+    .table-container .fixed-scroll-table #listview-table.listview-table-norecords.listview-table thead tr th{
+      width: 200px !important;
+    }
+  .custom-nav {
+    width: auto !important;
+    height: auto !important;
+    right: 10px !important; }
+    .custom-nav .dropdown-menu {
+      top: 42px !important;
+      max-height: 200px;
+      left: -35px !important; }
+      .custom-nav .dropdown-menu li.menu-Header:hover {
+        background: #eee !important; } 
+}
+

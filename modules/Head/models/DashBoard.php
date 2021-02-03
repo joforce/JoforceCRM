@@ -122,7 +122,7 @@ class Head_DashBoard_Model extends Head_Base_Model {
 			$row = $db->query_result_rowdata($result, $i);
 			$data = json_decode(decode_html($row['data']), true);
 			$sourceModule = $data['module'];
-			if(!empty($sourceModule) && !vtlib_isModuleActive($sourceModule)) {
+			if(!empty($sourceModule) && !modlib_isModuleActive($sourceModule)) {
 				continue;
 			}
 			$row['linkid'] = $row['id'];

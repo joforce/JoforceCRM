@@ -8,7 +8,6 @@
 *************************************************************************************}
 
 {strip}
-	<div class=" detailViewContainer col-lg-12 col-md-12 col-sm-12 joforce-bg">
 		<form id="EditView" method="POST">
 			<div class="blockData">
 				<div class="clearfix">
@@ -78,10 +77,9 @@
 				<div class="row clearfix">
 					<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 						<button class="btn btn-primary saveButton" type="submit" disabled="disabled">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>&nbsp;&nbsp;
-						<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+						<a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					</div>
 				</div>
 			</div>
 		</form>
-	</div>
 {/strip}

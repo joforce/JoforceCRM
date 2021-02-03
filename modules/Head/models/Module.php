@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-vimport('~~/vtlib/Head/Module.php');
+vimport('~~/libraries/modlib/Head/Module.php');
 
 /**
  * Head Module Model Class
@@ -650,8 +650,8 @@ class Head_Module_Model extends Head_Module {
 	}
 
 	public function isWorkflowSupported() {
-		vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
-		if($this->isEntityModule() && VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		vimport('~~modules/Workflow/WorkflowUtils.php');
+		if($this->isEntityModule() && WorkflowUtils::checkModuleWorkflow($this->getName())) {
 			return true;
 		}
 		return false;
@@ -810,9 +810,7 @@ class Head_Module_Model extends Head_Module {
 	 */
 	public static function getSearchableModules() {
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$entityModules = self::getEntityModules();
-
 		$searchableModules = array();
 		foreach ($entityModules as $tabid => $moduleModel) {
 				$moduleName = $moduleModel->getName();
@@ -1524,7 +1522,16 @@ class Head_Module_Model extends Head_Module {
 
 		$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId(), $relationId);
 		$query = $result['query'] .' '. $this->getSpecificRelationQuery($relatedModuleName);
-		$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
+
+		//masquerade code changes by aruna - starts
+		$record_details_of_msq_user = getMasqueradeUserRecordDetails();
+		$mas_record_id = $record_details_of_msq_user['record_id'];
+		if($mas_record_id == $recordId) {
+			$nonAdminQuery = '';
+                } else {
+			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
+                }
+		//masquerade code changes by aruna - ends
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
 		$relatedListFields = $relatedModule->getConfigureRelatedListFields();
@@ -1592,7 +1599,7 @@ class Head_Module_Model extends Head_Module {
 	 * @return <JSON>
 	 */
 	public function vtJsonDependentModules() {
-		vimport('~~/modules/com_jo_workflow/WorkflowComponents.php');
+		vimport('~~/modules/Workflow/WorkflowComponents.php');
 		$db = PearDatabase::getInstance();
 		$param = array('modulename'=>$this->getName());
 		return vtJsonDependentModules($db, $param);

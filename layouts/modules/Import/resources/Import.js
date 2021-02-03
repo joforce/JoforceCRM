@@ -72,7 +72,24 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 };
                 app.helper.showProgress();
                 app.request.post(postParams).then(function(err, response) {
-                    app.helper.loadPageContentOverlay(response);
+                    $("#importStep3Conatiner").html(response);
+                    // app.helper.loadPageContentOverlay(response);
+
+                    jQuery('#importStep2Conatiner').removeClass('show');
+                    jQuery('#importStep2Conatiner').addClass('hide');
+    
+                    jQuery('#importStep3Conatiner').removeClass('hide');
+                    jQuery('#importStep3Conatiner').addClass('show');
+    
+                    jQuery('#step2').removeClass('active');
+                    jQuery('#step3').addClass('active');
+
+                    jQuery('#importStepTwoButtonsDiv').removeClass('show');
+                    jQuery('#importStepTwoButtonsDiv').addClass('hide');
+    
+                    jQuery('#importStepThreeButtonsDiv').removeClass('hide');
+                    jQuery('#importStepThreeOneButtonsDiv').addClass('show');
+
 					Head_Import_Js.loadDefaultValueWidgetForMappedFields();
                     app.helper.hideProgress();
                 });
@@ -88,7 +105,8 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 var formData = jQuery("form[name='importAdvanced']").serialize();
                 app.helper.showProgress();
                 app.request.post({data: formData}).then(function(err, response) {
-                    app.helper.loadPageContentOverlay(response);
+                    // app.helper.loadPageContentOverlay(response);
+                    app.helper.showModal(response);
                     app.helper.hideProgress();
                     if(!err){
                         app.helper.showSuccessNotification({message:'Import Completed.'});
@@ -439,7 +457,8 @@ if (typeof (Head_Import_Js) == 'undefined') {
         showOverLayModal: function(params) {
             app.helper.showProgress();
             app.request.get({data: params}).then(function(err, data) {
-                app.helper.loadPageContentOverlay(data);
+                // app.helper.loadPageContentOverlay(data);
+                app.helper.showModal(data);
                 app.helper.hideProgress();
             });
         },

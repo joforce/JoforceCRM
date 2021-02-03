@@ -10,5 +10,6 @@
 -->*}
 
 {strip}
+	</div>
     </div>
 {/strip}

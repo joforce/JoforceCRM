@@ -11,7 +11,6 @@
 
 {strip}
     <div class="potentialsFieldMappingEditPageDiv">
-        <div class="col-sm-12 col-xs-12 joforce-bg">
             <div class="editViewContainer ">
                 <form id="potentialsMapping" method="POST">
                     <div class="editViewBody ">
@@ -103,7 +102,7 @@
                                 <span class="col-sm-8">
                                     <span class="pull-right">
                                         <button type="submit" class="btn btn-primary"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                                        <a class="cancelLink" type="reset" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
+                                        <a class="cancelLink btn btn-secondary" type="reset" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
                                     </span>
                                 </span>
                             </div>
@@ -111,6 +110,5 @@
                     </div>
 		</form>
             </div>
-	</div>
     </div>
 {/strip}

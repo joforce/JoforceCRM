@@ -13,15 +13,15 @@
 {strip}
     <div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
 	<div class="module-action-content clearfix">
-	    <div class="col-lg-5 col-md-5">
+	    <div class="col-lg-5 col-md-5 module-breadcrumb">
 		{if $USER_MODEL->isAdminUser()}
 		    {assign var=sett_url value='Head/Settings/Index'}
 		{else}
 		    {assign var=sett_url value='Head/Settings/SettingsIndex'}
 		{/if}
-		<a title="{vtranslate('Home', $MODULE)}" href='{$SITEURL}{$sett_url}' class="pull-left" style="color: #1C7C54 !important;">
-		    <i class="fa fa-gears ml10 mt15 mr5"></i>
-		    <h4 class="module-title pull-left text-uppercase" style="color: #1C7C54 !important;">{vtranslate('LBL_SETTINGS', $MODULE)} </h4>
+		<a title="{vtranslate('Home', $MODULE)}" href='{$SITEURL}{$sett_url}' class="pull-left" style="color: #0444a7 !important;">
+		    <i class="fa fa-gears" style="margin: 10px;"></i>
+		    <h4 class="module-title pull-left text-uppercase" style="color: #0444a7 !important;">{vtranslate('LBL_SETTINGS', $MODULE)} </h4>
 		</a>
 		&nbsp;<span class="fa fa-angle-right pull-left {if $VIEW eq 'Index' && $MODULE eq 'Head'} hide {/if}" aria-hidden="true" style="padding-top: 12px;padding-left: 5px;"></span>
 		{if $MODULE neq 'Head' or $smarty.request.view neq 'Index'}
@@ -118,12 +118,17 @@
 	</div>
 	<div class="col-lg-4 col-md-4 pull-right">
 	    <div id="appnav" class="navbar-right">
+                {if $MODULE eq 'Head' and $VIEW eq 'Index'}
+                    <div class = "settings_search">
+                    	<input type ='text' class="search-settings pull-right" id="search_settings" style="" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}">
+                    </div>
+                {/if}
 		<ul class="nav navbar-nav">
 		    {foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
 			<li>
 			{if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}
 			   <div class="import-icon">
-				<button id="{$MODULE}_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" 
+				<button id="{$MODULE}_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-primary" 
 				{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 				    onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
 				{else} 
@@ -134,7 +139,7 @@
 				</button>
 			    </div>
 			{else}
-			    <button type="button" class="btn addButton btn-default module-buttons" id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}"
+			    <button type="button" class="btn addButton btn-primary" id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}"
 				{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 				    onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
 				{else} 
@@ -152,12 +157,20 @@
 		    {/if}
 		    <li>
 			<div class="settingsIcon">
-			    <button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp; <span class="caret"></span>
+			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>
 			    </button>
 			    <ul class="detailViewSetting dropdown-menu">
 				{foreach item=SETTING from=$LISTVIEW_LINKS['LISTVIEWSETTING']}
-				    <li id="{$MODULE}_setings_lisview_advancedAction_{$SETTING->getLabel()}"><a href="javascript:void(0);" onclick="{$SETTING->getUrl()};">{vtranslate($SETTING->getLabel(), $QUALIFIEDMODULE)}</a></li>
+				    <li id="{$MODULE}_setings_lisview_advancedAction_{$SETTING->getLabel()}">
+                                        <a {if stripos($SETTING->getUrl(), 'javascript:') === 0}
+						 onclick='{$SETTING->getUrl()|substr:strlen("javascript:")};'
+                                           {else}
+                                                 onclick='window.location.href="{$SETTING->getUrl()}"'
+                                           {/if}>
+                                           {vtranslate($SETTING->getLabel(), $QUALIFIEDMODULE)}
+					</a>
+				    </li>
 				{/foreach}
 			    </ul>
 			</div>
@@ -171,7 +184,7 @@
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 			    {if $MODULE eq 'Users'} {assign var=LANGMODULE value=$MODULE} {/if}
 				<li>
-				    <button class="btn btn-default addButton module-buttons" id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" 
+				    <button class="btn btn-primary addButton" id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" 
 					{if $MODULE eq 'Workflows'}
 					    onclick='Settings_Workflows_List_Js.triggerCreate("{$LISTVIEW_BASICACTION->getUrl()}?mode=V7Edit")'
 					{else}

@@ -1,27 +1,15 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is: vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-*
-********************************************************************************/
--->*}
-{strip}
-    <div class="left-block col-lg-7 col-md-7 col-sm-7">
-        {* Module Summary View*}
-        <div class="summaryView">
-            <div class="summaryViewHeader">
-                <h4 class="display-inline-block">{vtranslate('LBL_KEY_FIELDS', $MODULE_NAME)}</h4>
-            </div>
-            <div class="summaryViewFields">
-                {$MODULE_SUMMARY}
-            </div>
-        </div>
-        {* Module Summary View Ends Here*}
+{*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): JoForce.com
+ ************************************************************************************}
 
+{strip}
+    <div class="left-block col-lg-6 col-md-6 col-sm-6">
         {foreach item=DETAIL_VIEW_WIDGET from=$DETAILVIEW_LINKS['DETAILVIEWWIDGET'] name=count}
             {if $smarty.foreach.count.index % 2 == 0}
                 <div class="summaryWidgetContainer">
@@ -48,7 +36,7 @@
 
     </div>
 
-    <div class="right-block col-lg-7 col-md-7 col-sm-7">
+    <div class="right-block col-lg-6 col-md-6 col-sm-6">
 
         {* Summary View Related Activities Widget*}
         <div id="relatedActivities">

@@ -92,7 +92,7 @@
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
 						<button type="submit" class="btn btn-primary nextStep" onclick="javascript:Settings_MailConverter_Edit_Js.firstStep()">{vtranslate('LBL_NEXT',$MODULE)}</button>&nbsp;&nbsp;
-						<a type="reset" class="cancelLink cursorPointer" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+						<a type="reset" class="cancelLink cursorPointer btn btn-secondary" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 					</div>
 				</div>
 			</div>

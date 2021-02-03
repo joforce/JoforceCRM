@@ -30,7 +30,12 @@ class EmailTemplates_Detail_View extends Head_Index_View {
                
 		$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                 $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
-                $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+		$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
+
+                $userCurrencyInfo = getCurrencySymbolandCRate($current_user->currency_id);
+                $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+                //Get User Notifications
+		$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
 
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -45,7 +50,7 @@ class EmailTemplates_Detail_View extends Head_Index_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 		$viewer->assign('NO_PAGINATION', true);
-
+		$viewer->assign('VIEW', $request->get('view'));
 		if($display) {
 			$this->preProcessDisplay($request);
 		}

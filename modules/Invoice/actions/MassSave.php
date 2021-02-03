@@ -12,7 +12,7 @@
 class Invoice_MassSave_Action extends Inventory_MassSave_Action {
 
 	public function process(Head_Request $request) {
-        vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
+        vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
 
@@ -23,7 +23,7 @@ class Invoice_MassSave_Action extends Inventory_MassSave_Action {
 				$recordModel->save();
 			}
 		}
-        vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', false);
+        vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', false);
 		$response = new Head_Response();
 		$response->setResult(true);
 		$response->emit();

@@ -14,13 +14,15 @@ require_once 'includes/events/include.inc';
 /**
  * Roles Record Model Class
  */
-class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
+class Settings_Groups_Record_Model extends Settings_Head_Record_Model
+{
 
 	/**
 	 * Function to get the Id
 	 * @return <Number> Group Id
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('groupid');
 	}
 
@@ -29,7 +31,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * @param <Number> Group Id
 	 * @return <Settings_Groups_Reord_Model> instance
 	 */
-	public function setId($id) {
+	public function setId($id)
+	{
 		return $this->set('groupid', $id);
 	}
 
@@ -37,7 +40,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get the Group Name
 	 * @return <String>
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('groupname');
 	}
 
@@ -45,7 +49,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get the description of the group
 	 * @return <String>
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->get('description');
 	}
 
@@ -53,33 +58,37 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get the Edit View Url for the Group
 	 * @return <String>
 	 */
-	public function getEditViewUrl() {
-        global $site_URL;
-		return $site_URL.'Groups/Settings/Edit/'.$this->getId();
+	public function getEditViewUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Groups/Settings/Edit/' . $this->getId();
 	}
 
 	/**
 	 * Function to get the Delete Action Url for the current group
 	 * @return <String>
 	 */
-	public function getDeleteActionUrl() {
-		return 'index.php?module=Groups&parent=Settings&view=DeleteAjax&record='.$this->getId();
+	public function getDeleteActionUrl()
+	{
+		return 'index.php?module=Groups&parent=Settings&view=DeleteAjax&record=' . $this->getId();
 	}
-    
-    /**
+
+	/**
 	 * Function to get the Detail Url for the current group
 	 * @return <String>
 	 */
-    public function getDetailViewUrl() {
-        global $site_URL;
-        return $site_URL.'Groups/Settings/Detail/'.$this->getId();
-    }
+	public function getDetailViewUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Groups/Settings/Detail/' . $this->getId();
+	}
 
 	/**
 	 * Function to get all the members of the groups
 	 * @return <Array> Settings_Profiles_Record_Model instances
 	 */
-	public function getMembers() {
+	public function getMembers()
+	{
 		if (!$this->members) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
 		}
@@ -89,7 +98,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	/**
 	 * Function to save the role
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$mode = 'edit';
@@ -147,7 +157,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to recalculate user priviliges files
 	 * @param <Array> $oldUsersList
 	 */
-	public function recalculate($oldUsersList) {
+	public function recalculate($oldUsersList)
+	{
 		set_time_limit(vglobal('php_max_execution_time'));
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
@@ -171,7 +182,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * @param <Boolean> $nonAdmin true/false
 	 * @return <Array> Users models list <Users_Record_Model>
 	 */
-	public function getUsersList($nonAdmin = false) {
+	public function getUsersList($nonAdmin = false)
+	{
 		$userIdsList = $usersList = array();
 		$members = $this->getMembers();
 
@@ -224,7 +236,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 		return $usersList;
 	}
 
-	protected function transferOwnership($transferToGroup) {
+	protected function transferOwnership($transferToGroup)
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
@@ -242,27 +255,28 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 			$params = array($transferGroupId, 'userid', $groupId);
 			$db->pquery($query, $params);
 		}
-		
+
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);
-		if(!$newOwnerModel){
+		if (!$newOwnerModel) {
 			$newOwnerModel = Users_Record_Model::getInstanceById($transferGroupId, 'Users');
 		}
 		$ownerModel = $this->getInstance($groupId);
 		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-        vtws_updateWebformsRoundrobinUsersLists($groupId, $transferGroupId);
+		vtws_updateWebformsRoundrobinUsersLists($groupId, $transferGroupId);
 	}
 
 	/**
 	 * Function to delete the group
 	 * @param <Settings_Groups_Record_Model> $transferToGroup
 	 */
-	public function delete($transferToGroup) {
+	public function delete($transferToGroup)
+	{
 		$db = PearDatabase::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
-		$em = new VTEventsManager($db);
+		$em = new EventsManager($db);
 		// Initialize Event trigger cache
 		$em->initTriggerCache();
 
@@ -288,7 +302,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get the list view actions for the record
 	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
-	public function getRecordLinks() {
+	public function getRecordLinks()
+	{
 
 		$links = array();
 		$recordLinks = array(
@@ -301,7 +316,7 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Head_List_Js.triggerDelete(event,'".$this->getDeleteActionUrl()."')",
+				'linkurl' => "javascript:Settings_Head_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'icon-trash'
 			)
 		);
@@ -318,7 +333,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * @param <Number> $rowNo
 	 * @return Settings_Groups_Record_Model instance
 	 */
-	public static function getInstanceFromQResult($result, $rowNo) {
+	public static function getInstanceFromQResult($result, $rowNo)
+	{
 		$db = PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
 		$role = new self();
@@ -329,7 +345,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get all the groups
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
-	public static function getAll() {
+	public static function getAll()
+	{
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM jo_groups';
@@ -349,7 +366,8 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 	 * @param <Object> $value
 	 * @return Settings_Groups_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getInstance($value) {
+	public static function getInstance($value)
+	{
 		$db = PearDatabase::getInstance();
 
 		if (Head_Utils::isNumber($value)) {
@@ -364,26 +382,26 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model {
 		}
 		return null;
 	}
-	
+
 	/* Function to get the instance of the group by Name
     * @param type $name -- name of the group
     * @return null/group instance
     */
-   public static function getInstanceByName($name, $excludedRecordId = array()) {
-       $db = PearDatabase::getInstance();
-       $sql = 'SELECT * FROM jo_groups WHERE groupname=?';
-       $params = array($name);
-	   
-       if(!empty($excludedRecordId)){
-           $sql.= ' AND groupid NOT IN ('.generateQuestionMarks($excludedRecordId).')';
-           $params = array_merge($params,$excludedRecordId);
-       }
-	   
-       $result = $db->pquery($sql, $params);
-       if($db->num_rows($result) > 0) {
-		   return self::getInstanceFromQResult($result, 0);
-	   }
-	   return null;
-   }
+	public static function getInstanceByName($name, $excludedRecordId = array())
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM jo_groups WHERE groupname=?';
+		$params = array($name);
 
+		if (!empty($excludedRecordId)) {
+			$sql .= ' AND groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$params = array_merge($params, $excludedRecordId);
+		}
+
+		$result = $db->pquery($sql, $params);
+		if ($db->num_rows($result) > 0) {
+			return self::getInstanceFromQResult($result, 0);
+		}
+		return null;
+	}
 }

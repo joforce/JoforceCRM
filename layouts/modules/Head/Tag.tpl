@@ -8,7 +8,7 @@
  * Contributor(s): JoForce.com
  ************************************************************************************}
  
- <span class="tag {if $ACTIVE eq true} active {/if}" title="{$TAG_MODEL->getName()}" data-type="{$TAG_MODEL->getType()}" data-id="{$TAG_MODEL->getId()}">
+ <span class="tag tag_{$smarty.foreach.tagCounter.iteration} {if $ACTIVE eq true} active {/if}" title="{$TAG_MODEL->getName()}" data-type="{$TAG_MODEL->getType()}" data-id="{$TAG_MODEL->getId()}">
     <i class="activeToggleIcon fa {if $ACTIVE eq true} fa-circle-o {else} fa-circle {/if}"></i>
     <span class="tagLabel display-inline-block textOverflowEllipsis" title="{$TAG_MODEL->getName()}">{$TAG_MODEL->getName()}</span>
     {if !$NO_EDIT}

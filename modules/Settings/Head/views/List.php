@@ -50,10 +50,12 @@ class Settings_Head_List_View extends Settings_Head_Index_View {
 		
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		}else{
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 		if(empty($pageNumber)) {
 			$pageNumber = 1;
@@ -109,7 +111,9 @@ class Settings_Head_List_View extends Settings_Head_Index_View {
         
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER',$pageNumber);
-
+		$viewer->assign('SORT_IMAGE',$sortImage);
+		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 		$viewer->assign('ORDER_BY',$orderBy);
 		$viewer->assign('SORT_ORDER',$sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);

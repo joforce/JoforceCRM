@@ -8,19 +8,18 @@
 *************************************************************************************}
 
 {strip}
-	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
-	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
-	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
-	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
+	    <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
+	    <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
+	    <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
+	    <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
+	    <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+	    <input type="hidden" value="{$ORDER_BY}" id="orderBy">
+	    <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+	    <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+	    <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+	    <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
+	    <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="col-sm-12 col-xs-12 joforce-bg">
 	    <div id="listview-actions" class="listview-actions-container">
 		<div class="list-content row">
 		    <div class="col-sm-12 col-xs-12 ">
@@ -30,7 +29,6 @@
 				{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 				<thead>
 				    <tr class="listViewContentHeader">
-					<th style="width:25%"> {vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)} </th>
 					{if $MODULE eq 'Tags' or $MODULE eq 'CronTasks' or $LISTVIEW_ACTIONS_ENABLED eq true}
 					    <th> {vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)} </th>
 					{/if}
@@ -42,6 +40,7 @@
                                         <th>
 					    Default Currency
                                         </th>
+					<th style="width:25%"> {vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)} </th>
 				    </tr>
 				</thead>
 				<tbody class="overflow-y">
@@ -49,9 +48,6 @@
 					<tr class="listViewEntries"  data-id="{$LISTVIEW_ENTRY->getId()}"
 					    {if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 					    {if method_exists($LISTVIEW_ENTRY,'getRowInfo')}data-info="{Head_Util_Helper::toSafeHTML(ZEND_JSON::Encode($LISTVIEW_ENTRY->getRowInfo()))}"{/if}>
-					    <td width="10%">
-						{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
-					    </td>
 					    {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					    	{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 						{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
@@ -66,6 +62,9 @@
 						{if $LISTVIEW_ENTRY->get('currency_status') neq 'Inactive'}
 						    <input class="currencydefaultcheckbox" id="currencydefaultcheckbox_{$LISTVIEW_ENTRY->getId()}" data-currencyid="{$LISTVIEW_ENTRY->getId()}" type="checkbox" {if $LISTVIEW_ENTRY->get('defaultid') neq 0} checked disabled style="opacity:.3;" {/if}>
 						{/if}
+					    </td>
+						<td width="10%">
+						{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
 					    </td>
 					</tr>
 				    {/foreach}
@@ -86,5 +85,4 @@
 		    </div>
 		</div>
 	    </div>
-	</div>
 {/strip}

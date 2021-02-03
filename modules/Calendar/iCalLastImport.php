@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-require_once 'vtlib/Head/Utils.php';
+require_once 'libraries/modlib/Head/Utils.php';
 
 class iCalLastImport {
 

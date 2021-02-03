@@ -15,7 +15,6 @@
 <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/app.css' media="screen"/>
 <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jo-icons/style.css' media="screen"/>
 <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/custom.css' media="screen"/>
-{/strip}
 
 
 <!--<div style="margin:0 auto;width: 50em;">
@@ -55,3 +54,4 @@
   </div>
 </div>
 
+{/strip}

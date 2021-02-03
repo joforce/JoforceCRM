@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport('~~/vtlib/Head/Module.php');
+vimport('~~/libraries/modlib/Head/Module.php');
 
 /**
  * Calendar Module Model Class
@@ -921,6 +921,7 @@ class Calendar_Module_Model extends Head_Module_Model {
 	 * @return Array
 	 */
 	public function getSettingLinks() {
+		global $site_URL;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$settingLinks = array();
 
@@ -928,20 +929,20 @@ class Calendar_Module_Model extends Head_Module_Model {
 			$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_FIELDS',
-					'linkurl' => 'LayoutEditor/Settings/source',
+					'linkurl' => $site_URL.'LayoutEditor/Settings/source/'.$this->getName(),
 					'linkicon' => Head_Theme::getImagePath('LayoutEditor.gif')
 			);
 
 			 $settingLinks[] = array( 
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_WORKFLOWS',
-					'linkurl' => 'Workflows/Settings/List/source',
+					'linkurl' => $site_URL.'Workflows/Settings/List/source/'.$this->getName(),
 					'linkicon' => ''
 			);
 			$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
-					'linkurl' => 'Picklist/Settings/Index/source/'.$this->getName(),
+					'linkurl' => $site_URL.'Picklist/Settings/Index/source/'.$this->getName(),
 					'linkicon' => ''
 			);
 		}

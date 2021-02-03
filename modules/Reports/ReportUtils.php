@@ -12,17 +12,17 @@
  * Function to get the field information from module name and field label
  */
 function getFieldByReportLabel($module, $label, $mode = 'label') {
-	$cacheLabel = VTCacheUtils::getReportFieldByLabel($module, $label);
+	$cacheLabel = CacheUtils::getReportFieldByLabel($module, $label);
 	if($cacheLabel) return $cacheLabel;
 
 	// this is required so the internal cache is populated or reused.
 	getColumnFields($module);
 	//lookup all the accessible fields
-	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = CacheUtils::lookupFieldInfo_Module($module);
 	$label = decode_html($label);
 	
 	if($module == 'Calendar') {
-		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+		$cachedEventsFields = CacheUtils::lookupFieldInfo_Module('Events');
 		if ($cachedEventsFields) {
 			if(empty($cachedModuleFields)) $cachedModuleFields = $cachedEventsFields;
 			else $cachedModuleFields = array_merge($cachedModuleFields, $cachedEventsFields);
@@ -44,7 +44,7 @@ function getFieldByReportLabel($module, $label, $mode = 'label') {
         }
         $fieldLabel = decode_html($fieldLabel);
 		if($label == $fieldLabel) {
-			VTCacheUtils::setReportFieldByLabel($module, $label, $fieldInfo);
+			CacheUtils::setReportFieldByLabel($module, $label, $fieldInfo);
 			return $fieldInfo;
 		}
 	}
@@ -372,5 +372,3 @@ function getReportSearchCondition($searchParams, $filterId) {
 	}
 	return false;
 }
-
-?>

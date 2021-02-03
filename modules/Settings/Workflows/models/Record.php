@@ -12,84 +12,99 @@
 /*
  * Workflow Record Model Class
  */
-require_once 'modules/com_jo_workflow/include.inc';
-require_once 'modules/com_jo_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/Workflow/include.inc';
+require_once 'modules/Workflow/expression_engine/ExpressionsManager.inc';
 
-class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
+class Settings_Workflows_Record_Model extends Settings_Head_Record_Model
+{
 
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('workflow_id');
 	}
 
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('summary');
 	}
 
-	public function get($key) {
-//		if($key == 'execution_condition') {
-//			$executionCondition = parent::get($key);
-//			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
-//			return Head_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
-//		}
-//		if($key == 'module_name') {
-//			$moduleName = parent::get($key);
-//			return Head_Language_Handler::getTranslatedString($moduleName, $moduleName);
-//		}
+	public function get($key)
+	{
+		//		if($key == 'execution_condition') {
+		//			$executionCondition = parent::get($key);
+		//			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
+		//			return Head_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
+		//		}
+		//		if($key == 'module_name') {
+		//			$moduleName = parent::get($key);
+		//			return Head_Language_Handler::getTranslatedString($moduleName, $moduleName);
+		//		}
 		return parent::get($key);
 	}
 
-	public function getEditViewUrl() {
-        global $site_URL;
-        return $site_URL . 'Workflows/Settings/Edit/' . $this->getId() . '?mode=V7Edit';
+	public function getEditViewUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/Edit/' . $this->getId() . '?mode=V7Edit';
 	}
 
-	public function getTasksListUrl() {
-        global $site_URL;
-        return $site_URL . 'Workflows/Settings/TasksList/' . $this->getId();
+	public function getTasksListUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/TasksList/' . $this->getId();
 	}
 
-	public function getAddTaskUrl() {
-        global $site_URL;
-        return $site_URL . 'Workflows/Settings/EditTask?for_workflow=' . $this->getId();
+	public function getAddTaskUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/EditTask?for_workflow=' . $this->getId();
 	}
 
-	protected function setWorkflowObject($wf) {
+	protected function setWorkflowObject($wf)
+	{
 		$this->workflow_object = $wf;
 		return $this;
 	}
 
-	public function getWorkflowObject() {
+	public function getWorkflowObject()
+	{
 		return $this->workflow_object;
 	}
 
-	public function getModule() {
+	public function getModule()
+	{
 		return $this->module;
 	}
 
-	public function setModule($moduleName) {
+	public function setModule($moduleName)
+	{
 		$this->module = Head_Module_Model::getInstance($moduleName);
 		return $this;
 	}
 
-	public function getTasks($active=false) {
+	public function getTasks($active = false)
+	{
 		return Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, $active);
 	}
 
-	public function getTaskTypes() {
+	public function getTaskTypes()
+	{
 		return Settings_Workflows_TaskType_Model::getAllForModule($this->getModule());
 	}
 
-	public function isDefault() {
+	public function isDefault()
+	{
 		$wf = $this->getWorkflowObject();
-		if($wf->defaultworkflow == 1) {
+		if ($wf->defaultworkflow == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new WorkflowManager($db);
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
@@ -112,9 +127,10 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 		$this->set('workflow_id', $wf->id);
 	}
 
-	public function delete() {
+	public function delete()
+	{
 		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new WorkflowManager($db);
 		$wm->delete($this->getId());
 	}
 
@@ -122,9 +138,10 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * Functions returns the Custom Entity Methods that are supported for a module
 	 * @return <Array>
 	 */
-	public function getEntityMethods() {
+	public function getEntityMethods()
+	{
 		$db = PearDatabase::getInstance();
-		$emm = new VTEntityMethodManager($db);
+		$emm = new EntityMethodManager($db);
 		$methodNames = $emm->methodsForModule($this->get('module_name'));
 		return $methodNames;
 	}
@@ -133,7 +150,8 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * Function to get the list view actions for the record
 	 * @return <Array> - Associate array of Head_Link_Model instances
 	 */
-	public function getRecordLinks() {
+	public function getRecordLinks()
+	{
 
 		$links = array();
 
@@ -147,34 +165,37 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Head_List_Js.deleteRecord('.$this->getId().');',
+				'linkurl' => 'javascript:Head_List_Js.deleteRecord(' . $this->getId() . ');',
 				'linkicon' => 'icon-trash'
 			)
 		);
-		foreach($recordLinks as $recordLink) {
+		foreach ($recordLinks as $recordLink) {
 			$links[] = Head_Link_Model::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
 	}
 
-	public static function getInstance($workflowId) {
+	public static function getInstance($workflowId)
+	{
 		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new WorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
-	public static function getCleanInstance($moduleName) {
+	public static function getCleanInstance($moduleName)
+	{
 		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new WorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
 		$wf->status = 1;
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
-	public static function getInstanceFromWorkflowObject($wf) {
+	public static function getInstanceFromWorkflowObject($wf)
+	{
 		$workflowModel = new self();
 
 		$workflowModel->set('summary', $wf->description);
@@ -198,32 +219,37 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 		return $workflowModel;
 	}
 
-	function executionConditionAsLabel($executionCondition=null){
-		if($executionCondition == null) {
+	function executionConditionAsLabel($executionCondition = null)
+	{
+		if ($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}
 		$arr = array('ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', '', 'ON_SCHEDULE', 'MANUAL');
-		return $arr[$executionCondition-1];
+		return $arr[$executionCondition - 1];
 	}
 
-	function getV7executionConditionAsLabel($executionCondition=null, $module_name) {
-		if($executionCondition == null) {
+	function getV7executionConditionAsLabel($executionCondition = null, $module_name)
+	{
+		if ($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}
 		$module = "Settings:Workflows";
-		$arr = array(vtranslate($module_name, $module_name)." ".vtranslate('LBL_CREATION', $module),
-					 vtranslate('LBL_FIRST_TIME_CONDITION_MET', $module), 
-					 vtranslate('LBL_EVERY_TIME_CONDITION_MET', $module),
-					 vtranslate('ON_MODIFY', $module),
-					 '', 
-					 vtranslate('LBL_TIME_INTERVAL', $module), 
-					 'MANUAL');
-		return $arr[$executionCondition-1];
+		$arr = array(
+			vtranslate($module_name, $module_name) . " " . vtranslate('LBL_CREATION', $module),
+			vtranslate('LBL_FIRST_TIME_CONDITION_MET', $module),
+			vtranslate('LBL_EVERY_TIME_CONDITION_MET', $module),
+			vtranslate('ON_MODIFY', $module),
+			'',
+			vtranslate('LBL_TIME_INTERVAL', $module),
+			'MANUAL'
+		);
+		return $arr[$executionCondition - 1];
 	}
 
-	function isFilterSavedInNew() {
+	function isFilterSavedInNew()
+	{
 		$wf = $this->getWorkflowObject();
-		if($wf->filtersavedinnew == '6') {
+		if ($wf->filtersavedinnew == '6') {
 			return true;
 		}
 		return false;
@@ -232,44 +258,49 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * Functions transforms workflow filter to advanced filter
 	 * @return <Array>
 	 */
-	function transformToAdvancedFilterCondition() {
+	function transformToAdvancedFilterCondition()
+	{
 		$conditions = $this->get('conditions');
 		$transformedConditions = array();
 
-		if(!empty($conditions)) {
-			foreach($conditions as $index => $info) {
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $info) {
 				$columnName = $info['fieldname'];
 				$value = $info['value'];
 				// To convert date value from yyyy-mm-dd format to user format
 				$valueArray = explode(',', $value);
 				$isDateValue = false;
-				for($i = 0; $i < count($valueArray); $i++) {
-					if(Head_Functions::isDateValue($valueArray[$i])) {
+				for ($i = 0; $i < count($valueArray); $i++) {
+					if (Head_Functions::isDateValue($valueArray[$i])) {
 						$isDateValue = true;
 						$valueArray[$i] = DateTimeField::convertToUserFormat($valueArray[$i]);
 					}
 				}
-				if($isDateValue) {
+				if ($isDateValue) {
 					$value = implode(',', $valueArray);
 				}
 				// End
-				if($columnName == 'filelocationtype')
-					$value = ($value == 'I') ? vtranslate('LBL_INTERNAL','Documents') : vtranslate('LBL_EXTERNAL','Documents');
+				if ($columnName == 'filelocationtype')
+					$value = ($value == 'I') ? vtranslate('LBL_INTERNAL', 'Documents') : vtranslate('LBL_EXTERNAL', 'Documents');
 				elseif ($columnName == 'folderid') {
 					$folderInstance = Documents_Folder_Model::getInstanceById($value);
 					$value = $folderInstance->getName();
 				}
-				if(!($info['groupid'])) {
-					$firstGroup[] = array('columnname' => $columnName, 'comparator' => $info['operation'], 'value' => $value,
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+				if (!($info['groupid'])) {
+					$firstGroup[] = array(
+						'columnname' => $columnName, 'comparator' => $info['operation'], 'value' => $value,
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']
+					);
 				} else {
-					$secondGroup[] = array('columnname' => $columnName, 'comparator' => $info['operation'], 'value' => $value,
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$secondGroup[] = array(
+						'columnname' => $columnName, 'comparator' => $info['operation'], 'value' => $value,
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']
+					);
 				}
 			}
 		}
-		$transformedConditions[1] = array('columns'=>$firstGroup);
-		$transformedConditions[2] = array('columns'=>$secondGroup);
+		$transformedConditions[1] = array('columns' => $firstGroup);
+		$transformedConditions[2] = array('columns' => $secondGroup);
 		return $transformedConditions;
 	}
 
@@ -277,11 +308,12 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * Function returns valuetype of the field filter
 	 * @return <String>
 	 */
-	function getFieldFilterValueType($fieldname) {
+	function getFieldFilterValueType($fieldname)
+	{
 		$conditions = $this->get('conditions');
-		if(!empty($conditions) && is_array($conditions)) {
-			foreach($conditions as $filter) {
-				if($fieldname == $filter['fieldname']) {
+		if (!empty($conditions) && is_array($conditions)) {
+			foreach ($conditions as $filter) {
+				if ($fieldname == $filter['fieldname']) {
 					return $filter['valuetype'];
 				}
 			}
@@ -292,22 +324,27 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter() {
+	function transformAdvanceFilterToWorkFlowFilter()
+	{
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
-		if(!empty($conditions)) {
-			foreach($conditions as $index => $condition) {
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if($index == '1' && empty($columns)) {
-					$wfCondition[] = array('fieldname'=>'', 'operation'=>'', 'value'=>'', 'valuetype'=>'',
-						'joincondition'=>'', 'groupid'=>'0');
+				if ($index == '1' && empty($columns)) {
+					$wfCondition[] = array(
+						'fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0'
+					);
 				}
-				if(!empty($columns) && is_array($columns)) {
-					foreach($columns as $column) {
-						$wfCondition[] = array('fieldname'=>$column['columnname'], 'operation'=>$column['comparator'],
-							'value'=>$column['value'], 'valuetype'=>$column['valuetype'], 'joincondition'=>$column['column_condition'],
-							'groupjoin'=>$condition['condition'], 'groupid'=>$column['groupid']);
+				if (!empty($columns) && is_array($columns)) {
+					foreach ($columns as $column) {
+						$wfCondition[] = array(
+							'fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']
+						);
 					}
 				}
 			}
@@ -319,11 +356,12 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * Function returns all the related modules for workflows create entity task
 	 * @return <JSON>
 	 */
-	public function getDependentModules() {
+	public function getDependentModules()
+	{
 		$modulesList = Settings_LayoutEditor_Module_Model::getEntityModulesList();
 		$primaryModule = $this->getModule();
 
-		if($primaryModule->isCommentEnabled()) {
+		if ($primaryModule->isCommentEnabled()) {
 			$modulesList['ModComments'] = 'ModComments';
 		}
 		$createModuleModels = array();
@@ -345,7 +383,8 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * @param <String> $relatedModule
 	 * @return <String> fieldname
 	 */
-	public function getReferenceFieldName($relatedModule) {
+	public function getReferenceFieldName($relatedModule)
+	{
 		if ($relatedModule) {
 			$db = PearDatabase::getInstance();
 
@@ -362,9 +401,10 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 		}
 		return false;
 	}
-	public function updateNextTriggerTime() {
+	public function updateNextTriggerTime()
+	{
 		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new WorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
 	}
@@ -374,17 +414,18 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * @param type $moduleName
 	 * @param type $fieldName
 	 */
-	public static function deleteUpadateFieldWorkflow($moduleName, $fieldName) {
+	public static function deleteUpadateFieldWorkflow($moduleName, $fieldName)
+	{
 		$ids = Settings_Workflows_Record_Model::getUpdateFieldTaskIdsForModule($moduleName, $fieldName);
-		if($ids) {
+		if ($ids) {
 			foreach ($ids as $id) {
 				$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($id);
 				$taskTypeModel = $taskModel->getTaskType();
-				if($taskTypeModel->get('tasktypename') == 'VTUpdateFieldsTask') {
+				if ($taskTypeModel->get('tasktypename') == 'UpdateFieldsTask') {
 					$taskObject = $taskModel->getTaskObject();
 					$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
-					foreach ($fieldMapping as $key=>$field) {
-						if($field['fieldname'] == $fieldName || strpos($field['value'],$fieldName) !== false) {
+					foreach ($fieldMapping as $key => $field) {
+						if ($field['fieldname'] == $fieldName || strpos($field['value'], $fieldName) !== false) {
 							unset($fieldMapping[$key]);
 						}
 					}
@@ -402,18 +443,19 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 	 * @param type $fieldName
 	 * @return $ids
 	 */
-	public static function getUpdateFieldTaskIdsForModule($moduleName, $fieldName) {
+	public static function getUpdateFieldTaskIdsForModule($moduleName, $fieldName)
+	{
 		$ids = array();
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM com_jo_workflows
-				INNER JOIN com_jo_workflowtasks ON com_jo_workflows.workflow_id = com_jo_workflowtasks.workflow_id
+		$sql = 'SELECT * FROM workflows
+				INNER JOIN workflowtasks ON workflows.workflow_id = workflowtasks.workflow_id
 				WHERE module_name = ?
 				AND task LIKE ? 
 				AND task LIKE ? ';
-		$result = $db->pquery($sql, array($moduleName, '%VTUpdateFieldsTask%', "%".$fieldName."%"));
+		$result = $db->pquery($sql, array($moduleName, '%UpdateFieldsTask%', "%" . $fieldName . "%"));
 		$count = $db->num_rows($result);
-		if($count > 0) {
-			for($i=0;$i<$count;$i++) {
+		if ($count > 0) {
+			for ($i = 0; $i < $count; $i++) {
 				$ids[] = $db->query_result($result, $i, 'task_id');
 			}
 			return $ids;
@@ -421,26 +463,28 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 		return false;
 	}
 
-	public static function updateWorkflowStatus($record, $status){
-	  $db = PearDatabase::getInstance();
-	  $sql = 'UPDATE com_jo_workflows SET status = ? WHERE workflow_id = ?';
-	  $db->pquery($sql, array($status, $record));
+	public static function updateWorkflowStatus($record, $status)
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'UPDATE workflows SET status = ? WHERE workflow_id = ?';
+		$db->pquery($sql, array($status, $record));
 	}
 
-	function getConditonDisplayValue() {
+	function getConditonDisplayValue()
+	{
 		$test = $this->get('raw_test');
 		$moduleName = $this->get('raw_module_name');
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
-		$wfCond = json_decode($test,true);
+		$wfCond = json_decode($test, true);
 		$conditionList = array();
-		if(is_array($wfCond)) {
-			for ($k=0; $k<(count($wfCond)); ++$k){
+		if (is_array($wfCond)) {
+			for ($k = 0; $k < (count($wfCond)); ++$k) {
 				$fieldName = $wfCond[$k]['fieldname'];
 				preg_match('/\((\w+) : \(([_\w]+)\) (\w+)\)/', $fieldName, $matches);
 
-				if(count($matches)==0){
+				if (count($matches) == 0) {
 					$fieldModel = Head_Field_Model::getInstance($fieldName, $moduleModel);
-					if($fieldModel) {
+					if ($fieldModel) {
 						$fieldLabel = vtranslate($fieldModel->get('label'), $moduleName);
 					} else {
 						$fieldLabel = $fieldName;
@@ -450,42 +494,43 @@ class Settings_Workflows_Record_Model extends Settings_Head_Record_Model {
 					$referenceModuleModel = Head_Module_Model::getInstance($referenceModule);
 					$fieldModel = Head_Field_Model::getInstance($fieldName, $referenceModuleModel);
 					$referenceFieldModel = Head_Field_Model::getInstance($referenceField, $moduleModel);
-					if($fieldModel) {
+					if ($fieldModel) {
 						$translatedReferenceModule = vtranslate($referenceModule, $referenceModule);
 						$referenceFieldLabel = vtranslate($referenceFieldModel->get('label'), $moduleName);
 						$fieldLabel = vtranslate($fieldModel->get('label'), $referenceModule);
-						$fieldLabel = "(".$translatedReferenceModule.") ".$referenceFieldLabel." - ".$fieldLabel;
+						$fieldLabel = "(" . $translatedReferenceModule . ") " . $referenceFieldLabel . " - " . $fieldLabel;
 					} else {
 						$fieldLabel = $fieldName;
 					}
 				}
 				$value = $wfCond[$k]['value'];
 				$operation = $wfCond[$k]['operation'];
-				if($wfCond[$k]['groupjoin'] == 'and') {
+				if ($wfCond[$k]['groupjoin'] == 'and') {
 					$conditionGroup = 'All';
 				} else {
 					$conditionGroup = 'Any';
 				}
-				if($value == 'true:boolean' || ($fieldModel && $fieldModel->getFieldDataType() == 'boolean' && $value == '1')) {
+				if ($value == 'true:boolean' || ($fieldModel && $fieldModel->getFieldDataType() == 'boolean' && $value == '1')) {
 					$value = 'LBL_ENABLED';
 				}
-				if($value == 'false:boolean' || ($fieldModel && $fieldModel->getFieldDataType() == 'boolean' && $value == '0')) {
+				if ($value == 'false:boolean' || ($fieldModel && $fieldModel->getFieldDataType() == 'boolean' && $value == '0')) {
 					$value = 'LBL_DISABLED';
 				}
-				if($fieldLabel == '_VT_add_comment') {
+				if ($fieldLabel == '_VT_add_comment') {
 					$fieldLabel = 'Comment';
 				}
-				$conditionList[$conditionGroup][] = $fieldLabel.' '.vtranslate($operation, $moduleName).' '.vtranslate($value, $moduleName);
+				$conditionList[$conditionGroup][] = $fieldLabel . ' ' . vtranslate($operation, $moduleName) . ' ' . vtranslate($value, $moduleName);
 			}
 		}
 
 		return $conditionList;
 	}
 
-	function getActionsDisplayValue() {
+	function getActionsDisplayValue()
+	{
 		$actions = array();
 		$tasks = Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, true);
-		foreach($tasks as $task) {
+		foreach ($tasks as $task) {
 			$taskName = $task->getTaskType()->get('tasktypename');
 			$actions[$taskName] = $actions[$taskName] + 1;
 		}

@@ -20,7 +20,7 @@ jQuery.Class('Install_Index_Js', {}, {
 			var value = jQuery('.novalue');
 			var htperm = jQuery('#htperm').val();
 			if(htperm == 'false') {
-				var msg = "Please create .htaccess file in your JoForce root folder and provide the writable access";
+				var msg = "Please create .htaccess file in your Joforce root folder and provide the writable access";
                                 if (confirm(msg)) {
                                         return false;
                                 } else {

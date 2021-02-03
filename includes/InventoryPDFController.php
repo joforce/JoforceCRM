@@ -10,14 +10,14 @@
  *
  ********************************************************************************/
 
-include_once 'vtlib/Head/PDF/models/Model.php';
-include_once 'vtlib/Head/PDF/inventory/HeaderViewer.php';
-include_once 'vtlib/Head/PDF/inventory/FooterViewer.php';
-include_once 'vtlib/Head/PDF/inventory/ContentViewer.php';
-include_once 'vtlib/Head/PDF/inventory/ContentViewer2.php';
-include_once 'vtlib/Head/PDF/viewers/PagerViewer.php';
-include_once 'vtlib/Head/PDF/PDFGenerator.php';
-include_once 'data/CRMEntity.php';
+include_once 'libraries/modlib/Head/PDF/models/Model.php';
+include_once 'libraries/modlib/Head/PDF/inventory/HeaderViewer.php';
+include_once 'libraries/modlib/Head/PDF/inventory/FooterViewer.php';
+include_once 'libraries/modlib/Head/PDF/inventory/ContentViewer.php';
+include_once 'libraries/modlib/Head/PDF/inventory/ContentViewer2.php';
+include_once 'libraries/modlib/Head/PDF/viewers/PagerViewer.php';
+include_once 'libraries/modlib/Head/PDF/PDFGenerator.php';
+include_once 'includes/data/CRMEntity.php';
 
 class Head_InventoryPDFController {
 

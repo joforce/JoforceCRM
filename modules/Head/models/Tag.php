@@ -13,7 +13,7 @@ vimport('~~/libraries/freetag/freetag.class.php');
 class Head_Tag_Model extends Head_Base_Model {
 
 	//Num of tags that need to show by default in detail view 
-	const NUM_OF_TAGS_DETAIL = 3;
+	const NUM_OF_TAGS_DETAIL = 7;
 	const NUM_OF_TAGS_LIST = 5;
 	const PRIVATE_TYPE = 'private';
 	const PUBLIC_TYPE = 'public';

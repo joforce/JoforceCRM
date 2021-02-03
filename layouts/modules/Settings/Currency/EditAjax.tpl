@@ -29,7 +29,7 @@
                     <div class="row-fluid">
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5 pl0 pr0">
-                                {vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border"></span>
+                                {vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span>
                             </label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <select class="select2 inputElement" name="currency_name">
@@ -45,19 +45,19 @@
                             </div>	
                         </div>
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border"></span></label>
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <input type="text" class="inputElement bgColor cursorPointerNotAllowed" name="currency_code" readonly value="{$RECORD_MODEL->get('currency_code')}" data-rule-required = "true" />
                             </div>	
                         </div>
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}&nbsp;<span class="red-border"></span></label>
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <input type="text"  class="inputElement bgColor cursorPointerNotAllowed" name="currency_symbol" readonly value="{$RECORD_MODEL->get('currency_symbol')}" data-rule-required = "true" />
                             </div>	
                         </div>
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border"></span></label>
+                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <input type="text" class="inputElement" name="conversion_rate" data-rule-required = "true" data-rule-positive ="true" data-rule-greater_than_zero = "true" placeholder="{vtranslate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
                                        value="{$RECORD_MODEL->get('conversion_rate')}"/>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="form-group control-group transferCurrency hide">
                         <label class="muted control-label fieldLabel pl0 pr0">
-                            {vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>&nbsp;<span class="red-border"></span>
+                            {vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>&nbsp;<span class="red-border">*</span>
                         <div class="controls row-fluid fieldValue pl0">
                             <select class="select2 span6" name="transform_to_id">
                                 {foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$OTHER_EXISTING_CURRENCIES}

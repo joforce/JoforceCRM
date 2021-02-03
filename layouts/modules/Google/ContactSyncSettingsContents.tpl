@@ -36,14 +36,14 @@
             </div>
             <div class="btn-group pull-right" style = "margin:5px;">
                 <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                    <span class="caret"></span>&nbsp;{vtranslate('LBL_ADD_CUSTOM_FIELD_MAPPING',$MODULENAME)}
+                    {vtranslate('LBL_ADD_CUSTOM_FIELD_MAPPING',$MODULENAME)}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                    <li class="addCustomFieldMapping" data-type="email" data-vtigerfields='{Zend_Json::encode($VTIGER_EMAIL_FIELDS)}'><a>{vtranslate('LBL_EMAIL',$MODULENAME)}</a></li>
-                    <li class="addCustomFieldMapping" data-type="phone" data-vtigerfields='{Zend_Json::encode($VTIGER_PHONE_FIELDS)}'><a>{vtranslate('LBL_PHONE',$MODULENAME)}</a></li>
-                    <li class="addCustomFieldMapping" data-type="url" data-vtigerfields='{Zend_Json::encode($VTIGER_URL_FIELDS)}'><a>{vtranslate('LBL_URL',$MODULENAME)}</a></li>
+                    <li class="addCustomFieldMapping" data-type="email" data-vtigerfields='{Zend_Json::encode($JOFORCE_EMAIL_FIELDS)}'><a>{vtranslate('LBL_EMAIL',$MODULENAME)}</a></li>
+                    <li class="addCustomFieldMapping" data-type="phone" data-vtigerfields='{Zend_Json::encode($JOFORCE_PHONE_FIELDS)}'><a>{vtranslate('LBL_PHONE',$MODULENAME)}</a></li>
+                    <li class="addCustomFieldMapping" data-type="url" data-vtigerfields='{Zend_Json::encode($JOFORCE_URL_FIELDS)}'><a>{vtranslate('LBL_URL',$MODULENAME)}</a></li>
                     <li class="divider"></li>
-                    <li class="addCustomFieldMapping" data-type="custom" data-vtigerfields='{Zend_Json::encode($VTIGER_OTHER_FIELDS)}'><a>{vtranslate('LBL_CUSTOM',$MODULENAME)}</a></li>
+                    <li class="addCustomFieldMapping" data-type="custom" data-vtigerfields='{Zend_Json::encode($JOFORCE_OTHER_FIELDS)}'><a>{vtranslate('LBL_CUSTOM',$MODULENAME)}</a></li>
                 </ul>
             </div>
         </div>
@@ -266,31 +266,31 @@
                             <input type="hidden" class="google_field_name" value="{$GOOGLE_FIELDS[$FLDNAME]['name']}" />
                         </td>
                     </tr>
-                    {foreach key=VTIGER_FIELD_NAME item=CUSTOM_FIELD_MAP from=$CUSTOM_FIELD_MAPPING}
+                    {foreach key=JOFORCE_FIELD_NAME item=CUSTOM_FIELD_MAP from=$CUSTOM_FIELD_MAPPING}
                         <tr>
                             <td>
                                 {if $CUSTOM_FIELD_MAP['google_field_name'] eq 'gd:email'}
                                     <select class="select2 stretched jo_field_name" style="width:200px;" data-category="email">
-                                        {foreach key=EMAIL_FIELD_NAME item=EMAIL_FIELD_LABEL from=$VTIGER_EMAIL_FIELDS}
-                                            <option value="{$EMAIL_FIELD_NAME}" {if $VTIGER_FIELD_NAME eq $EMAIL_FIELD_NAME}selected{/if}>{vtranslate($EMAIL_FIELD_LABEL,$SOURCE_MODULE)}</option>
+                                        {foreach key=EMAIL_FIELD_NAME item=EMAIL_FIELD_LABEL from=$JOFORCE_EMAIL_FIELDS}
+                                            <option value="{$EMAIL_FIELD_NAME}" {if $JOFORCE_FIELD_NAME eq $EMAIL_FIELD_NAME}selected{/if}>{vtranslate($EMAIL_FIELD_LABEL,$SOURCE_MODULE)}</option>
                                         {/foreach}
                                     </select>
                                 {else if $CUSTOM_FIELD_MAP['google_field_name'] eq 'gd:phoneNumber'}
                                     <select class="select2 stretched jo_field_name" style="width:200px;" data-category="phone">
-                                        {foreach key=PHONE_FIELD_NAME item=PHONE_FIELD_LABEL from=$VTIGER_PHONE_FIELDS}
-                                            <option value="{$PHONE_FIELD_NAME}" {if $VTIGER_FIELD_NAME eq $PHONE_FIELD_NAME}selected{/if}>{vtranslate($PHONE_FIELD_LABEL,$SOURCE_MODULE)}</option>
+                                        {foreach key=PHONE_FIELD_NAME item=PHONE_FIELD_LABEL from=$JOFORCE_PHONE_FIELDS}
+                                            <option value="{$PHONE_FIELD_NAME}" {if $JOFORCE_FIELD_NAME eq $PHONE_FIELD_NAME}selected{/if}>{vtranslate($PHONE_FIELD_LABEL,$SOURCE_MODULE)}</option>
                                         {/foreach}
                                     </select>
                                 {else if $CUSTOM_FIELD_MAP['google_field_name'] eq 'gContact:userDefinedField'}
                                     <select class="select2 stretched jo_field_name" style="width:200px;" data-category="custom">
-                                        {foreach key=OTHER_FIELD_NAME item=OTHER_FIELD_LABEL from=$VTIGER_OTHER_FIELDS}
-                                            <option value="{$OTHER_FIELD_NAME}" {if $VTIGER_FIELD_NAME eq $OTHER_FIELD_NAME}selected{/if}>{vtranslate($OTHER_FIELD_LABEL,$SOURCE_MODULE)}</option>
+                                        {foreach key=OTHER_FIELD_NAME item=OTHER_FIELD_LABEL from=$JOFORCE_OTHER_FIELDS}
+                                            <option value="{$OTHER_FIELD_NAME}" {if $JOFORCE_FIELD_NAME eq $OTHER_FIELD_NAME}selected{/if}>{vtranslate($OTHER_FIELD_LABEL,$SOURCE_MODULE)}</option>
                                         {/foreach}
                                     </select>
                                 {else if $CUSTOM_FIELD_MAP['google_field_name'] eq 'gContact:website'}
                                     <select class="select2 stretched jo_field_name" style="width:200px;" data-category="url">
-                                        {foreach key=URL_FIELD_NAME item=URL_FIELD_LABEL from=$VTIGER_URL_FIELDS}
-                                            <option value="{$URL_FIELD_NAME}" {if $VTIGER_FIELD_NAME eq $URL_FIELD_NAME}selected{/if}>{vtranslate($URL_FIELD_LABEL,$SOURCE_MODULE)}</option>
+                                        {foreach key=URL_FIELD_NAME item=URL_FIELD_LABEL from=$JOFORCE_URL_FIELDS}
+                                            <option value="{$URL_FIELD_NAME}" {if $JOFORCE_FIELD_NAME eq $URL_FIELD_NAME}selected{/if}>{vtranslate($URL_FIELD_LABEL,$SOURCE_MODULE)}</option>
                                         {/foreach}
                                     </select>
                                 {/if}

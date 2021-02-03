@@ -35,7 +35,7 @@
 					<ul class="nav navbar-nav">
 						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
 							<li>
-								<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default module-buttons" 
+								<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default" 
 										{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}  
 											onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
 										{else} 

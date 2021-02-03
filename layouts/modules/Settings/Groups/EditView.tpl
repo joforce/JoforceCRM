@@ -9,8 +9,6 @@
 {* modules/Settings/Groups/views/Edit.php *}
 
 {strip}
-	<div class="editViewPageDiv">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
 			<div class="editViewContainer">
 				<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 					<input type="hidden" name="module" value="Groups">
@@ -88,12 +86,10 @@
 						<div class="row clearfix">
 							<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton' type="submit" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-		</div>
-	</div>
 {/strip}

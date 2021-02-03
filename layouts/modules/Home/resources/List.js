@@ -41,6 +41,9 @@ Head.Class("Home_List_Js",{},{
             e.preventDefault();
         });
 
+	$(document).on('click', '#global-notification-dropdown a', function(e) {
+            window.location.href = $(this).attr('href');
+        });
 	$('#global-notification-dropdown .mark-as-seen').on('click', function(e){
 	    id = $(this).attr('id');
 	    element = $('#'+id);
@@ -225,13 +228,16 @@ Head.Class("Home_List_Js",{},{
             this.hidePopoverModal();
             this.registerPopoverAjaxEvents();
 	    this.registerShowAllNotifications();
+
+	    var Head = new Head_Index_Js();
+	    Head.registerEvents();
         }
     }
 });
 
-if($('.joforce-dash-container').length < 1) {
-    window.onload = function() {
-    	var NotificationsInstance = new Home_List_Js();
-    	NotificationsInstance.registerEvents();
-    };
-}
+$(document).ready(function () {
+	if($('.joforce-dash-container').length < 1) {
+		var NotificationsInstance = new Home_List_Js();
+		NotificationsInstance.registerEvents();
+	}
+});

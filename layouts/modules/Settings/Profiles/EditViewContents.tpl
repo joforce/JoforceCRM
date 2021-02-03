@@ -12,22 +12,6 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$SITEURL}{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="form-group row">
-		<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel">
-			<strong>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</strong>
-		</div>
-		<div class="col-lg-11 col-md-11 col-sm-11 choose-profile">
-		  <label>Choose Profiles</label>
-			<select class="select2" id="directProfilePriviligesSelect" placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}">
-				<option></option>
-				{foreach from=$ALL_PROFILES item=PROFILE}
-					{if $PROFILE->isDirectlyRelated() eq false}
-						<option value="{$PROFILE->getId()}" {if $RECORD_ID eq $PROFILE->getId()} selected="" {/if} >{$PROFILE->getName()}</option>
-					{/if}
-				{/foreach}
-			</select>
-		</div>
-	</div>
 {/if}
 <input type="hidden" name="viewall" value="0" />
 <input type="hidden" name="editall" value="0" />
@@ -69,11 +53,6 @@
 			</div>
 	{/if}
 {/if}
-<div class="row col-lg-12 col-md-12 col-sm-12">
-	<div class=" col-lg-11 col-md-11 col-sm-11 edit-profile">
-		<h5>{vtranslate('LBL_EDIT_PRIVILEGES_OF_THIS_PROFILE',$QUALIFIED_MODULE)}</h5><br>
-	</div>
-</div>
 <div class="">
 	<div class="col-lg-1 col-md-1 col-sm-1"></div>
 	<div class=" col-lg-10 col-md-10 col-sm-10">

@@ -16,7 +16,7 @@
 
 	<div class="col-lg-6">
 		<div class="marginBottom10px">
-			<button type="button" class="btn btn-default addCharge addButton module-buttons pull-right" data-url="{Inventory_Charges_Model::getCreateChargeUrl()}" data-type="1">
+			<button type="button" class="btn btn-primary addCharge addButton pull-right" data-url="{Inventory_Charges_Model::getCreateChargeUrl()}" data-type="1">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_CHARGE', $QUALIFIED_MODULE)}</button>
 		</div>
 		<table class="table table-bordered inventoryChargesTable">
@@ -52,7 +52,7 @@
 
 	<div class="col-lg-6">
 		<div class="marginBottom10px">
-			<button type="button" class="btn btn-default addChargeTax addButton module-buttons pull-right" data-url="{$CREATE_TAX_URL}" data-type="1">
+			<button type="button" class="btn btn-primary addChargeTax addButton pull-right" data-url="{$CREATE_TAX_URL}" data-type="1">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_TAX_FOR_CHARGE', $QUALIFIED_MODULE)}</button>
 		</div>
 		<table class="table table-bordered shippingTaxTable">

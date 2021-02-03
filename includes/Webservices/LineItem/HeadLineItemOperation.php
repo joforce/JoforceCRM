@@ -12,8 +12,8 @@
 require_once "includes/Webservices/HeadActorOperation.php";
 require_once "includes/Webservices/LineItem/HeadInventoryOperation.php";
 require_once("includes/events/include.inc");
-require_once 'modules/com_jo_workflow/VTEntityCache.inc';
-require_once 'data/CRMEntity.php';
+require_once 'modules/Workflow/EntityCache.inc';
+require_once 'includes/data/CRMEntity.php';
 require_once 'includes/events/SqlResultIterator.inc';
 require_once 'includes/Webservices/LineItem/HeadLineItemMeta.php';
 require_once 'includes/Webservices/Retrieve.php';
@@ -637,7 +637,7 @@ class HeadLineItemOperation extends HeadActorOperation {
 		if(empty($updateInventoryProductRel_update_product_array)){
 			$updateInventoryProductRel_update_product_array = array();
 		}
-		$entityCache = new VTEntityCache($this->user);
+		$entityCache = new EntityCache($this->user);
 		$entityData = $entityCache->forId($element['parent_id']);
 		updateInventoryProductRel($entityData);
 	}
@@ -650,7 +650,7 @@ class HeadLineItemOperation extends HeadActorOperation {
 
 	private function resetInventoryStockById($parentId){
 		if(!empty($parentId)){
-			$entityCache = new VTEntityCache($this->user);
+			$entityCache = new EntityCache($this->user);
 			$entityData = $entityCache->forId($parentId);
 			updateInventoryProductRel($entityData);
 		}

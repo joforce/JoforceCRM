@@ -15,7 +15,7 @@
 
 	<div class="commentContainer commentsRelatedContainer container-fluid">
 		{if $IS_CREATABLE}
-			<div class="col-lg-8 col-lg-offset-2 mt30"> 
+			<div class="col-lg-8 col-lg-offset-2">
 			<div class="commentTitle row">
 				<div class="addCommentBlock">
 					<div class="commentTextArea">
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="showcomments container-fluid row" style="margin-top:10px;">
+		<div class="showcomments container-fluid row mt10">
 			<div class="recentCommentsHeader row">
 				<h4 class="display-inline-block col-lg-7 textOverflowEllipsis" title="{vtranslate('LBL_RECENT_COMMENTS', $MODULE_NAME)}">
 					{vtranslate('LBL_COMMENTS',$MODULE)}
@@ -68,7 +68,7 @@
 						<input type="checkbox" id="is_private">&nbsp;&nbsp;{vtranslate('LBL_INTERNAL_COMMENT')}&nbsp;&nbsp;
 					{/if}
 					<button class="btn btn-primary btn-sm saveComment" type="button" data-mode="add"><strong>{vtranslate('LBL_POST', $MODULE_NAME)}</strong></button>
-					<a href="javascript:void(0);" class="cursorPointer closeCommentBlock cancelLink" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
+					<a href="javascript:void(0);" class="cursorPointer closeCommentBlock cancelLink btn btn-secondary" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 				</div>
 			</div>
 

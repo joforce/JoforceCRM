@@ -28,8 +28,8 @@
                                 <div class="col-lg-1"></div>
                                 <div class="col-lg-10 moduleContent" style="border:1px solid #CCC;">
                                     <div class="accordion-group convertLeadModules">
-                                        <div class="header accordion-heading">
-                                            <div data-parent="#leadAccordion" data-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
+                                        <div class="header accordion-heading pointer">
+                                            <div data-parent="#leadAccordion" data-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo" data-modulename="{$MODULE_NAME}">
                                                 {if $ACCOUNT_FIELD_MODEL->isMandatory()}
                                                     <input type="hidden" id="oppAccMandatory" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
                                                 {/if}
@@ -48,7 +48,7 @@
                                                     </h5>
                                                 </div>
                                             </div>
-                                            <div id="{$MODULE_NAME}_FieldInfo" class="{$MODULE_NAME}_FieldInfo accordion-body collapse fieldInfo {if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} in {elseif !$CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Contacts"} in {/if}">
+                                            <div id="{$MODULE_NAME}_FieldInfo" class="{$MODULE_NAME}_FieldInfo accordion-body collapse fieldInfo {if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} in {elseif !$CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Contacts"} in {/if}" data-modulename="{$MODULE_NAME}">
                                                 <hr>
                                                 {foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
                                                     <div class="row">
@@ -58,7 +58,7 @@
                                                                 {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
                                                             </label>
                                                         </div>
-                                                        <div class="fieldValue col-lg-8">
+                                                        <div class="fieldValue col-lg-8" data-modulename="{$MODULE_NAME}">
                                                             {include file=$FIELD_MODEL->getUITypeModel()->getTemplateName()|@vtemplate_path}
                                                         </div>
                                                     </div>

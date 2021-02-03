@@ -197,7 +197,7 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 			if ($urlModule === 'Events') {
 				$urlModule = 'Calendar';
 			}
-			$item['url']   = sprintf($site_URL.$urlModule.'/Detail/%s', $crmid);
+			$item['url']   = sprintf($site_URL.$urlModule.'/view/Detail/%s', $crmid);
 			$item['color'] = $color;
 			$item['textColor'] = $textColor;
 			$item['module'] = $moduleModel->getName();
@@ -260,8 +260,35 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 		$groupsIds = Head_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
-		require('user_privileges/user_privileges_'.$currentUser->id.'.php');
-		require('user_privileges/sharing_privileges_'.$currentUser->id.'.php');
+   		$get_userdetails = get_privileges($currentUser->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($currentUser->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 
 		$moduleModel = Head_Module_Model::getInstance('Events');
 		if($userid && !$isGroupId){

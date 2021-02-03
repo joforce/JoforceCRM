@@ -15,7 +15,6 @@
     {assign var = COMPANY_NAME value = getCompanyDetails()}
 
     <div class="listViewPageDiv " id="listViewContent">
-        <div class="col-sm-12 col-xs-12 joforce-bg">
             <br>
             <div class="clearfix treeView">
                 <ul>
@@ -39,6 +38,5 @@
                     </li>
                 </ul>
             </div>
-        </div>
     </div>
 {/strip}

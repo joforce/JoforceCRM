@@ -14,7 +14,7 @@
 	background-color: #fbfbfb !important;
 }
 </style>
-	<div class="container-fluid joforce-bg" id="layoutEditorContainer">
+	<div class="container-fluid" id="layoutEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<input type="hidden" id="selectedModuleLabel" value="{vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)}" />
 		<div class="widget_header row">

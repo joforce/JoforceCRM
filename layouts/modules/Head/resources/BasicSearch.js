@@ -128,7 +128,6 @@ Head.Class('Head_BasicSearch_Js',{},{
 		return aDeferred.promise();
 	},
 
-    
 	addSearchListener : function () {
 		jQuery('.search-link .keyword-input').on('VT_SEARCH_INTIATED',function(e,args){
 			var val = args.searchValue;
@@ -138,6 +137,33 @@ Head.Class('Head_BasicSearch_Js',{},{
                             'view': 'ListAjax',
                             'mode': 'searchAll',
                             'value': encodeURIComponent(val),
+                    	};
+			app.helper.showProgress();
+			app.request.get({data: params}).then(function (error, data) {
+				if (error == null) {
+					app.helper.hideProgress();
+					app.helper.loadPageOverlay(data).then(function (modal) {
+						modal.find('.keyword-input').val(jQuery('.keyword-input').val());
+						Head_SearchList_Js.intializeListInstances(modal);
+					});
+				}
+			});
+		});
+
+		jQuery('#joforce-search-btn').on('VT_SEARCH_INTIATED',function(e,args){
+			var val = args.searchValue;
+			var field = args.searchField;
+			var module = args.searchModule;
+			var cond = args.searchCondition;
+			// var url = '?module=Head&view=ListAjax&mode=searchAll&value='+encodeURIComponent(val);
+			var params = {
+                            'module': 'Head',
+                            'view': 'ListAjax',
+							'mode': 'globalSearchAll',
+							'modulename': encodeURIComponent(module),
+							'field': encodeURIComponent(field),
+							'value': encodeURIComponent(val),
+							'condition': encodeURIComponent(cond)
                     	};
 			app.helper.showProgress();
 			app.request.get({data: params}).then(function (error, data) {

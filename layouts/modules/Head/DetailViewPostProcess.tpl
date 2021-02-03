@@ -10,6 +10,7 @@
 {* modules/Head/views/Detail.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
+		    <div>
                 </div>
             </div>
         </div>

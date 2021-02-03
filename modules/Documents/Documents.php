@@ -177,7 +177,7 @@ class Documents extends CRMEntity {
 		{
 			if($files['name'] != '' && $files['size'] > 0)
 			{
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+				$files['original_name'] = modlib_purify($_REQUEST[$fileindex.'_hidden']);
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
 			}
 		}
@@ -525,7 +525,7 @@ class Documents extends CRMEntity {
 	 */
 	static function isLinkPermitted($linkData) {
 		$moduleName = "Documents";
-		if(vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'CreateView') == 'yes') {
+		if(modlib_isModuleActive($moduleName) && isPermitted($moduleName, 'CreateView') == 'yes') {
 			return true;
 		}
 		return false;
@@ -535,10 +535,10 @@ class Documents extends CRMEntity {
 	 * Function to get query for related list in Documents module
 	 */
 	function get_related_list($id, $cur_tab_id, $rel_tab_id) {
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars('Documents', $this);
-		vtlib_setup_modulevars($related_module, $other);
+		modlib_setup_modulevars('Documents', $this);
+		modlib_setup_modulevars($related_module, $other);
 
 		$returnset = "&return_module=Documents&return_action=CallRelatedList&return_id=".$id;
 

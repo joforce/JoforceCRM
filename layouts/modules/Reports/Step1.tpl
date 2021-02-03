@@ -7,12 +7,6 @@
 * All Rights Reserved.
 ************************************************************************************}
 
-{if $REPORT_TYPE eq 'ChartEdit'}
-    {include file="EditChartHeader.tpl"|vtemplate_path:$MODULE}
-{else}
-    {include file="EditHeader.tpl"|vtemplate_path:$MODULE}
-{/if}
-<div class="reportContents">
     <form class="form-horizontal recordEditView" id="report_step1" method="post" action="index.php">
 		<input type="hidden" name="mode" value="step2" />
         <input type="hidden" name="module" value="{$MODULE}" />
@@ -24,7 +18,7 @@
         <div style="padding:2%;">
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="red-border"></span></label>
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="red-border">*</span></label>
                     <div class="col-lg-4 pl0">
                         <input type="text" class="inputElement" data-rule-required="true" name="reportname" value="{$REPORT_MODEL->get('reportname')}"/>
                     </div>
@@ -32,7 +26,7 @@
             </div>
             <div class="row">		
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="red-border"></span></label>
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="red-border">*</span></label>
                     <div class="col-lg-4 pl0">
                         <select class="select2 col-lg-12 inputElement" name="folderid" data-rule-required="true">
                             {foreach item=REPORT_FOLDER from=$REPORT_FOLDERS}
@@ -48,7 +42,7 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="red-border"></span></label>
+                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="red-border">*</span></label>
                     <div class="col-lg-4 pl0">
                         <select class="select2-container select2 col-lg-12 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
                                 {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
@@ -120,8 +114,8 @@
         <div class="border1px modal-overlay-footer clearfix">
             <div class="row clearfix">
                 <div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
-                    <button class="btn btn-success nextStep" type="submit">{vtranslate('LBL_NEXT',$MODULE)}</button>&nbsp;&nbsp;
-                    <a type="reset" onclick='window.history.back();' class="cancelLink cursorPointer">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+                    <button class="btn btn-primary nextStep" type="submit">{vtranslate('LBL_NEXT',$MODULE)}</button>&nbsp;&nbsp;
+                    <a type="reset" onclick='window.history.back();' class="cancelLink btn btn-secondary cursorPointer">{vtranslate('LBL_CANCEL',$MODULE)}</a>
                 </div>
             </div>
         </div>

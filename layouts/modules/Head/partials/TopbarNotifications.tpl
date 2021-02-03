@@ -10,17 +10,29 @@
 	{assign var=singular_module_name value=$notify_module_model->getSingularLabelKey()}
 
 	{assign var=notify_recordid value=$NOTIFICATION['entity_id']}
-	{assign var=RECORD_MODEL value=Head_Record_Model::getInstanceById($notify_recordid, $notify_module)}
-	{assign var=detail_url value=$RECORD_MODEL->getDetailViewUrl()}
+	{assign var=notify_action value=$NOTIFICATION['action_type']}
+
+        {if !isEntityDeleted($NOTIFICATION['entity_id'])}
+            {assign var=RECORD_MODEL value=Head_Record_Model::getInstanceById($notify_recordid, $notify_module)}
+            {assign var=detail_url value=$RECORD_MODEL->getDetailViewUrl()}
+        {else}
+            {if $notify_action neq 'Deleted'}
+                {assign var=notify_action value='Deleted Record Action'}
+            {/if}
+        {/if}
 
 	{assign var=editor_id value=$NOTIFICATION['user_id']}
 	{assign var=editor_modal value=Users_Record_Model::getInstanceById($editor_id, 'Users')}
 	{assign var=modifierName value=getUserFirstAndLastName($editor_id)}
 
-	{assign var=notify_action value=$NOTIFICATION['action_type']}
 	{assign var=namefields value=$notify_module_model->getNameFields()}
 	<li class="global-notifications col-lg-12" data-notificationid="{$notification_id}" id="notification_number_{$notification_id}" {if $NOTIFICATION['is_seen']} style="background:#f0f0f0;"{/if}>
 	    <div class='col-lg-10'>
+		{if $notify_action eq 'Deleted'}
+                        {$notify_action} {vtranslate($singular_module_name , $notify_module)}
+		{elseif $notify_action eq 'Deleted Record Action'}
+			Action of deleted record - {vtranslate($singular_module_name , $notify_module)}
+                {else}
 	    	<a {if $notify_action neq 'Deleted'} href="{$detail_url}" {/if}>
 		    {foreach item=NAME_FIELD from=$namefields}
                         <span class="{$NAME_FIELD}">{$RECORD_MODEL->get($NAME_FIELD)}</span>&nbsp;
@@ -56,6 +68,7 @@
 		    {/if}
 		</p>
 	    	<p>{Head_Datetime_UIType::getDateTimeValue($RECORD_MODEL->get('modifiedtime'))}</p>
+		{/if}
 	    </div>
 	    <div class='col-lg-2'>
             	<span id='noti_marker_{$notification_id}' class="mark-as-seen {if $NOTIFICATION['is_seen']} seen_notification{/if}" data-notificationid="{$notification_id}"><i class="fa fa-check"></i><span>

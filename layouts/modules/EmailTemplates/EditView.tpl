@@ -5,12 +5,10 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 
 {strip}
-	<div class="main-container clearfix">
-		<div class="editViewPageDiv full-width">
-			<div class="col-sm-12 col-xs-12 ">
 				<form id="EditView" class="form-horizontal recordEditView"  name="EditView" method="post" action="{$SITEURL}index.php">
 					<div class="editViewHeader">
 						<div class='row'>
@@ -58,8 +56,8 @@
 						<div class="modal-overlay-footer clearfix" style="border-left-width: 0px;">
 							<div class="row clearfix">
 								<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-									<button type='submit' class='btn btn-success saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-									<a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+									<button type='submit' class='btn btn-primary saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+									<a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 								</div>
 							</div>
 						</div>

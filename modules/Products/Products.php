@@ -257,7 +257,7 @@ class Products extends CRMEntity {
 			if($files['name'] != '' && $files['size'] > 0)
 			{
 				  if($_REQUEST[$fileindex.'_hidden'] != '')
-					  $files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+					  $files['original_name'] = modlib_purify($_REQUEST[$fileindex.'_hidden']);
 				  else
 					  $files['original_name'] = stripslashes($files['name']);
 				  $files['original_name'] = str_replace('"','',$files['original_name']);
@@ -309,11 +309,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_leads(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -366,11 +366,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_accounts(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -423,11 +423,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -483,11 +483,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -547,11 +547,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_tickets(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -616,11 +616,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -692,11 +692,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_purchase_orders(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -765,11 +765,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -842,11 +842,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_invoices(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -915,11 +915,11 @@ class Products extends CRMEntity {
 		global $log,$singlepane_view,$currentModule;
 		$log->debug("Entering get_product_pricebooks(".$id.") method ...");
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$button = '';
 		if($actions) {
@@ -988,11 +988,11 @@ class Products extends CRMEntity {
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 

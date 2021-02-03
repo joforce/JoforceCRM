@@ -50,7 +50,7 @@
        */
 function getKeyMetrics($maxval,$calCnt)
 {
-	require_once("data/Tracker.php");
+	require_once("includes/data/Tracker.php");
 	require_once('modules/CustomView/CustomView.php');
 	require_once('includes/logging.php');
 	require_once('includes/ListView/ListView.php');
@@ -143,7 +143,20 @@ function getKeyMetrics($maxval,$calCnt)
 function getMetricList()
 {
 	global $adb, $current_user;
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	
 	$ssql = "select jo_customview.* from jo_customview inner join jo_tab on jo_tab.name = jo_customview.entitytype";
 	$ssql .= " where jo_customview.setmetrics = 1 ";
@@ -162,7 +175,7 @@ function getMetricList()
 	{
 		$metricslist = Array();
 		
-		if(vtlib_isModuleActive($cvrow['entitytype'])){
+		if(modlib_isModuleActive($cvrow['entitytype'])){
 			$metricslist['id'] = $cvrow['cvid'];
 			$metricslist['name'] = $cvrow['viewname'];
 			$metricslist['module'] = $cvrow['entitytype'];
@@ -176,5 +189,3 @@ function getMetricList()
 
 	return $metriclists;
 }
-
-?>

@@ -5,14 +5,14 @@
 	<h2>{vtranslate('LBL_EVENTS', $QUALIFIED_MODULE)}</h2>
 	
 	<ul id="md-events-list">
-	<li>{vtranslate('vtiger.entity.beforesave.modifiable', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.beforesave', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.beforesave.final', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.aftersave', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.aftersave.final', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.beforedelete', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.afterdelete', $QUALIFIED_MODULE)}</li>
-	<li>{vtranslate('vtiger.entity.afterrestore', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.beforesave.modifiable', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.beforesave', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.beforesave.final', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.aftersave', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.aftersave.final', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.beforedelete', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.afterdelete', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('jo.entity.afterrestore', $QUALIFIED_MODULE)}</li>
 	</ul>
 </div>
 </td>

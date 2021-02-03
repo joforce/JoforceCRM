@@ -83,7 +83,7 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 	global $urlPrefix;
 
 	global $theme;
-	$pricebook_id = vtlib_purify($_REQUEST['record']);
+	$pricebook_id = modlib_purify($_REQUEST['record']);
 	$theme_path="themes/".$theme."/";
 	$image_path=$theme_path."images/";
 
@@ -107,7 +107,7 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 
 
 	if(isset($_REQUEST['relmodule']) && $_REQUEST['relmodule']!='' && $_REQUEST['relmodule'] == $relatedmodule) {
-		$relmodule = vtlib_purify($_REQUEST['relmodule']);
+		$relmodule = modlib_purify($_REQUEST['relmodule']);
 		if($_SESSION['rlvs'][$module][$relmodule]) {
 			setSessionVar($_SESSION['rlvs'][$module][$relmodule],$noofrows,$list_max_entries_per_page,$module,$relmodule);
 		}
@@ -182,7 +182,20 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 
 function CheckFieldPermission($fieldname,$module) {
 	global $current_user,$adb;
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	if($fieldname == '' || $module == '') {
 		return "false";
 	}

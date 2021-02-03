@@ -546,7 +546,7 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Head_Index_Act
 	protected function createZipPackage($dirname, $o_module)
 	{
         global $site_URL;
-		include_once('vtlib/Head/Zip.php');
+		include_once('libraries/modlib/Head/Zip.php');
 		
 		$module = $o_module->name;
 		

@@ -11,7 +11,7 @@
 $languageStrings = array(
 	'ModuleManager' => 'Module Manager',
 	'LBL_IMPORT_MODULE' => 'Import Module',
-	'LBL_VTIGER_EXTENSION_STORE' => 'JoForce Extension Store',
+	'LBL_JOFORCE_EXTENSION_STORE' => 'JoForce Extension Store',
 	'LBL_PUBLISHER' => 'Publisher',
 	'LBL_LICENSE' => 'License',
 	'LBL_PUBLISHED_ON' => 'Published on',
@@ -32,7 +32,7 @@ $languageStrings = array(
 	//Install From file labels
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Verify Import Details',
 	'LBL_MODULE_NAME' => 'Module Name',
-	'LBL_REQ_VTIGER_VERSION' => 'JoForce Version',
+	'LBL_REQ_JOFORCE_VERSION' => 'JoForce Version',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'I accept the license agreement.',
 	'LBL_EXISTS'=>'Exists',
 	'LBL_PROCEED_WITH_IMPORT' => 'Do you want to proceed with the import?',

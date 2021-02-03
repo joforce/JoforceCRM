@@ -149,7 +149,7 @@
                                     {if $LINE_ITEM_DETAIL["productDeleted$INDEX"]}
                                         {$LINE_ITEM_DETAIL["productName$INDEX"]}
                                     {else}
-                                        <h5><a class="fieldValue" href="index.php?module={$LINE_ITEM_DETAIL["entityType$INDEX"]}&view=Detail&record={$LINE_ITEM_DETAIL["hdnProductId$INDEX"]}" target="_blank">{$LINE_ITEM_DETAIL["productName$INDEX"]}</a></h5>
+                                        <h5><a class="fieldValue" href="{$SITEURL}{$LINE_ITEM_DETAIL["entityType$INDEX"]}/view/Detail/{$LINE_ITEM_DETAIL["hdnProductId$INDEX"]}" target="_blank">{$LINE_ITEM_DETAIL["productName$INDEX"]}</a></h5>
                                         {/if}
                                 </div>
                                 {if $LINE_ITEM_DETAIL["productDeleted$INDEX"]}

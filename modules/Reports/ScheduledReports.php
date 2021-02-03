@@ -41,7 +41,7 @@ class VTScheduledReport extends Reports {
 		global $adb;
 
 		if(!empty($this->id)) {
-			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+			$cachedInfo = CacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
 
 			if($cachedInfo == false) {
 				$result = $adb->pquery('SELECT * FROM jo_scheduled_reports WHERE reportid=?', array($this->id));
@@ -52,10 +52,10 @@ class VTScheduledReport extends Reports {
 					$scheduledInterval = (!empty($reportScheduleInfo['schedule']))?Zend_Json::decode($reportScheduleInfo['schedule']):array();
 					$scheduledRecipients = (!empty($reportScheduleInfo['recipients']))?Zend_Json::decode($reportScheduleInfo['recipients']):array();
 
-					VTCacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'],
+					CacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'],
 														$scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
 
-					$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+					$cachedInfo = CacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
 				}
 			}
 			if($cachedInfo) {
@@ -122,7 +122,7 @@ class VTScheduledReport extends Reports {
 
 	public function sendEmail() {
 		global $currentModule;
-		require_once 'vtlib/Head/Mailer.php';
+		require_once 'libraries/modlib/Head/Mailer.php';
 
 		$vtigerMailer = new Head_Mailer();
 
@@ -359,8 +359,8 @@ class VTScheduledReport extends Reports {
 	}
 
 	public static function runScheduledReports($adb) {
-		require_once 'modules/com_jo_workflow/VTWorkflowUtils.php';
-		$util = new VTWorkflowUtils();
+		require_once 'modules/Workflow/WorkflowUtils.php';
+		$util = new WorkflowUtils();
 		$adminUser = $util->adminUser();
 
 		global $currentModule, $current_language;
@@ -376,5 +376,3 @@ class VTScheduledReport extends Reports {
 	}
 
 }
-
-?>

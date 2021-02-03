@@ -55,8 +55,8 @@
 						{if $MODULE_SETTING_ACTIONS|@count gt 0}
 							<li>
 								<div class="settingsIcon">
-									<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-										<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;{vtranslate('LBL_CUSTOMIZE', 'Reports')}&nbsp; <span class="caret"></span>
+									<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;{vtranslate('LBL_CUSTOMIZE', 'Reports')}
 									</button>
 									<ul class="detailViewSetting dropdown-menu">
 										{foreach item=SETTING from=$MODULE_SETTING_ACTIONS}

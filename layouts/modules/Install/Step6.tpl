@@ -29,10 +29,10 @@
 							<tr>
 								<td colspan="2">
 									We collect anonymous information (Country, OS) 
-									to help us improve future versions of JoForce. 
+									to help us improve future versions of Joforce. 
 									Data about how CRM is used and where it is being used helps 
 									us identify the areas in the product that need to be enhanced. 
-									We use this data to improve your experience with JoForce. 
+									We use this data to improve your experience with Joforce. 
 									None of the data collected here can be linked back to an individual.
 								</td>
 							</tr>

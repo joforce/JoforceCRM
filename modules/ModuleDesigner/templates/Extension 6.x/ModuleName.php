@@ -15,7 +15,7 @@ class ModuleName {
 	* @param String Module name
 	* @param String Event Type
 	*/
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
 		global $adb;
  		if($eventType == 'module.postinstall') {
 			// TODO Handle actions after this module is installed.

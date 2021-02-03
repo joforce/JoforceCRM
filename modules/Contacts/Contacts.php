@@ -238,74 +238,6 @@ class Contacts extends CRMEntity {
     }
 
 
-    /** Function to process list query for Plugin with Security Parameters for a given query
-    *  @param $query
-    *  Returns the results of query in array format
-    */
-    function plugin_process_list_query($query)
-    {
-          global $log,$adb,$current_user;
-          $log->debug("Entering process_list_query1(".$query.") method ...");
-          $permitted_field_lists = Array();
-          require('user_privileges/user_privileges_'.$current_user->id.'.php');
-          if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
-          {
-              $sql1 = "select columnname from jo_field where tabid=4 and block <> 75 and jo_field.presence in (0,2)";
-			  $params1 = array();
-          }else
-          {
-              $profileList = getCurrentUserProfileList();
-              $sql1 = "select columnname from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid=4 and jo_field.block <> 6 and jo_field.block <> 75 and jo_field.displaytype in (1,2,4,3) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
-			  $params1 = array();
-			  if (count($profileList) > 0) {
-			  	 $sql1 .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
-			  	 array_push($params1, $profileList);
-			  }
-          }
-          $result1 = $this->db->pquery($sql1, $params1);
-          for($i=0;$i < $adb->num_rows($result1);$i++)
-          {
-              $permitted_field_lists[] = $adb->query_result($result1,$i,'columnname');
-          }
-
-          $result =& $this->db->query($query,true,"Error retrieving $this->object_name list: ");
-          $list = Array();
-          $rows_found =  $this->db->getRowCount($result);
-          if($rows_found != 0)
-          {
-              for($index = 0 , $row = $this->db->fetchByAssoc($result, $index); $row && $index <$rows_found;$index++, $row = $this->db->fetchByAssoc($result, $index))
-              {
-                  $contact = Array();
-
-		  $contact[lastname] = in_array("lastname",$permitted_field_lists) ? $row[lastname] : "";
-		  $contact[firstname] = in_array("firstname",$permitted_field_lists)? $row[firstname] : "";
-		  $contact[email] = in_array("email",$permitted_field_lists) ? $row[email] : "";
-
-
-                  if(in_array("accountid",$permitted_field_lists))
-                  {
-                      $contact[accountname] = $row[accountname];
-                      $contact[account_id] = $row[accountid];
-                  }else
-		  {
-                      $contact[accountname] = "";
-                      $contact[account_id] = "";
-		  }
-                  $contact[contactid] =  $row[contactid];
-                  $list[] = $contact;
-              }
-          }
-
-          $response = Array();
-          $response['list'] = $list;
-          $response['row_count'] = $rows_found;
-          $response['next_offset'] = $next_offset;
-          $response['previous_offset'] = $previous_offset;
-          $log->debug("Exiting process_list_query1 method ...");
-          return $response;
-    }
-
-
 	/** Returns a list of the associated opportunities
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved.
@@ -317,11 +249,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -390,11 +322,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_activities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -495,11 +427,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_tickets(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -554,11 +486,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -603,11 +535,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -652,11 +584,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -716,11 +648,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_purchase_orders(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -767,11 +699,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -825,11 +757,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_campaigns(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -884,11 +816,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_invoices(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -957,11 +889,11 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_vendors(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+        $related_module = modlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-        vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -1045,154 +977,6 @@ class Contacts extends CRMEntity {
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
         }
-
-
-/** Function to get the Columnnames of the Contacts
-* Used By vtigerCRM Word Plugin
-* Returns the Merge Fields for Word Plugin
-*/
-function getColumnNames()
-{
-	global $log, $current_user;
-	$log->debug("Entering getColumnNames() method ...");
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
-	{
-	 $sql1 = "select fieldlabel from jo_field where tabid=4 and block <> 75 and jo_field.presence in (0,2)";
-	 $params1 = array();
-	}else
-	{
-	 $profileList = getCurrentUserProfileList();
-	 $sql1 = "select jo_field.fieldid,fieldlabel from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid=4 and jo_field.block <> 75 and jo_field.displaytype in (1,2,4,3) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
-	 $params1 = array();
-	 if (count($profileList) > 0) {
-	 	$sql1 .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .") group by fieldid";
-  	 	array_push($params1, $profileList);
-	 }
-  }
-	$result = $this->db->pquery($sql1, $params1);
-	$numRows = $this->db->num_rows($result);
-	for($i=0; $i < $numRows;$i++)
-	{
-	$custom_fields[$i] = $this->db->query_result($result,$i,"fieldlabel");
-	$custom_fields[$i] = preg_replace("/\s+/","",$custom_fields[$i]);
-	$custom_fields[$i] = strtoupper($custom_fields[$i]);
-	}
-	$mergeflds = $custom_fields;
-	$log->debug("Exiting getColumnNames method ...");
-	return $mergeflds;
-}
-//End
-/** Function to get the Contacts assigned to a user with a valid email address.
-* @param varchar $username - User Name
-* @param varchar $emailaddress - Email Addr for each contact.
-* Used By vtigerCRM Outlook Plugin
-* Returns the Query
-*/
-function get_searchbyemailid($username,$emailaddress)
-{
-	global $log;
-	global $current_user;
-	require_once("modules/Users/Users.php");
-	$seed_user=new Users();
-	$user_id=$seed_user->retrieve_user_id($username);
-	$current_user=$seed_user;
-	$current_user->retrieve_entity_info($user_id, 'Users');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-	$log->debug("Entering get_searchbyemailid(".$username.",".$emailaddress.") method ...");
-	$query = "select jo_contactdetails.lastname,jo_contactdetails.firstname,
-					jo_contactdetails.contactid, jo_contactdetails.salutation,
-					jo_contactdetails.email,jo_contactdetails.title,
-					jo_contactdetails.mobile,jo_account.accountname,
-					jo_account.accountid as accountid  from jo_contactdetails
-						inner join jo_crmentity on jo_crmentity.crmid=jo_contactdetails.contactid
-						inner join jo_users on jo_users.id=jo_crmentity.smownerid
-						left join jo_account on jo_account.accountid=jo_contactdetails.accountid
-						left join jo_contactaddress on jo_contactaddress.contactaddressid=jo_contactdetails.contactid
-			      LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid";
-	$query .= getNonAdminAccessControlQuery('Contacts',$current_user);
-	$query .= "where jo_crmentity.deleted=0";
-	if(trim($emailaddress) != '') {
-		$query .= " and ((jo_contactdetails.email like '". formatForSqlLike($emailaddress) .
-		"') or jo_contactdetails.lastname REGEXP REPLACE('".$emailaddress.
-		"',' ','|') or jo_contactdetails.firstname REGEXP REPLACE('".$emailaddress.
-		"',' ','|'))  and jo_contactdetails.email != ''";
-	} else {
-		$query .= " and (jo_contactdetails.email like '". formatForSqlLike($emailaddress) .
-		"' and jo_contactdetails.email != '')";
-	}
-
-	$log->debug("Exiting get_searchbyemailid method ...");
-	return $this->plugin_process_list_query($query);
-}
-
-/** Function to get the Contacts associated with the particular User Name.
-*  @param varchar $user_name - User Name
-*  Returns query
-*/
-
-function get_contactsforol($user_name)
-{
-	global $log,$adb;
-	global $current_user;
-	require_once("modules/Users/Users.php");
-	$seed_user=new Users();
-	$user_id=$seed_user->retrieve_user_id($user_name);
-	$current_user=$seed_user;
-	$current_user->retrieve_entity_info($user_id, 'Users');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-
-	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
-  {
-    $sql1 = "select tablename,columnname from jo_field where tabid=4 and jo_field.presence in (0,2)";
-	$params1 = array();
-  }else
-  {
-    $profileList = getCurrentUserProfileList();
-    $sql1 = "select tablename,columnname from jo_field inner join jo_profile2field on jo_profile2field.fieldid=jo_field.fieldid inner join jo_def_org_field on jo_def_org_field.fieldid=jo_field.fieldid where jo_field.tabid=4 and jo_field.displaytype in (1,2,4,3) and jo_profile2field.visible=0 and jo_def_org_field.visible=0 and jo_field.presence in (0,2)";
-	$params1 = array();
-	if (count($profileList) > 0) {
-		$sql1 .= " and jo_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
-		array_push($params1, $profileList);
-	}
-  }
-  $result1 = $adb->pquery($sql1, $params1);
-  for($i=0;$i < $adb->num_rows($result1);$i++)
-  {
-      $permitted_lists[] = $adb->query_result($result1,$i,'tablename');
-      $permitted_lists[] = $adb->query_result($result1,$i,'columnname');
-      if($adb->query_result($result1,$i,'columnname') == "accountid")
-      {
-        $permitted_lists[] = 'jo_account';
-        $permitted_lists[] = 'accountname';
-      }
-  }
-	$permitted_lists = array_chunk($permitted_lists,2);
-	$column_table_lists = array();
-	for($i=0;$i < count($permitted_lists);$i++)
-	{
-	   $column_table_lists[] = implode(".",$permitted_lists[$i]);
-  }
-
-	$log->debug("Entering get_contactsforol(".$user_name.") method ...");
-	$query = "select jo_contactdetails.contactid as id, ".implode(',',$column_table_lists)." from jo_contactdetails
-						inner join jo_crmentity on jo_crmentity.crmid=jo_contactdetails.contactid
-						inner join jo_users on jo_users.id=jo_crmentity.smownerid
-						left join jo_customerdetails on jo_customerdetails.customerid=jo_contactdetails.contactid
-						left join jo_account on jo_account.accountid=jo_contactdetails.accountid
-						left join jo_contactaddress on jo_contactaddress.contactaddressid=jo_contactdetails.contactid
-						left join jo_contactsubdetails on jo_contactsubdetails.contactsubscriptionid = jo_contactdetails.contactid
-                        left join jo_campaigncontrel on jo_contactdetails.contactid = jo_campaigncontrel.contactid
-                        left join jo_campaignrelstatus on jo_campaignrelstatus.campaignrelstatusid = jo_campaigncontrel.campaignrelstatusid
-			      LEFT JOIN jo_groups ON jo_groups.groupid = jo_crmentity.smownerid
-						where jo_crmentity.deleted=0 and jo_users.user_name='".$user_name."'";
-  $log->debug("Exiting get_contactsforol method ...");
-	return $query;
-}
-
-
 	/** Function to handle module specific operations when saving a entity
 	*/
 	function save_module($module)
@@ -1218,7 +1002,7 @@ function get_contactsforol($user_name)
 		{
 			if($files['name'] != '' && $files['size'] > 0)
 			{
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+				$files['original_name'] = modlib_purify($_REQUEST[$fileindex.'_hidden']);
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
 			}
 		}

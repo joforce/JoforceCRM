@@ -369,6 +369,93 @@ class Head_Record_Model extends Head_Base_Model {
 		return $matchingRecords;
 	}
 
+	public static function getGlobalSearchResult($searchKey, $searchModule, $searchField, $searchCondition) {
+		$db = PearDatabase::getInstance();
+
+		$searchConditionVal = "";
+		if($searchCondition === "equal"){
+			$searchConditionVal = "=";
+		}else if($searchCondition === "notequal"){
+			$searchConditionVal = "!=";
+		}else if($searchCondition === "starts" || $searchCondition === "ends" || $searchCondition === "contains"){
+			$searchConditionVal = "like";
+		}else if($searchCondition === "notcontains"){
+			$searchConditionVal = "not like";
+		}
+
+		$query = 'SELECT distinct f.tablename from jo_tab as t 
+		inner join jo_blocks as b on b.tabid = t.tabid 
+		inner join jo_field as f on f.block = b.blockid and f.tabid = b.tabid and f.fieldname = ? 
+		where t.name = ?' ;
+
+		$params = array("$searchField","$searchModule");
+
+		$result = $db->pquery($query, $params);
+		$tablename = $db->query_result($result, 0, 'tablename');
+
+		$sql = "SHOW COLUMNS FROM " . $tablename;
+		$result = $db->query($sql);
+		$resField = "";
+		$resFieldId = "";
+		foreach($result as $row){
+			if($resField == ""){
+				$resField = $row['Field'];
+			}else{
+				$resField .= "," . $row['Field'];
+			}
+			if($row['Key'] === "PRI"){
+				$resFieldId = $row['Field'];
+			}
+		}
+
+		$query = 'SELECT ';
+		$query .= '"' . $searchModule . '" as setype,';
+		$query .=  $resFieldId . ' as crmid,';
+		$query .=  $resField . ' from ' . $tablename . ' where ';
+		if($searchCondition === "equal" || $searchCondition === "notequal"){
+			$query .=  $searchField . ' ' . $searchConditionVal . ' "' . $searchKey . '"';
+		}else if($searchCondition === "starts"){
+			$query .=  $searchField . ' ' . $searchConditionVal . ' "' . $searchKey . '%"';
+		}else if($searchCondition === "ends"){
+			$query .=  $searchField . ' ' . $searchConditionVal . ' "%' . $searchKey . '"';
+		}else if($searchCondition === "contains" || $searchCondition === "notcontains"){
+			$query .=  $searchField . ' ' . $searchConditionVal . ' "%' . $searchKey . '%"';
+		}
+
+		$result = $db->query($query);
+
+		$noOfRows = $db->num_rows($result);
+
+		$moduleModels = $matchingRecords = $leadIdsList = array();
+		for($i=0; $i<$noOfRows; ++$i) {
+			$row = $db->query_result_rowdata($result, $i);
+			if ($row['setype'] === 'Leads') {
+				$leadIdsList[] = $row['crmid'];
+			}
+		}
+		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
+
+		for($i=0, $recordsCount = 0; $i<$noOfRows && $recordsCount<100; ++$i) {
+			$row = $db->query_result_rowdata($result, $i);
+			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+				continue;
+			}
+			if(Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
+				$row['id'] = $row['crmid'];
+				$moduleName = $row['setype'];
+				if(!array_key_exists($moduleName, $moduleModels)) {
+					$moduleModels[$moduleName] = Head_Module_Model::getInstance($moduleName);
+				}
+				$moduleModel = $moduleModels[$moduleName];
+				$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', $moduleName);
+				$recordInstance = new $modelClassName();
+				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
+				$recordsCount++;
+			}
+		}
+		return $matchingRecords;
+	}
+
 	/**
 	 * Function to get details for user have the permissions to do actions
 	 * @return <Boolean> - true/false

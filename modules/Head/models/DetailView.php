@@ -150,6 +150,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 	 * @return <array> - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks() {
+		global $site_URL;
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
@@ -161,7 +162,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 				'linklabel' => vtranslate('LBL_SUMMARY', $moduleName),
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '/mode/showDetailViewByMode?requestMode=summary',
-				'linkicon' => ''
+				'linkicon' => $site_URL.'/layouts/skins/images/summary_summary.png'
 			));
 		}
 		//link which shows the summary information(generally detail of record)
@@ -170,7 +171,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 				'linklabel' => vtranslate('LBL_DETAILS', $moduleName),
 				'linkKey' => 'LBL_RECORD_DETAILS',
 				'linkurl' => $recordModel->getDetailViewUrl().'/mode/showDetailViewByMode?requestMode=full',
-				'linkicon' => ''
+				'linkicon' => $site_URL.'/layouts/skins/images/summary_detail.png'
 		);
 
 		if($parentModuleModel->isTrackingEnabled()) {
@@ -178,7 +179,7 @@ class Head_DetailView_Model extends Head_Base_Model {
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => 'LBL_UPDATES',
 					'linkurl' => $recordModel->getDetailViewUrl().'/mode/showRecentActivities?page=1',
-					'linkicon' => ''
+					'linkicon' => $site_URL.'/layouts/skins/images/summary_history.png'
 			);
 		}
 

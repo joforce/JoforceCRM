@@ -6,13 +6,9 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 -->*}
-{strip}       
+{strip}
 
-            <div class="main-container clearfix">
-                <div class="editViewPageDiv full-width">
-                        <div class="col-sm-12 col-xs-12 ">
-
-	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="{$SITEURL}index.php">
+	<form class="form-horizontal recordEditView joforce-bg" id="EditView" name="EditView" method="post" action="{$SITEURL}index.php">
 		{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -47,7 +43,7 @@
 			</div>
 			<div class="col-md-6">
                 <div class="col-md-5 pr0">
-				<div class="fieldLabel {$WIDTHTYPE}"><span class="red-border" style="left: 15px;"></span>{vtranslate('LBL_NAME', $MODULE)}</div>
+				<div class="fieldLabel {$WIDTHTYPE}"><span class="red-border">*</span>{vtranslate('LBL_NAME', $MODULE)}</div>
                 </div>
                 <div class="col-md-6 pl0">
 				<div class="fieldValue {$WIDTHTYPE}">
@@ -351,8 +347,8 @@
 	     <div class="modal-overlay-footer clearfix" style="border-left-width: 0px;">
 		     <div class="row clearfix">
         		    <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-                        	    <button type='submit' class='btn btn-success saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                                	    <a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        	    <button type='submit' class='btn btn-primary saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+                                	    <a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 	                    </div>
         	      </div>
 	     </div>

@@ -31,10 +31,10 @@ class PurchaseOrderHandler extends VTEventHandler {
          * Adjust the balance amount against total & paid amount
          * NOTE: beforesave the total amount will not be populated in event data.
          */
-        if ($eventName == 'vtiger.entity.aftersave') {
+        if ($eventName == 'jo.entity.aftersave') {
             if ($currentModule != 'PurchaseOrder')
                 return;
-            $entityDelta = new VTEntityDelta();
+            $entityDelta = new EntityDelta();
             $oldCurrency = $entityDelta->getOldValue($entityData->getModuleName(), $entityData->getId(), 'currency_id');
             $oldConversionRate = $entityDelta->getOldValue($entityData->getModuleName(), $entityData->getId(), 'conversion_rate');
             $newCurrency = $entityDelta->getCurrentValue($entityData->getModuleName(), $entityData->getId(), 'currency_id');
@@ -56,5 +56,3 @@ class PurchaseOrderHandler extends VTEventHandler {
     }
 
 }
-
-?>

@@ -15,10 +15,24 @@
     text-rendering: optimizeLegibility;
 }
 @font-face {
-    font-family: 'Lato';
+    font-family: 'LatoRegular';
     font-style: normal;
     font-weight: normal;
     src: url('../fonts/Lato/Lato-Regular.ttf') format('truetype');
+    text-rendering: optimizeLegibility;
+}
+@font-face {
+    font-family: 'LatoBold';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/Lato/Lato-Bold.ttf') format('truetype');
+    text-rendering: optimizeLegibility;
+}
+@font-face {
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/Crimson/CrimsonText-Regular.ttf') format('truetype');
     text-rendering: optimizeLegibility;
 }
 

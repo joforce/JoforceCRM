@@ -55,7 +55,6 @@
                     <div class="btn-group listViewMassActions" role="group">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                             {vtranslate('LBL_MORE','Head')}&nbsp;
-                            <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             {foreach item=LISTVIEW_MASSACTION from=$LISTVIEW_MASSACTIONS_1 name=advancedMassActions}

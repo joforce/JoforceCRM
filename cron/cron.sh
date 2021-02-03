@@ -8,9 +8,9 @@
 #
 # ********************************************************************************
 
-export VTIGERCRM_ROOTDIR=`dirname "$0"`/..
+export ROOTDIR=`dirname "$0"`/..
 export USE_PHP=php
 
-cd $VTIGERCRM_ROOTDIR
+cd $ROOTDIR
 # TO RUN ALL CORN JOBS
-$USE_PHP -f cron.php 
+$USE_PHP -f cron/cron.php 

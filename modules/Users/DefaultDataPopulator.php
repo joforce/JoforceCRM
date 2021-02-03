@@ -1735,7 +1735,7 @@ state, <br />
  <br />
  Kindly let us know if you have any clarifications in the invoice at sales@joforce.com or +1 872 9182. We are happy to help you and would like to continue our business with you.<br /><br />
  Thanks for your purchase!<br />
- The JoForce Team';
+ The Joforce Team';
 
 
 		$this->db->query("insert into jo_emailtemplates(foldername,templatename,templatepath,subject,description,body,deleted,templateid,systemtemplate,module) values ('Public','Pending Invoices','','Invoices Pending','Payment Due','" . $body . "',0," . $this->db->getUniqueID('jo_emailtemplates') . ",'0','')");
@@ -1823,7 +1823,7 @@ Should any need arise,please do give us a call.';
 		//Insert into jo_organizationdetails jo_table
 		$organizationId = $this->db->getUniqueID('jo_organizationdetails');
 		$this->db->query("insert into jo_organizationdetails(organization_id,organizationname,address,city,state,country,code,phone,fax,website,logoname)
-								values ($organizationId,'JoForce','#R43/S1 Shah Complex','Tirunelveli',
+								values ($organizationId,'Joforce','#R43/S1 Shah Complex','Tirunelveli',
 										'TamilNadu','India','627002','+91 462 4000004','','www.joforce.com','JoForce-Logo.png')");
 
 
@@ -1931,11 +1931,11 @@ Should any need arise,please do give us a call.';
 		$this->db->query("alter table jo_inventoryshippingrel add column shtax$shserviceid decimal(7,3) default NULL");
 
 		//version file is included here because without including this file version cannot be get
-		include('version.php');
+		include('config/config.inc.php');
 		$this->db->query("insert into jo_version values(" . $this->db->getUniqueID('jo_version') . ",'" . $jo_current_version . "','" . $jo_current_version . "')");
 
 		//Register default language English
-		require_once('vtlib/Head/Language.php');
+		require_once('libraries/modlib/Head/Language.php');
 		$vtlanguage = new Head_Language();
 		$vtlanguage->register('en_us', 'US English', 'English', true, true, true);
 

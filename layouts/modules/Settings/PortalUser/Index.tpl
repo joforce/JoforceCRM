@@ -10,7 +10,6 @@
 {* modules/Settings/MenuManager/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
         <div class="col-sm-12">
                 <div class="row">
                         <div class=" vt-default-callout vt-info-callout">
@@ -36,4 +35,3 @@
 		</div>
             </div>
 	</div>
-</div>

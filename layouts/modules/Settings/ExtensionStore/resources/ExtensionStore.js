@@ -1,13 +1,12 @@
-/*+*******************************************************************************
- *  The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is: vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): JoForce.com
- *
- *********************************************************************************/
+ *************************************************************************************/
 
 Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
     showPopover : function(e) {
@@ -66,7 +65,16 @@ Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
     registerEventForIndexView: function() {
         this.registerRaty();
         var detailContentsHolder = jQuery('.contentsDiv');
-        app.helper.showScroll(jQuery('.extensionDescription'), {'height': '120px', 'width': '100%'});
+        jQuery('.descriptions').each(function(index, value){
+            var description = value.innerText;
+            var shortText = jQuery.trim(description).substring(0, 250)
+                .split(" ").slice(0, -1).join(" ") + "...";
+            var scrollHeight = value.scrollHeight;
+            if(scrollHeight > 250){                
+                value.innerText = shortText;
+            }
+        });
+        //app.helper.showScroll(jQuery('.descriptions'), {'height': '150px', 'width': '100%'});
         this.registerEventsForExtensionStore(detailContentsHolder);
     },
     
@@ -78,213 +86,24 @@ Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
      */
     registerEventsForExtensionStore: function(container) {
         var thisInstance = this;
-        thisInstance.registerShowCardInfoEvent();
-        jQuery(container).find('.installExtension, .installPaidExtension').on('click', function(e) {
-            thisInstance.installExtension(e);
+        jQuery(container).find('.moreDetails, .buy').on('click',function(e){
+                let element = jQuery(e.currentTarget);
+                let url = element.data('url');
+                window.open(url);
+                return;
         });
-
-        jQuery('#logintoMarketPlace').off().on('click', function(e) {
-            var loginAccountModal = jQuery(container).find('.loginAccount').clone(true, true);
-            loginAccountModal.removeClass('hide');
-            app.helper.showProgress();
-
-            var callBackFunction = function(data) {
-                app.helper.hideProgress();
-                jQuery(data).find('[name="signUp"]').on('click', function(e) {
-                    var signUpAccountModal = jQuery(container).find('.signUpAccount').clone(true, true);
-                    signUpAccountModal.removeClass('hide');
-
-                    var callBackSignupFunction = function(data) {
-                        app.helper.hideModal();
-                        var form = data.find('.signUpForm');
-                        var params = {
-                            submitHandler : function(form){
-                                var form = jQuery(form);
-                                var password = form.find('input[name=password]').val();
-                                var confirmPassword = form.find('input[name=confirmPassword]').val();
-                                if(password !== confirmPassword) {
-                                    app.helper.showErrorNotification({"message": app.vtranslate('JS_PASSWORDS_MISMATCH')});
-                                    return false;
-                                }
-                                var formData = form.serializeFormData();
-                                app.helper.showProgress();
-                                app.request.post({'data':formData}).then(
-                                        function(error,data) {
-                                            app.helper.hideProgress();
-                                            app.helper.hidePopup();
-                                            if(error) {
-                                                app.helper.showErrorNotification({"message": error});
-                                                return false;
-                                            }else{
-                                                location.reload();
-                                            }
-                                        }
-                                );
-                            }
-                        };
-                        
-                        form.vtValidate(params);
-                    };
-                    app.helper.showPopup(signUpAccountModal,{cb:callBackSignupFunction});
-                });
-                
-                jQuery(data).find('#forgotPasswordLink').on('click',function(){
-                    var forgotPasswordModal = jQuery(container).find('.forgotPasswordModal').clone(true, true);
-                    forgotPasswordModal.removeClass('hide');
-                    
-                    var forgotPasswordCallback = function(data){
-                        app.helper.hideModal();
-                        var forgotPasswordForm = data.find('.forgotPassword');
-                        
-                        var params = {
-                            submitHandler : function(form){
-                                var formData = jQuery(form).serializeFormData();
-                                app.helper.showProgress();
-                                app.request.post({data:formData}).then(
-                                        function(error,data) {
-                                            app.helper.hideProgress();
-                                            app.helper.hidePopup();
-                                            if(error) {
-                                                app.helper.showErrorNotification({"message": error});
-                                                return false;
-                                            }else{
-                                                app.helper.showSuccessNotification({"message": data.message});
-                                                return true;
-                                            }
-                                        }
-                                );
-                            }
-                        };
-                        forgotPasswordForm.vtValidate(params);
-                    };
-                    app.helper.showPopup(forgotPasswordModal,{cb:forgotPasswordCallback});
-                });
-
-                var form = jQuery(data).find('.loginForm');
-                var params = {
-                    submitHandler : function(form){
-                        var form = jQuery(form);
-                        var formData = form.serializeFormData();
-                        var savePassword = form.find('input[name="savePassword"]:checked').length;
-                        if (savePassword) {
-                            formData["savePassword"] = true;
-                        } else {
-                            formData["savePassword"] = false;
-                        }
-                        app.helper.showProgress();
-                        app.request.post({data:formData}).then(
-                                function(error,data) {
-                                    app.helper.hideProgress();
-                                    if(error){
-                                        app.helper.showErrorNotification({"message": error});
-                                    }else{
-                                        app.helper.hideModal();
-                                        location.reload();
-                                    }
-                                }
-                        );
-                    }
-                };
-                form.vtValidate(params);
-            };
-            
-            app.helper.showModal(loginAccountModal,{cb:callBackFunction});
-        });
-        
-        jQuery('#setUpCardDetails').off().on('click',function(e) {
-            var element = jQuery(e.currentTarget);
-            var setUpCardModal = jQuery(container).find('.setUpCardModal').clone(true, true);
-            setUpCardModal.removeClass('hide');
-            var callback = function(data) {
-                thisInstance.registerSetupCardDetailEvent(data,element);
-            };
-            app.helper.showModal(setUpCardModal, {cb:callback});
-        });
-
-        jQuery(container).off('click', '.oneclickInstallFree, .oneclickInstallPaid');
-        jQuery(container).on('click', '.oneclickInstallFree, .oneclickInstallPaid', function(e) {
-            var element = jQuery(e.currentTarget);
-            var extensionContainer = element.closest('.extension_container');
-            var extensionId = extensionContainer.find('[name="extensionId"]').val();
-            var moduleAction = extensionContainer.find('[name="moduleAction"]').val();
-            var extensionName = extensionContainer.find('[name="extensionName"]').val();
-
-            if(element.hasClass('loginRequired')){
-                var loginError = app.vtranslate('JS_PLEASE_LOGIN_TO_MARKETPLACE_FOR_INSTALLING_EXTENSION');
-                app.helper.showErrorNotification({"message": loginError});
-                return false;
-            }
-            var params = {
-                'module': app.getModuleName(),
-                'parent': app.getParentModuleName(),
-                'view': 'ExtensionStore',
-                'mode': 'oneClickInstall',
-                'extensionId': extensionId,
-                'moduleAction': moduleAction,
-                'extensionName': extensionName
-            };
-
-            if (element.hasClass('oneclickInstallPaid')) {
-                var trial = element.data('trial');
-                if (!trial) {
-                    var customerCardId = jQuery(container).find('[name="customerCardId"]').val();
-                    if (customerCardId.length == 0) {
-                        var cardSetupError = app.vtranslate('JS_PLEASE_SETUP_CARD_DETAILS_TO_INSTALL_THIS_EXTENSION');
-                        app.helper.showErrorNotification({"message": cardSetupError});
-                        return false;
-                    }
-                } else {
-                    params['trial'] = trial;
-                }
-            }
-            
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
-                thisInstance.getImportModuleStepView(params).then(function(installationLogData) {
-                    var callBackFunction = function(data) {
-                        var installationStatus = jQuery(data).find('[name="installationStatus"]').val();
-
-                        if (installationStatus == "success") {
-                            if (!trial) {
-                                element.closest('span').html('<span class="alert alert-info">' + app.vtranslate('JS_INSTALLED') + '</span>');
-                                extensionContainer.find('[name="moduleAction"]').val(app.vtranslate('JS_INSTALLED'));
-                            } else if ((element.hasClass('oneclickInstallPaid')) && trial) {
-                                thisInstance.updateTrialStatus(true, extensionName).then(function(data) {
-                                    if (data.success) {
-                                        element.closest('span').prepend('<span class="alert alert-info">' + app.vtranslate('JS_TRIAL_INSTALLED') + '</span> &nbsp; &nbsp;');
-                                        element.remove();
-                                    }
-                                });
-                            } else if ((element.hasClass('oneclickInstallPaid')) && (!trial)) {
-                                thisInstance.updateTrialStatus(false, extensionName).then(function(data) {
-                                    if (data.success) {
-                                        element.closest('span').html('<span class="alert alert-info">' + app.vtranslate('JS_INSTALLED') + '</span>');
-                                        extensionContainer.find('[name="moduleAction"]').val(app.vtranslate('JS_INSTALLED'));
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    var modalData = {
-                        cb: callBackFunction
-                    };
-                    app.helper.showModal(installationLogData, modalData);
-                });
-            });
-        });
-
-        jQuery(container).on('click', '#installLoader', function(e) {
-            var extensionLoaderModal = jQuery(container).find('.extensionLoader').clone(true, true);
-            extensionLoaderModal.removeClass('hide');
-
-            app.showModalWindow(extensionLoaderModal);
-        });
+        jQuery("label").hover(function(){
+            jQuery(this).css("color", "white");
+            jQuery(this).css("cursor", "pointer");
+        }, function(){
+            jQuery(this).css("color", "");
+        });  
     },
     
     
     registerEventForSearchExtension : function(container) {
       var thisInstance = this; 
-      container.on('keydown', '#searchExtension', function(e) {
+      container.on('keydown', '#searchNewExtn', function(e) {
             var currentTarget = jQuery(e.currentTarget);
             if (e.which === 13) {
                 var searchTerm = jQuery.trim(currentTarget.val());
@@ -297,11 +116,11 @@ Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                     'module': app.getModuleName(),
                     'parent': app.getParentModuleName(),
                     'view': 'ExtensionStore',
-                    'mode': 'searchExtension',
+                    'mode': 'searchNewExtn',
                     'searchTerm': searchTerm,
                     'type': 'Extension'
                 };
-
+                
                 app.helper.showProgress();
                 app.request.post({data: params}).then(
                     function(error, data) {
@@ -369,87 +188,7 @@ Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
         this.registerRaty();
         jQuery('.carousel').carousel({
             interval: 3000
-        });
-
-        container.find('#installExtension').on('click', function(e) {
-            var element = jQuery(e.currentTarget);
-            if(element.hasClass('loginRequired')){
-                var loginError = app.vtranslate('JS_PLEASE_LOGIN_TO_MARKETPLACE_FOR_INSTALLING_EXTENSION');
-                app.helper.showErrorNotification({"message": loginError});
-                return false;
-            }
-            
-            if(element.hasClass('setUpCard')){
-                var paidError = app.vtranslate('JS_PLEASE_SETUP_CARD_DETAILS_TO_INSTALL_EXTENSION');
-                app.helper.showErrorNotification({"message": paidError});
-                return false;
-            }
-            
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
-				var extensionId = jQuery('[name="extensionId"]').val();
-				var targetModule = jQuery('[name="targetModule"]').val();
-				var moduleType = jQuery('[name="moduleType"]').val();
-				var moduleAction = jQuery('[name="moduleAction"]').val();
-				var fileName = jQuery('[name="fileName"]').val();
-
-				var params = {
-					'module': app.getModuleName(),
-					'parent': app.getParentModuleName(),
-					'view': 'ExtensionStore',
-					'mode': 'installationLog',
-					'extensionId': extensionId,
-					'moduleAction': moduleAction,
-					'targetModule': targetModule,
-					'moduleType': moduleType,
-					'fileName': fileName
-				}
-
-				thisInstance.getImportModuleStepView(params).then(function(installationLogData) {
-					var callBackFunction = function(data) {
-						var installationStatus = jQuery(data).find('[name="installationStatus"]').val();
-						if (installationStatus == "success") {
-							jQuery('#installExtension').remove();
-							jQuery('#launchExtension').removeClass('hide');
-							jQuery('.writeReview').removeClass('hide');
-						}
-						app.helper.showScroll(jQuery('#installationLog'), {'height': '150px'});
-					};
-					var modalData = {
-						cb: callBackFunction
-					};
-					app.helper.showModal(installationLogData, modalData);
-				});
-            });
-            
-        });
-
-        container.find('#uninstallModule').on('click', function(e) {
-            var element = jQuery(e.currentTarget);
-            var extensionName = container.find('[name="targetModule"]').val();
-            if(element.hasClass('loginRequired')){
-                var loginError = app.vtranslate('JS_PLEASE_LOGIN_TO_MARKETPLACE_FOR_UNINSTALLING_EXTENSION');
-                app.helper.showErrorNotification({"message": loginError});
-                return false;
-            }
-            
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_UNINSTALL')+'?</b>'}).then(function(){
-                var params = {
-                'module': app.getModuleName(),
-                'parent': app.getParentModuleName(),
-                'action': 'Basic',
-                'mode': 'uninstallExtension',
-                'extensionName': extensionName
-                };
-
-                app.helper.showProgress();
-                app.request.post({data: params}).then(function(error, data) {
-                    if (!error) {
-                        app.helper.hideProgress();
-                        container.find('#declineExtension').trigger('click');
-                    }
-                });
-            });
-        });
+        });        
 
         container.find('#declineExtension').on('click', function() {
             var params = thisInstance.getImportModuleIndexParams();
@@ -511,88 +250,12 @@ Head_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                     }
                 };
                 form.vtValidate(params);
-            }
-            
+            }            
             var params = {};
             params.cb = callBackFunction;
-
             app.helper.showModal(customerReviewModal,params);
         });
-    },
-    
-   registerSetupCardDetailEvent : function(modalData,element) {
-        var thisInstance = this;
-        var container = thisInstance.getContainer();
-        jQuery(modalData).on('click', '[name="resetButton"]', function(e) {
-            jQuery(modalData).find('[name="cardNumber"],[name="expMonth"],[name="expYear"],[name="cvccode"]').val('');
-        });
-        var form = modalData.find('.setUpCardForm');
-        var params = {
-            submitHandler: function(form) {
-                var form = jQuery(form);
-                // to Prevent submit if already submitted
-                form.find("button[name='saveButton']").attr("disabled","disabled");
-                if(this.numberOfInvalids() > 0) {
-                    return false;
-                }
-                
-                var formData = form.serializeFormData();
-                app.helper.showProgress();
-                app.request.post({data: formData}).then(
-                        function(error, result) {
-                            if (!error) {
-                                jQuery(container).find('[name="customerCardId"]').val(result.id);
-                                app.helper.hideProgress();
-                                jQuery(container).find('.viewCardInfoModal').find('.cardNumber').html(result['number']);
-                                var expiryDate = result['expmonth']+'-'+result['expyear'];
-                                jQuery(container).find('.viewCardInfoModal').find('.expiryDate').html(expiryDate);
-                                if(typeof element !== 'undefined') {
-                                    element.html(app.vtranslate('JS_UPDATE_CARD_DETAILS'));
-                                    element.attr('id','updateCardDetails');
-                                }
-                                thisInstance.registerShowCardInfoEvent();
-                                app.helper.hidePopup();
-                                app.helper.hideModal();
-                                app.helper.showSuccessNotification({"message": app.vtranslate('JS_CARD_DETAILS_UPDATED')});
-                            } else {
-                                app.helper.hideProgress();
-                                app.helper.showErrorNotification({"message": error});
-                                form.find('.saveButton').removeAttr('disabled');
-                                return false;
-                            }
-                        }
-                );
-            }
-        };
-        form.vtValidate(params);
-   }, 
-   
-   registerShowCardInfoEvent : function(){
-       var thisInstance = this;
-       var container =  thisInstance.getContainer();
-       jQuery('#updateCardDetails').off().on('click',function(e){
-            var cardInfoModal = jQuery(container).find('.viewCardInfoModal').clone(true, true);
-            cardInfoModal.removeClass('hide');
-            app.helper.showProgress();
-            
-            
-            var callBackFunction = function(data){
-                data.on('click','.updateBtn',function(){
-                    var setupcardModal = jQuery(container).find('.setUpCardModal').clone(true,true);
-                    setupcardModal.removeClass('hide');
-                    app.helper.hideModal();
-                    app.helper.showPopup(setupcardModal);
-                    thisInstance.registerSetupCardDetailEvent(setupcardModal);    
-                });
-            };
-            
-            app.helper.showModal(cardInfoModal);
-            app.helper.hideProgress();
-            if (typeof callBackFunction == 'function') {
-                callBackFunction(cardInfoModal);
-            }
-        });
-   },
+    },    
    
     registerExtensionTabs : function(container) {
         var thisInstance = this;

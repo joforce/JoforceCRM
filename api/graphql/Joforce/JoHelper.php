@@ -1,4 +1,5 @@
 <?php
+
 namespace Joforce;
 
 use GraphQL\Type\Definition\ObjectType;
@@ -39,49 +40,65 @@ class JoHelper
     public function resolve($requested_data, $args)
     {
         $data = [];
-        if($requested_data['action'] == 'get_modules') {
+        if ($requested_data['action'] == 'get_modules') {
             $data = $this->getJoModules();
-        }
-        else if($requested_data['action'] == 'menu')  {
+        } else if ($requested_data['action'] == 'menu') {
             $data = $this->getUserMenu();
-        }
-        else if($requested_data['action'] == 'global_search') {
+        } else if ($requested_data['action'] == 'global_search') {
             $data = $this->globalSearch($args);
             $data = ['results' => $data];
-        }
-        else if($requested_data['action'] == 'calendar_view') {
+        } else if ($requested_data['action'] == 'calendar_view') {
             $data = $this->getCalendarInfo($args);
             $data['events'] = $data;
-        }
-        else if($requested_data['action'] == 'describe')  {
+        } else if ($requested_data['action'] == 'describe') {
             $data = $this->getModuleFields($args['module']);
-        }
-        else if($requested_data['action'] == 'filters')  {
+        } else if ($requested_data['action'] == 'filters') {
             $data = $this->getUserFilters($args);
-        }
-        else if($requested_data['action'] == 'filter_columns')    {
+        } else if ($requested_data['action'] == 'filter_columns') {
             $data = $this->getFilterColumns($args);
-        }
-        else if($requested_data['action'] == 'get_module_relations') {
+        } else if ($requested_data['action'] == 'get_module_relations') {
             $data = $this->returnRelatedModules($args['module']);
-        }
-        else if($requested_data['action'] == 'get_related_records') {
+        } else if ($requested_data['action'] == 'get_related_records') {
             $data = $this->returnRelatedRecords($args);
-        }
-        else if($requested_data['action'] == 'widget_info')   {
+        } else if ($requested_data['action'] == 'widget_info') {
             $data = $this->getWidgetData($args);
             $data = ['data' => $data];
-        }
-        else if($requested_data['action'] == 'get_record')    {
+        } else if ($requested_data['action'] == 'get_record') {
             $data = $this->retrieve($args['module'], $args['id']);
-        }
-        else if($requested_data['action'] == 'list')  {
+        } else if ($requested_data['action'] == 'list') {
             $data = $this->listRecords($requested_data, $args);
-        }
-        else if($requested_data['action'] == 'get_users')   {
+        } else if ($requested_data['action'] == 'get_users') {
             $data = $this->returnUsers($requested_data, $args);
+        } else if ($requested_data['action'] == 'get_forecast') {
+            $data = $this->returnForecast($requested_data, $args);
         }
         return $data;
+    }
+    public function returnForecast($requested_data, $args)
+    {
+        $month = $args['month'];
+        $year = $args['year'];
+
+        $date = $year . '-' . $month . '-01';
+        $date2 = $year . '-' . $month . '-31';
+        $query = "SELECT potentialname,sales_stage,closingdate,amount,potentialid FROM jo_potential WHERE closingdate >= '" . $date . "' AND closingdate <= '" . $date2 . "' limit 100";
+        $result = $this->db->pquery($query);
+        $opportunities = [];
+        while ($myrow = $this->db->fetch_array($result)) {
+            $row = [];
+            $row['oppurtinities_name'] = $myrow['potentialname'];
+            $row['sales_stage'] = $myrow['sales_stage'];
+            $row['closingdate'] = $myrow['closingdate'];
+            $row['amount'] = $myrow['amount'];
+            $row['id'] = $myrow['potentialid'];
+            array_push($opportunities, $row);
+        }
+        $oppor = [];
+        $oppor['opportunitylist'] = $opportunities;
+        $final_array = [];
+        $final_array["data"] = $oppor;
+        print_r(json_encode($final_array));
+        die();
     }
 
     /**
@@ -93,6 +110,67 @@ class JoHelper
      * @throws \WebServiceException
      */
     public function retrieve($module, $record_id)
+    {
+        global $current_user;
+        $module_name = ucfirst($module);
+        if ($module_name == 'Calendar') {
+            $moduleModel = \Head_Module_Model::getInstance($module_name);
+            $recordModel = \Head_Record_Model::getInstanceById($record_id, $moduleModel);
+
+            $currentUser = \Users_Record_Model::getCurrentUserModel(); 
+            $dateTimeFieldInstance = new \DateTimeField($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'));
+            $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);            
+            $startDateComponents = explode(' ', $userDateTimeString);
+            $recordModel->entity->column_fields['date_start']=$startDateComponents[0];
+            $recordModel->entity->column_fields['time_start']=$startDateComponents[1];
+            $dateTimeFieldInstance = new \DateTimeField($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'));
+           
+            $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+            $endDateComponents = explode(' ', $userDateTimeString);
+            $recordModel->entity->column_fields['due_date']=$endDateComponents[0];
+            $recordModel->entity->column_fields['time_end']=$endDateComponents[1];
+
+            return $recordModel->entity->column_fields;
+        }
+        require_once('modules/Mobile/api/ws/Utils.php');
+        require_once('includes/Webservices/Retrieve.php');
+        require_once('includes/Webservices/DescribeObject.php');
+        $this->module_fields_info = \vtws_describe($module_name, $this->user);
+        $webservice_id = \vtws_getWebserviceEntityId($module, $record_id);
+        $unresolved_data = \vtws_retrieve($webservice_id, $current_user);
+        $resolved_data = $this->resolveRecordValues($unresolved_data, $current_user, $module_name);
+        $moduleModel = \Head_Module_Model::getInstance($module_name);
+        $recordModel = \Head_Record_Model::getInstanceById($record_id, $moduleModel);
+        if ($module == 'Contacts') {
+            global $site_URL;
+            $user_image = $recordModel->getImageDetails();
+            $user_profile_url = '';
+            if ($user_image) {
+                if (isset($user_image[0]['id']) && !empty($user_image[0]['id'])) {
+                    $user_profile_url = $site_URL . $user_image[0]['path'] . '_' . $user_image[0]['name'];
+                }
+            }
+            $resolved_data['imagename'] = $user_profile_url;
+
+        }elseif ($module_name == 'Products') {
+            $recordTaxDetails = $recordModel->getTaxClassDetails();
+            foreach ($recordTaxDetails as $tax_details) {
+                if ($tax_details['check_value'] == 1) {
+                    $resolved_data[$tax_details['taxname']] = $tax_details['percentage'];
+                }
+            }
+        }
+        return $resolved_data;
+    }
+    /**
+     * Retrieve record from module
+     *
+     * @param $module
+     * @param $record_id
+     * @return mixed
+     * @throws \WebServiceException
+     */
+    public function retrieveJOFORCE($module, $record_id)
     {
         global $current_user;
         $module_name = ucfirst($module);
@@ -134,12 +212,12 @@ class JoHelper
         $groups_info = $userModal->getAccessibleGroups();
 
         $response = array();
-        foreach($users_info as $user_id => $user_name)  {
+        foreach ($users_info as $user_id => $user_name) {
             $response[] = ['id' => $user_id, 'label' => $user_name, 'is_user' => true];
         }
 
-        if($args['groups'] === true)    {
-            foreach($groups_info as $group_id => $group_name)   {
+        if ($args['groups'] === true) {
+            foreach ($groups_info as $group_id => $group_name) {
                 $response[] = ['id' => $group_id, 'label' => $group_name, 'is_user' => false];
             }
         }
@@ -154,7 +232,7 @@ class JoHelper
      * @return array
      * @throws \Exception
      */
-    public function returnUsersList($requested_data, $args) 
+    public function returnUsersList($requested_data, $args)
     {
         global $current_user;
         $current_user = $this->user;
@@ -174,7 +252,7 @@ class JoHelper
      * @param string $moduleName
      * @return array
      */
-    public function getUsers($currentUserModel, $moduleName) 
+    public function getUsers($currentUserModel, $moduleName)
     {
         $users = $currentUserModel->getAccessibleUsersForModule($moduleName);
         $userIds = array_keys($users);
@@ -184,9 +262,9 @@ class JoHelper
         foreach ($userIds as $userId) {
             $userRecord = \Users_Record_Model::getInstanceById($userId, 'Users');
             $usersList[] = array(
-                    'value' => $usersWSId . 'x' . $userId,
-                    'label' => \decode_html($userRecord->get("first_name") . ' ' . $userRecord->get('last_name'))
-                    );
+                'value' => $usersWSId . 'x' . $userId,
+                'label' => \decode_html($userRecord->get("first_name") . ' ' . $userRecord->get('last_name'))
+            );
         }
         return $usersList;
     }
@@ -198,7 +276,7 @@ class JoHelper
      * @param string $moduleName
      * @return array $groupsList
      */
-    public function getGroups($currentUserModel, $moduleName) 
+    public function getGroups($currentUserModel, $moduleName)
     {
         $groups = $currentUserModel->getAccessibleGroupForModule($moduleName);
         $groupIds = array_keys($groups);
@@ -208,9 +286,9 @@ class JoHelper
         foreach ($groupIds as $groupId) {
             $groupName = getGroupName($groupId);
             $groupsList[] = array(
-                    'value' => $groupsWSId . 'x' . $groupId,
-                    'label' => decode_html($groupName[0])
-                    );
+                'value' => $groupsWSId . 'x' . $groupId,
+                'label' => decode_html($groupName[0])
+            );
         }
         return $groupsList;
     }
@@ -224,7 +302,7 @@ class JoHelper
      * @throws \Exception
      */
     public function listRecords($requested_data, $args)
-    {   
+    {
         global $current_user;
 
         $current_user = $this->user;
@@ -241,41 +319,39 @@ class JoHelper
         $fields = array();
 
         $nameFields = $moduleModel->getNameFields();
-        if(is_string($nameFields)) {
+        if (is_string($nameFields)) {
             $nameFieldModel = $moduleModel->getField($nameFields);
             $headerFields[] = $nameFields;
-            $fields = array('name'=>$nameFieldModel->get('name'), 'label'=>$nameFieldModel->get('label'), 'fieldType'=>$nameFieldModel->getFieldDataType());
-        }
-        else if(is_array($nameFields)) {
-            foreach($nameFields as $nameField) {
+            $fields = array('name' => $nameFieldModel->get('name'), 'label' => $nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
+        } else if (is_array($nameFields)) {
+            foreach ($nameFields as $nameField) {
                 $nameFieldModel = $moduleModel->getField($nameField);
                 $headerFields[] = $nameField;
-                $fields[] = array('name'=>$nameFieldModel->get('name'), 'label'=>$nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
+                $fields[] = array('name' => $nameFieldModel->get('name'), 'label' => $nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
             }
         }
 
-        foreach($headerFieldModels as $fieldName => $fieldModel) {
+        foreach ($headerFieldModels as $fieldName => $fieldModel) {
             $headerFields[] = $fieldName;
-            $fields[] = array('name'=>$fieldName, 'label'=>$fieldModel->get('label'), 'fieldType'=>$fieldModel->getFieldDataType());
+            $fields[] = array('name' => $fieldName, 'label' => $fieldModel->get('label'), 'fieldType' => $fieldModel->getFieldDataType());
         }
 
         $listViewModel = \Head_ListView_Model::getInstance($module_name, $filterId, $headerFields = array());
-        if(!empty($sortOrder)) {
+        if (!empty($sortOrder)) {
             $listViewModel->set('orderby', $orderBy);
-            $listViewModel->set('sortorder',$sortOrder);
+            $listViewModel->set('sortorder', $sortOrder);
         }
 
-        if(!empty($args['search_key']) && !empty($args['search_value']))    {
+        if (!empty($args['search_key']) && !empty($args['search_value'])) {
             $listViewModel->set('search_value', $args['search_value']);
             $listViewModel->set('search_key', $args['search_key']);
             $listViewModel->set('operator', 'c');
         }
 
         $pagingModel = new \Head_Paging_Model();
-        if(isset($args['limit']) && !empty($args['limit'])) {
+        if (isset($args['limit']) && !empty($args['limit'])) {
             $pageLimit = $args['limit'];
-        }
-        else    {
+        } else {
             $pageLimit = $pagingModel->getPageLimit();
         }
         $pagingModel->set('page', $args['page']);
@@ -284,17 +360,17 @@ class JoHelper
         $listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 
         $customView = new \CustomView($module_name);
-        if(empty($filterId)) {
+        if (empty($filterId)) {
             $filterId = $customView->getViewId($module_name);
         }
 
-        if($listViewEntries) {
-            foreach($listViewEntries as $index => $listViewEntryModel) {
+        if ($listViewEntries) {
+            foreach ($listViewEntries as $index => $listViewEntryModel) {
                 $data = $listViewEntryModel->getData();
-                $record = array('id'=>$listViewEntryModel->getId());
-                foreach($data as $i => $value) {
-                    if(is_string($i)) {
-                        $record[$i]= decode_html($value);
+                $record = array('id' => $listViewEntryModel->getId());
+                foreach ($data as $i => $value) {
+                    if (is_string($i)) {
+                        $record[$i] = decode_html($value);
                     }
                 }
                 $records[] = $record;
@@ -302,7 +378,7 @@ class JoHelper
         }
 
         $moreRecords = false;
-        if(count($listViewEntries) > $pageLimit) {
+        if (count($listViewEntries) > $pageLimit) {
             $moreRecords = true;
             array_pop($records);
         }
@@ -321,6 +397,18 @@ class JoHelper
         return $response;
     }
 
+    public function convertToUTCTime($time)
+    {
+        if (empty($time) || $time == '') {
+            return '';
+        }
+
+        $date = '2020-04-01 ' . $time;
+        $converted_date = \Head_Datetime_UIType::getDBDateTimeValue($date);
+        $result = explode(' ', $converted_date);
+        return $result['1'];
+    }
+
     /**
      * Sync record to Joforce
      *
@@ -335,17 +423,16 @@ class JoHelper
         global $current_user;
         $current_user = $this->user;
 
-        if(empty($args))    {
+        if (empty($args)) {
             throw new \Exception('No post data');
         }
 
         $module_name = ucfirst($module);
-        if(empty($id)) {
+        if (empty($id)) {
             $recordModel = \Head_Record_Model::getCleanInstance($module_name);
-        }
-        else    {
+        } else {
             $record_exists = $this->checkRecordExists($id);
-            if(!$record_exists)  {
+            if (!$record_exists) {
                 throw new \Exception('Record not exists');
             }
             $recordModel = \Head_Record_Model::getInstanceById($id, $module_name);
@@ -354,20 +441,28 @@ class JoHelper
         $fieldModelList = $moduleModel->getFields();
 
         foreach ($fieldModelList as $fieldName => $fieldModel) {
-            if(isset($args[$fieldName])) {
+            if (isset($args[$fieldName])) {
                 $fieldValue = $args[$fieldName];
+
+                //To fix time issue
+                if ($module_name == 'Calendar') {
+                    if ($fieldName == 'time_start' || $fieldName == 'time_end') {
+                        $fieldValue = $this->convertToUTCTime($fieldValue);
+                    }
+                }
                 $recordModel->set($fieldName, $fieldValue);
             }
         }
-
         if (!empty($id)) {
             $recordModel->set('id', $id);
             $recordModel->set('mode', 'edit');
             $recordModel->save();
-        }
-        else {
+        } else {
             $recordModel->save();
         }
+        if($module_name == 'Invoice' || $module_name == 'Quotes' || $module_name == 'SalesOrder' || $module_name == 'PurchaseOrder' ){ 
+            $this->addlineitem($recordModel->entity->column_fields,$args);
+        } 
         return array('record' => $recordModel->getData());
     }
 
@@ -387,10 +482,9 @@ class JoHelper
             $recordModel = \Head_Record_Model::getInstanceById($record_id, $module_name);
             $recordModel->delete();
             return array('success' => true, 'id' => $record_id);
-        }
-        catch(\Exception $e)    {
+        } catch (\Exception $e) {
             $message = $e->getMessage();
-            if(empty($message)) {
+            if (empty($message)) {
                 $message = 'Something went wrong';
             }
             return array('success' => false, 'message' => $message);
@@ -408,14 +502,14 @@ class JoHelper
         // Check record exists
         $checkRecord = $this->db->pquery('select crmid from jo_crmentity where crmid = ?', array($id));
         $crm_id = $this->db->query_result($checkRecord, 0, 'crmid');
-        if(empty($crm_id)) {
+        if (empty($crm_id)) {
             return false;
         }
 
         // Check record is deleted
         $checkRecordDeleted = $this->db->pquery('select crmid from jo_crmentity where deleted = 0 and crmid = ?', array($id));
         $crm_id = $this->db->query_result($checkRecordDeleted, 0, 'crmid');
-        if(empty($crm_id)) {
+        if (empty($crm_id)) {
             return false;
         }
         return true;
@@ -433,7 +527,7 @@ class JoHelper
         $module_name = ucfirst($module);
         $moduleModel = \Head_Module_Model::getInstance($module_name);
         $relations = $moduleModel->getRelations();
-        foreach($relations as $relation)    {
+        foreach ($relations as $relation) {
             $relation_info['module_name'] = $relation->get('relatedModuleName');
             $relation_info['label'] = $relation->get('label');
             $relation_info['tab_id'] = $relation->get('related_tabid');
@@ -456,11 +550,11 @@ class JoHelper
         $current_user = $this->user;
 
         $options = array(
-                'module' => $data['module'],
-                'record' => $record_id,
-                'mode'   => $data['mode'],
-                'page'   => $data['page']
-                );
+            'module' => $data['module'],
+            'record' => $record_id,
+            'mode'   => $data['mode'],
+            'page'   => $data['page']
+        );
 
         require_once('include/Webservices/History.php');
         $historyItems = \vtws_history($options, $current_user);
@@ -471,7 +565,8 @@ class JoHelper
         return $result;
     }
 
-    protected function resolveReferences(&$items, $user) {
+    protected function resolveReferences(&$items, $user)
+    {
         global $current_user;
         if (!isset($current_user)) $current_user = $user; /* Required in getEntityFieldNameDisplay */
 
@@ -482,9 +577,10 @@ class JoHelper
         }
     }
 
-    protected function fetchResolvedValueForId($id, $user) {
+    protected function fetchResolvedValueForId($id, $user)
+    {
         $label = $this->fetchRecordLabelForId($id, $user);
-        return array('value' => $id, 'label'=>$label);
+        return array('value' => $id, 'label' => $label);
     }
 
     /**
@@ -504,7 +600,7 @@ class JoHelper
         $record_id = $args['id'];
         $related_module = ucfirst($args['related_module']);
         $currentPage = $args['page'];
-        if(!empty($currentPage))    {
+        if (!empty($currentPage)) {
             $currentPage = $currentPage - 1;
         }
 
@@ -517,13 +613,12 @@ class JoHelper
         $functionHandler = $this->getRelatedFunctionHandler($currentModule, $related_module);
 
         if ($functionHandler) {
-            if($related_module == 'ModComments') {
+            if ($related_module == 'ModComments') {
                 $sourceFocus = \CRMEntity::getInstance($related_module);
-                $query = call_user_func_array(  array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
-            }
-            else {
+                $query = call_user_func_array(array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
+            } else {
                 $sourceFocus = \CRMEntity::getInstance($currentModule);
-                $relationResult = call_user_func_array( array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
+                $relationResult = call_user_func_array(array($sourceFocus, $functionHandler), array($record_id, getTabid($currentModule), getTabid($related_module)));
                 $query = $relationResult['query'];
             }
 
@@ -540,7 +635,7 @@ class JoHelper
 
             // Gather resolved record id's
             $relatedRecords = array();
-            while($row = $this->db->fetch_array($queryResult)) {
+            while ($row = $this->db->fetch_array($queryResult)) {
                 $targetSEtype = $row['setype'];
                 if ($related_module == 'Calendar') {
                     if ($row['setype'] != 'Task' && $row['setype'] != 'Emails') {
@@ -553,33 +648,40 @@ class JoHelper
                 $relatedRecords[] = sprintf("%sx%s", $moduleWSId, $row['crmid']);
             }
 
-	        $FETCH_LIMIT = 0;
+            $FETCH_LIMIT = 0;
             $queryResult = null;
-            if(count($relatedRecords) > 0)  {
+            if (count($relatedRecords) > 0) {
                 // Perform query to get record information with grouping
                 $ws_query = sprintf("SELECT * FROM %s WHERE id IN ('%s')", $related_module, implode("','", $relatedRecords));
                 $FETCH_LIMIT = $this->records_per_page;
                 $startLimit = $currentPage * $FETCH_LIMIT;
 
-                $queryWithLimit = sprintf("%s LIMIT %u,%u;", $ws_query, $startLimit, ($FETCH_LIMIT+1));
+                $queryWithLimit = sprintf("%s LIMIT %u,%u;", $ws_query, $startLimit, ($FETCH_LIMIT + 1));
                 $queryResult = \vtws_query($queryWithLimit, $current_user);
             }
 
             $c = 0;
             $response = array();
-            if(count($queryResult) > 0) {
+            if (count($queryResult) > 0) {
                 // Resolve the ID
                 // TODO move the resolve to the GraphQL
-                foreach($queryResult as $key => $single_entity) {
+                foreach ($queryResult as $key => $single_entity) {
                     $response[$c] = $this->returnDataInBlocks($single_entity, $related_module, implode(',', $nameFields));
                     list($entity_tab_id, $entity_id) = explode('x', $single_entity['id']);
                     $response[$c]['id'] = $entity_id;
                     $response[$c]['labelFields'] = $nameFields;
+                    if ($related_module == 'Calendar') {
+                        for ($i=0; $i <count($response[$c]['blocks'][0]['fields']) ; $i++) {
+                            if($response[$c]['blocks'][0]['fields'][$i]['name'] =='subject'){
+                                $response[$c]['subject'] =$response[$c]['blocks'][0]['fields'][$i]['value'];
+                            }
+                        }
+                    }
                 }
             }
 
             $moreRecords = false;
-            if((count($response) == $FETCH_LIMIT) && count($queryResult) != 0) {
+            if ((count($response) == $FETCH_LIMIT) && count($queryResult) != 0) {
                 $moreRecords = true;
             }
 
@@ -628,7 +730,7 @@ class JoHelper
      */
     public function generateFields($args)
     {
-        if($args['action'] == 'get_modules') {
+        if ($args['action'] == 'get_modules') {
             return [
                 'name' => $args['module'] . 'Field',
                 'description' => "CRM {$args['module']} fields",
@@ -652,8 +754,7 @@ class JoHelper
                     ],
                 ]
             ];
-        }
-        else if($args['action'] == 'menu')  {
+        } else if ($args['action'] == 'menu') {
             $more_menu = new ObjectType([
                 'name' => 'MainMenuInformation',
                 'description' => 'Main Menu information',
@@ -661,6 +762,7 @@ class JoHelper
                     'tabid' => Type::id(),
                     'name' => Type::string(),
                     'label' => Type::string(),
+                    'image_url' => Type::string(),
                 ]
             ]);
 
@@ -670,7 +772,8 @@ class JoHelper
                 'fields' => [
                     'tabid' => Type::int(),
                     'name' => Type::string(),
-                    'label' => Type::string()
+                    'label' => Type::string(),
+                    'image_url' => Type::string(),
                 ]
             ]);
 
@@ -693,8 +796,7 @@ class JoHelper
                     'More' => Type::listOf($more_menu)
                 ]
             ];
-        }
-        else if($args['action'] == 'global_search') {
+        } else if ($args['action'] == 'global_search') {
 
             $jo_record = new ObjectType([
                 'name' => 'RecordStructure',
@@ -727,9 +829,9 @@ class JoHelper
                     'results' => Type::listOf($search_results),
                 ]
             ];
-        }
-        else if($args['action'] == 'calendar_view') {
-            if(isset($args['day'])) {
+        } else if ($args['action'] == 'calendar_view') {
+            if (isset($args['day'])) {
+
                 $calendarObject = new ObjectType([
                     'name' => 'CalendarInformation',
                     'description' => 'Calendar information',
@@ -750,8 +852,8 @@ class JoHelper
                         'recurringcheck' => Type::string(),
                     ]
                 ]);
-            }
-            else {
+            } else {
+
                 $calendarObject = new ObjectType([
                     'name' => 'CalendarInformation',
                     'description' => 'Calendar information',
@@ -776,8 +878,7 @@ class JoHelper
                     'events' => Type::listOf($calendarObject),
                 ]
             ];
-        }
-        else if($args['action'] == 'describe')  {
+        } else if ($args['action'] == 'describe') {
 
             $picklistType = new ObjectType([
                 'name' => 'PicklistType',
@@ -836,8 +937,7 @@ class JoHelper
                     'fields' => Type::listOf($fields),
                 ]
             ];
-        }
-        else if($args['action'] == 'filters')    {
+        } else if ($args['action'] == 'filters') {
 
             $filter = new ObjectType([
                 'name' => 'FilterInformation',
@@ -863,8 +963,7 @@ class JoHelper
                     'Others' => Type::listOf($filter),
                 ]
             ];
-        }
-        else if($args['action'] == 'filter_columns')    {
+        } else if ($args['action'] == 'filter_columns') {
 
             $filter = new ObjectType([
                 'name' => 'FilterInformation',
@@ -888,8 +987,7 @@ class JoHelper
                     'filter' => Type::listOf($filter),
                 ]
             ];
-        }
-        else if($args['action'] == 'get_module_relations') {
+        } else if ($args['action'] == 'get_module_relations') {
 
             $relationType = new ObjectType([
                 'name' => 'RelationsInformation',
@@ -913,8 +1011,7 @@ class JoHelper
                     'relations' => Type::listOf($relationType),
                 ]
             ];
-        }
-        else if($args['action'] == 'widget_info')    {
+        } else if ($args['action'] == 'widget_info') {
 
             $widgetType = new ObjectType([
                 'name' => 'WidgetInfo',
@@ -938,13 +1035,13 @@ class JoHelper
                     'data' => Type::listOf($widgetType)
                 ],
             ];
-        }
-        else if($args['action'] == 'get_related_records') {
+        } else if ($args['action'] == 'get_related_records') {
 
             $module_fields = $this->generateBlockType($args['related_module']);
 
             $module_fields['id'] = Type::nonNull(Type::int());
             $module_fields['labelFields'] = Type::listOf(Type::string());
+            $module_fields['subject'] = Type::string();
 
             $moduleFieldsType = new ObjectType([
                 'name' => $args['module'] . 'FieldsType',
@@ -970,8 +1067,7 @@ class JoHelper
                     'nameFields' => Type::listOf(Type::string())
                 ]
             ];
-        }
-        else if($args['action'] == 'get_users')  {
+        } else if ($args['action'] == 'get_users') {
 
             $userInfo = new ObjectType([
                 'name' => 'UserInfo',
@@ -997,7 +1093,7 @@ class JoHelper
             ];
         }
         // TODO Add related module type. Should be able to query in a single shot
-        else if($args['action'] == 'list')  {
+        else if ($args['action'] == 'list') {
 
             $headerType = new ObjectType([
                 'name' => 'HeaderFields',
@@ -1043,8 +1139,7 @@ class JoHelper
                     'page' => Type::int(),
                 ]
             ];
-        }
-        else if($args['action'] == 'get_record')   {
+        } else if ($args['action'] == 'get_recordJOFORCE') { //changed schema like vtiger
 
             $module_fields = $this->generateBlockType();
 
@@ -1059,8 +1154,47 @@ class JoHelper
                     'id' => Type::nonNull(Type::id())
                 ]
             ];
-        }
-        else    {
+        } else if ($args['action'] == 'get_record') {
+
+            $module_fields = $this->generateModuleFields($args['module']);
+            return [
+                'name' => $args['module'] . 'Fields',
+                'description' => "{$args['module']} fields",
+                'type' => 'single',
+                'fields' => $module_fields,
+                'action' => 'get_record',
+                'args' => [
+                    'module' => Type::nonNull(Type::string()),
+                    'id' => Type::nonNull(Type::id())
+                ]
+            ];
+        } else if ($args['action'] == 'get_forecast') { // jo_potential for forcast
+            $module_fields = [];
+            $module_fields['potentialname'] = Type::string();
+            $moduleFieldsType = new ObjectType([
+                'name' => 'PotentialsFieldsType',
+                'description' => 'Potentials fields type',
+                'fields' => $module_fields
+            ]);
+
+            return [
+                'name' => 'ForecastFields',
+                'description' => "Forecast fields",
+                'type' => 'single',
+                'action' => 'get_forecast',
+                'args' => [
+                    'month' => Type::int(),
+                    'year' => Type::int()
+                ],
+                'fields' => [
+                    'records' => Type::listOf($moduleFieldsType),
+                    'moreRecords' => Type::boolean(),
+                    'page' => Type::int(),
+                    'orderBy' => Type::string(),
+                    'sortOrder' => Type::string()
+                ]
+            ];
+        } else {
             $module_fields = $this->generateModuleFields($args['module']);
             return [
                 'name' => $args['module'] . 'Fields',
@@ -1101,7 +1235,7 @@ class JoHelper
                 'record_label' => Type::string(), // Record Label for related record
                 'label' => Type::string(),
                 'uitype' => Type::int(),
-                'type' => Type::listOf($defaultValue), 
+                'type' => Type::listOf($defaultValue),
             ]
         ]);
 
@@ -1134,21 +1268,31 @@ class JoHelper
         $module_name = ucfirst($module);
         include_once 'includes/Webservices/DescribeObject.php';
         $this->module_fields_info = vtws_describe($module_name, $this->user);
-        if(isset($this->module_fields_info['fields']))    {
-            foreach($this->module_fields_info['fields'] as $module_field) {
+        if (isset($this->module_fields_info['fields'])) {
+            foreach ($this->module_fields_info['fields'] as $module_field) {
                 // Check if field is related to other module or field is assigned_user_id. If so, add the module type as string
-                if($module_field['type']['name'] == 'reference' || $module_field['name'] == 'assigned_user_id')    {
+                if ($module_field['type']['name'] == 'reference' || $module_field['name'] == 'assigned_user_id') {
                     // We are passing reference as String. Need to resolve the Id to Value before passing.
                     $module_schema[$module_field['name']] = Type::string();
-                }
-                else if($module_field['name'] == 'id')    {
+                } else if ($module_field['name'] == 'id') {
                     $module_schema[$module_field['name']] = Type::int();
-                }
-                else {
+                } else {
                     $module_schema[$module_field['name']] = $this->typesMapping($module_field['type']['name']);
                 }
             }
         }
+        $looping_array = array("productid", "quantity", "listprice","comment", "product_id" );
+        if($module_name=='Invoice' || $module_name=='Quotes' || $module_name=='SalesOrder' || $module_name=='PurchaseOrder'){
+            for ($i=1;$i <=50 ; $i++) {
+                foreach ($module_schema as $key_change  => $value) { 
+                    if(in_array($key_change, $looping_array)){
+                       $module_schema[$key_change.$i] =$value ; 
+                       if($key_change=='productid') 
+                       $module_schema[$key_change.$i.'_id'] =$value ;
+                    }                   
+                }
+            }        
+        } 
         return $module_schema;
     }
 
@@ -1165,19 +1309,19 @@ class JoHelper
         $module_name = ucfirst($module);
         $tab_id = getTabid($module_name);
         $filter_id = $args['id'];
-        if(empty($filter_id)) {
+        if (empty($filter_id)) {
             throw new \Exception('Filter Id is mandatory');
         }
 
         $customView = new \CustomView($module_name);
         $filter_columns = $customView->getColumnsListByCvid($filter_id);
-        if(empty($filter_columns))  {
+        if (empty($filter_columns)) {
             throw new \Exception('No column present in given Filter Id');
         }
 
-        foreach($filter_columns as $filter_column) {
+        foreach ($filter_columns as $filter_column) {
             $details = explode(':', $filter_column);
-            if(empty($details[2]) && $details[1] == 'crmid' && $details[0] == 'jo_crmentity') {
+            if (empty($details[2]) && $details[1] == 'crmid' && $details[0] == 'jo_crmentity') {
                 $name = 'id';
                 $customViewFields[] = $name;
             } else {
@@ -1188,7 +1332,7 @@ class JoHelper
 
         $filter_field_names = "'" . implode("','", $fields) . "'";
         $getFieldLabels = $this->db->pquery("select fieldname, fieldlabel from jo_field where fieldname IN ($filter_field_names) and tabid = ?", array($tab_id));
-        while($field_info = $this->db->fetch_row($getFieldLabels))    {
+        while ($field_info = $this->db->fetch_row($getFieldLabels)) {
             $response[] = $field_info;
         }
 
@@ -1204,15 +1348,15 @@ class JoHelper
     public function getJoModules()
     {
         $result = $this->db->pquery("SELECT id, name FROM jo_ws_entity WHERE ismodule = 1 and name NOT IN ('Users', 'Events')", array());
-        while($module_info = $this->db->fetch_array($result)) {
+        while ($module_info = $this->db->fetch_array($result)) {
             $modules[$module_info['name']] = $module_info['id'];
         }
 
         $list_types = vtws_listtypes(null, $this->user);
 
         $listing = array();
-        foreach($list_types['types'] as $index => $module_name) {
-            if(!isset($modules[$module_name])) continue;
+        foreach ($list_types['types'] as $index => $module_name) {
+            if (!isset($modules[$module_name])) continue;
 
             $listing[] = [
                 'id'   => $modules[$module_name],
@@ -1239,11 +1383,11 @@ class JoHelper
         $allFilters = \CustomView_Record_Model::getAllByGroup($args['module']);
         unset($allFilters['Public']);
         $result = array();
-        if($allFilters) {
-            foreach($allFilters as $group => $filters) {
+        if ($allFilters) {
+            foreach ($allFilters as $group => $filters) {
                 $result[$group] = array();
-                foreach($filters as $filter) {
-                    $result[$group][] = array('id'=>$filter->get('cvid'), 'name'=>$filter->get('viewname'), 'default'=>$filter->isDefault());
+                foreach ($filters as $filter) {
+                    $result[$group][] = array('id' => $filter->get('cvid'), 'name' => $filter->get('viewname'), 'default' => $filter->isDefault());
                 }
             }
         }
@@ -1268,48 +1412,85 @@ class JoHelper
 
         $moduleModel = \Head_Module_Model::getInstance($module);
         $nameFields = $moduleModel->getNameFields();
-        if(is_string($nameFields)) {
+        if (is_string($nameFields)) {
             $nameFieldModel = $moduleModel->getField($nameFields);
             $headerFields[] = $nameFields;
-            $fields = array('name'=>$nameFieldModel->get('name'), 'label'=>$nameFieldModel->get('label'), 'fieldType'=>$nameFieldModel->getFieldDataType());
-        }
-        else if(is_array($nameFields)) {
-            foreach($nameFields as $nameField) {
+            $fields = array('name' => $nameFieldModel->get('name'), 'label' => $nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
+        } else if (is_array($nameFields)) {
+            foreach ($nameFields as $nameField) {
                 $nameFieldModel = $moduleModel->getField($nameField);
                 $headerFields[] = $nameField;
-                $fields[] = array('name'=>$nameFieldModel->get('name'), 'label'=>$nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
+                $fields[] = array('name' => $nameFieldModel->get('name'), 'label' => $nameFieldModel->get('label'), 'fieldType' => $nameFieldModel->getFieldDataType());
             }
         }
 
         $fieldModels = $moduleModel->getFields();
-        //&& issue start
-        
-        foreach($fields as $index => $field) {
 
-        	 if($module == 'PurchaseOrder' || $module == 'Invoice' || $module == 'SalesOrder' || $module == 'Quotes'){
+
+
+
+        //&& issue start
+
+        foreach ($fields as $index => $field) {
+
+            if ($module == 'PurchaseOrder' || $module == 'Invoice' || $module == 'SalesOrder' || $module == 'Quotes') {
 
                 if (strpos($field['name'], '&') !== false) {
-                continue;
+                    continue;
                 }
             }
             //&& issue end       
 
-            if($field['type']['name'] == 'boolean' && $field['default'] == 'on')    {
+            if ($field['type']['name'] == 'boolean' && $field['default'] == 'on') {
                 $field['default'] = true;
             }
 
-            if ($field['name'] == 'activitytype' && $module == 'Calendar') {
-                $field['mandatory'] = true;
+            if ($module == 'Calendar') {
+                if ($field['name'] == 'taskstatus') {
+                    $field['label'] = 'Task Status';
+                }
+                if ($field['name'] == 'activitytype' || $field['name'] == 'eventstatus' || $field['name'] == 'visibility') {
+                    $field['mandatory'] = true;
+                }
             }
 
             $fieldModel = $fieldModels[$field['name']];
-            if($fieldModel) {
+            if ($fieldModel) {
                 $field['headerfield'] = $fieldModel->get('headerfield');
                 $field['summaryfield'] = $fieldModel->get('summaryfield');
             }
             $newFields[] = $field;
         }
-        $fields=null;
+        $fields = null;
+        $looping_array = array("productid", "quantity", "listprice","comment" );
+        if($module=='Invoice' || $module=='Quotes' || $module=='SalesOrder' || $module=='PurchaseOrder'){ 
+            if(!empty($id=$_REQUEST['id'])){
+                $recordModel = \Head_Record_Model::getInstanceById($id, $module);
+                $relatedProducts = $recordModel->getProducts();
+                $itemcount = count($relatedProducts); 
+            }                       
+            $addloop =array();
+            for ($i=1;$i <=$itemcount ; $i++) {
+                foreach ($newFields as $key_change  => $value) { 
+                    if(in_array($value['name'], $looping_array)){ 
+                       $value['name']= $value['name'].$i;
+                       $value['label']= $value['label'].$i;
+                       $newFields[] =$value ;  
+                       if($value['name']=='productid'.$i){ 
+                            $value['name']= $value['name'].'_id';
+                            $value['label']= $value['label'];
+                            $value['editable']= 0;
+                            $newFields[] =$value ; 
+                        }                      
+                    }                   
+                }
+            } 
+            for ($i=0; $i < count($newFields); $i++) {
+               if(in_array($newFields[$i]['name'], $looping_array)){ 
+                    $newFields[$i]['editable']='0';
+               }
+            }             
+        } 
         $describeInfo['nameFields'] = $nameFields;
         $describeInfo['fields'] = $newFields;
         return $describeInfo;
@@ -1323,17 +1504,16 @@ class JoHelper
      */
     public function typesMapping($type)
     {
-        if($type == 'string' || $type == 'email' || $type == 'phone' || $type == 'date' || $type == 'datetime' || $type == 'text'
-            || $type == 'picklist' || $type == 'url' || $type == 'password' || $type == 'autogenerated')   {
+        if (
+            $type == 'string' || $type == 'email' || $type == 'phone' || $type == 'date' || $type == 'datetime' || $type == 'text'
+            || $type == 'picklist' || $type == 'url' || $type == 'password' || $type == 'autogenerated'
+        ) {
             return Type::string();
-        }
-        else if($type == 'boolean') {
+        } else if ($type == 'boolean') {
             return Type::boolean();
-        }
-        else if($type == 'owner')   {
+        } else if ($type == 'owner') {
             return Type::int();
-        }
-        else    {
+        } else {
             return Type::string();
         }
     }
@@ -1347,7 +1527,8 @@ class JoHelper
      */
     public function getWidgetData($args)
     {
-        global $current_user; $data = [];
+        global $current_user;
+        $data = [];
         $current_user = $this->user;
         $allowed_widget_info = [
             'GroupedBySalesStage' => ['module' => 'Potentials', 'function' => 'getPotentialsCountBySalesStage'],
@@ -1356,27 +1537,25 @@ class JoHelper
             'LeadsBySource' => ['module' => 'Leads', 'function' => 'getLeadsBySource'],
         ];
 
-        if(!array_key_exists($args['name'], $allowed_widget_info))  {
+        if (!array_key_exists($args['name'], $allowed_widget_info)) {
             throw new \Exception('Widget not allowed');
         }
 
         $moduleModel = \Head_Module_Model::getInstance($allowed_widget_info[$args['name']]['module']);
         $response_data = $moduleModel->{$allowed_widget_info[$args['name']]['function']}($this->user->id, null);
-        if($args['name'] == 'GroupedBySalesStage') {
-            foreach($response_data as $data_key => $resolve_data)   {
+        if ($args['name'] == 'GroupedBySalesStage') {
+            foreach ($response_data as $data_key => $resolve_data) {
                 $data[$data_key]['count'] = $resolve_data[1];
                 $data[$data_key]['value'] = $resolve_data[0];
                 $data[$data_key]['label'] = $resolve_data[2];
             }
-        }
-        else if($args['name'] == 'GroupedBySalesPerson')   {
-            foreach($response_data as $data_key => $resolve_data)   {
+        } else if ($args['name'] == 'GroupedBySalesPerson') {
+            foreach ($response_data as $data_key => $resolve_data) {
                 $data[$data_key]['count'] = $resolve_data['count'];
                 $data[$data_key]['value'] = $resolve_data['last_name'];
                 $data[$data_key]['label'] = $resolve_data['last_name'];
             }
-        }
-        else {
+        } else {
             foreach ($response_data as $data_key => $resolve_data) {
                 $data[$data_key]['count'] = $resolve_data[0];
                 $data[$data_key]['value'] = $resolve_data[1];
@@ -1392,17 +1571,16 @@ class JoHelper
      * @param $args
      * @return array
      */
-    public function getCalendarInfo($args)
+    public function getCalendarInfoJOFORCE($args)
     {
         global $current_user;
         $current_user = $this->user;
 
         $start = $args['date'];
         // TODO Need improvements on this function
-        if(!empty($args['day']) && $args['day'] === true)  {
+        if (!empty($args['day']) && $args['day'] === true) {
             $noOfDays = 1;
-        }
-        else    {
+        } else {
             $noOfDays = 31;
         }
 
@@ -1430,26 +1608,26 @@ class JoHelper
 
         $hideCompleted = $currentUser->get('hidecompletedevents');
         if ($hideCompleted) {
-            $query.= "jo_activity.eventstatus != 'HELD' AND ";
+            $query .= "jo_activity.eventstatus != 'HELD' AND ";
         }
-        $query.= " (concat(date_start,' ',time_start)) >= '$dbStartDateTime' AND (concat(date_start,' ',time_start)) < '$dbEndDateTime'";
+        $query .= " (concat(date_start,' ',time_start)) >= '$dbStartDateTime' AND (concat(date_start,' ',time_start)) < '$dbEndDateTime'";
 
         $eventUserId = $currentUser->getId();
         $params = array_merge(array($eventUserId), $this->getGroupsIdsForUsers($eventUserId));
-        $query.= " AND jo_crmentity.smownerid IN (".generateQuestionMarks($params).")";
-        $query.= ' ORDER BY time_start';
+        $query .= " AND jo_crmentity.smownerid IN (" . generateQuestionMarks($params) . ")";
+        $query .= ' ORDER BY time_start';
         $queryResult = $db->pquery($query, $params);
         while ($record = $db->fetchByAssoc($queryResult)) {
             $item = array();
-            $item['id']				= $record['activityid'];
-            $item['visibility']		= $record['visibility'];
-            $item['activitytype']	= $record['activitytype'];
-            $item['status']			= $record['eventstatus'];
-            $item['priority']		= $record['priority'];
-            $item['userfullname']	= getUserFullName($record['smownerid']);
-            $item['title']			= decode_html($record['subject']);
+            $item['id']                = $record['activityid'];
+            $item['visibility']        = $record['visibility'];
+            $item['activitytype']    = $record['activitytype'];
+            $item['status']            = $record['eventstatus'];
+            $item['priority']        = $record['priority'];
+            $item['userfullname']    = getUserFullName($record['smownerid']);
+            $item['title']            = decode_html($record['subject']);
 
-            $dateTimeFieldInstance = new \DateTimeField($record['date_start'].' '.$record['time_start']);
+            $dateTimeFieldInstance = new \DateTimeField($record['date_start'] . ' ' . $record['time_start']);
             $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
             $startDateComponents = explode(' ', $userDateTimeString);
 
@@ -1457,7 +1635,7 @@ class JoHelper
             $item['startDate'] = $startDateComponents[0];
             $item['startTime'] = $startDateComponents[1];
 
-            $dateTimeFieldInstance = new \DateTimeField($record['due_date'].' '.$record['time_end']);
+            $dateTimeFieldInstance = new \DateTimeField($record['due_date'] . ' ' . $record['time_end']);
             $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
             $endDateComponents = explode(' ', $userDateTimeString);
 
@@ -1470,27 +1648,147 @@ class JoHelper
                 $item['endTime'] = \Head_Time_UIType::getTimeValueInAMorPM($item['endTime']);
             }
             $recurringCheck = false;
-            if($record['recurringtype'] != '' && $record['recurringtype'] != '--None--') {
+            if ($record['recurringtype'] != '' && $record['recurringtype'] != '--None--') {
                 $recurringCheck = true;
             }
             $item['recurringcheck'] = $recurringCheck;
             $result[$startDateComponents[0]][] = $item;
         }
 
-        if(!isset($args['day']) || $args['day'] === false) {
-	    if(empty($result))	{
+        if (!isset($args['day']) || $args['day'] === false) {
+            if (empty($result)) {
                 $response[] = ['date' => $start, 'count' => 0];
-	    }
-	    else {
-	        foreach ($result as $date => $date_wise) {
-        	   $response[] = ['date' => $date, 'count' => count($result[$date])];
-            	}
-	    }
+            } else {
+                foreach ($result as $date => $date_wise) {
+                    $response[] = ['date' => $date, 'count' => count($result[$date])];
+                }
+            }
 
             return $response;
-        }
-        else    {
+        } else {
             return isset($result[$user_formatted_date]) && !empty($result[$user_formatted_date]) ? $result[$user_formatted_date] : [];
+        }
+    }
+    public function getCalendarInfo($args)
+    {
+        global $current_user;
+        $current_user = $this->user;
+
+        $start = $args['date'];
+        // TODO Need improvements on this function
+        if (!empty($args['day']) && $args['day'] === true) {
+            $noOfDays = 1;
+        } else {
+            $noOfDays = 31;
+        }
+
+        $user_formatted_date = \DateTimeField::convertToUserFormat($start, $current_user);
+
+        $dbStartDateOject = \DateTimeField::convertToDBTimeZone($start, $current_user);
+        $dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+
+        $cache_datetime = strtotime($dbStartDateTime);
+        $secondsDelta = 24 * 60 * 60 * $noOfDays;
+        $futureDate = $cache_datetime + $secondsDelta;
+        $dbEndDateTime = date("Y-m-d H:i:s", $futureDate);
+
+        $currentUser = \Users_Record_Model::getCurrentUserModel();
+        $db = $this->db;
+
+        $query = 'SELECT jo_activity.subject, jo_activity.eventstatus, jo_activity.priority ,jo_activity.visibility,
+        jo_activity.date_start, jo_activity.time_start, jo_activity.due_date, jo_activity.time_end,
+        jo_crmentity.smownerid, jo_activity.activityid, jo_activity.activitytype, jo_activity.recurringtype,
+        jo_activity.location FROM jo_activity
+        INNER JOIN jo_crmentity ON jo_activity.activityid = jo_crmentity.crmid
+        LEFT JOIN jo_users ON jo_crmentity.smownerid = jo_users.id
+        LEFT JOIN jo_groups ON jo_crmentity.smownerid = jo_groups.groupid
+        WHERE jo_crmentity.deleted=0 AND jo_activity.activityid > 0 AND jo_activity.activitytype NOT IN ("Emails","Task") AND ';
+
+        $hideCompleted = $currentUser->get('hidecompletedevents');
+        if ($hideCompleted) {
+            $query .= "jo_activity.eventstatus != 'HELD' AND ";
+        }
+        $query .= " (concat(date_start,' ',time_start)) >= '$dbStartDateTime' AND (concat(date_start,' ',time_start)) < '$dbEndDateTime'";
+
+        $eventUserId = $currentUser->getId();
+        $params = array_merge(array($eventUserId), $this->getGroupsIdsForUsers($eventUserId));
+        $query .= " AND jo_crmentity.smownerid IN (" . generateQuestionMarks($params) . ")";
+        $query .= ' ORDER BY time_start';
+        $queryResult = $db->pquery($query, $params);
+        $items = [];
+        while ($record = $db->fetchByAssoc($queryResult)) {
+            $item = array();
+            $item['id']                = $record['activityid'];
+            $item['visibility']        = $record['visibility'];
+            $item['activitytype']    = $record['activitytype'];
+            $item['status']            = $record['eventstatus'];
+            $item['priority']        = $record['priority'];
+            $item['userfullname']    = getUserFullName($record['smownerid']);
+            $item['title']            = decode_html($record['subject']);
+            $dateTimeFieldInstance = new \DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+            $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+            $startDateComponents = explode(' ', $userDateTimeString);
+            //$startDateComponents[0] = \DateTimeField::convertToUserFormat($startDateComponents[0], $current_user);
+            $item['start'] = $userDateTimeString;
+            $item['startDate'] = $startDateComponents[0];
+            $item['startTime'] = $startDateComponents[1];
+            $dateTimeFieldInstance = new \DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+            $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+            $endDateComponents = explode(' ', $userDateTimeString);
+            $item['end'] = $userDateTimeString;
+            $item['endDate'] = $endDateComponents[0];
+            $item['endTime'] = $endDateComponents[1];
+            if ($currentUser->get('hour_format') == '12') {
+                $item['startTime'] = \Head_Time_UIType::getTimeValueInAMorPM($item['startTime']);
+                $item['endTime'] = \Head_Time_UIType::getTimeValueInAMorPM($item['endTime']);
+            }
+            $recurringCheck = false;
+            if ($record['recurringtype'] != '' && $record['recurringtype'] != '--None--') {
+                $recurringCheck = true;
+            }
+            $item['recurringcheck'] = $recurringCheck;
+            array_push($items, $item);
+            $result[$startDateComponents[0]][] = $item;
+        }
+        if (!isset($args['day']) || $args['day'] === false) {
+            if (empty($result)) {
+                $response[] = ['date' => $start, 'count' => 0];
+            } else {
+                foreach ($result as $date => $date_wise) {
+                    $response[] = ['date' => $date, 'count' => count($result[$date])];
+                }
+            }
+            return $response; //for count
+        } else {
+            // return isset($result[$user_formatted_date]) && !empty($result[$user_formatted_date]) ? $result[$user_formatted_date] : [];
+            $events = [];
+            foreach ($items as  $value) {
+                $event = [];
+                $event['id'] = $value['id'];
+                $event['visibility'] = $value['visibility'];
+                $event['activitytype'] = $value['activitytype'];
+                $event['status'] = $value['status'];
+                $event['priority'] = $value['priority'];
+                $event['userfullname'] = $value['userfullname'];
+                $event['title'] = $value['title'];
+                $event['start'] = $value['start'];
+                $event['startDate'] = $value['startDate'];
+                $event['end'] = $value['end'];
+                $event['endDate'] = $value['endDate'];
+                $event['endTime'] = $value['endTime'];
+                $event['recurringcheck'] = $value['recurringcheck'];
+                $event['startTime'] = $value['startTime'];
+                array_push($events, $event);
+            }
+            $calendar_view = [];
+            $calendar_view['date'] = $start;
+            $calendar_view['events'] = $events;
+            $data = [];
+            $data['calendar_view'] = $calendar_view;
+            $finalresult = [];
+            $finalresult['data'] = $data;
+            print_r(json_encode($finalresult));
+            die();
         }
     }
 
@@ -1506,36 +1804,42 @@ class JoHelper
         $user_id = $this->user->id;
         $main_menu = getMainMenuList($user_id);
         // Adding module label
-        foreach($main_menu as $key => $menu_info)    {
+        foreach ($main_menu as $key => $menu_info) {
             $main_menu[$key]['label'] = vtranslate($menu_info['name']);
             $is_entity_module = $this->checkEntityModule($menu_info['name']);
-            if(!$is_entity_module) {
+            if (!$is_entity_module) {
                 unset($main_menu[$key]);
             }
         }
 
         $modules_and_sections = getAppModuleList($user_id);
-        $data['Main'] = $main_menu;
+        $data['More'] = $main_menu;
+
         $i = 0;
-        foreach($modules_and_sections as $section => $modules)  {
+        foreach ($modules_and_sections as $section => $modules) {
             $more_section[$i]['section'] = $section;
             $more_section[$i]['module_info'] = [];
-            foreach($modules as $tab_id) {
+            foreach ($modules as $tab_id) {
                 $module_name = getTabModuleName($tab_id);
                 $is_entity_module = $this->checkEntityModule($module_name);
-                if($is_entity_module) {
-                    $more_section[$i]['module_info'][] = ['name' => $module_name, 'label' => vtranslate($module_name), 'tabid' => $tab_id];
+                if ($is_entity_module) {
+                    global $site_URL; 
+                    $imageurl =vimage_path($module_name. '.png');
+                    if(empty($imageurl)){
+                        $imageurl=vimage_path('DefaultModule.png');
+                    }
+                    $more_section[$i]['module_info'][] = ['name' => $module_name, 'label' => vtranslate($module_name), 'tabid' => $tab_id,'image_url' =>$site_URL.$imageurl ];
                 }
             }
 
             // If no modules present in the section, unset the section
-            if(count($more_section[$i]['module_info']) == 0) {
+            if (count($more_section[$i]['module_info']) == 0) {
                 unset($more_section[$i]);
                 continue;
             }
             $i = $i + 1;
         }
-        $data['More'] = $more_section;
+        $data['Main'] = $more_section;
         return $data;
     }
 
@@ -1569,15 +1873,14 @@ class JoHelper
         $search_result = $listView->searchAll($request, true);
         $i = 0;
         $response = [];
-        if($search_result) {
+        if ($search_result) {
             foreach ($search_result as $module => $module_records) {
                 $response[$i]['module'] = $module;
-                if(!empty($module_records)) {
+                if (!empty($module_records)) {
                     foreach ($module_records as $module_record) {
                         $response[$i]['data'][] = $module_record->getData();
                     }
-                }
-                else    {
+                } else {
                     $response[$i]['data'] = [];
                 }
                 $i = $i + 1;
@@ -1586,7 +1889,8 @@ class JoHelper
         return $response;
     }
 
-    protected function getGroupsIdsForUsers($userId) {
+    protected function getGroupsIdsForUsers($userId)
+    {
         vimport('~~/includes/utils/GetUserGroups.php');
         $userGroupInstance = new \GetUserGroups();
         $userGroupInstance->getAllUserGroups($userId);
@@ -1599,113 +1903,119 @@ class JoHelper
      * @return mixed
      */
     public function returnLocationDetails($request)
-    {   
+    {
         include_once 'include/Webservices/Query.php';
 
-        $code=$request['code'];
-        $city=$request['city'];
-        $state=$request['state'];
+        $code = $request['code'];
+        $city = $request['city'];
+        $state = $request['state'];
         $request_array = array();
-                
-        if ($request['module'] =='Leads') {
 
-            $code_query = $city_query =$state_query = $query_concat = '';
-            
-            $query_concat ="SELECT concat(details.firstname,' ',details.lastname) as label,concat(address.lane,' ',address.city,' ',address.state,' ',address.code,' ',address.country) as address,address.code,address.city,address.state FROM jo_leaddetails details JOIN jo_crmentity crm ON crm.crmid = details.leadid JOIN jo_leadaddress address ON address.leadaddressid = crm.crmid WHERE crm.deleted = 0 AND"; 
+        if ($request['module'] == 'Leads') {
 
-            $code_query = $city_query =$state_query = $query_concat;
+            $code_query = $city_query = $state_query = $query_concat = '';
+
+            $query_concat = "SELECT leadid,concat(details.firstname,' ',details.lastname) as label,concat(address.lane,' ',address.city,' ',address.state,' ',address.code,' ',address.country) as address,address.code,address.city,address.state FROM jo_leaddetails details JOIN jo_crmentity crm ON crm.crmid = details.leadid JOIN jo_leadaddress address ON address.leadaddressid = crm.crmid WHERE crm.deleted = 0 AND";
+
+            $code_query = $city_query = $state_query = $query_concat;
 
             if (!empty($code)) {
-                $code_query.=" code =? LIMIT 30";    
+                $code_query .= " code =? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($code_query, array($code));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
-                }      
+                }
             }
             if (!empty($city)) {
-                $city_query.=" city =? LIMIT 30";    
+                $city_query .= " city =? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($city_query, array($city));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
-                }      
+                }
             }
             if (!empty($state)) {
-                $state_query.=" state =? LIMIT 30";    
+                $state_query .= " state =? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($state_query, array($state));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
-                }      
+                }
             }
 
-            $transform_array=array_unique($request_array, SORT_REGULAR);
+            $transform_array = array_unique($request_array, SORT_REGULAR);
             $temp_array = [];
-                 
+
             $i = 0;
             foreach ($transform_array as $key => $value) {
-                $temp_array[$i] = ['label'=>$value['label'],'address'=>$value['address']];
+                $temp_array[$i] = ['label' => $value['label'], 'address' => $value['address'],'recordId'=>$value['leadid']];
                 $i = $i + 1;
             }
 
-            $responcearray = array('data' => $temp_array);      
+            if(!empty($temp_array)){
+                $responcearray = array("success"=> true,'locationList' => $temp_array);
+            }else{
+                $responcearray = array("success"=> true,'locationList' => 'No Records founds');
+            }  
             return $responcearray;
-            
-        } elseif ($request['module'] =='Contacts') {  // for Contacts 
-            $mailingzip_query = $mailingcode_query =$mailingstate_query = $query_concat = '';
+        } elseif ($request['module'] == 'Contacts') {  // for Contacts 
+            $mailingzip_query = $mailingcode_query = $mailingstate_query = $query_concat = '';
 
-            $query_concat="SELECT concat(details.firstname,' ', details.lastname) as label, concat(address.mailingstreet, ' ', address.mailingcity,' ', address.mailingstate, ' ', address.mailingzip, ' ', address.mailingcountry) as address,address.mailingstreet,address.mailingzip,address.mailingcity,address.mailingstate,address.mailingcountry FROM jo_contactdetails details JOIN jo_crmentity crm ON crm.crmid = details.contactid JOIN jo_contactaddress address ON address.contactaddressid = crm.crmid WHERE crm.deleted = 0 AND";
+            $query_concat = "SELECT contactid,concat(details.firstname,' ', details.lastname) as label, concat(address.mailingstreet, ' ', address.mailingcity,' ', address.mailingstate, ' ', address.mailingzip, ' ', address.mailingcountry) as address,address.mailingstreet,address.mailingzip,address.mailingcity,address.mailingstate,address.mailingcountry FROM jo_contactdetails details JOIN jo_crmentity crm ON crm.crmid = details.contactid JOIN jo_contactaddress address ON address.contactaddressid = crm.crmid WHERE crm.deleted = 0 AND";
 
             $mailingzip_query = $mailingcode_query = $mailingstate_query = $query_concat;
 
             if (!empty($code)) {
-                $mailingzip_query.=" mailingzip =? LIMIT 30";    
+                $mailingzip_query .= " mailingzip =? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($mailingzip_query, array($code));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
                 }
             }
             if (!empty($city)) {
-                $mailingcode_query.=" mailingcity=? LIMIT 30";    
+                $mailingcode_query .= " mailingcity=? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($mailingcode_query, array($city));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
                 }
             }
             if (!empty($state)) {
-                $mailingstate_query.=" mailingstate=? LIMIT 30";    
+                $mailingstate_query .= " mailingstate=? LIMIT 30";
 
                 $mailingzip = $this->db->pquery($mailingstate_query, array($state));
 
-                while($module_info = $this->db->fetchByAssoc($mailingzip)) {
+                while ($module_info = $this->db->fetchByAssoc($mailingzip)) {
 
                     $request_array[] = $module_info;
-                }      
+                }
             }
-            $transform_array=array_unique($request_array, SORT_REGULAR);
-            $temp_array = [];     
+            $transform_array = array_unique($request_array, SORT_REGULAR);
+            $temp_array = [];
             $i = 0;
             foreach ($transform_array as $key => $value) {
-                $temp_array[$i] = ['label'=>$value['label'],'address'=>$value['address']];
+                $temp_array[$i] = ['label' => $value['label'], 'address' => $value['address'], 'recordId'=>$value['contactid']];
                 $i = $i + 1;
-            }        
-            $responcearray = array('data' => $temp_array);      
+            }
+            if(!empty($temp_array)){
+                $responcearray = array("success"=> true,'locationList' => $temp_array);
+            }else{
+                $responcearray = array("success"=> true,'locationList' => 'No Records founds');
+            }
             return $responcearray;
-                
-        } 
+        }
     }
 
     /**
@@ -1720,7 +2030,7 @@ class JoHelper
         global $current_user;
         $current_user = $this->user;
         $page = $requested_data['page'];
-        if(empty($page)) {
+        if (empty($page)) {
             $page = 0;
         }
         $query = $requested_data['query'];
@@ -1730,16 +2040,15 @@ class JoHelper
         require_once('include/Webservices/Query.php');
         if (preg_match("/(.*) LIMIT[^;]+;/i", $query)) {
             $queryResult = \vtws_query($query, $current_user);
-        }
-        else {
-	    // Implicit limit and paging
+        } else {
+            // Implicit limit and paging
             $query = rtrim($query, ";");
 
             $currentPage = intval($page);
             $FETCH_LIMIT = 10;
             $startLimit = $currentPage * $FETCH_LIMIT;
 
-            $queryWithLimit = sprintf("%s LIMIT %u,%u;", $query, $startLimit, ($FETCH_LIMIT+1));
+            $queryWithLimit = sprintf("%s LIMIT %u,%u;", $query, $startLimit, ($FETCH_LIMIT + 1));
             $queryResult = \vtws_query($queryWithLimit, $current_user);
 
             // Determine paging
@@ -1750,11 +2059,11 @@ class JoHelper
             }
         }
 
-	    $fieldsInfo = $this->getModuleFields($requested_data['module']);
+        $fieldsInfo = $this->getModuleFields($requested_data['module']);
 
         $records = array();
         if (!empty($queryResult)) {
-            foreach($queryResult as $recordValues) {
+            foreach ($queryResult as $recordValues) {
                 $unresolved_data = $this->resolveRecordValues($recordValues, $current_user, $requested_data['module']);
                 $records[] = $this->returnDataInBlocks($unresolved_data, $requested_data['module'], $fieldsInfo['labelFields']);
             }
@@ -1776,40 +2085,38 @@ class JoHelper
         require_once('modules/Mobile/api/ws/Utils.php');
         $moduleFieldGroups = \Mobile_WS_Utils::gatherModuleFieldGroupInfo($module_name);
         $blocks = $modifiedResult = array();
-        foreach($moduleFieldGroups as $blocklabel => $fieldgroups) {
+        foreach ($moduleFieldGroups as $blocklabel => $fieldgroups) {
             $fields = array();
-            foreach($fieldgroups as $fieldname => $fieldinfo) {
+            foreach ($fieldgroups as $fieldname => $fieldinfo) {
                 // Pickup field if its part of the result
-                if(isset($data[$fieldname])) {
+                if (isset($data[$fieldname])) {
                     $field = array(
                         'name'  => $fieldname,
                         'value' => $data[$fieldname],
                         'label' => $fieldinfo['label'],
-                        'uitype'=> $fieldinfo['uitype']
+                        'uitype' => $fieldinfo['uitype']
                     );
 
                     // Fix the assigned to uitype
                     if ($field['uitype'] == '53') {
-			            $field['type']['defaultValue'] = array('value' => "19x{$current_user->id}", 'label' => $current_user->column_fields['last_name']);
-                    }
-                    else if($field['uitype'] == '117') {
+                        $field['type']['defaultValue'] = array('value' => "19x{$current_user->id}", 'label' => $current_user->column_fields['last_name']);
+                    } else if ($field['uitype'] == '117') {
                         $field['type']['defaultValue'] = $field['value'];
                     }
                     // Special case handling to pull configured Terms & Conditions given through webservices.
-                    else if($field['name'] == 'terms_conditions' && in_array($module, array('Quotes','Invoice', 'SalesOrder', 'PurchaseOrder'))){
+                    else if ($field['name'] == 'terms_conditions' && in_array($module, array('Quotes', 'Invoice', 'SalesOrder', 'PurchaseOrder'))) {
                         $field['type']['defaultValue'] = $field['value'];
                     }
                     // Special case handling to set defaultValue for visibility field in calendar.
-                    else if ($field['name'] == 'visibility' && in_array($module, array('Calendar','Events'))){
+                    else if ($field['name'] == 'visibility' && in_array($module, array('Calendar', 'Events'))) {
                         $field['type']['defaultValue'] = $field['value'];
-                    }
-                    else if($field['type']['name'] != 'reference') {
+                    } else if ($field['type']['name'] != 'reference') {
                         $field['type']['defaultValue'] = $field['default'];
                     }
                     $fields[] = $field;
                 }
             }
-            $blocks[] = array( 'label' => $blocklabel, 'fields' => $fields );
+            $blocks[] = array('label' => $blocklabel, 'fields' => $fields);
         }
 
         $sections = array();
@@ -1840,21 +2147,26 @@ class JoHelper
      * @param boolean $ignoreUnsetFields
      * @return mixed
      */
-    public function resolveRecordValues(&$record, $user, $module_name, $ignoreUnsetFields=false) {
-	    if(empty($record)) return $record;
+    public function resolveRecordValues(&$record, $user, $module_name, $ignoreUnsetFields = false)
+    {
+        if (empty($record)) return $record;
 
-	    require_once('modules/Mobile/api/ws/Utils.php');
+        require_once('modules/Mobile/api/ws/Utils.php');
         $fieldnamesToResolve = \Mobile_WS_Utils::detectFieldnamesToResolve($module_name);
-	    if(!empty($fieldnamesToResolve)) {
-		    foreach($fieldnamesToResolve as $resolveFieldname) {
-			    if ($ignoreUnsetFields === false || isset($record[$resolveFieldname])) {
-				    $fieldvalueid = $record[$resolveFieldname];
-				    $fieldvalue = $this->fetchRecordLabelForId($fieldvalueid, $user);
-				    $record[$resolveFieldname] = array('value' => $fieldvalueid, 'label' => \decode_html($fieldvalue));
-			    }
-		    }
+        if (!empty($fieldnamesToResolve)) {
+            foreach ($fieldnamesToResolve as $resolveFieldname) {
+                if ($ignoreUnsetFields === false || isset($record[$resolveFieldname])) {
+                    $fieldvalueid = $record[$resolveFieldname];
+                    $fieldvalue = $this->fetchRecordLabelForId($fieldvalueid, $user);
+                    if($module_name =='Contacts'){
+                        $record[$resolveFieldname] = $fieldvalue;
+                    }else{
+                        $record[$resolveFieldname] = array('value' => $fieldvalueid, 'label' => \decode_html($fieldvalue));
+                    }
+                }
+            }
         }
-	    return $record;
+        return $record;
     }
 
     /**
@@ -1864,19 +2176,243 @@ class JoHelper
      * @param object $user
      * @return void
      */
-    public function fetchRecordLabelForId($id, $user) 
+    public function fetchRecordLabelForId($id, $user)
     {
-	    $value = null;
+        $value = null;
 
-	    if (isset($this->resolvedValueCache[$id])) {
-		    $value = $this->resolvedValueCache[$id];
-	    } else if(!empty($id)) {
-		    $value = trim(\vtws_getName($id, $user));
-		    $this->resolvedValueCache[$id] = $value;
-	    } else {
-		    $value = $id;
-	    }
-	    return \decode_html($value);
+        if (isset($this->resolvedValueCache[$id])) {
+            $value = $this->resolvedValueCache[$id];
+        } else if (!empty($id)) {
+            $value = trim(\vtws_getName($id, $user));
+            $this->resolvedValueCache[$id] = $value;
+        } else {
+            $value = $id;
+        }
+        return \decode_html($value);
+    }
+
+    public function addlineitem($focus,$lineitem){  
+
+    global $log, $adb; 
+    $moduleName=$module=$focus['record_module'];
+    $id=$focus['id']; 
+    if(empty($moduleName))
+        $moduleName=$module=$_REQUEST['module']; 
+    $ext_prod_arr = Array();
+    $all_available_taxes = getAllTaxes('available', '', 'edit', $id);  
+    $tableName = '';
+    switch($moduleName) {
+        case 'Quotes'       : $tableName = 'jo_quotes';         $index = 'quoteid';         break;
+        case 'Invoice'      : $tableName = 'jo_invoice';        $index = 'invoiceid';       break;
+        case 'SalesOrder'   : $tableName = 'jo_salesorder';     $index = 'salesorderid';    break;
+        case 'PurchaseOrder': $tableName = 'jo_purchaseorder';  $index = 'purchaseorderid'; break;
+    }
+    $tot_no_prod = 10;
+    //If the taxtype is group then retrieve all available taxes, else retrive associated taxes for each product inside loop
+    $prod_seq=1;
+    for($i=1; $i<=$tot_no_prod; $i++)
+    {    
+        if($focus["deleted".$i] == 1)
+            continue;
+
+        $prod_id = modlib_purify($lineitem['productid'.$i]);   
+
+        if (!$prod_id) {
+            continue;
+        }  
+        if(isset($lineitem['productDescription'.$i]))
+        $description = modlib_purify($lineitem['productDescription'.$i]);
+        $qty = modlib_purify($lineitem['quantity'.$i]);
+        $listprice = modlib_purify($lineitem['listprice'.$i]);
+        $comment = modlib_purify($lineitem['comment'.$i]);
+        $purchaseCost = ($qty*$listprice);
+        $$margin =($qty*$listprice); 
+
+        if($module == 'SalesOrder') {
+            if($updateDemand == '-')
+            {
+                deductFromProductDemand($prod_id,$qty);
+            }
+            elseif($updateDemand == '+')
+            {
+                addToProductDemand($prod_id,$qty);
+            }
+        }
+
+        $query = 'INSERT INTO jo_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase_cost, margin)
+                    VALUES(?,?,?,?,?,?,?,?,?)';
+        $qparams = array($id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description, $purchaseCost, $margin);  
+        $adb->pquery($query,$qparams); // die("vf");
+        $lineitem_id = $adb->getLastInsertID(); 
+        $sub_prod_str = modlib_purify($lineitem['subproduct_ids'.$i]);
+        if (!empty($sub_prod_str)) {
+             $sub_prod = split(',', rtrim($sub_prod_str, ','));
+             foreach ($sub_prod as $subProductInfo) {
+                 list($subProductId, $subProductQty) = explode(':', $subProductInfo);
+                 $query = 'INSERT INTO jo_inventorysubproductrel VALUES(?, ?, ?, ?)';
+                 if (!$subProductQty) {
+                     $subProductQty = 1;
+                 }
+                 $qparams = array($id, $prod_seq, $subProductId, $subProductQty);
+                $adb->pquery($query,$qparams);
+            }
+        }
+        $prod_seq++; 
+        if($module != 'PurchaseOrder')
+        {
+            //update the stock with existing details
+            updateStk($prod_id,$qty,$lineitem['mode'],$ext_prod_arr,$module);
+        } 
+        //we should update discount and tax details
+        $updatequery = "update jo_inventoryproductrel set ";
+        $updateparams = array();
+
+        //set the discount percentage or discount amount in update query, then set the tax values
+        if($lineitem['discount_type'.$i] == 'percentage')
+        {
+            $updatequery .= " discount_percent=?,";
+            array_push($updateparams, modlib_purify($lineitem['discount_percentage'.$i]));
+        }
+        elseif($lineitem['discount_type'.$i] == 'amount')
+        {
+            $updatequery .= " discount_amount=?,";
+            $discount_amount = modlib_purify($lineitem['discount_amount'.$i]);
+            array_push($updateparams, $discount_amount);
+        }
+ 
+        $compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($id, $module);
+    
+        if($lineitem['hdnTaxType'] == 'group')
+        {
+            for($tax_count=0;$tax_count<count($all_available_taxes);$tax_count++)
+            {
+                $taxDetails = $all_available_taxes[$tax_count];
+                if ($taxDetails['method'] === 'Deducted') {
+                    continue;
+                } else if ($taxDetails['method'] === 'Compound') {
+                    $compoundExistingInfo = $compoundTaxesInfo[$taxDetails['taxid']];
+                    if (!is_array($compoundExistingInfo)) {
+                        $compoundExistingInfo = array();
+                    }
+                    $compoundNewInfo = Zend_Json::decode(html_entity_decode($taxDetails['compoundon']));
+                    $compoundFinalInfo = array_merge($compoundExistingInfo, $compoundNewInfo);
+                    $compoundTaxesInfo[$taxDetails['taxid']] = array_unique($compoundFinalInfo);
+                }
+
+                $tax_name = $taxDetails['taxname'];
+                $request_tax_name = $tax_name."_group_percentage";
+                $tax_val = 0;
+                if(isset($lineitem[$request_tax_name])) {
+                    $tax_val = modlib_purify($lineitem[$request_tax_name]);
+                }
+                $updatequery .= " $tax_name = ?,";
+                array_push($updateparams, $tax_val);
+            }
+        }
+        else
+        {
+            $taxes_for_product = getTaxDetailsForProduct($prod_id,'all');
+            for($tax_count=0;$tax_count<count($taxes_for_product);$tax_count++)
+            {
+                $taxDetails = $taxes_for_product[$tax_count];
+                if ($taxDetails['method'] === 'Compound') {
+                    $compoundExistingInfo = $compoundTaxesInfo[$taxDetails['taxid']];
+                    if (!is_array($compoundExistingInfo)) {
+                        $compoundExistingInfo = array();
+                    }
+
+                    $compoundFinalInfo = array_merge($compoundExistingInfo, $taxDetails['compoundon']);
+                    $compoundTaxesInfo[$taxDetails['taxid']] = array_unique($compoundFinalInfo);
+                }
+                $tax_name = $taxDetails['taxname'];
+                $request_tax_name = $tax_name."_percentage".$i;
+
+                $updatequery .= " $tax_name = ?,";
+                array_push($updateparams, modlib_purify($lineitem[$request_tax_name]));
+            }
+        }
+
+        //Adding deduct tax value to query
+        for($taxCount=0; $taxCount<count($all_available_taxes); $taxCount++) {
+            if ($all_available_taxes[$taxCount]['method'] === 'Deducted') {
+                $taxName = $all_available_taxes[$taxCount]['taxname'];
+                $requestTaxName = $taxName.'_group_percentage';
+                $taxValue = 0;
+                if(isset($lineitem[$requestTaxName])) {
+                    $taxValue = modlib_purify($lineitem[$requestTaxName]);
+                }
+
+                $updatequery .= " $taxName = ?,";
+                array_push($updateparams, (-$taxValue));
+            }
+        }
+
+        $updatequery = trim($updatequery, ',').' WHERE id = ? AND productid = ? AND lineitem_id = ?';
+        array_push($updateparams, $id, $prod_id, $lineitem_id);
+
+        if( !preg_match( '/set\s+where/i', $updatequery)) {
+            $adb->pquery($updatequery,$updateparams);
+        }
+    }  
+
+    $updatequery  = " update " .$tableName. " set";
+    $updateparams = array();
+    $subtotal = modlib_purify($lineitem['hdnSubTotal']);
+    $updatequery .= " subtotal=?,";
+    array_push($updateparams, $subtotal);
+
+    $pretaxTotal = modlib_purify($lineitem['pre_tax_total']); 
+    $updatequery .= " pre_tax_total=?,"; 
+    array_push($updateparams, $pretaxTotal);
+
+    $updatequery .= " taxtype=?,";
+    array_push($updateparams, $lineitem['hdnTaxType']);
+
+    $discount_amount_final = modlib_purify($lineitem['discount_amount']);
+    $updatequery .= " discount_amount=?,discount_percent=?,";
+    array_push($updateparams, $discount_amount_final);
+    array_push($updateparams, null);
+
+    
+    $shipping_handling_charge = modlib_purify($lineitem['hdnS_H_Amount']);
+    $updatequery .= " s_h_amount=?,";
+    array_push($updateparams, $shipping_handling_charge);
+
+    //if the user gave - sign in adjustment then add with the value
+    $adjustmentType = '';
+    if($lineitem['adjustmentType'] == '-')
+        $adjustmentType = modlib_purify($lineitem['adjustmentType']);
+
+    $adjustment = modlib_purify($lineitem['adjustment']);   
+    $updatequery .= " adjustment=?,";
+    array_push($updateparams, $adjustmentType.$adjustment);
+
+    $total = modlib_purify($lineitem['hdnSubTotal']);
+    $updatequery .= " total=?,";
+    array_push($updateparams, $total);
+    
+    if(!empty($compoundTaxesInfo)){
+    $updatequery .= ' compound_taxes_info = ?,'; 
+    $result = \Zend\Json\Json::decode($compoundTaxesInfo);
+    array_push($updateparams, $result); }
+
+    if (isset($lineitem['region_id'])) {
+        $updatequery .= " region_id = ?,";
+        array_push($updateparams, modlib_purify($lineitem['region_id']));
+    }
+    //to save the S&H tax details in jo_inventoryshippingrel table 
+    $chargesInfo = array();
+    if (isset($lineitem['charges'])) {
+        $chargesInfo = $lineitem['charges'];
+    } 
+    $updatequery .= " s_h_percent=?"; //hdnS_H_Percent
+    array_push($updateparams, $shipping_handling_charge);
+ 
+    //Added where condition to which entity we want to update these values
+    $updatequery .= " where ".$index."=?";
+    array_push($updateparams, $id); 
+    $adb->pquery($updatequery,$updateparams); 
+    $log->debug("Exit from function saveInventoryProductDetails($module).");    
+    
     }
 }
-

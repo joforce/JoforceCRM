@@ -32,7 +32,7 @@ jQuery.Class("Head_RelatedList_Js",{
 	relatedTabsContainer : false,
 	detailViewContainer : false,
 	relatedContentContainer : false,
-    parentId : false,
+	parentId : false,
 	
 	setSelectedTabElement : function(tabElement) {
 		this.selectedRelatedTabElement = tabElement;
@@ -102,77 +102,77 @@ jQuery.Class("Head_RelatedList_Js",{
 		params['page'] = this.getCurrentPageNum();
 		params['mode'] = "showRelatedList";
 		params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
-        var detailInstance = Head_Detail_Js.getInstance();
-        var searchParams = JSON.stringify(detailInstance.getRelatedListSearchParams());
-        params['search_params'] = searchParams;
-        params['nolistcache'] = (jQuery('#noFilterCache').val() == 1) ? 1 : 0;
+		var detailInstance = Head_Detail_Js.getInstance();
+		var searchParams = JSON.stringify(detailInstance.getRelatedListSearchParams());
+		params['search_params'] = searchParams;
+		params['nolistcache'] = (jQuery('#noFilterCache').val() == 1) ? 1 : 0;
 		return params;
 	},
     
-    loadRelatedList : function(params){
+	loadRelatedList : function(params){
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		if(typeof this.relatedModulename== "undefined" || this.relatedModulename.length <= 0 ) {
 			return;
 		}
-        
+
 		var completeParams = this.getCompleteParams();
 		jQuery.extend(completeParams,params);
-        app.helper.showProgress();
-        
+		app.helper.showProgress();
+
 		app.event.trigger('pre.relatedListLoad.click');
-		
-        app.request.get({data:completeParams}).then(
+
+		app.request.get({data:completeParams}).then(
 			function(error,responseData){
-                app.helper.hideProgress();
+				app.helper.hideProgress();
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				container = jQuery('div.details');
-                container.html(responseData);
-                vtUtils.applyFieldElementsView(container);
+				container.html(responseData);
+				vtUtils.applyFieldElementsView(container);
 				thisInstance.initializePaginationEvents();
-                thisInstance.triggerRelationAdditionalActions();
+				thisInstance.triggerRelationAdditionalActions();
 				app.event.trigger('post.relatedListLoad.click', container);
-                
+
 				aDeferred.resolve(responseData);
 			},
-			
+
 			function(textStatus, errorThrown){
-                app.helper.hideProgress();
+				app.helper.hideProgress();
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
 		return aDeferred.promise();
 	},
     
-    getParentId : function(){
+	getParentId : function(){
 		return this.parentRecordId;
 	},
-        setParentId : function(parentId){
-            this.parentRecordId = parentId;
-        },
-       
-    /**
+	setParentId : function(parentId){
+		this.parentRecordId = parentId;
+	},
+
+	/**
 	 * Function to select related record for the module
 	 */
-    showSelectRelationPopup : function(){
-        var popupParams = this.getPopupParams(); 
-        var popupjs = new Head_Popup_Js();
-        popupjs.showPopup(popupParams,"post.RecordList.click");
+	showSelectRelationPopup : function(){
+		var popupParams = this.getPopupParams(); 
+		var popupjs = new Head_Popup_Js();
+		popupjs.showPopup(popupParams,"post.RecordList.click");
 	},
-    
-    /**
-     * Function to fetch popup params
-     */
-    getPopupParams : function(){
+
+	/**
+	 * Function to fetch popup params
+	 */
+	getPopupParams : function(){
 		var parameters = {};
 		var parameters = {
 			'module' : this.relatedModulename,
 			'src_module' : this.parentModuleName,
 			'src_record' : this.parentRecordId,
 			'multi_select' : true,
-    		        'view' : 'Popup',
-		        'relationId' : this.getSelectedTabElement().data('relationId')
+			'view' : 'Popup',
+			'relationId' : this.getSelectedTabElement().data('relationId')
 		};
 		return parameters;
 	},
@@ -183,7 +183,7 @@ jQuery.Class("Head_RelatedList_Js",{
 	addRelatedRecord : function(element , callback){
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		var	referenceModuleName = this.relatedModulename;
+		var referenceModuleName = this.relatedModulename;
 		var parentId = this.getParentId();
 		var parentModule = this.parentModuleName;
 		var quickCreateParams = {};
@@ -193,13 +193,13 @@ jQuery.Class("Head_RelatedList_Js",{
 		relatedParams[relatedField] = parentId;
 		var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
 
-        app.event.one('post.QuickCreateForm.show',function(event,data){
-            var index,queryParam,queryParamComponents;
-			
+		app.event.one('post.QuickCreateForm.show',function(event,data){
+			var index,queryParam,queryParamComponents;
+
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
-            /*
-             * Not required as we are now showing only one button for adding activities
+			/*
+			 * Not required as we are now showing only one button for adding activities
 			if(typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?')!== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
@@ -209,15 +209,15 @@ jQuery.Class("Head_RelatedList_Js",{
 					queryParamComponents = queryParam.split('=');
 					if(queryParamComponents[0] == 'mode' && queryParamComponents[1] == 'Calendar'){
 						data.find('a[data-tab-name="Task"]').trigger('click');
-                        data.find('[name="calendarModule"]').val('Calendar');
+			data.find('[name="calendarModule"]').val('Calendar');
 					}
 				}
 			}
-            */
+			*/
 			jQuery('<input type="hidden" name="sourceModule" value="'+parentModule+'" />').appendTo(data);
 			jQuery('<input type="hidden" name="sourceRecord" value="'+parentId+'" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
-			
+
 			if(typeof relatedField != "undefined"){
 				var field = data.find('[name="'+relatedField+'"]');
 				//If their is no element with the relatedField name,we are adding hidden element with
@@ -233,38 +233,38 @@ jQuery.Class("Head_RelatedList_Js",{
 					jQuery('<input type="hidden" name="'+queryParamComponents[0]+'" value="'+queryParamComponents[1]+'" />').appendTo(data);
 				}
 			}
-            if(typeof callback !== 'undefined') {
-                callback();
-            }
-        });
-        
-        app.event.one('post.QuickCreateForm.save',function(event,data){
-            //After adding Event to related list, reverting related module name back to Calendar from Events 
-            if(thisInstance.relatedModulename === 'Events'){
-                thisInstance.relatedModulename = 'Calendar';
+			if(typeof callback !== 'undefined') {
+				callback();
 			}
-            thisInstance.loadRelatedList().then(function(data){
-                var selectedTabElement = thisInstance.selectedRelatedTabElement;
-                if(thisInstance.relatedModulename == 'Calendar'){
-                    var params = thisInstance.getPageJumpParams();
-                    app.request.post(params).then(function(error, data){
-                        var numberOfRecords = data.numberOfRecords;
-                        // we should only show if there are any related records
-                        var numberEle = selectedTabElement.find('.numberCircle');
-                        numberEle.text(numberOfRecords);
-                        if(numberOfRecords > 0) {
-                            numberEle.removeClass('hide');
-                        }else{
-                            numberEle.addClass('hide');
-                        }
-                    });
-                } else {
-                    thisInstance.updateRelatedRecordsCount(selectedTabElement.data('relation-id'),[1],true);
-                }
-                aDeferred.resolve(data);
-            });
-        });
-		
+		});
+
+		app.event.one('post.QuickCreateForm.save',function(event,data){
+			//After adding Event to related list, reverting related module name back to Calendar from Events 
+			if(thisInstance.relatedModulename === 'Events'){
+				thisInstance.relatedModulename = 'Calendar';
+			}
+			thisInstance.loadRelatedList().then(function(data){
+				var selectedTabElement = thisInstance.selectedRelatedTabElement;
+				if(thisInstance.relatedModulename == 'Calendar'){
+					var params = thisInstance.getPageJumpParams();
+					app.request.post(params).then(function(error, data){
+						var numberOfRecords = data.numberOfRecords;
+						// we should only show if there are any related records
+						var numberEle = selectedTabElement.find('.numberCircle');
+						numberEle.text(numberOfRecords);
+						if(numberOfRecords > 0) {
+							numberEle.removeClass('hide');
+						}else{
+							numberEle.addClass('hide');
+						}
+					});
+				} else {
+					thisInstance.updateRelatedRecordsCount(selectedTabElement.data('relation-id'),[1],true);
+				}
+				aDeferred.resolve(data);
+			});
+		});
+
 		//If url contains params then seperate them and make them as relatedParams
 		if(typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?')!== -1) {
 			var urlSplit = fullFormUrl.split('?');
@@ -278,7 +278,7 @@ jQuery.Class("Head_RelatedList_Js",{
 				}
 			}
 		}
-		
+
 		quickCreateParams['data'] = relatedParams;
 		quickCreateParams['noCache'] = true;
 		var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
@@ -289,31 +289,31 @@ jQuery.Class("Head_RelatedList_Js",{
 		return aDeferred.promise();
 	},
     
-    deleteRelation : function(relatedIdList, customParams) {
+	deleteRelation : function(relatedIdList, customParams) {
 		var aDeferred = jQuery.Deferred();
-        var thisInstance = this;
+		var thisInstance = this;
 		var params = {};
 		params['mode'] = "deleteRelation";
 		params['module'] = this.parentModuleName;
 		params['action'] = 'RelationAjax';
 
-        var selectedTabElement = this.getSelectedTabElement();
-        var relationId = selectedTabElement.data('relationId');
+		var selectedTabElement = this.getSelectedTabElement();
+		var relationId = selectedTabElement.data('relationId');
 		params['related_module'] = this.relatedModulename;
-        params['relationId'] = relationId;
-        if(this.relatedModulename == 'Emails' && this.parentId != false) {
-            params['src_record'] = this.parentId;
-        } else {
-            params['src_record'] = this.parentRecordId;
-        }
+		params['relationId'] = relationId;
+		if(this.relatedModulename == 'Emails' && this.parentId != false) {
+			params['src_record'] = this.parentId;
+		} else {
+			params['src_record'] = this.parentRecordId;
+		}
 		params['related_record_list'] = JSON.stringify(relatedIdList);
-		
+
 		if(typeof customParams != 'undefined') {
 			params = jQuery.extend(params,customParams);
 		}
 		app.request.post({"data":params}).then(
 			function(err,responseData){
-                thisInstance.updateRelatedRecordsCount(relationId,relatedIdList,false);
+				thisInstance.updateRelatedRecordsCount(relationId,relatedIdList,false);
 				aDeferred.resolve(responseData);
 			},
 
@@ -324,16 +324,16 @@ jQuery.Class("Head_RelatedList_Js",{
 		return aDeferred.promise();
 	},
     
-    addRelations : function(idList){
-        var thisInstance = this;
+	addRelations : function(idList){
+		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var sourceRecordId = this.parentRecordId;
 		var sourceModuleName = this.parentModuleName;
 		var relatedModuleName = this.relatedModulename;
-        var selectedTabElement = this.getSelectedTabElement();
-        if(selectedTabElement.length > 0){
-            var relationId = selectedTabElement.data('relationId');
-        }
+		var selectedTabElement = this.getSelectedTabElement();
+		if(selectedTabElement.length > 0){
+			var relationId = selectedTabElement.data('relationId');
+		}
 
 		var params = {};
 		params['mode'] = "addRelation";
@@ -344,17 +344,17 @@ jQuery.Class("Head_RelatedList_Js",{
 		params['src_record'] = sourceRecordId;
 		params['related_record_list'] = JSON.stringify(idList);
 
-        app.helper.showProgress();
-        
+		app.helper.showProgress();
+
 		app.request.post({"data":params}).then(
 			function(responseData){
-                thisInstance.updateRelatedRecordsCount(relationId,idList,true);
-                app.helper.hideProgress();
+				thisInstance.updateRelatedRecordsCount(relationId,idList,true);
+				app.helper.hideProgress();
 				aDeferred.resolve(responseData);
 			},
 
 			function(textStatus, errorThrown){
-                app.helper.hideProgress();
+				app.helper.hideProgress();
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
@@ -363,36 +363,36 @@ jQuery.Class("Head_RelatedList_Js",{
     
     
     
-    triggerRelationAdditionalActions : function() {
+	triggerRelationAdditionalActions : function() {
 	},
-	
+
 	registerScrollForRollupComments : function() {
-        jQuery(document).scroll(function() {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 30
-                && jQuery('div.commentContainer').length > 0 
-                && jQuery('.widgetContainer_comments').length === 0
-                && jQuery('#rollupcomments').attr('rollup-status') > 0) {
-				
-                if(Head_RelatedList_Js.loaded && jQuery('#rollupcomments').attr('hascomments') == 1) {
-                    Head_RelatedList_Js.loaded = false;
+		jQuery(document).scroll(function() {
+			if ($(window).scrollTop() + $(window).height() >= $(document).height() - 30
+				&& jQuery('div.commentContainer').length > 0 
+				&& jQuery('.widgetContainer_comments').length === 0
+				&& jQuery('#rollupcomments').attr('rollup-status') > 0) {
+
+				if(Head_RelatedList_Js.loaded && jQuery('#rollupcomments').attr('hascomments') == 1) {
+					Head_RelatedList_Js.loaded = false;
 					app.helper.showProgress();
-                    var currentTarget = jQuery('#rollupcomments');
-                    var moduleName = currentTarget.attr('module');
-                    var recordId = currentTarget.attr('record');
-                    var rollupId = currentTarget.attr('rollupid');
-                    var rollupstatus = currentTarget.attr('rollup-status');
-                    var startindex = parseInt(currentTarget.attr('startindex'));
+					var currentTarget = jQuery('#rollupcomments');
+					var moduleName = currentTarget.attr('module');
+					var recordId = currentTarget.attr('record');
+					var rollupId = currentTarget.attr('rollupid');
+					var rollupstatus = currentTarget.attr('rollup-status');
+					var startindex = parseInt(currentTarget.attr('startindex'));
 
-                    var url = 'index.php?module=Head&view=ModCommentsDetailAjax&parent='+
-                      moduleName+'&parentId='+recordId+'&rollupid='+rollupId+'&rollup_status='+rollupstatus
-                      +'&startindex='+startindex+'&mode=getNextGroupOfRollupComments';
+					var url = 'index.php?module=Head&view=ModCommentsDetailAjax&parent='+
+						moduleName+'&parentId='+recordId+'&rollupid='+rollupId+'&rollup_status='+rollupstatus
+						+'&startindex='+startindex+'&mode=getNextGroupOfRollupComments';
 
-                    var params = {
+					var params = {
 						'type' : 'GET',
 						'url' : url
 					};
-					
-                    app.request.get(params).then(function(err, data){
+
+					app.request.get(params).then(function(err, data){
 						Head_RelatedList_Js.loaded = true;
 						app.helper.hideProgress();
 						if(data) {
@@ -401,15 +401,15 @@ jQuery.Class("Head_RelatedList_Js",{
 						}else {
 							jQuery('#rollupcomments').attr('hascomments', '0');
 						}
-                    });
-                }
-            }
-        });
-    },
+					});
+				}
+			}
+		});
+	},
     
-    getPageJumpParams: function() {
-        var thisInstance = this;
-        var params = {
+	getPageJumpParams: function() {
+		var thisInstance = this;
+		var params = {
 			'type' : 'POST',
 			'data' : {
 				'action' : "RelationAjax",
@@ -420,19 +420,19 @@ jQuery.Class("Head_RelatedList_Js",{
 				'mode' : "getRelatedListPageCount"
 			}
 		};
-        
-        return params;
-    },
-	
+
+		return params;
+	},
+
 	pageJump : function(){
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-        var params = this.getPageJumpParams();
-		
+		var params = this.getPageJumpParams();
+
 		var element = jQuery('#totalPageCount');
 		var totalCountElem = jQuery('.relatedContainer').find('#totalCount');
 		var totalPageNumber = element.text();
-		
+
 		if(totalPageNumber === ""){
 			app.request.post(params).then(
 				function(err, data) {
@@ -442,7 +442,7 @@ jQuery.Class("Head_RelatedList_Js",{
 					} else{
 						response = data;
 					}
-					
+
 					var pageCount = data.page;
 					var numberOfRecords = data.numberOfRecords;
 					totalCountElem.val(numberOfRecords);
@@ -455,7 +455,7 @@ jQuery.Class("Head_RelatedList_Js",{
 		}
 		return aDeferred.promise();
 	},
-	
+
 	totalNumOfRecords : function (curEle) {
 		var thisInstance = this;
 		var element = jQuery('.relatedContainer').find('#totalCount');
@@ -548,50 +548,50 @@ jQuery.Class("Head_RelatedList_Js",{
 	initializePaginationEvents : function() {
 		var thisInstance = this;
 		var paginationObj = new Head_Pagination_Js;
-        var relatedViewContainer = jQuery('.relatedContainer');
+		var relatedViewContainer = jQuery('.relatedContainer');
 		paginationObj.initialize(relatedViewContainer);
-		
+
 		app.event.on(paginationObj.nextPageButtonClickEventName, function(){
 			var pageLimit = relatedViewContainer.find('#pageLimit').val();
-            var noOfEntries = relatedViewContainer.find('#noOfEntries').val();
-            var nextPageExist = relatedViewContainer.find('#nextPageExist').val();
+			var noOfEntries = relatedViewContainer.find('#noOfEntries').val();
+			var nextPageExist = relatedViewContainer.find('#nextPageExist').val();
 			var pageNumber = relatedViewContainer.find('#pageNumber').val();
 			var nextPageNumber = parseInt(parseFloat(pageNumber)) + 1;
-			
-            if(noOfEntries === pageLimit && nextPageExist){
+
+			if(noOfEntries === pageLimit && nextPageExist){
 				var urlParams = {};
-                thisInstance.setCurrentPageNumber(nextPageNumber);
+				thisInstance.setCurrentPageNumber(nextPageNumber);
 				relatedViewContainer.find("#pageNumber").val(nextPageNumber);
 				thisInstance.loadRelatedList(urlParams);
 			}
 		});
-		
+
 		app.event.on(paginationObj.previousPageButtonClickEventName, function(){
 			var pageNumber = relatedViewContainer.find('#pageNumber').val();
 			var previousPageNumber = parseInt(parseFloat(pageNumber)) - 1;
-			
+
 			if(pageNumber > 1) {
 				var urlParams = {};
-                thisInstance.setCurrentPageNumber(previousPageNumber);
+				thisInstance.setCurrentPageNumber(previousPageNumber);
 				relatedViewContainer.find('#pageNumber').val(previousPageNumber);
 				thisInstance.loadRelatedList(urlParams);
 			}
 		});
-		
+
 		app.event.on(paginationObj.pageJumpButtonClickEventName, function(event, currentEle){
 			thisInstance.pageJump();
 		});
-		
+
 		app.event.on(paginationObj.totalNumOfRecordsButtonClickEventName, function(event, currentEle){
 			thisInstance.totalNumOfRecords(currentEle);
 		});
-		
+
 		app.event.on(paginationObj.pageJumpSubmitButtonClickEvent, function(event, currentEle){
 			thisInstance.pageJumpOnSubmit(currentEle);
 		});
 	},
     
-    registerEditLink : function() {
+	registerEditLink : function() {
 		var relatedContainer =  jQuery('.relatedContainer');;
 		relatedContainer.on('click', 'a.relationEdit', function(e) {
 			var element = jQuery(e.currentTarget);
@@ -600,11 +600,11 @@ jQuery.Class("Head_RelatedList_Js",{
 			var postData = detailInstance.getDefaultParams();
 			for(var key in postData) {
 				if(postData[key]) {
-                    if(key == 'relatedModule') {
-                        postData['returnrelatedModuleName'] = postData[key];
-                    } else {
-                        postData['return'+key] = postData[key];
-                    }
+					if(key == 'relatedModule') {
+						postData['returnrelatedModuleName'] = postData[key];
+					} else {
+						postData['return'+key] = postData[key];
+					}
 					delete postData[key];
 				} else {
 					delete postData[key];
@@ -624,11 +624,9 @@ jQuery.Class("Head_RelatedList_Js",{
 		this.relatedTabsContainer = jQuery(selectedRelatedTabElement).closest('div.related-tabs');
 		this.detailViewContainer = this.relatedTabsContainer.closest('div.detailViewContainer');
 		this.relatedContentContainer = jQuery('div.details', this.detailViewContainer);
-
 		this.registerEditLink();
-    }
-    
-})
+	}
+});
 
 jQuery(document).ready(function(){
 	var recordId = app.getRecordId();
@@ -636,7 +634,7 @@ jQuery(document).ready(function(){
         var detailViewInstance = Head_Detail_Js.getInstance();
         var selectedTabElement = detailViewInstance.getSelectedTab();
         var relatedModuleName = detailViewInstance.getRelatedModuleName();
-            var instance = Head_RelatedList_Js.getInstance(recordId, moduleName, selectedTabElement, relatedModuleName);
+        var instance = Head_RelatedList_Js.getInstance(recordId, moduleName, selectedTabElement, relatedModuleName);
 	
 	instance.initializePaginationEvents();
 });

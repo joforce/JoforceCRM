@@ -55,7 +55,7 @@
                                     {else}
                                         {assign var=COUNTER value=$COUNTER+1}
                                     {/if}
-				    <div class="col-lg-5 pr0 pl0">
+				    <div class="col-lg-6 pr0 pl0">
                                     <div class='fieldLabel'>
                                         {if $isReferenceField neq "reference"}<label class="muted">{/if}
                                             {if $isReferenceField eq "reference"}
@@ -73,7 +73,7 @@
                                                         </select>
                                                     </span>
                                                 {else}
-                                                    <label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}</label>
+                                                    <label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}</label>
                                                 {/if}
                                             {else if $FIELD_MODEL->get('uitype') eq '83'}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE PULL_RIGHT=true}
@@ -88,13 +88,13 @@
 													{/if}
 												{/if}
                                             {else}
-                                                {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border"></span> {/if}
+                                                {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}
                                             {/if}
                                             {if $isReferenceField neq "reference"}</label>{/if}
                                     </div>
 				    </div>
                                     {if $FIELD_MODEL->get('uitype') neq '83'}
-					<div class="col-lg-7 pl0 pr0">
+					<div class="col-lg-6 pl0 pr0">
                                         <div class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
                                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
                                         </div>
@@ -113,9 +113,10 @@
                             {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
                         {/if}
                         {assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-                        <button class="btn" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
-                        <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-success" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
-                        <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        {* <button class="btn btn-success" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button> *}
+                        <a class="btn btn-success" id="goToFullForm" href="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></a>
+                        <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
+                        <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </center>
                 </div>
             </form>

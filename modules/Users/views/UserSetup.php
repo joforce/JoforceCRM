@@ -65,9 +65,9 @@ class Users_UserSetup_View extends Head_Index_View {
 				$userid = $current_user->id;
 				$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
 				if($default_landing_page == "Dashboard")
-                                        header ('Location: index.php');
-                                else
-                                        header ("Location: ".$site_URL.$default_landing_page."/view/List");
+					header ('Location: index.php');
+				else
+					header ("Location: ".$site_URL.$default_landing_page."/view/List");
 				exit();
 			}
 		}

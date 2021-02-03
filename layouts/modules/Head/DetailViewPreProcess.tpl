@@ -12,41 +12,62 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="modules/Head/partials/Topbar.tpl"}
 
-<div class="container-fluid app-nav">
-    <div class="row">
-        {include file="partials/SidebarHeader.tpl"|vtemplate_path:$MODULE}
-        {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
-    </div>
-</div>
 </nav>    
 <div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-60' tabindex='-1' role='dialog' aria-hidden='true'>
     <div class="data"></div>
     <div class="modal-dialog"></div>
 </div>
-<div class="main-container main-container-{$MODULE}">
-    {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-    {*<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
-	{include file="partials/DetailViewSidebar.tpl"|vtemplate_path:$MODULE}
-    </div>*}
-    <div class="listViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="listViewContent">
-
+<div class="hide container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
+    <div class="row">
+        {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
+    </div>
+</div>
+<div class="main-container main-container-{$MODULE} mt10">
+  <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
+    {include file="partials/SidebarAppMenu.tpl"|vtemplate_path:$MODULE}
+  </div>
+  <div class="quick-panel"></div>
+  <div class="detailViewPageDiv content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="detailViewContent">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="col-md-4 col-sm-12 col-xs-4">
+		{include file="partials/HeaderBreadCrumb.tpl"|vtemplate_path:$MODULE}
+	</div>
+	<div class="col-lg-8 col-md-4 col-sm-12 detailViewButtoncontainer">
+        	{include file="DetailViewActions.tpl"|vtemplate_path:$MODULE}
+	</div>
+    </div>
     <!--<div class="container-fluid main-container">-->
     <div class='joforce-bg'>
 	<div class="detailViewContainer viewContent clearfix">
+	{assign var=FIELDS_MODELS_LIST value=$MODULE_MODEL->getFields()}
 	    <div class="col-sm-12 col-xs-12">
-                {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        {include file="DetailViewTagList.tpl"|vtemplate_path:$MODULE}
+		{if !in_array($MODULE, array('Invoice', 'Quotes','SalesOrder','PurchaseOrder'))}
+		<div class=" detailview-header-block">
+		    <div class="detailview-header">
+		        <div class="row">
+		            {include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
+		        </div>
+		    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+        	            <!--{include file="DetailViewTagList.tpl"|vtemplate_path:$MODULE}-->
+                	</div>
                     </div>
-                </div>  
-            </div>{*closing div of detailviewHeader*}
-            <div class="detailview-content container-fluid">
-                <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
-                    {include file="ModuleRelatedTabs.tpl"|vtemplate_path:$MODULE}
-                
-		<link rel="stylesheet" href="{$SITEURL}layouts/modules/Potentials/resources/stages-tab.css">
-                <div id = 'pipeline_stages'>
-                    <ul class="nav nav-pills nav-wizard nav-justified pipe-stage"></ul>
-                </div>
-                <div class="details row" style="margin-top:10px;">
+		</div>
+		{/if}
+
+		{if $kanban_view_enabled}
+			<div id = 'pipeline_stages'>
+			    <ul class="nav nav-pills nav-wizard nav-justified pipe-stage"></ul>
+			</div>
+		{/if}
+
+		{*closing div of detailviewHeader*}
+
+		<div class="joforce-tabs-list" id="joforce-tabs-list">
+		    <div class="detailview-content container-fluid">
+               	    	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
+			<div class="col-lg-1 col-xl-1 col-md-12 col-sm-12" style="float:right;">
+	            	    {include file="ModuleRelatedTabs.tpl"|vtemplate_path:$MODULE}
+                	</div>
+                    	<div class="details row row-sm col-lg-11 col-xl-12 col-md-12 col-sm-11">

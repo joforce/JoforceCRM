@@ -220,13 +220,14 @@ Class Inventory_Edit_View extends Head_Edit_View {
 	}
 
 	public function getOverlayHeaderScripts(Head_Request $request) {
+		global $site_URL;
 		$moduleName = $request->getModule();
-		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
-		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
+		$modulePopUpFile = $site_URL .'layouts/modules/'.$moduleName.'/resources/Popup.js';
+		$moduleEditFile = $site_URL .'layouts/modules/'.$moduleName.'/resources/Edit.js';
 
 		$jsFileNames = array(
-			'modules.Inventory.resources.Popup',
-			'modules.PriceBooks.resources.Popup',
+			$site_URL .'layouts/modules/Inventory/resources/Popup.js',
+			$site_URL .'layouts/modules/PriceBooks/resources/Popup.js',
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;

@@ -11,7 +11,7 @@
 	<div class="container-fluid" id="importModules">
 		<div>
 			<div class="row">
-				<div id="vtlib_modulemanager_import_div">
+				<div id="modlib_modulemanager_import_div">
 					{if $MODULEIMPORT_FAILED neq ''}
 						<div class="col-lg-2"></div>
 						<div class="col-lg-10">
@@ -45,7 +45,7 @@
 							</div>
 							<div class="col-lg-12">
 								<p>
-									<small>{vtranslate('LBL_REQ_VTIGER_VERSION', $QUALIFIED_MODULE)} : {$MODULEIMPORT_DEP_VTVERSION}</small>
+									<small>{vtranslate('LBL_REQ_JOFORCE_VERSION', $QUALIFIED_MODULE)} : {$MODULEIMPORT_DEP_VTVERSION}</small>
 								</p>
 							</div>
 							{assign var="need_license_agreement" value="false"}
@@ -101,7 +101,7 @@
 						<button class="btn btn-primary importModule" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><strong>{vtranslate('LBL_IMPORT_NOW', $QUALIFIED_MODULE)}</strong></button>
 					{/if}
 					&nbsp;&nbsp;
-					<a class="cancelLink" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-secondary" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 			</div>
 		</div>

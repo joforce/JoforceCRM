@@ -15,7 +15,7 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
-	$entityDelta = new VTEntityDelta();
+	$entityDelta = new EntityDelta();
 	$email = $entityData->get('email');
 
 	$isEmailChanged = $entityDelta->hasChanged($moduleName, $entityId, 'email') && $email;//changed and not empty
@@ -94,5 +94,3 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 		$adb->pquery($sql, array($email, $entityId));
 	}
 }
-
-?>

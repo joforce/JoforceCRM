@@ -18,7 +18,7 @@
 {/if}
 {if $FIELD_MODEL->get('uitype') eq '71'}
 <div class="input-group">
-	<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
+	<span class="input-group-addon currency-icon">{$USER_MODEL->get('currency_symbol')}</span>
 	<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="inputElement currencyField" name="{$FIELD_NAME}"
 	value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
     {if $FIELD_INFO["mandatory"] eq true} data-rule-required = "true" {/if} data-rule-currency='true'
@@ -29,7 +29,7 @@
 </div>
 {else if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_NAME eq 'unit_price')}
 	<div class="input-group">
-        <span class="input-group-addon" id="baseCurrencySymbol">{$BASE_CURRENCY_SYMBOL}</span>
+        <span class="input-group-addon currency-icon" id="baseCurrencySymbol">{$BASE_CURRENCY_SYMBOL}</span>
         <input id="{$MODULE}-editview-fieldname-{$FIELD_NAME}"  type="text" class="inputElement unitPrice currencyField" name="{$FIELD_NAME}"
             value="{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
             data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
@@ -48,7 +48,7 @@
 	</div>
 {else}
 <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">{$USER_MODEL->get('currency_symbol')}</span>
+    <span class="input-group-addon currency-icon" id="basic-addon1">{$USER_MODEL->get('currency_symbol')}</span>
     <input type="text" class="input-lg currencyField inputElement" name="{$FIELD_NAME}"
         value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if}
         {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if} data-rule-currency='true'

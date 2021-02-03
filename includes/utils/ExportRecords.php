@@ -30,12 +30,12 @@ $smarty->assign("IMAGE_PATH", $image_path);
 $smarty->assign("CATEGORY",$category);
 $smarty->assign("MODULE",$currentModule);
 $smarty->assign("MODULELABEL",getTranslatedString($currentModule));
-$smarty->assign("IDSTRING",vtlib_purify($_REQUEST['idstring']));
-$smarty->assign("EXCLUDED_RECORDS",vtlib_purify($_REQUEST['excludedRecords']));
+$smarty->assign("IDSTRING",modlib_purify($_REQUEST['idstring']));
+$smarty->assign("EXCLUDED_RECORDS",modlib_purify($_REQUEST['excludedRecords']));
 $smarty->assign("PERPAGE",$list_max_entries_per_page);
 
 if(!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {	
-	$smarty->display(vtlib_getModuleTemplate('Head','OperationNotPermitted.tpl'));	
+	$smarty->display(modlib_getModuleTemplate('Head','OperationNotPermitted.tpl'));	
 } else {
 	$smarty->display('ExportRecords.tpl');
 }

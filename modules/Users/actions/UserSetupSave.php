@@ -33,6 +33,7 @@ class Users_UserSetupSave_Action extends Users_Save_Action {
 		//End
 
 		$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
+		$count =Settings_Head_UserDetailsSave_Action::completedpercentage("25",4);
 
                 if($default_landing_page == "Dashboard")
                 	header ('Location: index.php');

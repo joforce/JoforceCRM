@@ -29,6 +29,10 @@
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Documents/resources/Documents.js')}"></script>
     <script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Home/resources/List.js')}"></script>
 
+    <!-- newly added css - starts -->
+    <script type="text/javascript" src="{$SITEURL}layouts/lib/semantic/accordion.js"></script>
+    <!-- newly added css - ends -->
+
     {foreach key=index item=jsModel from=$SCRIPTS}
         <script type="{$jsModel->getType()}" src="{$SITEURL}{vresource_url($jsModel->getSrc())}"></script>
     {/foreach}

@@ -267,10 +267,10 @@ class Inventory_Detail_View extends Head_Detail_View {
 		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-			$site_URL . 'layouts/modules/Inventory/resources/Popup.js',
-			$site_URL . 'layouts/modules/Inventory/resources/Detail.js',
-			$site_URL . 'layouts/modules/Inventory/resources/Edit.js',
-			$site_URL . "layouts/modules/$moduleName/resources/Detail.js",
+			'~layouts/modules/Inventory/resources/Popup.js',
+			'~layouts/modules/Inventory/resources/Detail.js',
+			'~layouts/modules/Inventory/resources/Edit.js',
+			"~layouts/modules/$moduleName/resources/Detail.js",
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;

@@ -20,7 +20,10 @@ version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTI
 //ini_set('display_errors','on'); error_reporting(E_ALL); // STRICT DEVELOPMENT
 
 
-include('version.php');
+$patch_version = '20200219'; // -ve timestamp before release, +ve timestamp after release.
+$modified_database = '';
+$jo_current_version = '2';
+$_SESSION['jo_version'] = $jo_current_version;
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M

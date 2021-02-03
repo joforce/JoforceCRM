@@ -9,15 +9,16 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-require_once 'modules/com_jo_workflow/include.inc';
-require_once 'modules/com_jo_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/Workflow/include.inc';
+require_once 'modules/Workflow/expression_engine/ExpressionsManager.inc';
 
-class Settings_Workflows_Module_Model extends Settings_Head_Module_Model {
+class Settings_Workflows_Module_Model extends Settings_Head_Module_Model
+{
 
-	var $baseTable = 'com_jo_workflows';
+	var $baseTable = 'workflows';
 	var $baseIndex = 'workflow_id';
-//	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition');
-	var $listFields = array('module_name' => 'Module', 'workflowname' => 'Workflow Name', 'summary'=>'Description', 'execution_condition' => 'Trigger',  'test' => 'Conditions');
+	//	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition');
+	var $listFields = array('module_name' => 'Module', 'workflowname' => 'Workflow Name', 'summary' => 'Description', 'execution_condition' => 'Trigger',  'test' => 'Conditions');
 	var $name = 'Workflows';
 
 	static $metaVariables = array(
@@ -40,64 +41,72 @@ class Settings_Workflows_Module_Model extends Settings_Head_Module_Model {
 		3 => 'ON_EVERY_SAVE',
 		4 => 'ON_MODIFY',
 		// Reserving 5 & 6 for ON_DELETE and ON_SCHEDULED types.
-		6=>	 'ON_SCHEDULE'
+		6 =>	 'ON_SCHEDULE'
 	);
 
 	/**
 	 * Function to get the url for default view of the module
 	 * @return <string> - url
 	 */
-	public static function getDefaultUrl() {
-        global $site_URL;
-		return $site_URL.'Workflows/Settings/List';
+	public static function getDefaultUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/List';
 	}
 
 	/**
 	 * Function to get the url for create view of the module
 	 * @return <string> - url
 	 */
-	public static function getCreateViewUrl() {
+	public static function getCreateViewUrl()
+	{
 		return "javascript:Settings_Workflows_List_Js.triggerCreate('index.php?module=Workflows&parent=Settings&view=Edit')";
 	}
 
-	public static function getCreateRecordUrl() {
-        global $site_URL;
-		return $site_URL.'Workflows/Settings/Edit';
+	public static function getCreateRecordUrl()
+	{
+		global $site_URL;
+		return $site_URL . 'Workflows/Settings/Edit';
 	}
 
-	public static function getSupportedModules() {
-		$moduleModels = Head_Module_Model::getAll(array(0,2));
+	public static function getSupportedModules()
+	{
+		$moduleModels = Head_Module_Model::getAll(array(0, 2));
 		$supportedModuleModels = array();
-		foreach($moduleModels as $tabId => $moduleModel) {
-			if($moduleModel->isWorkflowSupported() && $moduleModel->getName() != 'Webmails') {
+		foreach ($moduleModels as $tabId => $moduleModel) {
+			if ($moduleModel->isWorkflowSupported() && $moduleModel->getName() != 'Webmails') {
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
 		return $supportedModuleModels;
 	}
 
-	public static function getTriggerTypes() {
+	public static function getTriggerTypes()
+	{
 		return self::$triggerTypes;
 	}
 
-	public static function getExpressions() {
+	public static function getExpressions()
+	{
 		$db = PearDatabase::getInstance();
 
-		$mem = new VTExpressionsManager($db);
+		$mem = new ExpressionsManager($db);
 		return $mem->expressionFunctions();
 	}
 
-	public static function getMetaVariables() {
+	public static function getMetaVariables()
+	{
 		return self::$metaVariables;
 	}
 
-	public function getListFields() {
-		if(!$this->listFieldModels) {
+	public function getListFields()
+	{
+		if (!$this->listFieldModels) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
-			foreach($fields as $fieldName => $fieldLabel) {
-				if($fieldName == 'module_name' || $fieldName == 'execution_condition') {
-					$fieldObjects[$fieldName] = new Head_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort'=>false));
+			foreach ($fields as $fieldName => $fieldLabel) {
+				if ($fieldName == 'module_name' || $fieldName == 'execution_condition') {
+					$fieldObjects[$fieldName] = new Head_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
 				} else {
 					$fieldObjects[$fieldName] = new Head_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
@@ -111,41 +120,43 @@ class Settings_Workflows_Module_Model extends Settings_Head_Module_Model {
 	 * Function to get the count of active workflows
 	 * @return <Integer> count of active workflows
 	 */
-	public function getActiveWorkflowCount($moduleCount = false){
+	public function getActiveWorkflowCount($moduleCount = false)
+	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT count(*) AS count, jo_tab.tabid FROM com_jo_workflows 
-				  INNER JOIN jo_tab ON jo_tab.name = com_jo_workflows.module_name 
-				  AND jo_tab.presence IN (0,2) WHERE com_jo_workflows.status = ? ';
+		$query = 'SELECT count(*) AS count, jo_tab.tabid FROM workflows 
+				  INNER JOIN jo_tab ON jo_tab.name = workflows.module_name 
+				  AND jo_tab.presence IN (0,2) WHERE workflows.status = ? ';
 
-		if($moduleCount){
-		   $query .=' GROUP BY com_jo_workflows.module_name';
+		if ($moduleCount) {
+			$query .= ' GROUP BY workflows.module_name';
 		}
 
 		$result = $db->pquery($query, array(1));
 		$count = 0;
 		$wfModulesCount = array();
 		$noOfRows = $db->num_rows($result);
-		for($i=0; $i<$noOfRows; ++$i) {
+		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
-			$count = $count+$row['count'];
+			$count = $count + $row['count'];
 			$wfModulesCount[$row['tabid']] = $row['count'];
 		}
 
-		if($moduleCount){
-		   $wfModulesCount['All'] = $count;
-		   return $wfModulesCount;
+		if ($moduleCount) {
+			$wfModulesCount['All'] = $count;
+			return $wfModulesCount;
 		} else {
-		   return $count;
+			return $count;
 		}
-
 	}
 
-	public function getFields() {
-	   return array();
+	public function getFields()
+	{
+		return array();
 	}
 
-	public function getModuleBasicLinks(){
-	   return array();
+	public function getModuleBasicLinks()
+	{
+		return array();
 	}
 }

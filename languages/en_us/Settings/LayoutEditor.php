@@ -207,5 +207,5 @@ $jsLanguageStrings = array(
     'JS_DETAIL_HEADER' => 'Record header',
     'JS_MAXIMUM_HEADER_FIELDS_ALLOWED' => 'Maximum %s header fields allowed',
     'JS_NAME_FIELDS_APPEAR_IN_HEADER_BY_DEFAULT' => 'Name fields appear in Header by default',
-    'JS_FIELD_IS_HEADER_ENABLED_FOR_VTIGER7' => 'This Field is Header enabled for JoForce, It will appear in Summary View',
+    'JS_FIELD_IS_HEADER_ENABLED_FOR_JOFORCE' => 'This Field is Header enabled for Joforce, It will appear in Summary View',
 );

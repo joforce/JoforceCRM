@@ -12,7 +12,7 @@
 		<footer class="noprint">
 			<div class="vtFooter">
 				<p>
-					{vtranslate('POWEREDBY')} {$VTIGER_VERSION}&nbsp;
+					{vtranslate('POWEREDBY')} {$JOFORCE_VERSION}&nbsp;
 					&copy; 2004 - {date('Y')}&nbsp;
 					<a href="//www.vtiger.com" target="_blank">vtiger.com</a>
 					&nbsp;|&nbsp;

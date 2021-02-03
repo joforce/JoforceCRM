@@ -11,7 +11,7 @@
 </td>
 <td>
 
-<div id="md-add-filter-btn" class="btn btn-primary module-buttons">
+<div id="md-add-filter-btn" class="btn btn-primary">
 	<img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/filter.png" alt="{vtranslate('LBL_ADD_FILTER_ALT', $QUALIFIED_MODULE)}"/> <a href="#" onclick="md_addFilter(); return false;">{vtranslate('LBL_ADD_FILTER', $QUALIFIED_MODULE)}</a>
 </div>
 

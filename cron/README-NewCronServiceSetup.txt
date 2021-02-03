@@ -48,12 +48,12 @@ if($servicePIDFp) {
 
 2. Create <ServiceName>Cron.sh file which should have the following:
 
-export VTIGERCRM_ROOTDIR=`dirname "$0"`/..
+export ROOTDIR=`dirname "$0"`/..
 export USE_PHP=php
 
-cd $VTIGERCRM_ROOTDIR
+cd $ROOTDIR
 
-$USE_PHP -f cron.php service="<ServiceName>" <param>="<value>"
+$USE_PHP -f cron/cron.php service="<ServiceName>" <param>="<value>"
 
 =====================================================================================================================================
 
@@ -61,10 +61,10 @@ $USE_PHP -f cron.php service="<ServiceName>" <param>="<value>"
 
 @echo off
 
-set VTIGERCRM_ROOTDIR="C:\Program Files\vtigercrm5\apache\htdocs\vtigerCRM"
-set PHP_EXE="C:\Program Files\vtigercrm5\php\php.exe"
+set ROOTDIR="C:\Program Files\joforce5\apache\htdocs\joforce"
+set PHP_EXE="C:\Program Files\joforce5\php\php.exe"
 
-cd /D %VTIGERCRM_ROOTDIR%
+cd /D %ROOTDIR%
 
-%PHP_EXE% -f cron.php service="<ServiceName>" <param>="<value>"
+%PHP_EXE% -f cron/cron.php service="<ServiceName>" <param>="<value>"
 =====================================================================================================================================

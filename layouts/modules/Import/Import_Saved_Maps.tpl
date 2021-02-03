@@ -21,7 +21,7 @@
             </select>
         </div>
         <div id="delete_map_container" class ="col-lg-1" style="display:none; margin-top: 10px">
-            <a class="glyphicon glyphicon-trash cursorPointer" onclick="Head_Import_Js.deleteMap('{$FOR_MODULE}');" alt="{'LBL_DELETE'|@vtranslate:$FOR_MODULE}"></a>
+            <a class="fa fa-trash cursorPointer" onclick="Head_Import_Js.deleteMap('{$FOR_MODULE}');" alt="{'LBL_DELETE'|@vtranslate:$FOR_MODULE}"></a>
         </div>
     </div>
 </div>

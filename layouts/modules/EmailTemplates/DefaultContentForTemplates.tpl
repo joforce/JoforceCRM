@@ -22,10 +22,10 @@
 				<table border="0" cellpadding="0" cellspacing="0" class="borderGrey" width="600px">
 					<tbody>
 						<tr style="height:50px;">
-							<td colspan="6" style="border-top: 1px solid #ddd; font-family: Helvetica,Verdana,sans-serif"></td>
+							<td colspan="6" style="border-top: 1px solid #ddd;font-family: 'Crimson Text', serif !important;"></td>
 						</tr>
 						<tr>
-							<td colspan="6" style="font-family: Helvetica,Verdana,sans-serif;font-size: 11px;color: #666666;">
+							<td colspan="6" style="font-size: 11px;color: #666666;font-family: 'Crimson Text', serif !important;">
 								<table border="0" cellpadding="4" cellspacing="0" width="100%">
 									<tbody>
 										<tr>

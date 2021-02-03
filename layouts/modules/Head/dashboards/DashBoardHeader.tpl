@@ -16,7 +16,7 @@
 			{if $SELECTABLE_WIDGETS|count gt 0}
 			  <div class="dropdown">
 				<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
-					{vtranslate('LBL_ADD_WIDGET')}&nbsp;&nbsp;<i class="caret"></i>
+					{vtranslate('LBL_ADD_WIDGET')}
 				</button>
 
 			 <div class="dropdown-menu dropdown-menu-right"id="content">
@@ -59,7 +59,6 @@
 			{else if $MODULE_PERMISSION}
 				<button class='btn addButton dropdown-toggle' disabled="disabled" data-toggle='dropdown'>
 					<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> &nbsp;&nbsp;
-					<i class="caret"></i>
 				</button>
 			{/if}
 		</div>

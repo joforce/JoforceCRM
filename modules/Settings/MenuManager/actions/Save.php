@@ -24,8 +24,8 @@ class Settings_MenuManager_Save_Action extends Settings_Head_Index_Action {
 			$menuEditorModuleModel->set('selectedModulesList', $selectedModulesList);
 			$menuEditorModuleModel->saveMenuStruncture();
 		}
-		$loadUrl = $menuEditorModuleModel->getIndexViewUrl();
-		header("Location: $loadUrl");
+//		$loadUrl = $menuEditorModuleModel->getIndexViewUrl();
+//		header("Location: $loadUrl");
 	}
     
     public function validateRequest(Head_Request $request) {

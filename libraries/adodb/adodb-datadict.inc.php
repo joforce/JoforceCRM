@@ -1,7 +1,7 @@
 <?php
 
 /**
-  @version   v5.20.9  21-Dec-2016
+  @version   v5.20.18  28-Jun-2020
   @copyright (c) 2000-2013 John Lim (jlim#natsoft.com). All rights reserved.
   @copyright (c) 2014      Damien Regad, Mark Newnham and the ADOdb community
   Released under both BSD license and Lesser GPL library license.
@@ -520,7 +520,7 @@ class ADODB_DataDict {
 			list($lines,$pkey,$idxs) = $this->_GenFields($flds);
 			// genfields can return FALSE at times
 			if ($lines == null) $lines = array();
-			list(,$first) = each($lines);
+			$first  = current($lines);
 			list(,$column_def) = preg_split("/[\t ]+/",$first,2);
 		}
 		return array(sprintf($this->renameColumn,$tabname,$this->NameQuote($oldcolumn),$this->NameQuote($newcolumn),$column_def));
@@ -938,7 +938,7 @@ class ADODB_DataDict {
 	This function changes/adds new fields to your table. You don't
 	have to know if the col is new or not. It will check on its own.
 	*/
-	function ChangeTableSQL($tablename, $flds, $tableoptions = false, $dropOldFlds=false, $forceAlter = false) // GS Fix for constraint impl - forceAlter
+	function ChangeTableSQL($tablename, $flds, $tableoptions = false, $dropOldFlds=false)
 	{
 	global $ADODB_FETCH_MODE;
 
@@ -955,7 +955,7 @@ class ADODB_DataDict {
 		if (isset($savem)) $this->connection->SetFetchMode($savem);
 		$ADODB_FETCH_MODE = $save;
 
-		if ( $forceAlter == false && empty($cols)) { // GS Fix for constraint impl
+		if ( empty($cols)) {
 			return $this->CreateTableSQL($tablename, $flds, $tableoptions);
 		}
 
@@ -1028,39 +1028,6 @@ class ADODB_DataDict {
 			    if ( !isset($lines[$id]) )
 					$sql[] = $alter . $this->dropCol . ' ' . $v->name;
 		}
-
-		// GS Fix for constraint impl -- start
-		if($forceAlter == false) {
-			return $sql;
-		}
-
-		$sqlarray = array();
-		$alter .= implode(",\n", $sql);
-		if (sizeof($pkey)>0) {
-			$alter .= ",\n PRIMARY KEY (";
-			$alter .= implode(", ",$pkey).")";
-		}
-		
-		if (isset($tableoptions['CONSTRAINTS'])) {
-			$alter .= "\n".$tableoptions['CONSTRAINTS'];
-		}
-
-		if (isset($tableoptions[$this->upperName.'_CONSTRAINTS'])) {
-			$alter .= "\n".$tableoptions[$this->upperName.'_CONSTRAINTS'];
-		}
-
-		if (isset($tableoptions[$this->upperName])) {
-			$alter .= $tableoptions[$this->upperName];
-		}
-		$sqlarray[] = $alter;
-		
-		$taboptions = $this->_Options($tableoptions);
-		$tsql = $this->_Triggers($this->TableName($tablename),$taboptions);
-		foreach($tsql as $s) {
-			$sqlarray[] = $s;
-		}
-		// GS Fix for constraint impl -- end
-
-		return $sqlarray;
+		return $sql;
 	}
 } // class

@@ -36,11 +36,11 @@
 			outline: 0;
 		}
 		.buttonBlue {
-			/* background-image: linear-gradient(to bottom, #35aa47 0px, #35aa47 100%) */
-			background: #1C7C54;
+			/* background-image: linear-gradient(to bottom, #0444a7 0px, #0444a7 100%) */
+			background: #0c4da2;
 		}
 		.forgotPasswordLink{
-			color:#1C7C54 !important;
+			color:#0c4da2 !important;
 		}
 		.bar {
 			position: relative;
@@ -53,7 +53,7 @@
 			bottom: 1px;
 			position: absolute;
 			height: 1px;
-			background: #1C7C54;
+			background: #0c4da2;
 			transition: all 0.2s ease;
 		}
 		.bar:before {
@@ -117,8 +117,8 @@
 		}
 		.widgetHeight {
 			/*height: 410px;
-			margin-top: 20px !important;*/
-			min-height: 100vh;
+			margin-top: 20px !important;
+			min-height: 100vh;*/
 
 		}
 		.loginDiv {
@@ -174,6 +174,7 @@
 		.app-footer p {
 			bottom:0px;
 			position:fixed;
+			padding-right: 30px;
 		}
 		.footer {
 			background-color: #fbfbfb;
@@ -221,7 +222,7 @@
 	
 .joforce-login{
 	margin-top:15%;
-	background-color: none;
+	background: #fff;
 	border-radius: 4px;
 	padding-bottom:5px;
 }
@@ -380,7 +381,7 @@
 
   	<div class="page-content">
   	
-  	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style='background: transparent !important; box-shadow: none;'>
+  	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style='background: #fff !important; box-shadow: none;'>
   			<ol class="carousel-indicators">
                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                 <li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -394,7 +395,7 @@
             		</div>
             		<div class="item-content">
 			    <h3> Google Integration </h3>
-			    <p>Integrate JoForce with your Google Calendar & Contacts for efficient tracking and organizing of all your calendar activities & contacts info in one place.</p>
+			    <p>Integrate Joforce with your Google Calendar & Contacts for efficient tracking and organizing of all your calendar activities & contacts info in one place.</p>
             		</div>
             	</div>
             	<div class="item">
@@ -412,7 +413,7 @@
             		</div>
             		<div class="item-content">
 				<h3> Zapier Integration </h3>
-				<p>Connect with your favourite app that you use everyday and get things done right from JoForce via Zapier. Build Workflows and automate your day-to-day activities.</p>
+				<p>Connect with your favourite app that you use everyday and get things done right from Joforce via Zapier. Build Workflows and automate your day-to-day activities.</p>
             		</div>
             	</div>
             	<div class="item">
@@ -434,9 +435,8 @@
 
 	<div class="loginDiv widgetHeight  col-sm-6 col-md-6 col-sm-6 col-xs-12" style="">
 			<div class="joforce-login col-lg-8 col-lg-offset-2">
-			
-				<img class="img-responsive user-logo" src="layouts/resources/Images/JoForce-Logo.png">
-				<div>
+				<img class="img-responsive user-logo" src="{$LOGINIMAGE->getLogoPath()}">	
+				<div class="error-div">
 					<span class="{if !$ERROR}hide{/if} failureMessage" id="validationMessage">{$MESSAGE}</span>
 					<span class="{if !$MAIL_STATUS}hide{/if} successMessage">{$MESSAGE}</span>
 				</div>
@@ -446,12 +446,12 @@
 						<input type="hidden" name="module" value="Users"/>
 						<input type="hidden" name="action" value="Login"/>
 						<div class="group">
-							<input id="username" type="text" name="username" placeholder="Username" value="">
+							<input id="username" type="text" name="username" placeholder="" value="">
 							<span class="bar"></span>
 							<label>Username</label>
 						</div>
 						<div class="group">
-							<input id="password" type="password" name="password" placeholder="Password" value="">
+							<input id="password" type="password" name="password" placeholder="" value="">
 							<span class="bar"></span>
 							<label>Password</label>
 						</div>
@@ -463,7 +463,10 @@
 				</div>
 
 				<div id="forgotPasswordDiv" class="hide">
-					<form class="form-horizontal" action="forgotPassword.php" method="POST">
+                                        <form class="form-horizontal" action="index.php" method="POST">
+                                                <input type="hidden" name="module" value="Users" />
+                                                <input type="hidden" name="view" value="Login" />
+						<input type="hidden" name="mode" value="ForgotPassword" />
 						<div class="group">
 							<input id="username" type="text" name="username" placeholder="Username" >
 							<span class="bar"></span>

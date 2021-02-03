@@ -30,11 +30,11 @@ class InvoiceHandler extends VTEventHandler {
          * Adjust the balance amount against total & received amount
          * NOTE: beforesave the total amount will not be populated in event data.
          */
-        if ($eventName == 'vtiger.entity.aftersave') {
+        if ($eventName == 'jo.entity.aftersave') {
             // Trigger from other module (due to indirect save) need to be ignored - to avoid inconsistency.
             if ($currentModule != 'Invoice')
                 return;
-            $entityDelta = new VTEntityDelta();
+            $entityDelta = new EntityDelta();
             $oldCurrency = $entityDelta->getOldValue($entityData->getModuleName(), $entityData->getId(), 'currency_id');
             $newCurrency = $entityDelta->getCurrentValue($entityData->getModuleName(), $entityData->getId(), 'currency_id');
             $oldConversionRate = $entityDelta->getOldValue($entityData->getModuleName(), $entityData->getId(), 'conversion_rate');
@@ -56,5 +56,3 @@ class InvoiceHandler extends VTEventHandler {
     }
 
 }
-
-?>

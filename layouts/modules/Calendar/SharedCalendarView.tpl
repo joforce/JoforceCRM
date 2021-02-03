@@ -18,6 +18,5 @@
 <input type="hidden" id="hideCompletedEventTodo" value="{$CURRENT_USER->get('hidecompletedevents')}">
 <input type="hidden" id="show_allhours" value="{$CURRENT_USER->get('showallhours')}" />
 <div id="sharedcalendar" class="calendarview col-lg-12 mt30">
-	{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
 </div>
 {/strip}

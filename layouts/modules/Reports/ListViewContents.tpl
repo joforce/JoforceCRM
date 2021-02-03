@@ -9,7 +9,6 @@
 
 {strip}
 	<div class="col-sm-12 col-xs-12 ">
-		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
 		<input type="hidden" name="view" id="view" value="{$VIEW}" />
 		<input type="hidden" name="cvid" value="{$VIEWID}" />
 		<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -42,13 +41,12 @@
 								{if !$SEARCH_MODE_RESULTS}
 									<div class="table-actions">
 										<div class="dropdown" style="float:left;margin-left:6px;">
-											<span class="input dropdown-toggle" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}" data-toggle="dropdown">
+											<span class="input" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
 												<input class="listViewEntriesMainCheckBox" type="checkbox">
 											</span>
 										</div>
 										<div class="btn-group listViewActionsContainer">
 											<button type="button" class="btn btn-action dropdown-toggle" data-toggle="dropdown" disabled="disabled">
-								                            <span class="caret"></span>
 								                        </button>
 											<ul class="dropdown-menu" role="menu" id="listview-actions" class="listview-actions-container">
 											{include file="ListViewMoreActions.tpl"|vtemplate_path:$MODULE}
@@ -62,17 +60,18 @@
 							{assign var="LISTVIEW_HEADERS" value=$LISTVIEW_MODEL->getListViewHeadersForHead7({$VIEWNAME})}
 							{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADER_KEY from=$LISTVIEW_HEADERS}
 								<th {if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY} nowrap="nowrap" {/if}>
+									{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}
+										<a href="#" class="removeSorting pull-right">x</a>
+									{/if}
+
 									<a href="#" class="listViewContentHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER_KEY}">
 										{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}
-											<i class="fa fa-sort {$FASORT_IMAGE}"></i>
+											<i class="fa pull-right {$FASORT_IMAGE}"></i>
 										{else}
-											<i class="fa fa-sort customsort"></i>
+											<i class="fa {$DEFAULT_SORT} pull-right"></i>
 										{/if}
-										&nbsp;{vtranslate($LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY]['label'],$MODULE)}&nbsp;
+										<span>{vtranslate($LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY]['label'],$MODULE)}</span>
 									</a>
-									{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}
-										<a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-									{/if}
 								</th>
 							{/foreach}
 						</tr>

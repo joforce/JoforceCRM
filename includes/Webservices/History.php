@@ -20,7 +20,7 @@ function vtws_history($element, $user) {
 		throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING, "Missing mandatory input values.");
 	}
 
-	if (!CRMEntity::getInstance('ModTracker') || !vtlib_isModuleActive('ModTracker')) {
+	if (!CRMEntity::getInstance('ModTracker') || !modlib_isModuleActive('ModTracker')) {
 		throw new WebServiceException("TRACKING_MODULE_NOT_ACTIVE", "Tracking module not active.");
 	}
 

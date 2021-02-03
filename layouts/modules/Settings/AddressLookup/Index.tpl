@@ -11,7 +11,7 @@
 <script type="text/javascript">
     makeOption = '';
     function flashNotification(type, message)   {
-	/ showing notification
+	// showing notification
         var params = {
             type: type,
             text: message,
@@ -57,7 +57,6 @@
 {/literal}
 
 {strip}
-<div class="joforce-bg">
     <div>
 	<h2 style="margin-bottom: -43px; padding: 5px;">
             <i style = "padding: 10px;" class="fa fa-map-marker" aria-hidden="true"></i> {vtranslate('Address Lookup', $MODULE)}
@@ -111,7 +110,7 @@
 				<select class="select2 dupecheck" style="float: left;" name="street[]" >
 				    <option value="">Select an Option</option>
 		                    {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-                	            	<option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_STREET[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+                	            	<option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_STREET[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
 	                            {/foreach}
             		        </select>
 			    </td>
@@ -120,7 +119,7 @@
 				<select class="select2  dupecheck" style="float: left;" name="area[]" >
 				    <option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
 	                            {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_AREA[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_AREA[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
 		                    {/foreach}
                 	        </select>
 			    </td>
@@ -129,7 +128,7 @@
 				<select class="select2 dupecheck" style="float: left;" name="locality[]">
 				    <option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
 		                    {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-                	            	<option value="{$FIELD_NAME['fieldid']}" {if $FIELD_NAME['fieldid'] eq $SELECTED_LOCALITY[$i]} selected {/if}  >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+                	            	<option value="{$FIELD_NAME['fieldid']}" {if $FIELD_NAME['fieldid'] eq $SELECTED_LOCALITY[$i]} selected {/if}  >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
 		                    {/foreach}
                 	    	</select>
 			    </td>
@@ -138,7 +137,7 @@
 				<select class="select2 dupecheck" style="float: left;" name="city[]" >
 				    <option value="">Select an Option</option>
 	                            {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_CITY[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_CITY[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
                         	    {/foreach}
 		                </select>
 			    </td>
@@ -147,7 +146,7 @@
 				<select class="select2 dupecheck" style="float:left;" name="state[]" >
 				    <option value="">Select an Option</option>
 	                            {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_STATE[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_STATE[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
 		                    {/foreach}
                 		</select>
 			    </td>
@@ -155,7 +154,7 @@
 				<select class="select2 dupecheck" style="float:left;" name="country[]" >
 				    <option value="">Select an Option</option>
 	                            {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_COUNTRY[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+            		                <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_COUNTRY[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
                         	    {/foreach}
 	                        </select>
 			    </td>
@@ -163,7 +162,7 @@
 				<select class="select2 dupecheck" style="float:left;" name="postalcode[]">
 				    <option value="">Select an Option</option>
 		                    {foreach item=FIELD_NAME from=$SELECTED_MODULE_FIELDS_LIST}
-                		        <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_POSTALCODE[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $MODULE)}</option>
+                		        <option value="{$FIELD_NAME['fieldid']}"  {if $FIELD_NAME['fieldid'] eq $SELECTED_POSTALCODE[$i]} selected {/if} >{vtranslate($FIELD_NAME['fieldlabel'], $SELECTED_MODULE_NAME)}</option>
 	                            {/foreach}
             		        </select>
 			    </td>
@@ -184,8 +183,7 @@
 	</div>
 	<div class="pull-right" style = "margin: 0 50px;">
 	    <button type="submit" id="savebutton" class="btn btn-primary input-small submitcheck" name="submitCustomModule" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-	    <button class="btn joforce-default input-small" onclick="window.location.reload();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+	    <button class="btn input-small" onclick="window.location.reload();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 	</div>
     </form>
-</div>
 {/strip}

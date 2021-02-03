@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('New Username', $MODULE)}&nbsp;
-                                <span class="red-border"></span>
+                                <span class="red-border">*</span>
                             </label>
                             <div class="controls fieldValue col-sm-6 pl0">
                                 <input type="text" class="inputElement" name="new_username" data-rule-required="true" data-rule-email="true" data-rule-illegal="true"/>
@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
-                                <span class="red-border"></span>
+                                <span class="red-border">*</span>
                             </label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <input type="password" class="inputElement" name="new_password" data-rule-required="true"/>
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
-                                <span class="red-border"></span>
+                                <span class="red-border">*</span>
                             </label>
                             <div class="controls fieldValue col-xs-6 pl0">
                                 <input type="password" class="inputElement" name="confirm_password" data-rule-required="true"/>

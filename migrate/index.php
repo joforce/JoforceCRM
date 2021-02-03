@@ -4,14 +4,13 @@ include_once('includes/utils/utils.php');
 include_once("modules/Emails/mail.php");
 include_once('includes/logging.php');
 include_once('includes/http/Session.php');
-include_once('version.php');
 include_once('MySQLSearchReplace.php');
 include_once('config/config.inc.php');
 
 require_once('vendor/autoload.php');
 include_once 'config/config.php';
 
-include_once 'vtlib/Head/Module.php';
+include_once 'libraries/modlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 global $dbconfig, $root_directory, $log, $site_URL, $current_user, $adb;
 session_start();
@@ -26,7 +25,7 @@ $jo_old_version = $adb->fetch_row($adb->pquery("SELECT current_version FROM jo_v
 $old_version = $jo_old_version['current_version'];
 if($_POST['FinishMigration'])	{
     if($old_version < 1.5 && $old_version !== 1.5) {
-	include_once('vtlib/Head/Module.php');
+	include_once('libraries/modlib/Head/Module.php');
 	//Kanbview settings starts
 	$fieldid = $adb->getUniqueID('jo_settings_field');
 	$blockid = getSettingsBlockId('LBL_MODULE_MANAGER');

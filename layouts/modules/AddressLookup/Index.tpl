@@ -32,7 +32,7 @@
 
 .onoffswitch1-inner:before, .onoffswitch1-inner:after {
     display: block; float: left; width: 40%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    font-size: 14px; color: white;font-weight: bold;
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
     border-radius: 30px;
     box-shadow: 0px 15px 0px rgba(0,0,0,0.08) inset;

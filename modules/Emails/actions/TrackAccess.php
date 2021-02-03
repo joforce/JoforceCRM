@@ -64,7 +64,15 @@ class Emails_TrackAccess_Action extends Head_Action_Controller {
 		
 		$redirectUrl = $request->get('redirectUrl');
 		if(!empty($redirectUrl)) {
-			return Head_Functions::redirectUrl(rawurldecode($redirectUrl));
+			$regExp = "~^(?:f|ht)tps?://~i";
+			if (!preg_match($regExp, $redirectUrl)) {
+				//header("Location:http://" . $redirectUrl);
+				echo "<script type='text/javascript'> window.location.href = 'http://$redirectUrl'; </script>";
+				exit();
+			}
+			//header("Location:" . $redirectUrl);
+			echo "<script type='text/javascript'> window.location.href = '$redirectUrl'; </script>";
+			exit();
 		}
 	}
 }

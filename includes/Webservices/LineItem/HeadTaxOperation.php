@@ -12,8 +12,8 @@
 require_once "includes/Webservices/HeadActorOperation.php";
 require_once 'includes/Webservices/LineItem/HeadTaxMeta.php';
 require_once("includes/events/include.inc");
-require_once 'modules/com_jo_workflow/VTEntityCache.inc';
-require_once 'data/CRMEntity.php';
+require_once 'modules/Workflow/EntityCache.inc';
+require_once 'includes/data/CRMEntity.php';
 require_once 'includes/events/SqlResultIterator.inc';
 require_once 'includes/Webservices/LineItem/HeadLineItemMeta.php';
 require_once 'includes/Webservices/Retrieve.php';

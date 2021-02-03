@@ -21,9 +21,9 @@
 			{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 			<div class="col-lg-12">
 				<div class="media" {if $COMMENT->get('is_private')}style="background: #fff9ea;"{/if}>
-					<div class="media-left title" id="{$COMMENT->getId()}">
+					<div class="col-lg-2 col-md-1 col-sm-1 media-left title" id="{$COMMENT->getId()}">
 						{assign var=CREATOR_NAME value=$COMMENT->getCommentedByName()}
-						<div class="col-lg-2 recordImage commentInfoHeader" style ="width:50px; height:50px; font-size: 30px;" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}" data-relatedto = "{$COMMENT->get('related_to')}">
+						<div class="recordImage commentInfoHeader" style ="width:50px; height:50px; font-size: 30px;" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}" data-relatedto = "{$COMMENT->get('related_to')}">
 							{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 							{if !empty($IMAGE_PATH)}
 								<img src="{$SITEURL}{$IMAGE_PATH}" width="100%" height="100%" align="left">
@@ -32,7 +32,7 @@
 							{/if}
 						</div>
 					</div>
-					<div class="media-body">
+					<div class="media-body col-lg-10 col-md-4 col-sm-10">
 						<div class="comment" style="line-height:1;">
 							<span class="creatorName" >
 								{$CREATOR_NAME}

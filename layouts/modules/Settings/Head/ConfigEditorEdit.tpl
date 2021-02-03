@@ -8,8 +8,6 @@
 * Contributor(s): JoForce.com
 ************************************************************************************}
 {strip}
-	<div class="editViewPageDiv " id="editViewContent">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
 			<div class="contents">
 				<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 					{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
@@ -73,13 +71,11 @@
 						<div class=" row clearfix">
 							<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton'  >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink' type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class='cancelLink btn btn-secondary' type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-		</div>
-	</div>
 {/strip}
 

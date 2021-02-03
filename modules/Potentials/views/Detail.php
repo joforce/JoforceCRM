@@ -16,6 +16,43 @@ class Potentials_Detail_View extends Head_Detail_View {
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
 	}
+
+        function preProcess(Head_Request $request, $display=true) {
+                global $adb;
+                $viewer = $this->getViewer($request);
+                $recordId = $request->get('record');
+                $userModel = Users_Record_Model::getCurrentUserModel();
+
+		$inventoryModules = array('Invoice' => array('id' => 'invoiceid', 'table' => 'jo_invoice'),
+                        'Quotes' => array('id' => 'quoteid', 'table' => 'jo_quotes'),
+                        'SalesOrder' => array('id' => 'salesorderid', 'table' => 'jo_salesorder'),
+		);
+		$totalValue = array();
+                foreach($inventoryModules as $key => $singleModule){
+                        $total = 0;
+                        $query = $adb->pquery("select total from jo_crmentityrel join {$singleModule['table']} on {$singleModule['id']} = relcrmid where crmid = ? and relmodule = ?", array($recordId, $key));
+                        if($adb->num_rows($query) > 0){
+                                while($result = $adb->fetch_array($query)){
+                                        $total += $result['total'];
+                                }
+                                $totalValue[$key] = $total;
+                        }
+                        else{
+                                $totalValue[$key] = 0;
+                        }
+                }
+
+		$getticketCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'HelpDesk');
+		$getProducts = getRelatedRecordSumValue($recordId, $request->getModule(), 'Products', 'unit_price');
+                $getServicesCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'Services', 'unit_price');
+
+                $totalValue['HelpDesk'] = $getticketCount? $getticketCount : 0;
+                $totalValue['Products'] = $getProducts? $getProducts : 0;
+		$totalValue['Services'] = $getServicesCount? $getServicesCount : 0;
+
+                $viewer->assign('TOTAL', $totalValue);
+                parent::preProcess($request);
+        }
 	/**
 	 * Function to get activities
 	 * @param Head_Request $request

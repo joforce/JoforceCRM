@@ -9,13 +9,14 @@
  * Contributor(s): JoForce.com
  * ****************************************************************************** */
 
-require_once('data/CRMEntity.php');
+require_once('includes/data/CRMEntity.php');
 require_once('includes/utils/utils.php');
 require_once 'includes/Webservices/Utils.php';
 
-global $adv_filter_options;
+global $adv_filter_options,$mod_strings;
 
-$adv_filter_options = array("e" => "" . $mod_strings['equals'] . "",
+$adv_filter_options = array(
+	"e" => "" . $mod_strings['equals'] . "",
 	"n" => "" . $mod_strings['not equal to'] . "",
 	"s" => "" . $mod_strings['starts with'] . "",
 	"ew" => "" . $mod_strings['ends with'] . "",
@@ -85,9 +86,9 @@ class CustomView extends CRMEntity {
 	 */
 	function getViewId($module) {
 		global $adb, $current_user;
-		$now_action = vtlib_purify($_REQUEST['action']);
+		$now_action = modlib_purify($_REQUEST['action']);
 		if(!$now_action) {
-			$now_action = vtlib_purify($_REQUEST['view']);
+			$now_action = modlib_purify($_REQUEST['view']);
 		}
 		if (empty($_REQUEST['viewname'])) {
 			if (isset($_SESSION['lvs'][$module]["viewname"]) && $_SESSION['lvs'][$module]["viewname"] != '') {
@@ -114,7 +115,7 @@ class CustomView extends CRMEntity {
 				$viewid = $adb->query_result($cvresult, 0, 'cvid');
 			}
 		} else {
-			$viewname = vtlib_purify($_REQUEST['viewname']);
+			$viewname = modlib_purify($_REQUEST['viewname']);
 			if (!is_numeric($viewname)) {
 				if (strtolower($viewname) == 'all' || $viewname == 0) {
 					$viewid = $this->getViewIdByName('All', $module);
@@ -155,8 +156,20 @@ class CustomView extends CRMEntity {
 	function getCustomViewByCvid($cvid) {
 		global $adb, $current_user;
 		$tabid = getTabid($this->customviewmodule);
-
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 
 		$ssql = "select jo_customview.* from jo_customview inner join jo_tab on jo_tab.name = jo_customview.entitytype";
 		$ssql .= " where jo_customview.cvid=?";
@@ -194,8 +207,20 @@ class CustomView extends CRMEntity {
 		global $adb, $current_user;
 		global $app_strings;
 		$tabid = getTabid($this->customviewmodule);
-
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 
 		$shtml_user = '';
 		$shtml_pending = '';
@@ -282,7 +307,20 @@ class CustomView extends CRMEntity {
 		$block_ids = explode(",", $block);
 		$tabid = getTabid($module);
 		global $current_user;
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		if (empty($this->meta) && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
@@ -447,7 +485,20 @@ class CustomView extends CRMEntity {
 		$tabid = getTabid($module);
 
 		global $current_user;
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 
 		$module_info = $this->getCustomViewModuleInfo($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
@@ -1972,8 +2023,20 @@ class CustomView extends CRMEntity {
 		global $log, $adb;
 		global $current_user;
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
-
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		$permission = "yes";
 
 		if ($record_id != '') {
@@ -2059,7 +2122,20 @@ class CustomView extends CRMEntity {
 		$custom_strings = return_module_language($current_language, "CustomView");
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		$status_details = Array();
 		if ($is_admin) {
 			if ($status == CV_STATUS_PENDING) {

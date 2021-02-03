@@ -1,4 +1,3 @@
-<div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
         <div class="col-sm-12">
                	<div class="row">
                        	<div class=" vt-default-callout vt-info-callout">
@@ -28,7 +27,7 @@
 		</div>
 	</div>
 	
-	<div class="col-sm-12">
+	<div class="col-sm-12" style="margin-bottom:2%;">
 		<b><h4>Google Calendar Configuration Steps</h4></b>
 		<p>1. Go to <a href="https://console.developers.google.com/" target="_blank">Google Developer Console</a></p>
 		<p>2. Select "Create a new project" and click Continue (or) select any one of the project from project list.</p>
@@ -38,23 +37,3 @@
 		<p>6. Click on Create button. You will get the Client ID and Client Secret.</p>
 		<p>7. Go to Google Extension and click "Sign in with Google". Now user will be redirected to the google to get the authorisation. After that user can able to sync the calendar.</p>
 	</div>
-</div>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		if (document.querySelector('.settingsNav') !== null) {
-            $('.main-container .content-area').css('padding-left','240px');
-        }
-	});
-    function clearNotificationArea(id) {
-        jQuery('#' + id).html('');
-        jQuery('#' + id).removeClass();
-    }
-
-</script>
-<style>
-.notificationArea   {
-    text-align: center;
-    display: inline-block;
-}
-</style>

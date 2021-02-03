@@ -113,12 +113,12 @@ class EmailTemplates_List_View extends Head_Index_View {
 
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
-			$faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
-			$faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 
 		if (empty($pageNumber)) {
@@ -193,6 +193,7 @@ class EmailTemplates_List_View extends Head_Index_View {
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('FASORT_IMAGE', $faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('RECORD_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);

@@ -15,7 +15,7 @@ class Head_RecordLabelUpdater_Handler extends VTEventHandler {
 	function handleEvent($eventName, $data) {
 		global $adb;
 
-		if ($eventName == 'vtiger.entity.aftersave') {
+		if ($eventName == 'jo.entity.aftersave') {
             $record = $data->getId();
             $module = $data->getModuleName();
 			$labelInfo = getEntityName($module, $record, true);

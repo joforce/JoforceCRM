@@ -1,15 +1,13 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+{*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is: vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): JoForce.com
-*
- ********************************************************************************/
--->*}
+ ************************************************************************************}
+
 {strip}
 {foreach item=DETAIL_VIEW_WIDGET from=$DETAILVIEW_LINKS['DETAILVIEWWIDGET']}
 	{if ($DETAIL_VIEW_WIDGET->getLabel() eq 'Documents') }
@@ -21,18 +19,7 @@
 	{/if}
 {/foreach}
 
-<div class="left-block col-md-5">
-    {* Module Summary View*}
-        <div class="summaryView">
-            <div class="summaryViewHeader">
-                <h4 class="display-inline-block">{vtranslate('LBL_KEY_FIELDS', $MODULE_NAME)}</h4>
-            </div>
-            <div class="summaryViewFields">
-                {$MODULE_SUMMARY}
-            </div>
-        </div>
-    {* Module Summary View Ends Here*}
-
+<div class="left-block col-md-6">
     {* Summary View Documents Widget*}
     {if $DOCUMENT_WIDGET_MODEL}
         <div class="summaryWidgetContainer">
@@ -47,23 +34,24 @@
                         <div class="pull-right">
                             <div class="dropdown">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}&nbsp; <span class="caret"></span>
+                                    <span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', 'Documents')}</li>
                                     <li id="HeadAction">
                                         <a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')">
-                                            <img style="  margin-top: -3px;margin-right: 4%;" title="JoForce" alt="JoForce" src="{$SITEURL}layouts/skins//images/JoForce.png">
-                                            {vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_VTIGER', 'Documents')})}
+                                            <img style="  margin-top: -3px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins//images/JoForce.png">
+                                            {vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_JOFORCE', 'Documents')})}
                                         </a>
                                     </li>
+                                    <li role="separator" class="divider"></li>
                                     <li class="dropdown-header"><i class="fa fa-link"></i> {vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', 'Documents')}</li>
                                     <li id="shareDocument"><a href="javascript:Documents_Index_Js.createDocument('E',{$PARENT_ID},'{$MODULE_NAME}')">&nbsp;<i class="fa fa-external-link"></i>&nbsp;&nbsp; {vtranslate('LBL_FROM_SERVICE', 'Documents', {vtranslate('LBL_FILE_URL', 'Documents')})}</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li id="createDocument"><a href="javascript:Documents_Index_Js.createDocument('W',{$PARENT_ID},'{$MODULE_NAME}')"><i class="fa fa-file-text"></i> {vtranslate('LBL_CREATE_NEW', 'Documents', {vtranslate('SINGLE_Documents', 'Documents')})}</a></li>
-                                </ul>
+                            	</ul>
                             </div>
-                        </div>
+                    	</div>
                     {/if}
                 </div>
                 <div class="widget_contents">
@@ -73,22 +61,22 @@
         </div>
     {/if}
     {* Summary View Documents Widget Ends Here*}
-	
+
 	{* Detail Summary Widget View*}
-                        {if $DETAIL_SUMMARY_WIDGET}
-				{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
-                        {/if}
-       {* Detail Summary Widget View Ends Here*}
+            {if $DETAIL_SUMMARY_WIDGET}
+		{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
+            {/if}
+	{* Detail Summary Widget View Ends Here*}
+
 </div>
 
-<div class="middle-block col-md-7">
-    
+<div class="middle-block col-md-6">
     {* Summary View Related Activities Widget*}
-        <div id="relatedActivities">
-            {$RELATED_ACTIVITIES}
-        </div>
+    <div id="relatedActivities">
+        {$RELATED_ACTIVITIES}
+    </div>
     {* Summary View Related Activities Widget Ends Here*}
-    
+
     {* Summary View Comments Widget*}
     {if $COMMENTS_WIDGET_MODEL}
         <div class="summaryWidgetContainer">

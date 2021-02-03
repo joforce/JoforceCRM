@@ -29,12 +29,12 @@ class Emails_InRelation_View extends Head_RelatedList_View {
 		$sortOrder = $request->get('sortorder');
 		if($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
-            $faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+        		$faSortImage = downfaSortImage;
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
-            $faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upsortImage;
 		}
 		if(!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
@@ -86,7 +86,8 @@ class Emails_InRelation_View extends Head_RelatedList_View {
 		$viewer->assign('PAGING', $pagingModel);
 
 		$viewer->assign('ORDER_BY',$orderBy);
-        $viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 		$viewer->assign('SORT_ORDER',$sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);
 		$viewer->assign('SORT_IMAGE',$sortImage);

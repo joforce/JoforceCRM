@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  *********************************************************************************/
 
-require_once 'data/CRMEntity.php';
+require_once 'includes/data/CRMEntity.php';
 require_once 'modules/CustomView/CustomView.php';
 require_once 'includes/Webservices/Utils.php';
 require_once 'includes/Webservices/RelatedModuleMeta.php';
@@ -1339,7 +1339,7 @@ class QueryGenerator {
 			$this->endGroup();
 		} else {
 			if(isset($input['search_field']) && $input['search_field'] !="") {
-				$fieldName=vtlib_purify($input['search_field']);
+				$fieldName=modlib_purify($input['search_field']);
 			} else {
 				return ;
 			}
@@ -1419,19 +1419,19 @@ class QueryGenerator {
 			$dateClosedEnd = $_REQUEST['closingdate_end'];
 		}
 		if(isset($_REQUEST['owner'])) {
-			$owner = vtlib_purify($_REQUEST['owner']);
+			$owner = modlib_purify($_REQUEST['owner']);
 		}
 		if(isset($_REQUEST['campaignid'])) {
-			$campaignId = vtlib_purify($_REQUEST['campaignid']);
+			$campaignId = modlib_purify($_REQUEST['campaignid']);
 		}
 		if(isset($_REQUEST['quoteid'])) {
-			$quoteId = vtlib_purify($_REQUEST['quoteid']);
+			$quoteId = modlib_purify($_REQUEST['quoteid']);
 		}
 		if(isset($_REQUEST['invoiceid'])) {
-			$invoiceId = vtlib_purify($_REQUEST['invoiceid']);
+			$invoiceId = modlib_purify($_REQUEST['invoiceid']);
 		}
 		if(isset($_REQUEST['purchaseorderid'])) {
-			$purchaseOrderId = vtlib_purify($_REQUEST['purchaseorderid']);
+			$purchaseOrderId = modlib_purify($_REQUEST['purchaseorderid']);
 		}
 
 		$conditionList = array();

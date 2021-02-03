@@ -17,9 +17,7 @@
     	{/if}
 	
 	<span class="more dropdown action more-actions">
-        	<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-	            <i class="caret icon"></i>
-		</span>
+        	<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"></span>
         	<ul class="dropdown-menu more-actions-right">
 	            <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
                         {if $RECORD_ACTIONS}

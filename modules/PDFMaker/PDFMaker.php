@@ -7,7 +7,7 @@ class PDFMaker {
 	* @param String Module name
 	* @param String Event Type
 	*/
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
 		global $adb, $site_URL;
  		if($eventType == 'module.postinstall') {
 			// TODO Handle actions after this module is installed.
@@ -19,7 +19,7 @@ class PDFMaker {
                                                                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8",array());
                         $adb->pquery('insert into jo_pdfmakersettings (id, version) values (1, ?)', array('0.1'));
 
-			include_once('vtlib/Head/Module.php');
+			include_once('libraries/modlib/Head/Module.php');
 			$moduleInstance = Head_Module::getInstance('PDFMaker');
 			$moduleInstance->addLink('HEADERSCRIPT', 'HEADERSCRIPT', 'layouts/modules/PDFMaker/resources/Helper.js');
 

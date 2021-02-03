@@ -49,8 +49,8 @@
 		</div>
 		<div class="popover-footer">
 			<center>
-				<button class="btn btn-success popoverSave" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-				<a href="#" class="cancelLink popoverClose" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+				<button class="btn btn-primary popoverSave" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+				<a href="#" class="cancelLink btn btn-secondary popoverClose" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 			</center>
 		</div>
 	</form>

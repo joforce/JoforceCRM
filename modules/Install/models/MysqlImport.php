@@ -15,7 +15,7 @@ class Install_MysqlImport_Model {
 		include_once('includes/utils/utils.php');
 		include_once("modules/Emails/mail.php");
 		include_once('includes/http/Session.php');
-		include_once('version.php');
+		include_once('config/config.inc.php');
 		include_once('MySQLSearchReplace.php');
 		include_once('config/config.inc.php');
 		include_once('includes/utils/utils.php');
@@ -23,15 +23,16 @@ class Install_MysqlImport_Model {
 		require_once('vendor/autoload.php');
 		include_once 'config/config.php';
 
-		include_once 'vtlib/Head/Module.php';
+		include_once 'libraries/modlib/Head/Module.php';
 		include_once 'includes/main/WebUI.php';
 		global $adb, $dbconfig, $root_directory, $site_URL;
 
 		// import mysql file
                 $query = '';
 		$adb->pquery('SET foreign_key_checks = 0');
+		$adb->pquery('ALTER DATABASE '.$dbconfig['db_name'].' CHARACTER SET utf8 COLLATE utf8_general_ci');
 
-                $sqlScript = file('schema/import.sql');
+                $sqlScript = file('migrate/import.sql');
                 foreach ($sqlScript as $line)   {
         
                         $startWith = substr(trim($line), 0 ,2);
@@ -55,7 +56,7 @@ class Install_MysqlImport_Model {
                 $adb->pquery("INSERT INTO jo_currency_info VALUES (?,?,?,?,?,?,?,?)", array($adb->getUniqueID("jo_currency_info"), $currencyName,$currencyCode,$currencySymbol,1,'Active','-11','0'));
 
 		// Kanban view Extenion module related chanages - starts
-		include_once('vtlib/Head/Module.php');
+		include_once('libraries/modlib/Head/Module.php');
 		$fieldid = $adb->getUniqueID('jo_settings_field');
 		$blockid = getSettingsBlockId('LBL_MODULE_MANAGER');
 		$seq_res = $adb->pquery("SELECT max(sequence) AS max_seq FROM jo_settings_field WHERE blockid = ?", array($blockid));
@@ -66,7 +67,6 @@ class Install_MysqlImport_Model {
 		        $seq = $cur_seq + 1;
 		    }
 		}
-
 		$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active, pinned) VALUES (?,?,?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Kanban view', 'fa fa-th-large', 'KanbanView', 'Pipeline/Settings/Index', $seq, 0, 0));
 
 		if (!Head_Utils::CheckTable('jo_visualpipeline')) {
@@ -82,43 +82,71 @@ class Install_MysqlImport_Model {
 		// Kanban view Extenion module related chanages - ends
 
 		//Modules creation and updation
-	        updateVtlibModule('Arabic_ar_ae', 'packages/head/optional/Arabic_ar_ae.zip');
-        	updateVtlibModule('Assets', 'packages/head/optional/Assets.zip');
-	        updateVtlibModule('EmailTemplates', 'packages/head/optional/EmailTemplates.zip');
-        	updateVtlibModule('CustomerPortal', 'packages/head/optional/CustomerPortal.zip');
-	        updateVtlibModule('Google', 'packages/head/optional/Google.zip');
-        	updateVtlibModule('ModComments', 'packages/head/optional/ModComments.zip');
-	        updateVtlibModule('Projects', 'packages/head/optional/Projects.zip');
-        	updateVtlibModule('RecycleBin', 'packages/head/optional/RecycleBin.zip');
-	        updateVtlibModule('SMSNotifier', "packages/head/optional/SMSNotifier.zip");
-        	updateVtlibModule("Sweden_sv_se","packages/head/optional/Sweden_sv_se.zip");
-	        updateVtlibModule("Webforms","packages/head/optional/Webforms.zip");
-        	updateVtlibModule("Dutch","packages/head/optional/Dutch.zip");
-        	updateVtlibModule("BrazilianLanguagePack_bz_bz","packages/head/optional/BrazilianLanguagePack_bz_bz.zip");
-	        updateVtlibModule("BritishLanguagePack_br_br","packages/head/optional/BritishLanguagePack_br_br.zip");
-	        updateVtlibModule("French","packages/head/optional/French.zip");
-        	updateVtlibModule("Hungarian","packages/head/optional/Hungarian.zip");
-	        updateVtlibModule("ItalianLanguagePack_it_it","packages/head/optional/ItalianLanguagePack_it_it.zip");
-        	updateVtlibModule("MexicanSpanishLanguagePack_es_mx","packages/head/optional/MexicanSpanishLanguagePack_es_mx.zip");
-	        updateVtlibModule("Deutsch","packages/head/optional/Deutsch.zip");
-	        updateVtlibModule("PolishLanguagePack_pl_pl","packages/head/optional/PolishLanguagePack_pl_pl.zip");
-        	updateVtlibModule("RomanianLanguagePack_rm_rm","packages/head/optional/RomanianLanguagePack_rm_rm.zip");
-	        updateVtlibModule("Russian","packages/head/optional/Russian.zip");
-        	updateVtlibModule("TurkishLanguagePack_tr_tr","packages/head/optional/TurkishLanguagePack_tr_tr.zip");
-		updateVtlibModule("Spanish","packages/head/optional/Spanish.zip");
-	
-		//create files
+	        updateModlibModule('Arabic_ar_ae', 'cache/packages/Arabic_ar_ae.zip');
+        	updateModlibModule("Sweden_sv_se","cache/packages/Sweden_sv_se.zip");
+        	updateModlibModule("Dutch","cache/packages/Dutch.zip");
+        	updateModlibModule("BrazilianLanguagePack_bz_bz","cache/packages/BrazilianLanguagePack_bz_bz.zip");
+	        updateModlibModule("BritishLanguagePack_br_br","cache/packages/BritishLanguagePack_br_br.zip");
+	        updateModlibModule("French","cache/packages/French.zip");
+        	updateModlibModule("Hungarian","cache/packages/Hungarian.zip");
+	        updateModlibModule("ItalianLanguagePack_it_it","cache/packages/ItalianLanguagePack_it_it.zip");
+        	updateModlibModule("MexicanSpanishLanguagePack_es_mx","cache/packages/MexicanSpanishLanguagePack_es_mx.zip");
+	        updateModlibModule("Deutsch","cache/packages/Deutsch.zip");
+	        updateModlibModule("PolishLanguagePack_pl_pl","cache/packages/PolishLanguagePack_pl_pl.zip");
+        	updateModlibModule("RomanianLanguagePack_rm_rm","cache/packages/RomanianLanguagePack_rm_rm.zip");
+	        updateModlibModule("Russian","cache/packages/Russian.zip");
+        	updateModlibModule("TurkishLanguagePack_tr_tr","cache/packages/TurkishLanguagePack_tr_tr.zip");
+			updateModlibModule("Spanish","cache/packages/Spanish.zip");
+			//create files
 	        create_tab_data_file();
-        	crete_htacces_file();
+			crete_htacces_file();
+			
+			$adb->query("update jo_settings_field as a 
+							inner join jo_settings_blocks as b on b.label='LBL_AUTOMATION' 
+							set a.blockid=b.blockid 
+							where a.name in (
+							'LBL_MAIL_SCANNER' , 'LBL_LEAD_MAPPING'
+							)"
+						);
+
+			$blockId = $adb->getUniqueID('jo_settings_blocks');
+			$sql = "Insert into jo_settings_blocks(blockid,label,sequence) 
+					select $blockId,'LBL_COMPANY_INFO',max(sequence)+1 
+					from jo_settings_blocks";
+			$adb->query($sql);
+
+			$adb->query("update jo_settings_field as a 
+							inner join jo_settings_blocks as b on b.label='LBL_COMPANY_INFO' 
+							set a.blockid=b.blockid 
+							where a.name in (
+							'LBL_TAX_SETTINGS' , 'INVENTORYTERMSANDCONDITIONS'
+							)"
+						);
+			
+			$blockId = $adb->getUniqueID('jo_blocks');
+			$tabId = getTabid('Accounts');
+			$sql = "Insert Into jo_blocks(blockid,tabid,blocklabel,sequence,show_title,display_status) values($blockId,$tabId,'LBL_IMAGE_INFORMATION',5,0,1)";
+			$adb->query($sql);
+
+			$fieldId = $adb->getUniqueID('jo_field');
+			$sql = "Insert into jo_field (tabid,fieldid,columnname,tablename,generatedtype, uitype,fieldname,fieldlabel,readonly,presence,defaultvalue,maximumlength, sequence,block,displaytype,typeofdata,quickcreate,quickcreatesequence, info_type, masseditable,helpinfo,summaryfield,headerfield)
+					select $tabId,$fieldId,a.columnname,'jo_account',a.generatedtype,a.uitype,a.fieldname,a.fieldlabel, a.readonly,a.presence,a.defaultvalue,a.maximumlength,a.sequence,$blockId,a.displaytype, a.typeofdata,a.quickcreate,a.quickcreatesequence,a.info_type,a.masseditable,a.helpinfo, a.summaryfield,a.headerfield from jo_field as a 
+					inner join jo_tab as b on b.name = 'Contacts' 
+					inner join jo_blocks as c on c.tabid = b.tabid and c.blocklabel = 'LBL_IMAGE_INFORMATION' and c.blockid = a.block";
+			$adb->query($sql);
+
+			$adb->query("Alter table jo_account add imagename varchar(150)");	
 
 		//Add related field to related list table for projects
+		
+		/* //updated on sql file - (don't delete the code - need ref for migration)
 		$project_milestone_tabid = getTabid('ProjectMilestone');
 		$project_tabid = getTabid('Project');
 		$project_task_tabid = getTabid('ProjectTask');
 		$milestone_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_milestone_tabid)));
 		$milestone_project_fieldid = $milestone_project['fieldid'];
 
-		$task_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_milestone_tabid)));
+		$task_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_task_tabid)));
 		$task_project_fieldid = $task_project['fieldid'];
 		$update_query = 'update jo_relatedlists set relationfieldid = ? where tabid = ? and related_tabid = ?';
 		$adb->pquery($update_query , array($milestone_project_fieldid, $project_tabid, $project_milestone_tabid)); //milestone
@@ -128,7 +156,9 @@ class Install_MysqlImport_Model {
 		$adb->pquery("INSERT INTO jo_relatedlists VALUES(" . $adb->getUniqueID('jo_relatedlists') . "," . getTabid('HelpDesk') . "," . getTabid('Potentials') . ",'get_related_list',6,'Potentials',0, 'add,select','','','1:N')");
 
 		$ticket_tabid = getTabid('HelpDesk');
-	        $adb->pquery('update jo_field set summaryfield = ? where fieldname = ? and tabid = ?', array(0,'description',$ticket_tabid));
+		$adb->pquery('update jo_field set summaryfield = ? where fieldname = ? and tabid = ?', array(0,'description',$ticket_tabid));
+		// updated on sql
+		*/
 
 		//Write module contents on default_module_apps.php
 		$file_contents = "<?php \$app_menu_array = array(

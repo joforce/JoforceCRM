@@ -122,7 +122,7 @@ class Head_Index_View extends Head_Basic_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Head.resources.Head',
+			//'modules.Head.resources.Head',
 			"modules.$moduleName.resources.$moduleName",
 			"~libraries/jquery/jquery.stickytableheaders.min.js",
 		);

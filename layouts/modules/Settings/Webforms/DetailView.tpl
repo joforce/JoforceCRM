@@ -12,10 +12,16 @@
 {strip}
 <div class="detailViewContainer">
     <div class="col-sm-12">
-    {include file="DetailViewHeader.tpl"|vtemplate_path:Head MODULE_NAME=$MODULE_NAME}
-    {include file='DetailViewBlockView.tpl'|@vtemplate_path:Head RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
-    {include file='FieldsDetailView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	<div class=" detailview-header-block">
+	    <div class="detailview-header">
+		<div class="row">
+		    {include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE_NAME MODULE=$MODULE_NAME}
+		    {include file="DetailViewActions.tpl"|vtemplate_path:Head MODULE=$MODULE_NAME}
+                </div>
+            </div>
+	    {include file='DetailViewBlockView.tpl'|@vtemplate_path:Head RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	    {include file='FieldsDetailView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	</div>
     </div>
-</div>
 </div></div>
 {/strip}

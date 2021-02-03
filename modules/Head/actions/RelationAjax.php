@@ -177,10 +177,10 @@ class Head_RelationAjax_Action extends Head_Action_Controller {
 				$autoFillName = $autoFillNameArray[$autofillRecordId];
 
 				$resultData[] = array(	'id'		=> $request->get('id'), 
-										'name'		=> decode_html($recordModel->getName()),
-										'parent_id'	=> array(	'id' => $autofillRecordId,
-																'name' => decode_html($autoFillName),
-																'module' => $autoFillModule));
+							'name'		=> decode_html($recordModel->getName()),
+							'parent_id'	=> array(	'id' => $autofillRecordId,
+							'name' => decode_html($autoFillName),
+							'module' => $autoFillModule));
 			}
 
 			$result[$request->get('id')] = $resultData;

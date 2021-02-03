@@ -10,7 +10,7 @@
 *
  *****************************************************>***************************/
  
-require_once("data/Tracker.php");
+require_once("includes/data/Tracker.php");
 require_once('includes/logging.php');
 require_once('includes/utils/utils.php');
 require_once('modules/Reports/Reports.php');
@@ -68,7 +68,7 @@ foreach($user_groups as $grpid=>$groupname){
 }
 if(isset($_REQUEST["record"]) && $_REQUEST['record']!='')
 {
-	$reportid = vtlib_purify($_REQUEST["record"]);
+	$reportid = modlib_purify($_REQUEST["record"]);
 	$visiblecriteria=getVisibleCriteria($recordid);
 	$report_std_filter->assign("VISIBLECRITERIA", $visiblecriteria);
 	$member = getShareInfo($recordid);
@@ -167,5 +167,3 @@ function getShareInfo($recordid=''){
 	}
 	return $member_data;
 }
-
-?>

@@ -178,8 +178,35 @@ class Calendar_ListView_Model extends Head_ListView_Model {
 		$moduleFocus = CRMEntity::getInstance($moduleName);
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		require('user_privileges/user_privileges_'.$currentUser->id.'.php');
-		require('user_privileges/sharing_privileges_'.$currentUser->id.'.php');
+  		$get_userdetails = get_privileges($currentUser->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($currentUser->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 		
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');

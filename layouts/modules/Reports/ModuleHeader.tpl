@@ -52,25 +52,28 @@
 		
 			{if $IS_LIST_VIEW}
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                <div class="dropdown-filter" style="width:100%;">
-                                        <button class="btn btn-filter"><i class="fa fa-filter mr10"></i> Lists <i class="fa fa-caret-down ml5"></i> </button>
-                                        <div class="filter-open">
-                                                {include file="modules/Reports/partials/SidebarEssentials.tpl"}
-                                        </div>
-                                </div>
                         </div>
                         {/if}
 
 			<span class="col-lg-7 col-md-7 pull-right">
 				<div id="appnav" class="navbar-right">
+                                <div class="dropdown-filter" style="display:inline-block;">
+                                        <button class="btn btn-filter btn-warning" title="{vtranslate('LBL_FILTER', $MODULE)}">
+					    <i class="fa fa-filter mr10"></i>
+					</button>
+                                        <div class="filter-open">
+                                                {include file="modules/Reports/partials/SidebarEssentials.tpl"}
+                                        </div>
+                                </div>
+
+
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						{if $childLinks && $LISTVIEW_BASICACTION->get('linklabel') == 'LBL_ADD_RECORD'}
 							<span class="btn-group">
-								<button class="btn btn-default dropdown-toggle module-buttons" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
+								<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 									<i class="fa fa-plus"></i>&nbsp;
 									{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}&nbsp;
-									<i class="caret icon-white"></i>
 								</button>
 								<ul class="dropdown-menu">
 									{foreach item="childLink" from=$childLinks}

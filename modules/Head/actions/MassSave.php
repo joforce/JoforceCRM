@@ -22,7 +22,7 @@ class Head_MassSave_Action extends Head_Mass_Action {
 	}
 
 	public function process(Head_Request $request) {
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
 		$moduleName = $request->getModule();
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
@@ -34,7 +34,7 @@ class Head_MassSave_Action extends Head_Mass_Action {
 				$allRecordSave= false;
 			}
 		}
-		vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', false);
+		vglobal('JOFORCE_TIMESTAMP_NO_CHANGE_MODE', false);
 		$response = new Head_Response();
 		if($allRecordSave) {
 			$response->setResult(true);

@@ -224,11 +224,11 @@ class PBXManager_Record_Model extends Head_Record_Model{
             return false;
         }
         
-        $cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+        $cachedModuleFields = CacheUtils::lookupFieldInfo_Module($module);
         if ($cachedModuleFields === false) {
             getColumnFields($module); // This API will initialize the cache as well
             // We will succeed now due to above function call
-            $cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+            $cachedModuleFields = CacheUtils::lookupFieldInfo_Module($module);
         }
 
         $lookuptables = array();
@@ -279,4 +279,3 @@ class PBXManager_Record_Model extends Head_Record_Model{
         return $numbers;
     }
 }
-?>

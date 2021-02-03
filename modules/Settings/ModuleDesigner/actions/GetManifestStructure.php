@@ -147,7 +147,7 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Head_
 		$moduleInstance = Head_Module::getInstance($moduleName);		
 		if(!empty($moduleInstance))
 		{
-			require_once("vtlib/Head/PackageExport.php");	
+			require_once("libraries/modlib/Head/PackageExport.php");	
 			$export = new Head_PackageExport();
 			$export->__initExport($moduleName, $moduleInstance);
 			$export->export_Module($moduleInstance);

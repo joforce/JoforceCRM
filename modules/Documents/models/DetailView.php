@@ -33,7 +33,7 @@ class Documents_DetailView_Model extends Head_DetailView_Model {
                             'linktype' => 'DETAILVIEWBASIC',
                             'linklabel' => 'LBL_VIEW_FILE',
                             'linkicon' => '',
-                            'linkurl' => 'Head_Header_Js.previewFile(event,'.$recordModel->getId().')',
+                            'linkurl' => 'Javascript:Head_Header_Js.previewFile(event,'.$recordModel->getId().');',
                             'filelocationtype' => $recordModel->get('filelocationtype'),
                             'filename' => $recordModel->get('filename'),
                     );

@@ -12,9 +12,9 @@
 //TODO : Eliminate below hacking solution
 include_once 'includes/Webservices/Relation.php';
 
-include_once 'vtlib/Head/Module.php';
+include_once 'libraries/modlib/Head/Module.php';
 include_once dirname(__FILE__) . '/includes/Loader.php';
 
 vimport ('includes.runtime.EntryPoint');
 
-Head_ShortURL_Helper::handle(vtlib_purify($_REQUEST['id']));
+Head_ShortURL_Helper::handle(modlib_purify($_REQUEST['id']));

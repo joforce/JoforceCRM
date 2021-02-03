@@ -12,19 +12,18 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="modules/Head/partials/Topbar.tpl"}
 
-<div class="container-fluid app-nav">
+<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
-        {include file="modules/Settings/Head/SidebarHeader.tpl"}
         {include file="modules/Settings/Head/ModuleHeader.tpl"}
     </div>
 </div>
 </nav>
- <div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
+<div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
         <div class="data">
         </div>
         <div class="modal-dialog">
         </div>
-    </div>
+</div>
 {if $FIELDS_INFO neq null}
     <script type="text/javascript">
         var uimeta = (function() {
@@ -56,20 +55,10 @@
         })();
     </script>
 {/if}
-<script type="text/javascript">
-        $(document).ready(function(){
-                if (document.querySelector('.settingsNav') !== null) {
-            $('.main-container .content-area').css('padding-left','240px');
-        }
-        });
-</script>
 <div class="main-container clearfix">
-	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
-{*+*******		{if !$IS_SETTINGS_INDEX_PAGE}
-        		<div class="module-nav clearfix settingsNav" id="modnavigator">
-		            <div class="hidden-xs hidden-sm height100Per">
-                		{include file="modules/Settings/Head/Sidebar.tpl"}
-		            </div>
-		        </div>
-		{/if}****}
-        <div class="settingsPageDiv content-area clearfix">
+        <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
+            {include file="modules/Head/partials/SidebarAppMenu.tpl"}
+        </div>
+        <div class="quick-panel"></div>
+        <div class="settingsPageDiv content-area clearfix {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="settingsPageContentDiv">
+		<div class="{if $MODULE neq 'Users'}settingsmenu-starts {else} users-menu-starts{/if} col-lg-12 col-md-12 col-sm-12 col-xs-12" id="{if $MODULE neq 'Users'}settingsmenu-starts{else} users-menu-starts{/if}">

@@ -18,6 +18,14 @@ class Head_Kanban_View extends Head_Index_View {
     {
         $viewer = $this->getViewer($request);
         $sourceModule = $request->getModule();
+
+	$pipeline_details = $this->pipeModel->getPipelineDetails('', $sourceModule);
+	if(empty($pipeline_details)) {
+	    $viewer->assign('MESSAGE', vtranslate('No pipeline found'));
+            $viewer->view('OperationNotPermitted.tpl', $sourceModule);
+            exit;
+	}
+
 	$viewer->assign('VIEW' , $request->get('view'));
 	$moduleName = $sourceModule;
 
@@ -34,6 +42,8 @@ class Head_Kanban_View extends Head_Index_View {
         if (empty($sourceModule)) {
             $sourceModule = $request->get('relatedModule');
         }
+	$viewer->assign('MODULE_MODEL', $moduleModel);
+	$viewer->assign('SOURCE_MODULE_MODEL', $moduleModel);
 
 	$viewer->assign('SOURCE_MODULE_NAME', $sourceModule);
 	$viewer->assign('MODULE' , $sourceModule);
@@ -55,7 +65,7 @@ class Head_Kanban_View extends Head_Index_View {
 	$pagingModel = $this->getPagingModal($sourceModule);;
 	$pagingModel->set('page', $pageNumber);
 	$pagingModel->set('viewid', $cvId);
-
+	$pagingModel->set('VIEWID', $cvId);
 	$listViewCount_total = $this->getListViewCount($sourceModule, $cvId);
 	$listViewCount_page =  $this->getPageCountByTotal($listViewCount_total, $sourceModule);
 
@@ -160,14 +170,17 @@ class Head_Kanban_View extends Head_Index_View {
 	$listViewModel = Head_ListView_Model::getInstance($moduleName, $cvId);
 	$pagingModel = $this->getPagingModal($moduleName);
        	$pagingModel->set('page', $pageNumber);
-        $pagingModel->set('viewid', $cvId);
+	$pagingModel->set('viewid', $cvId);
+	$pagingModel->set('VIEWID', $cvId);
 	$pagingModel->set('view_name', 'Kanban');
 	$entries = $listViewModel->getListViewEntries($pagingModel);
 
 	$currency_info = Head_Util_Helper::getUserCurrencyInfo();
 	$currency_symbol = $currency_info['currency_symbol'];
 
+	$viewer->assign('MODULE_MODEL', $moduleModel);
 	$viewer->assign('SOURCE_MODULE_MODEL', $moduleModel);
+	$viewer->assign('MODULE', $moduleName);
 	$viewer->assign('PICKLISTS_VALUES', $currenct_roles_picklist_values);
 	$viewer->assign('SELECTED_MODULE_FIELDS', $pipeline_sel_fields);
         $viewer->assign('SITEURL', $site_URL);

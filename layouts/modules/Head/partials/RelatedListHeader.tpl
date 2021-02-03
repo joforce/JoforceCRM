@@ -43,10 +43,6 @@
         {assign var=CLASS_VIEW_PAGING_INPUT value='relatedViewPagingInput'}
         {assign var=CLASS_VIEW_PAGING_INPUT_SUBMIT value='relatedViewPagingInputSubmit'}
         {assign var=CLASS_VIEW_BASIC_ACTION value='relatedViewBasicAction'}
-        {assign var=PAGING_MODEL value=$PAGING}
-        {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
-        {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-        {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
-    </div>
+   </div>
 </div>
 {/strip}

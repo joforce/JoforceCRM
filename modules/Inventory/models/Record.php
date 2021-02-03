@@ -310,24 +310,25 @@ class Inventory_Record_Model extends Head_Record_Model {
 	 *
 	 */
 	public function getPDFFileName() {
+		global $adb;
+
 		$moduleName = $this->getModuleName();
-		if ($moduleName == 'Quotes') {
-			vimport("~~/modules/$moduleName/QuotePDFController.php");
-			$controllerClassName = "Head_QuotePDFController";
-		} else {
-			vimport("~~/modules/$moduleName/$moduleName" . "PDFController.php");
-			$controllerClassName = "Head_" . $moduleName . "PDFController";
-		}
-
 		$recordId = $this->getId();
-		$controller = new $controllerClassName($moduleName);
-		$controller->loadRecord($recordId);
-
 		$sequenceNo = getModuleSequenceNumber($moduleName,$recordId);
 		$translatedName = vtranslate($moduleName, $moduleName);
 		$filePath = "storage/$translatedName"."_".$sequenceNo.".pdf";
-		//added file name to make it work in IE, also forces the download giving the user the option to save
-		$controller->Output($filePath,'F');
+
+		require_once('modules/PDFMaker/Helper.php');
+                $helperObj = new Helper();
+		$getValue = $adb->pquery('select * from jo_pdfmaker where module = ?', array($moduleName));
+		$count_val = $adb->num_rows($getValue);
+		if($count_val > 0) {
+		    $temp_values = $adb->fetch_array($getValue);
+		    //$settings = $temp_values['settings'];$unserializedValue = unserialize(base64_decode($settings));
+		    $template_id = $temp_values['pdfmakerid'];
+                    $mpdf = $helperObj->convertFieldAndExportPDF($moduleName, $recordId, $template_id, 'detailview_send_mail', '',$filePath);
+		}
+
 		return $filePath;
 	}
 

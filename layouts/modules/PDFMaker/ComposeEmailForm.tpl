@@ -1,6 +1,6 @@
 {strip}
     <div class="SendEmailFormStep2 modal-dialog modal-lg" id="composeEmailContainer">
-        <div class="modal-content increase-width-modal">
+        <div class="modal-content">
             <form class="form-horizontal" id="massEmailForm" method="post" action="index.php" enctype="multipart/form-data" name="massEmailForm">
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE={vtranslate('LBL_COMPOSE_EMAIL', $MODULE)}}
                 <div class="modal-body">
@@ -184,9 +184,9 @@
                 </div>
                 
                 <div class="modal-footer">
-                    <button id="sendEmail" name="sendemail" class="btn btn-secondary" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}" type="submit"><strong>{vtranslate("LBL_SEND_EMAIL",$MODULE)}</strong></button>
-                    <button id="saveDraft" name="savedraft" class="btn btn-secondary" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}" type="submit"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
-                    <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                    <button id="sendEmail" name="sendemail" class="btn btn-primary" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}" type="submit"><strong>{vtranslate("LBL_SEND_EMAIL",$MODULE)}</strong></button>
+                    <button id="saveDraft" name="savedraft" class="btn btn-danger" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}" type="submit"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
+                    <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </div>
             </form>
         </div>

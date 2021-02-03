@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
-<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
+<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
+<script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
 </head>
 
 <body>
@@ -255,7 +255,7 @@ function md_popupSave()
 	//Not allow "name" as fieldname
 	if(o_data.fieldName == 'name')
 	{
-		alert(window.parent.md_vtranslate("LBL_VTIGER_DOESNT_LIKE_NAME"));
+		alert(window.parent.md_vtranslate("LBL_JOFORCE_DOESNT_LIKE_NAME"));
 		return false;
 	}
 

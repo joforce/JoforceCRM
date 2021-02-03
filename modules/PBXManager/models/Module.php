@@ -53,12 +53,12 @@ class PBXManager_Module_Model extends Head_Module_Model {
 		$settingsLinks = array();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if($currentUser->isAdminUser()) {
-			vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
+			vimport('~~modules/Workflow/WorkflowUtils.php');
 
 			$layoutEditorImagePath = Head_Theme::getImagePath('LayoutEditor.gif');
 			$editWorkflowsImagePath = Head_Theme::getImagePath('EditWorkflows.png');
 
-			if(VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+			if(WorkflowUtils::checkModuleWorkflow($this->getName())) {
 				$settingsLinks[] = array(
 						'linktype' => 'LISTVIEWSETTING',
 						'linklabel' => 'LBL_EDIT_WORKFLOWS',

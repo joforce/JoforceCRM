@@ -9,7 +9,7 @@
 
 {strip}
 	<div class="listViewPageDiv" id="listViewContent">
-		<div class="col-sm-12 col-xs-12 full-height joforce-bg">
+		<div class="col-sm-12 col-xs-12 full-height">
 			<div id="listview-actions" class="listview-actions-container">
 				<div class = "row">
 					<div class='col-md-9' style="padding-top: 5px">

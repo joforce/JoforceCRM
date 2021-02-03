@@ -31,6 +31,11 @@ class RecycleBin_List_View extends Head_Index_View {
                 $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
 		$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
 
+		$userCurrencyInfo = getCurrencySymbolandCRate($current_user->currency_id);
+                $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+                //Get User Notifications
+		$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
+
 		$moduleName = $request->getModule();
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
@@ -119,12 +124,12 @@ class RecycleBin_List_View extends Head_Index_View {
 
 		if($sortOrder == "ASC"){
 			$nextSortOrder = "DESC";
-			$sortImage = "icon-chevron-down";
-			$faSortImage = "fa-sort-desc";
+			$sortImage = downsortImage;
+			$faSortImage = downfaSortImage;
 		}else{
 			$nextSortOrder = "ASC";
-			$sortImage = "icon-chevron-up";
-			$faSortImage = "fa-sort-asc";
+			$sortImage = upsortImage;
+			$faSortImage = upfaSortImage;
 		}
 
 		if(empty ($pageNumber)){
@@ -209,6 +214,7 @@ class RecycleBin_List_View extends Head_Index_View {
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('NO_SEARCH_PARAMS_CACHE', $request->get('nolistcache'));
 		$viewer->assign('FASORT_IMAGE',$faSortImage);
+		$viewer->assign('DEFAULT_SORT',defaultfaSortImage);
 
 		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if(!$this->listViewCount){

@@ -97,7 +97,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Head_Index_View 
 	public function step3(Head_Request $request) {
 		$viewer = $this->getViewer($request);
 		global $Head_Utils_Log;
-		$viewer->assign('VTIGER_UTILS_LOG', $Head_Utils_Log);
+		$viewer->assign('JOFORCE_UTILS_LOG', $Head_Utils_Log);
 		$Head_Utils_Log = true;
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -178,7 +178,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Head_Index_View 
 				unlink($uploadFileName);
 			} else {
 				// We need these information to push for Update if module is detected to be present.
-				$moduleLicence = vtlib_purify($package->getLicense());
+				$moduleLicence = modlib_purify($package->getLicense());
 
 				$viewer->assign("MODULEIMPORT_FILE", $uploadFile);
 				$viewer->assign("MODULEIMPORT_TYPE", $package->type());

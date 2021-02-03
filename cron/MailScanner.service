@@ -62,7 +62,7 @@ $debug = true;
 if(isset($_REQUEST['scannername'])) {
 	
 	// Target scannername specified?	
-	$scannername = vtlib_purify($_REQUEST['scannername']);
+	$scannername = modlib_purify($_REQUEST['scannername']);
 	$scannerinfo = new Head_MailScannerInfo($scannername);
 	
 	service_MailScanner_performScanNow($scannerinfo, $debug);

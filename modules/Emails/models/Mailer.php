@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-include_once 'vtlib/Head/Mailer.php';
+include_once 'libraries/modlib/Head/Mailer.php';
 include_once 'includes/simplehtmldom/simple_html_dom.php';
 include_once 'libraries/InStyle/InStyle.php';
 include_once 'libraries/ToAscii/ToAscii.php';

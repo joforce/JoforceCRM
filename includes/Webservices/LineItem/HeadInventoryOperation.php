@@ -15,24 +15,26 @@ require_once 'includes/Webservices/Utils.php';
 /**
  * Description of HeadInventoryOperation
  */
-class HeadInventoryOperation extends HeadModuleOperation {
+class HeadInventoryOperation extends HeadModuleOperation
+{
 	public static $CREATE_OPERATI0N;
 
-	public function create($elementType, $element) {
+	public function create($elementType, $element)
+	{
 		self::$CREATE_OPERATI0N = true;
 		$element = $this->sanitizeInventoryForInsert($element);
 		$element = $this->sanitizeShippingTaxes($element);
 		$lineItems = $element['LineItems'];
 		if (!empty($lineItems)) {
-			$eventManager = new VTEventsManager(vglobal('adb'));
-			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$eventManager = new EventsManager(vglobal('adb'));
+			$sanitizedData = DataTransform::sanitizeForInsert($element, $this->meta);
 			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
 
-			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+			$currentBulkSaveMode = vglobal('JOFORCE_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
 			}
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			vglobal('JOFORCE_BULK_SAVE_MODE', true);
 			global $currentModule;
 			$currentModule = $elementType;
 
@@ -40,7 +42,7 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$focus = CRMEntity::getInstance($elementType);
 			$focus->updateMissingSeqNumber($elementType);
 
-			vglobal('VTIGER_BULK_SAVE_MODE', $currentBulkSaveMode);
+			vglobal('JOFORCE_BULK_SAVE_MODE', $currentBulkSaveMode);
 
 			$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
 			$handler->setLineItems('LineItem', $lineItems, $element);
@@ -62,35 +64,35 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$this->triggerAfterSaveEvents($parent, $eventManager);
 
 			vglobal('updateInventoryProductRel_deduct_stock', $currentValue);
-
 		} else {
 			throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING, "Mandatory Fields Missing..");
 		}
-		return array_merge($element,$parent);
+		return array_merge($element, $parent);
 	}
 
-	public function update($element) {
+	public function update($element)
+	{
 		$element = $this->sanitizeInventoryForInsert($element);
 		$element = $this->sanitizeShippingTaxes($element);
 		$lineItemList = $element['LineItems'];
 		$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
 		if (!empty($lineItemList)) {
-			$eventManager = new VTEventsManager(vglobal('adb'));
-			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$eventManager = new EventsManager(vglobal('adb'));
+			$sanitizedData = DataTransform::sanitizeForInsert($element, $this->meta);
 			$sanitizedData['id'] = $element['id'];
 			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
 			unset($sanitizedData['id']);
 
-			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+			$currentBulkSaveMode = vglobal('JOFORCE_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
 			}
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			vglobal('JOFORCE_BULK_SAVE_MODE', true);
 			global $currentModule;
 			$currentModule = getTabname($this->tabId);
 
 			$updatedElement = parent::update($element);
-			vglobal('VTIGER_BULK_SAVE_MODE', $currentBulkSaveMode);
+			vglobal('JOFORCE_BULK_SAVE_MODE', $currentBulkSaveMode);
 
 			$handler->setLineItems('LineItem', $lineItemList, $updatedElement);
 			$parent = $handler->getParentById($element['id']);
@@ -100,7 +102,7 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$parent['hdnSubTotal'] = $updatedParent['hdnSubTotal'];
 			$parent['hdnGrandTotal'] = $updatedParent['hdnGrandTotal'];
 			$parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
-			$updatedElement = array_merge($updatedElement,$parent);
+			$updatedElement = array_merge($updatedElement, $parent);
 
 			$currentValue = vglobal('updateInventoryProductRel_deduct_stock');
 			vglobal('updateInventoryProductRel_deduct_stock', false);
@@ -109,16 +111,16 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$updateInventoryProductRel_update_product_array = array();
 			$this->triggerAfterSaveEvents($updatedElement, $eventManager);
 
-			vglobal('updateInventoryProductRel_update_product_array',$original_update_product_array);
+			vglobal('updateInventoryProductRel_update_product_array', $original_update_product_array);
 			vglobal('updateInventoryProductRel_deduct_stock', $currentValue);
-
 		} else {
 			$updatedElement = $this->revise($element);
 		}
 		return $updatedElement;
 	}
 
-	public function revise($element) {
+	public function revise($element)
+	{
 		$element = $this->sanitizeInventoryForInsert($element);
 		$element = $this->sanitizeShippingTaxes($element);
 		$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
@@ -129,19 +131,19 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$lineItemList = $element['LineItems'];
 			unset($element['LineItems']);
 
-			$eventManager = new VTEventsManager(vglobal('adb'));
-			$sanitizedData = DataTransform::sanitizeForInsert($element,$this->meta);
+			$eventManager = new EventsManager(vglobal('adb'));
+			$sanitizedData = DataTransform::sanitizeForInsert($element, $this->meta);
 			$sanitizedData['id'] = $element['id'];
 			$this->triggerBeforeSaveEvents($sanitizedData, $eventManager);
 			unset($sanitizedData['id']);
-			$currentBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+			$currentBulkSaveMode = vglobal('JOFORCE_BULK_SAVE_MODE');
 			if ($currentBulkSaveMode === NULL) {
 				$currentBulkSaveMode = false;
 			}
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			vglobal('JOFORCE_BULK_SAVE_MODE', true);
 
 			$updatedElement = parent::revise($element);
-			vglobal('VTIGER_BULK_SAVE_MODE', $currentBulkSaveMode);
+			vglobal('JOFORCE_BULK_SAVE_MODE', $currentBulkSaveMode);
 
 			$handler->setLineItems('LineItem', $lineItemList, $updatedElement);
 			$parent = $handler->getParentById($element['id']);
@@ -153,7 +155,7 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
 			$parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
 
-			$updatedElement = array_merge($updatedElement,$parent);
+			$updatedElement = array_merge($updatedElement, $parent);
 			$currentValue = vglobal('updateInventoryProductRel_deduct_stock');
 			vglobal('updateInventoryProductRel_deduct_stock', false);
 			$original_update_product_array = vglobal('updateInventoryProductRel_update_product_array');
@@ -161,7 +163,7 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$updateInventoryProductRel_update_product_array = array();
 			$this->triggerAfterSaveEvents($updatedElement, $eventManager);
 
-			vglobal('updateInventoryProductRel_update_product_array',$original_update_product_array);
+			vglobal('updateInventoryProductRel_update_product_array', $original_update_product_array);
 			vglobal('updateInventoryProductRel_deduct_stock', $currentValue);
 		} else {
 			$prevAction = $_REQUEST['action'];
@@ -175,10 +177,11 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$_REQUEST['action'] = $prevAction;
 			$parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
 		}
-		return array_merge($element,$parent);
+		return array_merge($element, $parent);
 	}
 
-	public function retrieve($id) {
+	public function retrieve($id)
+	{
 		$element = parent::retrieve($id);
 		$chargesElement = $this->getChargesElement($element['id']);
 		$element = array_merge($element, $chargesElement);
@@ -200,16 +203,18 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		return $element;
 	}
 
-		public function getLineItemFinalDetails($record) {
-			$finalDetails = array();
-			$recordModel = Inventory_Record_Model::getInstanceById($record);
-			if($recordModel) {
-				$finalDetails = $recordModel->getProducts();
-			}
-			return $finalDetails;
+	public function getLineItemFinalDetails($record)
+	{
+		$finalDetails = array();
+		$recordModel = Inventory_Record_Model::getInstanceById($record);
+		if ($recordModel) {
+			$finalDetails = $recordModel->getProducts();
+		}
+		return $finalDetails;
 	}
 
-	public function delete($id) {
+	public function delete($id)
+	{
 		$components = vtws_getIdComponents($id);
 		$parentId = $components[1];
 		$handler = vtws_getModuleHandlerFromName('LineItem', $this->user);
@@ -223,7 +228,8 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param type $element
 	 * @return type
 	 */
-	protected function sanitizeInventoryForInsert($element) {
+	protected function sanitizeInventoryForInsert($element)
+	{
 
 		if (!$element['hdnTaxType']) {
 			$element['hdnTaxType'] = Inventory_TaxRecord_Model::getSelectedDefaultTaxMode();
@@ -279,14 +285,15 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$productIdComponents = vtws_getIdComponents($lineItem['productid']);
 			$productId = $productIdComponents[1];
 
-			$_REQUEST['hdnProductId'.$i] = $productId;
-			$_REQUEST['qty'.$i] = $lineItem['quantity'];
+			$_REQUEST['hdnProductId' . $i] = $productId;
+			$_REQUEST['qty' . $i] = $lineItem['quantity'];
 			$i++;
 		}
 		return $element;
 	}
 
-	public function sanitizeShippingTaxes($element){
+	public function sanitizeShippingTaxes($element)
+	{
 		$subTotal = (float)$element['hdnSubTotal'];
 		$overallDiscountAmount = $element['hdnDiscountAmount'];
 		if ($element['hdnDiscountPercent']) {
@@ -321,7 +328,7 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			}
 
 			foreach ($chargeInfo['taxes'] as $taxId) {
-				$taxKey = $chargeName."_shtax$taxId";
+				$taxKey = $chargeName . "_shtax$taxId";
 				if (array_key_exists($taxKey, $element) && $shippingTaxes[$taxId]) {
 					$_REQUEST['charges'][$chargeId]['taxes'][$taxId] = $element[$taxKey];
 				}
@@ -335,13 +342,13 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$_REQUEST['shipping_handling_charge'] = $_REQUEST['charges'][1]['value'] = $element['hdnS_H_Amount'];
 			foreach ($shippingTaxes as $shTaxId => $shTaxInfo) {
 				unset($_REQUEST['charges'][1]['taxes'][$shTaxId]);
-				if(isset($element['hdnS_H_Percent']) && $element['hdnS_H_Percent'] != 0 && $element['hdnS_H_Amount'] != 0) {
+				if (isset($element['hdnS_H_Percent']) && $element['hdnS_H_Percent'] != 0 && $element['hdnS_H_Amount'] != 0) {
 					$_REQUEST['charges'][1]['taxes'][$shTaxId] = $element['hdnS_H_Percent'];
-					$_REQUEST['s_h_percent'] = ($element['hdnS_H_Amount'] * $element['hdnS_H_Percent'])/100;
+					$_REQUEST['s_h_percent'] = ($element['hdnS_H_Amount'] * $element['hdnS_H_Percent']) / 100;
 					break;
 				} else {
 					$shTaxValue = 0;
-					if(isset($element[$shTaxInfo['taxname'] . '_sh_percent'])) {
+					if (isset($element[$shTaxInfo['taxname'] . '_sh_percent'])) {
 						$shTaxValue = $element[$shTaxInfo['taxname'] . '_sh_percent'];
 					}
 					$_REQUEST['charges'][1]['taxes'][$shTaxId] = $shTaxValue;
@@ -353,11 +360,12 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	}
 	/* NOTE: Special case to pull the default setting of TermsAndCondition */
 
-	public function describe($elementType) {
+	public function describe($elementType)
+	{
 		$describe = parent::describe($elementType);
 		$tandc = getTermsAndConditions($elementType);
-		foreach ($describe['fields'] as $key => $list){
-			if($list["name"] == 'terms_conditions'){
+		foreach ($describe['fields'] as $key => $list) {
+			if ($list["name"] == 'terms_conditions') {
 				$describe['fields'][$key]['default'] = $tandc;
 			}
 		}
@@ -377,23 +385,22 @@ class HeadInventoryOperation extends HeadModuleOperation {
 			$chargeField['mandatory']	= false;
 			$chargeField['nullable']	= true;
 			$chargeField['editable']	= true;
-			$chargeField['default']		= ($chargeInfo['format'] === 'Percent') ? $chargeInfo['value'].'%' : $chargeInfo['value'];
+			$chargeField['default']		= ($chargeInfo['format'] === 'Percent') ? $chargeInfo['value'] . '%' : $chargeInfo['value'];
 
 			$describe['fields'][] = $chargeField;
 
 			foreach ($chargeInfo['taxes'] as $shTaxId) {
 				$shTaxField = array();
-				$shTaxField['name']		= $chargeField['name'].'_'.$shippingTaxes[$shTaxId]['taxname'];
-				$shTaxField['label']	= $chargeInfo['name'].' '.$shippingTaxes[$shTaxId]['taxlabel'];
+				$shTaxField['name']		= $chargeField['name'] . '_' . $shippingTaxes[$shTaxId]['taxname'];
+				$shTaxField['label']	= $chargeInfo['name'] . ' ' . $shippingTaxes[$shTaxId]['taxlabel'];
 				$shTaxField['default']	= $shippingTaxes[$shTaxId]['percentage'];
 				$shTaxField['type']		= array('name' => 'double');
 				$shTaxField['nullable']	= true;
 				$shTaxField['editable']	= true;
-				$shTaxField['mandatory']= false;
+				$shTaxField['mandatory'] = false;
 
 				$describe['fields'][]	= $shTaxField;
 			}
-
 		}
 
 		return $describe;
@@ -404,14 +411,15 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param <type> $element
 	 * @param <type> $eventManager
 	 */
-	public function triggerBeforeSaveEvents($element, $eventManager) {
-		global $VTIGER_BULK_SAVE_MODE;
+	public function triggerBeforeSaveEvents($element, $eventManager)
+	{
+		global $JOFORCE_BULK_SAVE_MODE;
 		if ($eventManager) {
 			$eventManager->initTriggerCache();
 			$focusObj = $this->constructFocusObject($element);
-			$entityData = VTEntityData::fromCRMEntity($focusObj);
+			$entityData = EntityData::fromCRMEntity($focusObj);
 
-			if (!$VTIGER_BULK_SAVE_MODE) {
+			if (!$JOFORCE_BULK_SAVE_MODE) {
 				$eventManager->triggerEvent("jo.entity.beforesave.modifiable", $entityData);
 				$eventManager->triggerEvent("jo.entity.beforesave", $entityData);
 				$eventManager->triggerEvent("jo.entity.beforesave.final", $entityData);
@@ -424,15 +432,16 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param <type> $element
 	 * @param <type> $eventManager
 	 */
-	public function triggerAfterSaveEvents($element, $eventManager) {
-		global $VTIGER_BULK_SAVE_MODE;
+	public function triggerAfterSaveEvents($element, $eventManager)
+	{
+		global $JOFORCE_BULK_SAVE_MODE;
 		if ($eventManager) {
 			$focusObj = $this->constructFocusObject($element);
 			if (isset($element['new']) && $element['new'] == true) {
 				$focusObj->newDelta = true;
 			}
-			$entityData = VTEntityData::fromCRMEntity($focusObj);
-			if (!$VTIGER_BULK_SAVE_MODE) {
+			$entityData = EntityData::fromCRMEntity($focusObj);
+			if (!$JOFORCE_BULK_SAVE_MODE) {
 
 				$eventManager->triggerEvent("jo.entity.aftersave", $entityData);
 				$eventManager->triggerEvent("jo.entity.aftersave.final", $entityData);
@@ -446,16 +455,17 @@ class HeadInventoryOperation extends HeadModuleOperation {
 	 * @param <type> $action
 	 * @return <type>
 	 */
-	public function constructFocusObject($element) {
+	public function constructFocusObject($element)
+	{
 
 		$focus = CRMEntity::getInstance($this->getMeta()->getTabName());
 		$fields = $focus->column_fields;
 
-		foreach($fields as $fieldName => $fieldValue) {
+		foreach ($fields as $fieldName => $fieldValue) {
 			$fieldValue = $element[$fieldName];
-			if(is_array($fieldValue)) {
+			if (is_array($fieldValue)) {
 				$focus->column_fields[$fieldName] = $fieldValue;
-			} else if($fieldValue !== null) {
+			} else if ($fieldValue !== null) {
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
@@ -465,7 +475,8 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		return $focus;
 	}
 
-	public function getChargesElement($elementId) {
+	public function getChargesElement($elementId)
+	{
 		$chargesElement = array();
 		if ($elementId) {
 			$ids = vtws_getIdComponents($elementId);
@@ -487,14 +498,14 @@ class HeadInventoryOperation extends HeadModuleOperation {
 
 					$chargeValue = $chargeInfo['value'];
 					if (array_key_exists('percent', $chargeInfo)) {
-						$chargeValue = $chargeInfo['percent'].'%';
+						$chargeValue = $chargeInfo['percent'] . '%';
 					}
 					$chargesElement[$chargeName] = $chargeValue;
 
 					if ($chargeInfo['taxes']) {
 						foreach ($chargeInfo['taxes'] as $taxId => $taxPercent) {
 							if ($shippingTaxes[$taxId]) {
-								$chargesElement[$chargeName.'_shtax'.$taxId] = $taxPercent;
+								$chargesElement[$chargeName . '_shtax' . $taxId] = $taxPercent;
 							}
 						}
 					}
@@ -504,7 +515,8 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		return $chargesElement;
 	}
 
-	public function getCompoundTaxesElement($element, $lineItems) {
+	public function getCompoundTaxesElement($element, $lineItems)
+	{
 		$idComponents = vtws_getIdComponents($element['id']);
 		$recordId = $idComponents[1];
 		$compoundTaxesElement = array();
@@ -531,7 +543,4 @@ class HeadInventoryOperation extends HeadModuleOperation {
 		$compoundTaxesElement['LineItems'] = $lineItems;
 		return $compoundTaxesElement;
 	}
-
 }
-
-?>

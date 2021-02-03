@@ -9,9 +9,11 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
+class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View
+{
 
-	public function process(Head_Request $request) {
+	public function process(Head_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -20,7 +22,6 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 
 		$recordId = $request->get('task_id');
 		$workflowId = $request->get('for_workflow');
-
 		if ($workflowId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 			$selectedModule = $workflowModel->getModule();
@@ -32,21 +33,21 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 		}
 
 		$taskTypes = $workflowModel->getTaskTypes();
-		if($recordId) {
+		if ($recordId) {
 			$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($recordId);
 		} else {
 			$taskType = $request->get('type');
-			if(empty($taskType)) {
-				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
+			if (empty($taskType)) {
+				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'EmailTask';
 			}
 			$taskModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $taskType);
-			if(!empty($taskData)) {
+			if (!empty($taskData)) {
 				$taskModel->set('summary', $taskData['summary']);
 				$taskModel->set('status', $taskData['status']);
 				$taskModel->set('tmpTaskId', $taskData['tmpTaskId']);
 				$taskModel->set('active', $taskData['active']);
 				$tmpTaskObject = $taskModel->getTaskObject();
-				foreach ($taskData as $key => $value){
+				foreach ($taskData as $key => $value) {
 					$tmpTaskObject->$key = $value;
 				}
 				$taskModel->setTaskObject($tmpTaskObject);
@@ -57,8 +58,10 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 		$viewer->assign('TASK_TYPE_MODEL', $taskTypeModel);
 
 		$viewer->assign('TASK_TEMPLATE_PATH', $taskTypeModel->getTemplatePath());
-		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workflowModel,
-																			Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDITTASK);
+		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule(
+			$workflowModel,
+			Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDITTASK
+		);
 		$recordStructureInstance->setTaskRecordModel($taskModel);
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
@@ -70,7 +73,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
 
-		if ($taskType === 'VTCreateEntityTask') {
+		if ($taskType === 'CreateEntityTask') {
 			if ($taskObject->entity_type && getTabid($taskObject->entity_type)) {
 				$relationModuleModel = Head_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
@@ -78,52 +81,53 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 				$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						if(!empty($mappingInfo['value'])){
-							if(is_numeric($mappingInfo['value'])) {
+						if (!empty($mappingInfo['value'])) {
+							if (is_numeric($mappingInfo['value'])) {
 								$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
-							}else{
+							} else {
 								$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
 							}
 						}
 
 						if ($userRecordModel) {
 							$ownerName = $userRecordModel->getId();
-						} else if(!empty ($mappingInfo['value'])) {
+						} else if (!empty($mappingInfo['value'])) {
 							$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
 							$ownerName = $groupRecordModel->getId();
 						}
 
-						if(!empty($mappingInfo['value']))
+						if (!empty($mappingInfo['value']))
 							$fieldMapping[$key]['value'] = $ownerName;
 					}
 				}
 				$taskObject->field_value_mapping = json_encode($fieldMapping, JSON_HEX_APOS);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask') {
-			if($moduleModel->getName() =="Documents"){
-				$restrictFields=array('folderid','filename','filelocationtype'); 
-				$viewer->assign('RESTRICTFIELDS',$restrictFields); 
+		if ($taskType === 'UpdateFieldsTask') {
+			if ($moduleModel->getName() == "Documents") {
+				$restrictFields = array('folderid', 'filename', 'filelocationtype');
+				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
 		}
 
-		$viewer->assign('SOURCE_MODULE',$moduleModel->getName());
+		$viewer->assign('SOURCE_MODULE', $moduleModel->getName());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('TASK_ID',$recordId);
-		$viewer->assign('WORKFLOW_ID',$workflowId);
+		$viewer->assign('TASK_ID', $recordId);
+		$viewer->assign('WORKFLOW_ID', $workflowId);
+
 		$viewer->assign('DATETIME_FIELDS', $dateTimeFields);
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		$viewer->assign('TASK_TYPES', $taskTypes);
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$metaVariables = Settings_Workflows_Module_Model::getMetaVariables();
-		if($moduleModel->getName() == 'Invoice' || $moduleModel->getName() == 'Quotes') {
+		if ($moduleModel->getName() == 'Invoice' || $moduleModel->getName() == 'Quotes') {
 			$metaVariables['Portal Pdf Url'] = '(general : (__HeadMeta__) portalpdfurl)';
 		}
 
-		foreach($metaVariables as $variableName => $variableValue) {
-			if(strpos(strtolower($variableName), 'url') !== false) {
-				$metaVariables[$variableName] = "<a href='$".$variableValue."'>".vtranslate($variableName, $qualifiedModuleName).'</a>';
+		foreach ($metaVariables as $variableName => $variableValue) {
+			if (strpos(strtolower($variableName), 'url') !== false) {
+				$metaVariables[$variableName] = "<a href='$" . $variableValue . "'>" . vtranslate($variableName, $qualifiedModuleName) . '</a>';
 			}
 		}
 		// Adding option Line Item block for Individual tax mode
@@ -144,50 +148,50 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
 		$repeat_date = $taskModel->getTaskObject()->calendar_repeat_limit_date;
-		if(!empty ($repeat_date)){
+		if (!empty($repeat_date)) {
 			$repeat_date = Head_Date_UIType::getDisplayDateValue($repeat_date);
 		}
-		$viewer->assign('REPEAT_DATE',$repeat_date);
+		$viewer->assign('REPEAT_DATE', $repeat_date);
 
 		$userModel = Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('dateFormat',$userModel->get('date_format'));
+		$viewer->assign('dateFormat', $userModel->get('date_format'));
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
 		$emailFields = $recordStructureInstance->getAllEmailFields();
-		foreach($emailFields as $metaKey => $emailField) {
-			$emailFieldoptions .= '<option value=",$'.$metaKey.'">'.$emailField->get('workflow_columnlabel').'</option>';
+		foreach ($emailFields as $metaKey => $emailField) {
+			$emailFieldoptions .= '<option value=",$' . $metaKey . '">' . $emailField->get('workflow_columnlabel') . '</option>';
 		}
 		$usersModuleModel = Head_Module_Model::getInstance('Users');
 
-		if($moduleModel->getField('assigned_user_id')) {
-			$emailFieldoptions .= '<option value=",$(general : (__HeadMeta__) reports_to_id)"> '.
-									vtranslate($moduleModel->getField('assigned_user_id')->get('label'),'Users').' : (' . vtranslate('Users','Users') . ') '. vtranslate($usersModuleModel->getField('reports_to_id')->get('label'),'Users') .'</option>';
+		if ($moduleModel->getField('assigned_user_id')) {
+			$emailFieldoptions .= '<option value=",$(general : (__HeadMeta__) reports_to_id)"> ' .
+				vtranslate($moduleModel->getField('assigned_user_id')->get('label'), 'Users') . ' : (' . vtranslate('Users', 'Users') . ') ' . vtranslate($usersModuleModel->getField('reports_to_id')->get('label'), 'Users') . '</option>';
 		}
 
 		$nameFields = $recordStructureInstance->getNameFields();
-		$fromEmailFieldOptions = '<option value="">'. vtranslate('ENTER_FROM_EMAIL_ADDRESS', $qualifiedModuleName) .'</option>';
+		$fromEmailFieldOptions = '<option value="">' . vtranslate('ENTER_FROM_EMAIL_ADDRESS', $qualifiedModuleName) . '</option>';
 		$fromEmailFieldOptions .= '<option value="$(general : (__HeadMeta__) supportName)<$(general : (__HeadMeta__) supportEmailId)>"
-									>'.vtranslate('LBL_HELPDESK_SUPPORT_EMAILID', $qualifiedModuleName).
-									'</option>';
+									>' . vtranslate('LBL_HELPDESK_SUPPORT_EMAILID', $qualifiedModuleName) .
+			'</option>';
 
-		foreach($emailFields as $metaKey => $emailField) {
+		foreach ($emailFields as $metaKey => $emailField) {
 			list($relationFieldName, $rest) = explode(' ', $metaKey);
-			$value = '<$'.$metaKey.'>';
+			$value = '<$' . $metaKey . '>';
 
 			if ($nameFields) {
 				$nameFieldValues = '';
-					foreach (array_keys($nameFields) as $fieldName) {
+				foreach (array_keys($nameFields) as $fieldName) {
 					if (strstr($fieldName, $relationFieldName) || (count(explode(' ', $metaKey)) === 1 && count(explode(' ', $fieldName)) === 1)) {
-						$fieldName = '$'.$fieldName;
-						$nameFieldValues .= ' '.$fieldName;
+						$fieldName = '$' . $fieldName;
+						$nameFieldValues .= ' ' . $fieldName;
 					}
 				}
-				$value = trim($nameFieldValues).$value;
+				$value = trim($nameFieldValues) . $value;
 			}
 			if ($emailField->get('uitype') != '13') {
-				$fromEmailFieldOptions .= '<option value="'.$value.'">'.$emailField->get('workflow_columnlabel').'</option>';
+				$fromEmailFieldOptions .= '<option value="' . $value . '">' . $emailField->get('workflow_columnlabel') . '</option>';
 			}
 		}
 
@@ -196,10 +200,10 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 			foreach ($fields as $field) {
 				if ($field->get('workflow_pt_lineitem_field')) {
 					$allFieldoptions .= '<option value="' . $field->get('workflow_columnname') . '">' .
-							$field->get('workflow_columnlabel') . '</option>';
+						$field->get('workflow_columnlabel') . '</option>';
 				} else {
 					$allFieldoptions .= '<option value="$' . $field->get('workflow_columnname') . '">' .
-							$field->get('workflow_columnlabel') . '</option>';
+						$field->get('workflow_columnlabel') . '</option>';
 				}
 			}
 		}
@@ -210,18 +214,18 @@ class Settings_Workflows_EditV7Task_View extends Settings_Head_Index_View {
 		$assignedToValues[vtranslate('LBL_USERS', 'Head')] = $userList;
 		$assignedToValues[vtranslate('LBL_GROUPS', 'Head')] = $groupList;
 
-		if($taskType == 'VTEmailTask') {
+		if ($taskType == 'EmailTask') {
 			$worflowModuleName = $workflowModel->get('module_name');
 			$emailTemplates = EmailTemplates_Record_Model::getAllForEmailTask($worflowModuleName);
-			if(!empty($emailTemplates)) {
-				$viewer->assign('EMAIL_TEMPLATES',$emailTemplates);
+			if (!empty($emailTemplates)) {
+				$viewer->assign('EMAIL_TEMPLATES', $emailTemplates);
 			}
 		}
 
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);
 		$viewer->assign('EMAIL_FIELD_OPTION', $emailFieldoptions);
 		$viewer->assign('FROM_EMAIL_FIELD_OPTION', $fromEmailFieldOptions);
-		$viewer->assign('ALL_FIELD_OPTIONS',$allFieldoptions);
+		$viewer->assign('ALL_FIELD_OPTIONS', $allFieldoptions);
 		$viewer->view('EditTask.tpl', $qualifiedModuleName);
 	}
 }

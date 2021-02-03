@@ -10,7 +10,9 @@
 
 <div class="table-actions">
         {if $MODULE_MODEL->isFilterColumnEnabled()}
-        <div id="listColumnFilterContainer" style="float:left;">
+        <div id="listColumnFilterContainer">
+		 <i class="fa fa-search cursorPointer" id="joforce-table-search" style="{if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
+
                 <div class="listColumnFilter {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}disabled{/if}"  
                         {if $CURRENT_CV_MODEL->isCvEditable()}
                                 title="{vtranslate('LBL_CLICK_HERE_TO_MANAGE_LIST_COLUMNS',$MODULE)}"
@@ -28,7 +30,6 @@
                                 {if $MODULE eq 'Documents'}style="width: 10%;"{/if}
                                         data-toggle="tooltip" data-placement="bottom" data-container="body"><i class="fa fa-th-large"></i>
                  </div>
-		 <i class="fa fa-search cursorPointer" id="joforce-table-search" style="float:right;margin-left:25px;{if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
         </div>
         {/if}
 </div>

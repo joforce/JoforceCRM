@@ -1,6 +1,6 @@
 <?php
 require_once('includes/utils/utils.php');
-require_once 'vtlib/Head/Module.php';
+require_once 'libraries/modlib/Head/Module.php';
 require_once dirname(__FILE__) .'/ModTracker.php';
 class ModTrackerUtils
 {

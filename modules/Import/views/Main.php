@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-require_once 'vtlib/Head/Cron.php';
+require_once 'libraries/modlib/Head/Cron.php';
 
 class Import_Main_View extends Head_View_Controller{
 
@@ -116,6 +116,7 @@ class Import_Main_View extends Head_View_Controller{
 	}
 
 	public static function showResult($importInfo, $importStatusCount) {
+		global $site_URL;
 		$moduleName = $importInfo['module'];
 		$ownerId = $importInfo['user_id'];
 
@@ -130,6 +131,7 @@ class Import_Main_View extends Head_View_Controller{
 		array_push($inventoryModules, 'Users');
 		$viewer->assign('INVENTORY_MODULES', $inventoryModules);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
+		$viewer->assign('SITEURL', $site_URL);
 
 		$viewer->view('ImportResult.tpl', 'Import');
 	}

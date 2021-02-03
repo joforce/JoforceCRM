@@ -7,7 +7,7 @@
  * ********************************************************************************** */
 class AddressLookup 
 {
-	public function vtlib_handler($moduleName, $eventType)
+	public function modlib_handler($moduleName, $eventType)
 	{
 		global $adb;
 		if ($eventType == 'module.postinstall') {

@@ -387,7 +387,7 @@ jQuery.Class("Head_Popup_Js",{
 	},
     
 	done : function(result, eventToTrigger, window){
-	    if (eventToTrigger.indexOf('postSelection') > -1){
+/*	    if (eventToTrigger.indexOf('postSelection') > -1){
 		if(typeof eventToTrigger == 'undefined' || eventToTrigger.length <=0 ) {
 		    eventToTrigger = 'postSelection'
 		}
@@ -411,7 +411,17 @@ jQuery.Class("Head_Popup_Js",{
            	    app.event.trigger(event, JSON.stringify(result));
         	}
         	app.helper.hidePopup();
-	    }
+	    }*/
+		        var event = "post.popupSelection.click";
+        if(typeof eventToTrigger !== 'undefined'){
+            event = eventToTrigger;
+        }
+        if(typeof event == 'function') {
+            event(JSON.stringify(result));
+        } else {
+            app.event.trigger(event, JSON.stringify(result));
+        }
+        app.helper.hidePopup();
     },
     
     showPopup : function(params,eventToTrigger,callback) {

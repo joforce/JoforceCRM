@@ -17,9 +17,12 @@
 {if (!$FIELD_NAME)}
   {assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 {/if}
-<div class="input-group" style="margin-bottom: 3px">
-<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="inputElement dateField form-control {if $IGNOREUIREGISTRATION}ignore-ui-registration{/if}" data-fieldname="{$FIELD_NAME}" data-fieldtype="date" name="{$FIELD_NAME}" data-date-format="{$dateFormat}"
-    value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
+{assign var=value value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
+
+<div class="input-group">
+<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="inputElement dateField form-control {if $IGNOREUIREGISTRATION}ignore-ui-registration{/if}" data-fieldname="{$FIELD_NAME}" data-fieldtype="date" name="{$FIELD_NAME}" data-date-format="{$dateFormat}" 
+	{if empty($value)}placeholder="{$dateFormat}" {else}
+    value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {/if}  {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
     {if $MODE eq 'edit' && $FIELD_NAME eq 'due_date'} data-user-changed-time="true" {/if}
     {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
     {if count($FIELD_INFO['validator'])}

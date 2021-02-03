@@ -15,7 +15,7 @@
     {assign var=CLASS_VIEW_PAGING_INPUT_SUBMIT value='listViewPagingInputSubmit'}
     {assign var=CLASS_VIEW_BASIC_ACTION value='listViewBasicAction'}
 {/if}
-<div class = "{$CLASS_VIEW_ACTION} row">
+<div class = "{$CLASS_VIEW_ACTION}">
     <div class="btn-group pull-right">
         <button type="button" id="PreviousPageButton_kanban" class="btn-paginate pull-left joforce-enable" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if}>
 	    <i class="fa fa-chevron-left"></i>
@@ -43,7 +43,7 @@
 	    <i class="fa fa-chevron-right"></i>
 	</button>
     </div>
-    <span class="pageNumbers_kanban">
+    <span class="pageNumbers_kanban pull-right">
         <span class="pageNumbersText_kanban">
             {if $RECORD_COUNT}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_to', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}
             {/if}

@@ -26,7 +26,7 @@
                 <input type="hidden" name="folderid" value="{$FOLDER_MODEL->getId()}" />
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="foldername" class="col-sm-4 control-label fieldLabel pr0 pl0">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="red-border"></span></label>
+                        <label for="foldername" class="col-sm-4 control-label fieldLabel pr0 pl0">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="red-border">*</span></label>
                         <div class="col-sm-7 pl0 fieldValue">
                             <input id="foldername" name="foldername" class="form-control inputElement col-lg-12" data-rule-required="true" type="text" value="{$FOLDER_NAME}"/>
                         </div>

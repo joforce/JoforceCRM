@@ -45,7 +45,6 @@ Class Head_Edit_View extends Head_Index_View {
 		foreach($moduleFields as $fieldName => $fieldModel){
 			$fieldsInfo[$fieldName] = $fieldModel->getFieldInfo();
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELDS_INFO', json_encode($fieldsInfo));
 		$viewer->assign('MODULE_BASIC_ACTIONS', $basicLinks);

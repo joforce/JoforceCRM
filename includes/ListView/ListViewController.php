@@ -137,8 +137,20 @@ class ListViewController {
 
 	function getListViewRecords($focus, $module, $result) {
 		global $listview_max_textlength, $theme, $default_charset, $site_URL;
-
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		$get_userdetails = get_privileges($this->user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		$fields = $this->queryGenerator->getFields();
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 		$baseModule = $module;
@@ -544,8 +556,8 @@ class ListViewController {
 					$value = textlength_check($value);
 				}
 
-//				// vtlib customization: For listview javascript triggers
-//				$value = "$value <span type='vtlib_metainfo' vtrecordid='{$recordId}' vtfieldname=".
+//				// modlib customization: For listview javascript triggers
+//				$value = "$value <span type='modlib_metainfo' vtrecordid='{$recordId}' vtfieldname=".
 //					"'{$fieldName}' vtmodule='$module' style='display:none;'></span>";
 //				// END
 				$row[$rawFieldName] = $value;

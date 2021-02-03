@@ -34,7 +34,7 @@ class Emails_ViewInBrowser_Handler {
 	 * @param type $data
 	 */
 	function viewInBrowser($data) {
-		$request = new Head_Request(vtlib_purify($_REQUEST));
+		$request = new Head_Request(modlib_purify($_REQUEST));
 		$isRequestAuthorized = $this->isRequestAuthorized($request);
 		if ($isRequestAuthorized) {
 			$applicationKey = $request->get('applicationKey');

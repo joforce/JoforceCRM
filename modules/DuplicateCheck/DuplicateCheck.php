@@ -13,11 +13,11 @@ class DuplicateCheck {
 	* @param String Module name
 	* @param String Event Type
 	*/
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
 		global $adb;
  		if($eventType == 'module.postinstall') 
 		{	
-			include_once('vtlib/Head/Module.php');
+			include_once('libraries/modlib/Head/Module.php');
 			$moduleInstance = Head_Module::getInstance($moduleName);
 
 			$fieldid = $adb->getUniqueID('jo_settings_field');

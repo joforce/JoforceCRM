@@ -12,7 +12,7 @@
 require_once('includes/Zend/Json.php');
 if(isset($_REQUEST["record"]) && $_REQUEST['record']!='')
 {
-	$reportid = vtlib_purify($_REQUEST["record"]);
+	$reportid = modlib_purify($_REQUEST["record"]);
 	$oReport = new Reports($reportid);
 	$oReport->getAdvancedFilterList($reportid);
 
@@ -125,7 +125,7 @@ function getSecondaryColumns_AdvFilterHTML($module,$selected="")
     	for($i=0;$i < count($secmodule) ;$i++)
     	{
             $mod_strings = return_module_language($current_language,$secmodule[$i]);
-            if(vtlib_isModuleActive($secmodule[$i])){
+            if(modlib_isModuleActive($secmodule[$i])){
 				$block_listed = array();
 				foreach($ogReport->module_list[$secmodule[$i]] as $key=>$value)
                 {

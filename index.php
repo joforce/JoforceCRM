@@ -15,7 +15,7 @@ include_once 'config/config.php';
 include_once 'includes/Webservices/Relation.php';
 require_once('routes.php');
 
-include_once 'vtlib/Head/Module.php';
+include_once 'libraries/modlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 
 $webUI = new Head_WebUI();

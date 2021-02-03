@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************}
 {strip}
 	{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
@@ -45,23 +46,23 @@
 									<th class="nowrap" style="width:15px">
 								{else}
 									<th class="nowrap">
-									{if $HEADER_FIELD->get('column') eq "access_count" or $HEADER_FIELD->get('column') eq "idlists"}
+									    {if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
+										<a href="#" class="removeSorting pull-right">x</a>
+									    {/if}
+
+									    {if $HEADER_FIELD->get('column') eq "access_count" or $HEADER_FIELD->get('column') eq "idlists"}
 										<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
 									{else}
 										<a href="javascript:void(0);" class="listViewContentHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">
 											{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
-												<i class="fa fa-sort {$FASORT_IMAGE}"></i>
+												<i class="fa pull-right {$FASORT_IMAGE} aruna"></i>
 											{else}
-												<i class="fa fa-sort customsort"></i>
+												<i class="fa {$DEFAULT_SORT} pull-right"></i>
 											{/if}
 											&nbsp;
-											{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
-											&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<img class="{$SORT_IMAGE}">{/if}&nbsp;
+											<span>{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</span>
 										</a>
-										{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
-											<a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-										{/if}
-									{/if}
+									    {/if}
 								{/if}
 								</th>
 							{/foreach}
@@ -175,7 +176,7 @@
 														{assign var=RECORD_ID value=$RELATED_RECORD->getId()}
 														{assign var="DOCUMENT_RECORD_MODEL" value=Head_Record_Model::getInstanceById($RECORD_ID)}
 														{if $DOCUMENT_RECORD_MODEL->get('filename') && $DOCUMENT_RECORD_MODEL->get('filestatus')}
-															<a name="viewfile" href="javascript:void(0)" data-filelocationtype="{$DOCUMENT_RECORD_MODEL->get('filelocationtype')}" data-filename="{$DOCUMENT_RECORD_MODEL->get('filename')}" onclick="Head_Header_Js.previewFile(event)"><i title="{vtranslate('LBL_VIEW_FILE', $RELATED_MODULE_NAME)}" class="icon-picture alignMiddle"></i></a>&nbsp;
+															<a name="viewfile" href="javascript:void(0)" data-filelocationtype="{$DOCUMENT_RECORD_MODEL->get('filelocationtype')}" data-filename="{$DOCUMENT_RECORD_MODEL->get('filename')}" onclick="Head_Header_Js.previewFile(event, {$RELATED_RECORD->getId()})"><i title="{vtranslate('LBL_VIEW_FILE', $RELATED_MODULE_NAME)}" class="icon-picture alignMiddle"></i></a>&nbsp;
 															{/if}
 															{if $DOCUMENT_RECORD_MODEL->get('filename') && $DOCUMENT_RECORD_MODEL->get('filestatus') && $DOCUMENT_RECORD_MODEL->get('filelocationtype') eq 'I'}
 															<a name="downloadfile" href="{$DOCUMENT_RECORD_MODEL->getDownloadFileURL()}"><i title="{vtranslate('LBL_DOWNLOAD_FILE', $RELATED_MODULE_NAME)}" class="icon-download-alt alignMiddle"></i></a>&nbsp;
@@ -190,7 +191,14 @@
 						</tr>
 					{/foreach}
 				</table>
-			</div>
+
+			        <div class="col-lg-12 col-md-12 col-sm-12">
+		        	    {assign var=PAGING_MODEL value=$PAGING}
+			            {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
+			            {assign var=PAGE_NUMBER value=$PAGING->get('page')}
+			            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+		        	</div>
+		</div>
 		<div class="bottomscroll-div"></div>
 		<script type="text/javascript">
 			var related_uimeta = (function () {

@@ -12,13 +12,15 @@
 /**
  * Head Tracker Record Model Class
  */
-class Head_TrackRecord_Model extends Head_Record_Model {
+class Head_TrackRecord_Model extends Head_Record_Model
+{
 
 	/**
 	 * Function to get the id of the record
 	 * @return <Number> - Record Id
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return $this->get('item_id');
 	}
 
@@ -26,7 +28,8 @@ class Head_TrackRecord_Model extends Head_Record_Model {
 	 * Function to get the name of the record
 	 * @return <String> - Entity Name of the Record
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->get('item_summary');
 	}
 
@@ -35,7 +38,8 @@ class Head_TrackRecord_Model extends Head_Record_Model {
 	 * @param <Array> $valueMap
 	 * @return Head_TrackRecord_Model instance
 	 */
-	public static function getInstance($valueMap) {
+	public static function getInstance($valueMap)
+	{
 		$instance = new self();
 		$instance->setData($valueMap);
 		$instance->setModule($valueMap['module_name']);
@@ -47,13 +51,14 @@ class Head_TrackRecord_Model extends Head_Record_Model {
 	 * @param <Number> $limit - Limit on the number of records
 	 * @return <Array> - List of Head_TrackRecord_Model instances
 	 */
-	public static function getAll($limit=null) {
-		require_once('data/Tracker.php');
+	public static function getAll($limit = null)
+	{
+		require_once('includes/data/Tracker.php');
 		$tracFocus = new Tracker();
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$list = $tracFocus->get_recently_viewed($userModel->getId());
 		$trackRecords = array();
-		foreach($list as $record) {
+		foreach ($list as $record) {
 			$trackRecords[] = self::getInstance($record);
 		}
 		return $trackRecords;

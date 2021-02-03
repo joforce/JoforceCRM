@@ -61,6 +61,11 @@ class Users_PreferenceDetail_View extends Head_Detail_View {
 	                $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
         	        $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections
 
+			$userCurrencyInfo = getCurrencySymbolandCRate($current_user->currency_id);
+	                $viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+        	        //Get User Notifications
+			$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
+
 			$viewer->assign('MODULE_MODEL', $detailViewModel->getModule());
 			$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 

@@ -4,9 +4,9 @@
   *
   *      @desc Base configuration file
   *   @package KCFinder
-  *   @version 2.21
+  *   @version 2.51
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010 KCFinder Project
+  * @copyright 2010, 2011 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -16,12 +16,14 @@
 // you are using session configuration.
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
+include_once '../../config/config.inc.php';
 $_CONFIG = array(
 
     'disabled' => true,
-    'readonly' => false,
+ 'readonly' => false,
     'denyZipDownload' => true,
-
+    'root_directory' => $root_directory,
+    'siteurl' => $site_URL,
     'theme' => "oxygen",
 
     'uploadURL' => "upload",
@@ -30,7 +32,24 @@ $_CONFIG = array(
     'dirPerms' => 0755,
     'filePerms' => 0644,
 
-    'deniedExts' => "exe com msi bat php phps phtml php3 php4 cgi pl", // UPDATED: http://kcfinder.sunhater.com/docs/install
+    'access' => array(
+
+        'files' => array(
+            'upload' => true,
+            'delete' => true,
+            'copy' => true,
+            'move' => true,
+            'rename' => true
+        ),
+
+        'dirs' => array(
+            'create' => true,
+            'delete' => true,
+            'rename' => true
+        )
+    ),
+
+    'deniedExts' => "exe com msi bat php phps phtml php3 php4 cgi pl",
 
     'types' => array(
 
@@ -44,6 +63,16 @@ $_CONFIG = array(
         'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm",
         'image'   =>  "*img",
     ),
+
+    'filenameChangeChars' => array(/*
+        ' ' => "_",
+        ':' => "."
+    */),
+
+    'dirnameChangeChars' => array(/*
+        ' ' => "_",
+        ':' => "."
+    */),
 
     'mime_magic' => "",
 
@@ -62,7 +91,6 @@ $_CONFIG = array(
     'cookiePrefix' => 'KCFINDER_',
 
     // THE FOLLOWING SETTINGS CANNOT BE OVERRIDED WITH SESSION CONFIGURATION
-
     '_check4htaccess' => true,
     //'_tinyMCEPath' => "/tiny_mce",
 

@@ -66,8 +66,8 @@ class Migration_Index_View extends Head_View_Controller {
 	public function getHeaderCss(Head_Request $request) {
 		$headerCssInstances = array();
 		$cssFileNames = array(
-			'~/layouts/vlayout/modules/Migration/css/style.css',
-			'~/layouts/vlayout/modules/Migration/css/mkCheckbox.css',
+			'~/layouts/modules/Migration/css/style.css',
+			'~/layouts/modules/Migration/css/mkCheckbox.css',
 			'~/libraries/bootstrap/css/bootstrap-responsive.css',
 			'~/libraries/bootstrap/css/bootstrap.min.css',
 		);
@@ -110,7 +110,7 @@ class Migration_Index_View extends Head_View_Controller {
 
 		$patchCount  = count($migrateVersions);
 
-		define('VTIGER_UPGRADE', true);
+		define('JOFORCE_UPGRADE', true);
 
 		for($i=0; $i<$patchCount; $i++){
 			$filename =  "modules/Migration/schema/".$migrateVersions[$i]."_to_".$migrateVersions[$i+1].".php";

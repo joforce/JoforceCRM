@@ -26,7 +26,7 @@ class Settings_Workflows_ValidateExpression_Action extends Settings_Head_Basic_A
 	}
 
 	public function ForTaskEdit(Head_Request $request) {
-		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+		require_once 'modules/Workflow/expression_engine/include.inc';
 
 		$result = new Head_Response();
 		$fieldMapping = Zend_Json::decode($request->getRaw('field_value_mapping'));
@@ -50,7 +50,7 @@ class Settings_Workflows_ValidateExpression_Action extends Settings_Head_Basic_A
 	}
 
 	public function ForWorkflowEdit(Head_Request $request) {
-		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+		require_once 'modules/Workflow/expression_engine/include.inc';
 
 		$result = new Head_Response();
 

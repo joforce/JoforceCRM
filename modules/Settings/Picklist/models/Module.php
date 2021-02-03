@@ -9,19 +9,22 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-class Settings_Picklist_Module_Model extends Head_Module_Model {
+class Settings_Picklist_Module_Model extends Head_Module_Model
+{
 
-	public function getPickListTableName($fieldName) {
-		return 'jo_'.$fieldName;
+	public function getPickListTableName($fieldName)
+	{
+		return 'jo_' . $fieldName;
 	}
 
-	public function getFieldsByType($type) {
-		$presence = array('0','2');
+	public function getFieldsByType($type)
+	{
+		$presence = array('0', '2');
 
 		$fieldModels = parent::getFieldsByType($type);
 		$fields = array();
-		foreach($fieldModels as $fieldName=>$fieldModel) {
-			if(($fieldModel->get('displaytype') != '1' && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'),$presence)) {
+		foreach ($fieldModels as $fieldName => $fieldModel) {
+			if (($fieldModel->get('displaytype') != '1' && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
 				continue;
 			}
 			$fields[$fieldName] = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
@@ -29,50 +32,51 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		return $fields;
 	}
 
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = array(), $color = '') {
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = array(), $color = '')
+	{
 		$db = PearDatabase::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$id = $db->getUniqueID("jo_$pickListFieldName");
 		vimport('~~/includes/ComboUtil.php');
 		$picklist_valueid = getUniquePicklistID();
-		$tableName = 'jo_'.$pickListFieldName;
-		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM '.$tableName;
+		$tableName = 'jo_' . $pickListFieldName;
+		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM ' . $tableName;
 		$result = $db->pquery($maxSeqQuery, array());
-		$sequence = $db->query_result($result,0,'maxsequence');
+		$sequence = $db->query_result($result, 0, 'maxsequence');
 
-		if($fieldModel->isRoleBased()) {
-			$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?,?)';
+		if ($fieldModel->isRoleBased()) {
+			$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?,?)';
 			$db->pquery($sql, array($id, $newValue, 1, $picklist_valueid, ++$sequence, $color));
-		}else{
-			$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?)';
+		} else {
+			$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
 			$db->pquery($sql, array($id, $newValue, ++$sequence, 1, $color));
 		}
 
-		if($fieldModel->isRoleBased() && !empty($rolesSelected)) {
+		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
 			$sql = "select picklistid from jo_picklist where name=?";
 			$result = $db->pquery($sql, array($pickListFieldName));
-			$picklistid = $db->query_result($result,0,"picklistid");
+			$picklistid = $db->query_result($result, 0, "picklistid");
 			//add the picklist values to the selected roles
-			for($j=0;$j<count($rolesSelected);$j++){
+			for ($j = 0; $j < count($rolesSelected); $j++) {
 				$roleid = $rolesSelected[$j];
-				Head_Cache::delete('PicklistRoleBasedValues',$pickListFieldName.$roleid);
-				$sql ="SELECT max(sortid)+1 as sortid
+				Head_Cache::delete('PicklistRoleBasedValues', $pickListFieldName . $roleid);
+				$sql = "SELECT max(sortid)+1 as sortid
 					   FROM jo_role2picklist left join jo_$pickListFieldName
 						   on jo_$pickListFieldName.picklist_valueid=jo_role2picklist.picklistvalueid
 					   WHERE roleid=? and picklistid=?";
-				$sortid = $db->query_result($db->pquery($sql, array($roleid, $picklistid)),0,'sortid');
+				$sortid = $db->query_result($db->pquery($sql, array($roleid, $picklistid)), 0, 'sortid');
 
 				$sql = "insert into jo_role2picklist values(?,?,?,?)";
 				$db->pquery($sql, array($roleid, $picklist_valueid, $picklistid, $sortid));
 			}
-
 		}
 		// we should clear cache to update with latest values
 		Head_Cache::flushPicklistCache($pickListFieldName);
 		return array('picklistValueId' => $picklist_valueid, 'id' => $id);
 	}
 
-	public function renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id, $rolesList = false, $color = '') {
+	public function renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id, $rolesList = false, $color = '')
+	{
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT tablename, fieldid, columnname FROM jo_field WHERE fieldname=? and presence IN (0,2)';
@@ -82,11 +86,11 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
 		$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
-		if(!empty($color)) {
-			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET ' . $pickListFieldName . '= ?, color = ? WHERE '.$primaryKey.' = ?';
+		if (!empty($color)) {
+			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET ' . $pickListFieldName . '= ?, color = ? WHERE ' . $primaryKey . ' = ?';
 			$db->pquery($query, array($newValue, $color, $id));
 		} else {
-			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET ' . $pickListFieldName . '=? WHERE '.$primaryKey.' = ?';
+			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET ' . $pickListFieldName . '=? WHERE ' . $primaryKey . ' = ?';
 			$db->pquery($query, array($newValue, $id));
 		}
 
@@ -112,7 +116,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 
 		Head_Cache::flushPicklistCache($pickListFieldName, $rolesList);
 
-		$em = new VTEventsManager($db);
+		$em = new EventsManager($db);
 		$data = array();
 		$data['fieldId'] = $db->query_result($result, 0, 'fieldid');
 		$data['fieldname'] = $pickListFieldName;
@@ -124,23 +128,24 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		return true;
 	}
 
-	public function remove($pickListFieldName , $valueToDeleteId, $replaceValueId , $moduleName) {
+	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
+	{
 		$db = PearDatabase::getInstance();
-		if(!is_array($valueToDeleteId)) {
+		if (!is_array($valueToDeleteId)) {
 			$valueToDeleteId = array($valueToDeleteId);
 		}
 		$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
 
 		$pickListValues = array();
-		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM ".$this->getPickListTableName($pickListFieldName)." WHERE $primaryKey IN (".generateQuestionMarks($valueToDeleteId).")";
-		$pickListValuesResult = $db->pquery($valuesOfDeleteIds,array($valueToDeleteId));
+		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
+		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
 		$num_rows = $db->num_rows($pickListValuesResult);
-		for($i=0;$i<$num_rows;$i++) {
-			$pickListValues[] = decode_html($db->query_result($pickListValuesResult,$i,$pickListFieldName));
+		for ($i = 0; $i < $num_rows; $i++) {
+			$pickListValues[] = decode_html($db->query_result($pickListValuesResult, $i, $pickListFieldName));
 		}
 
-		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM ".$this->getPickListTableName($pickListFieldName)." WHERE $primaryKey IN (".generateQuestionMarks($replaceValueId).")",array($replaceValueId));
-		$replaceValue = decode_html($db->query_result($replaceValueQuery,0,$pickListFieldName));
+		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($replaceValueId) . ")", array($replaceValueId));
+		$replaceValue = decode_html($db->query_result($replaceValueQuery, 0, $pickListFieldName));
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
@@ -150,64 +155,64 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		}
 		$mergedValuesToDelete = array_merge($pickListValues, $encodedValueToDelete);
 
-		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName,$this);
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $this);
 		//if role based then we need to delete all the values in role based picklist
-		if($fieldModel->isRoleBased()) {
+		if ($fieldModel->isRoleBased()) {
 			$picklistValueIdToDelete = array();
-			$query = 'SELECT DISTINCT picklist_valueid,roleid FROM '.$this->getPickListTableName($pickListFieldName).
-					 ' AS picklisttable LEFT JOIN jo_role2picklist AS roletable ON roletable.picklistvalueid = picklisttable.picklist_valueid
-					  WHERE '.$primaryKey.' IN ('.generateQuestionMarks($valueToDeleteId).')';
-			$result = $db->pquery($query,$valueToDeleteId);
+			$query = 'SELECT DISTINCT picklist_valueid,roleid FROM ' . $this->getPickListTableName($pickListFieldName) .
+				' AS picklisttable LEFT JOIN jo_role2picklist AS roletable ON roletable.picklistvalueid = picklisttable.picklist_valueid
+					  WHERE ' . $primaryKey . ' IN (' . generateQuestionMarks($valueToDeleteId) . ')';
+			$result = $db->pquery($query, $valueToDeleteId);
 			$num_rows = $db->num_rows($result);
-			for($i=0;$i<$num_rows;$i++) {
-				$picklistValueId = $db->query_result($result,$i,'picklist_valueid');
-				$roleId = $db->query_result($result,$i,'roleid');
+			for ($i = 0; $i < $num_rows; $i++) {
+				$picklistValueId = $db->query_result($result, $i, 'picklist_valueid');
+				$roleId = $db->query_result($result, $i, 'roleid');
 				// clear cache to update with lates values
-				Head_Cache::delete('PicklistRoleBasedValues', $pickListFieldName.$roleId);
+				Head_Cache::delete('PicklistRoleBasedValues', $pickListFieldName . $roleId);
 				$picklistValueIdToDelete[$picklistValueId] = $picklistValueId;
 			}
-			$query = 'DELETE FROM jo_role2picklist WHERE picklistvalueid IN ('.generateQuestionMarks($picklistValueIdToDelete).')';
-			$db->pquery($query,$picklistValueIdToDelete);
+			$query = 'DELETE FROM jo_role2picklist WHERE picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')';
+			$db->pquery($query, $picklistValueIdToDelete);
 		}
 
 		// we should clear cache to update with latest values
 		Head_Cache::flushPicklistCache($pickListFieldName);
 
-		$query = 'DELETE FROM '. $this->getPickListTableName($pickListFieldName).
-					' WHERE '.$primaryKey.' IN ('.  generateQuestionMarks($valueToDeleteId).')';
-		$db->pquery($query,$valueToDeleteId);
+		$query = 'DELETE FROM ' . $this->getPickListTableName($pickListFieldName) .
+			' WHERE ' . $primaryKey . ' IN (' .  generateQuestionMarks($valueToDeleteId) . ')';
+		$db->pquery($query, $valueToDeleteId);
 
 		vimport('~~/includes/utils/CommonUtils.php');
 		$tabId = getTabId($moduleName);
-		$query = 'DELETE FROM jo_picklist_dependency WHERE sourcevalue IN ('. generateQuestionMarks($pickListValues) .')'.
-				' AND sourcefield=?';
+		$query = 'DELETE FROM jo_picklist_dependency WHERE sourcevalue IN (' . generateQuestionMarks($pickListValues) . ')' .
+			' AND sourcefield=?';
 		$params = array();
 		array_push($params, $pickListValues);
 		array_push($params, $pickListFieldName);
 		$db->pquery($query, $params);
 
-		$query='SELECT tablename,columnname FROM jo_field WHERE fieldname=? AND presence in (0,2)';
+		$query = 'SELECT tablename,columnname FROM jo_field WHERE fieldname=? AND presence in (0,2)';
 		$result = $db->pquery($query, array($pickListFieldName));
 		$num_row = $db->num_rows($result);
 
-		for($i=0; $i<$num_row; $i++) {
+		for ($i = 0; $i < $num_row; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 
-			$query = 'UPDATE '.$tableName.' SET '.$columnName.'=? WHERE '.$columnName.' IN ('.  generateQuestionMarks($pickListValues).')';
+			$query = 'UPDATE ' . $tableName . ' SET ' . $columnName . '=? WHERE ' . $columnName . ' IN (' .  generateQuestionMarks($pickListValues) . ')';
 			$params = array($replaceValue);
 			array_push($params, $pickListValues);
 			$db->pquery($query, $params);
 		}
 
-		$query = 'UPDATE jo_field SET defaultvalue=? WHERE defaultvalue IN ('. generateQuestionMarks($pickListValues) .') AND columnname=?';
+		$query = 'UPDATE jo_field SET defaultvalue=? WHERE defaultvalue IN (' . generateQuestionMarks($pickListValues) . ') AND columnname=?';
 		$params = array($replaceValue);
 		array_push($params, $pickListValues);
 		array_push($params, $columnName);
 		$db->pquery($query, $params);
 
-		$em = new VTEventsManager($db);
+		$em = new EventsManager($db);
 		$data = array();
 		$data['fieldId'] = $fieldModel->id;
 		$data['fieldname'] = $pickListFieldName;
@@ -219,7 +224,8 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		return true;
 	}
 
-	public function enableOrDisableValuesForRole($picklistFieldName, $valuesToEnables, $valuesToDisable, $roleIdList) {
+	public function enableOrDisableValuesForRole($picklistFieldName, $valuesToEnables, $valuesToDisable, $roleIdList)
+	{
 		$db = PearDatabase::getInstance();
 		//To disable die On error since we will be doing insert without chekcing
 		$dieOnErrorOldValue = $db->dieOnError;
@@ -227,72 +233,74 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 
 		$sql = "select picklistid from jo_picklist where name=?";
 		$result = $db->pquery($sql, array($picklistFieldName));
-		$picklistid = $db->query_result($result,0,"picklistid");
+		$picklistid = $db->query_result($result, 0, "picklistid");
 
 		$primaryKey = Head_Util_Helper::getPickListId($picklistFieldName);
 
-		$pickListValueList = array_merge($valuesToEnables,$valuesToDisable);
+		$pickListValueList = array_merge($valuesToEnables, $valuesToDisable);
 		$pickListValueDetails = array();
-		$query = 'SELECT picklist_valueid,'. $picklistFieldName.', '.$primaryKey.
-				 ' FROM '.$this->getPickListTableName($picklistFieldName).
-				 ' WHERE '.$primaryKey .' IN ('.  generateQuestionMarks($pickListValueList).')';
+		$query = 'SELECT picklist_valueid,' . $picklistFieldName . ', ' . $primaryKey .
+			' FROM ' . $this->getPickListTableName($picklistFieldName) .
+			' WHERE ' . $primaryKey . ' IN (' .  generateQuestionMarks($pickListValueList) . ')';
 		$params = array();
 		array_push($params, $pickListValueList);
 
 		$result = $db->pquery($query, $params);
 		$num_rows = $db->num_rows($result);
 
-		for($i=0; $i<$num_rows; $i++) {
-			$row = $db->query_result_rowdata($result,$i);
+		for ($i = 0; $i < $num_rows; $i++) {
+			$row = $db->query_result_rowdata($result, $i);
 
-			$pickListValueDetails[decode_html($row[$primaryKey])] =array('picklistvalueid'=>$row['picklist_valueid'],
-																	'picklistid'=>$picklistid);
+			$pickListValueDetails[decode_html($row[$primaryKey])] = array(
+				'picklistvalueid' => $row['picklist_valueid'],
+				'picklistid' => $picklistid
+			);
 		}
 		$insertValueList = array();
 		$deleteValueList = array();
-		foreach($roleIdList as $roleId) {
+		foreach ($roleIdList as $roleId) {
 			// clearing cache to update with latest values
-			Head_Cache::delete('PicklistRoleBasedValues',$picklistFieldName.$roleId);
-			foreach($valuesToEnables  as $picklistValue) {
+			Head_Cache::delete('PicklistRoleBasedValues', $picklistFieldName . $roleId);
+			foreach ($valuesToEnables  as $picklistValue) {
 				$valueDetail = $pickListValueDetails[$picklistValue];
-				if(empty($valueDetail)){
-					 $valueDetail = $pickListValueDetails[Head_Util_Helper::toSafeHTML($picklistValue)];
+				if (empty($valueDetail)) {
+					$valueDetail = $pickListValueDetails[Head_Util_Helper::toSafeHTML($picklistValue)];
 				}
 				$pickListValueId = $valueDetail['picklistvalueid'];
 				$picklistId = $valueDetail['picklistid'];
-				$insertValueList[] = '("'.$roleId.'","'.$pickListValueId.'","'.$picklistId.'")';
+				$insertValueList[] = '("' . $roleId . '","' . $pickListValueId . '","' . $picklistId . '")';
 			}
 
-			foreach($valuesToDisable as $picklistValue) {
+			foreach ($valuesToDisable as $picklistValue) {
 				$valueDetail = $pickListValueDetails[$picklistValue];
-				if(empty($valueDetail)){
-					 $valueDetail = $pickListValueDetails[Head_Util_Helper::toSafeHTML($picklistValue)];
+				if (empty($valueDetail)) {
+					$valueDetail = $pickListValueDetails[Head_Util_Helper::toSafeHTML($picklistValue)];
 				}
 				$pickListValueId = $valueDetail['picklistvalueid'];
 				$picklistId = $valueDetail['picklistid'];
-				$deleteValueList[] = ' ( roleid = "'.$roleId.'" AND '.'picklistvalueid = "'.$pickListValueId.'") ';
+				$deleteValueList[] = ' ( roleid = "' . $roleId . '" AND ' . 'picklistvalueid = "' . $pickListValueId . '") ';
 			}
 		}
-		$query = 'INSERT IGNORE INTO jo_role2picklist (roleid,picklistvalueid,picklistid) VALUES '.implode(',',$insertValueList);
-		$result = $db->pquery($query,array());
+		$query = 'INSERT IGNORE INTO jo_role2picklist (roleid,picklistvalueid,picklistid) VALUES ' . implode(',', $insertValueList);
+		$result = $db->pquery($query, array());
 
-		$deleteQuery = 'DELETE FROM jo_role2picklist WHERE '.implode(' OR ',$deleteValueList);
+		$deleteQuery = 'DELETE FROM jo_role2picklist WHERE ' . implode(' OR ', $deleteValueList);
 
-		$result = $db->pquery($deleteQuery,array());
+		$result = $db->pquery($deleteQuery, array());
 
 		//retaining to older value
 		$db->dieOnError = $dieOnErrorOldValue;
-
 	}
 
-	public function updateSequence($pickListFieldName , $picklistValues, $rolesList = false) {
+	public function updateSequence($pickListFieldName, $picklistValues, $rolesList = false)
+	{
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
 
-		$query = 'UPDATE '.$this->getPickListTableName($pickListFieldName).' SET sortorderid = CASE ';
-		foreach($picklistValues as $values => $sequence) {
-			$query .= ' WHEN '.$primaryKey.'="'.$values.'" THEN "'.$sequence.'"';
+		$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET sortorderid = CASE ';
+		foreach ($picklistValues as $values => $sequence) {
+			$query .= ' WHEN ' . $primaryKey . '="' . $values . '" THEN "' . $sequence . '"';
 		}
 		$query .= ' END';
 		$db->pquery($query, array());
@@ -300,10 +308,11 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	}
 
 
-	public static function getPicklistSupportedModules() {
-		 $db = PearDatabase::getInstance();
-		 $restrictedPickListModule = array('Transactions');
-		// vtlib customization: Ignore disabled modules.
+	public static function getPicklistSupportedModules()
+	{
+		$db = PearDatabase::getInstance();
+		$restrictedPickListModule = array('Transactions');
+		// modlib customization: Ignore disabled modules.
 		$query = "SELECT distinct jo_tab.tablabel, jo_tab.name as tabname
 				  FROM jo_tab
 						inner join jo_field on jo_tab.tabid=jo_field.tabid
@@ -314,7 +323,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		$result = $db->pquery($query, array($restrictedPickListModule));
 
 		$modulesModelsList = array();
-		while($row = $db->fetch_array($result)){
+		while ($row = $db->fetch_array($result)) {
 			$moduleLabel = $row['tablabel'];
 			$moduleName  = $row['tabname'];
 			$instance = new self();
@@ -330,13 +339,14 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * Static Function to get the instance of Head Module Model for the given id or name
 	 * @param mixed id or name of the module
 	 */
-	public static function getInstance($value) {
+	public static function getInstance($value)
+	{
 		//TODO : add caching
 		$instance = false;
-			$moduleObject = parent::getInstance($value);
-			if($moduleObject) {
+		$moduleObject = parent::getInstance($value);
+		if ($moduleObject) {
 			$instance = self::getInstanceFromModuleObject($moduleObject);
-			}
+		}
 		return $instance;
 	}
 
@@ -345,16 +355,18 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * @param Head_Module $moduleObj
 	 * @return Head_Module_Model instance
 	 */
-	public static function getInstanceFromModuleObject(Head_Module $moduleObj){
+	public static function getInstanceFromModuleObject(Head_Module $moduleObj)
+	{
 		$objectProperties = get_object_vars($moduleObj);
 		$moduleModel = new self();
-		foreach($objectProperties as $properName=>$propertyValue){
+		foreach ($objectProperties as $properName => $propertyValue) {
 			$moduleModel->$properName = $propertyValue;
 		}
 		return $moduleModel;
 	}
 
-	public function handleLabels($moduleName, $newValues, $oldValues, $mode) {
+	public function handleLabels($moduleName, $newValues, $oldValues, $mode)
+	{
 		if (!is_array($newValues)) {
 			$newValues = array($newValues);
 		}
@@ -422,7 +434,8 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		}
 	}
 
-	function getActualPicklistValues($valueToDelete, $pickListFieldName) {
+	function getActualPicklistValues($valueToDelete, $pickListFieldName)
+	{
 		$db = PearDatabase::getInstance();
 		if (!is_array($valueToDelete)) {
 			$valueToDeleteID = array($valueToDelete);
@@ -447,14 +460,15 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * @param <integer> $pickListId
 	 * @return <string> $color
 	 */
-	public static function getPicklistColor($pickListFieldName, $pickListId) {
+	public static function getPicklistColor($pickListFieldName, $pickListId)
+	{
 		$db = PearDatabase::getInstance();
 		$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
 		$colums = $db->getColumnNames("jo_$pickListFieldName");
-		if(in_array('color',$colums)) {
-			$query = 'SELECT color FROM jo_'.$pickListFieldName . ' WHERE '.$primaryKey.' = ?';
+		if (in_array('color', $colums)) {
+			$query = 'SELECT color FROM jo_' . $pickListFieldName . ' WHERE ' . $primaryKey . ' = ?';
 			$result = $db->pquery($query, array($pickListId));
-			if($db->num_rows($result) > 0){
+			if ($db->num_rows($result) > 0) {
 				$color = $db->query_result($result, 0, 'color');
 			}
 		}
@@ -467,7 +481,8 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * @param <string> $name - picklist field name
 	 * @return <array> $picklistValues
 	 */
-	public static function getAccessiblePicklistValues($name) {
+	public static function getAccessiblePicklistValues($name)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 		$picklistValues = array();
@@ -484,27 +499,28 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * @param <boolean> $key - to change key of the array
 	 * @return <array> $pickListColorMap
 	 */
-	public static function getPicklistColorMap($fieldName, $key = false) {
+	public static function getPicklistColorMap($fieldName, $key = false)
+	{
 		$db = PearDatabase::getInstance();
 		$primaryKey = Head_Util_Helper::getPickListId($fieldName);
 		$colums = $db->getColumnNames("jo_$fieldName");
-		if(in_array('color',$colums)) {
-			$query = 'SELECT '.$primaryKey.',color,'.$fieldName.' FROM jo_'.$fieldName;
+		if (in_array('color', $colums)) {
+			$query = 'SELECT ' . $primaryKey . ',color,' . $fieldName . ' FROM jo_' . $fieldName;
 			$result = $db->pquery($query);
 			$pickListColorMap = array();
 			$accessablePicklistValues = self::getAccessiblePicklistValues($fieldName);
-			if($db->num_rows($result) > 0){
-				for($i=0; $i<$db->num_rows($result); $i++) {
+			if ($db->num_rows($result) > 0) {
+				for ($i = 0; $i < $db->num_rows($result); $i++) {
 					$pickListId = $db->query_result($result, $i, $primaryKey);
 					$color = $db->query_result($result, $i, 'color');
 					$picklistNameRaw = $db->query_result($result, $i, $fieldName);
 					$picklistName = decode_html($picklistNameRaw);
 					// show color only for accesable picklist values
-					if(vtws_isRoleBasedPicklist($fieldName) && !isset($accessablePicklistValues[$picklistNameRaw])) {
+					if (vtws_isRoleBasedPicklist($fieldName) && !isset($accessablePicklistValues[$picklistNameRaw])) {
 						$color = '';
 					}
-					if(!empty($color)) {
-						if($key) {
+					if (!empty($color)) {
+						if ($key) {
 							$pickListColorMap[$picklistName] = $color;
 						} else {
 							$pickListColorMap[$pickListId] = $color;
@@ -523,16 +539,17 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 	 * @param <string> $fieldValue - picklist value
 	 * @return <string> $color
 	 */
-	public static function getPicklistColorByValue($fieldName, $fieldValue) {
+	public static function getPicklistColorByValue($fieldName, $fieldValue)
+	{
 		$db = PearDatabase::getInstance();
 		$tableName = "jo_$fieldName";
-		if(Head_Utils::CheckTable($tableName)) {
+		if (Head_Utils::CheckTable($tableName)) {
 			$colums = $db->getColumnNames($tableName);
 			$fieldValue = decode_html($fieldValue);
-			if(in_array('color',$colums)) {
-				$query = 'SELECT color FROM '.$tableName.' WHERE '.$fieldName.' = ?';
+			if (in_array('color', $colums)) {
+				$query = 'SELECT color FROM ' . $tableName . ' WHERE ' . $fieldName . ' = ?';
 				$result = $db->pquery($query, array($fieldValue));
-				if($db->num_rows($result) > 0){
+				if ($db->num_rows($result) > 0) {
 					$color = $db->query_result($result, 0, 'color');
 				}
 			}
@@ -540,28 +557,29 @@ class Settings_Picklist_Module_Model extends Head_Module_Model {
 		return $color;
 	}
 
-	public static function getTextColor($hexcolor) {
+	public static function getTextColor($hexcolor)
+	{
 		$hexcolor = str_replace('#', '', $hexcolor);
-		$r = intval(substr($hexcolor,0,2), 16);
-		$g = intval(substr($hexcolor,2,2), 16);
-		$b = intval(substr($hexcolor,4,2), 16);
-		$yiq = (($r*299)+($g*587)+($b*114))/1000;
+		$r = intval(substr($hexcolor, 0, 2), 16);
+		$g = intval(substr($hexcolor, 2, 2), 16);
+		$b = intval(substr($hexcolor, 4, 2), 16);
+		$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 		return ($yiq >= 128) ? 'black' : 'white';
 	}
 
-	public function updatePicklistColor($pickListFieldName, $id, $color = '') {
+	public function updatePicklistColor($pickListFieldName, $id, $color = '')
+	{
 		$db = PearDatabase::getInstance();
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
 		$primaryKey = Head_Util_Helper::getPickListId($pickListFieldName);
-		if(!empty($color)) {
-			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET color = ? WHERE '.$primaryKey.' = ?';
+		if (!empty($color)) {
+			$query = 'UPDATE ' . $this->getPickListTableName($pickListFieldName) . ' SET color = ? WHERE ' . $primaryKey . ' = ?';
 			$db->pquery($query, array($color, $id));
 		}
 
 		return true;
 	}
-
 }

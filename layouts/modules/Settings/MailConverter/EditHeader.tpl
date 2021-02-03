@@ -9,7 +9,7 @@
 
 {strip}
 	<div class="editViewPageDiv mailBoxEditDiv viewContent">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
+		<div>
 			<input type="hidden" id="create" value="{$CREATE}" />
 			<input type="hidden" id="recordId" value="{$RECORD_ID}" />
 			<input type="hidden" id="step" value="{$STEP}" />

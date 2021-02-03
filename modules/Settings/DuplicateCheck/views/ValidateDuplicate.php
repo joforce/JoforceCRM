@@ -22,8 +22,6 @@ class Settings_DuplicateCheck_ValidateDuplicate_View extends Settings_Head_Index
 		$crosstablename=array();
 		$crosscheckDetails=array();
 		$fetchcrosscount=0;
-	
-
 
 		$record_view = $request->get('record_view');
 		$record_id = $request->get('record_id');
@@ -81,12 +79,13 @@ class Settings_DuplicateCheck_ValidateDuplicate_View extends Settings_Head_Index
 		
                 $runFieldLabelQuery = $adb->pquery($fieldlabelQuery);
                 $fetchFieldLabelQuery = $adb->fetch_array($runFieldLabelQuery);
+		$fetchFieldLabel['fieldlabel'] = vtranslate($fetchFieldLabelQuery['fieldlabel'],$modulename);
 
                 $runQuery = $adb->pquery($arrayQuery);
 
                 $count = $adb->num_rows($runQuery);
                 array_push($recordDetails,$count);
-                array_push($recordDetails, $fetchFieldLabelQuery);
+                array_push($recordDetails, $fetchFieldLabel);
 		array_push($recordDetails,$countoffieldNames);
 
                 while ($fetchResultContent = $adb->fetch_array($runQuery)) {
@@ -149,7 +148,8 @@ class Settings_DuplicateCheck_ValidateDuplicate_View extends Settings_Head_Index
 		array_push($crosscheckDetails,$fetchcrosscount);	
 		array_push($crosscheckDetails, $fetchcrossQuery);
                 $response = new Head_Response();
-                $response->setEmitType(Head_Response::$EMIT_JSON);
+		$response->setEmitType(Head_Response::$EMIT_JSON);
+		file_put_contents('logg',print_r(array($recordDetails,$crosscheckDetails), true), FILE_APPEND);
 	  	$response->setResult(array($recordDetails,$crosscheckDetails));
 		
                 $response->emit();

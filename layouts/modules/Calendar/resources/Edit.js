@@ -62,6 +62,31 @@ Head_Edit_Js("Calendar_Edit_Js",{
 		return this.relatedContactElement;
 	},
 
+	referenceModulePopupRegisterEvent : function(container) {
+		var thisInstance = this;
+		container.off('click', '.relatedPopup');
+		container.on("click",'.relatedPopup',function(e) {
+			qc_container = thisInstance.getParentElement($(this).next('.createReferenceRecord'));
+                        var referenceModuleName = thisInstance.getReferencedModuleName(qc_container);
+                        var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
+                        if(quickCreateNode.length <= 0) {
+                                var notificationOptions = {
+                                        'title' : app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED')
+                                }
+                                app.helper.showAlertNotification(notificationOptions);
+                        } else {
+                                thisInstance.openPopUp(e);
+                        }
+		});
+		container.on('change','.referenceModulesList',function(e){
+			var element = jQuery(e.currentTarget);
+			var popupReferenceModule = element.val();
+			var relationid_display = jQuery("#parent_id_display").parent().parent();   
+			var source_module = relationid_display.children();  
+			source_module.val(popupReferenceModule);
+		});
+	},
+    
 	openPopUp : function(e){
 		var thisInstance = this;
 		var parentElem = thisInstance.getParentElement(jQuery(e.target));
@@ -83,7 +108,9 @@ Head_Edit_Js("Calendar_Edit_Js",{
 				return ;
 		}
 		var popupInstance = Head_Popup_Js.getInstance();
-		popupInstance.showPopup(params,function(data){
+
+		app.event.off(Head_Edit_Js.popupSelectionEvent);
+		app.event.one(Head_Edit_Js.popupSelectionEvent,function(e,data) {
 			var responseData = JSON.parse(data);
 			var dataList = new Array();
 			for(var id in responseData){
@@ -102,6 +129,7 @@ Head_Edit_Js("Calendar_Edit_Js",{
 			}
 			sourceFieldElement.trigger(Head_Edit_Js.postReferenceSelectionEvent,{'data':responseData});
 		});
+		popupInstance.showPopup(params,Head_Edit_Js.popupSelectionEvent,function() {});
 	},
 
 	registerRelatedContactSpecificEvents : function(form) {
@@ -400,7 +428,6 @@ Head_Edit_Js("Calendar_Edit_Js",{
 	},
 
 	referenceCreateHandler : function(container) {
-
 		var thisInstance = this;
 		var form = thisInstance.getForm();
 		var mode = jQuery(form).find('[name="module"]').val();
@@ -408,7 +435,7 @@ Head_Edit_Js("Calendar_Edit_Js",{
 			this._super(container); 
 			return; 
 		}
-		 var postQuickCreateSave  = function(data) {
+		var postQuickCreateSave  = function(data) {
 			var params = {};
 			params.name = data._recordLabel;
 			params.id = data._recordId;

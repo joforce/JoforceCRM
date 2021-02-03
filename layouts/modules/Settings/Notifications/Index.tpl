@@ -8,7 +8,6 @@
 * Contributor(s): JoForce.com
 ************************************************************************************}
 {strip}
-    <div class="listViewPageDiv detailViewContainer col-sm-12 joforce-bg" id="listViewContent">
         <div class="col-sm-12">
 	    <div class="row">
 		<div class=" vt-default-callout vt-info-callout">
@@ -77,12 +76,4 @@
 	    	</table>
 	    </div>
 	</form>
-    </div>
 {/strip}
-
-<style>
-.listViewContentHeader td, .listViewEntries  td{
-    text-align: center; 
-    vertical-align: middle;
-}
-</style>

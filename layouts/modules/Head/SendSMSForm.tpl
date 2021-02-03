@@ -49,7 +49,7 @@
                     <br>        
                     <div>
                         <span id='phoneFormatWarning'> 
-                            <i rel="popover" data-placement="right" id="phoneFormatWarningPop" class="glyphicon glyphicon-info-sign" style="padding-right : 5px; padding-left : 5px" data-original-title="{vtranslate('LBL_WARNING',$MODULE)}" data-trigger="hover" data-content="{vtranslate('LBL_PHONEFORMAT_WARNING_CONTENT',$MODULE)}"></i>
+                            <i rel="popover" data-placement="right" id="phoneFormatWarningPop" class="fa fa-info-sign" style="padding-right : 5px; padding-left : 5px" data-original-title="{vtranslate('LBL_WARNING',$MODULE)}" data-trigger="hover" data-content="{vtranslate('LBL_PHONEFORMAT_WARNING_CONTENT',$MODULE)}"></i>
                             {vtranslate('LBL_PHONE_FORMAT_WARNING', $MODULE)}
                         </span>
                     </div>
@@ -66,8 +66,8 @@
             <div>
                 <div class="modal-footer">
                     <center>
-                        <button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SEND', $MODULE)}</strong></button>
-                        <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <button class="btn btn-primary" type="submit" name="saveButton"><strong>{vtranslate('LBL_SEND', $MODULE)}</strong></button>
+                        <a class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </center>
                 </div>
             </div>

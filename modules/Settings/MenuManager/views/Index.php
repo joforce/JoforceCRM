@@ -26,8 +26,12 @@ class Settings_MenuManager_Index_View extends Settings_Head_Index_View {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                 $viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
-                $viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections		
-			
+		$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections		
+		$userCurrencyInfo = getCurrencySymbolandCRate($current_user->currency_id);
+		$viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
+		//Get User Notifications
+		$viewer->assign('NOTIFICATONS_COUNT', getUnseenNotificationCount($user_id));
+
                 $menuname = $request->get('menuname');
                 $admin_status = Settings_MenuManager_Module_Model::isAdminUser();
                 $moduleSequence = $request->get('sequence');

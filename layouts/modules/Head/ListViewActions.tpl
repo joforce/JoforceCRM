@@ -6,12 +6,13 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ************************************************************************************/
 -->*}
 
 {strip}
     {assign var=LISTVIEW_MASSACTIONS_1 value=array()}
-    <div id="listview-actions" class="listview-actions-container">
+    <div id="third-listview-actions" class="third-listview-actions-container col-lg-12 col-md-12 col-sm-12">
         {foreach item=LIST_MASSACTION from=$LISTVIEW_MASSACTIONS name=massActions}
             {if $LIST_MASSACTION->getLabel() eq 'LBL_EDIT'}
                 {assign var=editAction value=$LIST_MASSACTION}
@@ -24,10 +25,11 @@
                 {* $a is added as its print the index of the array, need to find a way around it *}
             {/if}
         {/foreach}
-        <div class = "">
-            <div class=" col-md-3">
+        
+        <div class = "row">
+            <div class="col-lg-3 col-md-4">
             </div>
-            <div class='col-md-6 msgsection'>
+            <div class='col-lg-4 col-md-5 msgsection'>
                 {if $LISTVIEW_ENTRIES_COUNT eq '0' and $REQUEST_INSTANCE and $REQUEST_INSTANCE->isAjax()}
                     {if $smarty.session.lvs.$MODULE.viewname}
                         {assign var=VIEWID value=$smarty.session.lvs.$MODULE.viewname}
@@ -44,7 +46,7 @@
                         {assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getDefaultUrl()}
                         {assign var=DEFAULT_FILTER_ID value=$MODULE_MODEL->getDefaultCustomFilter()}
                         {if $DEFAULT_FILTER_ID}
-                            {assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrl()|cat:"&viewname="|cat:$DEFAULT_FILTER_ID}
+                            {assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrl()|cat:"/"|cat:$DEFAULT_FILTER_ID}
                         {/if}
                         {if $CVNAME neq 'All'}
                             <div>{vtranslate('LBL_DISPLAYING_RESULTS',$MODULE)} {vtranslate('LBL_FROM',$MODULE)} <b>{$CVNAME}</b>. <a style="color:blue" href='{$DEFAULT_FILTER_URL}'>{vtranslate('LBL_SEARCH_IN',$MODULE)} {vtranslate('All',$MODULE)} {vtranslate($MODULE, $MODULE)}</a> </div>
@@ -58,10 +60,6 @@
                     <center><a href="#" id="deSelectAllMsgDiv">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></center>
                 </div>            
             </div>
-            <div class="col-md-3">
-                {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-                {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
-            </div>
-        </div>	
+        </div>
      </div>
 {/strip}

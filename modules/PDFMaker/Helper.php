@@ -2,10 +2,9 @@
 class Helper{
 
 	public function __construct(){
-		include("modules/PDFMaker/mpdf/mpdf.php");
 	}
 
-	public function convertFieldAndExportPDF($sourceModule, $recordIds, $tempId, $action_type = false, $templatecontent = false){
+	public function convertFieldAndExportPDF($sourceModule, $recordIds, $tempId, $action_type = false, $templatecontent = false, $filename=false){
 		global $adb, $site_URL;
 		$html = "";
 
@@ -42,7 +41,7 @@ class Helper{
                         $margin_bottom = '10%';
 
 
-		$mpdf=new mPDF('', $page_format, '', '', $margin_left, $margin_right, $margin_top, $margin_bottom, 10, 10, $unserializedValue['page_orientation']);
+		$mpdf=new \Mpdf\Mpdf();
 
 		foreach($recordId_value as $recordId){
 			$getValue = $adb->pquery('select * from jo_pdfmaker where pdfmakerid = ?', array($tempId));
@@ -54,11 +53,12 @@ class Helper{
 			$tempName = $adb->query_result($getValue, 0, 'name');
 			$settings = $adb->query_result($getValue, 0, 'settings');
 			$unserializedValue = unserialize(base64_decode($settings));
-			if(!empty($unserializedValue['file_name']))
+			if(empty($filename)) {
+			    if(!empty($unserializedValue['file_name']))
 				$filename = $unserializedValue['file_name'];
-			else
+			    else
 				$filename = $tempName;
-
+			}
 			$html = $templatecontent;
 			$token_data_pair = explode('$', $html);
 			$tokenDataPair = explode('$', $html);
@@ -102,15 +102,16 @@ unset($record);
 				}
 				foreach($record as $single_record){
 					$count = $count + 1;
-					$get_product_name = $adb->pquery('select productname from jo_products where productid = ?', array($single_record['productid']));
+					$get_product_name = $adb->pquery('select * from jo_products inner join jo_productcf on jo_products.productid = jo_productcf.productid where jo_products.productid = ?', array($single_record['productid']));
 					if($adb->num_rows($get_product_name) == 0){
-						$get_product_name = $adb->pquery('select servicename from jo_service where serviceid = ?', array($single_record['productid']));
-
+						$get_product_name = $adb->pquery('select * from jo_service inner join jo_servicecf on jo_service.serviceid = jo_servicecf.serviceid where jo_service.serviceid = ?', array($single_record['productid']));
 						$product_name = $adb->query_result($get_product_name, 0, 'servicename');
-
-					}
-					else
+						$record_module_name = 'Services';
+					} else {
 						$product_name = $adb->query_result($get_product_name, 0, 'productname');
+						$record_module_name = 'Products';
+					}
+
 					$html_value = $parsed;
 					foreach ($fields['products'] as $column) {
 						$needle = '$products'."-$column$";
@@ -122,15 +123,24 @@ unset($record);
 							$values[$column] = $related_value[$count]['productTotal'.$count];
 						}
 						else{
-						$single_record[$column] = floatval($single_record[$column]);
-			                            //format float value    
-                        			    if(is_float($single_record[$column])){
-			                                $single_record[$column] = number_format((float)$single_record[$column], 2, '.', '');
-                        			    }                       
-                                                    $values[$column] = $single_record[$column];
-                         			}
-					$html_value = str_replace($needle, $values[array_search($column, $fieldColumnMapping)], $html_value);
-                                        }
+						    $uitype = $this->getUITypeByName($record_module_name, $column);
+						    if($uitype == 0) {
+						    	$single_record[$column] = floatval($single_record[$column]);
+			                            	//format float value    
+                        			    	if(is_float($single_record[$column])){
+			                                    $single_record[$column] = number_format((float)$single_record[$column], 2, '.', '');
+                        			    	}
+						    	$values[$column] = $single_record[$column];
+						    } else {
+						    	$values[$column] = $adb->query_result($get_product_name, 0, $column);
+						    }
+
+						    if($column == 'product_no' && $record_module_name == 'Services') {
+							$values[$column] = $adb->query_result($get_product_name, 0, 'service_no');
+						    }
+						}
+						$html_value = str_replace($needle, $values[array_search($column, $fieldColumnMapping)], $html_value);
+					}
        				        $modulevalue = strtolower($sourceModule);
 			                    foreach($fields[$modulevalue] as $column){
                         			$needle = '$'."$modulevalue"."-$column$";
@@ -466,5 +476,13 @@ unset($record);
 		}
 		return $relatedProducts;
 
+	}
+
+	public function getUITypeByName($module, $fieldname) {
+		global $adb;
+		$tabid = getTabid($module);
+		$run_query = $adb->pquery('select fieldname,uitype from jo_field where tabid = ? and fieldname = ?', array($tabid , $fieldname));
+		$result = $adb->fetch_array( $run_query );
+		return (int)$result['uitype'];
 	}
 }

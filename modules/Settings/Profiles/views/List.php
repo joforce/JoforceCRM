@@ -11,6 +11,10 @@
 
 class Settings_Profiles_List_View extends Settings_Head_List_View {
 
+	public function checkPermission(Head_Request $request){
+	        throw new AppException(vtranslate('LBL_ACCESS_DENIED', 'Head'));
+	}
+
 	function getHeaderScripts(Head_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 

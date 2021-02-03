@@ -12,7 +12,7 @@
 class LeadHandler extends VTEventHandler {
 
 	function handleEvent($eventName, $entityData) {
-		if($eventName === 'vtiger.lead.convertlead'){
+		if($eventName === 'jo.lead.convertlead'){
 		}
 	}
 }

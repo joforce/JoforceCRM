@@ -10,7 +10,6 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="editViewPageDiv viewContent">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
         <div class="editViewHeader">
                 {if $RECORD_MODEL->getId()}
                     <h4>
@@ -40,7 +39,7 @@
                     <div name='editContent roles-edit-content'>
                         <div class="form-group pl15">
                             <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3 pr0 pl0" style="width: 20% !important;">
-                                <strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border" style="top:35px;"></span></strong>
+                                <strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></strong>
                             </label>
                             <div class="controls fieldValue col-lg-4 col-md-4 col-sm-4 pl0" style="width: 30% !important;">
                                 <div class=""> <input type="text" class="inputElement" style="margin-top: 5px;" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required='true'  />
@@ -77,22 +76,13 @@
                                 </div>
                             </div>
                         </div>
+			<div>
+	                    <input type="hidden" value="1" name="profile_directly_related_to_role" data-handler="new" />
+			</div>
                         <div class="form-group">
                             <label class="control-label fieldLabel col-lg-3 col-md-3 col-sm-3">
                                 <strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}</strong>
                             </label>
-                            <div class="controls fieldValue col-lg-9 col-md-9 col-sm-9">
-                                <div  class="radio">
-                                    <label>
-                                    <input type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;
-                                    {vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                    <input type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;
-                                    {vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</label>
-                                </div>
-                            </div>
                         </div>
                         <br>
                         <div class="form-group " data-content="new" >
@@ -101,17 +91,6 @@
                         </div>
                         <div class="form-group " data-content="existing">
                            
-                            <div class="controls col-sm-5 existing">
-                               <label class="col-sm-4">Choose Profiles</label>
-                                {assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
-                                <select class="select2 inputElement col-lg-12 hide" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 460px" data-rule-required="true">
-                                    {foreach from=$ALL_PROFILES item=PROFILE}
-                                        {if $PROFILE->isDirectlyRelated() eq false}
-                                            <option value="{$PROFILE->getId()}" {if isset($ROLE_PROFILES[$PROFILE->getId()])}selected="true"{/if}>{$PROFILE->getName()}</option>
-                                        {/if}
-                                    {/foreach}
-                                </select>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,13 +98,12 @@
                 <div class="row clearfix">
                     <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-secondary'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>
     </div>
     </form>
     </div>
-</div>
 </div>
 </div>

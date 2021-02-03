@@ -581,7 +581,8 @@ if (window.jQuery)(function ($) {
 
 									return false;
 								});
-
+								$('.browse-file').html((parseInt($(":file").length)-1) + 'File Selected');
+				console.log(group_count, 'dsd', $('.MultiFile-applied').val(), $(".MultiFile-applied", this)[0],$(":file").length);
 						// Insert label
 						MultiFile.list.append(
 							r.append(b, ' ', names)

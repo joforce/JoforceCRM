@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-require_once 'vtlib/Head/Cron.php';
+require_once 'libraries/modlib/Head/Cron.php';
 class Reports_ScheduleReports_Model extends Head_Base_Model {
 
 	static $SCHEDULED_DAILY = 1;
@@ -180,7 +180,7 @@ class Reports_ScheduleReports_Model extends Head_Base_Model {
 	}
 
 	public function sendEmail() {
-		require_once 'vtlib/Head/Mailer.php';
+		require_once 'libraries/modlib/Head/Mailer.php';
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$vtigerMailer = new Head_Mailer();
@@ -251,7 +251,7 @@ class Reports_ScheduleReports_Model extends Head_Base_Model {
 	 * @return type
 	 */
 	function getNextTriggerTime() {
-		require_once 'modules/com_jo_workflow/VTWorkflowManager.inc';
+		require_once 'modules/Workflow/WorkflowManager.inc';
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
@@ -310,8 +310,8 @@ class Reports_ScheduleReports_Model extends Head_Base_Model {
 	}
 
 	public static function runScheduledReports() {
-		vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
-		$util = new VTWorkflowUtils();
+		vimport('~~modules/Workflow/WorkflowUtils.php');
+		$util = new WorkflowUtils();
 		$util->adminUser();
 
 		global $currentModule, $current_language;

@@ -327,8 +327,8 @@ class Head_ComposeEmail_View extends Head_Footer_View {
 		);
 
 		$jsHeaderScriptNames = array(
-			'layouts.vlayout.modules.Head.resources.Header',
-			'layouts.vlayout.modules.Head.resources.BasicSearch'
+			'layouts.modules.Head.resources.Header',
+			'layouts.modules.Head.resources.BasicSearch'
 		);
 
 		$jsHeaderScriptInstances = $this->checkAndConvertJsScripts($jsHeaderScriptNames);

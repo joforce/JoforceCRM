@@ -114,7 +114,8 @@ Head.Class("Head_Detail_Js",{
 		jQuery(".historyButtons").find("button").removeAttr("disabled").removeClass("btn-success");
 		var currentElement = jQuery(element);
 		currentElement.attr("disabled","disabled").addClass("btn-success");
-
+		jQuery(".historyButtons").addClass("hide");
+		
 		var params = [];
 		var recordId = jQuery('#recordId').val();
 		params.url = "index.php?view=Detail&module="+app.getModuleName()+"&mode=showRecentActivities&record="+recordId;
@@ -630,7 +631,6 @@ Head.Class("Head_Detail_Js",{
 			var moreElementTitle = moreTabElement.find('a').attr('displaylabel')
 			moreTabElement.attr('title',moreElementTitle);
 			moreTabElement.find('.tab-icon').removeClass('textOverflowEllipsis');
-			jQuery('.related-tab-more-element').before(moreTabElement);
 			self.loadSelectedTabContents(moreTabElement, urlAttributes);
 			self.registerQtipevent(moreTabElement);
 		});
@@ -641,43 +641,61 @@ Head.Class("Head_Detail_Js",{
 	},
 
 	loadSelectedTabContents: function(tabElement, urlAttributes){
-			var self = this;
-			var detailViewContainer = this.getDetailViewContainer();
-			var url = tabElement.data('url');
-			self.loadContents(url,urlAttributes).then(function(data){
-				self.deSelectAllrelatedTabs();
-				self.markRelatedTabAsSelected(tabElement);
-				var container = jQuery('.relatedContainer');
-				app.event.trigger("post.relatedListLoad.click",container.find(".searchRow"));
-				// Added this to register pagination events in related list
-				var relatedModuleInstance = self.getRelatedController();
-				//Summary tab is clicked
-				if(tabElement.data('linkKey') == self.detailViewSummaryTabLabel) {
-					self.registerSummaryViewContainerEvents(detailViewContainer);
-					self.registerEventForPicklistDependencySetup(self.getForm());
-				}
+		var self = this;
+		var detailViewContainer = this.getDetailViewContainer();
+		var url = tabElement.data('url');
+		self.loadContents(url,urlAttributes).then(function(data){
+			self.deSelectAllrelatedTabs();
+			self.markRelatedTabAsSelected(tabElement);
+			var container = jQuery('.relatedContainer');
+			app.event.trigger("post.relatedListLoad.click",container.find(".searchRow"));
+			// Added this to register pagination events in related list
+			var relatedModuleInstance = self.getRelatedController();
+			//Summary tab is clicked
+			if(tabElement.data('linkKey') == self.detailViewSummaryTabLabel) {
+				self.registerSummaryViewContainerEvents(detailViewContainer);
+				self.registerEventForPicklistDependencySetup(self.getForm());
+			}
 
-				//Detail tab is clicked
-				if(tabElement.data('linkKey') == self.detailViewDetailTabLabel) {
-//					self.triggerDetailViewContainerEvents(detailViewContainer);
-					self.registerEventForPicklistDependencySetup(self.getForm());
-				}
+			//Detail tab is clicked
+			if(tabElement.data('linkKey') == self.detailViewDetailTabLabel) {
+				//                                      self.triggerDetailViewContainerEvents(detailViewContainer);
+				self.registerEventForPicklistDependencySetup(self.getForm());
+			}
 
-				// Registering engagement events if clicked tab is History
-				if(tabElement.data('labelKey') == self.detailViewHistoryTabLabel){
-					var engagementsContainer = jQuery(".engagementsContainer");
-					if(engagementsContainer.length > 0){
-						app.event.trigger("post.engagements.load");
-					}
+			// Registering engagement events if clicked tab is History
+			if(tabElement.data('labelKey') == self.detailViewHistoryTabLabel){
+				var engagementsContainer = jQuery(".engagementsContainer");
+				if(engagementsContainer.length > 0){
+					app.event.trigger("post.engagements.load");
 				}
+			}
 
-				relatedModuleInstance.initializePaginationEvents();
-				//prevent detail view ajax form submissions
-				jQuery('form#detailView').on('submit', function(e) {
-					e.preventDefault();
-				});
+			relatedModuleInstance.initializePaginationEvents();
+			//prevent detail view ajax form submissions
+			jQuery('form#detailView').on('submit', function(e) {
+				e.preventDefault();
 			});
+		});
+		self.addBodyScroll();
 	},
+
+	addBodyScroll: function () {
+                app.helper.showVerticalScroll(
+                                $("body"),
+                                {
+                                        setHeight: $(window).height(),
+                                        theme: "inset-2",
+                                        alwaysShowScrollbar: 2,
+                                        autoExpandScrollbar: true,
+                                        live: "on",
+                                        setTop: 0,
+                                        scrollInertia: 70,
+                                        mouseWheel:{ preventDefault: false }
+
+                                }
+                );
+        },
 
 	triggerDetailViewContainerEvents: function(detailViewContainer) {
 	},
@@ -928,9 +946,9 @@ Head.Class("Head_Detail_Js",{
 			var fieldName = jQuery(e.currentTarget).attr('data-fieldname');
 			var sortOrderVal = jQuery(e.currentTarget).attr('data-nextsortorderval');
 			if(sortOrderVal === 'ASC'){
-				jQuery('i',e.currentTarget).addClass('fa-sort-asc');
+				jQuery('i',e.currentTarget).addClass('fa-arrow-up');
 			}else{
-				jQuery('i',e.currentTarget).addClass('fa-sort-desc');
+				jQuery('i',e.currentTarget).addClass('fa-arrow-down');
 			}
 			jQuery('#sortOrder').val(sortOrderVal);
 			jQuery('#orderBy').val(fieldName);
@@ -1562,27 +1580,38 @@ Head.Class("Head_Detail_Js",{
 	 */
 	loadContents : function(url,data){
 		var thisInstance = this;
-		var detailContentsHolder = this.getContentHolder();
-		var aDeferred = jQuery.Deferred();
-		if(url.indexOf('index.php') < 0) {
-//			url = 'index.php?' + url;
-		}
-		var params = [];
-		params.url = url;
+                var detailContentsHolder = this.getContentHolder();
+                var aDeferred = jQuery.Deferred();
+                if(url.indexOf('index.php') < 0) {
+//                      url = 'index.php?' + url;
+                }
+                var params = [];
+                params.url = url;
 
-		if(typeof data != 'undefined'){
-			params.data = data;
-		}
-        params.tab_view = 'relatedModule';
-		app.helper.showProgress();
-		app.request.pjax(params).then(function(error,response){
-			detailContentsHolder.html(response);
-			thisInstance.detailViewForm = jQuery('#detailView');
-			thisInstance.registerBlockStatusCheckOnLoad();
-			aDeferred.resolve(response);
-			app.helper.hideProgress();
-		});
-		return aDeferred.promise();
+                if(typeof data != 'undefined'){
+                        params.data = data;
+                }
+	        params.tab_view = 'relatedModule';
+                app.helper.showProgress();
+                app.request.pjax(params).then(function(error,response){
+                        detailContentsHolder.html(response);
+                        thisInstance.detailViewForm = jQuery('#detailView');
+                        thisInstance.registerBlockStatusCheckOnLoad();
+                        aDeferred.resolve(response);
+                        app.helper.hideProgress();
+                });
+                return aDeferred.promise();
+	},
+
+	getUrlVars : function(rel_url) {
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(rel_url.indexOf('?') + 1).split('&');
+	    for (var i = 0; i < hashes.length; i++) {
+	        hash = hashes[i].split('=');
+	        vars.push(hash[0]);
+	        vars[hash[0]] = hash[1];
+	    }
+	    return vars;
 	},
 
 	registerBlockAnimationEvent : function(){
@@ -3104,7 +3133,7 @@ Head.Class("Head_Detail_Js",{
 			contentHolder = jQuery('.detailview-header');
 		} 
 
-		contentHolder.on('click','.recordBasicInfo .fieldLabel .editAction', function(e){
+		contentHolder.on('click','#headerForm .headerAjaxEdit .fieldLabel .editAction', function(e){
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.hide();
 			var currentContainerElement = currentTarget.closest('.headerAjaxEdit');
@@ -3115,6 +3144,16 @@ Head.Class("Head_Detail_Js",{
 		this.registerAjaxEditCancelEvent(contentHolder);
 		this.registerClearReferenceSelectionEvent(contentHolder);
 		this.registerPostAjaxSaveEvent();
+	},
+	registerprintInvoice:function() {
+		var self = this;
+		$('.main-content-body-invoice').on('click','.printDiv', function(e){
+  			var newWin=window.open('','Print-Window');
+ 			newWin.document.open();
+	 		newWin.document.write('<html><body onload="window.print()">'+$('.main-content-body-invoice').html()+'</body></html>');
+	  		newWin.document.close();
+  			setTimeout(function(){newWin.close();},10);
+		});
 	},
 
 	//Events common for DetailView and OverlayDetailView
@@ -3146,16 +3185,17 @@ Head.Class("Head_Detail_Js",{
 		//register event for picklist dependency setup
 		this.registerEventForPicklistDependencySetup(this.getForm());
 		vtUtils.enableTooltips();
+		this.registerprintInvoice();
 	},
 
 });
-
-$(document).ready(function(){
+//commented by aruna
+/*$(document).ready(function(){
     if (document.querySelector('.sidebar-essentials') !== null) {
 	$('.main-container .content-area').css('padding-left','200px');
     }
 });
-
+*/
 $(document).ready(function(){
     var recordId = app.getRecordId();
     var moduleName = app.getModuleName();

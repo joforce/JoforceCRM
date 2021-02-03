@@ -15,13 +15,12 @@
    <input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 {/if}
 {assign var=business_card_modules value=array('Leads', 'Contacts', 'Accounts')}
-<table class="summary-table no-border   {if in_array($MODULE, $business_card_modules)}
-summary-table-ui {/if}">
-	{if in_array($MODULE, $business_card_modules)}
+<table class="summary-table no-border   {if in_array($MODULE, $business_card_modules)} summary-table-ui {/if}">
+    {if in_array($MODULE, $business_card_modules)}
 	{assign var=business_icon_array value=returnFieldIconsArray() }
 	{assign var=default_business_field_array value=returnBusinessFieldArray()}
 	<tbody>	
-		{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
+	    {foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 	        {assign var=fieldDataType value=$FIELD_MODEL->getFieldDataType()}
 		{if $FIELD_MODEL->get('name') neq 'modifiedtime' && $FIELD_MODEL->get('name') neq 'createdtime'}
 		<tr class="col-lg-12 mt5">
@@ -60,7 +59,7 @@ summary-table-ui {/if}">
 		{/if}
 		{/foreach}
 	</tbody>
-	{else}
+    {else}
 	<tbody>
 	{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
         {assign var=fieldDataType value=$FIELD_MODEL->getFieldDataType()}
@@ -97,7 +96,7 @@ summary-table-ui {/if}">
 		{/if}
 	{/foreach}
 	</tbody>
-	{/if}
+    {/if}
 </table>
 
 {/strip}

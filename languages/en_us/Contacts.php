@@ -14,7 +14,7 @@ $languageStrings = array(
 	'SINGLE_Contacts' => 'Contact',
 	'LBL_ADD_RECORD' => 'Add Contact',
 	'LBL_RECORDS_LIST' => 'Contacts List',
-	'LBL_CONVERT_USER' => 'Convert to User',
+	'LBL_CONVERT_USER' => 'Masquerade User',
 
 	// Blocks
 	'LBL_CONTACT_INFORMATION' => 'Basic Information',

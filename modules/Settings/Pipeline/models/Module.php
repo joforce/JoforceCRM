@@ -143,4 +143,10 @@ class Settings_Pipeline_Module_Model extends Settings_Head_Module_Model {
 	}
 	return $fields;
     }
+
+    public function getModuleFieldsWithNameFields($selected_module) {
+        $sourceModuleModel = Head_Module_Model::getInstance($selected_module);
+        $fields = $sourceModuleModel->getFields();
+        return $fields;
+        }
 }

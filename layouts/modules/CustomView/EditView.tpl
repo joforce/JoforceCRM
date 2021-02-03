@@ -146,8 +146,8 @@
 						<div class='clearfix modal-footer-overwrite-style'>
 							<div class="row clearfix">
 								<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
-									<button type='submit' class='btn btn-success saveButton' id="customViewSubmit">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-									<a class='cancelLink' href="javascript:void(0);" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+									<button type='submit' class='btn btn-primary saveButton' id="customViewSubmit">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+									<a class='cancelLink btn btn-secondary' href="javascript:void(0);" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 								</div>
 							</div>
 						</div>

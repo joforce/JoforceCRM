@@ -52,6 +52,41 @@ class ModTracker_Record_Model extends Head_Record_Model {
 		return $recordInstances;
 	}
 
+	public static function getActivities($userId, $moduleName, $filters = []) {
+		$db = PearDatabase::getInstance();
+		$recordInstances = array();
+		$date = '';
+		$listQuery = "SELECT * FROM jo_modtracker_basic WHERE ";
+		
+		if(count($filters) > 0) {
+			$userId = $filters['user_id'];
+			$listQuery .= "whodid = ? ";
+			if($filters['date'] != '') {
+				$listQuery .= "and changedon like '".$filters['date']."%'";
+			}
+		} else {
+			$listQuery .= "whodid = ?  ";
+		}
+		
+		$listQuery .= " ORDER BY changedon DESC";
+		
+		$result = $db->pquery($listQuery, array($userId));
+		$rows = $db->num_rows($result);
+		$dateArray = [];
+
+		for ($i=0; $i<$rows; $i++) {
+			$row = $db->query_result_rowdata($result, $i);
+			$recordInstance = new self();
+			$date = explode(" ", $row['changedon']);
+			$row["date"] = date_format(date_create($date[0]),"M d Y");
+			$row["time"] = date('h:i A', strtotime($row['changedon']));						
+
+			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
+			$recordInstances[] = $recordInstance;
+		}
+		return $recordInstances;
+	}
+
 	function setParent($id, $moduleName) {
 		if(!Head_Util_Helper::checkRecordExistance($id)) {
 			$this->parent = Head_Record_Model::getInstanceById($id, $moduleName);

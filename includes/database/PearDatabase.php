@@ -997,11 +997,29 @@ class PearDatabase{
 		return $datestr;
     }
 
-    function getUniqueID($seqname) {
+      function getUniqueID($seqname) {
 		$this->checkConnection();
-		return $this->database->GenID($seqname."_seq",1);
+		$row_id = 0;
+		$dbvarRS = $this->database->query("Select * from jo_tab_sequence where table_name=?", array($seqname.'_seq'));
+		$db_character_set = null;
+		if($dbvarRS->EOF){
+			$sql = 'INSERT INTO jo_tab_sequence(sequenceid,table_name, sequence) VALUES (?,?,?)';
+			$this->database->query($sql, array('',$seqname.'_seq', 1));
+			$dbvarRS = $this->database->query("Select * from jo_tab_sequence where table_name=?", array($seqname.'_seq'));
+		}
+		while(!$dbvarRS->EOF) {
+			if($dbvarRS){
+				$arr = $dbvarRS->FetchRow();
+				if($arr){
+					$row_id= $arr['sequence'];
+				}
+			}
+		}
+		$logsql = 'update jo_tab_sequence set sequence= ? where table_name=?';
+		$next_id = $row_id+1;
+		$this->database->query($logsql, array($next_id, $seqname.'_seq'));
+		return $next_id;
 	}
-
     function get_tables() {
 		$this->checkConnection();
 		$result = & $this->database->MetaTables('TABLES');

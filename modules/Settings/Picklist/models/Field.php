@@ -86,7 +86,7 @@ class Settings_Picklist_Field_Model extends Head_Field_Model {
 
     /**
 	 * Static Function to get the instance fo Head Field Model from a given Head_Field object
-	 * @param Head_Field $fieldObj - vtlib field object
+	 * @param Head_Field $fieldObj - modlib field object
 	 * @return Head_Field_Model instance
 	 */
 	public static function getInstanceFromFieldObject(Head_Field $fieldObj) {

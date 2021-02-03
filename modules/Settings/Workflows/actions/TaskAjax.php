@@ -9,29 +9,34 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
+class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('Delete');
 		$this->exposeMethod('ChangeStatus');
 		$this->exposeMethod('Save');
 	}
-	public function validateRequest(Head_Request $request) {
+	public function validateRequest(Head_Request $request)
+	{
 		$request->validateWriteAccess();
 	}
 
-	public function process(Head_Request $request) {
+	public function process(Head_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
 	}
 
-	public function Delete(Head_Request $request){
+	public function Delete(Head_Request $request)
+	{
 		$record = $request->get('task_id');
-		if(!empty($record)) {
+		if (!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskRecordModel->delete();
 			$response = new Head_Response();
@@ -40,12 +45,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 		}
 	}
 
-	public function ChangeStatus(Head_Request $request) {
+	public function ChangeStatus(Head_Request $request)
+	{
 		$record = $request->get('task_id');
-		if(!empty($record)) {
+		if (!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskObject = $taskRecordModel->getTaskObject();
-			if($request->get('status') == 'true')
+			if ($request->get('status') == 'true')
 				$taskObject->active = true;
 			else
 				$taskObject->active = false;
@@ -56,12 +62,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 		}
 	}
 
-	public function Save(Head_Request $request) {
+	public function Save(Head_Request $request)
+	{
 
 		$workflowId = $request->get('for_workflow');
-		if(!empty($workflowId)) {
+		if (!empty($workflowId)) {
 			$record = $request->get('task_id');
-			if($record) {
+			if ($record) {
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			} else {
 				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
@@ -72,27 +79,27 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 			$taskObject->summary = $request->get("summary");
 
 			$active = $request->get("active");
-			if($active == "true") {
+			if ($active == "true") {
 				$taskObject->active = true;
-			} else if ($active == "false"){
+			} else if ($active == "false") {
 				$taskObject->active = false;
 			}
 			$checkSelectDate = $request->get('check_select_date');
 
-			if(!empty($checkSelectDate)){
+			if (!empty($checkSelectDate)) {
 				$trigger = array(
-					'days'=>($request->get('select_date_direction') == 'after' ? 1 : -1) * (int)$request->get('select_date_days'),
-					'field'=>$request->get('select_date_field')
-					);
+					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int)$request->get('select_date_days'),
+					'field' => $request->get('select_date_field')
+				);
 				$taskObject->trigger = $trigger;
 			} else {
 				$taskObject->trigger = null;
 			}
 
 			$fieldNames = $taskObject->getFieldNames();
-						$getRawFields = array('field_value_mapping', 'content', 'fromEmail');
-			foreach($fieldNames as $fieldName){
-				if(in_array($fieldName, $getRawFields)) {
+			$getRawFields = array('field_value_mapping', 'content', 'fromEmail');
+			foreach ($fieldNames as $fieldName) {
+				if (in_array($fieldName, $getRawFields)) {
 					$taskObject->$fieldName = $request->getRaw($fieldName);
 				} else {
 					$taskObject->$fieldName = $request->get($fieldName);
@@ -102,7 +109,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 				}
 			}
 
-			require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+			require_once 'modules/Workflow/expression_engine/include.inc';
 
 			$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
 			if (is_array($fieldMapping)) {
@@ -122,18 +129,18 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 			}
 
 			$taskType = get_class($taskObject);
-			if ($taskType === 'VTCreateEventTask' || $taskType === 'VTCreateTodoTask') {
-				if($taskType === 'VTCreateEventTask') {
+			if ($taskType === 'CreateEventTask' || $taskType === 'CreateTodoTask') {
+				if ($taskType === 'CreateEventTask') {
 					$module = 'Events';
 				} else {
 					$module = 'Calendar';
 				}
 				$moduleModel = Head_Module_Model::getInstance($module);
 				$fieldsList = $moduleModel->getFields();
-				foreach($fieldsList as $fieldName => $fieldModel) {
+				foreach ($fieldsList as $fieldName => $fieldModel) {
 					$fieldValue = $request->get($fieldName);
-					if($fieldModel->get('uitype') == 33) {
-						if(is_array($fieldValue)) {
+					if ($fieldModel->get('uitype') == 33) {
+						if (is_array($fieldValue)) {
 							$field_list = implode(' |##| ', $fieldValue);
 						} else {
 							$field_list = $fieldValue;
@@ -145,7 +152,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 				}
 			}
 
-			if ($taskType === 'VTCreateEntityTask') {
+			if ($taskType === 'CreateEntityTask') {
 				$relationModuleModel = Head_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
@@ -167,7 +174,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Head_IndexAjax_View {
 
 			$taskRecordModel->save();
 			$response = new Head_Response();
-			$response->setResult(array('for_workflow'=>$workflowId));
+			$response->setResult(array('for_workflow' => $workflowId));
 			$response->emit();
 		}
 	}

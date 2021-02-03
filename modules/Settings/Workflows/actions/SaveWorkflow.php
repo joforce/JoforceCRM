@@ -16,6 +16,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Head_Action_Controller {
 	}
 
 	public function process(Head_Request $request) {
+		//echo'<pre>';print_r($request);die('asd');
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
 		$moduleName = $request->get('module_name');
@@ -46,7 +47,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Head_Action_Controller {
 		} else {
 			$status = 0;
 		}
-		require_once 'modules/com_jo_workflow/expression_engine/include.inc';
+		require_once 'modules/Workflow/expression_engine/include.inc';
 
 		foreach ($conditions as $info) {
 			foreach ($info['columns'] as $conditionRow) {

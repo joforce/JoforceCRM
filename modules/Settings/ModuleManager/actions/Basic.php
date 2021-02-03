@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
-require_once('vtlib/Head/Layout.php'); 
+require_once('libraries/modlib/Head/Layout.php'); 
 
 class Settings_ModuleManager_Basic_Action extends Settings_Head_IndexAjax_View {
 	function __construct() {

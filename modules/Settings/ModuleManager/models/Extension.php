@@ -9,8 +9,8 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-vimport('~~/vtlib/Head/Net/Client.php');
-vimport('~~/vtlib/Head/Package.php');
+vimport('~~/libraries/modlib/Head/Net/Client.php');
+vimport('~~/libraries/modlib/Head/Package.php');
 
 class Settings_ModuleManager_Extension_Model extends Head_Base_Model {
 
@@ -20,7 +20,7 @@ class Settings_ModuleManager_Extension_Model extends Head_Base_Model {
 	var $fileName;
 
 	public static function getUploadDirectory($isChild = false) {
-		$uploadDir .= 'cache/vtlib';
+		$uploadDir .= 'cache/modlib';
 		if ($isChild) {
 			$uploadDir = '../'.$uploadDir;
 		}
@@ -97,7 +97,7 @@ class Settings_ModuleManager_Extension_Model extends Head_Base_Model {
 	 * @return <boolean> true/false
 	 */
 	public function isHeadCompatible() {
-		vimport('~~/vtlib/Head/Version.php');
+		vimport('~~/libraries/modlib/Head/Version.php');
 		$vtigerVersion = $this->get('vtigerVersion');
 		$vtigerMaxVersion = $this->get('vtigerMaxVersion');
 

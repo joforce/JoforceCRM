@@ -99,7 +99,7 @@
 					<div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
 						<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 						<button class="btn btn-primary" onclick="javascript:Settings_MailConverter_Edit_Js.thirdStep()"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
-						<a class="cancelLink" type="reset" onclick="javascript:window.history.go(-3);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+						<a class="cancelLink btn btn-secondary" type="reset" onclick="javascript:window.history.go(-3);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					</div>
 				</div>
 			</div>

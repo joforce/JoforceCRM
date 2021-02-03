@@ -27,6 +27,28 @@ class PDFMaker_Save_Action extends Head_Save_Action {
 		$pdf_settings['detailview'] = $request->get('detailview');
 		$pdf_settings['listview'] = $request->get('listview');
 		$settings = base64_encode(serialize($pdf_settings));
+                # Get Data/Save - Module Installation
+                if($request->get('parent')){
+                    global $adb; 
+                    $response = new Head_Response();
+                    try{
+                        $getallDetails = $adb->pquery('SELECT * FROM jo_pdfmaker');
+                        while ($record = $adb->fetchByAssoc($getallDetails)) {
+                            $pdf_settings['file_name'] = $record['name'];
+                            $encodesetting=base64_encode(serialize($pdf_settings));
+                            $sql = 'UPDATE `jo_pdfmaker` SET `settings`=? WHERE pdfmakerid=?';
+                            $params = array($encodesetting,$record['pdfmakerid']);
+                            $result = $adb->pquery($sql, $params);
+                        }                             
+                        $count =Settings_Head_UserDetailsSave_Action::completedpercentage("25",3); 
+                        $data = array('success'=>true,'count' =>$count);
+                        $response->setResult($data);
+                    }catch(Exception $e) {
+                        $response->setError($e->getCode(), $e->getMessage());
+                    }
+                    $response->emit();
+                    die;
+                }
 
                 $recordModel->set('name', $request->get('templatename'));
                 $recordModel->set('description', $request->get('description'));

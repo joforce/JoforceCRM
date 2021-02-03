@@ -1,0 +1,73 @@
+<?php
+/*+***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): JoForce.com
+ *************************************************************************************/
+
+ini_set('include_path',ini_get('include_path'). PATH_SEPARATOR . '../..');
+
+require_once 'includes/utils/utils.php';
+require_once('includes/utils/CommonUtils.php');
+require_once("config/config.inc.php");
+require_once("libraries/HTTP_Session2/HTTP/Session2.php");
+require_once('includes/database/PearDatabase.php');
+require_once 'includes/Webservices/Utils.php';
+require_once("modules/Users/Users.php");
+require_once("includes/Webservices/State.php");
+require_once("includes/Webservices/OperationManager.php");
+require_once("includes/Webservices/SessionManager.php");
+require_once("includes/Zend/Json.php");
+require_once 'includes/Webservices/WebserviceField.php';
+require_once 'includes/Webservices/EntityMeta.php';
+require_once 'includes/Webservices/HeadWebserviceObject.php';
+require_once("includes/Webservices/HeadCRMObject.php");
+require_once("includes/Webservices/HeadCRMObjectMeta.php");
+require_once("includes/Webservices/DataTransform.php");
+require_once("includes/Webservices/WebServiceError.php");
+require_once 'includes/utils/UserInfoUtil.php';
+require_once 'includes/Webservices/ModuleTypes.php';
+require_once 'includes/utils/ModlibUtils.php';
+require_once('includes/logging.php');
+require_once 'includes/Webservices/WebserviceEntityOperation.php';
+require_once 'includes/Webservices/Retrieve.php';
+require_once('modules/Emails/mail.php');
+require_once 'modules/Users/Users.php';
+require_once('modules/Workflow/SimpleTemplate.inc');
+require_once 'modules/Workflow/EntityCache.inc';
+require_once('modules/Workflow/WorkflowUtils.php');
+
+require_once 'modules/Workflow/include.inc';
+
+function vtRunTaskJob($adb){
+	$util = new WorkflowUtils();
+	$adminUser = $util->adminUser();
+	$tq = new TaskQueue($adb);
+	$readyTasks = $tq->getReadyTasks();
+	$tm = new TaskManager($adb);
+	foreach($readyTasks as $taskDetails){
+		list($taskId, $entityId, $taskContents, $relatedInfo) = $taskDetails;
+		$task = $tm->retrieveTask($taskId);
+		//If task is not there then continue
+		if(empty($task)){
+			continue;
+		}
+		$task->setContents($taskContents);
+		$task->setRelatedInfo($relatedInfo);
+		$entity = EntityCache::getCachedEntity($entityId);
+		if(!$entity) {
+			$entity = new WorkflowEntity($adminUser, $entityId);
+		}
+
+		$task->doTask($entity);
+	}
+}
+$adb = PearDatabase::getInstance();
+require_once 'modules/Workflow/WorkFlowScheduler.php';
+$workflowScheduler = new WorkFlowScheduler($adb);
+$workflowScheduler->queueScheduledWorkflowTasks();
+vtRunTaskJob($adb);

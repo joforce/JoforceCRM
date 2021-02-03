@@ -266,9 +266,67 @@ function isPermitted($module,$actionname,$record_id='')
 	global $adb;
 	global $current_user;
 	global $seclog;
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 	$permission = "no";
+
+	$current_user_role = $current_user->roleid;
+	if($current_user_role == 'H6') {
+//	    $account_module_permission = getNotPermittedRelatedRecordPermission('Accounts');
+//	    $contact_module_permission = getNotPermittedRelatedRecordPermission('Contacts');
+	    $record_details_of_msq_user = getMasqueradeUserRecordDetails();
+	    $mas_record_id = $record_details_of_msq_user['record_id'];
+	    $mas_module = $record_details_of_msq_user['masquerade_module'];
+	    $mas_module_id = getTabid($mas_module);
+
+	    if(($module == $mas_module) && ($mas_record_id == $record_id) && ($actionname =='DetailView'))
+		    return true;
+	
+	    if(!empty($record_id) && ($record_id !== $mas_record_id)) {
+		$related_modules = getRelatedModules($mas_module);
+	    	$moduleModel = Head_Module_Model::getModuleInstanceById($related_modules[$module]['tabid']);
+		$targetModuleModel = Head_Module_Model::getInstance($mas_module_id);
+		if(!empty($related_modules[$module])) {
+		    $rel_query = $targetModuleModel->getRelationQuery($mas_record_id, $related_modules[$module]['functionname'], $moduleModel, $related_modules[$module]['relation_id']);
+		    $rel_record_query = $adb->pquery($rel_query);
+		    $num_rows = $adb->num_rows($rel_record_query);
+		    $rel_crmids = array();
+		    if($num_rows > 0) {
+		    	while($rel_record_result = $adb->fetch_array($rel_record_query)) {
+			    array_push($rel_crmids, $rel_record_result['crmid']);
+		    	}
+		    }
+		    if(in_array($record_id, $rel_crmids)) return true;
+		}
+	    }
+	}
 	$parenttab = isset($_REQUEST['parenttab']) ? $_REQUEST['parenttab'] : null;
 	if(($module == 'Users' || $module == 'Home' || $module == 'uploads') && $parenttab != 'Settings')
 	{
@@ -303,7 +361,7 @@ function isPermitted($module,$actionname,$record_id='')
 		$checkModule = 'Calendar';
 	}
 
-	if(vtlib_isModuleActive($checkModule)){
+	if(modlib_isModuleActive($checkModule)){
 
 		//Checking whether the user is admin
 		if($is_admin)
@@ -589,7 +647,20 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 	$log->debug("Entering isReadPermittedBySharing(".$module.",".$tabid.",".$actionid.",".$record_id.") method ...");
 	global $adb;
 	global $current_user;
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+    $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
 	$ownertype='';
 	$ownerid='';
 	$sharePer='no';
@@ -730,7 +801,20 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 	$log->debug("Entering isReadWritePermittedBySharing(".$module.",".$tabid.",".$actionid.",".$record_id.") method ...");
 	global $adb;
 	global $current_user;
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
 	$ownertype='';
 	$ownerid='';
 	$sharePer='no';
@@ -1618,7 +1702,7 @@ function getRoleSubordinates($roleId)
 	$log->debug("Entering getRoleSubordinates(".$roleId.") method ...");
 
 	// Look at cache first for information
-	$roleSubordinates = VTCacheUtils::lookupRoleSubordinates($roleId);
+	$roleSubordinates = CacheUtils::lookupRoleSubordinates($roleId);
 
 	if($roleSubordinates === false) {
 		global $adb;
@@ -1638,7 +1722,7 @@ function getRoleSubordinates($roleId)
 
 		}
 		// Update cache for re-use
-		VTCacheUtils::updateRoleSubordinates($roleId, $roleSubordinates);
+		CacheUtils::updateRoleSubordinates($roleId, $roleSubordinates);
 	}
 
 	$log->debug("Exiting getRoleSubordinates method ...");
@@ -1678,7 +1762,35 @@ function getCurrentUserProfileList()
 	global $log;
 	$log->debug("Entering getCurrentUserProfileList() method ...");
 		global $current_user;
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 		$profList = array();
 		$i=0;
 		foreach ($current_user_profiles as $profid)
@@ -1699,8 +1811,20 @@ function getCurrentUserGroupList($userid = false) {
 	if (!$userid) {
 		$userid = $current_user->id;
 	}
-
-	require('user_privileges/user_privileges_' . $userid . '.php');
+ $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	$grpList = array();
 	if (sizeof($current_user_groups) > 0) {
 		$i = 0;
@@ -1769,8 +1893,35 @@ function getListViewSecurityParameter($module)
 	global $current_user;
 	if($current_user)
 	{
-			require('user_privileges/user_privileges_'.$current_user->id.'.php');
-			require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($current_user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 	}
 	if($module == 'Leads')
 	{
@@ -2038,8 +2189,20 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 	if($fieldActive == false) {
 		return '1';
 	}
-
-	require('user_privileges/user_privileges_'.$userid.'.php');
+	$get_userdetails = get_privileges($userid);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 
 	/* Asha: Fix for ticket #4508. Users with View all and Edit all permission will also have visibility permission for all fields */
 	if($is_admin || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
@@ -2099,7 +2262,7 @@ function getColumnVisibilityPermission($userid, $columnname, $module, $accessmod
 	$tabid = getTabid($module);
 
 	// Look at cache if information is available.
-	$cacheFieldInfo = VTCacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
+	$cacheFieldInfo = CacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
 	$fieldname = false;
 	if($cacheFieldInfo === false) {
 		$res = $adb->pquery("select fieldname from jo_field where tabid=? and columnname=? and jo_field.presence in (0,2)", array($tabid, $columnname));
@@ -2121,7 +2284,20 @@ function getPermittedModuleNames()
 	$log->debug("Entering getPermittedModuleNames() method ...");
 	global $current_user;
 	$permittedModules=Array();
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	include('user_privileges/permissions.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
@@ -2161,7 +2337,20 @@ function getPermittedModuleNames()
 function getPermittedModuleIdList() {
 	global $current_user;
 	$permittedModules=Array();
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	include('user_privileges/permissions.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 &&
@@ -2266,7 +2455,20 @@ function isCalendarPermittedBySharing($recordId)
 
 function isToDoPermittedBySharing($recordId) {
 	global $current_user;
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 	$permission = 'no';
 	$recordOwnerId = end(getRecordOwnerId($recordId));
 	if (vtws_getOwnerType($recordOwnerId) == "Groups" || ($profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)) {
@@ -2318,5 +2520,3 @@ function appendFromClauseToQuery($query,$fromClause) {
 	$query = $newQuery.$fromClause.$condition;
 	return $query;
 }
-
-?>

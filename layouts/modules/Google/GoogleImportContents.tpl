@@ -51,10 +51,10 @@
             <div class="row clearfix">
                 <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                     {if $IS_SYNC_READY neq 'no'}
-                    <button class="btn addButton btn-success syncNow" type="button" id="saveSettingsAndImport"><span aria-hidden="true" class="fa fa-download"></span>&nbsp; {vtranslate('LBL_SAVE_AND_IMPORT', $MODULENAME)}</button>
+                    <button class="btn addButton btn-primary syncNow" type="button" id="saveSettingsAndImport"><span aria-hidden="true" class="fa fa-download"></span>&nbsp; {vtranslate('LBL_SAVE_AND_IMPORT', $MODULENAME)}</button>
                     &nbsp;&nbsp;&nbsp;
                     {/if}
-                    <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
+                    <a class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
                 </div>
             </div>
         </div> 

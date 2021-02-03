@@ -17,7 +17,7 @@ class ModuleDesigner
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($module_name, $event_type)
+	function modlib_handler($module_name, $event_type)
 	{
 		global $adb;
 	
@@ -117,7 +117,7 @@ class ModuleDesigner
 						$fieldid,
 						$blockid,
 						$module_name,
-						'layouts/vlayout/modules/Settings/'.$module_name.'/assets/images/'.$module_name.'.png',
+						'layouts/modules/Settings/'.$module_name.'/assets/images/'.$module_name.'.png',
 						'LBL_'.strtoupper($module_name).'_DESCRIPTION',
 						'index.php?module='.$module_name.'&view=Index&parent=Settings',
 						$seq,

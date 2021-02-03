@@ -981,7 +981,7 @@
                               		outline:0;
                               		border-style:none;
                               		border-bottom:1px solid #000;
-                              		border-color: #1C7C54 !important;
+                              		border-color: #0444a7 !important;
                               	}
                             }
                             & input[type="radio"]:first-child
@@ -995,10 +995,10 @@
                             }
                             & input[type="button"]
                             {
-                            	background: #1C7C54 !important;
-                                border-color: #1C7C54 !important;
+                            	background: #0444a7 !important;
+                                border-color: #0444a7 !important;
                                 color: #fff !important;  
-                                border: 1px solid #1C7C54 !important;
+                                border: 1px solid #0444a7 !important;
                                 border-radius: 2px !important;
                                 font-size: 15px !important;
     //line-height: 1.5 !important;
@@ -1022,7 +1022,7 @@
                                  &:hover
                                  {
                             			cursor: pointer !important;
-                            //     	    background: #1C7C54 !important;
+                            //     	    background: #0444a7 !important;
                             //     	    color:#fff;
                                  }
                              }
@@ -1089,7 +1089,7 @@
         &:focus
         {
                outline: 0 none !important;
-                   border-color: #1C7C54 !important;
+                   border-color: #0444a7 !important;
         }
         &.ui-corner-all
         {

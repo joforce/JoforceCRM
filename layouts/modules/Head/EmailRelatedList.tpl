@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): JoForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -44,10 +44,6 @@
                 {assign var=CLASS_VIEW_PAGING_INPUT value='relatedViewPagingInput'}
                 {assign var=CLASS_VIEW_PAGING_INPUT_SUBMIT value='relatedViewPagingInputSubmit'}
                 {assign var=CLASS_VIEW_BASIC_ACTION value='relatedViewBasicAction'}
-                {assign var=PAGING_MODEL value=$PAGING}
-                {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
-                {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-                {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
             </div>
         </div>
                     
@@ -61,21 +57,20 @@
                             </th>
                             {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
                                 <th class="{$WIDTHTYPE}">
+				    {if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
+					<a href="#" class="removeSorting pull-right">x</a>
+				    {/if}
                                     {if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists'}
                                         <a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE_NAME)}</a>
                                     {else}
                                         <a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">
                                             {if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
-                                                <i class="fa fa-sort {$FASORT_IMAGE}"></i>
+                                                <i class="fa pull-right {$FASORT_IMAGE}"></i>
                                             {else}
-                                                <i class="fa fa-sort customsort"></i>
+                                                <i class="fa {$DEFAULT_SORT} pull-right"></i>
                                             {/if}&nbsp;&nbsp;
-                                            {vtranslate($HEADER_FIELD->get('label')|html_entity_decode, $RELATED_MODULE_NAME)}
-                                            &nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<img class="{$SORT_IMAGE}">{/if}&nbsp;
+                                            <span>{vtranslate($HEADER_FIELD->get('label')|html_entity_decode, $RELATED_MODULE_NAME)}</span>
                                         </a>
-                                        {if $COLUMN_NAME eq $HEADER_FIELD->get('column')}
-                                            <a href="#" class="removeSorting"><i class="fa fa-remove"></i></a>
-                                        {/if}
                                     {/if}
                                 </th>
                             {/foreach}
@@ -133,6 +128,12 @@
                         </tr>
                     {/foreach}
                 </table>
+		<div class="col-lg-12 col-md-12 col-sm-12">
+                                    {assign var=PAGING_MODEL value=$PAGING}
+                                    {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
+                                    {assign var=PAGE_NUMBER value=$PAGING->get('page')}
+                                    {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+		</div>
             </div>
         <div class="bottomscroll-div"></div>
     </div>

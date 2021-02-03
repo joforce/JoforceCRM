@@ -13,14 +13,15 @@ global $calpath;
 global $app_strings, $mod_strings;
 global $theme;
 global $log;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
 require_once('includes/database/PearDatabase.php');
-require_once('data/CRMEntity.php');
+require_once('includes/data/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
-require_once("vtlib/Head/Module.php");
+require_once("libraries/modlib/Head/Module.php");
 require_once('modules/Head/helpers/Util.php');
 require_once('includes/RelatedListView.php');
 
@@ -370,7 +371,20 @@ class ReportRun extends CRMEntity {
 		$permitted_fields = Array();
 
         $selectedModuleFields = array();
-        require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		while ($columnslistrow = $adb->fetch_array($result)) {
 			$fieldname = "";
 			$fieldcolname = $columnslistrow["columnname"];
@@ -2141,8 +2155,35 @@ class ReportRun extends CRMEntity {
 	 * @return $query
 	 */
 	function getReportsNonAdminAccessControlQuery($module, $user, $scope = '') {
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		        $get_userdetails = get_privileges($user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 		$query = ' ';
 		$tabId = getTabid($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
@@ -2974,7 +3015,20 @@ class ReportRun extends CRMEntity {
 		global $adb, $current_user, $php_max_execution_time;
 		global $modules, $app_strings;
 		global $mod_strings, $current_language;
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+        $get_userdetails = get_privileges($current_user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
@@ -4231,10 +4285,10 @@ class ReportRun extends CRMEntity {
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("libraries/PHPExcel/PHPExcel.php");
+		
 
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+		$workbook = new Spreadsheet();
+		$worksheet = $workbook->getActiveSheet();
 
 		$reportData = $this->GenerateReport("PDF", $filterlist, false, false, false, 'ExcelExport');
 		$arr_val = $reportData['data'];
@@ -4242,7 +4296,7 @@ class ReportRun extends CRMEntity {
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
 		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('type' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK, 'color' => array('rgb' => 'E1E0F7')),
 				//'font' => array( 'bold' => true )
 		);
 
@@ -4256,11 +4310,11 @@ class ReportRun extends CRMEntity {
 				if ($key == 'ACTION' || $key == vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate('LBL ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
 					continue;
 				}
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, decode_html($key), true);
-				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+				$worksheet->setCellValueByColumnAndRow($count, $rowcount, decode_html($key), true);
+				$worksheet->getStyle($count.':'.$rowcount)->applyFromArray($header_styles);
 
 				// NOTE Performance overhead: http://stackoverflow.com/questions/9965476/phpexcel-column-size-issues
-				//$worksheet->getColumnDimensionByColumn($count)->setAutoSize(true);
+				$worksheet->getColumnDimension($count)->setAutoSize(true);
 
 				$count = $count + 1;
 			}
@@ -4281,9 +4335,9 @@ class ReportRun extends CRMEntity {
 						continue;
 					$value = decode_html($value);
 					if (in_array($dataType, $numericTypes)) {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->setCellValueByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 					} else {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+						$worksheet->setCellValueByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
 					$count = $count + 1;
 				}
@@ -4298,9 +4352,9 @@ class ReportRun extends CRMEntity {
 					$exploedKey = explode('_', $key);
 					$chdr = end($exploedKey);
 					$translated_str = in_array($chdr, array_keys($mod_strings)) ? $mod_strings[$chdr] : $chdr;
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $translated_str);
+					$worksheet->setCellValueByColumnAndRow($count, $rowcount, $translated_str);
 
-					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+					$worksheet->getStyle($count.':'.$rowcount)->applyFromArray($header_styles);
 
 					$count = $count + 1;
 				}
@@ -4315,18 +4369,18 @@ class ReportRun extends CRMEntity {
 						continue;
 					}
 					$value = decode_html($value);
-					$excelDatatype = PHPExcel_Cell_DataType::TYPE_STRING;
+					$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 					if (is_numeric($value)) {
-						$excelDatatype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+						$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 					}
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value, $excelDatatype);
+					$worksheet->setCellValueByColumnAndRow($count, $key + $rowcount, $value, $excelDatatype);
 					$count = $count + 1;
 				}
 			}
 		}
 		//Reference Article:  http://phpexcel.codeplex.com/discussions/389578
 		ob_clean();
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = new Xlsx($workbook);
 		$workbookWriter->save($fileName);
 	}
 

@@ -10,7 +10,6 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="editViewPageDiv">
-	<div class="col-sm-12 col-xs-12 main-scroll joforce-bg" style="padding-bottom: 100px !important;">
 		<form class="form-horizontal" id="EditView" name="EditProfile" method="post" action="index.php" enctype="multipart/form-data">
 			<div class="editViewHeader">
 				{if $RECORD_MODEL->getId()}
@@ -40,7 +39,7 @@
 					<div name='editContent'>
 						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
 								<label>
-									<strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</strong>&nbsp;<span class="red-border"></span>:&nbsp;
+									<strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</strong>&nbsp;<span class="red-border">*</span>:&nbsp;
 								</label></div>
 							<div class="fieldValue col-lg-6 col-md-6 col-sm-6 pl0" style="width: 30% !important;"> 
 								<input type="text" class="inputElement" style="margin-top: 13px;" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-rule-required="true" />
@@ -63,10 +62,9 @@
 				<div class="row clearfix">
 					<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 						<button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-						<a class='cancelLink' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>
 		</form>
-	</div>
 </div>

@@ -16,7 +16,7 @@ class HelpDeskHandler extends VTEventHandler {
 	function handleEvent($eventName, $entityData) {
 		global $log, $adb;
 
-		if($eventName == 'vtiger.entity.aftersave.final') {
+		if($eventName == 'jo.entity.aftersave.final') {
 			$moduleName = $entityData->getModuleName();
 			if ($moduleName == 'HelpDesk') {
 				$ticketId = $entityData->getId();
@@ -88,7 +88,7 @@ function HelpDesk_notifyOnPortalTicketComment($entityData) {
 	$parentIdParts = explode('x', $wsParentId);
 	$parentId = $parentIdParts[1];
 
-	$entityDelta = new VTEntityDelta();
+	$entityDelta = new EntityDelta();
 	$oldComments = $entityDelta->getOldValue($entityData->getModuleName(), $entityId, 'comments');
 	$newComments = $entityDelta->getCurrentValue($entityData->getModuleName(), $entityId, 'comments');
 	$commentDiff = str_replace($oldComments, '', $newComments);
@@ -165,7 +165,7 @@ function HelpDesk_notifyParentOnTicketChange($entityData) {
 		if($isNew) {
 			send_mail('HelpDesk',$parent_email,$HELPDESK_SUPPORT_NAME,$HELPDESK_SUPPORT_EMAIL_ID,$subject,$email_body);
 		} else {
-			$entityDelta = new VTEntityDelta();
+			$entityDelta = new EntityDelta();
 			$statusHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'ticketstatus');
 			$solutionHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'solution');
 			$descriptionHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'description');
@@ -214,7 +214,7 @@ function HelpDesk_notifyOwnerOnTicketChange($entityData) {
 			if($isNew) {
 				$mail_status = send_mail('HelpDesk',$to_email,$HELPDESK_SUPPORT_NAME,$HELPDESK_SUPPORT_EMAIL_ID,$subject,$email_body);
 			} else {
-				$entityDelta = new VTEntityDelta();
+				$entityDelta = new EntityDelta();
 				$statusHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'ticketstatus');
 				$solutionHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'solution');
 				$ownerHasChanged = $entityDelta->hasChanged($entityData->getModuleName(), $entityId, 'assigned_user_id');
@@ -234,5 +234,3 @@ function HelpDesk_notifyOwnerOnTicketChange($entityData) {
 		}
 	}
 }
-
-?>

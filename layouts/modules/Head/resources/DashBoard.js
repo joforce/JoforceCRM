@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): JoForce.com
  *************************************************************************************/
 
 Head.Class("Head_DashBoard_Js",{
@@ -957,5 +958,9 @@ Head.Class("Head_DashBoard_Js",{
 			instance.registerFilterInitiater();
 		});
 		app.event.trigger("post.DashBoardTab.load");
+		var gridcontainer = jQuery(".gridster_2").find('ul').find('li');
+		if(gridcontainer.length == '0'){			
+			jQuery(".gridster_2").find('ul').height(500);
+		}
 	}
 });

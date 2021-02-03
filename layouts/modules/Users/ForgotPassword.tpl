@@ -13,8 +13,8 @@
     <head>
         <style type="text/css">
             body{
-                font-family: Tahoma, "Trebuchet MS","Lucida Grande",Verdana !important;
-                //background: #F5FAEE !important;/*#f1f6e8;*/
+		font-family: 'Crimson Text', serif !important;
+                background: #F5FAEE !important;/*#f1f6e8;*/
                 color : #555 !important;
                 font-size: 85% !important;
                 height: 98% !important;

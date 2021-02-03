@@ -22,7 +22,6 @@
    <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
    <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-   <div class="col-sm-12 col-xs-12 joforce-bg">
         <div id="listview-actions" class="listview-actions-container">
             <div class = "row">
                 <div class='col-md-6 usersListDiv'>
@@ -40,7 +39,7 @@
             </div>
             <div class="list-content row">
 		<div class="col-sm-12 col-xs-12">
-		    <div id="table-content" class="table-container" style="padding-top:0px !important;">
+		    <div id="table-content" class="table-container" style="padding-top:0px !important;margin-bottom:2%;">
                     	<table id="listview-table"  class="table listview-table">
                        	    {assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
                        	    {assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
@@ -92,5 +91,4 @@
                 </div>
 	    </div>
         </div>
-    </div>
 {/strip}

@@ -1,0 +1,477 @@
+#detailView .fieldLabel {
+  border-bottom: 1px solid #f2f2f2; }
+
+/*module related tabs*/
+#modulerelatedtabs.related-tabs.row{background:#fff;margin-top:10px;height:auto;}
+#modulerelatedtabs.related-tabs.row .related-tabs-list>li{padding: 10px 10px;border-radius: 3px;background: #fff;width: 95%;margin: 10px auto;min-height: 50px;height:auto;border: 2px solid #efefef;}
+#modulerelatedtabs.related-tabs .dropdown-menu{max-height:300px;padding-left:0}
+#modulerelatedtabs.related-tabs .dropdown-menu>.mCustomScrollBox>.mCSB_container{margin-right:0;padding:4px 6px}
+#modulerelatedtabs.related-tabs .dropdown-menu>.mCustomScrollBox>.mCSB_container>li>a{display:block;padding:3px 5px;clear:both;font-weight:400;line-height:1.42857143;color:#333;white-space:nowrap}
+#modulerelatedtabs.related-tabs{position:relative}
+#modulerelatedtabs.related-tabs ul{padding-left:0px;width:auto;border:0 !important;}
+#modulerelatedtabs.related-tabs .tab-icon{max-width:85%;display:inline-block;vertical-align:middle}
+#modulerelatedtabs.related-tabs .tab-label{display:inline-block;height:26px;line-height:25px}
+#modulerelatedtabs.related-tabs .dropdown-menu>.mCustomScrollBox>.mCSB_container span i{font-size:15px;vertical-align:middle}
+#modulerelatedtabs.related-tabs .related-tabs-list > li.active{background:#EAEAEA !important;}
+#modulerelatedtabs.related-tabs .related-tabs-list > li.active a{color:#000;}
+#modulerelatedtabs.related-tabs.row .related-tabs-list>li>a ,.related-tabs.row .nav>li>a:hover{padding:3px 10px;border:0;vertical-align:bottom;display:block;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;}
+#modulerelatedtabs.related-tabs .related-tabs-list>li:hover{position: relative;border: 1px solid #deebfd;box-shadow: 5px 5px 10px 0 #dadee8;}
+#modulerelatedtabs.related-tabs .related-tabs-list>li.active,#modulerelatedtabs.related-tabs .related-tabs-list>li.active:focus {position: relative;border: 1px solid #deebfd;box-shadow:none;}
+.related-tabs-list{padding-left: 0px;width: auto;border: 0 !important;    padding-left: 0;margin-bottom: 0;list-style: none;}
+#related-tab-content-data{width: 95%; margin: auto;/*border-width: 0px 1px 1px 1px !important;border: 1px solid blue;*/}
+#related-tab-content-data .relatedContainer { min-height: 150px; height: auto;}
+/*related tabs*/
+
+/* detail tab headers */
+#detailtabheaders.related-tabs.row .nav>li{padding:2px 10px;margin:0 5px 5px 0;border-radius:20px;background:#ecf0fa;}
+#detailtabheaders.related-tabs.row .nav>li a{background:transparent;line-height:2;}
+#detailtabheaders.related-tabs{position:relative}
+#detailtabheaders.related-tabs ul{padding-left:0px;width:auto;border:0 !important;}
+#detailtabheaders.related-tabs .nav-tabs > li.active{background:#0c4da2 !important;}
+#detailtabheaders.related-tabs .nav-tabs > li.active a{color:#fff;}
+#detailtabheaders.related-tabs.row .nav>li>a,.related-tabs.row .nav>li>a:hover{padding:0px 3px;border:0;vertical-align:bottom;display:block;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;text-align: center;}
+#detailtabheaders.related-tabs .nav-tabs>li.active, #detailtabheaders.related-tabs .nav-tabs>li:hover,#detailtabheaders.related-tabs .nav-tabs>li.active:focus {border:0;}
+#detailtabheaders .nav.nav-tabs .tab-item{width:18% !important;margin:1px;}
+#detailtabheaders { width: 100%; margin: 10px 0 0 0; position: relative; height: 65px; padding: 10px; background: #fff !important; background-clip: border-box; border-radius: 5px; border: 1px solid #deebfd;margin-bottom: 1.3rem;box-shadow:-8px 12px 18px 0 #dadee8;}
+/* detail tab headers */
+
+/* detail blocks */
+.main-content-body-invoice{background:#fff;}
+.detailview-header-block{/*padding:5px 15px 15px 15px;*/margin-top: 10px;position: relative;display: flex;flex-direction: column;min-width: 0;word-wrap: break-word;background-clip: border-box;border-radius: 5px;margin-bottom: 1.3rem;}
+.white-background{
+    box-shadow: -8px 12px 18px 0 #dadee8;
+    border: 1px solid #deebfd;
+    background: #fff !important;
+    margin: 0 10px;
+    min-height: 250px !important;
+    position: relative;
+    padding: 15px;
+    background-clip: border-box;
+    border-radius: 5px;
+    margin-right: 10px !important;
+    margin-left: 5px !important;
+}
+/*.detailViewContainer .content-area,.editViewPageDiv .content-area,.editViewPageDiv.content-area,.editViewPageDiv .reports-content-area{background:#f9f9f9}*/
+.detailViewContainer .HistoryContainer,.detailViewContainer .recentActivitiesContainer,.related-tabs.row .details.row,.detailview-content .details.row .relatedHeader{padding:2px;}
+.detailview-content .details.row .relatedHeader{border:none !important;}
+.detailview-content.container-fluid #detailView .details{background:#fff;}
+.detailview-content .details.row .relatedContents{background:white;padding:0;margin-top:0;border:1px solid #f3f3f3}
+.detailViewContainer .commentContainer .commentTitle.row,.detailViewContainer .commentContainer .showcomments{background:#fff;background-clip: border-box; border-radius: 5px; border: 1px solid #deebfd; margin-bottom: 1.3rem; box-shadow: -8px 12px 18px 0 #dadee8;}
+.detailViewTwitterImage{position:absolute;top:-60px;right:0;font-size:19px;float:right;z-index:3;border-right-width:0;padding:5px 10px;background:#eee;color:#fff;height:50px;cursor:pointer}
+.detailViewTwitterImage .fa{color:#04abe7;margin-top:10px}
+.detailview-table input[type="checkbox"]{width:13px!important;margin-top:8px}
+.detailview-table .input-group-addon+.inputElement.form-control,.detailview-table .inputElement.form-control.input-medium{width:100%}
+.summaryViewEntries .referencefield-wrapper .inputElement,.detailview-table .referencefield-wrapper .inputElement{width:100%}
+.summaryViewEntries .inputElement.form-control,.detailview-table .inputElement.form-control{width:70%}
+.summaryViewEntries .input-group.date,.detailview-table .input-group.date{float:left}
+.summaryView{position:relative;padding:15px;margin-bottom:10px;background:#fff;background-clip: border-box;border-radius: 5px;border: 1px solid #deebfd;box-shadow: -8px 12px 18px 0 #dadee8;width:99%;}
+
+.detailview-header .recordBasicInfo>.info-row{margin-bottom:4px}
+.detailview-header .recordBasicInfo>.info-row .socialLinks{height:20px;display:inline-block}
+.record-header{min-height:80px}
+.recordImage.commentInfoHeader img{border-radius:50%;}
+.record-header .recordImage{float:left;display:inline-block;position:absolute}
+.record-header .recordBasicInfo{float:left;display:inline-block;padding-left:0px;width:100%;margin-top:10px;}
+.record-header .recordBasicInfo .info-row,.record-header .recordBasicInfo h4,.record-header .recordBasicInfo a,.record-header .recordBasicInfo .fieldLabel{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.record-header .recordBasicInfo h4{height:25px;margin:0;text-align: left;}
+.detailViewContainer .recordImage,.overlayDetailHeader .recordImage,.quickPreviewModuleHeader .recordImage{display:table;height:80px;width:80px;padding:0}
+.detailViewContainer .recordImage .name,.overlayDetailHeader .recordImage .name,.quickPreviewModuleHeader .recordImage .name{display:table-cell;position:relative;text-align:center;vertical-align:middle}
+.detailViewContainer .recordImage .name span,.overlayDetailHeader .recordImage .name span,.quickPreviewModuleHeader .recordImage .name span{color:#fff;text-shadow:1px 0 2px #999}
+.detailViewContainer .recordImage.bgAccounts,.overlayDetailHeader .recordImage.bgAccounts,.quickPreviewModuleHeader .recordImage.bgAccounts{background:#6cc4b9}
+.detailViewContainer .recordImage.bgcontacts,.overlayDetailHeader .recordImage.bgcontacts,.quickPreviewModuleHeader .recordImage.bgcontacts{background:#03a678}
+.detailViewContainer .recordImage.bghelpdesk,.overlayDetailHeader .recordImage.bghelpdesk,.quickPreviewModuleHeader .recordImage.bghelpdesk{background:#d1026c}
+.detailViewContainer .recordImage.bginvoice,.overlayDetailHeader .recordImage.bginvoice,.quickPreviewModuleHeader .recordImage.bginvoice{background:#d1026c}
+.detailViewContainer .recordImage.bgleads,.overlayDetailHeader .recordImage.bgleads,.quickPreviewModuleHeader .recordImage.bgleads{background:#f47983}
+.detailViewContainer .recordImage.bgpotentials,.overlayDetailHeader .recordImage.bgpotentials,.quickPreviewModuleHeader .recordImage.bgpotentials{background:#492d61}
+.detailViewContainer .recordImage.bgproducts,.overlayDetailHeader .recordImage.bgproducts,.quickPreviewModuleHeader .recordImage.bgproducts{background:#ffb3a7}
+.detailViewContainer .recordImage.bgvendors,.overlayDetailHeader .recordImage.bgvendors,.quickPreviewModuleHeader .recordImage.bgvendors{background:#875f9a}
+.detailViewContainer .recordImage.bgpurchaseorder,.overlayDetailHeader .recordImage.bgpurchaseorder,.quickPreviewModuleHeader .recordImage.bgpurchaseorder{background:#c93756}
+.detailViewContainer .recordImage.bgquotes,.overlayDetailHeader .recordImage.bgquotes,.quickPreviewModuleHeader .recordImage.bgquotes{background:#d1026c}
+.detailViewContainer .recordImage.bgsalesorder,.overlayDetailHeader .recordImage.bgsalesorder,.quickPreviewModuleHeader .recordImage.bgsalesorder{background:#d1026c}
+.detailViewContainer .recordImage.bgproject,.overlayDetailHeader .recordImage.bgproject,.quickPreviewModuleHeader .recordImage.bgproject{background:#d1026c}
+.detailViewContainer .recordImage.bg_ServiceContracts,.overlayDetailHeader .recordImage.bg_ServiceContracts,.quickPreviewModuleHeader .recordImage.bg_ServiceContracts{background:#ffb61e}
+.detailViewContainer .recordImage.bg_Assets,.overlayDetailHeader .recordImage.bg_Assets,.quickPreviewModuleHeader .recordImage.bg_Assets{background:#8db255}
+.detailViewContainer .recordImage.bg_Services,.overlayDetailHeader .recordImage.bg_Services,.quickPreviewModuleHeader .recordImage.bg_Services{background:#d1026c}
+.detailViewContainer .recordImage.bg_Calendar,.overlayDetailHeader .recordImage.bg_Calendar,.quickPreviewModuleHeader .recordImage.bg_Calendar{background:#ed4c57}
+.detailViewContainer .recordImage.bg_Campaigns,.overlayDetailHeader .recordImage.bg_Campaigns,.quickPreviewModuleHeader .recordImage.bg_Campaigns{background:#a17917}
+.detailViewContainer .recordImage.bg_Cases,.overlayDetailHeader .recordImage.bg_Cases,.quickPreviewModuleHeader .recordImage.bg_Cases{background:#42a5f5}
+.detailview-header .recordImage [class^="joicon-"],.overlayDetailHeader .recordImage [class^="joicon-"],.quickPreviewModuleHeader .recordImage [class^="joicon-"]{font-size:35px}
+.detailViewContainer .block{background:#fff;border:1px solid #f3f3f3;padding-left:15px;padding-right:15px;padding-top: 20px;padding-bottom: 5px;box-shadow: -8px 12px 18px 0 #dadee8;background-clip: border-box;border-radius: 5px;border: 1px solid #deebfd;position:relative;}
+.detailViewContainer .block hr{margin:10px 0}
+.editViewContainer .block{background:#fff;border:1px solid #f3f3f3;padding-left:15px;padding-right:15px}
+.commentDetails li{padding-left:50px}
+.commentDetails .media-body{float:right;padding:10px 0 0 10px;/*background:#ecf0fa;*/border-radius: 10px;text-align:left;}
+/*.commentDetails .media-body:before { position: absolute; top: 10px; left: -10px;right:auto;display: inline-block; border-top: 20px solid transparent; border-right: 20px solid #ecf0fa; border-left: 0 solid #ecf0fa; border-bottom: 20px solid transparent;content: " ";}*/
+.commentDetails .media-body .comment{padding:10px;}
+.commentInfoContent{display:inline-block;word-break:break-all;line-height:1.5em}
+.fc-overlay-modal{top:auto!important;bottom:0;right:0;left:auto;border:1px solid #ddd;box-shadow:none;background:white}
+.table-borderless tbody td,.table-borderless tbody th{border:0!important}
+
+.detailview-table{table-layout:fixed;border-collapse: separate;}
+.detailViewInfo .fieldLabel{text-align:right}
+.detailview-table .fieldLabel{width:20%}
+.detailview-table .fieldValue{width:30%}
+
+.detailViewSetting.dropdown-menu li { padding: 0px !important; }
+.detailview-table .input-group { width: 100% !important; }
+.detailview-table .input-group .marginLeftZero.autoComplete.inputElement.ui-autocomplete-input { width: 100% !important; }
+.detailview-table .input-group .inputElement.currencyField, .detailview-table .input-group #Leads_editView_fieldName_annualrevenue {
+ width: 100% !important; }
+.detailview-table .input-group .inputElement.dateField, .detailview-table .input-group .inputElement.input-percent { width: 100% !important; }
+.detailview-table .input-group .inputElement { width: 100% !important; }
+.detailview-table .input-group .input-group { width: 80% !important; }
+.detailview-table .input-group .input-group .inputElement { width: 100% !important; }
+.detailview-table .input-save-wrap { position: relative; bottom: 1px; }
+.fieldLabel { font-size: 15px !important; }
+
+.summaryView .referencefield-wrapper { max-width: 100% !important; }
+.summaryView .referencefield-wrapper{max-width:150px;display:table-cell}
+.summaryView .referencefield-wrapper .input-group.time,.summaryView .referencefield-wrapper .input-group.date{min-width:120px}
+.referencefield-wrapper{display:table-cell}
+#detailView td.fieldValue .action{display:none;position:absolute;margin-left:10px}
+#detailView td.fieldValue:hover .action{display:inline-block}
+#detailView td.fieldValue:hover .action a{text-decoration:none;color:inherit}
+#detailView td.fieldValue .edit{width:90%}
+#detailView td.fieldValue { border-bottom: 1px solid #f2f2f2; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; }
+#detailView td.fieldValue .action { position: relative !important; right: 0; float: right; }
+#detailView td.fieldValue .edit { width: 100% !important; }
+#detailView td.fieldValue .inputElement { width: 80% !important; }
+#detailView td.fieldValue textarea.inputElement { width: 100% !important; visibility: visible !important; }
+#detailView td.fieldValue .inputElement.dateField { width: 75% !important; }
+#detailView td.fieldValue .input-group { width: 100%; }
+#detailView td.fieldValue .input-group .input-group .inputElement { width: 100% !important; }
+#detailView td.fieldValue .input-group-addon.relatedPopup.cursorPointer { right: 0px !important; z-index: 1000; }
+#detailView td.fieldValue .clearReferenceSelection { z-index: 1000; right: 30px; bottom: 0px; }
+#detailView td.fieldValue input[type="checkbox"] { width: 15px !important; }
+#detailView td.fieldLabel {margin-top: 15px;text-align: left; font-weight: 600;}
+#detailView .referencefield-wrapper { display: inline; }
+#detailView .inputElement.percentage-input-element { width: 100% !important; }
+
+.detailview-content{padding-bottom:30px}
+.detailview-content .commentsRelatedContainer .commentTitle{border:1px solid #CCC;padding:20px}
+.detailview-content .commentsRelatedContainer textarea{width:100%;height:73px;resize:none}
+.detailview-content .commentsRelatedContainer .commentTextArea{padding-bottom:10px}
+.numberCircle{background:none repeat scroll 0 0 #8e44ad;border-radius:2px;color:white;display:inline-block;font-size:10px;min-height:19px;min-width:19px;padding:2px;text-align:center;vertical-align:baseline;margin-top:2px}
+.summary-table{width:100%;table-layout:fixed}
+.editViewContents .fieldBlockContainer{position:relative;padding:15px;margin-bottom:10px;background:#fff;margin: 10px auto 10px auto;width: 97%;background-clip: border-box;border-radius: 5px;border: 1px solid #deebfd;box-shadow: -8px 12px 18px 0 #dadee8;}
+.summaryView .fieldLabel{padding-left:0;padding-right:30px}
+.summaryView .summaryViewHeader{margin-bottom:8px;margin-top:0}
+.summaryView .summaryViewHeader h4{margin-top:0;margin-bottom:0}
+.summaryView .summaryViewFields{line-height:2}
+.summaryViewFields .inputElement{max-height:30px}
+.summaryViewFields .inputElement.input-xxlarge{max-height:200px}
+
+.summaryWidgetContainer{position:relative;padding:15px;margin-bottom:10px; background: #fff !important; background-clip: border-box; border-radius: 5px; border: 1px solid #deebfd; box-shadow: -8px 12px 18px 0 #dadee8;width:99%;min-height: 200px;}
+.summaryWidgetContainer .widget_header{margin-bottom:8px;margin-top:0}
+.summaryWidgetContainer .toggleButton{font-size:16px}
+.summaryWidgetContainer .commentTitle{padding-left:15px;padding-right:15px}
+.summaryWidgetContainer .creatorName{color:blue}
+.summaryWidgetContainer .recentCommentsHeader{margin-bottom:10px}
+.summaryWidgetContainer .commentContainer{background:white;border-color:#f3f3f3}
+.summaryWidgetContainer .commentContainertextarea{width:100%;resize:none}
+.noCommentsMsgContainer,.quick-preview-modal .noContent{border:1px solid #CCC}
+.summaryWidgetContainer .recordImage .name{display:table-cell;margin:0 auto;position:relative;text-align:center;vertical-align:middle}
+.summaryWidgetContainer .recordImage .name span{color:#fff;display:inline-block;text-shadow:1px 0 2px #999}
+.summaryWidgetContainer .noContent{padding:10px;border-radius: 10px;min-height: 50px;height:100px;line-height: 70px;text-align: center;}
+.summaryWidgetContainer p,.commentsList p,.recentComments .noCommentsMsgContainer p{margin-bottom:0}
+.summaryWidgetContainer .engagementsContainer table{width:inherit}
+.summaryWidgetContainer .engagementsSummary .summaryContent{height:130px;width:140px}
+.summaryWidgetContainer .engagementsContainer .detailview-table{table-layout:auto}
+.summaryWidgetContainer .engagementsSummary .backgroupImage{font-size:60px;left:70px;opacity:.03}
+.summaryWidgetContainer .widget_header h4{margin-top:0;margin-bottom:0}
+.summaryWidgetContainer .widget_contents{margin-top:12px}
+.summaryWidgetContainer .recordImage{background:none repeat scroll 0 0 orange;border:1px solid #ccc;display:table;overflow-y:hidden;height:50px;padding:0;width:50px}
+.summaryWidgetContainer .activityEntries .module-icon{line-height:28px}
+.summaryWidgetContainer .activityEntries .module-icon.span{position:relative;vertical-align:middle}
+.summaryWidgetContainer .activityEntries .summaryViewEntries{display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%}
+.summaryWidgetContainer .activityStatus .editStatus,.summaryWidgetContainer .summaryViewEntries .summaryViewEdit{opacity:0}
+.summaryWidgetContainer .activityStatus:hover .editStatus,.summaryWidgetContainer .summaryViewEntries:hover .summaryViewEdit{opacity:1;cursor:pointer}
+.details.row>form .social-media-toggle{position:absolute;right:-15px;display:inline-block;width:500px;border-left:0}
+.details.row>form .social-media-widget{border-left:1px solid #ddd;border-bottom:1px solid #ddd;height:100%;background:white}
+.details.row>form div[class*="col-"].resizable-summary-view{padding-left:0;padding-right:0}
+.details.row>form>div[class*="col-"],.details.row>form .resizable-summary-view div[class*="col-"]{padding-right:0;padding:0 5px}
+.details.row>form>div[class*="col-"]:first-child,.details.row>form .left-block{padding-left:0!important}
+.details.row>form>div[class*="col-"]:last-child{padding-right:0}
+.summaryView .fieldValue .value{max-width:80%;width:auto!important}
+.fieldLabel{color:#303030;opacity:.8}
+.fieldLabel label{font-weight:100}
+.fieldValue{color:#222}
+
+.overlayDetailHeader .recordBasicInfo .fieldLabel .action,.detailview-header .headerAjaxEdit .action{display:none;position:absolute;margin-left:10px}
+.overlayDetailHeader .recordBasicInfo .fieldLabel:hover .action,.detailview-header .headerAjaxEdit:hover .action{display:inline-block}
+.overlayDetailHeader .recordBasicInfo .fieldLabel:hover .action a,.detailview-header .headerAjaxEdit:hover .action a{text-decoration:none;color:inherit}
+.overlayDetailHeader .recordBasicInfo .inputElement,.detailview-header .headerAjaxEdit .inputElement{width:70% !important;}
+.overlayDetailHeader .recordBasicInfo .referencefield-wrapper .inputElement,.detailview-header .headerAjaxEdit .referencefield-wrapper .inputElement{width:123px;min-width:148px}
+.overlayDetailHeader .recordBasicInfo .referencefield-wrapper .input-group,.detailview-header .headerAjaxEdit .referencefield-wrapper .input-group{min-width:177px}
+.overlayDetailHeader .recordBasicInfo .inputElement[type="checkbox"],.detailview-header .headerAjaxEdit .inputElement[type="checkbox"]{width:6%;margin-top:3%;margin-right:2%}
+.detailViewContainer .recordImage, .overlayDetailHeader .recordImage{ border-radius: 6px; }
+.detailview-header .recordImage [class="joicon"] {  font-size: 30px !important; }
+.detailViewContainer .recordImage { height: 40px !important; width: 40px !important; margin-top:10px; margin-left: 35px;}
+.detailViewContainer .commentDetails .recordImage.commentInfoHeader{margin-left:0px !important;}
+.record-header { min-height: 60px !important; }
+.detailViewContainer .commentContainer .showcomments { padding-bottom: 10px; }
+.commentActionsContainer{display: inline-block;float: right;}
+.commentsList .recordImage{background:none repeat scroll 0 0 orange;border:1px solid #ccc;display:table;overflow-y:hidden;height:50px;padding:0;width:50px}
+ .commentsList .recordImage img{border-radius:50%;}
+/* detail blocks */
+
+/* detailview table */
+.table.detailview-table.no-border tr td.fieldValue {
+  float: left;
+  width: 90%;
+  position: relative;
+  left: 0px; }
+.table.detailview-table.no-border tr .input-group-addon-cancel, .table.detailview-table.no-border tr .input-group-addon-save {
+  top: 2px; }
+
+.table-summary-view {
+  width: 25%;
+  max-height: 700px;
+  overflow: hidden;
+  overflow-y: auto;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  border: 2px solid #e8e8e8; }
+  .table-summary-view .summary-header {
+    background: #fcfcfc;
+    padding: 5px 10px; }
+  .table-summary-view .summary-content {
+    padding: 20px 0px; }
+    .table-summary-view .summary-content .record-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      padding: 12px;
+      background: #0c4da2;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      vertical-align: middle; }
+    .table-summary-view .summary-content .record-detail {
+      padding: 0px; }
+      .table-summary-view .summary-content .record-detail li {
+        display: block;
+        list-style: none;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 10px 0px 0px 0px; }
+        .table-summary-view .summary-content .record-detail li .record-label {
+          display: block; }
+        .table-summary-view .summary-content .record-detail li .record-value {
+          display: block;
+          font-weight: normal; }
+  .table-summary-view .summary-footer {
+    background: #fcfcfc;
+    padding: 5px 10px; }
+    .table-summary-view .summary-footer .updates {
+      width: 100%;
+      height: 100px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      overflow: hidden;
+      overflow-y: auto; }
+    .table-summary-view .summary-footer .update-field {
+      cursor: pointer;
+      color: #25a670; }
+  .table-summary-view .summary-close {
+    cursor: pointer; }
+/* detailview table */
+
+/* detail view - related list */
+.details .relatedContents .bottomscroll-div{display:flex;overflow-x:auto}
+.relatedContents .listViewContentHeaderValues:hover{text-decoration:none;color:#333}
+.relatedContents .listview-table .table-actions{width:75px;height:15px}
+.relatedContents .listSearchContributor{width:130px}
+.relatedContents .relatedListEntryValues:hover{text-decoration:none}
+.relatedListHeaderValues .customsort{opacity:.3}
+.relatedListHeaderValues:hover .customsort{opacity:1}
+.relatedListHeaderValues:hover{text-decoration:none;color:#000}
+.relatedContents .listViewEntries .actions{opacity:0;-webkit-transition:all 1s ease;-moz-transition:all 1s ease;-o-transition:all 1s ease;transition:all 1s ease}
+.relatedContents .listViewEntries:hover .actions{opacity:1}
+.relatedViewActions #PageJumpDropDown{margin-left:-5px;font-size:10px;width:50px}
+.relatedViewBasicAction .relatedViewPagingInput{width:69px;padding:0 5px;vertical-align:middle;height:22px;margin-top:-2px;font-size:12px}
+.relatedViewBasicAction .relatedViewPagingInputSubmit{padding:1px;margin-left:-4px;font-size:9px;width:14%;margin-top:-2px}
+.relatedContents.table-container{width: 100%;left: 0px;}
+#modulerelatedtabs .nav.nav-tabs .tab-item{padding: 2px 10px;margin: 2px 2px 2px 2px;border-radius: 5px 5px 0 0;background: #ecf0fa;}
+
+/* detail view - related list */
+
+
+/*star button*/
+.markStar .unstarredStatus {color: #ee335e !important;}
+.markStar .unfollowMessage{display:none}
+.markStar .active{color:#fff}
+.markStar:hover .unfollowMessage{display:block}
+.markStar:hover .followMessage{display:none}
+.markStar.active .starredStatus{display:block}
+.markStar.active .unstarredStatus{display:none}
+.markStar .starredStatus{display:none}
+#starToggle.markStar.active{background: #ee335e !important;}
+#starToggle.markStar{border-color: #ee335e !important;}
+/*star button*/
+
+.detailview-basic-actions .edit{color: #fff !important;
+    background-color: #00b9ff !important;
+    border-color: #00b9ff !important;}
+.detailview-basic-actions .email{
+color: #fff !important;
+    background-color: #22c03c !important;
+    border-color: #22c03c !important}
+
+    .detailview-basic-actions .edit:hover{color: #00b9ff !important;
+    background-color: #fff !important;
+    border-color: #00b9ff !important;}
+.detailview-basic-actions .email:hover{
+color: #22c03c !important;
+    background-color: #fff !important;
+    border-color: #22c03c !important}
+
+ .headerAjaxEdit {
+    display: block;
+    /*padding: 0 30px;*/
+    margin: 5px;
+    }
+
+
+/* quick view */
+.quickPreviewModuleHeader .recordImage {border-radius: 6px; }
+.quickPreview{position:absolute;width:100%;height:100%}
+.quick-preview-modal,.quick-preview-modal .modal-body{height:100%;padding-bottom:5px;padding-right:0;padding-left:8px;padding-right:0}
+.quick-preview-modal .modal-body .recordBasicInfo{width:100%}
+.quick-preview-modal .modal-body .recordBasicInfo>.info-row h4{margin:0;line-height:21px}
+.quick-preview-modal .modal-body .recordBasicInfo>.info-row .recordLabel{white-space:nowrap;display:inline-block;overflow:hidden;text-overflow:ellipsis;width:100%}
+.quick-preview-modal .quickPreviewActions{padding:10px 0 15px 0}
+#quickPreviewHeader .title{background:#f5f5f5;padding:6px 10px;margin:5px 0;font-size:15px;color:#000}
+.overlayDetailHeader{padding-left:0;padding-bottom:10px;padding-top:10px}
+.quickPreviewModuleHeader{padding-right:6px}
+.quickPreviewModuleHeader .qp-heading>div{width:100%}
+.quickPreviewSummary{margin-bottom:10px}
+.quickPreviewSummary .summaryViewEntries .fieldLabel,.quickPreviewSummary .summaryViewEntries .fieldValue{padding-bottom:4px;white-space:nowrap}
+.quickPreviewSummary .summaryViewEntries .fieldLabel label{display:block;max-width:100%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.quickPreviewSummary .summaryViewEntries .fieldValue .value{width:80%}
+.quickPreviewComments .recentComments .commentDetails{margin-bottom:25px}
+.quickPreviewComments .recentComments .commentDetails .comment{line-height:15px}
+.quickPreviewComments .summaryWidgetContainer{border:0;padding:0}
+.calendar-navigator{margin-top:0!important}
+.calendarview{width:100%}
+.activitytypes .activitytype-indicator{padding:5%;margin:8px;font-size:80%;min-height:35px;word-wrap:break-word}
+.activitytypes .activitytype-indicator .activitytype-actions i{font-size:14px!important}
+.activitytypes .activitytype-indicator .activitytype-actions input[type="checkbox"]{margin-bottom:-1px}
+.activitytypes .activitytype-indicator .userName{max-width:110px;display:inline-block}
+.addCalendarEventModal{width:35%}
+.addCalendarEventModal .input{width:100%}
+.calendarview .agendaListView{padding:1% 0;overflow-y:scroll;overflow-x:hidden;max-height:550px}
+.calendarview .agendaListView .agendaListDay{padding:1%;width:98%}
+.calendarview .agendaListView .agendaListDay hr{border-top:3px solid #424242;margin-top:7px;margin-bottom:10px}
+.calendarview .agendaListView .agendaListDay .agendaListViewHeader{font-size:160%;color:#607d8b}
+.calendarview .agendaListView .agendaListDay .agendaListViewHeader .day{display:inline-block;width:70%;float:left}
+.calendarview .agendaListView .agendaListDay .agendaListViewHeader .weekDay{float:right}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody{color:#757575}
+
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-wrapper{font-size:120%;padding:1%;border-bottom-width:thin;border-bottom-style:ridge}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-info{display:table;width:100%}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-time{display:table-cell;width:15%}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-title{display:table-cell;width:56%}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-status{display:table-cell;width:10%}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-actions{display:table-cell;text-align:right;width:10%}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-more-details{display:table-cell;width:5%;text-align:center}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-more-details i{vertical-align:middle}
+.calendarview .agendaListView .agendaListDay .agendaListViewBody .agenda-event-wrapper .agenda-event-details{display:table;width:100%}
+.calendarview .agenda-table{display:table}
+.calendarview .agenda-table-row{display:table-row}
+.agenda-details{display:block;margin-left:22%;padding:2px}
+.calendarview .agenda-table-cell{display:table-cell}
+.calendarview .agenda-event-wrapper .agenda-event-details .details{padding:1% 0;width:100%}
+.calendarview .agenda-event-wrapper .agenda-event-details .detailLabel{width:15%;display:inline-block}
+.calendarview .agenda-event-wrapper .agenda-event-details .separator{width:5%;display:inline-block;text-align:center}
+
+/* quick view */
+
+.engagementsContainer .engagements_content{padding-top:15px}
+.engagements_content table thead>tr:first-child{border:1px solid #CCC;background-color:#f5f5f5}
+.engagements_content table th{color:black}
+.engagementsSummary .summaryContent{display:inline-block;border-radius:2px;height:185px;width:185px;padding:10px 15px 10px;margin:0 8px 8px 0;border:1px solid #ddd;position:relative}
+.engagementsSummary{padding-top:10px;padding-bottom:10px}
+.engagementsSummary .backgroupImage{position:absolute;opacity:.05;font-size:100px;left:75px;top:65px}
+.engagementsContainer .summary.selected .count{font-weight:bold;color:#8e44ad;font-size:15px}
+.engagement_contentempty{width:100%;text-align:center;font-size:15px;padding:1% 0}
+
+/*btn and button - starts*/
+#listview-table .inline-save button{height:26px;width:25px}
+.listview-table tr.searchRow th.inline-search-btn button{text-align:center;width: 70% !important;padding-left: 5px !important;}
+.relatedContents .listview-table tr.searchRow th.inline-search-btn button{width:95px}
+.table-container .fixed-scroll-table .listview-table .table-actions .inline-save button { width: 25px; }
+.btn-group.listViewActionsContainer { margin: 0px !important; }
+.btn-group.listViewActionsContainer .btn.btn-action { background: none; width: 25px; height: 25px; border: 1px solid #e8e8e8; padding: 0px 0px; margin-left: 0px !important; margin-top: 1px !important; border-radius: 0px !important; }
+
+.blockHeader .btn-group{margin-top:4px}
+.quickPreviewActions .btn-group .btn-success{font-size:12px;color:white;padding:2px 6px}
+.treeView li .toolbar-handle .btn{margin:0}
+.relatedViewActions .btn-group{margin-right:15px}
+.btn+input{margin-left:5px}
+.sidebar-menu .sidebar-btn{padding:6px 10px;line-height:10px;margin-top:2px}
+.btn-block+.btn-block{margin-top:5px}
+.btn-google-plus{color:#fff!important;background-color:#dd4b39;border-color:rgba(0,0,0,0.2)}
+.btn-social{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-social>:first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+
+.joforce-search-btn {padding: 15px;float: right;right: 0px;background-color: transparent;border: 0px;-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none; }
+.joforce-search-btn:hover,.joforce-search-btn:focus {-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;border: 0px; }
+
+.btn-paginate { background: none; border: none; font-size: 15px; margin: 5px; vertial-align: middle; }
+.btn-paginate:hover, .btn-paginate:focus { border: none; box-shadow: none; }
+/*listview actions dropdown*/
+.open > .dropdown-toggle.btn-primary, .btn-default.btn-primary:hover {background: #064bb7!important;border-color:#064bb7!important;}
+.dropdown-toggle.btn-default {color: #fff !important;background-color: #737f9e !important;border-color: #737f9e !important;}
+.dropdown-toggle.btn-default:hover{color: #fff !important;background-color: #737f9e !important;border-color: #737f9e !important;border-width:2px;}
+
+.table-actions .btn-group.listViewMassActions.dropdown {border: none;padding: 0px; }
+.table-container .fixed-scroll-table #listview-table.listview-table .btn-group {margin-left: -1px !important; }
+.table-actions .btn-group.listViewMassActions.dropdown .dropdown-toggle {margin: 0px !important;padding: 1px 0px !important;border-left: none;min-width: auto !important;width: 28px;height: 28px;-webkit-height: 28px;-moz-height: 31px !important;border-radius: 0px !important;left: 0px; }
+/*listview actions dropdown*/
+
+/*pipeline view*/
+#pipeline_stages{ position: relative; width: 100%; height: 55px !important; margin-top: 20px;}
+#pipeline_stages .pipe-stage{ position:absolute;}
+.nav-pills.nav-wizard > li { position: relative; overflow: visible; border-right: 7px solid transparent; border-left: 15px solid transparent; /* width: 30px !important;*/ display: inline-flex;}
+.nav-pills.nav-wizard > li + li { margin-left: 0;}
+/*.nav-pills.nav-wizard > li:first-child {border-left: 0;}*/
+.nav-pills.nav-wizard > li:first-child a {border-radius: 5px 0 0 5px;}
+.nav-pills.nav-wizard > li:last-child {border-right: 0;}
+.nav-pills.nav-wizard > li:last-child a {border-radius: 0 5px 5px 0;}
+.nav-pills.nav-wizard > li a { border-radius: 0; background-color: #eee; height: 40px;}
+.nav-pills.nav-wizard > li:hover a { background-color: #aaa; color: #fff;}
+.nav-pills.nav-wizard > li.active a { background-color: #428bca;}
+.nav-pills.nav-wizard > li.completed a { background-color: #00A65A; color: #FFFFFF; font-weight: 600;}
+.nav-pills.nav-wizard > li.lost a { background-color: #dd4b39; color: #FFFFFF;}
+.nav-pills.nav-wizard > li > a { border-top: 0 solid transparent !important;}
+.nav-justified > li { display: table-cell; width: 0%;}
+/*pipeline view*/
+
+#forecast-view.btn.active, #backto-list-view.btn.active {  border-color: #afafaf !important; }
+#forecast-view.btn, #backto-list-view {  margin-right: 5px;  border-radius: 0px !important;  background: #fff;  border: 1px solid #e8e8e8 !important; }
+#forecast-view,#backto-list-view,.btn-filter,#starToggle,.btn.btn-default.edit,.btn.btn-default.email{padding:3px 10px !important;width: 40px; height: 40px;}
+.fc-button-group .fc-prev-button.fc-state-default, .fc-button-group .fc-next-button.fc-state-default, .fc-button-group .vt-goto-date.fc-state-default { border: none !important; background: none !important; box-shadow: none !important; font-size: 15px; }
+.fc-button-group button { font-size: 15px !important; }
+.fc-right .fc-button.fc-today-button { border-color: #0c4da2 !important; font-size: 15px !important; }
+.fc-right .fc-button.fc-today-button:hover { background: #0c4da2 !important; color: #fff !important; }
+.fc-right .fc-button.fc-today-button.fc-state-disabled:hover { background: none !important; color: #333 !important; }
+.fc-button.fc-state-default { border: 1px solid #e8e8e8 !important; padding: 7px 8px !important; height: auto; background: #fff; color: #333 !important; font-weight: 500; text-shadow: none !important; }
+.fc-button.fc-state-active { background: #0c4da2 !important; color: #fff !important; }
+.quickPreviewModuleHeader button.close { color: #333 !important; opacity: 1; }
+.quickPreviewModuleHeader button.close:hover { color: #333 !important; }
+#languageEditorDiv thead .label-button { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+/*btn and button - ends*/
+/*-------------------------------------------------------------------*/
+.fancybox-overlay .fancybox-inner table td input[type="button"] { background: #0c4da2 !important;border-color: #0c4da2 !important;color: #fff !important; border: 1px solid #0c4da2 !important; border-radius: 2px !important; font-size: 15px !important; padding: 5px 10px !important; position: absolute; bottom: -30px; right: 2%; margin-bottom: 15px; }
+.dashBoardContainer .tabContainer .sortable button{margin-top:10px}
+.editbutton-container{padding-top:5px;padding-bottom:10px}
+.n_button,.n_button:hover,.n_button:focus{background-color:purple;color:white;cursor:pointer}
+#taskManagementContainer button.active{background:#3b83f7;color:white;text-shadow:0 1px rgba(0,0,0,0.3);border:1px solid #135fd7;box-shadow:inset 0 1px 2px rgba(0,0,0,0.3)}
+
+.confirm-box-btn-pad{padding-right:20px;padding-left:20px}
+.btn-toolbar>.btn-group:first-child{margin-left:5px}
+a.btnReport,a.btnReport:hover{color:white}
+.email-preview-toolbar .btn-sm{margin-left:5px}
+.settingsPageDiv.content-area.clearfix .ModulemanagerSettings .btn-group.actions { width: 90px; }
+button.btn-scroll {  width: 60px;  height: 60px;  border-radius: 50%;  background: #2aba7e;  opacity: 0.6;  color: #fff;  font-size: 20px;  text-align: center;  position: fixed;  right: 40px;  bottom: 60px;  border: none;  display: none; }

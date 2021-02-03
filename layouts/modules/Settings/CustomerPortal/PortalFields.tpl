@@ -81,7 +81,7 @@
 				<div class="portal-record-privilege">
 					{if $RELATED_MODULES[$MODULE]}
 						{foreach from=$RELATED_MODULES[$MODULE] key=KEY item=VALUE}
-							<div class="checkbox label-checkbox"{if !vtlib_isModuleActive($VALUE['name']) AND $VALUE['name'] neq 'History'} hidden {/if}>
+							<div class="checkbox label-checkbox"{if !modlib_isModuleActive($VALUE['name']) AND $VALUE['name'] neq 'History'} hidden {/if}>
 								<label><input class="relmoduleinfo_{$MODULE}" data-relmodule ="{$VALUE['name']}" type="checkbox" name="{$VALUE['name']}" id="{$VALUE['name']}" value="{$VALUE['value']}" {if $VALUE['value']}checked{/if}/> {vtranslate($VALUE['name'],$QUALIFIED_MODULE)}</label><br>
 							</div>
 						{/foreach}

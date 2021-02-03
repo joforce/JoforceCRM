@@ -13,10 +13,10 @@ include_once 'modules/Invoice/InvoicePDFController.php';
 global $currentModule;
 
 $controller = new Head_InvoicePDFController($currentModule);
-$controller->loadRecord(vtlib_purify($_REQUEST['record']));
-$invoice_no = getModuleSequenceNumber($currentModule,vtlib_purify($_REQUEST['record']));
+$controller->loadRecord(modlib_purify($_REQUEST['record']));
+$invoice_no = getModuleSequenceNumber($currentModule,modlib_purify($_REQUEST['record']));
 if(isset($_REQUEST['savemode']) && $_REQUEST['savemode'] == 'file') {
-	$id = vtlib_purify($_REQUEST['record']);
+	$id = modlib_purify($_REQUEST['record']);
 	$filepath='cache/product/'.$id.'_Invoice_'.$invoice_no.'.pdf';
 	$controller->Output($filepath,'F'); //added file name to make it work in IE, also forces the download giving the user the option to save
 } else {

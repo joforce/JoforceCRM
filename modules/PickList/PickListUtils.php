@@ -58,7 +58,7 @@ function getUserFldArray($fld_module,$roleid){
  */
 function getPickListModules(){
 	global $adb;
-	// vtlib customization: Ignore disabled modules.
+	// modlib customization: Ignore disabled modules.
 	$query = 'select distinct jo_field.fieldname,jo_field.tabid,jo_tab.tablabel, jo_tab.name as tabname,uitype from jo_field inner join jo_tab on jo_tab.tabid=jo_field.tabid where uitype IN (15,33) and jo_field.tabid != 29 and jo_tab.presence != 1 and jo_field.presence in (0,2) order by jo_field.tabid ASC';
 	// END
 	$result = $adb->pquery($query, array());

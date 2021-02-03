@@ -28,7 +28,9 @@
                     <hr style="margin: 5px 0;">
                     <div class="list-menu-content">
                         <div id="{$SIDEBARWIDGET->get('linklabel')}" class="sidebar-widget-body activitytypes" style="max-height: 100%;">
-                            <div style="text-align:center;"><img src="{$SITEURL}layouts/skins/images/loading.gif"></div>
+                            <div style="text-align:center;">
+				<div class="joforce-loader"></div>
+			    </div>
                         </div>
                     </div>
                 </div>

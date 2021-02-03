@@ -1765,7 +1765,7 @@ function showProgress (message) {
         if(message !== undefined) {
             messageHTML = '<div class="message"><span>'+message+'</span></div>';
         }
-        messageBar.html('<div style="text-align:center;position:fixed;top:50%;left:40%;"><img src="'+app.vimage_path('loading.gif')+'">'+ messageHTML +'</div>');
+        messageBar.html('<div style="text-align:center;position:fixed;top:50%;left:40%;"><div class="joforce-loader"></div>'+ messageHTML +'</div>');
 }
 
 function hideProgress () {
@@ -2175,3 +2175,32 @@ function md_vtranslate(string)
 {
 	return app.vtranslate(string);
 }
+jQuery(document).ready(function(){
+	values = jQuery('.inputElement');
+	versionName = jQuery('input[name="module_version"]').attr('name');
+
+    values.live('blur', function(e) {
+        var thisInput = jQuery(e.currentTarget),
+        element_val = thisInput.val();
+        var moduleElement = thisInput.parent().parent().parent().parent();
+        var id = moduleElement.attr('id');
+
+        if(id == 'md-module-name'){
+        	var thisInputName = thisInput.attr('name');
+        	if(thisInputName != versionName){
+        		if (element_val.match(/[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g)) { 
+            		msgtext = "ModuleName should not contain special characters.";
+            		msgtype = "error";
+            		returnValue = false;
+        		var parameters = {
+            		type: msgtype,
+            		title: msgtext,
+        		};
+        		
+        		jQuery(e.currentTarget).val('');
+        		Head_Helper_Js.showPnotify(parameters);
+    			}
+    		}
+    	}
+    });
+});

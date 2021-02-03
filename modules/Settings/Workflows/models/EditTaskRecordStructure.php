@@ -9,16 +9,19 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflows_RecordStructure_Model {
+class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflows_RecordStructure_Model
+{
 
 	private $taskRecordModel = false;
 
-	public function setTaskRecordModel($taskModel) {
+	public function setTaskRecordModel($taskModel)
+	{
 		$this->taskRecordModel = $taskModel;
 		return $this;
 	}
 
-	public function getTaskRecordModel(){
+	public function getTaskRecordModel()
+	{
 		return $this->taskRecordModel;
 	}
 
@@ -26,14 +29,15 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 	 * Function to get the values in stuctured format
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
-	public function getStructure() {
-		if(!empty($this->structuredValues)) {
+	public function getStructure()
+	{
+		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
 
 		$taskTypeModel = $this->getTaskRecordModel()->getTaskType();
 		$taskTypeName = $taskTypeModel->getName();
-		if($taskTypeName == 'VTUpdateFieldsTask' || $taskTypeName == "VTCreateEntityTask"){
+		if ($taskTypeName == 'UpdateFieldsTask' || $taskTypeName == "CreateEntityTask") {
 			return parent::getStructure();
 		}
 		$recordModel = $this->getWorkFlowModel();
@@ -43,17 +47,17 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 		$baseModuleModel = $moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
-		foreach($blockModelList as $blockLabel=>$blockModel) {
+		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
-			if (!empty ($fieldModelList)) {
+			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = array();
-				foreach($fieldModelList as $fieldName=>$fieldModel) {
-					if($fieldModel->isViewable()) {
-						if($moduleModel->getName()=="Documents" && $fieldName=="filename"){
-							continue; 
+				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					if ($fieldModel->isViewable()) {
+						if ($moduleModel->getName() == "Documents" && $fieldName == "filename") {
+							continue;
 						}
 						//Should not show starred and tags fields in edit task view
-						if($fieldModel->getDisplayType() == '6') {
+						if ($fieldModel->getDisplayType() == '6') {
 							continue;
 						}
 						if (in_array($moduleModel->getName(), array('Calendar', 'Events')) && $fieldModel->getDisplayType() == 3) {
@@ -63,7 +67,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 							 */
 							continue;
 						}
-						if(!empty($recordId)) {
+						if (!empty($recordId)) {
 							//Set the fieldModel with the valuetype for the client side.
 							$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
 							$fieldInfo = $fieldModel->getFieldInfo();
@@ -71,16 +75,21 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
 
-						switch($fieldModel->getFieldDataType()) {
-							case 'date'		:	if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
-													($moduleName === 'Calendar' && $fieldName === 'date_start')) {
-													$fieldName = $fieldName .' ($(general : (__HeadMeta__) usertimezone))';
-												} else {
-													$fieldName = $fieldName .' ($_DATE_FORMAT_)';
-												}
-												break;
-							case 'datetime'	:	$fieldName = $fieldName .' ($(general : (__HeadMeta__) usertimezone))';	break;
-							default			:	$fieldName;
+						switch ($fieldModel->getFieldDataType()) {
+							case 'date':
+								if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
+									($moduleName === 'Calendar' && $fieldName === 'date_start')
+								) {
+									$fieldName = $fieldName . ' ($(general : (__HeadMeta__) usertimezone))';
+								} else {
+									$fieldName = $fieldName . ' ($_DATE_FORMAT_)';
+								}
+								break;
+							case 'datetime':
+								$fieldName = $fieldName . ' ($(general : (__HeadMeta__) usertimezone))';
+								break;
+							default:
+								$fieldName;
 						}
 
 						// This will be used during editing task like email, sms etc
@@ -96,16 +105,21 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 		if ($moduleModel->isCommentEnabled()) {
 			$commentFieldModelsList = Settings_Workflows_Field_Model::getCommentFieldsListForTasks($moduleModel);
 
-			$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()). ' ' .vtranslate('LBL_COMMENTS', $moduleModel->getName());
+			$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . vtranslate('LBL_COMMENTS', $moduleModel->getName());
 			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
-				switch($commentFieldModel->getFieldDataType()) {
-						case 'date'		:	$commentFieldName = $commentFieldName .' ($_DATE_FORMAT_)';		break;
-						case 'datetime'	:	$commentFieldName = $commentFieldName .' ($(general : (__HeadMeta__) usertimezone)_)';	break;
-						default			:	$commentFieldName;
+				switch ($commentFieldModel->getFieldDataType()) {
+					case 'date':
+						$commentFieldName = $commentFieldName . ' ($_DATE_FORMAT_)';
+						break;
+					case 'datetime':
+						$commentFieldName = $commentFieldName . ' ($(general : (__HeadMeta__) usertimezone)_)';
+						break;
+					default:
+						$commentFieldName;
 				}
 				$commentFieldModel->set('workflow_columnname', $commentFieldName)
-								  ->set('workflow_columnlabel', vtranslate($commentFieldModel->get('label'), $moduleModel->getName()))
-								  ->set('workflow_sourcemodule_field', true);
+					->set('workflow_columnlabel', vtranslate($commentFieldModel->get('label'), $moduleModel->getName()))
+					->set('workflow_sourcemodule_field', true);
 
 				$values[$labelName][$commentFieldName] = $commentFieldModel;
 			}
@@ -113,35 +127,39 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 		//All the reference fields should also be sent
 		$fields = $moduleModel->getFieldsByType(array('reference', 'owner', 'multireference'));
-		foreach($fields as $parentFieldName => $field) {
+		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if($type == 'owner') $referenceModules = array('Users');
-			foreach($referenceModules as $refModule) {
+			if ($type == 'owner') $referenceModules = array('Users');
+			foreach ($referenceModules as $refModule) {
 				$moduleModel = Head_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
-				foreach($blockModelList as $blockLabel=>$blockModel) {
+				foreach ($blockModelList as $blockLabel => $blockModel) {
 					$fieldModelList = $blockModel->getFields();
-					if (!empty ($fieldModelList)) {
+					if (!empty($fieldModelList)) {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
 								//Should not show starred and tags fields in edit task view
-								if($fieldModel->getDisplayType() == '6') {
+								if ($fieldModel->getDisplayType() == '6') {
 									continue;
 								}
 								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
 								$name = "($parentFieldName : ($refModule) $fieldName)";
 								switch ($fieldModel->getFieldDataType()) {
-									case 'date'		:	if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
-																($moduleName === 'Calendar' && $fieldName === 'date_start')) {
-															$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
-														} else {
-															$workflowColumnName = $name . ' ($_DATE_FORMAT_)';
-														}
-														break;
-									case 'datetime' :	$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
-														break;
-									default : $workflowColumnName = $name;
+									case 'date':
+										if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
+											($moduleName === 'Calendar' && $fieldName === 'date_start')
+										) {
+											$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
+										} else {
+											$workflowColumnName = $name . ' ($_DATE_FORMAT_)';
+										}
+										break;
+									case 'datetime':
+										$workflowColumnName = $name . ' ($(general : (__HeadMeta__) usertimezone))';
+										break;
+									default:
+										$workflowColumnName = $name;
 								}
 								$fieldModel->set('workflow_columnname', $workflowColumnName)->set('workflow_columnlabel', $label);
 
@@ -159,14 +177,14 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 				$commentFieldModelsList = array();
 				if ($moduleModel->isCommentEnabled()) {
-					$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()). ' ' .vtranslate('LBL_COMMENTS', $moduleModel->getName());
+					$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . vtranslate('LBL_COMMENTS', $moduleModel->getName());
 
 					$commentFieldModelsList = Settings_Workflows_Field_Model::getCommentFieldsListForTasks($moduleModel);
 					foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 						$name = "($parentFieldName : ($refModule) $commentFieldName)";
-						$label = vtranslate($field->get('label'), $baseModuleModel->getName()).' : ('.
-								 vtranslate($refModule, $refModule).') '.
-								 vtranslate($commentFieldModel->get('label'), $refModule);
+						$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' .
+							vtranslate($refModule, $refModule) . ') ' .
+							vtranslate($commentFieldModel->get('label'), $refModule);
 
 						$commentFieldModel->set('workflow_columnname', $name)->set('workflow_columnlabel', $label);
 						$values[$labelName][$name] = $commentFieldModel;

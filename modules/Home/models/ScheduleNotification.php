@@ -10,7 +10,7 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-require_once 'vtlib/Head/Cron.php';
+require_once 'libraries/modlib/Head/Cron.php';
 class Home_ScheduleNotification_Model extends Head_Base_Model {
 
 	public static function runScheduledNotification() {

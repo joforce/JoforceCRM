@@ -54,7 +54,8 @@ class uploader {
             $this->file = &$_FILES[key($_FILES)];
 
         // LOAD DEFAULT CONFIGURATION
-        require "config/config.php";
+        require "config.php";
+        //require "config/config.php";
 
         // SETTING UP SESSION
         if (isset($_CONFIG['_sessionLifetime']))
@@ -66,7 +67,8 @@ class uploader {
         session_start();
 
         // RELOAD DEFAULT CONFIGURATION
-        require "config/config.php";
+        //require "config/config.php";
+        require "config.php";
         $this->config = $_CONFIG;
 
         // LOAD SESSION CONFIGURATION IF EXISTS
@@ -124,8 +126,8 @@ class uploader {
             $this->typeDir = "{$this->config['uploadDir']}/{$this->type}";
             $this->typeURL = "{$this->config['uploadURL']}/{$this->type}";
         }
-        if (!is_dir($this->config['uploadDir']))
-            @mkdir($this->config['uploadDir'], $this->config['dirPerms']);
+       // if (!is_dir($this->config['uploadDir']))
+        //    @mkdir($this->config['uploadDir'], $this->config['dirPerms']);
 
         // HOST APPLICATIONS INIT
         if (isset($this->get['CKEditorFuncNum']))
@@ -150,7 +152,7 @@ class uploader {
 
         // CHECK & MAKE DEFAULT .htaccess
         $htaccess = "{$this->config['uploadDir']}/.htaccess";
-        if (isset($this->config['_check4htaccess']) &&
+        /*if (isset($this->config['_check4htaccess']) &&
             $this->config['_check4htaccess']
         ) {
             if (!file_exists($htaccess)) {
@@ -162,13 +164,14 @@ class uploader {
                 if (($data != $this->get_htaccess()) && !@file_put_contents($htaccess, $data))
                     $this->backMsg("Incorrect .htaccess file. Cannot rewrite it!");
             }
-        }
+        }*/
 
         // CHECK & CREATE UPLOAD FOLDER
-        if (!is_dir($this->typeDir)) {
-            if (!mkdir($this->typeDir, $this->config['dirPerms']))
+        $typeDir = $this->config['root_directory'].'cache/upload/images/';
+        if (!is_dir($typeDir)) {
+            if (!mkdir($typeDir, $this->config['dirPerms']))
                 $this->backMsg("Cannot create {dir} folder.", array('dir' => $this->type));
-        } elseif (!is_readable($this->typeDir))
+        } elseif (!is_readable($typeDir))
             $this->backMsg("Cannot read upload folder.");
     }
 
@@ -198,10 +201,10 @@ class uploader {
                 }
             }
 
+            $dir = $config['root_directory'].'cache/upload/images/';
             if (!strlen($message)) {
-                if (!is_dir(path::normalize($dir)))
-                    @mkdir(path::normalize($dir), $this->config['dirPerms'], true);
-
+                if (!is_dir($dir))
+                    mkdir($dir, 0777, true);
                 $target = file::getInexistantFilename("$dir{$file['name']}");
 
                 if (!@move_uploaded_file($file['tmp_name'], $target) &&
@@ -216,6 +219,7 @@ class uploader {
                     $url = $this->typeURL;
                     if (isset($udir)) $url .= "/$udir";
                     $url .= "/" . path::urlPathEncode(basename($target));
+                    $url = $config['siteurl'].$url;
                 }
             }
         }

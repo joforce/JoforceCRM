@@ -10,7 +10,7 @@
  *************************************************************************************/
 chdir(dirname(__FILE__)."/../../../");
 
-include_once "includes/utils/VtlibUtils.php";
+include_once "includes/utils/ModlibUtils.php";
 include_once "includes/utils/CommonUtils.php";
 include_once "includes/Loader.php";
 include_once 'includes/runtime/BaseModel.php';

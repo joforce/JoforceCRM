@@ -14,7 +14,7 @@ class Settings_Potentials_MappingDetail_View extends Settings_Head_Index_View {
 	function checkPermission(Head_Request $request) {
 		parent::checkPermission($request);
 		$sourceModule = 'Potentials';
-		if(!vtlib_isModuleActive($sourceModule)){
+		if(!modlib_isModuleActive($sourceModule)){
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $sourceModule));
 		}
 	}

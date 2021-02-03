@@ -190,11 +190,16 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$num_rows=$adb->num_rows($result);
 	for($i=1;$i<=$num_rows;$i++)
 	{
-		$deleted = $adb->query_result($result,$i-1,'deleted');
 		$hdnProductId = $adb->query_result($result,$i-1,'productid');
+		$get_desc = 'SELECT jo_crmentity.description from jo_crmentity where jo_crmentity.crmid=?';
+		$query_params = array($hdnProductId);
+		$query_result = $adb->pquery($get_desc, $query_params);
+
+		$deleted = $adb->query_result($result,$i-1,'deleted');
+		
 		$hdnProductcode = $adb->query_result($result,$i-1,'productcode');
 		$productname=$adb->query_result($result,$i-1,'productname');
-		$productdescription=$adb->query_result($result,$i-1,'description');
+		$productdescription=$adb->query_result($query_result,0,'description');
 		$comment=$adb->query_result($result,$i-1,'comment');
 		$qtyinstock=$adb->query_result($result,$i-1,'qtyinstock');
 		$qty=$adb->query_result($result,$i-1,'quantity');
@@ -569,7 +574,6 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
 	$log->debug("Exiting getAssociatedProducts method ...");
-
 	return $product_Detail;
 
 }

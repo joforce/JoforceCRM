@@ -11,7 +11,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="listViewPageDiv" id="listViewContent">
-    <div class="col-sm-12 col-xs-12 joforce-bg">
+    <div class="col-sm-12 col-xs-12">
         <div id="listview-actions" class="listview-actions-container">
             <div class = "row">
                 <div class='col-md-6'>

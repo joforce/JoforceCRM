@@ -11,7 +11,7 @@
  * *********************************************************************************** */
 
 require_once 'includes/utils/utils.php';
-require_once 'vtlib/Head/Net/Client.php';
+require_once 'libraries/modlib/Head/Net/Client.php';
 
 class PBXManager_PBXManager_Connector {
 

@@ -8,19 +8,18 @@
 *************************************************************************************}
 
 {strip}
-	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
-	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
-	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
-	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
+		<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
+		<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
+		<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
+		<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
+		<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+		<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
+		<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="col-sm-12 col-xs-12 joforce-bg">
 		<div id="listview-actions" class="listview-actions-container">
 			{if $MODULE neq 'Currency' and $MODULE neq 'PickListDependency' and $MODULE neq 'CronTasks'}
 				<div class = "row">
@@ -43,7 +42,13 @@
 							{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 							<thead>
 								<tr class="listViewContentHeader">
-									{if $MODULE eq 'Profiles' or $MODULE eq 'Groups' or $MODULE eq 'Webforms' or $MODULE eq 'Currency' or $MODULE eq 'SMSNotifier'}
+									{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+										<th nowrap>
+											<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+												&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>&nbsp;
+										</th>
+									{/foreach}
+									{if $MODULE eq 'Profiles' or $MODULE eq 'Groups' or $MODULE eq 'Webforms' or $MODULE eq 'Currency' or $MODULE eq 'SMSNotifier' or $MODULE eq 'Webhooks'}
 										<th style="width:25%">
 											{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 										</th>
@@ -60,13 +65,7 @@
 										<th>
 											{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 										</th>
-									{/if}
-									{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-										<th nowrap>
-											<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-												&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>&nbsp;
-										</th>
-									{/foreach}
+									{/if}									
 								</tr>
 							</thead>
 							<tbody class="overflow-y">
@@ -74,9 +73,6 @@
 									<tr class="listViewEntries"  data-id="{$LISTVIEW_ENTRY->getId()}"
 										{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 										{if method_exists($LISTVIEW_ENTRY,'getRowInfo')}data-info="{Head_Util_Helper::toSafeHTML(ZEND_JSON::Encode($LISTVIEW_ENTRY->getRowInfo()))}"{/if}>
-										<td width="10%">
-											{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
-										</td>
 										{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 											{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 											{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
@@ -87,6 +83,9 @@
 												{/if}
 											</td>
 										{/foreach}
+										<td width="10%">
+											{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+										</td>										
 									</tr>
 								{/foreach}
 								{if $LISTVIEW_ENTRIES_COUNT eq '0'}
@@ -106,5 +105,4 @@
 				</div>
 			</div>
 		</div>
-	</div>
 {/strip}

@@ -22,16 +22,6 @@
 {/foreach}
 
 <div class="left-block col-lg-5">
-	{* Module Summary View*}
-		<div class="summaryView">
-			<div class="summaryViewHeader">
-				<h4 class="display-inline-block">{vtranslate('LBL_KEY_FIELDS', $MODULE_NAME)}</h4>
-			</div>
-			<div class="summaryViewFields">
-				{$MODULE_SUMMARY}
-			</div>
-		</div>
-	{* Module Summary View Ends Here*}
 
 	{* Summary View Documents Widget*}
 	{if $DOCUMENT_WIDGET_MODEL}
@@ -46,14 +36,12 @@
 						{assign var=PARENT_ID value=$RECORD->getId()}
 						<div class="pull-right">
 							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-									<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}&nbsp; <span class="caret"></span>
-								</button>
+								<span class="fa fa-ellipsis-v" data-toggle="dropdown" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>
 								<ul class="dropdown-menu">
 									<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', 'Documents')}</li>
 									<li id="HeadAction">
 										<a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')">
-											<img style="  margin-top: -3px;margin-right: 4%;" title="JoForce" alt="JoForce" src="{$SITEURL}layouts/skins//images/JoForce.png">
+											<img style="  margin-top: -3px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins//images/JoForce.png">
 											{vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_VTIGER', 'Documents')})}
 										</a>
 									</li>
@@ -79,15 +67,16 @@
 			{include file='AddDetailViewSummaryWidget.tpl'|@vtemplate_path:$MODULE_NAME}
 		{/if}
 	{* Detail Summary Widget View Ends Here*}
-
-</div>
-
-<div class="middle-block col-lg-7">
 	{* Summary View Related Activities Widget*}
 		<div id="relatedActivities">
 			{$RELATED_ACTIVITIES}
 		</div>
 	{* Summary View Related Activities Widget Ends Here*}
+
+
+</div>
+
+<div class="middle-block col-lg-7">
 
 	{* Summary View Comments Widget*}
 	{if $COMMENTS_WIDGET_MODEL}

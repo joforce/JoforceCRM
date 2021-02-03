@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 ********************************************************************************/
 -->*}
 
@@ -68,7 +69,7 @@
 					<div class="form-group pl15">
 						<label class="control-label fieldLabel pr0 col-sm-5 pl0">
 							{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
-							&nbsp;<span class="red-border"></span>
+							&nbsp;<span class="red-border">*</span>
 						</label>
 						<div class="controls col-sm-7 pl0">
 							<input type="text" class='inputElement col-sm-9 pr0' maxlength="50" {if $IS_FIELD_EDIT_MODE}disabled="disabled"{/if}name="fieldLabel" value="{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}" data-rule-required='true' style='width: 75%' />
@@ -78,7 +79,7 @@
 						<div class="form-group pl15 supportedType lengthsupported">
 							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
 								{vtranslate('LBL_LENGTH', $QUALIFIED_MODULE)}
-								&nbsp;<span class="red-border"></span>
+								&nbsp;<span class="red-border">*</span>
 							</label>
 							<div class="controls col-sm-7 pl0">
 								<input type="text" name="fieldLength" class="inputElement" value="" data-rule-required='true' 
@@ -88,7 +89,7 @@
 						<div class="form-group pl15 supportedType decimalsupported hide">
 							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
 								{vtranslate('LBL_DECIMALS', $QUALIFIED_MODULE)}
-								&nbsp;<span class="red-border"></span>
+								&nbsp;<span class="red-border">*</span>
 							</label>
 							<div class="controls col-sm-7 pl0">
 								<input type="text" name="decimal" class="inputElement" value="" data-rule-required='true' style='width: 75%'/>
@@ -97,7 +98,7 @@
 						<div class="form-group pl15 supportedType preDefinedValueExists hide">
 							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
 								{vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
-								&nbsp;<span class="red-border"></span>
+								&nbsp;<span class="red-border">*</span>
 							</label>
 							<div class="controls col-sm-7 pl0">
 								<input type="text" id="picklistUi" class="col-sm-9 select2" name="pickListValues"
@@ -119,7 +120,7 @@
 						<div class="form-group pl15 supportedType relationModules hide">
 							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
 								{vtranslate('SELECT_MODULE', $QUALIFIED_MODULE)}
-								&nbsp;<span class="red-border"></span>
+								&nbsp;<span class="red-border">*</span>
 							</label>
 							<div class="controls col-sm-7 pl0">
 								<select class="col-sm-6 relationModule" name="relationmodule[]" multiple data-rule-required='true'>

@@ -15,7 +15,12 @@ jQuery.Class("Head_AdvanceFilter_Js",{
 		var moduleClassName = module+"_AdvanceFilter_Js";
 		var fallbackClassName = "Head_AdvanceFilter_Js";
 		if(typeof window[moduleClassName] != 'undefined'){
-			var instance = new window[moduleClassName](container);
+			if(moduleClassName=='Workflows_AdvanceFilter_Js'){
+				container = jQuery('.editViewContents .filterContainer');
+				var instance = new window[moduleClassName](container);
+			}else{
+				var instance = new window[moduleClassName](container);	
+			}
 		}else{
 			instance = new window[fallbackClassName](container);
 		}
@@ -44,13 +49,12 @@ jQuery.Class("Head_AdvanceFilter_Js",{
 
 	init : function(container) {
 		if(typeof container == 'undefined') {
-			container = jQuery('.filterContainer');
+			container = jQuery('.editViewContents .filterContainer');
 		}
-
-		if(container.is('.filterContainer')) {
+		if(container.is('.editViewContents .filterContainer')) {
 			this.setFilterContainer(container);
 		}else{
-			this.setFilterContainer(jQuery('.filterContainer',container));
+			this.setFilterContainer(jQuery('.editViewContents .filterContainer',container));
 		}
 		this.initialize();
 	},
@@ -164,7 +168,7 @@ jQuery.Class("Head_AdvanceFilter_Js",{
 	 */
 	getAddConditionElement : function() {
 		var filterContainer = this.getFilterContainer();
-		return jQuery('.addCondition button', filterContainer);
+		return jQuery('.addCondition a', filterContainer);
 	},
 
 	/**
@@ -174,6 +178,7 @@ jQuery.Class("Head_AdvanceFilter_Js",{
 	 */
 	addNewCondition : function(conditionGroupElement){
 		var basicElement = jQuery('.basic',conditionGroupElement);
+		let count = $('.conditionList .conditionRow').length;
 		var newRowElement = basicElement.find('.conditionRow').clone(true,true);
 		jQuery('select',newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
@@ -295,7 +300,7 @@ jQuery.Class("Head_AdvanceFilter_Js",{
 		if(fieldType == 'date' || fieldType == 'datetime') {
 			fieldInfo.dateSpecificConditions = this.getDateSpecificConditionInfo();
 		}
-		var moduleName = this.getModuleName()
+		var moduleName = this.getModuleName();
 		var fieldModel = Head_Field_Js.getInstance(fieldInfo,moduleName);
 		this.fieldModelInstance = fieldModel;
 		var fieldSpecificUi = this.getFieldSpecificUi(fieldSelect);
@@ -752,7 +757,6 @@ Head_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js',{},{
 });
 
 Head_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
-
 	getUi : function(){
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		if(comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal =='n'){

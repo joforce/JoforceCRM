@@ -21,7 +21,7 @@ $languageStrings = array(
 	'LBL_UNPIN' => 'Unpin',
 	'LBL_PIN' => 'pin',
 	'LBL_INVENTORY' => 'Inventory',
-	'LBL_JOFORCE' => 'About JoForce',
+	'LBL_JOFORCE' => 'About Joforce',
 
 	// Blocks
 	'LBL_STUDIO' => 'Studio',
@@ -35,14 +35,14 @@ $languageStrings = array(
 	'LBL_EXTENSIONS_PLACE' => 'Extensions Place',
 	'LBL_EXTENSIONS' => 'Extensions',
 	'LBL_PBXMANAGER' => 'PBXManager',
-    'LBL_INTEGRATION' => 'Integration',
+    'LBL_INTEGRATION' => 'Integrations',
     'LBL_EXCHANGE_CONNECTOR' => 'Exchange Connector',
     
     // Fields
 	'LBL_DESCRIPTION' => 'Description',
     
 	// Other Strings
-	'LBL_USER_DESCRIPTION' => 'Manage users who can access JoForce',
+	'LBL_USER_DESCRIPTION' => 'Manage users who can access Joforce',
 	'LBL_ROLES' => 'Roles',
 	'LBL_ROLE_DESCRIPTION' => 'Set up hierarchy of roles and assign to the users',
 
@@ -61,7 +61,7 @@ $languageStrings = array(
 	'LBL_FIELDFORMULAS_DESCRIPTION' => 'Add custom equations to custom fields',
 
 	'VTLIB_LBL_MODULE_MANAGER' => 'Modules',
-	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Manage module behavior inside JoForce',
+	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Manage module behavior inside Joforce',
 	'LBL_PICKLIST_EDITOR' => 'Picklist Field Values',
 	'LBL_PICKLIST_DESCRIPTION' => 'Customize Picklist values in each module',
 	'LBL_PICKLIST_DEPENDENCY_SETUP' => 'Picklist Dependencies',
@@ -102,6 +102,7 @@ $languageStrings = array(
 	'LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION' => 'Module Entity Number customization',
 
 	'LBL_MAIL_SCANNER' => 'Mail Converter',
+	'LBL_COMPANY_INFO'             => 'Company Info'                ,
 	'LBL_MAIL_SCANNER_DESCRIPTION' => 'Configure email inbox for scanning and record attachment',
 
 	'LBL_LIST_WORKFLOWS' => 'Workflows',
@@ -222,7 +223,7 @@ $languageStrings = array(
     'LBL_HOTMAIL' => 'Hotmail',
     'LBL_YAHOO' => 'Yahoo',
     'LBL_OFFICE365' => 'Office365',
-    'LBL_VTIGER' => 'JoForce',
+    'LBL_JOFORCE' => 'Joforce',
 	'LBL_REQUIRES_AUTHENTICATION' => 'Requires Authentication',
 	'LBL_OUTGOING_SERVER' => 'Outgoing Server',
 	'LBL_OUTGOING_SERVER_DESC' => 'Configure your Outgoing Mail Server details',
@@ -239,7 +240,7 @@ $languageStrings = array(
 	
 	//Configuration Editor
 	'LBL_CONFIG_EDITOR' => 'Configuration Editor',
-	'LBL_CONFIG_DESCRIPTION' => 'Edit the Configuration details of JoForce',
+	'LBL_CONFIG_DESCRIPTION' => 'Edit the Configuration details of Joforce',
 	'LBL_CONFIG_FILE' => 'config/config.inc.php',
 	'LBL_MB' => 'MB',
 
@@ -288,10 +289,14 @@ $languageStrings = array(
     'linkedin' => 'LinkedIn',
 	'LBL_IMAGE_CORRUPTED' => 'Virus detected or Uploaded image corrupted',
 	'LBL_LOGO_RECOMMENDED_MESSAGE' => 'Allowed size 150X40 pixels( .jpeg , .jpg , .png , .gif , .pjpeg , .x-png format ).',
+
+	'LBL_SITELOGO_RECOMMENDED_MESSAGE' => 'Allowed size 16X16 pixels( .jpeg , .jpg , .png , .gif , .pjpeg , .x-png format ).',
 	'LBL_COMPANY_INFORMATION' => 'Company Information',
 	'LBL_UPDATE' => 'Update',
 	'LBL_UPDATE_LOGO' => 'Update Logo',
 	'LBL_COMPANY_LOGO' => 'Company Logo',
+	'LBL_BRANDING_LOGO' => 'Branding Logo',
+	'LBL_SITE_LOGO' => 'Site Icon',
     'LBL_NO_LOGO_EDIT_AND_UPLOAD' => 'No image, edit and upload image',
 	'LBL_EDIT_COMPANY_DETAILS_MESSAGE' => 'To edit company details, please click on Settings Icon > Add/Delete Users > Company ',
     
@@ -314,7 +319,7 @@ $languageStrings = array(
 	
 	//User Login History
 	'LoginHistory' => 'User Login History',
-	'LBL_LOGIN_HISTORY_DETAILS' => 'Login History',
+	'LBL_LOGIN_HISTORY_DETAILS' => 'Audit',
 	'LBL_LOGIN_HISTORY_DESCRIPTION' => 'Login History Details',
 	'LBL_USER_NAME'=> 'User Name',
 	'LBL_USER_IP_ADDRESS'=> 'User IP Address', 
@@ -363,6 +368,7 @@ $languageStrings = array(
     'LBL_USER_MANAGEMENT' => 'User Management',
     'LBL_MODULE_MANAGEMENT' => 'Module Manager',
     'LBL_AUTOMATION' => 'Automation',
+    'LBL_MARKETPLACE' => 'Market Place',
     'LBL_CONFIGURATION' => 'Configuration',
     'LBL_MARKETING_SALES' => 'Marketing & Sales',
     'LBL_INVOICES' => 'Invoices',
@@ -387,7 +393,31 @@ $languageStrings = array(
     'LBL_SHOPPINGCART' => 'ShoppingCart',
     'LBL_PHONE_CONFIGURATION' => 'Phone Configuration',
     'LBL_NOTIFICATION_SETTINGS_INFO' => 'Check and uncheck the check box to enable and disable the corresponding notifications respectively',
-    'LBL_MASQUERADE_USER_INFO' => 'Change the check box status to enable or disable the feature of adding portal user in global'
+    'LBL_MASQUERADE_USER_INFO' => 'Change the check box status to enable or disable the feature of adding portal user in global',
+   
+    #languageStrings
+    'LBL_BRANDING' => 'Branding Details',
+    'LanguageEditor' => 'Language Editor',
+	'LBL_SELECT_MODULE' => 'Select an option',
+	'SELECT_MODULE' => 'Select Module',
+	'SELECT_LANGUAGE' => 'Select Language',
+	'LBL_SELECT_LANGUAGE' => 'Select a language',
+	'SELECT_TYPE' => 'Select Type',
+	'LBL_SELECT' => 'Select',
+	'LBL_ADD_LANGUAGE' => 'Add Language',
+	'LBL_LANGUAGES_EXIST' => 'Language code or language name already exists !',
+	'LBL_LANGUAGE_EDITOR_INFO' => 'Choose module and language to edit the corresponding language script',
+	'LBL_ADD_LANGUAGE_MESSAGE' => 'Give language name and code to create new language',
+	'LBL_LANGUAGE_NAME' => 'Language Name',
+	'LBL_LANGUAGE_CODE' => 'Language Code',
+	'LBL_COPY_FILES_FROM' => 'Copy Language Files From',
+	'LBL_MODULE_LABELS' => 'MODULE LABELS',
+	'LBL_TRANSLATION' => 'TRANSLATION',
+	'LBL_JAVA_LABELS' => 'JAVA SCRIPT LABELS',
+	'LBL_LABEL' => 'Label',
+	'LBL_CUSTOM_FIELD_LABELS' => 'CUSTOM FIELD LABELS',
+	'LBL_PICKLIST_VALUES_AND_LABELS' => 'PICKLIST VALUES AND LABELS',
+	'SELECT_PICKLIST' => 'SELECT PICKLIST'
 );
 
 $jsLanguageStrings = array(
@@ -422,4 +452,10 @@ $jsLanguageStrings = array(
     'JS_INVALID_URL' => 'Invalid URL',
     'JS_LBL_TAX_REGION_EXIST' => 'Region Name already exists',
     'JS_LOGO_IMAGE_DIMENSIONS_WRONG' => 'Logo Image dimensions did not match the allowed dimension. Resize your image and try again.',
+
+     #language string.
+    'JS_LANGUAGE_ADD_SUCCESS' => 'New Language Added Successfully',
+	'JS_PLEASE_GIVE_VALUES_IN_ALL_FIELDS' => 'Give values in all fields',
+	'LBL_LANGUAGES_EXIST' => 'Language code or language name already exists !',
+	'JS_PLEASE_GIVE_VALUES_IN_BOTH' => 'Add values in both',
 );

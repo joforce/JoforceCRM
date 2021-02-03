@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
-	<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
+	<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
+	<script type="text/javascript" src="{$SITEURL}libraries/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
     </head>
 
     <body>

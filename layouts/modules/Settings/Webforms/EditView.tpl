@@ -7,7 +7,6 @@
 * All Rights Reserved.
 ************************************************************************************}
       <div class="editViewPageDiv">
-          <div class="col-lg-12 col-md-12 col-lg-pull-0 joforce-bg">
          <form class="form-horizontal" id="EditView" name="edit" method="post" action="{$SITEURL}index.php" enctype="multipart/form-data">
             <div class="editViewHeader">
                      {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
@@ -65,11 +64,10 @@
                 <div class="row clearfix">
                     <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>
          </form>
-          </div>
       </div>
 </div>

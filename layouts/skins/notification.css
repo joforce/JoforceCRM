@@ -12,14 +12,15 @@ body {
 .joforce-dash{
   width: 100%;  background: #fff; overflow-x:auto; 
 }
-.joforce-dash-container{
-  margin:auto; position: relative;
-  width: 785px; height: 510px;
-  background: url('images/notification/dashboard.png');
-  background-repeat:no-repeat;
-  background-size: 650px 500px;
+.joforce-dash-container {
+    margin: 45px auto auto auto;
+    position: relative;
+    width: 785px;
+    height: 510px !important;
+    background: url(images/notification/dashboard.png);
+    background-repeat: no-repeat;
+    background-size: 650px 500px;
 }
-
 .dash-widgets{
   margin-bottom: 5px;
 }

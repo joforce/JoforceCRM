@@ -1,30 +1,12 @@
-/*@font-face {
-  font-family: 'OpenSans-Regular';
-  src: url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.eot');
-  src: url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.ttf') format('truetype'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.eot?#iefix') format('embedded-opentype'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.woff2') format('woff2'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.woff') format('woff'), url('layouts/skins/fonts/OpenSans/Regular/OpenSans-Regular.svg#svgFontName') format('svg');
-}
-@font-face {
-  font-family: 'OpenSans-Semibold';
-  src: url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.eot');
-  src: url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.ttf') format('truetype'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.eot?#iefix') format('embedded-opentype'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.woff2') format('woff2'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.woff') format('woff'), url('layouts/skins/fonts/OpenSans/Semibold/OpenSans-Semibold.svg#svgFontName') format('svg');
-}
-*/
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
-/*@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");*/
-
-
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
 html{
     height:100%;
 }
 body{
-    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /*font-family: 'OpenSans-Regular', "Trebuchet MS","Lucida Grande",Verdana;*/
-    /*background: #F5FAEE;/*#f1f6e8;*/
-    /*background: #edeff0;/*#f1f6e8;*/
-
-    /*background: #edeff0 url('../images/bg.png');*/
-     background: #2c3e50 url("../images/joforce-login-bg.png") !important;
-background:#ffffff;
+    font-family: 'Crimson Text', serif !important;
+    background: #2c3e50 url("../images/joforce-login-bg.png") !important;
+    background:#ffffff;
     color : #555;
     height: 98%;
     font-size:14px !important;

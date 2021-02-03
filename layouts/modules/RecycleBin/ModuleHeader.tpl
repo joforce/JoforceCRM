@@ -21,6 +21,17 @@
 					<p class="current-filter-name pull-left textOverflowEllipsis" style="width:250px;">&nbsp;&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span> {vtranslate($SOURCE_MODULE,$SOURCE_MODULE)} </p>
 				</span>
 			</span>
+		    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                        <div class="dropdown-filter pull-right">
+                            <button class="btn btn-filter btn-warning" title="{vtranslate('LBL_LISTS', $MODULE)}">
+                                <i class="fa fa-filter"></i>
+                            </button>
+                            <div class="filter-open">
+				{include file="modules/RecycleBin/partials/SidebarEssentials.tpl"}
+                            </div>
+                        </div>
+                    </div>
+
 		</div>
 		{if $FIELDS_INFO neq null}
 			<script type="text/javascript">

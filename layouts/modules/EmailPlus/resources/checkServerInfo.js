@@ -187,3 +187,54 @@ function choice() {
     }
 
 }
+
+function configureDropDownLists(ddl1,ddl2) {  
+
+    module = app.getModuleName();
+    params = {
+        module: 'EmailPlus',
+        action: 'FetchUsersDetails',
+        sourcemodule: module,
+        fetchdata: ddl1.value,
+    };    
+    var ddl3 = document.getElementById('ddl3');
+
+    app.request.post({data: params}).then( function (error, data) { 
+        if(error === null) {  
+            var actiondata = JSON.parse(data);           
+            switch (ddl1.value) {
+                case 'users':
+                    $("#ddl3").addClass("hide");
+                    $("#ddl2").removeClass("hide");
+                    ddl2.options.length = 0;
+                    for (i = 0; i <=  actiondata.length; i++) {
+                        createOption(ddl2, actiondata[i]['name'], actiondata[i]['record_id']);
+                    }   
+                    break;
+                case 'roles':
+                    ddl3.options.length = 0; 
+                    $("#ddl3").removeClass("hide");
+                    $("#ddl2").addClass("hide");
+                    for (i = 0; i <  actiondata.length; i++) {
+                       createOption(ddl3, actiondata[i]['name'], actiondata[i]['record_id']);
+                    }
+                    break;
+                default:
+                    $("#ddl3").removeClass("hide");
+                    $("#ddl2").removeClass("hide");
+                    ddl2.options.length = 0;
+                    for (i = 0; i <=  actiondata.length; i++) {
+                        createOption(ddl2, actiondata[i]['name'], actiondata[i]['record_id']);
+                    }
+                    break;
+            }
+        } 
+    });
+}
+
+function createOption(ddl, text, value) {
+   var opt = document.createElement('option');
+   opt.value = value;
+   opt.text = text;
+   ddl.options.add(opt);
+}

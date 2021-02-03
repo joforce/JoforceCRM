@@ -49,6 +49,7 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
 			params['module'] = 'Users';
 			params['view'] = 'AddMasqueradeUser'
 			params['record_id'] = record_id;
+			params['related_module'] = app.getModuleName();
 		
 			app.request.post({data: params}).then(function(err, data){
                                 app.helper.hideProgress();
@@ -80,7 +81,30 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
 			}
                 });
 	},
-	
+
+        /**
+         * Function to save the user
+         **/
+	deleteMasqueradeUser : function() {
+		$('#remove-masquerade-user').live('click', function() {
+			conf_msg = 'Are you sure want to delete this user?';
+
+			app.helper.showConfirmationBox({'message': conf_msg}).then(function () {
+				var params = {
+					module: 'Contacts',
+					action: 'DeleteMasqueradeUser',
+					record_id: jQuery('#recordId').val()
+				};
+				app.helper.showProgress();
+				app.request.post({ data: params }).then(function(err, data) {
+					app.helper.hideProgress();
+					window.location.reload();
+				});
+				return true;
+			});
+		});
+	},
+
 	/**
 	 * Function which will register all the events
 	 */
@@ -89,5 +113,6 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
 		this._super();
 		this.registerAjaxPreSaveEvents(form);
 		this.registerShowAddUserModal();
+		this.deleteMasqueradeUser();
 	}
 })

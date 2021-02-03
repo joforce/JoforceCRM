@@ -42,7 +42,7 @@ Head_ExtensionCommon_Js("Google_Index_Js", {}, {
 
 					if(syncInfo['vtiger'].more === true) {
 						hasMoreHeadRecords = true;
-						app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_VTIGER')});
+						app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_JOFORCE')});
 					}
 					
 				});

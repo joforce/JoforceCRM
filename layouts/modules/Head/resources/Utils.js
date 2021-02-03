@@ -317,6 +317,12 @@ var vtUtils = {
 }
 
 $(document).on('click','#joforce-table-search', function() {
-    $(".searchRow").slideDown();
+    $(".searchRow").show();
     $(this).closest('.table-actions').show();
+});
+
+$(document).on('click','.more-tab-items', function() {
+	$('.tab-item').each(function () {
+	    if($(this).hasClass('hide')) $(this).removeClass('hide');
+	});
 });

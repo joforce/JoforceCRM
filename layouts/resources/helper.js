@@ -367,7 +367,7 @@ jQuery.Class("Head_Helper_Js",{
         
         var overlayPageContent = $('#overlayPageContent');
         
-        if(jQuery(".content-area").length && jQuery(".content-area").hasClass('full-width')|| (jQuery('.settingsgroup').length === 0 && jQuery('#modules-menu').length === 0)){
+        if(jQuery(".content-area").length && jQuery(".content-area").hasClass('full-width')||jQuery('.settingsgroup').length === 0 ){
            overlayPageContent.addClass('full-width');
         }
         var alreadyShown = false;
@@ -440,6 +440,36 @@ jQuery.Class("Head_Helper_Js",{
 
     showModal : function(content,params) {
         // we should hide all existing modal's
+        // this.hideModal();
+        // if(typeof params === "undefined") {
+        //     params = {};
+        // }
+        // var defaultParams = this.defaultModalParams();
+        // params = jQuery.extend(defaultParams,params);
+
+        // var cb = params.cb;
+        // var container = jQuery('.myModal');
+		
+		// container.on('hidden.bs.modal',function() {
+		// 	container.html('');
+		// 	window.onbeforeunload = null;
+		// });
+		
+        // if(typeof cb === "function") {
+        //     container.off('shown.bs.modal');
+        //     //This event is fired when the modal has been made visible to the user
+        //     container.on('shown.bs.modal', function () {
+        //         cb(container);
+        //     });
+        // }
+
+        // container.html(content).modal(params);
+        // vtUtils.applyFieldElementsView(container);
+        // return container;
+
+        $(".quick-panel").removeClass("fade");
+        $(".quick-panel").removeClass("in");
+        
         this.hideModal();
         if(typeof params === "undefined") {
             params = {};
@@ -448,7 +478,7 @@ jQuery.Class("Head_Helper_Js",{
         params = jQuery.extend(defaultParams,params);
 
         var cb = params.cb;
-        var container = jQuery('.myModal');
+        var container = jQuery('.quick-panel');
 		
 		container.on('hidden.bs.modal',function() {
 			container.html('');
@@ -463,8 +493,22 @@ jQuery.Class("Head_Helper_Js",{
             });
         }
 
+        //vtUtils.applyFieldElementsView(container);
+        container.addClass("myModal");
+        container.addClass("fade");
         container.html(content).modal(params);
-        vtUtils.applyFieldElementsView(container);
+
+         /*container.find(('.select')).each(function(){
+             $(this).select2();
+         });*/
+
+        $(".quick-panel").animate({"width":"30%"},500);
+        $("#rightpanelhide").val("1");
+        if($("#leftpanelhide").val() === "0"){
+            $('#menu-toggle-action').click();
+            $("#rightpanelhide").val("0");
+        }
+        $(".main-container").addClass('panel-width');
         return container;
     },
 
@@ -499,7 +543,7 @@ jQuery.Class("Head_Helper_Js",{
         if(message !== undefined) {
             messageHTML = '<div class="message"><span>'+message+'</span></div>';
         }
-        messageBar.html('<div style="text-align:center;position:fixed;top:50%;left:40%;"><img src="'+app.vimage_path('loading.gif')+'">'+ messageHTML +'</div>');
+        messageBar.html('<div style="text-align:center;position:fixed;top:45%;left:50%;"><div class="joforce-loader"></div>'+ messageHTML +'</div>');
     },
 
     hideProgress : function() {

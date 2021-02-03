@@ -72,7 +72,8 @@ jQuery.Class("Head_EmailPreview_Js",{},{
             var mode = jQuery(e.currentTarget).data('mode');
             var params = thisInstance.getEmailActionsParams(mode);
             var urlString = (typeof params == 'string') ? params : jQuery.param(params);
-            var url = 'index.php?'+urlString;
+            var jo_url = jQuery('#joforce_site_url').val();
+            var url = jo_url+'index.php?'+urlString;
             window.open(url,'_blank');
         });
 	},

@@ -16,7 +16,7 @@ class CustomerPortal {
 	* @param String Module name
 	* @param String Event Type
 	*/
-	function vtlib_handler($moduleName, $eventType) {
+	function modlib_handler($moduleName, $eventType) {
 
 		require_once('includes/utils/utils.php');
 		global $adb,$mod_strings;

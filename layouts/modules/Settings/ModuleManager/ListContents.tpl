@@ -10,8 +10,7 @@
 
 {strip}
 	<div class="listViewPageDiv detailViewContainer" id="moduleManagerContents">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 joforce-bg">
-			<div id="listview-actions" class="listview-actions-container">
+			<div id="listview-actions" class="listview-actions-container" style="margin-bottom:10%;">
 				<div class="clearfix">
 					<h4 class="pull-left">{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h4>
 					<div class="pull-right">
@@ -53,7 +52,7 @@
 											<span class="col-lg-3 moduleblock">
 												<span class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
 													<button class="btn btn-secondary btn dropdown-toggle unpin hiden " data-toggle="dropdown">
-														{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}&nbsp;<i class="caret"></i>
+														{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}
 													</button>
 													<ul class="dropdown-menu pull-right dropdownfields">
 														{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
@@ -73,6 +72,5 @@
 					</table>
 				</div>
 			</div>
-		</div>
 	</div>
 {/strip}

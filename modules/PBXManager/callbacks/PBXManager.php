@@ -10,7 +10,7 @@
  *************************************************************************************/
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'includes/Webservices/Relation.php';
-include_once 'vtlib/Head/Module.php';
+include_once 'libraries/modlib/Head/Module.php';
 include_once 'includes/main/WebUI.php';
 vimport('includes.http.Request');
 

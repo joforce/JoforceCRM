@@ -66,9 +66,9 @@ class Head_Request {
 			Zend_Json::$useBuiltinEncoderDecoder  = $oldValue;
 		}
 
-        //Handled for null because vtlib_purify returns empty string
+        //Handled for null because modlib_purify returns empty string
         if(!empty($value)){
-            $value = vtlib_purify($value);
+            $value = modlib_purify($value);
         }
 		return $value;
 	}

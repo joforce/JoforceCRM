@@ -38,13 +38,13 @@ class ModComments_Module_Model extends Head_Module_Model{
 	 * @return <Array>
 	 */
 	public function getSettingLinks(){
-		vimport('~~modules/com_jo_workflow/VTWorkflowUtils.php');
+		vimport('~~modules/Workflow/WorkflowUtils.php');
 
 		$editWorkflowsImagePath = Head_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();
 
 
-		if(VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		if(WorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_EDIT_WORKFLOWS',

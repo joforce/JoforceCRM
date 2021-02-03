@@ -21,7 +21,7 @@ require_once("includes/Webservices/WebServiceError.php");
 require_once 'includes/utils/utils.php';
 require_once 'includes/utils/UserInfoUtil.php';
 require_once 'includes/Webservices/ModuleTypes.php';
-require_once 'includes/utils/VtlibUtils.php';
+require_once 'includes/utils/ModlibUtils.php';
 require_once 'includes/Webservices/WebserviceEntityOperation.php';
 require_once 'includes/Webservices/PreserveGlobal.php';
 
@@ -80,8 +80,35 @@ function vtws_getHeadVersion(){
 
 function vtws_getUserAccessibleGroups($moduleId, $user){
 	global $adb;
-	require('user_privileges/user_privileges_'.$user->id.'.php');
-	require('user_privileges/sharing_privileges_'.$user->id.'.php');
+   	$get_userdetails = get_privileges($user->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($user->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
 	$tabName = getTabname($moduleId);
 	if($is_admin==false && $profileGlobalPermission[2] == 1 &&
 			($defaultOrgSharingPermission[$moduleId] == 3 or $defaultOrgSharingPermission[$moduleId] == 0)){
@@ -815,7 +842,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType) {
 }
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId) {
-	if(vtlib_isModuleActive('ModComments')) {
+	if(modlib_isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments'); ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
 }
@@ -948,7 +975,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel) {
 	$nameSearchValue = '"fieldname":"assigned_user_id","value":"'.$ownerName.'"';
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"'.$ownerId.'"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
-	$query = "SELECT task,task_id,workflow_id FROM com_jo_workflowtasks where task LIKE '%".$nameSearchValue."%' OR task LIKE '%".$idSearchValue.
+	$query = "SELECT task,task_id,workflow_id FROM workflowtasks where task LIKE '%".$nameSearchValue."%' OR task LIKE '%".$idSearchValue.
 			"%' OR task LIKE '%".$fieldSearchValue."%'";
 	$result = $db->pquery($query, array());
 	
@@ -959,8 +986,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel) {
 		$taskComponents = explode(':', $task);
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
-		require_once("modules/com_jo_workflow/VTTaskManager.inc");
-		require_once 'modules/com_jo_workflow/tasks/'.$className.'.inc';
+		require_once("modules/Workflow/TaskManager.inc");
+		require_once 'modules/Workflow/tasks/'.$className.'.inc';
 		$unserializeTask = unserialize($task);
 		if(array_key_exists("field_value_mapping",$unserializeTask)) {
 			$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
@@ -980,7 +1007,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel) {
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 				
-				$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		} else {
@@ -991,7 +1018,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel) {
 					$unserializeTask->assigned_user_id = $newOwnerId;
 				}
 				$serializeTask = serialize($unserializeTask);
-				$query = 'UPDATE com_jo_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE workflowtasks SET task=? where workflow_id=? AND task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		}
@@ -1061,17 +1088,17 @@ function vtws_transferPotentialRelatedRecords($potentialId, $relatedId, $seType)
 	if (empty($potentialId) || empty($relatedId) || empty($seType)) {
 		throw new WebServiceException(WebServiceErrorCode::$POTENTIAL_RELATED_UPDATE_FAILED, "Failed to move related Records");
 	}
-	if (vtlib_isModuleActive('Calendar')) {
+	if (modlib_isModuleActive('Calendar')) {
 		vtws_transferRelatedPotentialActivities($potentialId, $relatedId);
 	}
-	if (vtlib_isModuleActive('Quotes')) {
+	if (modlib_isModuleActive('Quotes')) {
 		vtws_transferRelatedPotentialQuotes($potentialId, $relatedId);
 	}
-	if (vtlib_isModuleActive('ModComments')) {
+	if (modlib_isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::copyCommentsToRelatedRecord($potentialId, $relatedId);
 	}
-	if (vtlib_isModuleActive('Documents')) {
+	if (modlib_isModuleActive('Documents')) {
 		vtws_transferRelatedPotentialDocuments($potentialId, $relatedId);
 	}
 }
@@ -1273,5 +1300,3 @@ function vtws_recordExists($recordId) {
 	$ids = vtws_getIdComponents($recordId);
 	return !Head_Util_Helper::CheckRecordExistance($ids[1]);
 }
-
-?>

@@ -42,22 +42,22 @@
                 <table class="listview-table table-bordered listViewEntriesTable">
                 <thead>
                     <tr class="listViewHeaders">
-                        {if $MULTI_SELECT}
-                            <th class="{$WIDTHTYPE}">
+                        <th class="{$WIDTHTYPE}">
+                            {if $MULTI_SELECT}
                                 <input type="checkbox"  class="selectAllInCurrentPage" />
-                            </th>
-                        {elseif $MODULE neq 'EmailTemplates'}
-                            <th class="{$WIDTHTYPE}">&nbsp;</th>
-                        {/if}
+                            {elseif $MODULE neq 'EmailTemplates'}
+				<i class="fa fa-search cursorPointer" id="joforce-table-search" style="float:right;margin-left:25px;{if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
+                            {/if}
+			</th>
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                         <th class="{$WIDTHTYPE}">
                             <a href="javascript:void(0);" class="listViewContentHeaderValues listViewHeaderValues {if $LISTVIEW_HEADER->get('name') eq 'listprice'} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}">
                                 {if $ORDER_BY eq $LISTVIEW_HEADER->get('name')}
-                                    <i class="fa fa-sort {$FASORT_IMAGE}"></i>
+                                    <i class="fa pull-right {$FASORT_IMAGE}"></i>
                                 {else}
-                                    <i class="fa fa-sort customsort"></i>
+                                    <i class="fa {$DEFAULT_SORT} pull-right"></i>
                                 {/if}
-                                &nbsp;{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}&nbsp;
+                                <span>{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</span>
                             </a>
                         </th>
                         {/foreach}

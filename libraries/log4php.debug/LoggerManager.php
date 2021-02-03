@@ -194,7 +194,7 @@ if (!defined('LOG4PHP_CONFIGURATION')) {
          *
          * @var string
          */
-        define('LOG4PHP_CONFIGURATION', 'log4php.properties');
+        define('LOG4PHP_CONFIGURATION', 'config/log4php.properties');
     }
 }
 

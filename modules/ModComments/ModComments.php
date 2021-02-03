@@ -11,7 +11,7 @@
 include_once dirname(__FILE__) . '/ModCommentsCore.php';
 include_once dirname(__FILE__) . '/models/Comments.php';
 
-require_once 'includes/utils/VtlibUtils.php';
+require_once 'includes/utils/ModlibUtils.php';
 
 class ModComments extends ModCommentsCore {
 
@@ -20,8 +20,8 @@ class ModComments extends ModCommentsCore {
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type) {
-		parent::vtlib_handler($modulename, $event_type);
+	function modlib_handler($modulename, $event_type) {
+		parent::modlib_handler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
 			self::addWidgetTo(array('Leads', 'Contacts', 'Accounts', 'Potentials', 'Project', 'ProjectTask'));
 			global $adb;
@@ -63,7 +63,7 @@ class ModComments extends ModCommentsCore {
 	static function addWidgetTo($moduleNames, $widgetType='DETAILVIEWWIDGET', $widgetName='DetailViewBlockCommentWidget') {
 		if (empty($moduleNames)) return;
 
-		include_once 'vtlib/Head/Module.php';
+		include_once 'libraries/modlib/Head/Module.php';
 
 		if (is_string($moduleNames)) $moduleNames = array($moduleNames);
 
@@ -93,7 +93,7 @@ class ModComments extends ModCommentsCore {
 	static function removeWidgetFrom($moduleNames, $widgetType='DETAILVIEWWIDGET', $widgetName='DetailViewBlockCommentWidget') {
 		if (empty($moduleNames)) return;
 
-		include_once 'vtlib/Head/Module.php';
+		include_once 'libraries/modlib/Head/Module.php';
 
 		if (is_string($moduleNames)) $moduleNames = array($moduleNames);
 

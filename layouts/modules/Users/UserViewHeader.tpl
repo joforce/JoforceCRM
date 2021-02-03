@@ -51,8 +51,8 @@
                             </button>
                         {/foreach}
                         {if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-                            <button class="btn btn-default" data-toggle="dropdown" href="javascript:void(0);">
-                                {vtranslate('LBL_MORE', $MODULE)}&nbsp;<i class="caret"></i>
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                                {vtranslate('LBL_MORE', $MODULE)}
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 {foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}

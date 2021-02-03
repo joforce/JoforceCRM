@@ -10,11 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="popupUi modal-dialog modal-md hide" data-backdrop="false">
-    <div class="modal-content">
+<div class="popupUi hide" data-backdrop="false">
+    <div class="">
         {assign var=HEADER_TITLE value={vtranslate('LBL_SET_VALUE',$QUALIFIED_MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
-        <div class="modal-body">
+        <div class="">
             <div class="row">
                 <div class="col-sm-4">
                     <select class="textType">
@@ -77,7 +76,6 @@
                 <p>{vtranslate('LBL_EXPRESSION_EXAMPLE2',$QUALIFIED_MODULE)}</p>
             </div>
         </div>
-        {include file="ModalFooter.tpl"|vtemplate_path:$MODULE}
             </div>
         </div>
     <div class="clonedPopUp"></div>

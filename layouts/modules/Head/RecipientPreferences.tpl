@@ -37,8 +37,8 @@
 					</div>
 					<div class='modal-footer'>
 						<center>
-							<button class="btn btn-success savePreference" type="submit" name="savePreference"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<button class="btn btn-primary savePreference" type="submit" name="savePreference"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+							<a class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</center>
 					</div>
 				</form>

@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): JoForce.com
 *************************************************************************************}
 
 {strip}
@@ -16,7 +17,7 @@
         {if $FIELD_MODEL->isHeaderField() && $FIELD_MODEL->isActiveField() && $RECORD->get($FIELD_NAME) && $FIELD_MODEL->isViewable()}
             {assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue', $RECORD->get({$FIELD_NAME}))}
             <div class="info-row row headerAjaxEdit td">
-                <div class="col-lg-7 fieldLabel">
+                <div class="fieldLabel">
                     {assign var=DISPLAY_VALUE value="{$FIELD_MODEL->getDisplayValue($RECORD->get($FIELD_NAME))}"}
                     <span class="{$FIELD_NAME} value" title="{vtranslate($FIELD_MODEL->get('label'),$MODULE)} : {strip_tags($DISPLAY_VALUE)}">
                         {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path:$MODULE_NAME FIELD_MODEL=$FIELD_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
