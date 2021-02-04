@@ -1,4 +1,6 @@
 # JoForceCRM
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjoforce%2FJoForceCRM.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjoforce%2FJoForceCRM?ref=badge_shield)
+
 
 Open Source CRM gets better with JoForce. With all your sales communication in one place, JoForce helps you boost your Sales multifold.
 
@@ -34,3 +36,7 @@ Please be in touch with us,
 [Contact us for support](https://www.joforce.com/support.html)
 
 Follow us on [Twitter](https://twitter.com/JoForceCRM) and like us on [FaceBook](https://www.facebook.com/joforcecrm) to know about the updates.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjoforce%2FJoForceCRM.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjoforce%2FJoForceCRM?ref=badge_large)
