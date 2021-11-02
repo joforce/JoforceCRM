@@ -118,7 +118,7 @@ class Install_MysqlImport_Model {
 		$milestone_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_milestone_tabid)));
 		$milestone_project_fieldid = $milestone_project['fieldid'];
 
-		$task_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_milestone_tabid)));
+		$task_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_task_tabid)));
 		$task_project_fieldid = $task_project['fieldid'];
 		$update_query = 'update jo_relatedlists set relationfieldid = ? where tabid = ? and related_tabid = ?';
 		$adb->pquery($update_query , array($milestone_project_fieldid, $project_tabid, $project_milestone_tabid)); //milestone
