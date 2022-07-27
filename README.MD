@@ -53,7 +53,7 @@ Seamlessly synchronize calendar events and contacts data between Google Calendar
 
 ### Extension Marketplace
 
-Joforce CRM has many extensions to enhance CRM functionality. All are listed in the marketplace inside the CRM. Find the extension that suits your needs and get the most out of it..
+Joforce CRM has many extensions to enhance CRM functionality. All are listed in the marketplace inside the CRM. Find the extension that suits your needs and get the most out of it.
 
 ![](https://www.joforce.com/images/joforce-app/home_page.png)
 
