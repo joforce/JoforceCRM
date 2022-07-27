@@ -20,7 +20,7 @@
             <input type="hidden" class="editorMode" value="create" />
             <input type=hidden name="moduleDateFields" data-value='{json_encode($ADDVIEWS, $smarty.const.JSON_HEX_APOS)}' />
             <div class="form-group">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_MODULE', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_MODULE', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-6">
                     <select id="editModulesList" class="select2" name="modulesList" style="min-width: 250px;">
                         {foreach key=MODULE_NAME item=DATE_FIELDS_LIST from=$ADDVIEWS}
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_FIELD', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_FIELD', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-6">
                     <select id="editFieldsList" class="select2" name="fieldsList" style="min-width: 250px;">
                         <option value=" ">{vtranslate('LBL_NONE',$MODULE)}</option>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div id="js-eventtype-condition" class="form-group hide">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_EVENT_TYPE', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_EVENT_TYPE', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-6">
                     <select id="calendarviewconditions" class="select2" name="conditions" style="min-width: 250px;">
                         <option value="">{vtranslate('LBL_ALL', $MODULE)}</option>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="form-group">
-				<label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_FIELDS_FOR_RANGE', $MODULE)}
+				<label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_FIELDS_FOR_RANGE', $MODULE)}
 				</label>
 				<div class="controls fieldValue col-sm-8">
 					<input type="checkbox" name="rangeFields" />&nbsp;&nbsp;
@@ -63,7 +63,7 @@
 				</div>
 			</div>
             <div class="form-group">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-8">
                     <p class="calendarColorPicker"></p>
                 </div>

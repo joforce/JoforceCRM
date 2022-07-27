@@ -53,6 +53,7 @@ class Head_QuickCreateAjax_View extends Head_IndexAjax_View {
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('FIELDS_INFO', json_encode($fieldsInfo));
+		$viewer->assign('PAGE', $request->get('page'));
 
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
 

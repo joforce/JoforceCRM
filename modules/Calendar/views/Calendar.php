@@ -62,6 +62,7 @@ class Calendar_Calendar_View extends Head_Index_View
 	}
 
 	public function process(Head_Request $request) {
+		global $site_URL;
 		$mode = $request->getMode();
 		if($mode == 'settings'){
 			$this->getCalendarSettings($request);
@@ -73,6 +74,7 @@ class Calendar_Calendar_View extends Head_Index_View
 		}
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('IS_CREATE_PERMITTED', isPermitted('Calendar', 'CreateView'));
+		$viewer->assign('Site_Url',$site_URL);
 
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}

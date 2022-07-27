@@ -37,7 +37,8 @@ function vtws_history($element, $user) {
 
 	// Pre-condition check
 	if (empty($moduleName)) {
-		$moduleName = Mobile_WS_Utils::detectModulenameFromRecordId($record);
+        require_once('includes/utils/utils.php');
+		$moduleName = detectModulenameFromRecordId($record);
 	}
 
 	if (!$acrossAllModule && !ModTracker::isTrackingEnabledForModule($moduleName)) {

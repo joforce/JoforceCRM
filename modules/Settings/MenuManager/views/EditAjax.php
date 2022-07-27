@@ -34,13 +34,7 @@ class Settings_MenuManager_EditAjax_View extends Settings_Head_Index_View {
 		$qualifiedModuleName = $request->getModule(false);
 		$appName = $request->get('appname');
 		$user_id = $current_user->id;
-		$file_name = "storage/menu/sections_".$user_id.".php";
-                if(file_exists($file_name)) {
-                    require($file_name);
-                } else {
-                    require("storage/menu/default_sections.php");
-		}
-
+		$section_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'default_sections');
 		$viewer->assign('APP_ARRAY', array_keys($section_array));
 		$viewer->assign('SELECTED_APP_NAME', $appName);
 		$viewer->assign('MODULE', $request->getModule());

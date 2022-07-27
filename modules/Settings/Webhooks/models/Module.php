@@ -22,7 +22,7 @@ class Settings_Webhooks_Module_Model extends Head_Module_Model {
 
         public static function getSupportedModulesList() {
                 $moduleModels = self::getEntityModules();
-                $restrictedModules = array('Emails', 'ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
+                $restrictedModules = array('Emails', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
                 foreach($moduleModels as $key => $moduleModel){
                         if(in_array($moduleModel->getName(),$restrictedModules) || $moduleModel->get('isentitytype') != 1){
                                 unset($moduleModels[$key]);
@@ -207,7 +207,7 @@ class Settings_Webhooks_Module_Model extends Head_Module_Model {
 	}
 
 	/** 
-	 * Fucntion to get the settings menu item for vtiger7
+	 * Fucntion to get the settings menu item
 	 * @return <array> $settingsMenItems
 	 */
 	static function getSettingsMenuItem() {

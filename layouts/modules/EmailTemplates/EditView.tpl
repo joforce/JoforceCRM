@@ -7,11 +7,10 @@
 * All Rights Reserved.
 * Contributor(s): JoForce.com
 ************************************************************************************}
-
 {strip}
-				<form id="EditView" class="form-horizontal recordEditView"  name="EditView" method="post" action="{$SITEURL}index.php">
-					<div class="editViewHeader">
-						<div class='row'>
+				<form id="EditView" class="form-horizontal  recordEditView  emailtemplate_page_record_views"  name="EditView" method="post" action="{$SITEURL}index.php">
+					<div class="editViewHeader card-header-new m30 {if in_array($MODULE,array('EmailTemplates'))} lap_scr_header_style {/if}">
+						<div class='row mt20'>
 							<div class="col-lg-12 col-md-12 col-lg-pull-0">
 								{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 								{if $RECORD_ID neq ''}
@@ -22,7 +21,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="editViewBody">
+					<div class="{if $MODULE eq 'EmailTemplates'} editViewBody card m20 {else} editViewBody card m50 {/if}" >
+					
+					
 						<div class="editViewContents">
 							{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 							{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -57,7 +58,7 @@
 							<div class="row clearfix">
 								<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 									<button type='submit' class='btn btn-primary saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-									<a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+									<a class='cancelLink btn btn-danger' href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 								</div>
 							</div>
 						</div>

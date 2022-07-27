@@ -34,10 +34,10 @@
                 </div>
                 {if $NAVIGATION}
                     <div class="btn-group pull-right">
-                        <button class="btn btn-paginate btn-xs" id="quickPreviewPreviousRecordButton" data-record="{$PREVIOUS_RECORD_ID}" data-app="{$SELECTED_MENU_CATEGORY}" {if empty($PREVIOUS_RECORD_ID)} disabled="disabled" {*{else} onclick="Head_List_Js.triggerPreviewForRecord({$PREVIOUS_RECORD_ID})"*}{/if} >
+                        <button class="btn btn-paginate btn-xs" id="quickPreviewPreviousRecordButton" data-record="{$PREVIOUS_RECORD_ID}" {if empty($PREVIOUS_RECORD_ID)} disabled="disabled" {*{else} onclick="Head_List_Js.triggerPreviewForRecord({$PREVIOUS_RECORD_ID})"*}{/if} >
                             <i class="fa fa-chevron-left"></i>
                         </button>
-                        <button class="btn btn-paginate btn-xs" id="quickPreviewNextRecordButton" data-record="{$NEXT_RECORD_ID}" data-app="{$SELECTED_MENU_CATEGORY}" {if empty($NEXT_RECORD_ID)} disabled="disabled" {*{else} onclick="Head_List_Js.triggerPreviewForRecord({$NEXT_RECORD_ID})"*}{/if}>
+                        <button class="btn btn-paginate btn-xs" id="quickPreviewNextRecordButton" data-record="{$NEXT_RECORD_ID}" {if empty($NEXT_RECORD_ID)} disabled="disabled" {*{else} onclick="Head_List_Js.triggerPreviewForRecord({$NEXT_RECORD_ID})"*}{/if}>
                             <i class="fa fa-chevron-right"></i>
                         </button>
                     </div>
@@ -69,14 +69,6 @@
 				{include file="ListViewQuickPreviewSectionHeader.tpl"|vtemplate_path:$MODULE_NAME TITLE="{vtranslate('LBL_UPDATES',$MODULE_NAME)}"}
 				{include file="RecentActivities.tpl"|vtemplate_path:$MODULE_NAME}
             </div>
-
-            <br>
-            {if $MODULE_MODEL->isCommentEnabled() && $MODULE_NAME neq 'Cases'}
-                <div class="quickPreviewComments">
-                    {include file="ListViewQuickPreviewSectionHeader.tpl"|vtemplate_path:$MODULE_NAME TITLE="{vtranslate('LBL_RECENT_COMMENTS',$MODULE_NAME)}"}
-                    {include file="QuickViewCommentsList.tpl"|vtemplate_path:$MODULE_NAME}
-                </div>
-            {/if}
         </div>
     </div>
 </div>

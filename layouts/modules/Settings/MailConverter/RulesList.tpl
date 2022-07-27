@@ -8,14 +8,14 @@
 ************************************************************************************}
 
 {strip}
-	<div class="">
-		<h4>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h4>
+	<div class="mailConverter card mt0">
+		<h4 class="card-header-new mail_Convertor_header">{vtranslate($MODULE, $QUALIFIED_MODULE)}</h4>
 		<hr>
 		{if !$RECORD_EXISTS}
 			<div class="mailConveterDesc">
 				<center><br><br>
 					<div>{vtranslate('LBL_MAILCONVERTER_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-					<img src="{$SITEURL}{vimage_path('MailConverter.png')}" alt="Mail Converter"><br><br>
+					<img src="{$SITEURL}{vimage_path('MailConverter.png')}" alt="Mail Converter" width="50%"><br><br>
 					<a onclick="window.location.href='{$MODULE_MODEL->getCreateRecordUrl()}'" class="joforce-link"><u class="cursorPointer" style="font-size:12pt;">{vtranslate('LBL_CREATE_MAILBOX_NOW', $QUALIFIED_MODULE)}</u></a>
 					<br><br>
 				</center>

@@ -9,5 +9,5 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class Potentials_MassActionAjax_View extends Project_MassActionAjax_View {
+class Potentials_MassActionAjax_View extends Products_MassActionAjax_View {
 }

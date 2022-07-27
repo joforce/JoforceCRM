@@ -16,7 +16,7 @@
                 <input type="hidden" name="mode" value="addTab"/>
                 <div class="modal-body  clearfix">
                     <div class="col-lg-3">
-                        <label class="control-label pull-right marginTop5px">
+                        <label class="col-form-label pull-right marginTop5px">
                             {vtranslate('LBL_TAB_NAME',$MODULE)}&nbsp;<span class="redColor">*</span>
                         </label>
                     </div>

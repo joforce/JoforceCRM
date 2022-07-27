@@ -26,11 +26,11 @@
 				<input type="hidden" name="fieldname" value="{$FIELD_MODEL->get('name')}" />
 				<input type="hidden" id="headerFieldsCount" value="{$HEADER_FIELDS_COUNT}" />
 				{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$TITLE}
-				<div class="modal-body model-body-scrollenabled">
+				<div class="modal-body">
 					{*<!-- To add block lables only for create view, which will be used while double clicking on uitype --> *}
 					{if !$IS_FIELD_EDIT_MODE}
 						<div class="form-group pl15 blockControlGroup hide">
-							<label class="control-label fieldLabel pr0 pl0 col-sm-5">
+							<label class="col-form-label fieldLabel pr0 pl0 col-sm-5">
 								{vtranslate('LBL_SELECT_BLOCK', $QUALIFIED_MODULE)}
 							</label>
 							<div class="controls col-sm-7 pl0">
@@ -47,12 +47,12 @@
 							</div>
 						</div> 
 					{/if}
-					<div class="form-group pl15">
-						<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+					<div class="form-group row pl15">
+						<label class=" fieldLabel pr0 col-md-6 pl0 pull-left">
 							{vtranslate('LBL_SELECT_FIELD_TYPE', $QUALIFIED_MODULE)}
 						</label>
-						<div class="controls col-sm-7 pl0">
-							<select class="fieldTypesList inputElement col-sm-9" name="fieldType" {if $IS_FIELD_EDIT_MODE} disabled="disabled"{/if}>
+						<div class="controls col-sm-6 pl0 pull-rihgt">
+							<select class="fieldTypesList inputElement " name="fieldType" {if $IS_FIELD_EDIT_MODE} disabled="disabled"{/if}>
 								{foreach item=FIELD_TYPE from=$ADD_SUPPORTED_FIELD_TYPES}
 									{if !$IS_FIELD_EDIT_MODE and $FIELD_TYPE eq 'Relation'} {continue}{/if}
 									<option value="{$FIELD_TYPE}" 
@@ -66,48 +66,49 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group pl15">
-						<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+					<div class="form-group row pl15">
+						<label class="fieldLabel pr0 col-sm-6 pull-left pl0">
 							{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
 							&nbsp;<span class="red-border">*</span>
 						</label>
-						<div class="controls col-sm-7 pl0">
-							<input type="text" class='inputElement col-sm-9 pr0' maxlength="50" {if $IS_FIELD_EDIT_MODE}disabled="disabled"{/if}name="fieldLabel" value="{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}" data-rule-required='true' style='width: 75%' />
+						<div class="controls col-sm-6 pl0">
+<!--  {if $IS_FIELD_EDIT_MODE}disabled="disabled"{/if}   -->
+							<input type="text" class='inputElement pr0' maxlength="50" name="fieldLabel" value="{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}" data-rule-required='true' style='width: 75%' />
 						</div>
 					</div>
 					{if !$IS_FIELD_EDIT_MODE}
-						<div class="form-group pl15 supportedType lengthsupported">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+						<div class="form-group row pl15 supportedType lengthsupported">
+							<label class=" fieldLabel pr0 col-sm-6 pl0">
 								{vtranslate('LBL_LENGTH', $QUALIFIED_MODULE)}
 								&nbsp;<span class="red-border">*</span>
 							</label>
-							<div class="controls col-sm-7 pl0">
+							<div class="controls col-sm-6 pl0">
 								<input type="text" name="fieldLength" class="inputElement" value="" data-rule-required='true' 
 									data-rule-positive="true" data-rule-WholeNumber='true' data-rule-illegal='true' style='width: 75%'/>
 							</div>
 						</div>
-						<div class="form-group pl15 supportedType decimalsupported hide">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+						<div class="form-group pl15 supportedType decimalsupported row hide">
+							<label class="fieldLabel pr0 col-sm-6 pull-left pl0">
 								{vtranslate('LBL_DECIMALS', $QUALIFIED_MODULE)}
 								&nbsp;<span class="red-border">*</span>
 							</label>
-							<div class="controls col-sm-7 pl0">
+							<div class="controls col-sm-6 pl0">
 								<input type="text" name="decimal" class="inputElement" value="" data-rule-required='true' style='width: 75%'/>
 							</div>
 						</div>
-						<div class="form-group pl15 supportedType preDefinedValueExists hide">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
-								{vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
+						<div class="form-group pl15 supportedType preDefinedValueExists row hide">
+						<label class="fieldLabel pr0 col-sm-6 pull-left pl0 ">
+															{vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
 								&nbsp;<span class="red-border">*</span>
 							</label>
-							<div class="controls col-sm-7 pl0">
+							<div class="controls col-sm-6 pl0">
 								<input type="text" id="picklistUi" class="col-sm-9 select2" name="pickListValues"
 									placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-rule-required='true'
 									data-rule-picklist='true'/>
 							</div>
 						</div>
 						<div class="form-group pl15 supportedType picklistOption hide">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+						<label class="col-form-label fieldLabel pr0 col-sm-5 pl0 ">
 								&nbsp;
 							</label>
 							<div class="controls col-sm-7 pl0">
@@ -118,7 +119,7 @@
 							</div>
 						</div>
 						<div class="form-group pl15 supportedType relationModules hide">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+						<label class="col-form-label fieldLabel pr0 col-sm-5 pl0 ">
 								{vtranslate('SELECT_MODULE', $QUALIFIED_MODULE)}
 								&nbsp;<span class="red-border">*</span>
 							</label>
@@ -136,10 +137,10 @@
 					{/if}
 					{if $IS_FIELD_EDIT_MODE}
 						<div class="form-group pl15">
-							<label class="control-label fieldLabel pr0 col-sm-5 pl0">
+						<label class="col-form-label fieldLabel pr0 col-md-6 pull-left pl0">
 								{vtranslate('LBL_SHOW_FIELD', $QUALIFIED_MODULE)}
 							</label>
-							<div class="controls col-sm-7 pl0">
+							<div class="controls col-md-6 pull-right pl0">
 								<input type="hidden" name="presence" value="1"/>
 								<label class="checkbox">
 									<input type="checkbox" class ='cursorPointer bootstrap-switch' id="fieldPresence" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if}
@@ -151,21 +152,21 @@
 					{else}
 						<input type="hidden" name="presence" value="2" />
 					{/if}
-					<div class="well fieldProperty">
+					<div class="card-body fieldProperty">
 						<div class="properties">
 							<div class="row">
 								<div class="form-group pl15">
-									<label class="control-label fieldLabel pr0 col-sm-5">
+									<label class="col-form-label fieldLabel pr0 col-md-12">
 										{vtranslate('LBL_ENABLE_OR_DISABLE_FIELD_PROP',$QUALIFIED_MODULE)}
 									</label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group pl15 col-sm-7">
-									<label class="control-label fieldLabel pr0 col-sm-10 pl0">
+								<div class="form-group col-sm-6 checkbutton mr10">
+									<label class=" fieldLabel pr0 col-md-9 pull-left">
 										<i class="fa fa-exclamation-circle"></i> &nbsp; {vtranslate('LBL_MANDATORY_FIELD',$QUALIFIED_MODULE)}
 									</label>
-									<div class="controls col-sm-2 pl0">
+									<div class="controls col-sm-2  pull-left">
 										<input type="hidden" name="mandatory" value="O"/>
 										<label class="checkbox" style="margin-left: 6%;">
 											<input type="checkbox" name="mandatory" class="{if $FIELD_MODEL->isMandatoryOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer{/if}" value="M" {if $FIELD_MODEL->isMandatory()} checked="checked" {/if}
@@ -173,11 +174,11 @@
 										</label>
 									</div>
 								</div>
-								<div class="form-group pl15 col-sm-6">
-									<label class="control-label fieldLabel pr0 col-sm-7 pl0">
+								<div class="form-group col-sm-5 checkbutton ml10">
+									<label class="fieldLabel pr0 pull-left">
 										<i class="fa fa-plus"></i> &nbsp; {vtranslate('LBL_QUICK_CREATE',$QUALIFIED_MODULE)}
 									</label>
-									<div class="controls col-sm-5 pl0">
+									<div class="controls col-sm-2 pull-left">
 										{if $FIELD_MODEL->isQuickCreateOptionDisabled()}
 											<input type="hidden" name="quickcreate" value={$FIELD_MODEL->get('quickcreate')} />
 										{else}
@@ -193,11 +194,11 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group pl15 col-sm-7">
-									<label class="control-label fieldLabel pr0 col-sm-10 pl0">
+							<div class="form-group col-sm-6 mr10 checkbutton">
+									<label class="fieldLabel pr0 pull-left col-md-9">
 										<i class="fa fa-key"></i> &nbsp; {vtranslate('LBL_KEY_FIELD_VIEW',$QUALIFIED_MODULE)}
 									</label>
-									<div class="controls col-sm-2 pl0">
+									<div class="controls col-sm-2 pull-left">
 										<input type="hidden" name="summaryfield" value="0"/>
 										<label class="checkbox" style="margin-left: 6%;">
 											<input type="checkbox" class="{if $FIELD_MODEL->isSummaryFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer{/if}" name="summaryfield" value="1" {if $FIELD_MODEL->get('summaryfield') eq '1'}checked="checked"{/if}
@@ -205,11 +206,11 @@
 										</label>
 									</div>
 								</div>
-								<div class="form-group pl15 col-sm-6">
-									<label class="control-label fieldLabel pr0 col-sm-7 pl0">
+								<div class="form-group col-sm-5 checkbutton ml10">
+									<label class="fieldLabel pr0 pull-left col-md-9">
 										<i class="fa fa-flag-o"></i> &nbsp; <span>{vtranslate('LBL_HEADER_FIELD',$QUALIFIED_MODULE)}</span>
 									</label>
-									<div class="controls col-sm-5 pl0">
+									<div class="controls col-sm-2 pull-left">
 										<input type="hidden" name="headerfield" value="0"/>
 										<label class="checkbox" style="margin-left: 9%;">
 											<input type="checkbox" class="{if $FIELD_MODEL->isHeaderFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer{/if}" name="headerfield" value="1" {if $FIELD_MODEL->get('headerfield') eq '1'}checked="checked"{/if}
@@ -219,11 +220,11 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group pl15 col-sm-7">
-									<span class="control-label fieldLabel pr0 col-sm-10 pl0">
+							<div class="form-group col-sm-6 checkbutton m10">
+									<span class="fieldLabel pr0 pull-left">
 										<img src="{$SITEURL}{vimage_path('MassEdit.png')}" height=14 width=14/> &nbsp; {vtranslate('LBL_MASS_EDIT',$QUALIFIED_MODULE)}
 									</span>
-									<div class="controls col-sm-2 pl0">
+									<div class="controls col-sm-2 pull-left mass_edit">
 										{if $FIELD_MODEL->isMassEditOptionDisabled()}
 											<input type="hidden" name="masseditable" value={$FIELD_MODEL->get('masseditable')} />
 										{else}

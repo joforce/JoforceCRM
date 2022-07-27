@@ -10,7 +10,7 @@
 {* modules/Head/views/MergeRecord.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="fc-overlay-modal">
+<div class="fc-overlay-modal" style="background: #ecf0fa">
     <form class="form-horizontal" name="massMerge" method="post" action="{$SITEURL}index.php">
         <div class="overlayHeader">
             {assign var=TITLE value="{{vtranslate('LBL_MERGE_RECORDS_IN', $MODULE)}|cat:' > '|cat:{vtranslate($MODULE,$MODULE)}}"}
@@ -23,7 +23,7 @@
                             <input type="hidden" name=module value="{$MODULE}" />
                             <input type="hidden" name="action" value="ProcessDuplicates" />
                             <input type="hidden" name="records" value={Zend_Json::encode($RECORDS)} />
-                            <div class="well well-sm" style="margin-bottom:8px">
+                            <div class="card card-body well-sm" style="margin-bottom:8px;padding-left:10px">
                                 {vtranslate('LBL_MERGE_RECORDS_DESCRIPTION',$MODULE)}
                             </div>
                             <div class="datacontent">
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="overlayFooter">
+        <div class="modal-footer overlayFooter" style='bottom:6%;'>
             {assign var=BUTTON_NAME value=vtranslate('LBL_MERGE',$MODULE)}
             {include file="ModalFooter.tpl"|vtemplate_path:$MODULE}
         </div>

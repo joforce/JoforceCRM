@@ -20,7 +20,7 @@
 		<a href="{$RECORD_LINK_URL[1]}" title="{vtranslate('LBL_DUPLICATE', $MODULE)}"><i class="fa fa-copy"></i></a>
 	</span>
 	<span class="more dropdown action">
-		<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+		<span href="javascript:;" class="" data-toggle="dropdown">
 			<i class="fa fa-ellipsis-h icon"></i></span>
 		<ul class="dropdown-menu">
 			<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$RECORD_LINK_URL[0]}" title="{vtranslate('LBL_EDIT', $MODULE)}">{vtranslate('LBL_EDIT', $MODULE)}</a></li>

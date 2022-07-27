@@ -1,7 +1,7 @@
 {strip}
 <div class="relatedHeader">
-    <div class="btn-toolbar row">
-        <div class="col-lg-6 col-md-6 col-sm-6 btn-toolbar">
+<div class="btn-toolbar row col-lg-12 col-md-12 col-sm-6 p0 m0">
+        <div class="col-lg-12 col-md-12 col-sm-6 btn-toolbar">
             {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
                 <div class="btn-group">
                     {assign var=DROPDOWNS value=$RELATED_LINK->get('linkdropdowns')}

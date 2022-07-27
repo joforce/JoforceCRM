@@ -19,7 +19,7 @@
                 <div name='massEditContent'>
                     <div class="modal-body ">
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
+                            <label class="col-form-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('New Username', $MODULE)}&nbsp;
                                 <span class="red-border">*</span>
                             </label>
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
+                            <label class="col-form-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
                                 <span class="red-border">*</span>
                             </label>
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
+                            <label class="col-form-label fieldLabel col-sm-5 pl0 pr0">
                                 {vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
                                 <span class="red-border">*</span>
                             </label>

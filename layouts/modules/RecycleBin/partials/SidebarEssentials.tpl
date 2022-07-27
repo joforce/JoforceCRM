@@ -6,7 +6,7 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 ************************************************************************************}
-<div class="sidebar-menu sidebar-menu-full">
+<div class="sidebar-menu">
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
             <h5 class="sidebar-header"> {vtranslate('LBL_MODULES', 'Settings:$MODULE')} </h5>

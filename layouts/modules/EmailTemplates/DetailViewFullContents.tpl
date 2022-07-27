@@ -29,16 +29,16 @@
                 {include file="DetailViewActions.tpl"|vtemplate_path:$MODULE}
             </div>
         </div>
-        <div class="detailview-content container-fluid">
-            <div class="details row">
-                <div class="block">
+        <div class="detailview-content container-fluid ">
+            <div class="details row card ms_Email_detail_view">
+                <div class="block m50">
                     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-                    <div>
+                    <div class="card-header-new">
                         <h4>{vtranslate('Email Template - Properties of ', $MODULE_NAME)} " {$RECORD->get('templatename')} "</h4>
                     </div>
                     <hr>
-                    <table class="table detailview-table no-border">
-                        <tbody> 
+                    <table class="table detailview-table no-border ml20 mb50">
+                        <tbody class="mb50"> 
                             <tr>
                                 <td class="fieldLabel {$WIDTHTYPE}"><label class="muted marginRight10px">{vtranslate('Templatename', $MODULE_NAME)}</label></td>
                                 <td class="fieldValue {$WIDTHTYPE}">{$RECORD->get('templatename')}</td>
@@ -55,10 +55,10 @@
                                 <td class="fieldLabel {$WIDTHTYPE}"><label class="muted marginRight10px">{vtranslate('Subject',$MODULE_NAME)}</label></td>
                                 <td class="fieldValue {$WIDTHTYPE}">{$RECORD->get('subject')}</td>
                             </tr>
-                            <tr>
+                            <tr class="mb50">
                                 <td class="fieldLabel {$WIDTHTYPE}"><label class="muted marginRight10px">{vtranslate('Message',$MODULE_NAME)}</label></td>
-                                <td class="fieldValue {$WIDTHTYPE}">
-                                    <iframe id="TemplateIFrame" style="height:400px;" class="col-sm-12 col-xs-12 overflowScrollBlock"></iframe>
+                                <td class="fieldValue mb50 {$WIDTHTYPE}">
+                                    <iframe id="TemplateIFrame"  class="col-sm-12 col-xs-12 overflowScrollBlock h-70 col-6"></iframe>
                                 </td>
                             </tr>
                         </tbody>

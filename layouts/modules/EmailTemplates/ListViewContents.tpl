@@ -11,7 +11,8 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg-list  pl0 pr0" style="width:100%; min-height: auto; background: #F5F6FA;">
+<div class="col-sm-12 col-xs-12 joforce-bg-list  p-3 pl0 pr0 {if in_array($MODULE,array('EmailTemplates'))} Email_template_page  {/if}" style="" >
+<div class="card ">
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
 	<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -34,7 +35,6 @@
 	<input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
 	<input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
 	<input type="hidden" name="viewType" value="{$VIEWTYPE}" />
-	<input type="hidden" name="app" id="appName" value="{$SELECTED_MENU_CATEGORY}">
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 		<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
@@ -42,15 +42,16 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content"  class="table-container" style="background: #fff;">
+	<div id="table-content"  class="table-container ms_scrn_table_Email_tamp" style="background: #fff;">
 	<div class="fixed-scroll-table">
 
 		<form name='list' id='listedit' action='' onsubmit="return false;">
-			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table" style="width: auto;">
+			<table id="listview-table " class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table" style="width: auto;">
 				<thead>
 					<tr class="listViewContentHeader">
 						<th>
-							{vtranslate('LBL_FOLDER_NAME',$MODULE)}
+							{* {vtranslate('LBL_FOLDER_NAME',$MODULE)} *}
+							Floder Name
 						</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{if $SEARCH_MODE_RESULTS and ($LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist')}
@@ -87,7 +88,7 @@
 					<tr class="searchRow">
 						<th class="inline-search-btn">
 					<div class="table-actions">
-						<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+						<button class="btn btn-primary btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 					</div>
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -112,7 +113,7 @@
 							{assign var=DATA_URL value=$RELATED_TO->getDetailViewUrl()}
 						{/if}
 						<tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
-							<td class = "listViewRecordActions">
+							<td class = "listViewRecordActions text-center">
 								{$LISTVIEW_ENTRY->get('foldername')}
 							</td>
 							{if ($LISTVIEW_ENTRY->get('document_source') eq 'Google Drive' && $IS_GOOGLE_DRIVE_ENABLED) || ($LISTVIEW_ENTRY->get('document_source') eq 'Dropbox' && $IS_DROPBOX_ENABLED)}
@@ -192,7 +193,7 @@
 							{/if}
 						</td>
 					{/foreach}
-						<td class = "listViewRecordActions">
+						<td class = "listViewRecordActions text-center">
                                                 	{include file="ListViewRecordActionsRight.tpl"|vtemplate_path:$MODULE}
                                                 </td>
 					</tr>
@@ -231,7 +232,7 @@
 
 	<div class="quickviewcontent hide" id="quickviewcontent" style="width:32%;">
 	</div>
-
+</div>
 </div>
 
 <script type="text/javascript">
@@ -250,7 +251,6 @@
 			$('#page').css("min-height","auto");
 			$('.content-area').css("min-height","auto");
 			$('#table-content').css("height",alterheight);
-			$('.app-footer').css("width","100%").css("position","fixed").css("bottom","0px").css("z-index","1000");
 		}
 
 		if(testheight > alterheight){

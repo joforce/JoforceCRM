@@ -212,7 +212,7 @@ Head.Class('Head_ListSidebar_Js',{},{
                 if(jQuery('.popover').hasClass('in')) {
                     currentElement.addClass('rotate');
                     currentElement.addClass('activePopover');
-                }else {
+                } else {
                     currentElement.removeClass('rotate');
                     currentElement.removeClass('activePopover');
                 }

@@ -9,20 +9,23 @@
 {* modules/Settings/LayoutEditor/views/Index.php *}
 
 {strip}
-<style>
-.main-container .content-area{
-	background-color: #fbfbfb !important;
-}
-</style>
-	<div class="container-fluid" id="layoutEditorContainer">
-		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-		<input type="hidden" id="selectedModuleLabel" value="{vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)}" />
-		<div class="widget_header row">
-			<label class="col-sm-2 textAlignCenter" style="padding-top: 8px;">
+
+<div class="settingsmenu-starts  p0   col-lg-12 col-md-12 col-sm-12 col-xs-12  mt-0  ipad_pro_scr_layouteditorpage " id="settingsmenu-starts">
+<div id="licence-alert-waring" class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+
+  <strong> <span class="licence-waring-icon"><i class="fa fa-warning"></i> </span> Danger!</strong>  You are not secure 
+
+</div>
+	<div class="row row contenthead  card-header-new {if in_array($MODULE,array('LayoutEditor'))} LayoutEditor_card_header {/if} ">
+		<div class="col-sm-6 Layouttop pull-left">
+			<h3> Layout Editor</h3>
+        </div>
+			<!-- <label class="col-sm-2 textAlignCenter" style="padding-top: 15px;">
 				{vtranslate('SELECT_MODULE', $QUALIFIED_MODULE)}
-			</label>
+			</label> -->
 			<div class="col-sm-6">
-				<select class="select2 inputElement col-sm-6" name="layoutEditorModules">
+			<select class="select2 inputElement m0 col-sm-6 pull-right" name="layoutEditorModules">
 					<option value=''>{vtranslate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>
@@ -37,13 +40,16 @@
 				</select>
 			</div>
 		</div>
-		<br>
-		<br>
+	<div class="container-fluid pt0" id="layoutEditorContainer">
+		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
+		<input type="hidden" id="selectedModuleLabel" value="{vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)}" />
+		
+		
 		{if $SELECTED_MODULE_NAME}
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
-					<li class="active detailviewTab"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-					<li class="relatedListTab"><a data-toggle="tab" href="#relatedTabOrder"><strong>{vtranslate('LBL_RELATION_SHIPS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class=" tab detailviewTab col-md-6 pull-left"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="tab relatedListTab col-md-5"><a data-toggle="tab" href="#relatedTabOrder"><strong>{vtranslate('LBL_RELATION_SHIPS', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
 				<div class="tab-content layoutContent themeTableColor overflowVisible">
 					<div class="tab-pane active" id="detailViewLayout">

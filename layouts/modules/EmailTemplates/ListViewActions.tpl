@@ -10,7 +10,8 @@
 -->*}
 {strip}
     {assign var=LISTVIEW_MASSACTIONS_1 value=array()}
-    <div id="listview-actions" class="listview-actions-container">
+    <div id="listview-actions" class="listview-actions-container mb20 ">
+    <h3 class=" m20 p20 mr40 card-header-new">Email Templates</h3>
         {foreach item=LIST_MASSACTION from=$LISTVIEW_MASSACTIONS name=massActions}
             {if $LIST_MASSACTION->getLabel() eq 'LBL_EDIT'}
                 {assign var=editAction value=$LIST_MASSACTION}
@@ -23,7 +24,7 @@
                 {* $a is added as its print the index of the array, need to find a way around it *}
             {/if}
         {/foreach}
-        <div class = "row">
+        {* <div class = "row">
             <div class="btn-toolbar col-md-3" role="group" aria-label="...">
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-default viewType" title="{vtranslate('LBL_LIST_VIEW',$MODULE)}" data-mode="list" {if $VIEWTYPE eq 'list'} disabled="disabled" {/if}><i class="fa fa-th-list"></i></button>
@@ -88,9 +89,9 @@
                             <li class="divider" style="margin:9px 0px;"></li>
                             {assign var=FIND_DUPLICATES_EXITS value=false}
                             {foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-                                {if $LISTVIEW_ADVANCEDACTIONS->getLabel() == 'LBL_IMPORT'}
+                                {if $LISTVIEW_ADVANCEDACTIONS->getLabel() == 'LBL_IMPORT'} *}
                                 {*Remove Import Action*}                                
-                                {else}
+                                {* {else}
                                     {if $LISTVIEW_ADVANCEDACTIONS->getLabel() == 'LBL_FIND_DUPLICATES'}
                                         {assign var=FIND_DUPLICATES_EXISTS value=true}
                                     {/if}
@@ -138,8 +139,8 @@
             </div>
             <div class="col-md-3">
                 {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-                {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+                {include file="Pagination.tpl"|vtemplate_path:$MODULE}
             </div>
-        </div>	
+        </div>	 *}
      </div>
 {/strip}

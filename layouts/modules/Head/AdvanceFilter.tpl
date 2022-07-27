@@ -23,7 +23,7 @@
 	{/if}
 
 
-<div class="filterContainer filterElements well filterConditionContainer filterConditionsDiv">
+	<div class="filterContainer filterElements must card-body filterConditionContainer filterConditionsDiv ">
 	<input type="hidden" name="date_filters" data-value='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 	<input type=hidden name="advanceFilterOpsByFieldType" data-value='{ZEND_JSON::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
 	{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}

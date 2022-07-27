@@ -42,7 +42,9 @@ Head.Class("Home_List_Js",{},{
         });
 
 	$(document).on('click', '#global-notification-dropdown a', function(e) {
-            window.location.href = $(this).attr('href');
+        if(!$(this).attr('id')){
+             window.location.href = $(this).attr('href');
+        }
         });
 	$('#global-notification-dropdown .mark-as-seen').on('click', function(e){
 	    id = $(this).attr('id');
@@ -155,7 +157,6 @@ Head.Class("Home_List_Js",{},{
 	    $('[data-toggle="popover"]').popover();
 	    $('.app-nav .module-action-bar').css('height','0px');
 	    $('.joforce-box').css('margin-top','10px');
-	    $('footer.app-footer').css("width","100%").css("bottom","0px");
 	    $('#page').css("min-height","auto");
 
 	    $(".notification-link").on('shown.bs.popover', function() {
@@ -231,6 +232,8 @@ Head.Class("Home_List_Js",{},{
 
 	    var Head = new Head_Index_Js();
 	    Head.registerEvents();
+        var Search = new Head_BasicSearch_Js();
+	    Search.registerEvents();
         }
     }
 });
@@ -241,3 +244,20 @@ $(document).ready(function () {
 		NotificationsInstance.registerEvents();
 	}
 });
+$(document).ready(function(){
+    $(".expand").click(function(){
+        $(".popupTable").toggleClass("collapse");
+    });
+    $(".expand1").click(function(){
+        $(".chargesBlock").toggleClass("collapse");
+    });
+    $(".expand2").click(function(){
+        $(".finalDiscountUI").toggleClass("collapse");
+    });
+    $(".expand3").click(function(){
+        $(".deductTaxesBlock").toggleClass("collapse");
+    });
+    $(".expand4").click(function(){
+        $("#group_tax_div").toggleClass("collapse");
+    });
+    });

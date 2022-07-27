@@ -55,6 +55,7 @@ Head_Detail_Js("Contacts_Detail_Js", {}, {
                                 app.helper.hideProgress();
                                 app.helper.showModal(data, {cb: function(data){
                                         thisInstance.registerSaveUser(data);
+					vtUtils.registerEventForDateFields($('.masquerade-modal-form').find('.dateField'));
                                 }});
                         });
 		});

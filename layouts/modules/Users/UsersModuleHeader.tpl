@@ -10,8 +10,8 @@
 -->*}
     
 {strip}
-    <div class="col-sm-12 col-xs-12 module-action-bar clearfix">
-        <div class="module-action-content clearfix coloredBorderTop">
+    <div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
+        <div class="module-action-content clearfix">
             <span class="col-lg-7 col-md-7">
                 <span>
                     <h3 class="module-title pull-left text-uppercase"> {vtranslate('LBL_USERS_SETTINGS', $MODULE)} </h3>

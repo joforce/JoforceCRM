@@ -21,27 +21,30 @@
 				<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}" />
 				<input type="hidden" name="scannerOldName" value="{$RECORD_MODEL->getName()}" />
 			{/if}
-			<div class="addMailBoxStep">
+			<div class="addMailBoxStep ms_addmailBoxStep">
 				<div class="row">
-					<table class="table editview-table no-border">
+					<table class="table_step table editview-table no-border">
 						<tbody>
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELDS}
 								{if !$RECORD_MODEL->isFieldEditable($FIELD_MODEL)}
 									{continue}
 								{/if}
-								<tr>
-									<td class="fieldLabel control-label" style="width:25%;">
+								<tr class="scanner row mr50">
+									<td class="fieldLabel col-form-label col-md-6 col-6" style="width:25%;">
 										<label>{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}{if $FIELD_MODEL->isMandatory()} <span class="redColor">*</span>{/if}</label>
 									</td>
-									<td style="word-wrap:break-word;" class="fieldValue">
+									<td style="word-wrap:break-word;" class="fieldValue col-md-6 pull-left mt20 col-6" style="width:100%;">
 										{assign var=FIELD_DATA_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{if $FIELD_DATA_TYPE eq 'password'}
-											<input class="fieldValue inputElement" type="password" name="{$FIELD_MODEL->getName()}" {if $RECORD_EXISTS} value="{$RECORD_MODEL->get($FIELD_NAME)}" {/if}
+										{* <div class="fieldValueNew chckbox Default " style="width:33px!important"> *}
+											<input class="fieldValue inputElement" type="password" name="{$FIELD_MODEL->getName()}" {if $RECORD_EXISTS} value="{$RECORD_MODEL->get($FIELD_NAME)}"{/if}
 												{if $FIELD_MODEL->isMandatory()}data-validation-engine="validate[required]"{/if} />
+											{* </div> *}
 										{elseif $FIELD_DATA_TYPE eq 'boolean'}
 											{assign var=RECORD_ID value=$RECORD_MODEL->getId()}
+											<div class="fieldValueNew chckbox Default" style="width:33px!important">
 											<input type="hidden" name="{$FIELD_MODEL->getName()}" value="0" />
-											<input type="checkbox" name="{$FIELD_MODEL->getName()}" {if ($RECORD_MODEL->get($FIELD_MODEL->getName()) eq '1') || (empty($RECORD_ID))}checked{/if} />
+											<input type="checkbox" class="inputElement" name="{$FIELD_MODEL->getName()}" {if ($RECORD_MODEL->get($FIELD_MODEL->getName()) eq '1') || (empty($RECORD_ID))}checked{/if} />
 										{elseif $FIELD_DATA_TYPE eq 'picklist'}
 											{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPickListValues()}
 											{assign var=FIELD_VALUE value=$RECORD_MODEL->get($FIELD_NAME)}
@@ -92,7 +95,7 @@
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
 						<button type="submit" class="btn btn-primary nextStep" onclick="javascript:Settings_MailConverter_Edit_Js.firstStep()">{vtranslate('LBL_NEXT',$MODULE)}</button>&nbsp;&nbsp;
-						<a type="reset" class="cancelLink cursorPointer btn btn-secondary" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+						<a type="reset" class="cancelLink cursorPointer btn btn-danger" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL',$MODULE)}</a>
 					</div>
 				</div>
 			</div>

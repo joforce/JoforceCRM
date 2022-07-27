@@ -21,7 +21,7 @@
         <div class="detailViewTitle" id="userPageHeader">
             <div class = "row">
                 <div class="col-md-5">
-                    <div class="col-md-5 recordImage" style="height: 50px;width: 50px;">
+                    <div class="col-md-5 recordImage recordImage-new" >
                         {assign var=NOIMAGE value=0}
                         {foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
                             {if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
@@ -31,7 +31,7 @@
                             {/if}
                         {/foreach}
                         {if $NOIMAGE eq 1}
-                            <div class="name">
+                            <div class="name new-name">
                                 <span style="font-size:24px;">
                                     <strong> {$RECORD->getName()|substr:0:2} </strong>
                                 </span>

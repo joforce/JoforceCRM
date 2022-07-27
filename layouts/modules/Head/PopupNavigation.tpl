@@ -20,6 +20,6 @@
     </div>
     <div class="col-md-10">
         {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-        {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+        {include file="Pagination.tpl"|vtemplate_path:$MODULE}
     </div>
 {/strip}

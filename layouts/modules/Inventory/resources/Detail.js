@@ -80,4 +80,20 @@ Head_Detail_Js("Inventory_Detail_Js", {
 		});
     },
 
-});
+});$(document).ready(function(){
+    $(".expand").click(function(){
+        $(".popupTable").toggleClass("collapse");
+    });
+    $(".expand1").click(function(){
+        $(".chargesBlock").toggleClass("collapse");
+    });
+    $(".expand2").click(function(){
+        $(".finalDiscountUI").toggleClass("collapse");
+    });
+    $(".expand3").click(function(){
+        $(".deductTaxesBlock").toggleClass("collapse");
+    });
+    $(".expand4").click(function(){
+        $("#group_tax_div").toggleClass("collapse");
+    });
+    });

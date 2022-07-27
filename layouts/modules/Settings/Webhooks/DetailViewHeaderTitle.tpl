@@ -10,12 +10,12 @@
 
 {strip}
 <div class="col-lg-12 col-md-12 col-sm-12">
-    <div class="record-header clearfix col-lg-12 col-md-12 col-sm-12">
+    <div class="record-header card-header-new mt0 mb20 ml5 clearfix col-lg-12 col-md-12 col-sm-12">
 	{if !$MODULE}
 	    {assign var=MODULE value=$MODULE_NAME}
 	{/if}
         <div class="col-lg-1 col-md-1 col-sm-1">
-            <div class="hidden-sm hidden-xs recordImage bg_{$MODULE} app-{$SELECTED_MENU_CATEGORY}">
+            <div class="d-sm-none d-none recordImage bg_{$MODULE}">
                     <div class="name"><span><strong> <i class="joicon-{strtolower($MODULE)}"></i> </strong></span></div>
             </div>
         </div>

@@ -5,10 +5,10 @@
 </head>
 
 <body>
-<div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
+<div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;" class="modbox">
 <h2>{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}</h2>
 
-<table style="font-size:12px;">
+<table style="font-size:12px;" class="col-sm-6">
 {foreach item=module from=$LIST_MODULES}
 <tr><td><a href="javascript:md_selectModule('{$module.name}')">{$module.tablabel}</a></td><td>{vtranslate($module.tablabel, $QUALIFIED_MODULE)}</td></tr>
 {/foreach}

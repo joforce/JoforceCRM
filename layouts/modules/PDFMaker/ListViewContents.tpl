@@ -11,7 +11,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg-list">
+<div class="col-sm-12 col-xs-12 joforce-bg-list PDF_maker_ms">
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
 	<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -34,7 +34,6 @@
 	<input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
 	<input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
 	<input type="hidden" name="viewType" value="{$VIEWTYPE}" />
-	<input type="hidden" name="app" id="appName" value="{$SELECTED_MENU_CATEGORY}">
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 		<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
@@ -42,9 +41,10 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content" class="table-container">
-		<form name='list' id='listedit' action='' onsubmit="return false;">
-			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table ">
+	<div id="table-content" class="table-container card">
+		<form name='list' id='listedit' class="" action='' onsubmit="return false;">
+		<div class="card-header-new mb20 ml10"><h1>PDF Maker</h1></div>
+			<table id="listview-table" class="table ml5 {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table ">
 				<thead>
 					<tr class="listViewContentHeader">
 						<th>
@@ -78,7 +78,7 @@
 					<tr class="searchRow">
 						<th class="inline-search-btn">
 					<div class="<!--table-actions">
-						<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+						<button class="btn btn-primary btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 					</div>
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

@@ -66,6 +66,10 @@ class Products_Shopview_View extends Head_Index_View
 
 		parent::preProcess($request);
 	}
+	function preProcessTplName(Head_Request $request) {
+		return 'kanban/ListViewPreProcessKanban.tpl';
+	}
+
 	public function getPagingModal($sourceModule)
 	{
 		$source_tab_id = getTabid($sourceModule);

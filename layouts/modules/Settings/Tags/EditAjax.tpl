@@ -17,7 +17,7 @@
 		    <div class="modal-body">
 			<div class="row-fluid">
 			    <div class="form-group">
-				<label class="control-label">
+				<label class="col-form-label">
 				    {vtranslate('LBL_CREATE_NEW_TAG',$MODULE)}
 				</label>
 				<div>

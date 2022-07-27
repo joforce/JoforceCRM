@@ -11,22 +11,24 @@
         <div class="modal-content">
             <div class="filePreview container-fluid">
                 <div class="modal-header row">
-                    <div class="filename {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'} col-lg-8 {else} col-lg-11 {/if}">
-                        <h3 style="margin-top:0px;"><b>{$FILE_NAME}</b></h3>
-                    </div>
-                    {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'}
-                        <div class="col-lg-3">
-                            <a class="btn btn-default btn-small pull-right" href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
+                    <div class="filename {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'} col-lg-12 row {else} col-lg-12 {/if}">
+                        <p class="col-lg-4"><b>{$FILE_NAME}</b></p>
+                        {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'}
+                        <div class="col-lg-4">
+                            <a class="btn btn-default btn-small pull-left " href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
                         </div>
-                    {/if}
-                    <div class="col-lg-1">
-                        <button data-dismiss="modal" class="close pull-right" title="close"> 
+                        <div class="col-lg-1">
+                        <button data-dismiss="modal" class="close mr10" title="close"> 
                             <span aria-hidden="true" class='fa fa-close'></span></button>
                     </div>
+                    {/if}
+                    </div>
+                    
+                    
                 </div>
                 <div class="modal-body row" style="height:550px;">
                     {if $FILE_PREVIEW_NOT_SUPPORTED eq 'yes'}
-                        <div class="well" style="height:100%;">
+                        <div class="card card-body" style="height:100%;">
                             <center>
                                 <b>{vtranslate('LBL_PREVIEW_NOT_AVAILABLE',$MODULE_NAME)}</b>
                                 <br><br><br>

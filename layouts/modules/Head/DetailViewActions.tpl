@@ -30,7 +30,7 @@
 
             {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
             <span class="btn-group detailview-basic-actions">
-                <button class="btn btn-default {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'} edit {elseif $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_SEND_EMAIL'} email {/if}" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}" title="{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}"
+                <button class="btn btn-default {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'} edit {elseif $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_SEND_EMAIL'} email {elseif $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_ACTIVITY'} activity {/if}" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}" title="{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}"
                         {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
                             onclick="window.location.href = '{URLCheck($DETAIL_VIEW_BASIC_LINK->getUrl())}'"
                         {else}
@@ -44,6 +44,8 @@
 			    <i class="fa fa-pencil"></i>
 			{elseif $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_SEND_EMAIL'}
 			    <i class="fa fa-paper-plane"></i>
+			{elseif $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_ACTIVITY'}
+			    <i class="fa fa-history"></i>
 			{else}
 	                    {vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}
 			{/if}
@@ -76,7 +78,7 @@
                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                    {vtranslate('LBL_MORE', $MODULE_NAME)}
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-right {if in_array($MODULE,array('Products','Potentials','HelpDesk','Accounts'))} mon_scr_mr-left {elseif in_array($MODULE,array('Leads'))} mon_scr_mr-left_1 {elseif in_array($MODULE,array('Contacts'))} mon_scr_mr-left_2 {/if}">
                     {foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
                         {if $DETAIL_VIEW_LINK->getLabel() eq ""} 
                             <li class="divider"></li>   

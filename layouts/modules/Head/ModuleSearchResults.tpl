@@ -15,7 +15,7 @@
 					<h4 class="searchModuleHeader">{vtranslate($MODULE, $MODULE)}</h4>
 					<input type="hidden" name="search_module" value="{$MODULE}"/>
 				</div>
-				<div class="col-lg-4" style="margin-top: 10px;">
+				{* <div class="col-lg-4" style="margin-top: 10px;">
 					<div class="pull-right" >
 						<input type="hidden" name="pageNumber" value="{$PAGE_NUMBER}">
 						<input type="hidden" name="recordsCount" value="{$RECORDS_COUNT}">
@@ -29,11 +29,11 @@
 							<i class="fa fa-caret-right"></i>
 						</a>
 					</div>
-				</div>
+				</div> *}
 			</div>
 		</div>
 		<div class="row">
-			{include file="ListViewContents.tpl"|vtemplate_path:$MODULE SEARCH_MODE_RESULTS=true}
+			{include file="globalsearchListViewContents.tpl"|vtemplate_path:$MODULE SEARCH_MODE_RESULTS=true}
 		</div>
 	</div>
 {/strip}

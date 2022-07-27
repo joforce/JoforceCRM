@@ -82,7 +82,7 @@
 											<!-- Wrapper for slides -->
 											<div class="carousel-inner" role="listbox">
 												{foreach $SCREEN_SHOTS as $key=>$SCREEN_SHOT name=screen}
-													<div class="item {if $smarty.foreach.screen.index == 0} active {/if}">
+													<div class="carousel-item {if $smarty.foreach.screen.index == 0} active {/if}">
 														<img src="{$SCREEN_SHOT->get('screenShotURL')}" >
 													</div>
 												{/foreach}
@@ -179,7 +179,7 @@
 						<input type="hidden" name="extensionId" value="{$EXTENSION_ID}" />
 						<div class="modal-body">
 							<div class="form-group">
-								<span class="control-label col-sm-2 col-xs-2">
+								<span class="col-form-label col-sm-2 col-xs-2">
 									{vtranslate('LBL_REVIEW', $QUALIFIED_MODULE)}
 								</span>
 								<div class="controls col-sm-4 col-xs-4">
@@ -187,7 +187,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<span class="control-label col-sm-2 col-xs-2">
+								<span class="col-form-label col-sm-2 col-xs-2">
 									{vtranslate('LBL_RATE_IT', $QUALIFIED_MODULE)}
 								</span>
 								<div class="controls col-sm-4 col-xs-4">
@@ -200,7 +200,7 @@
 								<div class="col-sm-12 col-xs-12">
 									<div class="pull-right">
 										<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-											<a class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+											<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 										</div>
 										<button class="btn btn-primary" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 									</div>

@@ -1,27 +1,32 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
-html{
-    height:100%;
+
+html {
+    height: 100%;
 }
-body{
-    font-family: 'Crimson Text', serif !important;
+
+body {
+    font-family: 'Roboto', sans-serif !important;
     background: #2c3e50 url("../images/joforce-login-bg.png") !important;
-    background:#ffffff;
-    color : #555;
+    background: #ffffff;
+    color: #555;
     height: 98%;
-    font-size:14px !important;
+    font-size: 14px !important;
 }
-.page-container{
-    width:70%;
-    margin: 10px auto;
+
+.page-container {
+    width: 70%;
+    /* margin: 10px auto; */
     min-height: 600px;
     min-width: 1100px;
     /*height: 100%;*/
 }
-.error{
+
+.error {
     border: 1px solid red !important;
 }
-.main-container{
+
+.main-container {
     background: #fff;
     /*border: 1px solid #ddd;*/
     border-radius: 3px;
@@ -29,31 +34,38 @@ body{
     min-height: 375px;
     *padding: 0 15px;
 }
-.logo{
-    padding: 15px 0 ;
+
+.logo {
+    padding: 15px 0;
 }
-.head
-{
+
+.head {
     padding-top: 15px;
 }
-.inner-container{
+
+.inner-container {
     padding: 15px 2%;
     *padding: 15px 0 0;
+    margin: 0 auto;
 }
-.welcome-image{
-   /* text-align: right;
+
+.welcome-image {
+    /* text-align: right;
     padding-top: 5%;*/
 }
-.alignCenter{
+
+.alignCenter {
     text-align: center;
 }
+
 /*.welcome-div{
     padding: 13% 0;
 }*/
-.mig-div{
+.mig-div {
     padding: 10% 0;
 }
-.vLinks{
+
+.vLinks {
     margin: 6% 0;
     padding: 4% 10%;
     width: 85px;
@@ -63,14 +75,17 @@ body{
     float: right;
     border: 1px solid #ddd;
 }
-.marginTopZero{
+
+.marginTopZero {
     margin-top: 0;
 }
-hr{
+
+hr {
     border: 1px solid #ddd;
     margin: 13px 0;
 }
-.row-fluid .group-container{
+
+.row-fluid .group-container {
     background: #eee;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -81,15 +96,18 @@ hr{
     *margin: 0px !important;
     *padding: 5px 0;
 }
-.group-heading{
+
+.group-heading {
     color: #2c69a7;
     text-shadow: 0px 0px 1px #BBB;
 }
-.group-desc{
-    padding-bottom:9px;
+
+.group-desc {
+    padding-bottom: 9px;
     min-height: 130px;
 }
-.module_list{
+
+.module_list {
     background: #146bae;
     border-radius: 3px 0;
     right: 0;
@@ -101,33 +119,38 @@ hr{
     text-shadow: 0 0 1px #000;
     z-index: 605;
 }
-.module_list a{
+
+.module_list a {
     cursor: pointer;
     text-decoration: none;
     color: #fff;
 }
-.reveal_modules{
+
+.reveal_modules {
     position: absolute;
-    height:0;
+    height: 0;
     width: 0;
     z-index: 600;
     background: #000;
     opacity: 0;
-    top:100%;
-    left:100%;
+    top: 100%;
+    left: 100%;
     color: #fff;
-    visibility:hidden;
+    visibility: hidden;
     border-radius: 3px;
 }
-.reveal_modules > div{
+
+.reveal_modules>div {
     padding-left: 30px;
 }
-.reveal_modules > div > p{
-    margin: 0  30px 10px 0;
+
+.reveal_modules>div>p {
+    margin: 0 30px 10px 0;
     vertical-align: top;
     display: inline-block;
 }
-.config-table{
+
+.config-table {
     width: 100%;
     border: 1px solid #ddd;
     margin: 5px 0 15px;
@@ -136,56 +159,73 @@ hr{
     padding: 0;
     background: #fff;
 }
-.config-table tr td, .config-table tr th{
+
+.config-table tr td,
+.config-table tr th {
     padding: 8px;
 }
 
-.config-table tr th:last-child{
+.config-table tr th:last-child {
     border-radius: 0 3px 0 0;
 }
-.config-table tr th:first-child{
+
+.config-table tr th:first-child {
     border-radius: 3px 0 0 0;
     text-align: left;
 }
-.config-table tr td:first-child{
+
+.config-table tr td:first-child {
     text-align: left;
 }
-.config-table th{
+
+.config-table th {
     background: #ddd;
 }
-.config-table tr:hover{
+
+.config-table tr:hover {
     background: #efefef;
 }
 
-.config-table td, .config-table th{
+.config-table td,
+.config-table th {
     text-align: center;
     width: 33%;
 }
 
-.config-table tr td.no, p.no,span.no{
+.config-table tr td.no,
+p.no,
+span.no {
     color: red;
     font-weight: bold;
 }
-.config-table tr td.yes, p.yes, span.yes{
+
+.config-table tr td.yes,
+p.yes,
+span.yes {
     color: green;
     font-weight: bold;
 
 }
-.config-table td span img{
+
+.config-table td span img {
     margin-left: 10px;
 }
-.button-container a{
+
+.button-container a {
     text-decoration: none;
 }
-.button-container{
+
+.button-container {
     float: right;
 }
-.button-container .btn{
+
+.button-container .btn {
     margin-left: 15px;
     min-width: 100px;
     font-weight: bold;
 }
-.license{
+
+.license {
     padding: 10px;
     height: 330px;
     overflow-y: scroll;
@@ -193,27 +233,35 @@ hr{
     border: 1px solid #ddd;
     font-size: 12px;
 }
-.input-table tr td{
+
+.input-table tr td {
     padding: 5px 10px;
     height: 30px;
     text-align: left;
 }
+
 .errorMessageContent {
-	background-color: #f2dede !important;
-	color: #b94a48 !important;
-	border-color: #eed3d7;
-}
-.btn-primary {
-  color: #fff;
-  text-shadow: 0 1px rgba(0,0,0,.1);
-  background: #8E44AD;
-  border: 1px solid #8E44AD;
+    background-color: #f2dede !important;
+    color: #b94a48 !important;
+    border-color: #eed3d7;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-  color: #fff;
-  background: #7f3d9b;
-  border: 1px solid #7f3d9b;
+.btn-primary {
+    color: #fff;
+    text-shadow: 0 1px rgba(0, 0, 0, .1);
+    background: #8E44AD;
+    border: 1px solid #8E44AD;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background: #7f3d9b;
+    border: 1px solid #7f3d9b;
 }
 
 
@@ -222,98 +270,106 @@ hr{
 /* new installation process css start */
 
 
-.main-container{
-    box-shadow:none !important;
+.main-container {
+    box-shadow: none !important;
 }
 
 
-.install-preprocess-top{
-margin-top:40px !important;
+.install-preprocess-top {
+    margin-top: 40px !important;
 }
 
-.install-logo{
-    margin-top:20px;
-    margin-bottom:20px;
+.install-logo {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .joforce-install-step p {
     margin-top: 10px;
     position: absolute;
     text-align: left;
-    left:-8%;
-    width:90%;
-    font-size:14px;
+    left: -8%;
+    width: 90%;
+    font-size: 14px;
 }
+
 .joforce-install-row {
     display: table-row;
 }
+
 .joforce-install-section {
     display: table;
     /*width: 75%;*/
     width: 97%;
     position: relative;
-    margin-top:50px;
+    margin-top: 50px;
 
 
 }
+
 .joforce-install-row:before {
     top: 15px;
     /*top:24px;*/
     bottom: 0 !important;
-    position: absolute  !important;
-    content: " "  !important;
+    position: absolute !important;
+    content: " " !important;
     /*width: 89%  !important;*/
-    width: 83%  !important;
-    height: 5px  !important;
+    width: 83% !important;
+    height: 5px !important;
     background-color: #c5c7ca !important;
     z-order: 0 !important;
 }
+
 .joforce-install-step {
     display: table-cell !important;
     text-align: center !important;
     position: relative !important;
-   
-    
+
+
 }
 
 .joforce-install-circle {
-  /*background: #7f3d9b;*/
-  background: #ffffff !important;
-  border-radius: 50% !important;
-  -moz-border-radius: 50% !important; 
-  -webkit-border-radius: 50% !important;
-  height:30px !important;
-  width:30px !important;
+    /*background: #7f3d9b;*/
+    background: #ffffff !important;
+    border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    -webkit-border-radius: 50% !important;
+    height: 30px !important;
+    width: 30px !important;
     position: relative !important;
     /*box-shadow: 0 0 0 5px #F5F7FA !important;*/
     box-shadow: 0 0 0 5px #c5c7ca !important;
-    }
-
-.joforce-install-active{
-  box-shadow: 0 0 0 5px #7f3d9b !important;
 }
-.joforce-install-completed{
-    background-color:#7f3d9b !important;
+
+.joforce-install-active {
     box-shadow: 0 0 0 5px #7f3d9b !important;
-    border-color:#7f3d9b;
-    
-}
-.joforce-install-completed span{
-    color:#ffffff !important;
-}
-.joforce-install-row::after{
-  background-color: red !important;
 }
 
-.joforce-install-circle span{
-  position: relative !important;
-  top: 20% !important;
-  color:#333333;
-  transform: translateY(-30%) !important;
-  font-size:15px !important;
-  
+.joforce-install-completed {
+    background-color: #7f3d9b !important;
+    box-shadow: 0 0 0 5px #7f3d9b !important;
+    border-color: #7f3d9b;
+
 }
-.install-form-section hr{
+
+.joforce-install-completed span {
+    color: #ffffff !important;
+}
+
+.joforce-install-row::after {
+    background-color: red !important;
+}
+
+.joforce-install-circle span {
+    position: relative !important;
+    top: 20% !important;
+    color: #333333;
+    transform: translateY(-30%) !important;
+    font-size: 15px !important;
+
+}
+
+.install-form-section hr {
     /*border:1px solid #fff !important;*/
 }
 
@@ -321,68 +377,80 @@ margin-top:40px !important;
 /*.joforce-install-heading h3{
 font-size:20px;
 }*/
-.joforce-install-heading h4{
+.joforce-install-heading h4 {
     font-weight: 400 !important;
 
 }
 
-.install-input, .install-select{
-    width:85% !important;
-}
-.install-info{
-    width:30%;
+.install-input,
+.install-select {
+    width: 85% !important;
 }
 
-
-.install-form-section label{
-font-size:14px;
-font-weight:500 !important;
-color:#7d7d7d; 
+.install-info {
+    width: 30%;
 }
 
 
-.install-label-value{
-    font-size:14px;
+.install-form-section label {
+    font-size: 14px;
+    font-weight: 500 !important;
+    color: #7d7d7d;
 }
 
-.joforce-install-btn{
-    margin-top:10px !important;
-    margin-bottom:10px !important;
+
+.install-label-value {
+    font-size: 14px;
 }
 
-.install-configuration-step{
-width: 36.333% !important;
+.joforce-install-btn {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
 }
 
-.install-language{
-   margin-top:30px; 
-   
+.install-configuration-step {
+    width: 36.333% !important;
 }
 
-.install-language span{
-font-size:15px;
+.install-language {
+    margin-top: 30px;
+
+}
+
+.install_step_button {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    /* left: 338px; */
+}
+
+.install_step_button a>input {
+    cursor: pointer;
+}
+.install-language span {
+    font-size: 15px;
 
 }
 
 /*custom css start*/
 
-.welcome-div{
- padding:10% 10% 5%;
+.welcome-div {
+    padding: 10% 10% 5%;
 
 }
 
-.config-table th{
-    background:none;
-    border-bottom:2px solid #eee;
+.config-table th {
+    background: none;
+    border-bottom: 2px solid #eee;
 }
 
-.config-table{
-    border:none;
-    font-size:14px; 
+.config-table {
+    border: none;
+    font-size: 14px;
 }
 
-.vtFooter p{
-    color:#ffffff;
+.vtFooter p {
+    color: #ffffff;
 }
 
 /*custom css end*/
@@ -390,68 +458,90 @@ font-size:15px;
 
 /*form css*/
 
-.install-form-section input[type="text"].form-control, .install-form-section input[type="password"].form-control, .install-form-section textarea.form-control, .install-form-section select.form-control {
-  width: 85% !important;
-  /*color: #3b3c41;*/
-  transition: all 125ms ease-in-out;
-  background-color: #ffffff;
-  border-radius: 3px !important;
-  border: 1px solid #e1e1e3;
-  box-shadow: none;
-  /*height: 42px;*/
-  outline: none;
-  font-size: 15px; }
-.install-form-section input[type="text"].form-control:focus, .install-form-section input[type="password"].form-control:focus, .install-form-section textarea.form-control:focus, .install-form-section select.form-control:focus {
+.install-form-section input[type="text"].form-control,
+.install-form-section input[type="password"].form-control,
+.install-form-section textarea.form-control,
+.install-form-section select.form-control {
+    width: 100% !important;
+    /*color: #3b3c41;*/
+    transition: all 125ms ease-in-out;
     background-color: #ffffff;
-    border: 1px solid #7F3D9B;
-    box-shadow: none; }
-
-.install-form-section input.form-control[type="text"], .install-form-section input.form-control[type="password"]{
-  border-radius: 0;
-  height: 35px !important; }
-
- .install-form-section textarea.form-control{
-
-    
-    height:80px;
-  }
- .install-form-section select.form-control {
-
-    
-    height:35px;
- }
-  
-
-
-.install-form-section input[type=checkbox]:checked::after, .install-form-section .checkbox input[type=checkbox]:checked::after, .install-form-section .checkbox-inline input[type=checkbox]:checked::after{
-    top:0px !important;
-    left:-2px !important;
+    border-radius: 3px !important;
+    border: 1px solid #e1e1e3;
+    box-shadow: none;
+    /*height: 42px;*/
+    outline: none;
+    font-size: 15px;
 }
 
-.install-form-section input[type=radio], install-form-section .radio input[type=radio], .install-form-section .radio-inline input[type=radio], .install-form-section input[type=checkbox], .install-form-section .checkbox input[type=checkbox], .install-form-section .checkbox-inline input[type=checkbox]{
-    width:20px;
-    height:20px;
-}
-
-.install-form-section input[type=checkbox]:focus, .install-form-section .checkbox input[type=checkbox]:focus, .install-form-section .checkbox-inline input[type=checkbox]:focus{
-
-
-background-color: #ffffff;
+.install-form-section input[type="text"].form-control:focus,
+.install-form-section input[type="password"].form-control:focus,
+.install-form-section textarea.form-control:focus,
+.install-form-section select.form-control:focus {
+    background-color: #ffffff;
     border: 1px solid #7F3D9B;
     box-shadow: none;
 }
 
-.select2-input{
-    width:100% !important;
+.install-form-section input.form-control[type="text"],
+.install-form-section input.form-control[type="password"] {
+    border-radius: 0;
+    height: 35px !important;
 }
 
-.select2-drop.select2-drop-above.select2-drop-active{
+.install-form-section textarea.form-control {
+
+
+    height: 80px;
+}
+
+.install-form-section select.form-control {
+
+
+    height: 35px;
+}
+
+
+
+.install-form-section input[type=checkbox]:checked::after,
+.install-form-section .checkbox input[type=checkbox]:checked::after,
+.install-form-section .checkbox-inline input[type=checkbox]:checked::after {
+    top: 0px !important;
+    left: -2px !important;
+}
+
+.install-form-section input[type=radio],
+install-form-section .radio input[type=radio],
+.install-form-section .radio-inline input[type=radio],
+.install-form-section input[type=checkbox],
+.install-form-section .checkbox input[type=checkbox],
+.install-form-section .checkbox-inline input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+.install-form-section input[type=checkbox]:focus,
+.install-form-section .checkbox input[type=checkbox]:focus,
+.install-form-section .checkbox-inline input[type=checkbox]:focus {
+
+
+    background-color: #ffffff;
+    border: 1px solid #7F3D9B;
+    box-shadow: none;
+}
+
+.select2-input {
+    width: 100% !important;
+}
+
+.select2-drop.select2-drop-above.select2-drop-active {
     border-top: 1px solid #7F3D9B !important;
 }
 
-.select2-drop-active{
-    border:1px solid #7F3D9B !important;
+.select2-drop-active {
+    border: 1px solid #7F3D9B !important;
 }
+
 /*.select2-container .select2.install-select .select2-container-active:focus{
 background-color: #ffffff !important;
     border: 1px solid #7F3D9B !important;
@@ -468,11 +558,17 @@ background-color: #ffffff !important;
     background: #fff;
 }
 
-.select2-container .select2-choice .select2-chosen { margin-top: 4px }
-.select2-container .select2-choice abbr { top: 13px }
+.select2-container .select2-choice .select2-chosen {
+    margin-top: 4px
+}
+
+.select2-container .select2-choice abbr {
+    top: 13px
+}
+
 .select2-container .select2-choice,
 .select2-container .select2-choice .select2-arrow {
-    
+
     -webkit-border-radius: 3px !important;
     border-radius: 3px !important;
     border-color: #ccc;
@@ -485,24 +581,42 @@ background-color: #ffffff !important;
     width: 22px;
 }
 
-.select2-container .select2-choice .select2-arrow b>span { margin: 4px 0 0 6px }
-.select2-container.select2-container-active .select2-choice { border-color: #7F3D9B }
-.select2-container.select2-dropdown-open .select2-choice { border-bottom-color: #7F3D9B }
+.select2-container .select2-choice .select2-arrow b>span {
+    margin: 4px 0 0 6px
+}
+
+.select2-container.select2-container-active .select2-choice {
+    border-color: #7F3D9B
+}
+
+.select2-container.select2-dropdown-open .select2-choice {
+    border-bottom-color: #7F3D9B
+}
+
 /*.select2-drop {
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
     
 }*/
 
-.select2-drop:not(.select2-drop-above) { margin-top: -3px }
-.select2-drop .select2-results { max-height: 300px }
+.select2-drop:not(.select2-drop-above) {
+    margin-top: -3px
+}
+
+.select2-drop .select2-results {
+    max-height: 300px
+}
+
 .select2-drop .select2-results li {
     line-height: inherit;
     margin: 0;
     padding: 0;
 }
 
-.select2-search { margin: 4px 0 }
+.select2-search {
+    margin: 4px 0
+}
+
 .select2-search input,
 .select2-search input:focus {
     background-color: #fff;
@@ -511,7 +625,7 @@ background-color: #ffffff !important;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-   border: 1px solid #7F3D9B;
+    border: 1px solid #7F3D9B;
 }
 
 .select2-container.form-control {
@@ -523,35 +637,131 @@ background-color: #ffffff !important;
 }
 
 
-.select2-results .select2-highlighted{
-    background:#7F3D9B;
+.select2-results .select2-highlighted {
+    background: #7F3D9B;
 }
 
 
 /*padding css*/
 
-.joforce-install-row-bottom{
-    margin-bottom:80px;
+.joforce-install-row-bottom {
+    margin-bottom: 80px;
 }
 
-.pl40{
-padding-left:40px !important;
-}
-.pl10{
-    padding-left:10px !important;
-
-}
-.mt30{
-margin-top:30px !important;
+.pl40 {
+    padding-left: 40px !important;
 }
 
-.ml40{
-    margin-left:40px !important;
+.pl10 {
+    padding-left: 10px !important;
 
 }
-.mr40{
-margin-right:40px !important;
+
+.mt30 {
+    margin-top: 30px !important;
 }
 
+.ml40 {
+    margin-left: 40px !important;
+
+}
+
+.mr40 {
+    margin-right: 40px !important;
+}
+
+.card-view {
+    box-shadow: -8px 12px 18px 0 #dadee8;
+    border: 1px solid #deebfd;
+    background: #fff !important;
+    margin: 0 10px;
+    /* min-height: 585px !important;
+    max-height: 585px !important; */
+    /* padding: 5px; */
+    background-clip: border-box;
+    border-radius: 10px;
+    overflow: auto;
+    height: 100%;
+}
+
+.card-view-header {
+    height: 45px;
+    padding: 5px;
+    width: 100%;
+    box-shadow: 0 5px 3px -3px #999;
+    background-color: #F1F1F1;
+}
+
+.card-view-header h3 {
+    font-size: 1.5rem !important;
+}
+
+.accordion h3 {
+    font-size: 16px !important;
+    margin-bottom: 5px;
+    margin-top: 30px;
+    border: 1px solid #D3D3D3;
+    padding: 2px !important;
+    background-color: #f9f9f9;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.redColor {
+    color: red;
+}
+
+.card-view .ui.accordion {
+    margin-top: unset !important;
+}
+
+.select2-result-label {
+    font-size: 11px !important;
+}
+
+.select2-chosen {
+    color: #4d5875 !important;
+    font-size: 11px !important;
+}
+
+.btn,
+.sp-container button {
+    transition: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-top-width: 1px;
+    border-right-color: transparent;
+    border-right-width: 1px;
+    border-bottom-color: transparent;
+    border-bottom-width: 1px;
+    border-left-color: transparent;
+    border-left-width: 1px;
+    line-height: 1.5;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-weight: 400 !important;
+    font-size: 15px !important;
+    font-size: 15px;
+    border-radius: 3px !important;
+    padding: 9px 20px !important;
+    padding: 9px 20px;
+    border-width: 1px !important;
+    text-shadow: none !important;
+    height: 40px;
+    width: auto;
+    margin: 4px 2px;
+}
 
 /*new installtion process css end*/

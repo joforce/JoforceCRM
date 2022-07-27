@@ -7,7 +7,7 @@
  * ********************************************************************************** */
 -->*}
 {strip}
-	<div class="col-lg-6 col-sm-6 col-md-6 detailViewButtoncontainer pull-right" >
+	<div class="col-lg-6 col-sm-6 col-md-6 detailViewButtoncontainer pull-right pdfhead" >
 		<div class="btn-group pull-right">
 			{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 				<button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"

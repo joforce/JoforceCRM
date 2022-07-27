@@ -20,7 +20,7 @@
                 <input type="hidden" name="src_record" value="{$PRICEBOOK_ID}" />
                 <input type="hidden" name="relid" value="{$REL_ID}" />
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">{vtranslate('LBL_EDIT_LIST_PRICE',$MODULE)} &nbsp <span class="redColor">*</span> &nbsp; </label>
+                    <label class="col-sm-4 col-form-label">{vtranslate('LBL_EDIT_LIST_PRICE',$MODULE)} &nbsp <span class="redColor">*</span> &nbsp; </label>
                     <div class="controls col-sm-4">
                         <input type="text" name="currentPrice" value="{$CURRENT_PRICE}" data-rule-required="true" class="inputElement" data-rule-currency="true"
                                data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />

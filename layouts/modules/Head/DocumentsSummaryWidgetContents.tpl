@@ -10,28 +10,41 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="paddingLeft5px">
+    <div class="paddingLeft5px row">
         <span class="col-sm-5">
                 <strong>{vtranslate('Title','Documents')}</strong>
-        </span>
-        <span class="col-sm-7">
-            <strong>{vtranslate('File Name', 'Documents')}</strong>
-        </span>
-    
 	{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 		{assign var=DOWNLOAD_FILE_URL value=$RELATED_RECORD->getDownloadFileURL()}
 		{assign var=DOWNLOAD_STATUS value=$RELATED_RECORD->get('filestatus')}
 		{assign var=DOWNLOAD_LOCATION_TYPE value=$RELATED_RECORD->get('filelocationtype')}
-		<div class="recentActivitiesContainer row">
-			<ul class="" style="padding-left: 0px;list-style-type: none;">
-				<li>
+		<div class="recentActivitiesContainer- row">
+			<ul class="pl0 " >
+				<li class="list-unstyled pl0 mt10 mb10 w-100 ">
 					<div class="" id="documentRelatedRecord pull-left">
 						<span class="col-sm-5 textOverflowEllipsis">
 							<a href="{$RELATED_RECORD->getDetailViewUrl()}" id="{$MODULE}_{$RELATED_MODULE}_Related_Record_{$RELATED_RECORD->get('id')}" title="{$RELATED_RECORD->getDisplayValue('notes_title')}">
 								{$RELATED_RECORD->getDisplayValue('notes_title')}
 							</a>
 						</span>
-                                                <span class="col-sm-5 textOverflowEllipsis" id="DownloadableLink">
+                                               
+					</div>
+				</li>
+			</ul>
+		</div>
+	{/foreach}
+        </span>
+        <span class="col-sm-7">
+            <strong>{vtranslate('File Name', 'Documents')}</strong>
+            {foreach item=RELATED_RECORD from=$RELATED_RECORDS}
+		{assign var=DOWNLOAD_FILE_URL value=$RELATED_RECORD->getDownloadFileURL()}
+		{assign var=DOWNLOAD_STATUS value=$RELATED_RECORD->get('filestatus')}
+		{assign var=DOWNLOAD_LOCATION_TYPE value=$RELATED_RECORD->get('filelocationtype')}
+		<div class="recentActivitiesContainer- row">
+			<ul class="pl0 " >
+				<li class="list-unstyled pl0 mt10 mb10  w-100 ">
+					<div class="" id="documentRelatedRecord pull-left">
+						
+                                                <span class="col-sm-4  textOverflowEllipsis showMap_upload" id="DownloadableLink">
                                                     {if $DOWNLOAD_STATUS eq 1}
                                                             {$RELATED_RECORD->getDisplayValue('filename', $RELATED_RECORD->getId(), $RELATED_RECORD)}
                                                     {else}
@@ -56,6 +69,9 @@
 			</ul>
 		</div>
 	{/foreach}
+        </span>
+    
+	
     </div>
     {assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
     {if $NUMBER_OF_RECORDS eq 5}

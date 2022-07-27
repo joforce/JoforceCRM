@@ -11,7 +11,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-    <form id="detailView" method="POST">
+    <form id="detailView" class="{$MODULE}_detailview_height_mac" method="POST">
         {include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     </form>
 {/strip}

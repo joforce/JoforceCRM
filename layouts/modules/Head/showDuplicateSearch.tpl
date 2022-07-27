@@ -20,7 +20,7 @@
             {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">{vtranslate('LBL_MATCH_FIELDS', $MODULE)}</label>
+                    <label class="col-lg-3 col-form-label">{vtranslate('LBL_MATCH_FIELDS', $MODULE)}</label>
                     <div class="col-lg-8">
                         <select id="fieldList" class="select2 form-control" multiple="true" name="fields[]"
 							data-rule-required="true">

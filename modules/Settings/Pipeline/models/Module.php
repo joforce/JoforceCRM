@@ -94,15 +94,6 @@ class Settings_Pipeline_Module_Model extends Settings_Head_Module_Model {
                 $entity_modules[$modulename] = $moduleModal->label;
             }
         }
-        $additional = array('ProjectMilestone', 'ProjectTask');
-        foreach($additional as $modulename) {
-	    if(in_array($modulename, $pipeine_modules)) {
-                continue;
-            }
-
-            $moduleModal = Head_Module_Model::getInstance($modulename);
-            $entity_modules[$modulename] = $moduleModal->label;
-        }
 	return $entity_modules;
     }
 

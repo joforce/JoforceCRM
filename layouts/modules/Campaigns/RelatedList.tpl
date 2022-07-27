@@ -12,7 +12,7 @@
 {strip}
 	{if !empty($CUSTOM_VIEWS)}
 		{include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE LISTVIEW_HEADERS=$RELATED_HEADERS}
-		<div class="relatedContainer">
+		<div class="relatedContainer {if in_array($MODULE,array('Campaigns'))} ms_relatedContainer  ipad_scrn_campaigns {/if}">
 			{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 			{assign var=IS_RELATION_FIELD_ACTIVE value="{if $RELATION_FIELD}{$RELATION_FIELD->isActiveField()}{else}false{/if}"}
 			<input type="hidden" name="emailEnabledModules" value=true />
@@ -34,7 +34,7 @@
 
 			<div class="relatedHeader">
 				<div class="btn-toolbar row">
-					<div class="col-lg-6 col-md-6 col-sm-6 btn-toolbar">
+					<div class="col-lg-6 col-md-6 col-sm-6 ">
 						{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 							<div class="btn-group">
 								{assign var=DROPDOWNS value=$RELATED_LINK->get('linkdropdowns')}
@@ -67,10 +67,10 @@
 							</div>
 						{/foreach}&nbsp;
 					</div>
-					<div class='col-lg-4 col-md-4 col-sm-4'>
+					<div class='col-lg-4 col-md-4 col-sm-4 mt20'>
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
-								<select id="recordsFilter" class="select2 col-lg-8" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
+								<select id="recordsFilter" class="select2 w-100" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
 									<option></option>
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 										<optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL, $RELATED_MODULE_NAME)} {/if}' >
@@ -90,6 +90,7 @@
 					{assign var=CLASS_VIEW_PAGING_INPUT_SUBMIT value='relatedViewPagingInputSubmit'}
 					{assign var=CLASS_VIEW_BASIC_ACTION value='relatedViewBasicAction'}
 				</div>
+				<hr>
 			</div>
 			<div class='col-lg-12 col-md-12 col-sm-12'>
 				{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
@@ -132,7 +133,7 @@
 							<tr class="searchRow">
 								<th></th>
 								<th class="inline-search-btn">
-									<button class="btn btn-success btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+									<button class="btn btn-primary btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 								</th>
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th>
@@ -188,7 +189,7 @@
 								{/foreach}
 								<td class="{$WIDTHTYPE}" nowrap>
 									<span class="currentStatus more dropdown action">
-										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}&nbsp;</span>
+										<span class="statusValue " data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}&nbsp;</span>
 										<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-arrow-down alignMiddle editRelatedStatus"></i></a>
 										<ul class="dropdown-menu dropdown-menu-right">
 											{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
@@ -206,7 +207,7 @@
 	                                    {assign var=PAGING_MODEL value=$PAGING}
         	                            {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
                 	                    {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-                        	            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+                        	            {include file="Pagination.tpl"|vtemplate_path:$MODULE}
                                 	</div>
 			</div>
 			<div class="bottomscroll-div"></div>

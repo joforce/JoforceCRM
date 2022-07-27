@@ -176,7 +176,6 @@ class Head_DashBoard_Model extends Head_Base_Model {
 		for($i=0;$i<$num_rows;$i++){
 			$row = $db->fetchByAssoc($result,$i);
 			$tabName = $row['tabname'];
-			$appName = $row['appname'];
 			$moduleName = $row['modulename'];
 
 			if(in_array($tabName, $appTabs)) {

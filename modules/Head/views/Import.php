@@ -101,7 +101,6 @@ class Head_Import_View extends Head_Index_View
 		return array_merge(array('PriceBooks', 'Users'), $inventory);
 	}
 
-	//vtiger7
 	function importLandingPage(Head_Request $request)
 	{
 		$viewer = $this->getViewer($request);

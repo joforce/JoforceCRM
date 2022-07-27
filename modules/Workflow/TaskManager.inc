@@ -132,7 +132,6 @@
 		}
 
 		private function requireTask($taskType, $taskTypeInstance='') {
-			//echo'<pre>';print_r($taskType);die('asd');
 			if(!empty($taskTypeInstance)) {
 				$taskClassPath = $taskTypeInstance->get('classpath');
 				require_once($taskClassPath);

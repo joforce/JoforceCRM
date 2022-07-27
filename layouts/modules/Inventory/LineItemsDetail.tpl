@@ -73,7 +73,7 @@
 <input type="hidden" class="isCustomFieldExists" value="false">
 
 {assign var=FINAL_DETAILS value=$RELATED_PRODUCTS.1.final_details}
-<div class = "details">
+<div class = "details {if in_array($MODULE ,array('PurchaseOrder'))} ms_invoice_details {elseif in_array($MODULE ,array('SalesOrder','Invoice','Quotes'))} ms_invoice_details_sales {/if}">
     <div class="lineItemTableDiv">
         <table class="table table-bordered lineItemsTable" style = "margin-top:15px">
             <thead>

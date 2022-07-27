@@ -9,14 +9,14 @@
 {* modules/Settings/Groups/views/Edit.php *}
 
 {strip}
-			<div class="editViewContainer">
-				<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
+			<div class="editViewContainer  mt0 card group_page_view_style">
+				<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal mt0">
 					<input type="hidden" name="module" value="Groups">
 					<input type="hidden" name="action" value="Save">
 					<input type="hidden" name="parent" value="Settings">
 					<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 					<input type="hidden" name="mode" value="{$MODE}">
-					<h4>
+					<h4 class="card-header-new">
 						{if !empty($MODE)}
 							{vtranslate('LBL_EDITING', $MODULE)} {vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
 						{else}
@@ -25,9 +25,9 @@
 					</h4>
 					<hr>
 					<br>
-					<div class="editViewBody">
+					<div class="editViewBody setting_group_editpage">
 						<div class="form-group row">
-							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel control-label">
+							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel col-form-label">
 								{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
 							</label>
 							<div class="fieldValue col-lg-9 col-md-9 col-sm-9">
@@ -39,7 +39,7 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel control-label">
+							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel col-form-label">
 								{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 							</label>
 							<div class="fieldValue col-lg-9 col-md-9 col-sm-9">
@@ -51,7 +51,7 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel control-label">
+							<label class="col-lg-3 col-md-3 col-sm-3 fieldLabel col-form-label">
 								{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
 							</label>
 							<div class="fieldValue col-lg-9 col-md-9 col-sm-9">
@@ -86,7 +86,7 @@
 						<div class="row clearfix">
 							<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton' type="submit" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class='cancelLink btn btn-danger' data-dismiss="modal" href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>

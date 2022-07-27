@@ -25,7 +25,7 @@
                     <div class="col-sm-12 col-xs-12">
                         <div class="pull-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                         <div class="btn-group pull-right">
-                            <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                            <button id="googlesync_addcustommapping" class="btn  dropdown-toggle" type="button" data-toggle="dropdown">
                                 {vtranslate('LBL_ADD_CUSTOM_FIELD_MAPPING',$MODULENAME)}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
@@ -341,7 +341,7 @@
                     {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
                 {/if}
                 <button id="save_syncsetting" class="btn btn-primary" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULENAME)}</strong></button>
-                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
             </center>
 	</div>
     </div>

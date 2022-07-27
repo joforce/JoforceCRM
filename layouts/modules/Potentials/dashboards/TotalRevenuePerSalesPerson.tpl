@@ -44,9 +44,9 @@
                 </span>
                 <div class="col-lg-7">
                     <div class="input-daterange input-group dateRange widgetFilter" id="datepicker" name="createdtime">
-                        <input type="text" class="input-sm form-control" name="start" style="height:30px;"/>
+                        <input type="text" class="form-control-sm form-control" name="start" style="height:30px;"/>
                         <span class="input-group-addon">to</span>
-                        <input type="text" class="input-sm form-control" name="end" style="height:30px;"/>
+                        <input type="text" class="form-control-sm form-control" name="end" style="height:30px;"/>
                     </div>
                 </div>
             </div>

@@ -197,13 +197,16 @@ class Head_ListAjax_View extends Head_List_View {
 
 			$listViewEntries = array();
 			foreach ($recordModelsList as $recordId) {
-				$recordModel = Head_Record_Model::getInstanceById($recordId, $listViewModel->getModule());
-				$recordModel->setRawData($recordModel->getData());
+				$result = Head_Record_Model::getInstancesFromIds($recordId, $module);
+				if(!empty($result)){
+					$recordModel = Head_Record_Model::getInstanceById($recordId, $listViewModel->getModule());
+					$recordModel->setRawData($recordModel->getData());
 
-				foreach ($listViewModel->listViewHeaders as $fieldName => $fieldModel) {
-					$recordModel->set($fieldName, $fieldModel->getDisplayValue($recordModel->get($fieldName)));
+					foreach ($listViewModel->listViewHeaders as $fieldName => $fieldModel) {
+						$recordModel->set($fieldName, $fieldModel->getDisplayValue($recordModel->get($fieldName)));
+					}
+					$listViewModel->listViewEntries[$recordId] = $recordModel;
 				}
-				$listViewModel->listViewEntries[$recordId] = $recordModel;
 			}
 			$matchingRecordsList[$module] = $listViewModel;
 		}
@@ -288,7 +291,9 @@ class Head_ListAjax_View extends Head_List_View {
 
 			$listViewEntries = array();
 			foreach ($recordModelsList as $recordId) {
-				$recordModel = Head_Record_Model::getInstanceById($recordId, $listViewModel->getModule());
+				$result = Head_Record_Model::getInstancesFromIds($recordId, $module);
+				if(!empty($result)){
+					$recordModel = Head_Record_Model::getInstanceById($recordId, $listViewModel->getModule());
 				$recordModel->setRawData($recordModel->getData());
 
 				foreach ($listViewModel->listViewHeaders as $fieldName => $fieldModel) {
@@ -298,14 +303,14 @@ class Head_ListAjax_View extends Head_List_View {
 			}
 			$matchingRecordsList[$module] = $listViewModel;
 		}
-
+}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SEARCH_VALUE', $searchValue);
 		$viewer->assign('PAGE_NUMBER', 1);
 		$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-		echo $viewer->view('SearchResults.tpl', '', true);
+		echo $viewer->view('SearchResults.tpl', $moduleName, true);
 	}
 
 	public function showSearchResultsWithValue(Head_Request $request) {
@@ -345,6 +350,7 @@ class Head_ListAjax_View extends Head_List_View {
 
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('GLOBAL', true);
 		$viewer->assign('RECORDS_COUNT', $recordsCount);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('ModuleSearchResults.tpl', $moduleName);

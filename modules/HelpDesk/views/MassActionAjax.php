@@ -10,5 +10,5 @@
  * Contributor(s): JoForce.com
  * *********************************************************************************** */
 
-class HelpDesk_MassActionAjax_View extends Project_MassActionAjax_View {
+class HelpDesk_MassActionAjax_View extends Products_MassActionAjax_View {
 }

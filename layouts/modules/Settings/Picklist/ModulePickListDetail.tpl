@@ -21,10 +21,10 @@
         </label>
     {else}
         <div class="row form-group">
-			<div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0">
+			<div class="col-lg-4 col-md-5 col-sm-3 col-form-label fieldLabel pr0">
                 <label class="fieldLabel">{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</label>
             </div>
-            <div class="col-sm-3 col-xs-12 fieldValue pl0">
+            <div class="col-sm-3 col-lg-3 col-xs-12 fieldValue pl0">
                 <select class="select2 inputElement" id="modulePickList" name="modulePickList">
                     {foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
                         <option value="{$FIELD_MODEL->getId()}" {if $DEFAULT_FIELD eq $FIELD_MODEL->getName()} selected {/if}>{vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>

@@ -246,16 +246,6 @@ class Settings_Groups_Record_Model extends Settings_Head_Record_Model
 		$params = array($transferGroupId, $groupId);
 		$db->pquery($query, $params);
 
-		if (Head_Utils::CheckTable('jo_customerportal_prefs')) {
-			$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
-			$params = array($transferGroupId, 'defaultassignee', $groupId);
-			$db->pquery($query, $params);
-
-			$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
-			$params = array($transferGroupId, 'userid', $groupId);
-			$db->pquery($query, $params);
-		}
-
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);
 		if (!$newOwnerModel) {

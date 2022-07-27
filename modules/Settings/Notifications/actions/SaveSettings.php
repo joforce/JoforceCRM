@@ -11,85 +11,42 @@
 
 class Settings_Notifications_SaveSettings_Action extends Settings_Head_Index_Action {
     public function checkPermission(Head_Request $request) {
-	return true;
+		return true;
     }
 
     public function process(Head_Request $request) {
-	global $current_user;
-	$user_id = $current_user->id;
-	$updatedFields = $request->get('updatedFields');
-	$global_notification_settings = $request->get('global_settings');
+		global $current_user;
+		$user_id = $current_user->id;
+		$updatedFields = $request->get('updatedFields');
+		$global_notification_settings = $request->get('global_settings');
 
-	if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-	    $file_name = "user_privileges/notifications/notification_".$user_id.".php";
-        else
-            $file_name = 'user_privileges/notifications/default_settings.php';
+		$checked_values = [];
+		foreach($updatedFields as $key => $value) {
+			$array = explode('_', $key);
+			$module= $array[0];
+			$keyvalue = $array[1];
 
-	require($file_name);
-	$file_path ="user_privileges/notifications/notification_".$user_id.".php";
-
-	if($global_notification_settings == 'enabled') {
-	    $global_settings = true;
-	    $checked_values = [];
-	    foreach($updatedFields as $array) {
-		$string = $array['name'];
-		$array = explode('_', $string);
-		$module= $array[0];
-		$value = $array[1];
-			
-		$temp_array = array_keys($checked_values);
-		if(in_array($module, $temp_array)) {
-		    $checked_values[$module][$value] = true;
-		} else {
-		    $checked_values[$module] = array($value => true);
+			$checked_values[$module][$keyvalue] = $value;
 		}
-	    }
-	
-	    foreach($notification_settings as $settings_module_name => $settings_value_array) {
-		if(!isset($checked_values[$settings_module_name])) {
-		    $notification_settings[$settings_module_name]['assigned'] = 'false';
-                    $notification_settings[$settings_module_name]['following'] = 'false';
-		} else {
-		    if(count($checked_values[$settings_module_name]) == 2) {
-			$notification_settings[$settings_module_name]['assigned'] = 'true';
-                       	$notification_settings[$settings_module_name]['following'] = 'true';
-		    } else {
-			$temp_array = $checked_values[$settings_module_name];
-			$temp_value = array_keys($temp_array);
-			$value = $temp_value[0];
-			if($value == 'assigned'){
-			    $notification_settings[$settings_module_name][$value] = 'true';
-			    $notification_settings[$settings_module_name]['following'] = 'false';
-			} else {
-			    $notification_settings[$settings_module_name][$value] = 'true';
-	                    $notification_settings[$settings_module_name]['assigned'] = 'false';
-			}
-		    }
+
+		$db = PearDatabase::getInstance();
+		$query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+		$result = $db->pquery($query, array($user_id));
+		$rows = $db->num_rows($result);
+		if($rows <= 0){
+			$query = "Insert into jo_notification_manager(id,global,notificationlist) values(?,?,?)";
+			$result = $db->pquery($query, array($user_id,$global_notification_settings,base64_encode(serialize($checked_values))));
+			$rows = $db->num_rows($result);
+		}else{
+			$query = "Update jo_notification_manager set global=?,notificationlist=? where id = ?";
+			$result = $db->pquery($query, array($global_notification_settings,base64_encode(serialize($checked_values)),$user_id));
+			$rows = 1;
 		}
-	    }
-	    $myfile = fopen($file_path, "w") or $this->emitResponse('false', 'Settings are not saved. No writable permission for user_privileges/notifications folder.');
-            $write_status = fwrite($myfile, "<?php
-		".'$global_settings'." = true;
-                ".'$notification_settings'." = " .var_export($notification_settings, true). ";
-		?>");
-	    if($write_status) {
-		$this->emitResponse('true', 'Settings are saved successfully.');
-	    } else {
-		$this->emitResponse('false', 'Settings are not saved. No writable permission for notifications folder.');
-            }
-	} else {
-	    $myfile = fopen($file_path, "w") or $this->emitResponse('false', 'Settings are not saved. No writable permission for user_privileges/notifications folder.');
-	    $write_status = fwrite($myfile, "<?php
-			".'$global_settings'." = false;
-                	".'$notification_settings'." = " .var_export($notification_settings, true). ";
-			?>");
-	    if($write_status) {
-		$this->emitResponse('true', 'Settings are saved successfully.');
-	    } else {
-		$this->emitResponse('false', 'Settings are not saved. No writable permission for notifications folder.');
-	    }
-	}
-	fclose($myfile);
+		if($rows >= 0) {
+			$this->emitResponse('true', 'Settings are saved successfully.');
+		} else {
+			$this->emitResponse('false', 'Settings are not saved.');
+		}
     }
 
     public function emitResponse($status, $message) {

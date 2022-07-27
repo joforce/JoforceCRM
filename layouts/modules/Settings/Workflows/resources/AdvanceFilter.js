@@ -366,7 +366,7 @@ Head_Date_Field_Js('Workflows_Date_Field_Js',{},{
                 return this._super();
             }
         } else {
-            var html = '<input type="text" class="getPopupUi date inputElement" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+ 
+            var html = '<input type="text" class="getPopupUi date w-100 h-100 inputElement" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+ 
             '<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />' 
             var element = jQuery(html); 
             return this.addValidationToElement(element);
@@ -404,7 +404,7 @@ Head_Date_Field_Js('Workflows_Datetime_Field_Js',{},{
         } else if(comparatorSelectedOptionVal == 'is today' || comparatorSelectedOptionVal == 'is tomorrow' || comparatorSelectedOptionVal == 'is yesterday') {
         // show nothing
         } else {
-            var html = '<input type="text" class="getPopupUi date" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+
+            var html = '<input type="text" class="getPopupUi date w-100" style="height:38px" name="'+ this.getName() +'"  data-date-format="'+ this.getDateFormat() +'"  value="'+  this.getValue() + '" />'+
             '<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />'
             var element = jQuery(html);
         }
@@ -493,7 +493,7 @@ Head_Field_Js('Head_Boolean_Field_Js',{},{
 Head_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
     getUi : function() {
-        var html = '<select class="col-lg-12 select2" name="'+ this.getName() +'">';
+        var html = '<select class="w-100 select2 mt0" name="'+ this.getName() +'">';
         html += '<option value="">&nbsp;</option>';
         var pickListValues = this.getPickListValues();
         var selectedOption = this.getValue();
@@ -551,7 +551,7 @@ Head_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
             var pickListValue = pickListValues[key];
             pickListValuesArrayFlip[pickListValue] = key;
         }
-        var html = '<input type="hidden" class="col-lg-12 select2" name="'+ this.getName() +'" id="'+ this.getName() +'">';
+        var html = '<input type="hidden" class="w-100 select2 mt10" name="'+ this.getName() +'" id="'+ this.getName() +'">';
         var selectContainer = jQuery(html).val(selectedOption);
         selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip).data('maximumSelectionSize', 1);
         selectContainer.data('placeholder', app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')).data('closeOnSelect', true);

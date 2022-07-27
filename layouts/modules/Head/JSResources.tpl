@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+    <script type="text/javascript" src="{$SITEURL}layouts/lib/todc/js/popper.min.js"></script>
     <script type="text/javascript" src="{$SITEURL}layouts/lib/todc/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="{$SITEURL}libraries/jquery/ckeditor/adapters/jquery.js"></script>

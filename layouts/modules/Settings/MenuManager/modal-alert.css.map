@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAMG,aANU,CAEZ,cAAc,CAEb,WAAW,CAEV,GAAG,CACH;EACA,SAAS,EAAC,IAAI;CACV;;AATP,AAWE,aAXW,CAEZ,cAAc,CASb,aAAa,CACb;EACC,OAAO,EAAC,SAAS;CACjB",
+    "sources": [
+        "modal-alert.scss"
+    ],
+    "names": [],
+    "file": "modal-alert.css"
+}

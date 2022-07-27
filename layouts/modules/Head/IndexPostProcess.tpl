@@ -10,6 +10,6 @@
 {* modules/Head/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-	</div>
+    </div>
 </div>
 </div>

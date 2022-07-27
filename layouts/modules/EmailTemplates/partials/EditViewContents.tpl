@@ -11,7 +11,7 @@
         <input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
     {/if}
     <div name='editContent'>
-        <div class='fieldBlockContainer'>
+        <div class='fieldBlockContainer ms_fieldBlockContainer_Email-tamplate'>
             <span>
                 <h4 class='fieldBlockHeader' >{vtranslate('SINGLE_EmailTemplates', $MODULE)}</h4>
             </span>
@@ -20,20 +20,20 @@
                 <tbody>
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE} alignMiddle">{vtranslate('LBL_TEMPLATE_NAME', $MODULE)}&nbsp;<span class="redColor">*</span></td>
-                        <td class="fieldValue {$WIDTHTYPE}">
+                        <td class="fieldValue {$WIDTHTYPE} pl0">
                             <input id="{$MODULE}_editView_fieldName_templatename" type="text" class="inputElement" data-rule-required="true" name="templatename" value="{$RECORD->get('templatename')}">
                         </td>
                     </tr>
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE} alignMiddle">{vtranslate('LBL_DESCRIPTION', $MODULE)}</td>
-                        <td class="fieldValue {$WIDTHTYPE}">
+                        <td class="fieldValue {$WIDTHTYPE} pl0">
                             <textarea class="inputElement col-lg-12" id="description" name="description">{$RECORD->get('description')}</textarea>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class='fieldBlockContainer'>
+        <div class='fieldBlockContainer ms_fieldBlockContainer_Email-tamplate'>
             <span>
                 <h4 class='fieldBlockHeader'>{vtranslate('LBL_EMAIL_TEMPLATE', $MODULE)} {vtranslate('LBL_DESCRIPTION', $MODULE)}</h4>
             </span>
@@ -42,7 +42,7 @@
                 <tbody>
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_SELECT_FIELD_TYPE', $MODULE)}&nbsp;<span class="redColor">*</span></td>
-                        <td class="fieldValue {$WIDTHTYPE}">
+                        <td class="fieldValue {$WIDTHTYPE} pl0">
                             <span class="filterContainer" >
                                 <input type=hidden name="moduleFields" data-value='{Head_Functions::jsonEncode($ALL_FIELDS)}' />
                                 <span class="col-sm-4 col-xs-4 conditionRow">
@@ -63,7 +63,7 @@
                     </tr>
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_GENERAL_FIELDS', $MODULE)}</td>
-                        <td class="fieldValue {$WIDTHTYPE}">
+                        <td class="fieldValue {$WIDTHTYPE} pl0">
                             <span class="col-sm-6 col-xs-6">
                                 <select class="inputElement select2 col-sm5 col-xs-5" id="generalFields" name="generalFields">
                                     <option value="">{vtranslate('LBL_NONE',$MODULE)}</option>
@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_SUBJECT', $MODULE)}&nbsp;<span class="redColor">*</span></td>
-                        <td class="fieldValue {$WIDTHTYPE}">
+                        <td class="fieldValue {$WIDTHTYPE} pl0">
                             <div class="col-sm-6 col-xs-6">
                                 <input id="{$MODULE}_editView_fieldName_subject" type="text" {if $IS_SYSTEM_TEMPLATE_EDIT} disabled="disabled" {/if} class="inputElement col-lg-12" data-rule-required="true" name="subject" value="{$RECORD->get('subject')}"  spellcheck="true" />
                             </div>
@@ -91,7 +91,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="row padding-bottom1per">
+            <div class="row padding-bottom1per pl0">
                 {assign var="TEMPLATE_CONTENT" value=$RECORD->get('body')}
                 <textarea id="templatecontent" name="templatecontent" {if $IS_SYSTEM_TEMPLATE_EDIT} data-rule-required="true" {/if} >
                     {if !empty($TEMPLATE_CONTENT)}

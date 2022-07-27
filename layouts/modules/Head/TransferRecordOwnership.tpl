@@ -20,8 +20,8 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 
                 <div class="modal-body">
-                    <div class="form-group">
-                            <label class="col-lg-4 control-label">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</label>
+                    <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</label>
                             <div class="col-lg-6">
                                 <select multiple class="form-control select2" id="related_modules" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" name="related_modules[]" data-rule-required="true">
                                     {foreach item=RELATED_MODULE from=$RELATED_MODULES}
@@ -32,8 +32,8 @@
                                 </select>
                             </div>
                     </div>
-                    <div class="form-group">
-                            <label class="col-lg-4 control-label">{vtranslate('LBL_ASSIGNED_TO', $MODULE)}</label>
+                    <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">{vtranslate('LBL_ASSIGNED_TO', $MODULE)}</label>
                             <div class="col-lg-6">
                                 {assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
                                 {assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}

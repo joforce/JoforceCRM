@@ -20,23 +20,30 @@
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-		<div id="listview-actions" class="listview-actions-container">
+		<div id="listview-actions" class="listview-actions-container {if !in_array($MODULE,array('PickListDependency'))} card {else} ml10 {/if}">
 			{if $MODULE neq 'Currency' and $MODULE neq 'PickListDependency' and $MODULE neq 'CronTasks'}
-				<div class = "row">
-					<div class='col-md-6'>
+				<div class="row ml15 mr10 card-header-new {if in_array($MODULE,array('Groups'))} group_header_lap_crn {/if}">
+				<div class='col-md-12 '>
 						{if $MODULE eq 'Tags'}
 							<h4 class="pull-left">{vtranslate('LBL_MY_TAGS', $QUALIFIED_MODULE)}</h4>
+						{else}
+							<h4>{$MODULE}</h4>
 						{/if}
 					</div>
-					<div class="col-md-6">
-						{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-						{include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+					
+				</div>
+				<hr>
+								{else if  $MODULE eq 'CronTasks' }
+<div class = "row ml15 mb20 mr10 card-header-new">
+					<div class='col-md-12 '>
+							<h4 class="pull-left">Scheduler</h4>
 					</div>
 				</div>
+				
 			{/if}
 			<div class="list-content row">
-				<div class="col-sm-12 col-xs-12 ">
-					<div id="table-content" class="table-container" style="padding-top:0px !important;">
+				<div class="col-sm-12 col-xs-12">
+					<div id="table-content" class="table-container {if in_array($MODULE,array('Groups','Webforms','CronTasks','Webhooks','Currency','Tags'))} table_container_align_left {/if}" style="padding-top:0px !important;overflow-x:auto;">
 						<table id="listview-table" class="table listview-table">
 							{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 							{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
@@ -98,6 +105,10 @@
 								{/if}
 							</tbody>
 						</table>
+						<div class="col-lg-12 col-md-12 col-sm-12">
+						{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
+						{include file="Pagination.tpl"|vtemplate_path:$MODULE}
+					</div>
 					</div>
 					<div id="scroller_wrapper" class="bottom-fixed-scroll">
 						<div id="scroller" class="scroller-div"></div>

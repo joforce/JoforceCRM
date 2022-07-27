@@ -17,25 +17,29 @@
 {/if}
 
 
-<div class = "{$CLASS_VIEW_ACTION}">
-  {if $SHOWPAGEJUMP}
-    {assign var=tl_no_of_pages value=$NO_OF_PAGES['page']}
-    {assign var=tl_no_of_records value=$NO_OF_PAGES['numberOfRecords']}
+<div class = "{$CLASS_VIEW_ACTION} col-lg-12">
+  {assign var=tl_no_of_pages value=$NO_OF_PAGES['page']}
+  {assign var=tl_no_of_records value=$NO_OF_PAGES['numberOfRecords']}
 
+  {if $tl_no_of_records gt 0}
     <input type="hidden" id="tl_no_of_pages" value="{$tl_no_of_pages}" />
     <input type="hidden" id="tl_no_of_records" value="{$tl_no_of_records}" />
     <input type="hidden" id="current_page_number" value="{$PAGE_NUMBER}" />
 
-    <div class="col-lg-2 col-md-2 listHead">
-      <span class="pageNumbers  pull-right" style="position:relative;top:7px;">
+    <div class="col-lg-2 col-md-2 listHead" id="record_numbers_on_page">
+      <span class="pageNumbers  pull-right">
         <span class="pageNumbersText">
             {if $RECORD_COUNT}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_to', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}
             {/if}
         </span>
-        &nbsp;<span class="totalNumberOfRecords cursorPointer{if !$RECORD_COUNT} hide{/if}" title="{vtranslate('LBL_SHOW_TOTAL_NUMBER_OF_RECORDS', $MODULE)}">{vtranslate('LBL_OF', $MODULE)} <i class="fa fa-question showTotalCountIcon"></i></span>&nbsp;&nbsp;
+        <span class="totalNumberOfRecords cursorPointer{if !$RECORD_COUNT} hide{/if}" title="{vtranslate('LBL_SHOW_TOTAL_NUMBER_OF_RECORDS', $MODULE)}">{vtranslate('LBL_OF', $MODULE)} {$tl_no_of_records}</span>&nbsp;&nbsp;
+	{vtranslate('LBL_ENTRIES', $MODULE)}
       </span>
     </div>
-    <div class="col-lg-7 col-md-7">
+  {/if}
+
+  {if $tl_no_of_pages > 1}
+    <div class="col-lg-6 col-md-4" id="pagination_buttons">
         <ul class="pagination pagination-circled mb-0">
             <li class="page-item">
                 <a class="previous-link page-link" href="#"><i class="fa fa-angle-left"></i></a>
@@ -51,9 +55,7 @@
 		    <a class="page-link {if $PAGE_NUMBER == 1} active {/if}" href="#" data-page=1>1</a>
 		</li>
 
-		<li class="page-item">
-		    <a class="page-link disabled" href="#">...</a>
-		</li>
+		
 
 
 		{if $PAGE_NUMBER < 5}
@@ -95,11 +97,9 @@
             <center><a href="#" id="selectAllMsgDiv">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount" value=""></span>)</a></center>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3" style="margin-top:18px;">
-	<div class="listview-pagejump">
-                        <input type="text" id="pageToJump" placeholder="Jump To" class="jumpToInput {$CLASS_VIEW_PAGING_INPUT} text-center"/>&nbsp;
-                        <button type="button" id="pageToJumpSubmit" class="btn btn-primary-gradient {$CLASS_VIEW_PAGING_INPUT_SUBMIT} text-center">{'GO'}</button>
-	</div>
+    <div class="col-lg-3 col-md-5 listview-pagejump" id="listview-pagejump">
+	<input type="text" id="pageToJump" placeholder="Jump To" class="jumpToInput {$CLASS_VIEW_PAGING_INPUT} text-center"/>&nbsp;
+	<button type="button" id="pageToJumpSubmit" class="btn btn-primary-gradient {$CLASS_VIEW_PAGING_INPUT_SUBMIT} text-center">{'GO'}</button>
     </div>
   {/if}
 </div>

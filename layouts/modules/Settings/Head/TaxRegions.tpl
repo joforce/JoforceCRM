@@ -10,11 +10,11 @@
 {* modules/Settings/Head/views/TaxIndex.php *}
 
 {strip}
-<div class="taxRegionsContainer">
+<div class="taxRegionsContainer" style="padding-left:20%;>
 	<div class="tab-pane active">
 		<div class="tab-content overflowVisible">
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-			<div class="col-lg-4 marginLeftZero textOverflowEllipsis">
+			<div class="col-lg-6 marginLeftZero textOverflowEllipsis">
 				<div class="marginBottom10px">
 					<button type="button" class="btn btn-primary addRegion addButton pull-right" data-url="?module=Head&parent=Settings&view=TaxAjax&mode=editTaxRegion" data-type="1">
                         <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_REGION', $QUALIFIED_MODULE)}</button>
@@ -42,7 +42,7 @@
 					{/foreach}
 				</table>
 			</div>
-			<div class="col-lg-2">&nbsp;</div>
+			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-7">
 				<br><br><br>
 				<div class="">

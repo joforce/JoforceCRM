@@ -52,23 +52,23 @@
 </style>
 {/literal}
 {strip}
-    <div class="settings-duplicate-check" id="settings-duplicate-check">
+    <div class="settings-duplicate-check card" id="settings-duplicate-check">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row-fluid">
-            <div class="col-sm-12">
+        <div class="row-fluid" style="margin:30px">
+            <div class="col-sm-12 card-header-new {if in_array($MODULE,array('Settings:DuplicateCheck'))} duplicate_check_card_header  {/if}">
                 <h3>{vtranslate('DuplicateCheck', $MODULE)}</h3>
             </div>
-            <div>
+            <div class="mt40">
                 <div class='row'>
-                    <div class='col-sm-3 ml15'>
+                    <div class='col-sm-4'>
                     	<h4 style="float:left;">{vtranslate('LBL_DULICATECHECK_RULE_FOR', $MODULE)}</h4>
                     </div>
-                    <div class='col-sm-4' style="top:10px">
-			<select class="select2 col-md-9" id="layoutEditorModules" onchange="registerModuleChangeEvent()" name="layoutEditorModules">
+                    <div class='col-sm-3'>
+						<select class="select2"  style="width:200px;" id="layoutEditorModules" onchange="registerModuleChangeEvent()" name="layoutEditorModules">
                             {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             	<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
                             {/foreach}
-			</select>
+						</select>
                     </div>
                 </div>
 	    </div>
@@ -78,28 +78,25 @@
 		<input type='hidden' name='parent' value='Settings' />
 		<input type='hidden' name='action' value='UpdateFields' />
 
-                <div class="pull-right col-sm-5" style='top:-30px;'>
-                    <label class="fancy-checkbox" >
-			<h4 style="float: left;">{vtranslate('LBL_ENABLE', $MODULE)} / {vtranslate('LBL_DISABLE', $MODULE)}</h4>&nbsp;&nbsp;&nbsp;&nbsp;
-		    	<input type="checkbox"  name="isenabled" id="isenabled" {if $MODULE_ENABLED_VALUE eq 1}checked="yes"{/if} style="float: left;" value="1" />
-			<i style="margin-top: -4px;" class="fa fa-toggle-on fa-2x fa-rotate-180 inactive unchecked" aria-hidden="true"></i>
-			<span class="tab"></span>
-			<i class="fa fa-toggle-on active fa-2x checked" style="position:relative;top:9px;" aria-hidden="true"></i>
-			<span class="tab"></span>
-		    </label>
-                </div>
+            <div class="pull-right col-sm-5" >
+                <label class="fancy-checkbox" >
+					<h4 style="float: left;">{vtranslate('LBL_ENABLE', $MODULE)} / {vtranslate('LBL_DISABLE', $MODULE)}</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+		    		<input type="checkbox"  name="isenabled" id="isenabled" {if $MODULE_ENABLED_VALUE eq 1}checked="yes"{/if} style="float: left;" value="1" />
+					<i class="fa fa-toggle-on fa-2x fa-rotate-180 inactive unchecked" aria-hidden="true"></i>
+					<span class="tab"></span>
+					<i class="fa fa-toggle-on active fa-2x checked" aria-hidden="true"></i>
+					<span class="tab"></span>
+		    	</label>
+            </div>
 
-		<div class="contents tabbable">
+			<div class="contents tabbable ipad_duplicate_tabble">
 	            <hr class='hr-dotted' style='width:100%;'>
-		    <h4 style="position: relative; top: 25px;">{vtranslate('LBL_CONFIGURE_FIELD_RULE', $MODULE)}</h4>  
-               	    <div>
-			<button class="btn btn-primary vtduplicateform_submit" name="savebutton" style="float:right" type="button" value="Save" id='vtduplicateform_submit'>{vtranslate('LBL_SAVE', $MODULE)}</button>
-                    </div>
-
-	            <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">                                 
+		    <h4 class="mt20">{vtranslate('LBL_CONFIGURE_FIELD_RULE', $MODULE)}</h4>  
+	            <div style="display:flex;width:100%;">
+				<div class="tab-content layoutContent padding20 themeTableColor overflowVisible pt20" style="width:90%">                                 
         	        <div class="tab-pane active" id="detailViewLayout">
                     	    <div class="col-sm-7 marginLeftZero" style="float:right !important;">
-				<input type="hidden" name="modulename" id="modulename" value="{$SELECTED_MODULE_NAME}" />
+								<input type="hidden" name="modulename" id="modulename" value="{$SELECTED_MODULE_NAME}" />
                         	<div>
 	                            <span id="crosscheck"style="float: right; margin-right:50px"> {vtranslate('LBL_CROSSCHECK', $MODULE)} &nbsp;&nbsp;&nbsp;<input type="checkbox" name="ischecked" style="top:5px" id="ischecked" {if $CROSSCHECKVALUE eq 1} checked="yes"{/if}>&nbsp;&nbsp;<i id="crosscheckhelp" data-original-title = "Content" rel = "tooltip" title="{vtranslate('LBL_CHECK_DUPLICATE', $MODULE)}" class="fa fa-question-circle" aria-hidden="true"></i> </span>
             		            <span style="float:left; margin-top:0px"> {vtranslate('LBL_CLICK', $MODULE)} <i class="fa fa-check" rel="tooltip1" data-original-title = "Content" title="{vtranslate('LBL_CHOOSE_CHECK_MODULE', $MODULE)}" aria-hidden="true" > </i>{vtranslate('LBL_CHOOSE_CHECK_MODULE', $MODULE)}</span>
@@ -107,6 +104,10 @@
 	                    </div><br/>
         	        </div>
 	            </div>
+					<div style="padding-left:100px">
+					<button class="btn btn-primary vtduplicateform_submit" name="savebutton" style="float:right" type="button" value="Save" id='vtduplicateform_submit'>{vtranslate('LBL_SAVE', $MODULE)}</button>
+                	</div>
+				</div>
         	    <div id="moduleBlocks" style="display:block;">
                         {foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
                             {assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
@@ -118,8 +119,8 @@
                                             <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)} </strong>
 		                        </div>
 		                    </div><br><br>
-                		    <div class="blockFieldsList {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}blockFieldsSortable {/if} row-fluid" style="padding:5px;min-height: 27px;display:flex;position:relative">
-                                    	<ul name="sortable1" class="connectedSortable col-sm-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+                		    <div class="blockFieldsList row-fluid" style="">
+                                    	<ul name="sortable1" class="connectedSortable col-sm-6 col-12" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
                                             {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             	{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                              	{assign var=UI_TYPE value=$FIELD_MODEL->get('uitype')}
@@ -154,7 +155,7 @@
 			                        {/foreach}
                         		    {/foreach}
 		                        </ul>
-                		        <ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable col-sm-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+                		        <ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable col-sm-6 col-12" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
 		                            {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
                     			        {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 		                                {assign var=UITYPE value=$FIELD_MODEL->get('uitype')}

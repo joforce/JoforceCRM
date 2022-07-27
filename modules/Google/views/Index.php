@@ -24,7 +24,11 @@ class Google_Index_View extends Head_ExtensionViews_View {
 			$connector = $controller->getTargetConnector();
 			$profileInfo = json_decode($connector->getUserProfileInfo(),true);
 		}
-		return $profileInfo['email'];
+		if($profileInfo['error']){
+			return "";
+		}else{
+			return $profileInfo['email'];
+		}
 	}
 
 	/**

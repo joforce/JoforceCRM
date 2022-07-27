@@ -11,10 +11,9 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-    <br>
-	<div class="row">
+	<div class="row" style="margin-left:150px">
         <div class="form-group">
-            <div class="control-label col-lg-2 col-md-2">&nbsp;</div>
+            <div class="col-form-label col-lg-2 col-md-2">&nbsp;</div>
             <div class="controls col-lg-4 col-md-4">
                 <select class="select2 form-control" id="role2picklist" multiple name="role2picklist[]">
                     {foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
@@ -27,14 +26,10 @@
         </div>
 	</div>
     <br>
-    <div class="row">
-        <div class="form-group">
-            <div class="control-label col-lg-2 col-md-2">&nbsp;</div>
-            <div class="controls col-lg-4 col-md-4">
-                <button id="saveOrder" class="btn btn-primary pull-right">
-                    {vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}
-                </button>
-            </div>
-        </div>
+    <div style="margin-left:150px">
+        <button id="saveOrder" class="btn btn-primary">
+            {vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}
+        </button>
     </div>
+    
 {/strip}

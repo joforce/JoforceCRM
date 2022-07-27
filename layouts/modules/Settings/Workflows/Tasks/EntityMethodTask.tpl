@@ -11,6 +11,7 @@
 -->*}
 {strip}
 	<div class="row form-group">
+    <div class="col-sm-2 col-xs-2"></div>
         <div class="col-sm-6 col-xs-6">
             <div class="row">
                 <div class="col-sm-3 col-xs-3">{vtranslate('LBL_METHOD_NAME',$QUALIFIED_MODULE)} :</div>

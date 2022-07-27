@@ -13,10 +13,10 @@
     {assign var=EXECUTION_CONDITION value=$WORKFLOW_MODEL_OBJ->executionCondition}
     <input type="hidden" name="workflow_trigger" value="{$EXECUTION_CONDITION}" />
     <div class="form-group">
-        <label for="name" class="col-sm-3 control-label">
-            {vtranslate('LBL_TRIGGER_WORKFLOW_ON', $QUALIFIED_MODULE)}
+        <label for="name" class="col-sm-3 col-form-label col-md-12">
+            <b>{vtranslate('LBL_TRIGGER_WORKFLOW_ON', $QUALIFIED_MODULE)}</b>
         </label>
-        <div class="col-sm-5 controls">
+        <div class="col-sm-5 controls col-md-12">
             {assign var=SINGLE_SELECTED_MODULE value="SINGLE_$SELECTED_MODULE"}
             <span><input type="radio" name="workflow_trigger" value="1" {if $EXECUTION_CONDITION eq '1'} checked="" {/if}> <span id="workflowTriggerCreate">{vtranslate($SINGLE_SELECTED_MODULE, $SELECTED_MODULE)} {vtranslate('LBL_CREATION', $QUALIFIED_MODULE)}</span></span><br>
             <span><input type="radio" name="workflow_trigger" value="3" {if $EXECUTION_CONDITION eq '3' or $EXECUTION_CONDITION eq '2'} checked="" {/if}> <span id="workflowTriggerUpdate">{vtranslate($SINGLE_SELECTED_MODULE, $SELECTED_MODULE)} {vtranslate('LBL_UPDATED', $QUALIFIED_MODULE)}</span> &nbsp;({vtranslate('LBL_INCLUDES_CREATION', $QUALIFIED_MODULE)})</span><br>
@@ -25,10 +25,10 @@
     </div>
 
     <div class="form-group workflowRecurrenceBlock {if !in_array($EXECUTION_CONDITION, array(2,3))} hide {/if}">
-       <label for="name" class="col-sm-3 control-label">
-          {vtranslate('LBL_RECURRENCE', $QUALIFIED_MODULE)}
+       <label for="name" class="col-sm-3 col-form-label col-md-12">
+          <b>{vtranslate('LBL_RECURRENCE', $QUALIFIED_MODULE)}</b>
        </label>
-       <div class="col-sm-5 controls">
+       <div class="col-sm-5 controls col-md-12">
            <span><input type="radio" name="workflow_recurrence" value="2" {if $EXECUTION_CONDITION eq '2'} checked="" {/if}> {vtranslate('LBL_FIRST_TIME_CONDITION_MET', $QUALIFIED_MODULE)}</span><br>
            <span><input type="radio" name="workflow_recurrence" value="3" {if $EXECUTION_CONDITION eq '3'} checked="" {/if}> {vtranslate('LBL_EVERY_TIME_CONDITION_MET', $QUALIFIED_MODULE)}</span>
        </div>
@@ -37,14 +37,14 @@
     {if $SCHEDULED_WORKFLOW_COUNT <= $MAX_ALLOWED_SCHEDULED_WORKFLOWS}
         <div id="scheduleBox" class='contentsBackground {if $WORKFLOW_MODEL_OBJ->executionCondition neq 6} hide {/if}'>
             <div class="form-group">
-                <label class="col-sm-3 control-label"> {vtranslate('LBL_FREQUENCY', $QUALIFIED_MODULE)} </label>
-                <div class="col-sm-9 controls">
-                    <div class="well">
+                <label class="col-sm-3 col-form-label col-md-12"> {vtranslate('LBL_FREQUENCY', $QUALIFIED_MODULE)} </label>
+                <div class="col-sm-12 controls">
+                    <div class="card card-body">
                         <div class="form-group">
-                            <label for="schtypeid" class="col-sm-2 control-label">
+                            <label for="schtypeid" class="col-sm-5 col-form-label">
                                 {vtranslate('LBL_RUN_WORKFLOW', $QUALIFIED_MODULE)}
                             </label>
-                            <div class="col-sm-4 controls">
+                            <div class="col-sm-7 right controls">
                                 <select class='select2' id='schtypeid' name='schtypeid' style="min-width: 150px;">
                                     <option value="1" {if $WORKFLOW_MODEL_OBJ->schtypeid eq 1}selected{/if}>{vtranslate('LBL_HOURLY', $QUALIFIED_MODULE)}</option>
                                     <option value="2" {if $WORKFLOW_MODEL_OBJ->schtypeid eq 2}selected{/if}>{vtranslate('LBL_DAILY', $QUALIFIED_MODULE)}</option>
@@ -59,7 +59,7 @@
 
                         {* show weekdays for weekly option *}
                         <div class='form-group {if $WORKFLOW_MODEL_OBJ->schtypeid neq 3} hide {/if}' id='scheduledWeekDay'>
-                            <label class='col-sm-2 control-label' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+                            <label class='col-sm-5 col-form-label' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
                             <div class='col-sm-10 controls' style="padding-top: 15px; padding-bottom: 15px;">
                                 {assign var=dayOfWeek value=Zend_Json::decode($WORKFLOW_MODEL_OBJ->schdayofweek)}
                                 <div class="weekDaySelect">
@@ -77,8 +77,8 @@
 
                         {* show month view by dates *}
                         <div class='form-group {if $WORKFLOW_MODEL_OBJ->schtypeid neq 5} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
-                            <label class='col-sm-2 control-label'>{vtranslate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
-                            <div class='col-sm-4 controls'>
+                            <label class='col-sm-5 col-form-label'>{vtranslate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+                            <div class='col-sm-7 right controls'>
                                 {assign var=DAYS value=Zend_Json::decode($WORKFLOW_MODEL_OBJ->schdayofmonth)}
                                 <select style='width:150px;' multiple class="select2" data-rule-required="true" name='schdayofmonth[]' id='schdayofmonth' >
                                     {section name=foo loop=31}
@@ -90,22 +90,22 @@
 
                         {* show specific date *}
                         <div class='form-group {if $WORKFLOW_MODEL_OBJ->schtypeid neq 4} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
-                            <label class='col-sm-2 control-label'>{vtranslate('LBL_CHOOSE_DATE', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
-                            <div class='col-sm-3 controls'>
+                            <label class='col-sm-5 col-form-label'>{vtranslate('LBL_CHOOSE_DATE', $QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+                            <div class='col-sm-7 right controls'>
                                 <div class="input-group" style="margin-bottom: 3px">
                                     {assign var=specificDate value=Zend_Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
                                     {if $specificDate[0] neq ''} 
                                         {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} 
                                     {/if}
                                     <input type="text" class="dateField form-control" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true"/>
-                                    <span class="input-group-addon"><i class="fa fa-calendar "></i></span>
+                                    <span class="input-group-addon date-icon_workflow"><i class="fa fa-calendar "></i></span>
                                 </div>
                             </div>
                         </div>
 
                         {* show month view by anually *}
                         <div class='form-group {if $WORKFLOW_MODEL_OBJ->schtypeid neq 7} hide {/if}' id='scheduleAnually'>
-                            <label class='col-sm-2 control-label'> {vtranslate('LBL_SELECT_MONTH_AND_DAY', $QUALIFIED_MODULE)} <span class="redColor">*</span> </label>
+                            <label class='col-sm-2 col-form-label'> {vtranslate('LBL_SELECT_MONTH_AND_DAY', $QUALIFIED_MODULE)} <span class="redColor">*</span> </label>
                             <div class='col-sm-6 controls'>
                                 <div id='annualDatePicker'></div>
                             </div>
@@ -124,13 +124,13 @@
 
                         {* show time for all other than Hourly option*}
                         <div class="form-group {if $WORKFLOW_MODEL_OBJ->schtypeid < 2} hide {/if}" id='scheduledTime' style='padding:5px 0px 10px 0px;'>
-                              <label for="schtime" class="col-sm-2 control-label">
-                                 {vtranslate('LBL_AT_TIME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
+                              <label for="schtime" class="col-sm-5  col-form-label">
+                                 <b>{vtranslate('LBL_AT_TIME', $QUALIFIED_MODULE)}</b> <span class="redColor">*</span>
                               </label>
-                              <div class="col-sm-2 controls" id='schtime'>
+                              <div class="col-sm-7 right controls" id='schtime'>
                                   <div class="input-group time" >
                                       <input type='text' data-format='24' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-rule-required="true" class="timepicker-default inputElement"/>
-                                      <span  class="input-group-addon">
+                                      <span  class="input-group-addon date-icon_workflow">
                                           <i  class="fa fa-clock-o"></i>
                                       </span>
                                   </div>
@@ -138,7 +138,7 @@
                         </div>
                         {if $WORKFLOW_MODEL_OBJ->nexttrigger_time}
                             <div class="form-group">
-                                <label class='col-sm-2 control-label'>{vtranslate('LBL_NEXT_TRIGGER_TIME', $QUALIFIED_MODULE)}</label>
+                                <label class='col-sm-2 col-form-label'>{vtranslate('LBL_NEXT_TRIGGER_TIME', $QUALIFIED_MODULE)}</label>
                                 <div class='col-sm-4 controls'>
                                     {if $WORKFLOW_MODEL_OBJ->schtypeid neq 4}
                                         {DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}

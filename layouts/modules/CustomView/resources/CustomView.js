@@ -178,7 +178,6 @@ jQuery.Class("Head_CustomView_Js",{
 		this.saveFilter().then(function (response) {
 			if (typeof response != "undefined") {
 				app.helper.showSuccessNotification({'message':app.vtranslate('JS_LIST_SAVED')});
-				var appName = app.getAppName();
 				var url = response['listviewurl'];
 				window.location.href = url;
 			} else {

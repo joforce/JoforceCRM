@@ -7,14 +7,19 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************}
-<div class="table-actions">
-	<div class="dropdown" style="border:none !important;float:left;">
+<div class="table-actions table-left-column">
+	<div class="dropdown" style="border:none !important;float:left;top: 9px;left: 7px;">
         	<span class="input" style="opacity:1;" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
                 	<input class="listViewEntriesMainCheckBox" type="checkbox">
                 </span>
   	</div>
-	<div style="margin-left:25px;width:0px;">
+	<div class="" style="margin-left:25px;width:0px;">
 		{include file="ListViewHeaderMoreActionsLeft.tpl"|vtemplate_path:$MODULE}
 	</div>
+	<button class="d-none btn btn-success btn-sm" data-trigger="listSearch">Search</button>
 </div>
 
+
+<script>
+	
+</script>

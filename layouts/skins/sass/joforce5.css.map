@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAC;EACT,OAAO,EAAE,GAAG;CACf;;AAED,AAAA,KAAK,CAAC;EACF,gBAAgB,EAAE,KAAK;CAC1B;;AAED,AACI,YADQ,CACR,GAAG,AAAA,IAAI,CAAA;EACH,KAAK,EAAC,eAAe;EACrB,MAAM,EAAE,eAAe;CAC1B",
+    "sources": [
+        "joforce5.scss"
+    ],
+    "names": [],
+    "file": "joforce5.css"
+}

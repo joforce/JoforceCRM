@@ -18,12 +18,7 @@
     </div>
 </div>
 </nav>
-<div id='overlayPageContent' class='fade modal overlayPageContent content-area overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
-        <div class="data">
-        </div>
-        <div class="modal-dialog">
-        </div>
-</div>
+
 {if $FIELDS_INFO neq null}
     <script type="text/javascript">
         var uimeta = (function() {
@@ -56,9 +51,21 @@
     </script>
 {/if}
 <div class="main-container clearfix">
+<div id='overlayPageContent' class='fade modal overlayPageContent  {if in_array($MODULE, array('Workflows'))}content-area-new {else} content-area{/if} overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
+        <div class="data setting_user_import">
+        </div>
+        <div class="modal-dialog">
+        </div>
+</div>
         <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
             {include file="modules/Head/partials/SidebarAppMenu.tpl"}
         </div>
         <div class="quick-panel"></div>
-        <div class="settingsPageDiv content-area clearfix {if $LEFTPANELHIDE eq '1'} full-width {/if}" id="settingsPageContentDiv">
-		<div class="{if $MODULE neq 'Users'}settingsmenu-starts {else} users-menu-starts{/if} col-lg-12 col-md-12 col-sm-12 col-xs-12" id="{if $MODULE neq 'Users'}settingsmenu-starts{else} users-menu-starts{/if}">
+        <div class="settingsPageDiv content-area clearfix {$MODULE} {if $LEFTPANELHIDE eq '1'} full-width  {/if}" id="settingsPageContentDiv ">
+		<div class="{if $MODULE neq 'Users'}settingsmenu-starts {elseif in_array('Pipeline')} Pipeline_page_details_scrn {else}users-menu-starts {$MODULE} {/if}  col-lg-12 col-md-12 col-sm-12 col-xs-12 {if in_array($MODULE,array('Roles','Pipeline'))}Roles_page_view_style {elseif in_array($MODULE,array('LayoutEditor'))} ipad_scr_view_style {/if}" id="{if $MODULE neq 'Users'}settingsmenu-starts {else}users-menu-starts{/if}">
+        <div id="licence-alert-waring" class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+
+  <strong> <span class="licence-waring-icon"><i class="fa fa-warning"></i> </span> Danger!</strong>  You are not secure 
+
+</div>

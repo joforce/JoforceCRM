@@ -19,7 +19,11 @@
  * under the License.
  */
 
-class examples_batchTest extends BaseTest
+namespace Google\Tests\Examples;
+
+use Google\Tests\BaseTest;
+
+class batchTest extends BaseTest
 {
   public function testBatch()
   {
@@ -29,7 +33,7 @@ class examples_batchTest extends BaseTest
 
     $nodes = $crawler->filter('br');
     $this->assertCount(20, $nodes);
-    $this->assertContains('Life of Henry David Thoreau', $crawler->text());
-    $this->assertContains('George Bernard Shaw His Life and Works', $crawler->text());
+    $this->assertContains('Walden', $crawler->text());
+    $this->assertContains('George Bernard Shaw', $crawler->text());
   }
 }

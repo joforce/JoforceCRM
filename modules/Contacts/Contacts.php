@@ -142,7 +142,6 @@ class Contacts extends CRMEntity {
 		'Services' => array('table_name' => 'jo_crmentityrel', 'table_index' => 'crmid', 'rel_index' => 'crmid'),
 		'Campaigns' => array('table_name' => 'jo_campaigncontrel', 'table_index' => 'campaignid', 'rel_index' => 'contactid'),
 		'Assets' => array('table_name' => 'jo_assets', 'table_index' => 'assetsid', 'rel_index' => 'contact'),
-		'Project' => array('table_name' => 'jo_project', 'table_index' => 'projectid', 'rel_index' => 'linktoaccountscontacts'),
 		'Emails' => array('table_name' => 'jo_seactivityrel', 'table_index' => 'crmid', 'rel_index' => 'activityid'),
         'Vendors' => array('table_name' => 'jo_vendorcontactrel', 'table_index' => 'vendorid', 'rel_index' => 'contactid'),
 	);
@@ -1047,7 +1046,7 @@ class Contacts extends CRMEntity {
 				"Emails"=>"jo_seactivityrel","HelpDesk"=>"jo_troubletickets","Quotes"=>"jo_quotes","PurchaseOrder"=>"jo_purchaseorder",
 				"SalesOrder"=>"jo_salesorder","Products"=>"jo_seproductsrel","Documents"=>"jo_senotesrel",
 				"Attachments"=>"jo_seattachmentsrel","Campaigns"=>"jo_campaigncontrel",'Invoice'=>'jo_invoice',
-                'ServiceContracts'=>'jo_servicecontracts','Project'=>'jo_project','Assets'=>'jo_assets',
+                'ServiceContracts'=>'jo_servicecontracts',
 				'Vendors'=>'jo_vendorcontactrel');
 
 		$tbl_field_arr = Array("jo_contpotentialrel"=>"potentialid","jo_potential"=>"potentialid","jo_cntactivityrel"=>"activityid",

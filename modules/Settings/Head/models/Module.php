@@ -126,7 +126,7 @@ class Settings_Head_Module_Model extends Head_Base_Model {
 	}
 
 	/** 
-	 * Fucntion to get the settings menu item for vtiger7
+	 * Fucntion to get the settings menu item
 	 * @return <array> $settingsMenItems
 	 */
 	static function getSettingsMenuItem() {

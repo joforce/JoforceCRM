@@ -26,7 +26,6 @@
 							<input type="hidden" name="save_and_new" value="false" />
 							<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 							<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
-							<input type="hidden" name="appName" value="/{$SELECTED_MENU_CATEGORY}" />
 							{if $IS_RELATION_OPERATION }
 								<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 								<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
@@ -58,7 +57,7 @@
 							<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton' data-savebtn="true">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
 								<button type='submit' class='btn btn-success save-and-new-Button' id="save-and-new-Button">{vtranslate('LBL_SAVE_AND_NEW', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class='cancelLink btn btn-danger' href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>

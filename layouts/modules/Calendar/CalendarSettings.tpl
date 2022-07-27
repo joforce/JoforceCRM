@@ -138,9 +138,9 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="fieldValue col-lg-12" style="margin-top: -8px; padding-left: 35px;">
-									<label class="radio inline"><input type="radio" value="private"{if $SHARED_TYPE == 'private'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Private',$MODULE)}&nbsp;</label>
-									<label class="radio inline"><input type="radio" value="public" {if $SHARED_TYPE == 'public'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Public',$MODULE)}&nbsp;</label>
-									<label class="radio inline"><input type="radio" value="selectedusers" {if $SHARED_TYPE == 'selectedusers'} checked="" {/if} data-sharingtype="selectedusers" name="sharedtype" id="selectedUsersSharingType" />&nbsp;{vtranslate('Selected Users',$MODULE)}</label><br><br>
+									<label class="form-check inline"><input type="radio" value="private"{if $SHARED_TYPE == 'private'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Private',$MODULE)}&nbsp;</label>
+									<label class="form-check inline"><input type="radio" value="public" {if $SHARED_TYPE == 'public'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Public',$MODULE)}&nbsp;</label>
+									<label class="form-check inline"><input type="radio" value="selectedusers" {if $SHARED_TYPE == 'selectedusers'} checked="" {/if} data-sharingtype="selectedusers" name="sharedtype" id="selectedUsersSharingType" />&nbsp;{vtranslate('Selected Users',$MODULE)}</label><br><br>
 									<select class="select2 row {if $SHARED_TYPE != 'selectedusers'} hide {/if}" id="selectedUsers" name="sharedIds[]" multiple="" data-placeholder="{vtranslate('LBL_SELECT_USERS',$MODULE)}">
 										{foreach key=ID item=USER_MODEL from=$ALL_USERS}
 											{if $ID neq $CURRENTUSER_MODEL->get('id')}

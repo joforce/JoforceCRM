@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	var s = document.createElement("script");
 	s.type = "text/javascript";
-	s.src = "http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=en-AU";
+	s.src = "https://maps.google.com/maps/api/js?sensor=false&libraries=places&language=en-AU";
 
 	var module = app.getModuleName();
 	var record_view = app.getViewName();

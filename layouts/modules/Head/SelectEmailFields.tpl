@@ -71,7 +71,7 @@
                         <input type="hidden" name="relatedLoad" value={$RELATED_LOAD} />
                     {/if}
                 </div>
-                <div class="preferenceDiv" style="padding: 0px 0px 10px 35px;">
+                <div class="preferenceDiv" style="padding: 0px 14px 10px 35px;">
                     <label class="checkbox displayInlineBlock">
                         <input type="checkbox" name="saveRecipientPrefs" id="saveRecipientPrefs" {if $RECIPIENT_PREF_ENABLED}checked="true"{/if}/>&nbsp;&nbsp;&nbsp;
                         {vtranslate('LBL_REMEMBER_MY_PREF',$MODULE)}&nbsp;&nbsp;

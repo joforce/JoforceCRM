@@ -37,7 +37,7 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE}
                 <div class="modal-body detailShowAllModal">
                     <div class="form-group">
-                        <label class="col-lg-3 col-sm-12 col-md-4 control-label">
+                        <label class="col-lg-3 col-sm-12 col-md-4 col-form-label">
                             {vtranslate('LBL_CURRENT_TAGS',$MODULE)}
                         </label>
                         <div class="col-lg-9 col-sm-12 col-md-8 ">
@@ -57,32 +57,5 @@
 <div id="dummyTagElement" class="hide">
 {assign var=TAG_MODEL value=Head_Tag_Model::getCleanInstance()}
 {include file="Tag.tpl"|vtemplate_path:$MODULE}
-</div>
-<div>
-    <div  class="editTagContainer hide" >
-        <input type="hidden" name="id" value="" />
-        <div class="editTagContents">
-            <div>
-                <input type="text" name="tagName" value="Teee" style="width:100%" />
-            </div>
-            <div>
-                <div class="checkbox">
-                    <label>
-                        <input type="hidden" name="visibility" value="{Head_Tag_Model::PRIVATE_TYPE}"/>
-                        <input type="checkbox" name="visibility" value="{Head_Tag_Model::PUBLIC_TYPE}" />
-                        &nbsp; {vtranslate('LBL_SHARE_TAG',$MODULE)}
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div>
-            <button class="btn btn-mini btn-success saveTag" type="button" style="width:50%;float:left">
-                <center> <i class="fa fa-check"></i> </center>
-            </button>
-            <button class="btn btn-mini btn-danger cancelSaveTag" type="button" style="width:50%">
-                <center> <i class="fa fa-close"></i> </center>
-            </button>
-        </div>
-    </div>
 </div>
       

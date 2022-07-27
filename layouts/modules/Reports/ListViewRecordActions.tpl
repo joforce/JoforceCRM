@@ -50,7 +50,7 @@
                 <span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-ellipsis-h icon"></i></span>
                 <ul class="dropdown-menu">
-                    <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
+                    <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getEditViewUrl()}" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
                     <li><a data-id="{$LISTVIEW_ENTRY->getId()}" class="deleteRecordButton" href="javascript:void(0);">{vtranslate('LBL_DELETE', $MODULE)}</a></li>
                 </ul>
             </span>

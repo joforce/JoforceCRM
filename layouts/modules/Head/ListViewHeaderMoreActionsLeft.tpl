@@ -16,7 +16,7 @@
         <div class="btn-group listViewActionsContainer" role="group" aria-label="...">
             {if count($LISTVIEW_MASSACTIONS_1) gt 0 or $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
                 <div class="btn-group listViewMassActions dropdown" role="group">
-			        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" disabled="disabled">
+			        <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" disabled="disabled">
                     </button>
                     <ul class="dropdown-menu more-actions-left" role="menu">
                         {foreach item=LISTVIEW_MASSACTION from=$LISTVIEW_MASSACTIONS_1 name=advancedMassActions}

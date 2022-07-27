@@ -10,17 +10,13 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="detailViewContainer">
+<div class="detailViewContainer card">
     <div class="col-sm-12">
-	<div class=" detailview-header-block">
-	    <div class="detailview-header">
-		<div class="row">
+	<div class="row row-align-right">
 		    {include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE_NAME MODULE=$MODULE_NAME}
 		    {include file="DetailViewActions.tpl"|vtemplate_path:Head MODULE=$MODULE_NAME}
-                </div>
-            </div>
-	    {include file='DetailViewBlockView.tpl'|@vtemplate_path:Head RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	</div>
+	{include file='DetailViewBlockView.tpl'|@vtemplate_path:Head RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     </div>
 </div></div>
 {/strip}

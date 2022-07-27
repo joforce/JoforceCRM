@@ -17,13 +17,21 @@ class Google_Sync_View extends Google_List_View {
 		foreach ($modules as $sourceModule) {
 			$request->set('sourcemodule', $sourceModule);
 			$oauth2 = new Google_Oauth2_Connector($sourceModule);
-
-			if (Google_Utils_Helper::checkSyncEnabled($sourceModule) && $oauth2->hasStoredToken()) {
-				$syncRecords = $this->sync($request, $sourceModule);
-				$syncRecordList[$sourceModule] = $syncRecords;
+			$user = Users_Record_Model::getCurrentUserModel();
+			if($oauth2->hasStoredToken()) {
+				$controller = new Google_Contacts_Controller($user);
+				$connector = $controller->getTargetConnector();
+				$profileInfo = json_decode($connector->getUserProfileInfo(),true);
+			}
+			if($profileInfo['error']){
+				$syncRecordList = $profileInfo;
+			}else{
+				if (Google_Utils_Helper::checkSyncEnabled($sourceModule) && $oauth2->hasStoredToken()) {
+					$syncRecords = $this->sync($request, $sourceModule);
+					$syncRecordList[$sourceModule] = $syncRecords;
+				}
 			}
 		}
-
 		$response = new Head_Response();
 		$response->setResult($syncRecordList);
 		$response->emit();

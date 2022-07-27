@@ -8,6 +8,8 @@
     -webkit-border-radius: 0.25em;
 	font-family: Arial,Helvetica,Sans-serif;
 	font-size: 90%;
+	margin-left:300px;
+	margin-top:100px
 }
 .datepick-rtl {
 	direction: rtl;

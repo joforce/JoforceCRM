@@ -37,7 +37,7 @@ class HelpDesk_DetailView_Model extends Head_DetailView_Model {
 
 		$quotesModuleModel = Head_Module_Model::getInstance('Faq');
 		//TODO Fix Call to member function hasModuleActionPermission() on boolean - JoForce
-	//	if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'CreateView')) {
+	if($quotesModuleModel && $currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_CONVERT_FAQ',
@@ -45,7 +45,7 @@ class HelpDesk_DetailView_Model extends Head_DetailView_Model {
 				'linkicon' => ''
 			);
 			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
-	//	}
+		}
 
 		return $linkModelList;
 	}

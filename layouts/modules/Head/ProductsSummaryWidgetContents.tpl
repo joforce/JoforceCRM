@@ -29,10 +29,10 @@
         </span>
     </div>
     {foreach item=RELATED_RECORD from=$RELATED_RECORDS}
-        <div class="recentActivitiesContainer row">
+        <div class="recentActivitiesContainer ">
             <ul class="unstyled">
                 <li>
-                    <div class="">
+                    <div class="row">
                         <span class="col-lg-7 textOverflowEllipsis">
                             <a href="{$RELATED_RECORD->getDetailViewUrl()}" id="{$MODULE}_{$RELATED_MODULE}_Related_Record_{$RELATED_RECORD->get('id')}" title="{$RELATED_RECORD->getDisplayValue('productname')}">
                                 {$RELATED_RECORD->getDisplayValue('productname')}

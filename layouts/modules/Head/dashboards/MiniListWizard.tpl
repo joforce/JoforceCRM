@@ -17,11 +17,11 @@
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="action" value="MassSave" />
 
-				<table class="table no-border">
+				<table class="table- no-border- mt30 ">
 					<tbody>
 						<tr>
-							<td class="col-lg-1"></td>
-							<td class="fieldLabel col-lg-4"><label class="pull-right">{'LBL_SELECT_MODULE'|vtranslate}</label></td>
+							<td class=""></td>
+							<td class="fieldLabel col-lg-6"><label class="">{'LBL_SELECT_MODULE'|vtranslate}</label></td>
 							<td class="fieldValue col-lg-5">
 								<select name="module" style="width: 100%">
 									<option></option>
@@ -35,8 +35,8 @@
 							<td class="col-lg-4"></td>
 						</tr>
 						<tr>
-							<td class="col-lg-1"></td>
-							<td class="fieldLabel col-lg-4"><label class="pull-right">{'LBL_FILTER'|vtranslate}</label></td>
+							<td class=""></td>
+							<td class="fieldLabel col-lg-6"><label class="">{'LBL_FILTER'|vtranslate}</label></td>
 							<td class="fieldValue col-lg-5">
 								<select name="filterid" style="width: 100%">
 									<option></option>
@@ -45,8 +45,8 @@
 							<td class="col-lg-4"></td>
 						</tr>
 						<tr>
-							<td class="col-lg-1"></td>
-							<td class="fieldLabel col-lg-4"><label class="pull-right">{'LBL_EDIT_FIELDS'|vtranslate}</label></td>
+							<td class=""></td>
+							<td class="fieldLabel col-lg-6"><label class="">{'LBL_EDIT_FIELDS'|vtranslate}</label></td>
 							<td class="fieldValue col-lg-5">
 								<select name="fields" size="2" multiple="true" style="width: 100%">
 									<option></option>

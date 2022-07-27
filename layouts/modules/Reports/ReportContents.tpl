@@ -10,7 +10,7 @@
     <div class="contents-topscroll">
         <div class="topscroll-div">
             {if !empty($CALCULATION_FIELDS)}
-                <table class=" table-bordered table-condensed marginBottom10px" width="100%">
+                <table class=" table-bordered table-sm marginBottom10px" width="100%">
                     <thead>
                         <tr class="blockHeader">
                             <th>{vtranslate('LBL_FIELD_NAMES',$MODULE)}</th>

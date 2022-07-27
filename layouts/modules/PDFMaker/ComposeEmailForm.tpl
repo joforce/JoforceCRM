@@ -34,8 +34,8 @@
                     <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
                     <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
                     
-                    <div class="row toEmailField">
-                        <div class="col-lg-12">
+                    <div class="row toEmailField ">
+                        <div class="col-lg-12 d-flex">
                             <div class="col-lg-1">
                                 <span class="">{vtranslate('LBL_TO',$MODULE)}&nbsp;<span class="redColor">*</span></span>
                             </div>
@@ -115,18 +115,7 @@
                                 <span class="">{vtranslate('LBL_ATTACHMENT',$MODULE)}</span>
                             </div>
                             <div class="col-lg-9 pr0">
-                                <div class="row">
-                                    <div class="col-lg-12 browse pl0 pr0">
-                                        <input type="file" {if $FILE_ATTACHED}class="removeNoFileChosen"{/if} id="multiFile" name="file[]" style="width: 200px;" />&nbsp;
-                                    
-                                    <span class="brownseInCrm mt20">
-                                        <button type="button" class="btn btn-small btn-secondary" id="browseCrm" data-url="{$DOCUMENTS_URL}" title="{vtranslate('LBL_BROWSE_CRM',$MODULE)}">{vtranslate('LBL_BROWSE_CRM',$MODULE)}</button>
-                                    </span>
-                                    <span class="insertTemplate mt20">
-                                        <button id="selectEmailTemplate" class="btn btn-primary pull-right" data-url="module=EmailTemplates&view=Popup">{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}</button>
-                                    </span>
-                                    </div>
-                                </div>
+                                
                                 <div id="attachments">
                                     {foreach item=ATTACHMENT from=$ATTACHMENTS}
                                         {if ('docid'|array_key_exists:$ATTACHMENT)}
@@ -150,14 +139,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                                    <div class="col-lg-12 browse brouser pl0 pr0">
+                                        <input type="file" {if $FILE_ATTACHED}class="removeNoFileChosen"{/if} id="multiFile" name="file[]" style="width: 200px;" />&nbsp;
+                                    
+                                    <span class="brownseInCrm mt20">
+                                        <button type="button" class="btn btn-small btn-secondary" id="browseCrm" data-url="{$DOCUMENTS_URL}" title="{vtranslate('LBL_BROWSE_CRM',$MODULE)}">{vtranslate('LBL_BROWSE_CRM',$MODULE)}</button>
+                                    </span>
+                                    <span class="insertTemplate mt20">
+                                        <button id="selectEmailTemplate" class="btn btn-primary pull-right" data-url="module=EmailTemplates&view=Popup">{vtranslate('LBL_SELECT_EMAIL_TEMPLATE',$MODULE)}</button>
+                                    </span>
+                                    </div>
+                                </div>
                     </div>
  
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="col-lg-2">
+                            <div class="">
                                 <span class="pull-right">{vtranslate('LBL_INCLUDE_SIGNATURE',$MODULE)}</span>
                             </div>
-                            <div class="item col-lg-9">
+                            <div class="carousel-item col-lg-9">
                                 <input class="" type="checkbox" name="signature" value="Yes" checked="checked" id="signature">
                             </div>
                         </div>
@@ -186,7 +187,7 @@
                 <div class="modal-footer">
                     <button id="sendEmail" name="sendemail" class="btn btn-primary" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}" type="submit"><strong>{vtranslate("LBL_SEND_EMAIL",$MODULE)}</strong></button>
                     <button id="saveDraft" name="savedraft" class="btn btn-danger" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}" type="submit"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
-                    <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                    <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </div>
             </form>
         </div>

@@ -13,9 +13,6 @@
 <div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
 	{include file="modules/Head/dashboards/ModuleHeader.tpl"}
-	 <div class="pull-right">
-                {include file="modules/Head/dashboards/DashBoardHeader.tpl"}
-        </div>
     </div>
 </div>
 </nav>
@@ -25,8 +22,8 @@
         <div class="modal-dialog">
         </div>
     </div>
-    <div class="main-container main-container-{$MODULE}">
-        <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if}">
+        <div class="main-container main-container-{$MODULE} {if $MODULE eq 'Home'} ms_margin_top_dashboard {/if}">
+        <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} shrinked-sidebar {/if} {if in_array($MODULE,array('Home'))}Home_side_menu{/if}">
             {include file="partials/SidebarAppMenu.tpl"|vtemplate_path:$MODULE}
         </div>
         <div class="quick-panel"></div>

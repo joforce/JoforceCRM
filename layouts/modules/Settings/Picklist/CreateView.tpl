@@ -25,15 +25,15 @@
                 {assign var=HEADER_TITLE value={vtranslate('LBL_ADD_ITEM_TO', $QUALIFIED_MODULE)}|cat:" "|cat:{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}}
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <div class="modal-body">
-                    <div class="form-group">
-                        <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
-                        <div class="controls col-sm-3 col-xs-3"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
+                <div class="form-group row">
+                        <div class="col-form-label col-sm-4 col-xs-6 pull-left">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
+                        <div class="controls col-sm-6 col-xs-6"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
                     </div>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-                        <div class="form-group">	
-                            <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
-                            <div class="controls col-sm-3 col-xs-3">
-                                <select class="rolesList form-control" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+                        <div class="form-group row">	
+                            <div class="col-form-label col-sm-4 col-xs-6 pull-left">{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
+                            <div class="controls col-sm-6 col-xs-6">
+                                <select class="rolesList form-control" name="rolesSelected[]" multiple  data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
                                     <option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
                                     {foreach from=$ROLES_LIST item=ROLE}
                                         <option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')}</option>
@@ -42,9 +42,9 @@
                             </div>
                         </div>
                     {/if}
-                    <div class="form-group">
-                        <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-3 col-xs-3">
+                    <div class="form-group row">
+                        <div class="col-form-label col-sm-4  col-xs-6 pull-left">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-6 col-xs-6">
                             <input type="hidden" name="selectedColor" />
                             <div class="colorPicker">
                             </div>

@@ -259,10 +259,8 @@ class Activity extends CRMEntity {
 	  * @param $module -- module:: Type varchar
 	 */
 	function insertIntoReminderTable($table_name,$module,$recurid)
-	{ //print_r($module);
+	{ 
 		
-		//print_r($table_name); 
-		//die("f");
 		global $log;
 		$log->info("in insertIntoReminderTable  ".$table_name."    module is  ".$module);
 		if($_REQUEST['set_reminder'] == 'Yes')

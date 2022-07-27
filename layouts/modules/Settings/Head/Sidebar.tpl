@@ -11,9 +11,9 @@
     {if $USER_MODEL->isAdminUser()}
 	{assign var=SETTINGS_MODULE_MODEL value= Settings_Head_Module_Model::getInstance()}
 	{assign var=SETTINGS_MENUS value=$SETTINGS_MODULE_MODEL->getMenus()}
-	<div class="settingsgroup">
+	<div class="settingsgroup {if in_array($MODULE,array('Workflows','Groups','Webforms','Webhooks','MailConverter','Currency','PickListDependency','Users'))} {if $smarty.request.view eq 'Edit'} {if $MODULE neq 'MailConverter'} setting_grp_search {/if} {/if} {else} setting_grp_search  {/if}">
 	    <div>
-		<input type="text" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}" class="search-list col-lg-8" id='settingsMenuSearch'>
+		<input type="text" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}" class="search-list col-lg-12" id='settingsMenuSearch'>
 	    </div>
 	    <div class="panel-group hide" id="accordion" role="tablist" aria-multiselectable="true">
 		{foreach item=BLOCK_MENUS from=$SETTINGS_MENUS}
@@ -21,12 +21,13 @@
 		    {assign var=BLOCK_MENU_ITEMS value=$BLOCK_MENUS->getMenuItems()}
 		    {assign var=NUM_OF_MENU_ITEMS value= $BLOCK_MENU_ITEMS|@sizeof}
 		    {if $NUM_OF_MENU_ITEMS gt 0}
-			<div class="settingsgroup-panel panel panel-default instaSearch">
+			<div class="settingsgroup-panel col-lg-12 p0 panel panel-default instaSearch">
 			    <div id="{$BLOCK_NAME}_accordion" class="app-nav" role="tab">
 				<div class="app-settings-accordion">
 				    <div class="settingsgroup-accordion">
 					<a data-toggle="collapse" data-parent="#accordion" class='collapsed' href="#{$BLOCK_NAME}">
-					    <i class="indicator fa{if $ACTIVE_BLOCK['block'] eq $BLOCK_NAME} fa-chevron-down {else} fa-chevron-right {/if}"></i>&nbsp;<span>{vtranslate($BLOCK_NAME,$QUALIFIED_MODULE)}</span>
+					    <span>{vtranslate($BLOCK_NAME,$QUALIFIED_MODULE)}</span>
+					    <i class="indicator fa{if $ACTIVE_BLOCK['block'] eq $BLOCK_NAME} fa-chevron-down {else} fa-chevron-right {/if}"></i>&nbsp;
 					</a>
 				    </div>
 				</div>
@@ -55,13 +56,9 @@
 					    {assign var=MENU_URL value=$USER_MODEL->getPicklistDependencyViewUrl()}
 					{/if}
 					<li>
-					    <a data-name="{$MENU}" href="{$MENU_URL}" class="menuItemLabel {if $ACTIVE_BLOCK['menu'] eq $MENU} settingsgroup-menu-color {/if}">{vtranslate($MENU_LABEL,$QUALIFIED_MODULE)}
-						<img id="{$MENUITEM->getId()}_menuItem" data-id="{$MENUITEM->getId()}" class="pinUnpinShortCut cursorPointer pull-right" data-actionurl="{$MENUITEM->getPinUnpinActionUrl()}" data-pintitle="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}"	 data-unpintitle="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" data-pinimageurl="{$SITEURL}{{vimage_path('pin.png')}}" data-unpinimageurl="{$SITEURL}{{vimage_path('unpin.png')}}" 
-							{if $MENUITEM->isPinned()} 
-							    title="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" src="{$SITEURL}{vimage_path('unpin.png')}" data-action="unpin"
-							{else}
-							    title="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}" src="{$SITEURL}{vimage_path('pin.png')}" data-action="pin" 
-							{/if} />
+					    <a data-name="{$MENU}" href="{$MENU_URL}" class="menuItemLabel {if $ACTIVE_BLOCK['menu'] eq $MENU} settingsgroup-menu-color {/if}">
+						<i class="{$MENUITEM->get('iconpath')}"></i>
+						{vtranslate($MENU_LABEL,$QUALIFIED_MODULE)}
 					    </a>
 					</li>
 				    {/foreach}

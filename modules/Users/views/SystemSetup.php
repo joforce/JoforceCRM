@@ -31,7 +31,7 @@ class Users_SystemSetup_View extends Head_Index_View {
 		$viewer->assign('PACKAGES_LIST', Users_CRMSetup::getPackagesList());
 		$viewer->view('SystemSetup.tpl', $moduleName);
 	    } else {
-		header ('Location: index.php?module=Users&parent=Settings&view=UserSetup');
+		header ('Location: index.php');
 		exit();
 	    }
 	}

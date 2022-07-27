@@ -10,6 +10,6 @@
 -->*}
 
 {strip}
-    <div class="listViewPageDiv" id="listViewContent">
+    <div class="listViewPageDiv  p0" id="listViewContent">
         
 {/strip}

@@ -28,6 +28,11 @@
     {if count($FIELD_INFO['validator'])}
         data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
     {/if}  data-rule-date="true" />
-<span class="input-group-addon date-icon"><i class="fa fa-calendar "></i></span>
+     {assign var=map_array value=array('Quotes')}
+					    {if $MODULE_NAME|in_array:$map_array}
+<span class="{if in_array($MODULE,array('Quotes','Calendar'))} input-group-addon new-icon-data {else}input-group-addon  new-date {/if}"><i class="fa fa-calendar "></i></span>
+{else}
+<span class="{if in_array($MODULE, array('Contacts','Products'))}input-group-addon date-icon {elseif in_array($MODULE,array('Potentials','Campaigns','SalesOrder','PurchaseOrder','Calendar','Services','Invoice','Events'))} input-group-addon new-icon-data ram {else} input-group-addon new-date{/if}"><i class="fa fa-calendar "></i></span>
+{/if}
 </div>
 {/strip}

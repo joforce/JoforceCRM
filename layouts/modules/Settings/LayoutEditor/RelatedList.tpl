@@ -28,7 +28,7 @@
 							</div>
 							<div style="list-style: none;">
 								{if count($RELATION_FIELDS) eq 0}
-									<div class="well" style="height:72px;opacity:0.6;text-align:center;padding-top: 30px;"> 
+									<div class="card card-body" style="height:72px;opacity:0.6;text-align:center;padding-top: 30px;"> 
 										<div>{vtranslate('LBL_NO_RELATION_TYPE',$QUALIFIED_MODULE)}.</div>
 									</div>
 								{/if}
@@ -70,7 +70,7 @@
 							</div>
 							<div class="row">
 								{if count($RELATED_MODULES) eq 0}
-									<div class="well" style="height:72px;opacity:0.6;text-align:center;padding-top: 30px;"> 
+									<div class="card card-body" style="height:72px;opacity:0.6;text-align:center;padding-top: 30px;"> 
 										<div> {vtranslate('LBL_NO_RELATION_TYPE',$QUALIFIED_MODULE)}.</div>
 									</div>
 								{else}
@@ -123,7 +123,7 @@
 											</div>
 										</div>
 										<div class="relationListInfoWrapper">
-											<div class="col-sm-10 relationListInfo" style="margin-left: 40px;">
+											<div class="col-sm-11 relationListInfo" style="margin-left: 40px;">
 												{if count($RELATED_MODULES) neq 0}
 													<div style="margin: 5px 0px;">
 														<div class="relatedListInfoHeader"><i class="fa fa-info-circle"></i>&nbsp;{vtranslate('LBL_INFO', $QUALIFIED_MODULE)}</div><br>

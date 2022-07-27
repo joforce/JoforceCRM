@@ -188,6 +188,7 @@ $languageStrings = array(
 	'LBL_NEW_PASSWORD' => 'New Password',
 	'LBL_CONFIRM_PASSWORD' => 'Confirm Password',
 	'LBL_CHANGE_ACCESS_KEY' => 'Change Access Key',
+	'LBL_USER_ACTIVITIES' => 'User Activities',
 	'LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY' => 'Access key updated successfully',
 	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Failed to update access key',
 	'LBL_TRANSFER_OWNERSHIP' => 'Transfer Owner',

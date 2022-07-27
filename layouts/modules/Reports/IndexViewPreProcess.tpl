@@ -23,7 +23,7 @@
         </div>
 		<div class="quick-panel"></div>
 	<div>
-            <div class="editViewPageDiv viewContent content-area {if $LEFTPANELHIDE eq '1'} full-width {/if} {if $VIEW eq 'Edit'} mt30{/if}">
+            <div class="editViewPageDiv viewContent content-area {if $LEFTPANELHIDE eq '1'} full-width {/if} {if $VIEW eq 'Edit'} {/if}">
             	<div class="reports-content-area">
 
 		    {if $REPORT_TYPE eq 'ChartEdit'}

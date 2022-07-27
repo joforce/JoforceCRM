@@ -302,7 +302,6 @@ class Settings_DuplicateCheck_Module_Model extends Head_Module_Model {
     public static function getInstanceByFieldToMatch($sourceModule){
       $sourceModule = Settings_DuplicateCheck_Field_Model::getInstanceByFieldToMatch($sourceModule);
       return $sourceModule;
-      //print_r($sourceModule);
     }
 
     public static function getInstanceByName($moduleName) {

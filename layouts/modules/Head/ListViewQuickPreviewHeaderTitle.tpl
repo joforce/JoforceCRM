@@ -14,7 +14,7 @@
                         {if !$MODULE}
                                 {assign var=MODULE value=$MODULE_NAME}
                         {/if}
-                        <div class="hidden-sm hidden-xs quickviewimage bg_{$MODULE} app-{$SELECTED_MENU_CATEGORY}" id="quick-view-module-image">
+                        <div class="quickviewimage bg_{$MODULE}" id="quick-view-module-image">
                                 <div class="name">
                                         <span><strong><i class="joicon-{strtolower($MODULE)}"></i></strong></span>
                                 </div>

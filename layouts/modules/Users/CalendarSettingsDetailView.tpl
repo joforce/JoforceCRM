@@ -19,10 +19,10 @@
                 {assign var=IS_HIDDEN value=$BLOCK->isHidden()}
                 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                 <input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
-                <div class="row">
-                    <h4 class="col-xs-8">{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
-                    <div class="col-xs-4 marginTop5px">
-                        <div class=" pull-right detailViewButtoncontainer">
+                <div class="row Calendartop" style="margin:0px 0px">
+                    <h4 class="col-lg-4 col-md-4 col-sm-4 col-8">{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+                    <div class="col-lg-8 col-md-8 col-sm-4 marginTop5px col-4">
+                        <div class=" pull-right detailViewButtoncontainer ms_calendar_setting_page">
                             <div class="btn-group  pull-right">
                                 <a class="btn btn-default" href="{$RECORD->getCalendarSettingsEditViewUrl()}">Edit</a>
                             </div>  
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="blockData row">
+                <div class="blockData row ml10 mr10">
                     <table class="table detailview-table no-border">
                         <tbody>
                             {assign var=COUNTER value=0}
@@ -51,7 +51,7 @@
                                             <td class="fieldLabel {$WIDTHTYPE}">
                                                 <span class='muted'>{vtranslate($tax.taxlabel, $MODULE)}(%)</span>
                                             </td>
-                                            <td class="fieldValue {$WIDTHTYPE}">
+                                            <td class="fieldValue {$WIDTHTYPE} ml20 mb20">
                                                 <span class="value textOverflowEllipsis" data-field-type="{$FIELD_MODEL->getFieldDataType()}" >
                                                     {if $tax.check_value eq 1}
                                                         {$tax.percentage}
@@ -69,7 +69,7 @@
                                             {/if}
                                         {/if}
                                         <td class="fieldLabel {$WIDTHTYPE}"><span class="muted">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</span></td>
-                                        <td class="fieldValue {$WIDTHTYPE}">
+                                        <td class="fieldValue {$WIDTHTYPE} ml20 mb20" >
                                             <div id="imageContainer" width="300" height="200">
                                                 {foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
                                                     {if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -104,7 +104,7 @@
                                                 {/if}
                                             </span>
                                         </td>
-                                        <td class="fieldValue {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $fieldDataType eq 'reminder' or $fieldDataType eq 'recurrence'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+                                        <td class="fieldValue {$WIDTHTYPE} ml20 mb20" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $fieldDataType eq 'reminder' or $fieldDataType eq 'recurrence'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 
                                             {assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
                                             {if $fieldDataType eq 'multipicklist'}

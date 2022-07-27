@@ -4311,7 +4311,7 @@ class ReportRun extends CRMEntity {
 					continue;
 				}
 				$worksheet->setCellValueByColumnAndRow($count, $rowcount, decode_html($key), true);
-				$worksheet->getStyle($count.':'.$rowcount)->applyFromArray($header_styles);
+				//$worksheet->getStyle($count.':'.$rowcount)->applyFromArray($header_styles);
 
 				// NOTE Performance overhead: http://stackoverflow.com/questions/9965476/phpexcel-column-size-issues
 				$worksheet->getColumnDimension($count)->setAutoSize(true);

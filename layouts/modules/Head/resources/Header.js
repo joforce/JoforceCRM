@@ -47,7 +47,7 @@ $(document).ready(function(){
 
                 $('.dropdown-filter .btn-filter').click(function(){
                     $('.filter-open').toggle();
-                    $('.filter-open').modal();
+                    /*$('.filter-open').modal();*/
                 });
 
                 $('.global-nav').on('click',function(){

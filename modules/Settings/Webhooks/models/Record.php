@@ -213,10 +213,7 @@ class Settings_Webhooks_Record_Model extends Settings_Head_Record_Model {
                         $params = array($this->get('description'), $this->get('url'), $this->get('ownerid'), $this->get('enabled'), $this->get('targetmodule'),  $events, $selectedFieldsData, $this->getId());
                         $db->pquery($updateQuery, $params);
                 } else {
-                        $insertQuery = "INSERT INTO jo_webhooks(name, targetmodule, enabled, description, ownerid, url, events, fields) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-                        $params = array($this->getName(), $this->get('targetmodule'), $this->get('enabled'),  $this->get('description'), $this->get('ownerid'), $this->get('url'), $events, $selectedFieldsData);
-
-                        $db->pquery($insertQuery, $params);
+						$db->query("INSERT INTO jo_webhooks(name, targetmodule, enabled, description, ownerid, url, events, fields) VALUES('". $this->getName() . "', '" . $this->get('targetmodule') . "','" . $this->get('enabled') . "','" . $this->get('description') . "','" . $this->get('ownerid') . "','" . $this->get('url') . "','$events','$selectedFieldsData')");
                         $this->set('id', $db->getLastInsertID());
                 }
 	}

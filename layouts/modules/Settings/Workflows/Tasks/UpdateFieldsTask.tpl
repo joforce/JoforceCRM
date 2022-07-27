@@ -11,22 +11,27 @@
 -->*}
 {strip}
 	<div class="row">
-		<div class="col-sm-2 col-xs-2"><strong>{vtranslate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
-	</div><br>
-	<div>
+	<div class="col-sm-1 col-xs-1"></div>
+		<div class="col-sm-4 col-xs-4"><strong>{vtranslate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
+		<div class="col-sm-4 col-xs-4">
 		<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+	</div>
 	</div><br>
+	<br>
+	
 	<div class="conditionsContainer" id="save_fieldvaluemapping">
+	<div class="row">
+	
 		{assign var=FIELD_VALUE_MAPPING value=ZEND_JSON::decode($TASK_OBJECT->field_value_mapping)}
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{Head_Util_Helper::toSafeHTML($TASK_OBJECT->field_value_mapping)}' />
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
             <div class="row conditionRow" style="margin-bottom: 15px;">
-                <div class="cursorPointer col-sm-1 col-xs-1">
+                <div class="cursorPointer col-sm-1 col-xs-1 col-1">
                     <center> <i class="alignMiddle deleteCondition fa fa-trash" style="position: relative; top: 4px;"></i> </center>
 				</div>
                 
-				<div class="col-sm-3 col-xs-3">
-					<select name="fieldname" class="select2" style="min-width: 250px" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+				<div class="col-sm-3 col-xs-3 col-11">
+					<select name="fieldname" class="select2"  data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 						<option></option>
                         {foreach from=$RECORD_STRUCTURE  item=FIELDS}
                             {foreach from=$FIELDS item=FIELD_MODEL}
@@ -49,7 +54,7 @@
 					</select>
 				</div>
                     
-				<div class="fieldUiHolder col-sm-4 col-xs-4">
+				<div class="fieldUiHolder col-sm-4 col-xs-4 col-12">
 					<input type="text" class="getPopupUi inputElement" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</div>
@@ -58,11 +63,12 @@
 		{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 		</div><br>
         <div class="row basicAddFieldContainer hide" style="margin-bottom: 15px;">
-            <div class="cursorPointer col-sm-1 col-xs-1">
+		<div class="col-sm-1 col-xs-1"></div>
+            <div class="cursorPointer col-sm-1 col-xs-1 col-1">
                 <center> <i class="alignMiddle deleteCondition fa fa-trash" style="position: relative; top: 4px;"></i> </center>
 			</div>
-			<div class="col-sm-3 col-xs-3">
-				<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" style="min-width: 250px">
+			<div class="col-sm-3 col-xs-3 col-11">
+				<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" >
 					<option></option>
                      {foreach from=$RECORD_STRUCTURE  item=FIELDS}
                         {foreach from=$FIELDS item=FIELD_MODEL}
@@ -84,9 +90,10 @@
                     {/foreach}
 				</select>
 			</div>
-			<div class="fieldUiHolder col-sm-4 col-xs-4">
+			<div class="fieldUiHolder col-sm-4 col-xs-4 col-12">
 				<input type="text" class="inputElement" readonly="" name="fieldValue" value="" />
 				<input type="hidden" name="valuetype" value="rawtext" />
 			</div>
 		</div>
+		</div>	
 		{/strip}

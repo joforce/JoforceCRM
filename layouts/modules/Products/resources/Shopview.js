@@ -183,7 +183,7 @@ registerEventForImageGraphics: function() {
                 hideControlOnEnd: true
             });
             jQuery('.extensionWidgetContainer img').css({"width": "400px", "height": "300px"});
-            jQuery('.extensionWidgetContainer .bx-wrapper').css({"max-width": "350px", "height": "350px"});
+            jQuery('.extensionWidgetContainer .bx-wrapper').css({"max-width": "350px", "height": "302px"});
             jQuery('.extensionWidgetContainer .bx-next').css({"font-size": "20px", "color": "gray"});
             jQuery('.extensionWidgetContainer .bx-next').addClass("fa fa-arrow-right");
             jQuery('.extensionWidgetContainer .bx-prev').css({"font-size": "20px", "color": "gray"});

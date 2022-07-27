@@ -11,7 +11,7 @@
 Head_List_Js("Head_FindDuplicates_Js",{
     
     massDeleteRecords : function(url) {
-		var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
         var fields = jQuery('#duplicateSearchFields').val();
         var ignoreEmpty = jQuery('#ignoreEmpty').val();
         url += '&mode=FindDuplicates&fields=' + fields + '&ignoreEmpty=' + ignoreEmpty;

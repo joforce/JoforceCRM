@@ -10,30 +10,39 @@
 
 Head.Class('Documents_Index_Js', {
 
-	fileObj : false,
-	referenceCreateMode : false,
-	referenceFieldName : '',
+	fileObj: false,
+	referenceCreateMode: false,
+	referenceFieldName: '',
 
-	getInstance : function() {
+	getInstance: function () {
 		return new Documents_Index_Js();
 	},
 
-	uploadTo : function(service,parentId,relatedModule,referenceFieldName) {
+	uploadTo: function (service, parentId, relatedModule, referenceFieldName, widget = true) {
 		var instance = Documents_Index_Js.getInstance();
 		instance.detectReferenceCreateMode(referenceFieldName);
-		instance.uploadTo(service,parentId,relatedModule);
+		instance.uploadTo(service, parentId, relatedModule, widget);
 	},
 
-	createDocument : function(type,parentId,relatedModule,referenceFieldName) {
+	createDocument: function (type, parentId, relatedModule, referenceFieldName, widget = true) {
 		var instance = Documents_Index_Js.getInstance();
 		instance.detectReferenceCreateMode(referenceFieldName);
-		instance.createDocument(type,parentId,relatedModule);
+		instance.createDocument(type, parentId, relatedModule, widget);
+	},
+
+	droppedFileSet: function (file) {
+		var instance = Documents_Index_Js.getInstance();
+		instance.setFile(file);
+		var vtigerInstance = Head_Index_Js.getInstance();
+		var container1 = jQuery('[name="docUpload"]').parent();
+		instance.registerUploadDocumentEvents(container1);
+		instance.uploadFileToHead(container1);
 	},
 
 }, {
 
-	detectReferenceCreateMode : function(referenceFieldName) {
-		if(typeof referenceFieldName !== 'undefined') {
+	detectReferenceCreateMode: function (referenceFieldName) {
+		if (typeof referenceFieldName !== 'undefined') {
 			Documents_Index_Js.referenceCreateMode = true;
 			Documents_Index_Js.referenceFieldName = referenceFieldName;
 		} else {
@@ -42,27 +51,27 @@ Head.Class('Documents_Index_Js', {
 		}
 	},
 
-	getFile : function() {
+	getFile: function () {
 		return Documents_Index_Js.fileObj;
 	},
 
-	setFile : function(file) {
+	setFile: function (file) {
 		Documents_Index_Js.fileObj = file;
 	},
 
-	isRelatedList : function() {
+	isRelatedList: function () {
 		var relatedModuleNameContainer = jQuery('.relatedContainer').find('.relatedModuleName');
 		return relatedModuleNameContainer.length && relatedModuleNameContainer.val() === 'Documents';
 	},
 
-	reloadListView : function() {
+	reloadListView: function () {
 		var activeFolderEle = jQuery("#folders-list").find('li.documentFolder.active');
 		var params = {};
-		if(activeFolderEle.length) {
+		if (activeFolderEle.length) {
 			var activeFolderName = activeFolderEle.find('.filterName').data('folderName');
-			params ={
-				"folder_id" : 'folderid',
-				"folder_value" : activeFolderName
+			params = {
+				"folder_id": 'folderid',
+				"folder_value": activeFolderName
 			};
 		}
 
@@ -70,7 +79,7 @@ Head.Class('Documents_Index_Js', {
 		list.loadListViewRecords(params);
 	},
 
-	reloadRelatedListView : function() {
+	reloadRelatedListView: function () {
 		var parentId = jQuery('#recordId').val();
 		var parentModule = app.getModuleName();
 		var relatedModuleName = jQuery('.relatedModuleName').val();
@@ -79,38 +88,38 @@ Head.Class('Documents_Index_Js', {
 		relatedList.loadRelatedList();
 	},
 
-	isDocumentsSummaryWidgetAvailable : function() {
+	isDocumentsSummaryWidgetAvailable: function () {
 		return jQuery('.widgetContainer_documents').length;
 	},
 
-	reloadSummaryWidget : function() {
+	reloadSummaryWidget: function () {
 		var detailInstance = Head_Detail_Js.getInstance();
 		detailInstance.loadWidget(jQuery('.widgetContainer_documents'));
 	},
 
-	reloadList : function() {
-		if(app.getModuleName() === 'Documents' && app.view() === 'List') {
+	reloadList: function () {
+		if (app.getModuleName() === 'Documents' && app.view() === 'List') {
 			this.reloadListView();
-		} else if(this.isRelatedList()) {
+		} else if (this.isRelatedList()) {
 			this.reloadRelatedListView();
-		} else if(this.isDocumentsSummaryWidgetAvailable()) {
+		} else if (this.isDocumentsSummaryWidgetAvailable()) {
 			this.reloadSummaryWidget();
 		}
 	},
 
-	_upload : function(form,extraData) {
+	_upload: function (form, extraData) {
 		var aDeferred = jQuery.Deferred();
 		var formData = new FormData(form[0]);
 		var file = this.getFile();
-		if(file) {
-			if(typeof extraData === 'object') {
-				jQuery.each(extraData, function(name,value) {
-					formData.append(name,value);
+		if (file) {
+			if (typeof extraData === 'object') {
+				jQuery.each(extraData, function (name, value) {
+					formData.append(name, value);
 				});
 			}
 			//append file
 			var fileName = form.find('input[type="file"]').attr('name');
-			formData.append(fileName,file);
+			formData.append(fileName, file);
 
 			var params = {
 				url: "index.php",
@@ -120,9 +129,9 @@ Head.Class('Documents_Index_Js', {
 				contentType: false
 			};
 			app.helper.showProgress();
-			app.request.post(params).then(function(e,res) {
+			app.request.post(params).then(function (e, res) {
 				app.helper.hideProgress();
-				if(!e) {
+				if (!e) {
 					aDeferred.resolve(res);
 				} else {
 					aDeferred.reject(e);
@@ -134,44 +143,49 @@ Head.Class('Documents_Index_Js', {
 		return aDeferred.promise();
 	},
 
-	uploadFileToHead : function(container) {
+	uploadFileToHead: function (container) {
 		var self = this;
 		var file = this.getFile();
-		if(!file) {
+		if (!file) {
 			app.helper.showErrorNotification({
-				'message' : app.vtranslate('JS_PLEASE_SELECT_A_FILE')
+				'message': app.vtranslate('JS_PLEASE_SELECT_A_FILE')
 			});
 			return;
 		}
 		var extraData = {
-			'filelocationtype' : 'I'
+			'filelocationtype': 'I'
 		};
-		if(file) {
+		if (file) {
 			extraData['notes_title'] = container.find('form').find('[name="notes_title"]').val();
 		}
 
-		this._upload(container.find('form'),extraData).then(function(data) {
+		this._upload(container.find('form'), extraData).then(function (data) {
 			app.helper.showSuccessNotification({
-				'message' : app.vtranslate('JS_UPLOAD_SUCCESSFUL')
+				'message': app.vtranslate('JS_UPLOAD_SUCCESSFUL')
 			});
 			app.helper.hideModal();
 			self.reloadList();
 			var form = container.find('form');
 			var folderid = form.find('[name="folderid"]').val();
-			app.event.trigger('post.documents.save', {'folderid' : folderid});
+			app.event.trigger('post.documents.save', {
+				'folderid': folderid
+			});
 
 			//reference create handling
-			if(Documents_Index_Js.referenceCreateMode === true && Documents_Index_Js.referenceFieldName !== '') {
+			if (Documents_Index_Js.referenceCreateMode === true && Documents_Index_Js.referenceFieldName !== '') {
 				self.postQuickCreateSave(data);
 			}
-		}, function(e) {
-			app.helper.showErrorNotification({'message' : app.vtranslate('JS_UPLOAD_FAILED')});
+			closeModal();
+		}, function (e) {
+			app.helper.showErrorNotification({
+				'message': app.vtranslate('JS_UPLOAD_FAILED')
+			});
 		});
 	},
 
 	postQuickCreateSave: function (data) {
 		var vtigerInstance = Head_Index_Js.getInstance();
-		var container = vtigerInstance.getParentElement(jQuery('[name="'+Documents_Index_Js.referenceFieldName+'"]'));
+		var container = vtigerInstance.getParentElement(jQuery('[name="' + Documents_Index_Js.referenceFieldName + '"]'));
 		var module = vtigerInstance.getReferencedModuleName(container);
 		var params = {};
 		params.name = data._recordLabel;
@@ -187,47 +201,49 @@ Head.Class('Documents_Index_Js', {
 		if (parentModule != "Events") {
 			vtigerInstance.postRefrenceSearch(params, container);
 		}
-		tdElement.find('input[class="sourceField"]').trigger(Head_Edit_Js.postReferenceQuickCreateSave, {'data': data});
+		tdElement.find('input[class="sourceField"]').trigger(Head_Edit_Js.postReferenceQuickCreateSave, {
+			'data': data
+		});
 	},
 
-	showFileDetails : function(container) {
+	showFileDetails: function (container) {
 		var fileObj = this.getFile();
-		if(fileObj) {
+		if (fileObj) {
 			var fileName = fileObj.name;
 			var fileSize = fileObj.size;
 			fileSize = vtUtils.convertFileSizeInToDisplayFormat(fileSize);
 			container.find('.fileDetails').text(fileName + ' (' + fileSize + ')');
 			var fileParts = fileName.split('.');
 			var fileType = fileParts[fileParts.length - 1];
-			container.find('[name="notes_title"]').val(fileName.replace('.'+fileType, ''));
+			container.find('[name="notes_title"]').val(fileName.replace('.' + fileType, ''));
 		}
 	},
 
-	registerFileDragDropEvent : function(container) {
+	registerFileDragDropEvent: function (container) {
 		var self = this;
 		var dragDropElement = container.find("#dragandrophandler");
-		dragDropElement.on('dragenter', function(e) {
+		dragDropElement.on('dragenter', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
 			jQuery(this).addClass('dragdrop-solid');
-		}).on('dragover', function(e) {
+		}).on('dragover', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
 		});
 
-		jQuery(document).on('dragenter', function(e) {
+		jQuery(document).on('dragenter', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
-		}).on('dragover', function(e) {
+		}).on('dragover', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
 			dragDropElement.removeClass('dragdrop-solid');
-		}).on('drop', function(e) {
+		}).on('drop', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
 		});
 
-		dragDropElement.on('drop', function(e) {
+		dragDropElement.on('drop', function (e) {
 			e.preventDefault();
 
 			jQuery(this).removeClass('dragdrop-solid');
@@ -235,96 +251,98 @@ Head.Class('Documents_Index_Js', {
 
 			var fileObj = e.originalEvent.dataTransfer.files;
 			var file = fileObj[0];
-			if(self.fileSizeCheck(container, file)) {
+			if (self.fileSizeCheck(container, file)) {
 				self.setFile(file);
 				container.find('input[name="filename"]').val(null);
 				self.showFileDetails(container);
 			} else {
 				app.helper.showAlertNotification({
-					'message' : app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE')
+					'message': app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE')
 				});
 			}
 		});
 	},
 
-	getMaxUploadLimit : function(container) {
+	getMaxUploadLimit: function (container) {
 		return container.find('input[name="max_upload_limit"]').val() || 0;
 	},
 
-	fileSizeCheck : function(container, file) {
+	fileSizeCheck: function (container, file) {
 		var maxUploadLimitInBytes = this.getMaxUploadLimit(container);
 		return file.size <= maxUploadLimitInBytes;
 	},
 
-	registerFileChangeEvent : function(container) {
+	registerFileChangeEvent: function (container) {
 		var self = this;
-		jQuery('input[type="file"]',container).on('change', function(e) {
+		jQuery('input[type="file"]', container).on('change', function (e) {
 			var file = e.target.files[0];
-			if(self.fileSizeCheck(container, file)) {
+			if (self.fileSizeCheck(container, file)) {
 				self.setFile(file);
 				self.showFileDetails(container);
 			} else {
 				app.helper.showAlertNotification({
-					'message' : app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE')
+					'message': app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE')
 				});
 			}
 		});
 	},
 
-	registerFileHandlingEvents : function(container) {
+	registerFileHandlingEvents: function (container) {
 		this.registerFileChangeEvent(container);
 		this.registerFileDragDropEvent(container);
 		container.find('input[type="file"]').addClass('ignore-validation');
 		vtUtils.enableTooltips();
 	},
 
-	updateDirectoryMeta : function(folderId,tab,backwardNavigation) {
+	updateDirectoryMeta: function (folderId, tab, backwardNavigation) {
 		backwardNavigation = (typeof backwardNavigation == "undefined") ? false : true;
-		var currentDirElement = jQuery('input[name="currentDir"]',tab);
-		var parentDirElement = jQuery('input[name="parentDir"]',tab);
+		var currentDirElement = jQuery('input[name="currentDir"]', tab);
+		var parentDirElement = jQuery('input[name="parentDir"]', tab);
 		var currentDir = currentDirElement.val();
 		var parentDir = parentDirElement.val();
-		if(!backwardNavigation) {
+		if (!backwardNavigation) {
 			parentDirElement.val(currentDir);
 			currentDirElement.val(folderId);
-			jQuery('.browseBack',tab).removeAttr('disabled');
-			jQuery('.gotoRoot',tab).removeAttr('disabled');
+			jQuery('.browseBack', tab).removeAttr('disabled');
+			jQuery('.gotoRoot', tab).removeAttr('disabled');
 		} else {
 			currentDirElement.val(folderId);
 			parentDirElement.val(parentDir);
 		}
 	},
 
-	loadTab : function(tab) {
+	loadTab: function (tab) {
 		var self = this;
 		var url = tab.data('url');
 		app.helper.showProgress();
-		app.request.get({'url':url}).then(function(e,resp) {
+		app.request.get({
+			'url': url
+		}).then(function (e, resp) {
 			app.helper.hideProgress();
-			if(!e) {
+			if (!e) {
 				tab.html(resp);
 				vtUtils.applyFieldElementsView(tab);
 			} else {
-				console.log("error while loading tab : ",e);
+				console.log("error while loading tab : ", e);
 			}
 		});
-		tab.data('tabLoaded',true);
+		tab.data('tabLoaded', true);
 	},
 
-	registerActiveTabEvent : function(container) {
+	registerActiveTabEvent: function (container) {
 		var self = this;
-		jQuery('.tab-pane',container).on('Documents.Upload.Tab.Active', function() {
+		jQuery('.tab-pane', container).on('Documents.Upload.Tab.Active', function () {
 			var currentTab = jQuery(this);
-			if(!currentTab.data('tabLoaded')) {
+			if (!currentTab.data('tabLoaded')) {
 				self.loadTab(currentTab);
 			}
 		});
 	},
 
-	registerUploadDocumentEvents : function(container) {
+	registerUploadDocumentEvents: function (container) {
 		var self = this;
 		container.find('form').vtValidate({
-			'submitHandler' : function() {
+			'submitHandler': function () {
 				self.uploadFileToHead(container);
 				return false;
 			}
@@ -333,24 +351,32 @@ Head.Class('Documents_Index_Js', {
 		this.registerFileHandlingEvents(container);
 	},
 
-	showUploadToHeadModal : function(parentId,relatedModule) {
+	showUploadToHeadModal: function (service, parentId, relatedModule, widget) {
 		var self = this;
-		var url = 'index.php?module=Documents&view=QuickCreateAjax&service=Head&operation=UploadToHead&type=I';
-		if(typeof parentId !== 'undefined' && typeof relatedModule !== 'undefined') {
-			url += '&relationOperation=true&sourceModule='+relatedModule+'&sourceRecord='+parentId;
+		var type = 'I';
+		if (service != 'Head') {
+			type = service;
+		}
+
+		var url = 'index.php?module=Documents&view=QuickCreateAjax&service=Head&operation=UploadToHead&type=' + type;
+		if (typeof parentId !== 'undefined' && typeof relatedModule !== 'undefined') {
+			url += '&relationOperation=true&sourceModule=' + relatedModule + '&sourceRecord=' + parentId;
 		}
 		var relationField = jQuery('div.related-tabs').find('li').filter('.active').data('relatedfield');
 		if (relationField && parentId) {
-			url += '&'+relationField+"="+parentId;
-		}		
+			url += '&' + relationField + "=" + parentId;
+		}
+		url += '&widget=' + widget;
 		app.helper.showProgress();
-		app.request.get({'url':url}).then(function(e,resp) {
+		app.request.get({
+			'url': url
+		}).then(function (e, resp) {
 			app.helper.hideProgress();
-			if(!e) {
+			if (!e) {
 				app.helper.showModal(resp, {
-					'cb' : function(modalContainer) {
+					'cb': function (modalContainer) {
 						var form = modalContainer.find('form');
-						if(form.length == '1'){
+						if (form.length == '1') {
 							self.registerUploadDocumentEvents(modalContainer);
 							self.applyScrollToModal(modalContainer);
 							self.registerQuickCreateEvents(modalContainer);
@@ -361,19 +387,20 @@ Head.Class('Documents_Index_Js', {
 		});
 	},
 
-	applyScrollToModal : function(modalContainer) {
-		app.helper.showVerticalScroll(modalContainer.find('.modal-body').css('max-height', 'auto'), 
-		{'autoHideScrollbar': true});
+	applyScrollToModal: function (modalContainer) {
+		app.helper.showVerticalScroll(modalContainer.find('.modal-body').css('max-height', 'auto'), {
+			'autoHideScrollbar': true
+		});
 	},
 
-	uploadTo : function(service,parentId,relatedModule) {
+	uploadTo: function (service, parentId, relatedModule, widget) {
 		this.setFile(false);
-		this.showUploadToHeadModal(parentId,relatedModule);
+		this.showUploadToHeadModal(service, parentId, relatedModule, widget);
 	},
 
-	registerFileSelectionHandler : function(container) {
-		jQuery('.file', container).on('click',function() {
-			if(typeof prevSelection !== 'undefined') {
+	registerFileSelectionHandler: function (container) {
+		jQuery('.file', container).on('click', function () {
+			if (typeof prevSelection !== 'undefined') {
 				prevSelection.removeClass('selectedFile');
 			}
 			jQuery(this).addClass('selectedFile');
@@ -381,25 +408,29 @@ Head.Class('Documents_Index_Js', {
 		});
 	},
 
-	_createDocument : function(form) {
+	_createDocument: function (form) {
 		var self = this;
 		var noteContentElement = form.find('#Documents_editView_fieldName_notecontent_popup');
-		if(noteContentElement.length) {
+		if (noteContentElement.length) {
 			var noteContent = CKEDITOR.instances.Documents_editView_fieldName_notecontent_popup.getData()
 			noteContentElement.val(noteContent);
 		}
 		var formData = form.serialize();
 		app.helper.showProgress();
-		app.request.post({'data':formData}).then(function(e,res) {
+		app.request.post({
+			'data': formData
+		}).then(function (e, res) {
 			app.helper.hideProgress();
 			if (e === null) {
 				app.helper.hideModal();
 				app.helper.showSuccessNotification({
-					'message' : app.vtranslate('JS_DOCUMENT_CREATED')
+					'message': app.vtranslate('JS_DOCUMENT_CREATED')
 				});
 				self.reloadList();
 				var folderid = form.find('[name="folderid"]').val();
-				app.event.trigger('post.documents.save', {'folderid' : folderid});
+				app.event.trigger('post.documents.save', {
+					'folderid': folderid
+				});
 
 				//reference create handling
 				if (Documents_Index_Js.referenceCreateMode === true && Documents_Index_Js.referenceFieldName !== '') {
@@ -411,50 +442,55 @@ Head.Class('Documents_Index_Js', {
 		});
 	},
 
-	registerCreateDocumentEvent : function(container) {
+	registerCreateDocumentEvent: function (container) {
 		var self = this;
-		jQuery('#js-create-document', container).on('click', function() {
-			var form = container.find('form'); 
-			if(form.valid()) {
+		jQuery('#js-create-document', container).on('click', function () {
+			var form = container.find('form');
+			if (form.valid()) {
 				self._createDocument(form);
 			}
 		});
 	},
 
-	applyEditor : function(element) {
+	applyEditor: function (element) {
 		var cke = new Head_CkEditor_Js();
-		cke.loadCkEditor(element, {'height' : 200});
+		cke.loadCkEditor(element, {
+			'height': 200
+		});
 	},
 
-	registerCreateDocumentModalEvents : function(container) {
+	registerCreateDocumentModalEvents: function (container) {
 		container.find('form').vtValidate();
-		if(container.find('input[name="type"]').val() === 'W') {
-			container.find('.modelContainer').css('width','750px');
+		if (container.find('input[name="type"]').val() === 'W') {
+			container.find('.modelContainer').css('width', '750px');
 			//change id of text area to workaround multiple instances of ckeditor on same element
 			this.applyEditor(
 				container.find('#Documents_editView_fieldName_notecontent')
-				.attr('id','Documents_editView_fieldName_notecontent_popup')
+				.attr('id', 'Documents_editView_fieldName_notecontent_popup')
 			);
 		}
 		this.registerCreateDocumentEvent(container);
 	},
 
-	createDocument : function(type,parentId,relatedModule) {
+	createDocument: function (type, parentId, relatedModule, widget) {
 		var self = this;
-		var url = 'index.php?module=Documents&view=QuickCreateAjax&operation=CreateDocument&type='+type;
-		if(typeof parentId !== 'undefined' && typeof relatedModule !== 'undefined') {
-			url += '&relationOperation=true&sourceModule='+relatedModule+'&sourceRecord='+parentId;
+		var url = 'index.php?module=Documents&view=QuickCreateAjax&operation=CreateDocument&type=' + type;
+		if (typeof parentId !== 'undefined' && typeof relatedModule !== 'undefined') {
+			url += '&relationOperation=true&sourceModule=' + relatedModule + '&sourceRecord=' + parentId;
 		}
 		var relationField = jQuery('div.related-tabs').find('li').filter('.active').data('relatedfield');
 		if (relationField && parentId) {
-			url += '&'+relationField+"="+parentId;
+			url += '&' + relationField + "=" + parentId;
 		}
+		url += '&widget=' + widget;
 		app.helper.showProgress();
-		app.request.get({'url':url}).then(function(e,resp) {
+		app.request.get({
+			'url': url
+		}).then(function (e, resp) {
 			app.helper.hideProgress();
-			if(!e) {
+			if (!e) {
 				app.helper.showModal(resp, {
-					'cb' : function(modalContainer) {
+					'cb': function (modalContainer) {
 						self.registerCreateDocumentModalEvents(modalContainer);
 						self.registerQuickCreateEvents(modalContainer);
 						self.applyScrollToModal(modalContainer);
@@ -464,7 +500,7 @@ Head.Class('Documents_Index_Js', {
 		});
 	},
 
-	registerQuickCreateEvents : function(container) {
+	registerQuickCreateEvents: function (container) {
 		var vtigerInstance = Head_Index_Js.getInstance();
 		vtigerInstance.registerReferenceCreate(container);
 		vtigerInstance.registerPostReferenceEvent(container);
@@ -475,9 +511,9 @@ Head.Class('Documents_Index_Js', {
 		var moduleInstance = Head_Edit_Js.getInstanceByModuleName('Documents');
 		moduleInstance.registerEventForPicklistDependencySetup(container);
 
-		app.event.on('post.documents.save', function(event, data){
+		app.event.on('post.documents.save', function (event, data) {
 			var relatedTabs = jQuery('div.related-tabs');
-			if(relatedTabs.length > 0){
+			if (relatedTabs.length > 0) {
 				var tabElement = jQuery('div.related-tabs').find('li.active');
 				var relatedModuleName = jQuery('.relatedModuleName').val();
 				var relatedInstance = new Head_RelatedList_Js(app.getRecordId(), app.getModuleName(), tabElement, relatedModuleName);
@@ -487,4 +523,48 @@ Head.Class('Documents_Index_Js', {
 		});
 	}
 
+});
+
+jQuery(document).ready(function () {
+	jQuery('.drop-area').on('dragenter', function (e) {
+		e.preventDefault();
+		$(this).css('background', '#e7f4fa');
+	});
+
+	jQuery('.drop-area').on('dragover', function (e) {
+		e.preventDefault();
+		$(this).css('background', '#e7f4fa');
+	});
+
+	jQuery('.quick-panel .drop-area').on('drop', function (e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		var droppedFiles = e.originalEvent.dataTransfer.files;
+		$('#file_notes_title').val(droppedFiles[0].name)
+		$('#droppedFile').prop('files', droppedFiles);
+		$('#droppedFile').trigger('change');
+		$('#uploadDoc').submit();
+	});
+
+	jQuery('.drop-area').on('drop', function (e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		var droppedFiles = e.originalEvent.dataTransfer.files;
+		$('#file_notes_title').val(droppedFiles[0].name)
+		$('#droppedFile').prop('files', droppedFiles);
+		Documents_Index_Js.droppedFileSet(droppedFiles[0])
+	});
+
+	window.addEventListener("dragover", function (e) {
+		e.preventDefault();
+	}, false);
+
+	window.addEventListener("drop", function (e) {
+		e.preventDefault();
+	}, false);
+
+	jQuery('.drop-area').on('dragleave', function (e) {
+		e.preventDefault();
+		$(this).css('background', '#fff');
+	});
 });

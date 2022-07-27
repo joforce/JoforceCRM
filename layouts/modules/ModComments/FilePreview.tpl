@@ -11,12 +11,12 @@
         <div class="modal-content">
             <div class="filePreview container-fluid">
                 <div class="modal-header row">
-                    <div class="filename {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'} col-lg-8 {else} col-lg-11 {/if}">
+                    <div class="filename {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'} col-lg-7 {else} col-lg-11 {/if}">
                         <h4 class="textOverflowEllipsis maxWidth50" title="{$FILE_NAME}"><b>{$TRIMMED_FILE_NAME}</b></h4>
                     </div>
                     {if $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'}
-                        <div class="col-lg-3">
-                            <a class="btn btn-default btn-small pull-right marginTop5px" href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
+                        <div class="col-lg-4">
+                            <a class="btn btn-default btn-small pull-right mt10 " style="width:140px!important" href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
                         </div>
                     {/if}
                     <div class="col-lg-1 pull-right">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="modal-body row" style="height:550px;">
                     {if $FILE_PREVIEW_NOT_SUPPORTED eq 'yes'}
-                        <div class="well" style="height:100%;">
+                        <div class="card card-body" style="height:100%;">
                             <center>
                                 <b>{vtranslate('LBL_PREVIEW_NOT_AVAILABLE',$MODULE_NAME)}</b>
                                 <br><br><br>
@@ -54,7 +54,7 @@
                         {else if $PDF_FILE_TYPE eq 'yes'}
                             <iframe id='viewer' src="libraries/jquery/pdfjs/web/viewer.html?file={$SITE_URL}/{$FILE_PATH}" height="100%" width="100%"></iframe>
                         {else if $IMAGE_FILE_TYPE eq 'yes'}
-                            <div style="overflow:auto;height:100%;width:100%;float:left;background-image: url({$DOWNLOAD_URL});background-color: #EEEEEE;background-position: center 25%;background-repeat: no-repeat;display: block; background-size: contain;"></div>
+                            <div style="overflow:auto;height:100%;width:100%;float:left;background-image: url({$DOWNLOAD_URL});background-position: center 25%;background-repeat: no-repeat;display: block; background-size: contain;"></div>
                         {else if $AUDIO_FILE_TYPE eq 'yes'}
                             <div style="overflow:auto;height:100%;width:100%;float:left;background-color: #EEEEEE;background-position: center 25%;background-repeat: no-repeat;display: block;text-align: center;">
                                 <div style="display: inline-block;margin-top : 10%;">

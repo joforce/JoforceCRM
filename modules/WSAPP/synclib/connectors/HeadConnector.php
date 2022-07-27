@@ -128,7 +128,6 @@ class WSAPP_HeadConnector extends WSAPP_BaseConnector {
 
 		$recordModels = array();
 		$records = wsapp_get($syncTrackerId, $syncStateModel->getType(), $prevSyncToken, $this->getSynchronizeController()->user);
-
 		$createdRecords = $records['created'];
 		$updatedRecords = $records['updated'];
 		$deletedRecords = $records['deleted'];
@@ -171,7 +170,6 @@ class WSAPP_HeadConnector extends WSAPP_BaseConnector {
 		$pushResult = wsapp_put($syncStateModel->getSyncTrackerId(), $this->convertToPushSyncTrackerFormat($recordList), $this->getSynchronizeController()->user);
 		$pushResponseRecordList = array();
 		$clientID2ServerIDMap = $pushResult['client2serverIdMap'];
-
 		foreach ($pushResult as $mode => $records) {
 			if ($mode == 'created') {
 				$recordMode = WSAPP_SyncRecordModel::WSAPP_CREATE_MODE;
@@ -210,13 +208,17 @@ class WSAPP_HeadConnector extends WSAPP_BaseConnector {
 			if ($destinationRecord->isCreateMode()) {
 				$mapFormatedRecords['create'][$destinationRecord->getId()] = array('serverid' => $sourceRecord->getId(),
 					'modifiedtime' => $destinationRecord->getModifiedTime(),
-					'_modifiedtime' => $sourceRecord->getModifiedTime());
+					'_modifiedtime' => $sourceRecord->getModifiedTime(),
+					'etag' => $destinationRecord->getEtag(),
+				);
 			} else if ($destinationRecord->isDeleteMode()) {
-				$mapFormatedRecords['delete'][] = $destinationRecord->getId();
+				// $mapFormatedRecords['delete'][] = $destinationRecord->getId();
 			} else {
 				$mapFormatedRecords['update'][$destinationRecord->getId()] = array('serverid' => $sourceRecord->getId(),
 					'modifiedtime' => $destinationRecord->getModifiedTime(),
-					'_modifiedtime' => $sourceRecord->getModifiedTime());
+					'_modifiedtime' => $sourceRecord->getModifiedTime(),
+					'etag' => $destinationRecord->getEtag(),
+			);
 			}
 		}
 		wsapp_map($syncStateModel->getSyncTrackerId(), $mapFormatedRecords, $this->getSynchronizeController()->user);

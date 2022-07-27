@@ -21,34 +21,41 @@
    <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
    <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
    <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-
-        <div id="listview-actions" class="listview-actions-container">
-            <div class = "row">
-                <div class='col-md-6 usersListDiv'>
-                    <select class="select2 col-md-4" id="usersFilter" >
+        <div id="listview-actions" class="listview-actions-container card">
+		<div class = "row contenthead card-header-new {if in_array($MODULE,array('LoginHistory'))} LoginHistory_card_header {/if}">
+				<div class='col-md-6 pull-left pagenamehead '>
+                   <h3>users</h3>
+				</div>
+                <div class='col-md-6 usersListDiv pull-right'>
+                    <select class="select2 pull-right" id="usersFilter" >
                         <option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
                         {foreach item=USERNAME key=USER from=$USERSLIST}
                             <option value="{$USER}" name="{$USERNAME}" {if $USERNAME eq $SELECTED_USER} selected {/if}>{$USERNAME}</option>
                         {/foreach}
                     </select>
                 </div>
-                <div class="col-md-6 pull-right">
+
+
+
+                {* <div class="col-md-6 pull-right">
                     {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-                    {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
-                </div>
+                    {include file="Pagination.tpl"|vtemplate_path:$MODULE }
+                </div> *}
             </div>
-            <div class="list-content row">
+            {* <div class="list-content row"> *}
+            <div class="row">
 		<div class="col-sm-12 col-xs-12">
 		    <div id="table-content" class="table-container" style="padding-top:0px !important;margin-bottom:2%;">
                     	<table id="listview-table"  class="table listview-table">
                        	    {assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
                        	    {assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
                        	    <thead>
-                          	<tr class="listViewContentHeader">
+                          <tr class="listViewContentHeader ">
                             	    {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                                  	<th nowrap>
                                     	    <a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues" style="cursor:text;" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>&nbsp;
-                                 	</th>
+                                 	
+										</th>
                              	    {/foreach}
                           	</tr>
                        	    </thead>
@@ -85,6 +92,10 @@
                        	    </table>
                     	{/if}
 		    </div>
+			<div class="row">
+				{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
+				{include file="Pagination.tpl"|vtemplate_path:$MODULE }
+			</div>
 		    <div id="scroller_wrapper" class="bottom-fixed-scroll">
                     	<div id="scroller" class="scroller-div"></div>
                     </div>

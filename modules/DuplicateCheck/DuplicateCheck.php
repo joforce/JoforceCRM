@@ -34,7 +34,7 @@ class DuplicateCheck {
 				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Duplicate Check', 'fa fa-copy', 'DuplicateCheck',
 					'DuplicateCheck/Settings/List', $seq));
 			// inserting values into settings table
-			$modules = array('Contacts', 'Leads', 'Accounts', 'Potentials', 'Products', 'Services', 'HelpDesk', 'Project', 'ProjectTask', 'ProjectMilestone', 'Vendors', 'Calendar','Campaigns','Quotes','PurchaseOrder','SalesOrder','Invoice','PriceBooks','Documents','Emails','Events','Users','PBXManager','ModComments','SMSNotifier');
+			$modules = array('Contacts', 'Leads', 'Accounts', 'Potentials', 'Products', 'Services', 'HelpDesk', 'Vendors', 'Calendar','Campaigns','Quotes','PurchaseOrder','SalesOrder','Invoice','PriceBooks','Documents','Emails','Events','Users','PBXManager','ModComments','SMSNotifier');
 			foreach($modules as $module)
 				$adb->pquery("insert into jo_duplicatechecksettings (modulename, isenabled, crosscheck) values (?, ?, ?)", array($module, 1, 0));
 

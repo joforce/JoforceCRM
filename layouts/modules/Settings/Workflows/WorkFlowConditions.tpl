@@ -14,7 +14,7 @@
     <input type="hidden" id="olderConditions" value='{ZEND_JSON::encode($WORKFLOW_MODEL->get('conditions'))}' />
     <input type="hidden" name="filtersavedinnew" value="{$WORKFLOW_MODEL->get('filtersavedinnew')}" />
           <div class="form-group">
-             <div class="col-sm-12">
+             <div class="">
             
                  {if $IS_FILTER_SAVED_NEW == false}
                     <div class="add_border form_trigger_element">
@@ -29,8 +29,8 @@
                 {/if}
                 
                  <div id="advanceFilterContainer"  class="conditionsContainer {if $IS_FILTER_SAVED_NEW == false} hide{/if}">
-                     <div class="col-sm-12">
-                         <div class="table " style="padding: 2%;padding-bottom: 0 !important;">
+                     <div class="">
+                         <div class="table " style="padding-top: 2%;padding-bottom: 0 !important;">
                              {include file='AdvanceFilter.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE}
                          </div>
                      </div>
@@ -50,7 +50,7 @@
     <div class="editViewBody" id="workflow_action" style="padding-bottom: 15px;">
         <div style="padding-left: 15px;padding-bottom: 15px;">
             <div class="btn-group">
-               <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="true">
+               <button class="btn  dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="true">
                   <strong>{vtranslate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                </button>
                <ul class="dropdown-menu" role="menu">

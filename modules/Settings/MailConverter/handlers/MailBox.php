@@ -90,11 +90,11 @@ class Head_MailBox {
 		}
 
 		if(!$imap) {
-			$connectString = '{'. "$mailboxsettings[server]:$mailboxsettings[port]/$mailboxsettings[protocol]/$mailboxsettings[ssltype]/$mailboxsettings[sslmethod]" ."}";
+			$connectString = '{'. substr(strstr($mailboxsettings['port'], '//'), 2) . ':993/' . $mailboxsettings['protocol'] . '/' . $mailboxsettings['ssltype'] . '/' . $mailboxsettings['sslmethod'] .'}' . $folder;
 			$connectStringShort = '{'. "$mailboxsettings[server]/$mailboxsettings[protocol]:$mailboxsettings[port]" ."}";
-
 			$this->log("Trying to connect using $connectString$folder", true);
-			if(!$imap = @imap_open("$connectString$folder", $mailboxsettings[username], $mailboxsettings[password])) {
+			$imap = @imap_open("$connectString", $mailboxsettings['username'], $mailboxsettings['password']);
+			if(!$imap) {
 				$this->log("Connect failed using $connectString$folder, trying with $connectStringShort$folder...", true);
 				$imap = @imap_open("$connectStringShort$folder", $mailboxsettings[username], $mailboxsettings[password]);
 				if($imap) {

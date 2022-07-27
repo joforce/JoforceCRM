@@ -32,7 +32,7 @@ echo pageHeader("Batching Queries");
   setDeveloperKey, the request may still succeed
   using the anonymous quota.
  ************************************************/
-$client = new Google_Client();
+$client = new Google\Client();
 $client->setApplicationName("Client_Library_Examples");
 
 // Warn if the API key isn't set.
@@ -42,7 +42,7 @@ if (!$apiKey = getApiKey()) {
 }
 $client->setDeveloperKey($apiKey);
 
-$service = new Google_Service_Books($client);
+$service = new Google\Service\Books($client);
 
 /************************************************
   To actually make the batch call we need to
@@ -58,17 +58,23 @@ $client->setUseBatch(true);
  want to execute with keys of our choice - these
  keys will be reflected in the returned array.
 ************************************************/
+
+// NOTE: Some services use `new Google\Http\Batch($client);` instead
 $batch = $service->createBatch();
+
+$query = 'Henry David Thoreau';
 $optParams = array('filter' => 'free-ebooks');
-$req1 = $service->volumes->listVolumes('Henry David Thoreau', $optParams);
+$req1 = $service->volumes->listVolumes($query, $optParams);
 $batch->add($req1, "thoreau");
-$req2 = $service->volumes->listVolumes('George Bernard Shaw', $optParams);
+$query = 'George Bernard Shaw';
+$req2 = $service->volumes->listVolumes($query, $optParams);
 $batch->add($req2, "shaw");
 
 /************************************************
   Executing the batch will send all requests off
   at once.
  ************************************************/
+
 $results = $batch->execute();
 ?>
 

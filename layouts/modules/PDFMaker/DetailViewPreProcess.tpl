@@ -28,5 +28,5 @@
         </div>
         <div class="quick-panel"></div>
 
-    <div class="row">
-        <div class="detailViewContainer viewContent clearfix">
+    <div id="listViewContent" class="row listViewPageDiv content-area full-width">
+        <div class="detailViewContainer viewContent clearfix {if in_array($MODULE,array('PDFMaker'))} PDFMaker_details_view_main {/if}">

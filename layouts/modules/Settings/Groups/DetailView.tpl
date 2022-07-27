@@ -9,11 +9,11 @@
 {* modules/Settings/Groups/views/Detail.php *}
 
 {strip}
-	<div class="detailViewContainer full-height">
+	<div class="detailViewContainer mt0 card full-height">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-scroll">
-			<div class="detailViewInfo" >
-				<form id="detailView" class="form-horizontal" method="POST">
-					<div class="clearfix">
+			<div class="detailViewInfo pt0" >
+				<form id="detailView" class="form-horizontal " method="POST">
+					<div class="clearfix card-header-new">
 						<h4 class="pull-left">
 							{$RECORD_MODEL->get('groupname')}
 						</h4>
@@ -25,7 +25,7 @@
 					</div>
 					<hr>
 					<div class="form-group">
-						<span class="fieldLabel col-lg-3 col-md-3 col-sm-3">
+						<span class="fieldLabel col-lg-5 col-md-3 col-sm-3 pull-left">
 							{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
 						</span>
 						<div class="fieldValue">
@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<span class="fieldLabel col-lg-3 col-md-3 col-sm-3">
+						<span class="fieldLabel col-lg-5 col-md-3 col-sm-3 pull-left">
 							{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 						</span>
 						<div class="fieldValue">
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="form-group ">
-						<span class="fieldLabel col-lg-3 col-md-3 col-sm-3 ">
+						<span class="fieldLabel col-lg-5 col-md-3 col-sm-3 pull-left">
 							{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
 						</span>
 						<div class="fieldValue">

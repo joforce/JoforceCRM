@@ -1,7 +1,6 @@
 {strip}
-<div class="settingsIndexPage">
-    <div class='widget_header'>
-    </div>
+<div class="card">
+    
         {include file="licenses/License.html"}
 </div>
 {/strip}

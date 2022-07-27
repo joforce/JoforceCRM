@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="relatedContainer">
+    <div class="relatedContainer   {if in_array($MODULE,array('Vendors'))} ms_relatedContainer {elseif in_array($MODULE,array('Contacts'))} mac_scr_contact_page_view_style {elseif in_array($MODULE,array('Accounts'))} Accounts_ipadpro_scr_style {/if}">
         <input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
         {assign var="RELATED_MODULE_NAME" value=$RELATED_MODULE->get('name')}
         <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
@@ -132,7 +132,7 @@
                                     {assign var=PAGING_MODEL value=$PAGING}
                                     {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
                                     {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-                                    {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+                                    {include file="Pagination.tpl"|vtemplate_path:$MODULE}
 		</div>
             </div>
         <div class="bottomscroll-div"></div>

@@ -21,7 +21,7 @@
 				<br>
 				<br>
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id = "csvImport">
-					<div class="menu-item app-item app-SALES">
+					<div class="menu-item">
 						<span class="fa fa-file-text"></span>
 						<div>
 							<h4>{'LBL_CSV_FILE'|@vtranslate:$MODULE}</h4>
@@ -30,7 +30,7 @@
 				</div>
 				{if $FOR_MODULE == 'Contacts'}
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id = "vcfImport">
-						<div class="menu-item app-item app-INVENTORY">
+						<div class="menu-item">
 							<span class="fa fa-user"></span>
 							<div>
 								<h4>{'LBL_VCF_FILE'|@vtranslate:$MODULE}</h4>
@@ -39,7 +39,7 @@
 					</div>
 				{else if $FOR_MODULE == 'Calendar'}
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="icsImport">
-						<div class="menu-item app-item" style="background: #b74f6f none repeat scroll 0 0 !important;">
+						<div class="menu-item" style="background: #b74f6f none repeat scroll 0 0 !important;">
 							<span class="fa fa-calendar-o"></span>
 							<div>
 								<h4>{'LBL_ICS_FILE'|@vtranslate:$MODULE}</h4>

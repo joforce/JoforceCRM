@@ -24,7 +24,6 @@ class Potentials_DetailView_Model extends Head_DetailView_Model {
 		$invoiceModuleModel = Head_Module_Model::getInstance('Invoice');
 		$quoteModuleModel = Head_Module_Model::getInstance('Quotes');
 		$salesOrderModuleModel = Head_Module_Model::getInstance('SalesOrder');
-		$projectModuleModel = Head_Module_Model::getInstance('Project');
 
 		$emailModuleModel = Head_Module_Model::getInstance('Emails');
 
@@ -87,16 +86,6 @@ class Potentials_DetailView_Model extends Head_DetailView_Model {
 			);
 		}
 
-		if($currentUserModel->hasModuleActionPermission($projectModuleModel->getId(), 'CreateView') && !$recordModel->isPotentialConverted()) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => vtranslate('LBL_CREATE_PROJECT', $recordModel->getModuleName()),
-				'linkurl' => 'Javascript:Potentials_Detail_Js.convertPotential("'.$recordModel->getConvertPotentialUrl().'",this);',
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Head_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		
 		foreach($CalendarActionLinks as $basicLink) {
 			$linkModelList['DETAILVIEW'][] = Head_Link_Model::getInstanceFromValues($basicLink);
 		}

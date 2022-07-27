@@ -29,11 +29,13 @@ class JoNotificationHelper
     }
 
     public function Notification($request_data)
-    {   
-        if($request_data['mode'] =="Read" || $request_data['mode'] =="ReadAll" || $request_data['action']=='list'){ 
-            $notificationstatus=self::notificationstatus($request_data['userid']);
-            if($notificationstatus == false){
-                return array('success' => false, 'message' => 'Notification is off mode');
+    {
+	$user_id['userid']            = $request_data['userid'];
+	$user_id['notificationenable']= $request_data['notificationenable'];
+        if($request_data['mode'] =="Read" || $request_data['mode'] =="ReadAll" || $request_data['action']=='list' || $request_data['notificationenable']){
+            $notificationstatus=self::notificationstatus($user_id);
+            if($notificationstatus['notificationenable'] == 0){
+                return array('success' => false, 'message' => 'Notification is disabled!!! Please enable notification in your  profile.');
             }
         }
         
@@ -47,7 +49,7 @@ class JoNotificationHelper
             $data =$this->getAllnotify($request_data['userid']);
         }elseif($request_data['action']=='Register'){  
             $data =$this->Registernotification($request_data);
-        } 
+        }
         return $data;
     }
 
@@ -118,47 +120,59 @@ class JoNotificationHelper
     }  
 
     public function Notificationenable($request_data){
-
         $user_id = $request_data['userid'];       
         $global_notification_settings = $request_data['notificationenable'];
-        if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-            $file_name = "user_privileges/notifications/notification_".$user_id.".php";
-            else
-                $file_name = 'user_privileges/notifications/default_settings.php';
 
-        require($file_name);
-        $file_path ="user_privileges/notifications/notification_".$user_id.".php"; 
-       
-        if($global_notification_settings == 1) {
-            $global_settings = true;        
-            $myfile = fopen($file_path, "w"); 
-                $write_status = fwrite($myfile, "<?php
-            ".'$global_settings'." = true;
-                    ".'$notification_settings'." = " .var_export($notification_settings, true). ";
-            ?>");
-            if($write_status) {
-                $message =array('success' => true,'Message' => 'Settings are saved successfully.');            
-            } else {
-                $message =array('success' => false,'Message' => 'Settings are not saved. No writable permission for notifications folder.');
-            }
-        } else {  
-            $myfile = fopen($file_path, "w");
-            $write_status = fwrite($myfile, "<?php
-                ".'$global_settings'." = false;
-                        ".'$notification_settings'." = " .var_export($notification_settings, true). ";
-                ?>");            
-            if($write_status) {
-                $message =array('success' => true,'Message' => 'Settings are saved successfully.');
-            } else {
-                $message =array('success' => false,'Message' => 'Settings are not saved. No writable permission for notifications folder.');
-            }
+        global $adb;
+        $db = $adb;
+        $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+        $result = $db->pquery($query, array($user_id));
+        $rows = $db->num_rows($result);
+        if($rows <= 0){
+            $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+            $result = $db->pquery($query, array(0));
+            $rows = $db->num_rows($result);
         }
-        fclose($myfile);
+        for ($i=0; $i<$rows; $i++) {
+            $row = $db->query_result_rowdata($result, $i);
+            $global_settings = $row['global'];
+            $notification_settings = unserialize(base64_decode($row['notificationlist']));
+        }
+        if($global_notification_settings == 1) {
+            $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+            $result = $db->pquery($query, array($user_id));
+            $rows = $db->num_rows($result);
+            if($rows <= 0){
+                $query = "Insert into jo_notification_manager(id,global,notificationlist) values(?,?,?)";
+                $result = $db->pquery($query, array($user_id,$global_settings,base64_encode(serialize($notification_settings))));
+                $rows = $db->num_rows($result);
+            }else{
+                $query = "Update jo_notification_manager set global=?,notificationlist=? where id = ?";
+                $result = $db->pquery($query, array($global_settings,base64_encode(serialize($notification_settings)),$user_id));
+		$rows = 1;
+            }
+            if($rows >= 0) {
+                $message =  array("success" => "true","message" => "Enabled");
+                // $this->emitResponse('true', 'Settings are saved successfully.');
+            } else {
+                $message =  array("success" => "false","message" => "Disabled");
+                // $this->emitResponse('false', 'Settings are not saved.');
+            }
+        }else{
+	    $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+            $result = $db->pquery($query, array($user_id));
+            $rows = $db->num_rows($result);
+            if($rows > 0){
+//                $query = "update  jo_notification_manager  set global =? where id = ?";
+  //            $result = $db->pquery($query, array(0,$user_id)); 
+}
+
+            $message =  array("success" => "true","message" => "Disabled");
+        }
         return $message;
     }
 
     public function Registernotification($request_data){ 
-
         global $adb;
         $exists=self::checknotifytokenexits($request_data['userid']);
         if(!empty($exists)){
@@ -189,14 +203,22 @@ class JoNotificationHelper
     }
 
     public function notificationstatus($user_id){
-
-        if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-        $file_name = "user_privileges/notifications/notification_".$user_id.".php";
-        else
-           $file_name = 'user_privileges/notifications/default_settings.php';
-        require($file_name); 
-        return $global_settings;
-
+        global $adb;
+        $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+        $result = $adb->pquery($query, array($user_id['notificationenable']));
+	$num_no =$result->fields['id'];
+/*        $rows = $adb->num_rows($result);
+       if($rows <= 0){
+            $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+            $result = $adb->pquery($query, array(0));
+            $rows = $adb->num_rows($result);
+       }
+        for ($i=0; $i<$rows; $i++) {
+            $row = $adb->query_result_rowdata($result, $i);
+            $global_settings = $row['global'];
+            $notification_settings = unserialize(base64_decode($row['notificationlist']));
+        }  */
+        return $num_no;
     }
 
     public function notificationdescribtion($data){

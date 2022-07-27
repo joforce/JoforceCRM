@@ -73,6 +73,128 @@ class Head_Detail_View extends Head_Index_View {
 		$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+
+		 
+		  foreach($detailViewLinks['DETAILVIEWRELATED'] as $values)
+		  {
+			  
+		 	if($values->linklabel!='ModComments'  && $values->linklabel!='Emails' && $values->linklabel!='Documents'){
+				if($values->linklabel=='Activities'){
+					$values->linklabel='Calendar';
+				}	
+		 		if($values->linklabel=='Product Bundles'){
+		 				break;
+		 		}
+				if($values->linklabel==='CALENDAR')
+				{
+					$values->linklabel='Calendar';
+				}
+				
+				if($values->linklabel=='Products'){
+						$wprice='unit_price';
+				}
+				elseif($values->linklabel=='Services'){
+						$wprice='unit_price';
+				}
+				elseif($values->linklabel=='Potentials'){
+						$wprice='amount';
+				}
+				else{
+						$wprice='';
+				}
+				
+		 		if($values->linklabel=='Invoice'|| $values->linklabel=='Quotes'|| $values->linklabel=='SalesOrder'|| $values->linklabel == 'Sales Order' || $values->linklabel=='PurchaseOrder' || $values->linklabel == 'Purchase Order'){
+					global $adb;
+					if($values->linklabel=='Invoice'){
+						$key='Invoice';
+						$wid='invoiceid';
+						$wtable='jo_invoice';
+					}
+					if($values->linklabel=='Quotes'){
+						$key='Quotes';
+						$wid='quoteid';
+						$wtable= 'jo_quotes';
+					}
+					if($values->linklabel=='SalesOrder' || $values->linklabel=='Sales Order'){
+						$values->linklabel ='SalesOrder';
+						$key='SalesOrder';
+						$wid='salesorderid';
+						$wtable='jo_salesorder';
+					}
+					if($values->linklabel=='PurchaseOrder' || $values->linklabel=='Purchase Order'){
+						$values->linklabel ='PurchaseOrder';
+						$key='PurchaseOrder';
+						$wid='purchaseorderid';
+						$wtable='jo_purchaseorder';
+					}	
+					
+		 		 	$query = $adb->pquery("select total from jo_crmentityrel join {$wtable} on {$wid} = relcrmid where crmid = ? and relmodule = ?", array($recordId, $key));
+						   
+				 	if($adb->num_rows($query) > 0){
+						$count=0;
+				 	 	while($result = $adb->fetch_array($query)){
+							$count += $result['total'];
+					 	}
+					 	$getRelatedModules = '$'.$count;
+					}
+					else{
+						$getRelatedModules = 0;
+					}
+					
+		 		}
+				else {
+
+						$getRelatedModules = getRelatedRecordSumValue($recordId, $request->getModule(),$values->linklabel,$wprice);	
+				}
+				
+				if(count($total)<9){
+					if($request->getModule() =='Leads'){
+						if($values->linklabel !='Products' && $values->linklabel !='Services' ){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+						}
+					
+				}
+				elseif($request->getModule() =='Accounts'){
+					if($values->linklabel !='Products' &&  $values->linklabel !='Services' && $values->linklabel !='HelpDesk' && $values->linklabel !='PBXManager' &&  $values->linklabel !='Campaigns'){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				elseif($request->getModule() =='Contacts'){
+					if($values->linklabel !='Products' &&  $values->linklabel !='Services' && $values->linklabel !='HelpDesk' && $values->linklabel !='PBXManager' &&  $values->linklabel !='Vendors' &&  $values->linklabel !='Campaigns'){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				elseif($request->getModule() =='Potentials'){
+					if($values->linklabel !='Products' &&  $values->linklabel !='Services' && $values->linklabel !='PBXManager' &&  $values->linklabel !='Vendors'){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				elseif($request->getModule() =='Products'){
+					if($values->linklabel !='Products' && $values->linklabel !='HelpDesk' &&  $values->linklabel !='Services' &&  $values->linklabel !='Leads' &&  $values->linklabel !='Accounts' && $values->linklabel !='Contacts' && $values->linklabel !='PBXManager' && $values->linklabel !='Potentials' &&  $values->linklabel !='PriceBooks'){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				elseif($request->getModule() =='Services'){
+					if($values->linklabel !='Products'  &&  $values->linklabel !='Services' &&  $values->linklabel !='Leads' &&  $values->linklabel !='Accounts'  && $values->linklabel !='PBXManager' && $values->linklabel !='Potentials' &&  $values->linklabel !='PriceBooks'){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				elseif($request->getModule() =='HelpDesk'){
+					if( $values->linklabel !='Services' ){
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+						}
+				}
+					
+				else{
+						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
+					}
+				}
+				
+
+		 	
+			}
+			
+		  }
 		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
@@ -80,6 +202,9 @@ class Head_Detail_View extends Head_Index_View {
 		$viewer->assign('MASQUERADEUSERMODULE', $masquerade_user_module);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
+		  $viewer->assign('TOTAL', $total);
+		  $viewer->assign('RECORD_STRUCTURE', $stucturedValues); 
+		  
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -140,11 +265,6 @@ class Head_Detail_View extends Head_Index_View {
 		$viewer->assign('TAGS_LIST', $tagsList);
 		$viewer->assign('ALL_USER_TAGS', $allUserTags);
 
-		$appName = $request->get('app');
-		if(!empty($appName)){
-			$viewer->assign('SELECTED_MENU_CATEGORY',$appName);
-		}
-
 		$selectedTabLabel = $request->get('tab_label');
 		$relationId = $request->get('relationId');
 
@@ -179,6 +299,7 @@ class Head_Detail_View extends Head_Index_View {
 
                 $viewer->assign('MODULE_NAME', $moduleName);
                 $viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
+				$SUMMARY_RECORD_STRUCTURE = $recordStrucure->getStructure();
                 $viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
                 $pagingModel = new Head_Paging_Model();
                 $viewer->assign('PAGING_MODEL', $pagingModel);
@@ -186,7 +307,14 @@ class Head_Detail_View extends Head_Index_View {
                 $picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
                 $viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Head_Functions::jsonEncode($picklistDependencyDatasource));
 
+		if(in_array($moduleName,array('Contacts','Accounts','Leads', 'Vendors'))) {
+			include_once ('modules/Google/helpers/Map.php');
+			$address_string = Google_Map_Helper::getAddressString($recordId, $moduleName);
+			$viewer->assign('ADDRESS_STRING', $address_string);
+		}
 
+		$relatedResult = new Head_Module_Model();
+		$hj=$relatedResult->getRelations();
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -456,7 +584,7 @@ class Head_Detail_View extends Head_Index_View {
 			$pagingModel->set('limit', $limit);
 		}
 
-		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel,$moduleName);
+		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel,$moduleName,"");
 		$pagingModel->calculatePageRange($recentActivities);
 
 		if($pagingModel->getCurrentPage() == ModTracker_Record_Model::getTotalRecordCount($parentRecordId)/$pagingModel->getPageLimit()) {
@@ -515,7 +643,8 @@ class Head_Detail_View extends Head_Index_View {
 			$parentRecordModel = Head_Record_Model::getInstanceById($parentId, $moduleName);
 			$recentComments = $parentRecordModel->getRollupCommentsForModule(0, 5);
 		}else {
-			$recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
+			// $recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
+			$recentComments = ModComments_Record_Model::getAllParentComments($parentId, $pagingModel);
 		}
 
 		$pagingModel->calculatePageRange($recentComments);
@@ -584,6 +713,7 @@ class Head_Detail_View extends Head_Index_View {
 	 */
 	function showChildComments(Head_Request $request) {
 		$parentCommentId = $request->get('commentid');
+		$recentComment = $request->get('recentComment');
 		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -591,6 +721,7 @@ class Head_Detail_View extends Head_Index_View {
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
+		$viewer->assign('RECENT_COMMENT', $recentComment);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 
@@ -647,11 +778,14 @@ class Head_Detail_View extends Head_Index_View {
 		$header = $relationListView->getHeaders();
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('PARENT_ID' , $parentId);
+		$viewer->assign('PARENT_MODULE' , $moduleName);
 		$viewer->assign('MODULE' , $moduleName);
 		$viewer->assign('RELATED_RECORDS' , $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE' , $relatedModuleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('RELATION_OPERATOR', true);
 
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
 	}

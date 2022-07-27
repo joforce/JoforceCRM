@@ -866,16 +866,6 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete=true) {
 	$sql ="update jo_import_maps set assigned_user_id=? where assigned_user_id=?";
 	$db->pquery($sql, array($newOwnerId, $ownerId));
 
-	if(Head_Utils::CheckTable('jo_customerportal_prefs')) {
-		$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
-		$params = array($newOwnerId, 'defaultassignee', $ownerId);
-		$db->pquery($query, $params);
-
-		$query = 'UPDATE jo_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
-		$params = array($newOwnerId, 'userid', $ownerId);
-		$db->pquery($query, $params);
-	}
-
 	//delete from jo_homestuff
 	if ($delete) {
 		$sql = "delete from jo_homestuff where userid=?";

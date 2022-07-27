@@ -91,7 +91,6 @@ class Settings_Workflows_EditAjax_View extends Settings_Workflows_Edit_View {
          $construct_array = array();
          $construct_array[1]=$condition[1];
          $construct_array[2]['columns'][0]=$condition[2]['columns'][$condition_count-1];
-        // echo'<pre>';print_r($construct_array);die('SD');
          $viewer->assign('ADVANCE_CRITERIA', $construct_array);
       }
       

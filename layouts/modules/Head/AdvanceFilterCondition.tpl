@@ -12,8 +12,8 @@
 -->*}
 {strip}
     <div class="row conditionRow">
-	<div class="col-lg-4 col-md-4 col-sm-4">
-		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="columnname">
+	<div class="col-lg-4 col-md-4 col-sm-4 mb5">
+		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12 p0" name="columnname">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -117,8 +117,8 @@
 			{/foreach}
 		</select>
 	</div>
-	<div class="conditionComparator col-lg-3 col-md-3 col-sm-3">
-		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="comparator">
+	<div class="conditionComparator col-lg-3 col-md-3 col-sm-3 mb5">
+		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12 p0" name="comparator">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
             {if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
@@ -134,8 +134,8 @@
 			{/foreach}
 		</select>
 	</div>
-	<div class="col-lg-4 col-md-4 col-sm-4  fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class=" inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
+	<div class="col-lg-4 col-md-4 col-sm-4 mb5 fieldUiHolder">
+		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class=" inputElement col-lg-12 m0" type="text" value="{$CONDITION_INFO['value']|escape}" />
 	</div>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->

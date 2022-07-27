@@ -16,7 +16,6 @@ Head.Class('Settings_PickListDependency_Js', {
 	 * Function used to triggerAdd new Dependency for the picklists
 	 */
 	triggerAdd : function(event) {
-		console.log(event);
 		event.stopPropagation();
 		var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 		instance.updatedSourceValues = [];
@@ -195,9 +194,7 @@ Head.Class('Settings_PickListDependency_Js', {
 			form.find('.errorMessage').addClass('hide');
 			var result = app.vtranslate('JS_SELECT_SOME_VALUE');
 			if(sourceFieldValue == '') {
-				console.log(result);
 			}else if(targetFieldValue == '') {
-				console.log(result);
 			}
 		}
 	},

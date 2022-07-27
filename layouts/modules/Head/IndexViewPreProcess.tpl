@@ -35,5 +35,11 @@
     <div class="quick-panel"></div>
 
         <div class="clearfix">
-                <div class="editViewPageDiv viewContent content-area {if $LEFTPANELHIDE eq '1'} full-width {/if} {if $VIEW eq 'Edit'} mt30{/if}">
-                        <div class="col-sm-12 col-xs-12 pr0 pl0">
+                <div class="editViewPageDiv viewContent content-area {if $LEFTPANELHIDE eq '1'} full-width {/if} {if $VIEW eq 'Edit'}{if $MODULE eq 'PDFMaker'} mt50 {else} mt30 {/if} {/if}">
+                 <div id="licence-alert-waring" class="alert mt-5">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+
+  <strong> <span class="licence-waring-icon"><i class="fa fa-warning"></i> </span> Danger!</strong>  You are not secure 
+
+</div>
+                        <div class="col-sm-12 col-xs-12 pr0 pl0  {$MODULE} {$EDIT_VIEWS}">

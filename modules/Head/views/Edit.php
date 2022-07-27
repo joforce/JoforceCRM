@@ -71,6 +71,7 @@ Class Head_Edit_View extends Head_Index_View {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
+		$Edit_views=$request->get('view');
 		if(!empty($record) && $request->get('isDuplicate') == true) {
 			$recordModel = $this->record?$this->record:Head_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
@@ -138,6 +139,7 @@ Class Head_Edit_View extends Head_Index_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('EDIT_VIEWS',$Edit_views);
 
 		$isRelationOperation = $request->get('relationOperation');
 

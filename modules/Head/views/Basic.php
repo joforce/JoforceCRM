@@ -48,37 +48,6 @@ abstract class Head_Basic_View extends Head_Footer_View {
 		$selectedModuleMenuCategory = 'MARKETING';
 		$moduleFound = false;
 
-		$menuGroupedByParent = Settings_MenuManager_Module_Model::getAllVisibleModules();
-		$supportGroup = $menuGroupedByParent['SUPPORT'];
-		unset($menuGroupedByParent['SUPPORT']);
-		$menuGroupedByParent['SUPPORT'] = $supportGroup;
-
-		foreach ($menuGroupedByParent as $parentCategory => $menuList) {
-			if($parentCategory == 'ANALYTICS') continue;
-			if(count($menuList) > 0) {
-				if(array_key_exists($selectedModule, $menuList)) {
-					$moduleFound = true;
-					$selectedModuleMenuCategory = $parentCategory;
-				}
-			}
-		}
-
-		$requestAppName = $request->get('app');
-		if(!empty($requestAppName)) {
-			$selectedModuleMenuCategory = $requestAppName;
-		}
-
-		//If module is not found in any category we need to show the module itself 
-		//Eg : Home->DashBoard view we ned to show Home 
-		if($moduleFound) {
-			$selectedMenuCategoryLabel = vtranslate('LBL_'.$selectedModuleMenuCategory, $selectedModule);
-		}else{
-			$selectedMenuCategoryLabel = vtranslate($selectedModule, $selectedModule);
-		}
-
-		$viewer->assign('SELECTED_MENU_CATEGORY',$selectedModuleMenuCategory);
-		$viewer->assign('SELECTED_MENU_CATEGORY_LABEL', $selectedMenuCategoryLabel);
-		$viewer->assign('SELECTED_CATEGORY_MENU_LIST',$menuGroupedByParent[$selectedModuleMenuCategory]);
 		$viewer->assign('MENUS', $menuModelsList);
 		$viewer->assign('QUICK_CREATE_MODULES', Head_Menu_Model::getAllForQuickCreate());
 		$viewer->assign('MENU_STRUCTURE', $menuStructure);

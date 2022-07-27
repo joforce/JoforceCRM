@@ -44,7 +44,7 @@
                 width:140px;
 
             }
-            .control-label{
+            .col-form-label{
                 font-size: 12px;
             }
             #content{
@@ -111,12 +111,12 @@
                                 <input type="hidden" name="secret_hash" value="{$SECRET_HASH}">
                                 <table align='center'>
                                     <tr>
-                                        <td style="text-align:right"><label class="control-label" for="password">{vtranslate('LBL_NEW_PASSWORD',$MODULE)}</label></td>
+                                        <td style="text-align:right"><label class="col-form-label" for="password">{vtranslate('LBL_NEW_PASSWORD',$MODULE)}</label></td>
                                         <td><input type="password" id="password" name="password"></td>
                                     </tr>
                                     <tr><td></td></tr>
                                     <tr>
-                                        <td style="text-align:right"><label class="control-label" for="confirmPassword">{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}</label></td>
+                                        <td style="text-align:right"><label class="col-form-label" for="confirmPassword">{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}</label></td>
                                         <td><input type="password" id="confirmPassword" name="confirmPassword"></td>
                                     </tr>
                                     <tr><td></td></tr>

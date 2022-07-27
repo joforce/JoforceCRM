@@ -15,11 +15,11 @@
 		<div class="btn-group" style="margin-top: 5px;">
 			{if $SELECTABLE_WIDGETS|count gt 0}
 			  <div class="dropdown">
-				<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+				<button class='btn btn-default addButton dropdown-toggle ms_dashborad_head_btn' data-toggle='dropdown'>
 					{vtranslate('LBL_ADD_WIDGET')}
 				</button>
 
-			 <div class="dropdown-menu dropdown-menu-right"id="content">
+			 <div class="dropdown-menu dropdown-menu-right get {if $MODULE eq 'Home'} ms_dashboard_drop_down {/if}"id="content">
 			 	<form>
 			 	<input type="text" id="Widget" placeholder="Search Widgets" onkeyup="myFunction();" class="inputElement">
 			 	</form>

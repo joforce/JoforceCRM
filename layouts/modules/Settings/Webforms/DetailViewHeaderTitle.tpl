@@ -9,13 +9,14 @@
 *************************************************************************************}
 
 {strip}
-<div class="col-lg-12 col-md-12 col-sm-12">
+
+<div class="col-lg-6 col-md-6 col-sm-6">
     <div class="record-header clearfix col-lg-12 col-md-12 col-sm-12">
 	{if !$MODULE}
 	    {assign var=MODULE value=$MODULE_NAME}
 	{/if}
         <div class="col-lg-1 col-md-1 col-sm-1">
-            <div class="hidden-sm hidden-xs recordImage bg_{$MODULE} app-{$SELECTED_MENU_CATEGORY}">
+            <div class="d-sm-none d-none recordImage bg_{$MODULE}">
                     <div class="name"><span><strong> <i class="joicon-{strtolower($MODULE)}"></i> </strong></span></div>
             </div>
         </div>
@@ -58,9 +59,11 @@
 	    {/if}
 	  </div>
 	</div>
+	
 	<div class="col-lg-8 col-md-8 col-sm-8">
 	    {include file="DetailViewHeaderFieldsView.tpl"|vtemplate_path:$MODULE}
 	</div>
     </div>
 </div>
+
 {/strip}

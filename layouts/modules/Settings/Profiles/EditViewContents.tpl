@@ -20,9 +20,9 @@
 		<div class="form-group row">
 			<div class="col-lg-3 col-md-3 col-sm-3 fieldLabel"></div>
 			<div class="col-lg-6 col-md-6 col-sm-6">
-				<label class="control-label">
+				<label class="col-form-label">
 					<input type="hidden" name="viewall" value="0" />
-					<label class="control-label">
+					<label class="col-form-label">
 						<input class="listViewEntriesCheckBox" type="checkbox" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}checked="true"{/if} style="top: -2px;" />
 						&nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}&nbsp;
 					</label>
@@ -31,9 +31,9 @@
 					</span>
 				</label>
 				<br>
-				<label class="control-label">
+				<label class="col-form-label">
 					<input type="hidden" name="editall" value="0" />
-					<label class="control-label">
+					<label class="col-form-label">
 						<input class="listViewEntriesCheckBox" type="checkbox" name="editall" {if $RECORD_MODEL->hasGlobalReadPermission()}checked="true"{/if} style="top: -2px;"/>
 						&nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}&nbsp;
 					</label>
@@ -55,7 +55,7 @@
 {/if}
 <div class="">
 	<div class="col-lg-1 col-md-1 col-sm-1"></div>
-	<div class=" col-lg-10 col-md-10 col-sm-10">
+	<div class=" col-lg-12 col-md-10 col-sm-10">
 		<table class="table table-bordered profilesEditView">
 			<thead>
 				<tr class="blockHeader">
@@ -93,7 +93,8 @@
 				{assign var=PROFILE_MODULES value=$RECORD_MODEL->getModulePermissions()}
 				{foreach from=$PROFILE_MODULES key=TABID item=PROFILE_MODULE}
 					{assign var=MODULE_NAME value=$PROFILE_MODULE->getName()}
-					{if $MODULE_NAME neq 'Events'}
+					{assign var=_restricted_modules value=array('Events', 'RecycleBin', 'PBXManager')}
+					{if !in_array($MODULE_NAME, $_restricted_modules)}
 						{assign var=IS_RESTRICTED_MODULE value=$RECORD_MODEL->isRestrictedModule($MODULE_NAME)}
 						<tr>
 							<td class="verticalAlignMiddleImp">
@@ -118,7 +119,7 @@
 							</td>
 						</tr>
 						<tr class="hide">
-							<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+							<td colspan="6" class="col-sm-12" style="padding-left: 5%;padding-right: 5%">
 								<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 									{if $PROFILE_MODULE->getFields() && $PROFILE_MODULE->isEntityModule() }
 										<div class="col-sm-12">
@@ -145,7 +146,7 @@
 												{assign var='FIELD_ID' value=$FIELD_MODEL->getId()}
 												{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->get('uitype') != '83' && $FIELD_MODEL->get('displaytype') neq '6'}
 													{if $COUNTER % 3 == 0}
-														<tr>
+														<tr class="tool">
 													{/if}
 													<td >
 														<!-- Field will be locked iff that field is non editable or Mandatory or UIType 70.
@@ -210,7 +211,7 @@
 								{/if}
 							{/foreach}
 							{if $ALL_UTILITY_ACTIONS_ARRAY}
-								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;">
+								<td colspan="6" class="col-sm-12" style="padding-left: 5%;padding-right: 5%;">
 									<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 										<div class="col-sm-12">
 											<label class="pull-left">

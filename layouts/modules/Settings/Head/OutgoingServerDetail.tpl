@@ -10,12 +10,12 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-	<div class="detailViewContainer" id="OutgoingServerDetails">
-			<div class="clearfix">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<h3 style="margin-top: 0px;">{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>
+	<div class="detailViewContainer card" id="OutgoingServerDetails">
+			<div class="clearfix p10 card-header-new m20">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left Out_going_server">
+					<h3 >{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>
 				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
 					<div class="btn-group pull-right">
 						<button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</button>
 					</div>
@@ -23,7 +23,7 @@
 			</div>
 			<div>
 				{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-				<div class="block">
+				<div class="block pt10 pr50 pb10 pl50 ml20" >
 					<div>
 						<h4>{vtranslate('LBL_MAIL_SERVER_SMTP', $QUALIFIED_MODULE)}</h4>
 					</div>

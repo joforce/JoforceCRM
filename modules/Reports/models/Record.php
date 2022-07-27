@@ -315,7 +315,7 @@ class Reports_Record_Model extends Head_Record_Model {
 				array_push($params, $current_user->id);
 			}
 
-			//Report sharing for vtiger7
+			//Report sharing
 			$queryObj = new stdClass();
 			$queryObj->query = $sql;
 			$queryObj->queryParams = $params;

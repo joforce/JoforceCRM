@@ -9,7 +9,7 @@
  * Contributor(s): JoForce.com
  * ***********************************************************************************/
 
-class HelpDesk_RecipientPreferences_View extends Project_RecipientPreferences_View {
+class HelpDesk_RecipientPreferences_View extends Head_RecipientPreferences_View {
 
 	public function process(Head_Request $request) {
 		$sourceModule = $request->getModule();
@@ -18,6 +18,6 @@ class HelpDesk_RecipientPreferences_View extends Project_RecipientPreferences_Vi
 		$viewer->assign('EMAIL_FIELDS_LIST', $emailFieldsInfo);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		echo $viewer->view('RecipientPreferences.tpl', 'Project', true);
+		echo $viewer->view('RecipientPreferences.tpl', 'Head', true);
 	}
 }

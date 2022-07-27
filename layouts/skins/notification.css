@@ -1,310 +1,2451 @@
 /* Notification styles */
+
 body {
-  background: #f8f8f8; 
-  overflow-x: hidden;
+	background: #f8f8f8;
+	overflow-x: hidden;
 }
+.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container  {
+	width: 80%;
+}
+.main-container.main-container-Home.ms_margin_top_dashboard.panel-width > .listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container{ width: 100%;}
+
+
 .joforce-box {
-  margin: 0; padding: 0;
-  margin: 20px 0;
-  height: 100%;
-  overflow: hidden;
+	margin: 0;
+	padding: 0;
+	margin: 20px 0;
+	height: 100%;
+	overflow: hidden;
 }
-.joforce-dash{
-  width: 100%;  background: #fff; overflow-x:auto; 
+.joforce-dash .arrowbg{background: #fff;
+	width: 80%; height: 100%;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 50px;
+    box-shadow: -8px 12px 18px 0 #dadee8; margin-top: 50px; margin-bottom: 50px;
 }
+
+.joforce-dash {
+	width: 100%;height: 900px;
+	background: #ebf0f5;
+	overflow-x: auto; margin-bottom: 50px;
+}
+
 .joforce-dash-container {
-    margin: 45px auto auto auto;
-    position: relative;
-    width: 785px;
-    height: 510px !important;
-    background: url(images/notification/dashboard.png);
-    background-repeat: no-repeat;
-    background-size: 650px 500px;
+	margin: 45px auto auto auto;
+	position: relative;
+	height: 800px;
+	/* height: auto !important; */
+	/* background: url(images/notification/dashboard.png); */
+	background-repeat: no-repeat;
+	background-size: 650px 500px;
 }
-.dash-widgets{
-  margin-bottom: 5px;
+
+.dash-widgets {
+	margin-bottom: 5px;
 }
+
 .dash-widgets li {
-  display: inline-block;
-  text-align: center;
-}
-.dash-widgets li:hover  .dash-widgets li span{
-  font-weight: bold;
-}
-.dash-icons {     
-  text-align:center;
-  padding-bottom: 5px;
-}
-.dash-icons img{
-  width: 25px;
-  height: 25px;
-  margin: 0 auto;
-  text-align:center;
-}
-.dash-widgets-side{
-  position: absolute;
-  top: 85px; left: 640px;
-}
-.dash-widgets-side{
-  padding-left: 10px;
-}
-.dash-widgets-side li{
-  text-align: left;
-  list-style-type: none;
-  position: relative;
-  padding: 0;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  font-size: 14px;
-  min-width: 100px;
-  margin-bottom: 38px;
-}
-.dash-widgets li {
-  float: left; text-align: center;
-  list-style-type: none;
-  position: relative;
-  padding: 0;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  min-width: 100px;
-  font-size: 14px;
-}
-.dash-widgets li a , .dash-widgets-side li a{
-  text-decoration: none;
-  color:#333;
-  outline: none;
-}
-.dash-widgets li .count{
-  border-radius: 7px;
-  background: #EB5855;
-  position: absolute;
-  top: -5px; left: 50%;
-  line-height: 1.5;
-  text-align: center;
-  color: #fff;
-  font-weight: bold;
-  padding: 2px 5px;
-  line-height: 12px;
-  font-size: 13px;
+	display: inline-block;
+	text-align: center;
 }
 
-.dash-widgets-side li .count{
-  border-radius: 7px;
-  background: #EB5855;
-  position: absolute;
-  top: -5px; left: 10px;
-  line-height: 1.5;
-  text-align: center;
-  color: #fff;
-  font-weight: bold;
-  padding: 2px 5px;
-  line-height: 12px;
-  font-size: 13px;
+.dash-widgets li:hover .dash-widgets li span {
+	font-weight: bold;
 }
 
-
-.dash-widgets li .count.zero,.dash-widgets-side li .count.zero{
-background: #656565;
-
+.dash-icons {
+	text-align: center;
+	padding-bottom: 5px;
 }
 
-.dash-widgets-side a.disable img{
- opacity: 0.5;
- filter: gray;
- -webkit-filter: grayscale(1);
- filter: grayscale(1);
-}
-.dash-widgets-side a.disable span{
-  color:#8a8a8a;
-}
-.dash-widgets-side a.disable{
- cursor: default;
- pointer-events: none;
-}
-.dash-widgets-side .dash-icons, .dash-widgets-side span{
-  display: inline-block;
-}
-.dash-widgets-side span{
-  margin-left: 10px;
-}
-@media only  screen and (max-width:480px){
-  .dash-widgets li{
-  }
-}
-.dash-widgets a.disable img{
-  opacity: 0.5;
-  filter: gray;
-  -webkit-filter: grayscale(1);
-  filter: grayscale(1);
-}
-.dash-widgets a.disable  span{
-  color:#8a8a8a;
-}
-.dash-widgets a.disable{
-  cursor: default;
-  pointer-events: none;
-}
-.dash-widgets li{
-  position: absolute;
-}
-.dash-leads{
-  top: 15px; left: 40px;
-}
-.dash-contacts{
-  top: 15px; left: 210px;
-}
-.dash-organizations{
-  top: 15px; left: 400px;
-}
-.dash-opportunities{
-  top: 140px; left: 210px;
-} 
-.dash-campaigns{
-  top: 140px; left: 400px;
-}
-.dash-products{
- top: 220px;left: 25px;
-}
-.dash-services{
- top: 310px; left: 25px;
-}
-.dash-quotes{
-  top: 250px;left: 185px;
-}
-.dash-sales-order{
-  top: 250px; left: 480px;
-}
-.dash-invoice{
-  top: 250px; left: 330px;
-}
-.dash-vendor{
-  top: 340px; left: 185px;
-}
-.dash-purchase-orders{
-  top: 340px; left: 330px;
-}
-.dash-project{
-  top: 430px;left: 25px;
-}
-.dash-milestone{
-  top: 430px; left: 185px;
-}
-.dash-projecttask{
-  top: 430px;left: 330px;
-}
-.dash-widgets li .popover{
-  min-width: 300px;
-  max-width: 300px;
-  left:70px !important;
-  border:1px solid #e8e8e8;
-  border-radius: 0px 5px 5px 5px;
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.1);
-}
-.dash-widgets li .popover .arrow{
-  top:18px !important; 
-  border-right-color:#e8e8e8;
-}
-.dash-widgets li .popover .arrow::after{
-  border-right-color:#fff;
-}
-.dash-widgets li .popover .popover-title{
-  background: #fff;
-  border-bottom: 1px solid #e8e8e8;
-  font-size: 15px;
-}
-.dash-widgets li .popover .popover-content{
-  font-size: 14px;
+.dash-icons img {
+	width: 25px;
+	height: 25px;
+	margin: 0 auto;
+	text-align: center;
 }
 
-@media only screen and (max-width: 900px) {
-  .joforce-dash-aside{
-    float: none;
-    width: 100%;
-    margin-bottom: 30px;
-    height: auto;
-    background: #bfbdbd;
-    height: 90px;     
-  }
-  .joforce-dash-aside li{
-    margin-left: 5%;
-    display: inline-block;
-    height: 80px;
-    top: 20px;
-  }
-  .joforce-dash{
-    float: none;
-    width: 100%;
-  }
-}
-@media only screen and (min-width: 1400px) {
-  .joforce-dash-container{
-    width: 870px; height: 710px;
-    background-repeat:no-repeat;
-    background-size: 824px 700px;
-  }
-  .dash-leads{
-    top: 25px; left: 80px;
-  }
-  .dash-contacts{
-    top: 25px;left: 290px;
-  }
-  .dash-organizations{
-    top: 25px; left: 530px;
-  }
-  .dash-opportunities{
-    top: 200px; left: 290px;
-  } 
-  .dash-campaigns{
-    top: 200px; left: 530px;
-  }
-  .dash-products{
-   top: 310px;left: 55px;
- }
- .dash-services{
-   top: 450px; left: 55px;
- }
- .dash-quotes{
-  top: 360px;left: 265px;
-}
-.dash-sales-order{
-  top: 360px; left: 600px;
-}
-.dash-invoice{
-  top: 360px; left: 440px;
-}
-.dash-vendor{
-  top: 470px; left: 260px;
-}
-.dash-purchase-orders{
-  top: 470px; left: 440px;
-}
-.dash-project{
-  top: 620px; left: 55px;
-}
-.dash-milestone{
-  top: 620px; left: 230px;
-}
-.dash-projecttask{
-  top: 620px;left: 440px;
-}
 
 
 .dash-widgets-side {
-  top: 120px; left: 820px;
+	position: absolute;
+	top: 65px;
+	left: 640px;
 }
+
+.dash-widgets-side {
+	padding-left: 10px;
+}
+
 .dash-widgets-side li {
-  margin-bottom: 68px;
-  min-width: 200px;
+	text-align: left;
+	list-style-type: none;
+	position: relative;
+	padding: 0;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	font-size: 14px;
+	min-width: 100px;
+	margin-bottom: 55px; text-align: center;
 }
+
+.dash-widgets li {
+	float: left;
+	text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 0;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	min-width: 100px;
+	font-size: 14px;
 }
+
+.dash-widgets li a,
+.dash-widgets-side li a {
+	text-decoration: none;
+	color: #333;
+	outline: none;
+}
+
+.dash-widgets li .count {
+	border-radius: 7px;
+	background: #EB5855;
+	position: absolute;
+	top: -5px;
+	left: 50%;
+	line-height: 1.5;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	padding: 2px 5px;
+	line-height: 12px;
+	font-size: 13px;
+}
+
+.dash-widgets-side li .count {
+	border-radius: 7px;
+	background: #EB5855;
+	position: absolute;
+	top: -5px;
+	left: 10px;
+	line-height: 1.5;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	padding: 2px 5px;
+	line-height: 12px;
+	font-size: 13px;
+}
+
+.dash-widgets li .count.zero,
+.dash-widgets-side li .count.zero {
+	background: #656565;
+}
+
+.dash-widgets-side a.disable img {
+	opacity: 0.5;
+	filter: gray;
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+
+.dash-widgets-side a.disable span {
+	color: #8a8a8a;
+}
+
+.dash-widgets-side a.disable {
+	cursor: default;
+	pointer-events: none;
+}
+
+.dash-widgets-side .dash-icons,
+.dash-widgets-side span {
+	/* display: inline-block; */
+}
+
+.dash-widgets-side span {
+	margin-left: 10px;
+}
+
+
+@media only screen and (max-width:1366px) {
+
+
+	
+	.dash-leads {
+		top: 6px;
+		left: 13px ;
+	}
+	
+		.dash-contacts {
+			top: 6px;
+    left: 173px;
+		}
+	
+		.dash-organizations {
+			top: 6px ;
+			left: 241px;
+		}
+	
+		.dash-opportunities {
+			top: 95px;
+			left: 122px;
+		}
+	.dash-campaigns {
+		top: 140px;
+		left: 400px;
+	}
+	
+	.dash-products {
+		top: 153px;
+		left:02px;
+	}
+	.dash-services {
+		top: 226px;
+		left: 2px;
+	}
+	
+	.dash-quotes {
+		top: 177px;
+		left: 106px;
+	
+	}
+	
+	.dash-sales-order {
+		top: 177px;
+		left: 290px;
+	}
+	
+	.dash-invoice {
+		top: 177px;
+		left: 198px;
+	}
+	
+	.dash-vendor {
+		top: 234px;
+		left: 105px;
+	}
+	
+	.dash-purchase-orders {
+		top: 234px;
+		left: 198px;
+	}
+	
+	
+	
+	.dash-Task {
+		top: -33px;
+		left: -40px;
+	}
+	
+	.dash-Events{
+		top: -77px;
+		left: -40px;
+	
+	}
+	
+	.dash-Emails   {
+		top: -123px;
+		left: -40px;
+	
+	}
+	
+	.dash-Calls   {
+		top: -167px;
+		left: -40px;
+	
+	}
+	
+	
+	.dash-Tickets{
+		top: -210px;
+		left: -40px;
+	
+	}
+	
+	
+
+
+}
+
+
+
+@media only screen and (max-width:1025px){
+	.dash-leads {
+	top: 6px ;
+    left: -122px ;
+}
+
+}
+
+@media only screen and (max-width:1024px) {
+	.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container{ width: 90%;}
+	.dash-widgets li span {width: 20px; font-size: 11px; text-align: center;}
+	#Layer_1{ width: 25px !important;}
+
+	
+	
+.dash-leads {
+	top: 6px ;
+    left: -122px ;
+}
+
+	.dash-contacts {
+		top: 6px ;
+		left: 120px ;
+	}
+
+	.dash-organizations {
+		top: 6px ;
+		left: 241px;
+	}
+
+	.dash-opportunities {
+		top: 95px;
+		left: 122px;
+	}
+.dash-campaigns {
+	top: 140px;
+	left: 400px;
+}
+
+.dash-products {
+    top: 153px;
+    left:02px;
+}
+.dash-services {
+    top: 226px;
+    left: 2px;
+}
+
+.dash-quotes {
+	top: 177px;
+    left: 106px;
+
+}
+
+.dash-sales-order {
+	top: 177px;
+    left: 290px;
+}
+
+.dash-invoice {
+	top: 177px;
+    left: 198px;
+}
+
+.dash-vendor {
+	top: 234px;
+    left: 105px;
+}
+
+.dash-purchase-orders {
+	top: 234px;
+    left: 198px;
+}
+
+
+
+.dash-Task {
+	top: -33px;
+    left: -40px;
+}
+
+.dash-Events{
+	top: -77px;
+	left: -40px;
+
+}
+
+.dash-Emails   {
+	top: -123px;
+	left: -40px;
+
+}
+
+.dash-Calls   {
+	top: -167px;
+	left: -40px;
+
+}
+
+
+.dash-Tickets{
+	top: -210px;
+	left: -40px;
+
+}
+
+
+
+
+}
+
+
+@media only screen and (max-width:768px) {
+	.dash-widgets li span {width: 20px; font-size: 11px; text-align: center;}
+
+	.dash-widgets .hover-li span{ font-size: 11px;}
+}
+#Layer_1{ width: 16px !important;}
+.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container  {
+	width: 90%;
+}
+.dash-widgets-side{margin-left: -216px;}
+
+.dash-widgets a.disable img {
+	opacity: 0.5;
+	filter: gray;
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+
+
+.dash-widgets a.disable span {
+	color: #8a8a8a;
+}
+
+.dash-widgets a.disable {
+	cursor: default;
+	pointer-events: none;
+}
+
+.dash-widgets li {
+	position: absolute;
+}
+
+.dash-leads {
+	top: 6px;
+    left: 5px;}
+
+.dash-contacts {
+	top: 6px;
+    left: 120px;
+}
+
+.dash-organizations {
+	top: 6px;
+    left: 244px;
+}
+
+.dash-opportunities {
+	top: 95px;
+    left: 123px;
+}
+
+.dash-campaigns {
+	top: 140px;
+	left: 400px;
+}
+
+.dash-products {
+	top: 157px;
+    left: 0px;
+}
+
+.dash-services {
+	top: 222px;
+    left: 0px;
+
+}
+
+.dash-quotes {
+	top: 177px;
+    left: 106px;
+
+}
+
+.dash-sales-order {
+	top: 177px;
+    left: 290px;
+}
+
+.dash-invoice {
+	top: 177px;
+    left: 198px;
+}
+
+.dash-vendor {
+	top: 234px;
+    left: 105px;
+}
+
+.dash-purchase-orders {
+	top: 234px;
+    left: 198px;
+}
+
+
+
+.dash-Task {
+	top: -33px;
+    left: -40px;
+}
+
+.dash-Events{
+	top: -77px;
+	left: -40px;
+
+}
+
+.dash-Emails   {
+	top: -123px;
+	left: -40px;
+
+}
+
+.dash-Calls   {
+	top: -167px;
+	left: -40px;
+
+}
+
+
+.dash-Tickets{
+	top: -210px;
+	left: -40px;
+
+}
+
+.dash-project {
+	top: 430px;
+	left: 25px;
+}
+
+.dash-milestone {
+	top: 430px;
+	left: 185px;
+}
+
+.dash-projecttask {
+	top: 430px;
+	left: 330px;
+}
+
+.dash-widgets li .popover {
+	min-width: 300px;
+	max-width: 300px;
+	left: 70px !important;
+	border: 1px solid #e8e8e8;
+	border-radius: 0px 5px 5px 5px;
+	box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.1);
+}
+
+.dash-widgets li .popover .arrow {
+	top: 18px !important;
+	border-right-color: #e8e8e8;
+}
+
+.dash-widgets li .popover .arrow::after {
+	border-right-color: #fff;
+}
+
+.dash-widgets li .popover .popover-title {
+	background: #fff;
+	border-bottom: 1px solid #e8e8e8;
+	font-size: 15px;
+}
+
+.dash-widgets li .popover .popover-content {
+	font-size: 14px;
+}
+
+
+}
+
+
+
+@media only screen and (max-width: 900px) {
+	.joforce-dash-aside {
+		float: none;
+		width: 100%;
+		margin-bottom: 30px;
+		height: auto;
+		background: #bfbdbd;
+		height: 90px;
+	}
+	.joforce-dash-aside li {
+		margin-left: 5%;
+		display: inline-block;
+		height: 80px;
+		top: 20px;
+	}
+	.joforce-dash {
+		float: none;
+		width: 100%;
+	}
+}
+ 
+
+@media only screen and (width: 1440px) {
+	#Layer_1{ width: 40px !important;}
+
+
+	.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container  {
+		width: 80%;
+	}
+	.joforce-dash-container {
+		width: 90%;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-size: 824px 700px;
+	}
+	.dash-leads {
+		top: 25px;
+		left: 45px;
+	}
+	.dash-contacts {
+		top: 25px;
+		left: 272px;
+	}
+	.dash-organizations {
+		top: 25px;
+		left: 500px;
+	}
+	.dash-opportunities {
+		top: 194px;
+		left: 280px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 290px;
+		left: 35px;
+	}
+	.dash-services {
+		top: 426px;
+		left: 35px;
+	}
+	.dash-quotes {
+		top: 350px;
+		left: 250px;
+	}
+	.dash-sales-order {
+		top: 350px;
+		left: 613px;
+	}
+	.dash-invoice {
+		top: 350px;
+		left: 426px;
+	}
+	.dash-vendor {
+		top: 450px;
+		left: 245px;
+	}
+	.dash-purchase-orders {
+		top: 450px;
+		left: 424px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    
+	}
+	.dash-Task {
+		top: 0px;
+		left: 223px;
+
+	}
+
+	.dash-Events{
+		top: -24px;
+        left: 223px;
+
+	}
+
+	.dash-Emails   {
+		top: -46px;
+        left: 223px;
+
+	}
+
+	.dash-Calls   {
+		top: -72px;
+        left: 223px;
+
+	}
+
+
+	.dash-Tickets{
+		top: -90px;
+        left: 223px;
+
+	}
+}
+
+
+
+@media screen and (min-width: 800px) and (max-width: 1280px) and (-webkit-min-device-pixel-ratio:0) {
+
+
+
+	.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container  {
+		width: 80%;
+	}
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 23px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 572px;
+	}
+	.dash-opportunities {
+		top: 209px;
+		left: 322px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 329px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 485px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 400px;
+		left: 280px;
+	}
+	.dash-sales-order {
+		top: 400px;
+		left: 690px;
+	}
+	.dash-invoice {
+		top: 316px;
+		left: 360px;
+	}
+	.dash-vendor {
+		top: 519px;
+		left: 280px;
+	}
+	.dash-purchase-orders {
+		top: 519px;
+		left: 576px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 100PX;
+	}
+
+	.dash-Events{
+		top: 0px;
+        left: 100PX;
+
+	}
+
+	.dash-Emails   {
+		top: -6px;
+        left: 100PX;
+
+	}
+
+	.dash-Calls   {
+		top: 020px;
+        left: 100PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: -30px;
+        left: 100px;
+
+	}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (width:1523px)  {
+	#Layer_1{ width: 40px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 341px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 622px;
+	}
+	.dash-opportunities {
+		top: 221px;
+    left: 347px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 362px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 524px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 430px;
+		left: 290px;
+	}
+	.dash-sales-order {
+		top: 424px;
+		left: 727px;
+	}
+	.dash-invoice {
+		top: 426px;
+		left: 516px;
+	}
+	.dash-vendor {
+		top: 559px;
+		left: 290px;
+	}
+	.dash-purchase-orders {
+		top: 555px;
+		left: 510px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 375PX;
+	}
+
+	.dash-Events{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+	.dash-Emails   {
+		top: 8px;
+        left: 375PX;
+
+	}
+
+	.dash-Calls   {
+		top: 2px;
+        left: 375PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+
+
+
+}
+
+
+@media only screen and (width:1533px)  {
+
+
+	#Layer_1{ width: 30px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 341px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 622px;
+	}
+	.dash-opportunities {
+		top: 221px;
+    left: 347px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 362px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 524px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 430px;
+		left: 290px;
+	}
+	.dash-sales-order {
+		top: 424px;
+		left: 727px;
+	}
+	.dash-invoice {
+		top: 426px;
+		left: 516px;
+	}
+	.dash-vendor {
+		top: 559px;
+		left: 290px;
+	}
+	.dash-purchase-orders {
+		top: 555px;
+		left: 510px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 375PX;
+	}
+
+	.dash-Events{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+	.dash-Emails   {
+		top: 8px;
+        left: 375PX;
+
+	}
+
+	.dash-Calls   {
+		top: 2px;
+        left: 375PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+
+
+
+}
+
+
+
+
+
+@media only screen and (width:1550px)  {
+
+	#Layer_1{ width: 40px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 341px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 622px;
+	}
+	.dash-opportunities {
+		top: 221px;
+    left: 347px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 362px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 524px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 430px;
+		left: 290px;
+	}
+	.dash-sales-order {
+		top: 424px;
+		left: 727px;
+	}
+	.dash-invoice {
+		top: 426px;
+		left: 516px;
+	}
+	.dash-vendor {
+		top: 559px;
+		left: 290px;
+	}
+	.dash-purchase-orders {
+		top: 555px;
+		left: 510px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 375PX;
+	}
+
+	.dash-Events{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+	.dash-Emails   {
+		top: 8px;
+        left: 375PX;
+
+	}
+
+	.dash-Calls   {
+		top: 2px;
+        left: 375PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 0px;
+        left: 375PX;
+
+	}
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+@media only screen and (width:1528px){
+
+	#Layer_1{ width: 40px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 341px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 622px;
+	}
+	.dash-opportunities {
+		top: 221px;
+    left: 347px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 353px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 510px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 420px;
+		left: 300px;
+	}
+	.dash-sales-order {
+		top: 420px;
+		left: 717px;
+	}
+	.dash-invoice {
+		top: 420px;
+		left: 510px;
+	}
+	.dash-vendor {
+		top: 548px;
+		left: 300px;
+	}
+	.dash-purchase-orders {
+		top: 550px;
+		left: 511px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 10px;
+		left: 353PX;
+	}
+
+	.dash-Events{
+		top: 10px;
+		left: 350PX;
+
+	}
+
+	.dash-Emails   {
+		top: 10px;
+		left: 350PX;
+
+	}
+
+	.dash-Calls   {
+		top: 0px;
+		left: 350PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 0px;
+		left: 350PX;
+
+	}
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (width:1600px){
+
+	#Layer_1{ width: 40px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 367px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 648px;
+	}
+	.dash-opportunities {
+		top: 234px;
+    left: 360px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 368px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 535px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 438px;
+		left: 315px;
+	}
+	.dash-sales-order {
+		top: 438px;
+		left: 762px;
+	}
+	.dash-invoice {
+		top: 438px;
+		left: 532px;
+	}
+	.dash-vendor {
+    top: 579px;
+    left: 321px;
+}
+.dash-purchase-orders {
+    top: 580px;
+    left: 528px;
+}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 20px;
+		left: 405PX;
+	}
+
+	.dash-Events{
+		top: 18px;
+    left: 405PX;
+
+	}
+
+	.dash-Emails   {
+		top: 18px;
+    left: 405PX;
+
+	}
+
+	.dash-Calls   {
+		top: 20px;
+    left: 405PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 34px;
+    left: 405PX;
+}
+
+
+
+
+
+
+}
+
+
+
+
+
+@media screen and (width:1281) and (width:1439px){
+
+	
+	#Layer_1{ width: 40px !important;}
+
+
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 367px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 648px;
+	}
+	.dash-opportunities {
+		top: 234px;
+    left: 360px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 368px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 535px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 438px;
+		left: 315px;
+	}
+	.dash-sales-order {
+		top: 438px;
+		left: 762px;
+	}
+	.dash-invoice {
+		top: 438px;
+		left: 532px;
+	}
+	.dash-vendor {
+    top: 579px;
+    left: 321px;
+}
+.dash-purchase-orders {
+    top: 580px;
+    left: 528px;
+}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 20px;
+		left: 405PX;
+	}
+
+	.dash-Events{
+		top: 18px;
+    left: 405PX;
+
+	}
+
+	.dash-Emails   {
+		top: 18px;
+    left: 405PX;
+
+	}
+
+	.dash-Calls   {
+		top: 20px;
+    left: 405PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 34px;
+    left: 405PX;
+}
+
+
+
+
+
+
+
+}
+
+@media screen and (width:1441px) and (width:1500px){
+
+
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 316px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 572px;
+	}
+	.dash-opportunities {
+		top: 209px;
+		left: 322px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 329px;
+		left: 58px;
+	}
+	.dash-services {
+		top: 485px;
+		left: 58px;
+	}
+	.dash-quotes {
+		top: 400px;
+		left: 280px;
+	}
+	.dash-sales-order {
+		top: 400px;
+		left: 690px;
+	}
+	.dash-invoice {
+		top: 400px;
+		left: 485px;
+	}
+	.dash-vendor {
+		top: 519px;
+		left: 280px;
+	}
+	.dash-purchase-orders {
+		top: 519px;
+		left: 483px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 319PX;
+	}
+
+	.dash-Events{
+		top: 0px;
+        left: 319PX;
+
+	}
+
+	.dash-Emails   {
+		top: -6px;
+        left: 319PX;
+
+	}
+
+	.dash-Calls   {
+		top: -27px;
+        left: 319PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: -30px;
+        left: 319PX;
+
+	}
+
+
+
+}
+ 
+
+
+
+
+
+@media (min-width: 1700px) and (max-width: 2560px)  {
+
+
+.listViewPageDiv.content-area.full-width > .joforce-box.pl0.pr0 > .joforce-dash > .arrowbg > .joforce-dash-container  {
+	width: 80%;
+}
+	.joforce-dash .arrowbg{height: 140%;}
+
+
+
+	.joforce-dash-container {
+		width: 90%;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-size: 824px 700px;
+	}
+	.dash-widgets-side li{ text-align: center;}
+
+	#Layer_1{ width: 60px !important;}
+	.dash-leads {
+		top: 47px;
+		left: 180px;
+	}
+	.dash-contacts {
+		top: 47px;
+		left: 566px;
+	}
+	.dash-organizations {
+		top: 47px;
+		left: 986px;
+	}
+	.dash-opportunities {
+		top: 363px;
+		left: 567px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 561px;
+		left: 120px;
+	}
+	.dash-services {
+		top: 800px;
+		left: 120px;
+	}
+	.dash-quotes {
+		top: 660px;
+		left: 505px;
+	}
+	.dash-sales-order {
+		top: 660px;
+		left: 1174px;
+	}
+	.dash-invoice {
+		top: 660px;
+		left: 827px;
+	}
+	.dash-vendor {
+		top: 866px;
+		left: 495px;
+	}
+	.dash-purchase-orders {
+		top: 866px;
+		left: 847px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 64px;
+		left: 885px;
+	}
+
+	.dash-Events{
+		top: 105px;
+        left: 885px;
+
+	}
+
+	.dash-Emails   {
+		top: 148px;
+        left: 885px;
+
+	}
+
+	.dash-Calls   {
+		top: 185px;
+        left: 885px;
+
+	}
+
+
+	.dash-Tickets{
+		top: 236px;
+        left: 885px;
+
+	}
+
+
+}
+
+
+
+
+
+
+
+@media screen and (min-width: 800px) and (max-width: 1280px) and (-webkit-min-device-pixel-ratio:0) {
+
+
+	.joforce-dash .arrowbg{height: 140%;}
+
+
+	.joforce-dash-container {
+		width: 90%;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-size: 824px 700px;
+	}
+	.dash-widgets-side li{ text-align: center;}
+
+	#Layer_1{ width: 35px !important;}
+	.dash-leads {
+		top: 15px;
+		left: 43px;
+	}
+	.dash-contacts {
+		top: 15px;
+		left: 233px;
+	}
+	.dash-organizations {
+		top: 15px;
+		left: 440px;
+	}
+	.dash-opportunities {
+		top: 168px;
+		left: 255px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 266px;
+		left: 40px;
+	}
+	.dash-services {
+		top: 387px;
+		left: 40px;
+	}
+	.dash-quotes {
+		top: 300px;
+		left: 205px;
+	}
+	.dash-sales-order {
+		top: 300px;
+		left: 526px;
+	}
+	.dash-invoice {
+		top: 300px;
+		left: 356px;
+	}
+	.dash-vendor {
+		top: 395px;
+		left: 207px;
+	}
+	.dash-purchase-orders {
+		top: 395px;
+		left: 356px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: -12px;
+		left: 120px;
+	}
+
+	.dash-Events{
+		top: -43px;
+        left: 120px;
+
+	}
+
+	.dash-Emails   {
+		top: -70px;
+        left: 120px;
+
+	}
+
+	.dash-Calls   {
+		top: -104px;
+        left: 120px;
+
+	}
+
+
+	.dash-Tickets{
+		top: -124px;
+        left: 120px;
+
+	}
+
+
+
+
+
+}
+
+@media(min-width:1451px) and (max-width:1550px){
+
+	.joforce-dash-container{
+		/* display: none; */
+		/* background-color: #333; */
+	}
+	#Layer_1{ width: 30px !important;}
+	
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 334px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 610px;
+	}
+	.dash-opportunities {
+		top: 233px;
+    left: 344px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 362px;
+    left: 43px;
+	}
+	.dash-services {
+		top: 515px;
+    left: 41px;
+	}
+	.dash-quotes {
+		top: 430px;
+    left: 312px;
+	}
+	.dash-sales-order {
+		top: 423px;
+    left: 746px;
+	}
+	.dash-invoice {
+		top: 425px;
+    left: 504px;
+	}
+	.dash-vendor {
+		top: 559px;
+    left: 311px;
+	}
+	.dash-purchase-orders {
+		top: 560px;
+    left: 509px;
+    }
+	
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 350PX;
+	}
+
+	.dash-Events{
+		top: 22px;
+        left: 350PX;
+
+	}
+
+	.dash-Emails   {
+		top: 32px;
+        left: 350PX;
+
+	}
+
+	.dash-Calls   {
+		top: 37px;
+        left: 350PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: 43px;
+        left: 350PX;
+
+	}
+
+
+
+}
+
+
+@media(min-width:1294px) and (max-width:1450px){
+
+	.joforce-dash-container{
+		/* display: none; */
+		/* background-color: #333; */
+	}
+	#Layer_1{ width: 30px !important;}
+	
+	.dash-leads {
+		top: 24px;
+		left: 80px;
+	}
+	.dash-contacts {
+		top: 24px;
+		left: 277px;
+	}
+	.dash-organizations {
+		top: 24px;
+		left: 505px;
+	}
+	.dash-opportunities {
+		top: 195px;
+		left: 274px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 297px;
+    left: 43px;
+	}
+	.dash-services {
+		top: 436px;
+    left: 41px;
+	}
+	.dash-quotes {
+		top: 350px;
+    left: 247px;
+	}
+	.dash-sales-order {
+		top: 354px;
+    left: 620px;
+	}
+	.dash-invoice {
+		top: 354px;
+    left: 424px;
+	}
+	.dash-vendor {
+		top: 455px;
+		left: 246px;
+	}
+	.dash-purchase-orders {
+		top: 458px;
+    left: 423px;
+    }
+	
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 0px;
+		left: 192PX;
+	}
+
+	.dash-Events{
+		top: -10px;
+        left: 192PX;
+
+	}
+
+	.dash-Emails   {
+		top: -22px;
+        left: 192PX;
+
+	}
+
+	.dash-Calls   {
+		top: -40px;
+        left: 192PX;
+
+	}
+
+
+	.dash-Tickets{
+		top: -47px;
+        left: 192PX;
+
+	}
+
+
+
+}
+
+@media only screen and ( width:1024px){
+	.joforce-dash-container{
+		/* display: none; */
+		/* background-color: #333; */
+	}
+
+
+	.dash-leads {
+		top: 5px;
+		left: 24px;
+	}
+	.dash-contacts {
+		top: 5px;
+		left: 170px;
+	}
+	.dash-organizations {
+		top: 5px;
+		left: 326px;
+	}
+	.dash-opportunities {
+		top: 118px;
+		left: 175px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 188px;
+		left: 0px;
+	}
+	.dash-services {
+		top: 285px;
+		left: 10px;
+	}
+	.dash-quotes {
+		top: 230px;
+		left: 157px;
+	}
+	.dash-sales-order {
+		top: 230px;
+		left: 395px;
+	}
+	.dash-invoice {
+		top: 230px;
+		left: 268px;
+	}
+	.dash-vendor {
+		top: 310px;
+		left: 149px
+		}
+		.dash-purchase-orders {
+			top: 310px;
+			left: 272px;
+		}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: -27px;
+		left: -35px;
+	}
+	.dash-Events{
+		top: -76px;
+        left: -35px;
+
+	}
+
+	.dash-Emails   {
+		top: -122px;
+        left: -35px;
+
+	}
+
+	.dash-Calls   {
+		top: -170px;
+        left: -35px;
+
+	}
+
+
+	.dash-Tickets{
+		top: -216px;
+        left: -35px;
+
+	}
+
+}
+
+
+
+
+
+@media only screen and (width:1024px) and (height:1366px) { /* big landscape tablets, laptops, and desktops */
+	.joforce-dash-container{
+		/* display: none; */
+		/* background-color: #333; */
+	}
+
+.joforce-dash-container ul li{ text-align: center;}
+
+.dash-widgets-side li{ text-align: center;margin-bottom: 72px;}
+
+#Layer_1{ width: 20px !important;}
+
+	.dash-leads {
+		top: 5px;
+		left: 24px;
+	}
+	.dash-contacts {
+		top: 5px;
+		left: 170px;
+	}
+	.dash-organizations {
+		top: 5px;
+		left: 326px;
+	}
+	.dash-opportunities {
+		top: 118px;
+		left: 175px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 188px;
+		left: 0px;
+	}
+	.dash-services {
+		top: 285px;
+		left: 10px;
+	}
+	.dash-quotes {
+		top: 230px;
+		left: 157px;
+	}
+	.dash-sales-order {
+		top: 230px;
+		left: 395px;
+	}
+	.dash-invoice {
+		top: 230px;
+		left: 268px;
+	}
+	.dash-vendor {
+		top: 310px;
+		left: 149px
+		}
+		.dash-purchase-orders {
+			top: 310px;
+			left: 272px;
+		}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: -27px;
+		left: -35px;
+	}
+	.dash-Events{
+		top: -76px;
+        left: -35px;
+
+	}
+
+	.dash-Emails   {
+		top: -122px;
+        left: -35px;
+
+	}
+
+	.dash-Calls   {
+		top: -170px;
+        left: -35px;
+
+	}
+
+
+	.dash-Tickets{
+		top: -216px;
+        left: -35px;
+
+	}
+}
+  
+@media (min-width: 301px) and (max-width: 600px){
+
+	.main-container .content-area{ margin-left: 7%;}
+.joforce-dash-container #Layer_2{ display: none;}
+.joforce-dash-container{ margin: 0;}
+
+	.joforce-dash .arrowbg{height: 140%; width: 92%; margin-top: 1px; margin-bottom: 1px;}
+.joforce-box{ margin-top: 0;}
+
+
+	.joforce-dash-container {
+		width: 90%;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-size: 824px 700px;
+	}
+	.dash-widgets-side li{ text-align: center;}
+
+	#Layer_1{ width: 60px !important;}
+	.dash-leads {
+		top: 47px;
+		left: 180px;
+	}
+	.dash-contacts {
+		top: 47px;
+		left: 566px;
+	}
+	.dash-organizations {
+		top: 47px;
+		left: 986px;
+	}
+	.dash-opportunities {
+		top: 363px;
+		left: 567px;
+	}
+	.dash-campaigns {
+		top: 200px;
+		left: 530px;
+	}
+	.dash-products {
+		top: 561px;
+		left: 120px;
+	}
+	.dash-services {
+		top: 800px;
+		left: 120px;
+	}
+	.dash-quotes {
+		top: 660px;
+		left: 505px;
+	}
+	.dash-sales-order {
+		top: 660px;
+		left: 1174px;
+	}
+	.dash-invoice {
+		top: 660px;
+		left: 827px;
+	}
+	.dash-vendor {
+		top: 866px;
+		left: 495px;
+	}
+	.dash-purchase-orders {
+		top: 866px;
+		left: 847px;
+	}
+	.dash-project {
+		top: 620px;
+		left: 55px;
+	}
+	.dash-milestone {
+		top: 620px;
+		left: 230px;
+	}
+	.dash-projecttask {
+		top: 620px;
+		left: 440px;
+	}
+	.dash-widgets-side {
+		top: 60px;
+		left: 795px;
+	}
+	.dash-widgets-side li {
+		min-width: 39px;
+		text-align: center;
+    /* margin: 3px auto 37px 45px; */
+	}
+	.dash-Task {
+		top: 64px;
+		left: 670px;
+	}
+
+	.dash-Events{
+		top: 125px;
+        left: 670px;
+
+	}
+
+	.dash-Emails   {
+		top: 168px;
+        left: 670px;
+
+	}
+
+	.dash-Calls   {
+		top: 205px;
+        left: 670px;
+
+	}
+
+
+	.dash-Tickets{
+		top: 256px;
+        left: 670px;
+
+	}
+
+
+}
+
+
+
 
 @media only screen and (max-width: 768px) {
-
-.joforce-box {
-  margin-top: 30px !important;
+	.joforce-box {
+		margin-top: 30px !important;
+	}
 }
-
-}
-

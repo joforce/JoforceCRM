@@ -1,6 +1,6 @@
 <table id="md-events-table">
-<tr>
-<td>
+<tr class="">
+<td class="col-12">
 <div id="md-events-toolbar">
 	<h2>{vtranslate('LBL_EVENTS', $QUALIFIED_MODULE)}</h2>
 	
@@ -25,7 +25,8 @@
 </td>
 </table>
 
-     <div class="row">
-	  <button class="btn btn-primary events-next-btn ">Next</button>
+<div class="modulnext">
+	  
 	  <button class="btn btn-default events-prev-btn ">Previous</button>
-      </div>
+      <button class="btn btn-primary events-next-btn ">Next</button>
+	</div>

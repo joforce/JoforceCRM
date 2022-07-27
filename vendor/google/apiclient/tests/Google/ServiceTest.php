@@ -18,10 +18,18 @@
  * under the License.
  */
 
-use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
+namespace Google\Tests;
 
-class TestModel extends Google_Model
+use Google\Client;
+use Google\Model;
+use Google\Service;
+use Google\Http\Batch;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
+use Prophecy\Argument;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class TestModel extends Model
 {
   public function mapTypes($array)
   {
@@ -34,31 +42,51 @@ class TestModel extends Google_Model
   }
 }
 
-class TestService extends Google_Service
+class TestService extends Service
 {
   public $batchPath = 'batch/test';
 }
 
-class Google_ServiceTest extends TestCase
+if (trait_exists('\Prophecy\PhpUnit\ProphecyTrait')) {
+  trait ServiceTestTrait
+    {
+    use \Prophecy\PhpUnit\ProphecyTrait;
+  }
+} else {
+  trait ServiceTestTrait
+    {
+  }
+}
+
+class ServiceTest extends TestCase
 {
+  private static $errorMessage;
+
+  use ServiceTestTrait;
+
   public function testCreateBatch()
   {
-    $response = $this->prophesize('Psr\Http\Message\ResponseInterface');
-    $client = $this->prophesize('Google_Client');
+    $response = $this->prophesize(ResponseInterface::class);
+    $client = $this->prophesize(Client::class);
 
-    $client->execute(Argument::allOf(
-      Argument::type('Psr\Http\Message\RequestInterface'),
-      Argument::that(function ($request) {
-        $this->assertEquals('/batch/test', $request->getRequestTarget());
-        return $request;
-      })
-    ), Argument::any())->willReturn($response->reveal());
+    $client->execute(
+        Argument::allOf(
+            Argument::type(RequestInterface::class),
+            Argument::that(
+                function ($request) {
+                  $this->assertEquals('/batch/test', $request->getRequestTarget());
+                  return $request;
+                }
+            )
+        ),
+        Argument::any()
+    )->willReturn($response->reveal());
 
     $client->getConfig('base_path')->willReturn('');
 
     $model = new TestService($client->reveal());
     $batch = $model->createBatch();
-    $this->assertInstanceOf('Google_Http_Batch', $batch);
+    $this->assertInstanceOf(Batch::class, $batch);
     $batch->execute();
   }
 
@@ -100,25 +128,59 @@ class Google_ServiceTest extends TestCase
     $this->assertTrue($model->isAssociativeArray(array("a", "b" => 2)));
   }
 
-  /**
-   * @dataProvider serviceProvider
-   */
-  public function testIncludes($class)
+  public function testConfigConstructor()
   {
-    $this->assertTrue(
-        class_exists($class),
-        sprintf('Failed asserting class %s exists.', $class)
+    $clientId = 'test-client-id';
+    $service = new TestService(['client_id' => $clientId]);
+    $this->assertEquals($clientId, $service->getClient()->getClientId());
+  }
+
+  public function testNoConstructor()
+  {
+    $service = new TestService();
+    $this->assertInstanceOf(Client::class, $service->getClient());
+  }
+
+  public function testInvalidConstructorPhp7Plus()
+  {
+    if (!class_exists('TypeError')) {
+      $this->markTestSkipped('PHP 7+ only');
+    }
+
+    try {
+      $service = new TestService('foo');
+    } catch (\TypeError $e) {
+
+    }
+
+    $this->assertInstanceOf('TypeError', $e);
+    $this->assertEquals(
+        'constructor must be array or instance of Google\Client',
+        $e->getMessage()
     );
   }
 
-  public function serviceProvider()
+  /** @runInSeparateProcess */
+  public function testInvalidConstructorPhp5()
   {
-    $classes = array();
-    $path = dirname(dirname(__DIR__)) . '/src/Google/Service';
-    foreach (glob($path . "/*.php") as $file) {
-      $classes[] = array('Google_Service_' . basename($file, '.php'));
+    if (class_exists('TypeError')) {
+      $this->markTestSkipped('PHP 5 only');
     }
 
-    return $classes;
+    set_error_handler('Google\Tests\ServiceTest::handlePhp5Error');
+
+    $service = new TestService('foo');
+
+    $this->assertEquals(
+        'constructor must be array or instance of Google\Client',
+        self::$errorMessage
+    );
+  }
+
+  public static function handlePhp5Error($errno, $errstr, $errfile, $errline)
+  {
+    self::assertEquals(E_USER_ERROR, $errno);
+    self::$errorMessage = $errstr;
+    return true;
   }
 }

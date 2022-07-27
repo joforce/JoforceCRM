@@ -58,11 +58,11 @@
                 {include file="partials/EditViewContents.tpl"|@vtemplate_path:$MODULE}
             </div>
         </div>
-        <div class='modal-footer overlayFooter' style='bottom:6%;'>
+        <div class='modal-footer overlayFooter {if in_array($MODULE,array('Products'))} product_select_popup_footer {/if}' style='bottom:6%;'>
             <center>
                 <footer>
                     <button class="btn btn-primary saveButton" type="submit">Save</button>
-                    <a class="cancelLink btn btn-secondary" data-dismiss="modal" type="reset">Cancel</a>
+                    <a class="cancelLink btn btn-danger" data-dismiss="modal" type="">Cancel</a>
                 </footer>
             </center>
         </div>

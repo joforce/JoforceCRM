@@ -26,13 +26,13 @@
 				<br>
 				<div class="profileDetailView detailViewInfo">
 					<div class="row form-group">
-						<div class="col-lg-2 col-md-2 col-sm-2 control-label fieldLabel">
+						<div class="col-lg-2 col-md-2 col-sm-2 col-form-label fieldLabel">
 							<label>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="fieldValue col-lg-6 col-md-6 col-sm-12"  name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></div>
 					</div>
 					<div class="row form-group">
-						<div class="col-lg-2 col-md-2 col-sm-2 control-label fieldLabel">
+						<div class="col-lg-2 col-md-2 col-sm-2 col-form-label fieldLabel">
 							<label>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</label>
 						</div>
 						<div class="fieldValue col-lg-6 col-md-6 col-sm-12" name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></div>
@@ -42,7 +42,7 @@
 					{assign var="DISABLE_IMAGE_PATH" value="{$SITEURL}{vimage_path('Disable.png')}"}
 					{if $RECORD_MODEL->hasGlobalReadPermission()}
 						<div class="row">
-							<div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+							<div class="offset-lg-1 offset-md-1 offset-sm-1 col-lg-10 col-md-10 col-sm-10">
 								<div>
 									<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
 									&nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
@@ -64,7 +64,7 @@
 					{/if}
 					<br>
 					<div class="row">
-						<div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+						<div class="offset-lg-1 offset-md-1 offset-sm-1 col-lg-10 col-md-10 col-sm-10">
 							<table class="table table-bordered">
 								<thead>
 									<tr class='blockHeader'>

@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
+	<div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
 		<div class="module-action-content clearfix">
 			<span class="col-lg-7 col-md-7 module-breadcrumb module-breadcrumb-{$smarty.request.view}">
 				<span>
@@ -21,7 +21,7 @@
 					<p class="current-filter-name pull-left textOverflowEllipsis" style="width:250px;">&nbsp;&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span> {vtranslate($SOURCE_MODULE,$SOURCE_MODULE)} </p>
 				</span>
 			</span>
-		    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+		    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 pull-left">
                         <div class="dropdown-filter pull-right">
                             <button class="btn btn-filter btn-warning" title="{vtranslate('LBL_LISTS', $MODULE)}">
                                 <i class="fa fa-filter"></i>

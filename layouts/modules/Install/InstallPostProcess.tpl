@@ -10,11 +10,11 @@
 <br>
 {include file='JSResources.tpl'|@vtemplate_path}
 <footer class="app-footer">
-    <a href="//www.joforce.com" target="_blank">
+    <a href="https://www.joforce.com" target="_blank">
         <img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
     </a>
     <p>
-        Copyright © JoForce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
+        Copyright © Joforce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
     </p>
 </footer>
 </div>

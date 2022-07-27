@@ -10,18 +10,18 @@
 
 Settings_Head_List_Js('Settings_Tags_List_Js',{
     triggerDelete : function(url) {
-        var instance = app.controller();
+        var instance = Head_List_Js.getInstance();
         instance.deleteTag(url);
     },
     
     triggerEdit : function(event) {
         var editIconElement = jQuery(event.target);
-        var instance = app.controller();
+        var instance = Head_List_Js.getInstance();
         instance.editTag(editIconElement);
     },
 	
 	triggerAdd : function(event) {
-        var instance = app.controller();
+        var instance = Head_List_Js.getInstance();
         instance.registerTagAddEvent();
     },
 	

@@ -37,7 +37,7 @@
 					</div>
 
 					<div name='editContent'>
-						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
+						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 col-form-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
 								<label>
 									<strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}</strong>&nbsp;<span class="red-border">*</span>:&nbsp;
 								</label></div>
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 
-						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
+						<div class="row form-group pl15"><div class="col-lg-3 col-md-3 col-sm-3 col-form-label fieldLabel pr0 pl0" style="width: 20% !important;"> 
 								<label>
 									<strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;:&nbsp;</strong>
 								</label></div>
@@ -62,7 +62,7 @@
 				<div class="row clearfix">
 					<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 						<button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-						<a class='cancelLink btn btn-secondary' data-dismiss="modal" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class='cancelLink btn btn-danger' data-dismiss="modal" href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>

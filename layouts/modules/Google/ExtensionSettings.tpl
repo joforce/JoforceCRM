@@ -7,12 +7,13 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************}
-<div class="col-sm-12 col-xs-12 extensionContents joforce-bg">
-    <div class="row">
-	<div class="col-sm-12 col-xs-12">
+ <div class="col-sm-12 col-xs-12 mt0 " id="settingsmenu-starts"  style="">
+ <div class=" googleaccount card mt30">
+    <div class="row ">
+	<div class="col-sm-12 col-xs-12  card-header-new">
 	    <h3 class="module-title pull-left"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
 	    {if $CURRENT_USER_MODEL->isAdminUser()}
-		<a href="{$SITEURL}Google/Settings/GoogleSettings/4/39" target="_blank" style="float:right; margin-top:20px;" class="btn btn-primary saveButton">Configure Google Settings</a>
+		<a href="{$SITEURL}Google/Settings/GoogleSettings/4/39" target="_blank" style="float:right;color: white !important;" class="btn btn-primary saveButton">Configure Google Settings</a>
 	    {/if}
         </div>
     </div>
@@ -26,7 +27,7 @@
         <input type="hidden" name="fieldid" value="{$FIELDID}">
         <div class="row">
             <div class="col-sm-12 col-xs-12">
-               <table class="listview-table table-bordered" align="center">
+            <table class="listview-table table-bordered listbg" align="center">
                    <thead>
                       <th> {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_DATA', $MODULE)} </th>
                       <th> {vtranslate('APPTITLE', $MODULE)} {vtranslate('LBL_DATA', $MODULE)} </th>
@@ -37,7 +38,7 @@
                    <tbody>
                         <tr>
                             <td>
-                                <select name="Contacts[google_group]" class="inputElement select2 row" style="min-width: 250px;">
+                            <select name="Contacts[google_group]" class="inputElement select2 row boder" style="min-width: 250px;border:none !important;">
                                     <option value="all">{vtranslate('LBL_ALL',$MODULENAME)}</option>
                                     {assign var=IS_GROUP_DELETED value=1}
                                     {foreach item=ENTRY from=$GOOGLE_CONTACTS_GROUPS['entry']}
@@ -52,7 +53,7 @@
                             <td><a id="syncSetting" class="extensionLink" data-sync-module="Contacts">{vtranslate('LBL_CONFIGURE', $MODULE)}</a></td>
                             <td><input name="Contacts[enabled]" type="checkbox" {if $CONTACTS_ENABLED} checked {/if}></td>
                             <td>
-                                <select name="Contacts[sync_direction]" class="inputElement select2 row" style="min-width: 250px;">
+                            <select name="Contacts[sync_direction]" class="inputElement select2 row" style="min-width: 250px;border:none !important;">
                                     <option value="11" {if $CONTACTS_SYNC_DIRECTION eq 11} selected {/if}> {vtranslate('LBL_SYNC_BOTH_WAYS', $MODULE)} </option>
                                     <option value="10" {if $CONTACTS_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_JOFORCE', $MODULE)} </option>
                                     <option value="01" {if $CONTACTS_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_JOFORCE_TO_GOOGLE', $MODULE)} </option>
@@ -61,7 +62,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select name="Calendar[google_group]" class="inputElement select2 row" style="min-width: 250px;">
+                            <select name="Calendar[google_group]" class="inputElement select2 row" style="min-width: 250px;border:none !important;">
                                     {if count($GOOGLE_CALENDARS) eq 0}
                                         <option value="primary">{vtranslate('LBL_PRIMARY',$MODULENAME)}</option>
                                     {/if}
@@ -74,7 +75,7 @@
                             <td><a id="syncSetting" class="extensionLink" data-sync-module="Calendar">{vtranslate('LBL_VIEW', $MODULE)}</a></td>
                             <td><input name="Calendar[enabled]" type="checkbox" {if $CALENDAR_ENABLED} checked {/if}></td>
                             <td>
-                                <select name="Calendar[sync_direction]" class="inputElement select2 row" style="min-width: 250px;">
+                            <select name="Calendar[sync_direction]" class="inputElement select2 row" style="min-width: 250px;border:none !important;">
                                     <option value="11" {if $CALENDAR_SYNC_DIRECTION eq 11} selected {/if}> {vtranslate('LBL_SYNC_BOTH_WAYS', $MODULE)} </option>
                                     <option value="10" {if $CALENDAR_SYNC_DIRECTION eq 10} selected {/if}> {vtranslate('LBL_SYNC_FROM_GOOGLE_TO_JOFORCE', $MODULE)} </option>
                                     <option value="01" {if $CALENDAR_SYNC_DIRECTION eq 01} selected {/if}> {vtranslate('LBL_SYNC_FROM_JOFORCE_TO_GOOGLE', $MODULE)} </option>
@@ -99,11 +100,11 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-sm-3 col-xs-12">
-                        <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='{$SITEURL}index.php?module={$MODULE}&view=List&operation=sync&sourcemodule={$SOURCEMODULE}'>
-				<i class="fa fa-google-plus"></i>
-				<span class="ml30">{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULE)}</span>
-			</a>
+                <div class="col-sm-6 col-xs-12 row">
+                <a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='{$SITEURL}index.php?module={$MODULE}&view=List&operation=sync&sourcemodule={$SOURCEMODULE}'>
+				<span class="google"><i class="fa fa-google-plus"></i></span>
+				<span class="ml30 siging">{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULE)}</span>
+			    </a>
                     </div>
                 </div>
             {else}
@@ -132,11 +133,11 @@
                     </div>
                 </div>
         {/if}
-        <div style="margin-top: 8%;">
+        <div>
             <div>
-                <button id="saveSettings" type="submit" class="btn btn-primary saveButton">{vtranslate('LBL_SAVE_SETTINGS', $MODULENAME)}</button>
+                <button id="saveSettings" type="submit" class="btn btn-primary saveButton float-right">{vtranslate('LBL_SAVE_SETTINGS', $MODULENAME)}</button>
                 {if $PARENT neq 'Settings'}
-                    <a type="reset" data-url="{$MODULE_MODEL->getBaseExtensionUrl($SOURCEMODULE)}" class="cancelLink btn btn-secondary navigationLink">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
+                    <a type="" href="{$MODULE_MODEL->getBaseExtensionUrl($SOURCEMODULE)}" class="cancelLink btn btn-danger navigationLink">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
                 {/if}
             </div>
         </div>

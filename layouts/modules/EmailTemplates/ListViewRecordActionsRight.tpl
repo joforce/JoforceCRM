@@ -11,7 +11,7 @@
 
 <div class="table-actions">
     <a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}" title="{vtranslate('LBL_DETAILS', $MODULE)}"> <i class="fa fa-eye"> </i></a>
-    <a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink" title="{vtranslate('LBL_EDIT', $MODULE)}"><i class="fa fa-pencil"></i></a>
+    <a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink" title="{vtranslate('LBL_EDIT', $MODULE)}"><i class="fa fa-pencil pl10"></i></a>
     <a data-id="{$LISTVIEW_ENTRY->getId()}" class="deleteRecordButton" title="{vtranslate('LBL_DELETE', $MODULE)}"><i class="fa fa-trash"></i></a>
 </div>
 {/strip}

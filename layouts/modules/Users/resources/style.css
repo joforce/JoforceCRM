@@ -1,0 +1,477 @@
+body {
+        background: #fff;
+}
+
+.button {
+        position: relative;
+        display: inline-block;
+        padding: 9px;
+        margin: .3em 0 1em 0;
+        width: 100%;
+        vertical-align: middle;
+        color: #fff;
+        font-size: 16px;
+        line-height: 20px;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+        letter-spacing: 1px;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        transition: all 0.15s ease;
+}
+
+.button:focus {
+        outline: 0;
+}
+
+.buttonBlue {
+        /* background-image: linear-gradient(to bottom, #0444a7 0px, #0444a7 100%) */
+        background: #0c4da2;
+}
+
+.forgotPasswordLink {
+        color: #0c4da2 !important;
+}
+
+.bar {
+        position: relative;
+        display: block;
+        width: 100%;
+}
+
+.bar:before,
+.bar:after {
+        content: '';
+        width: 0;
+        position: absolute;
+        transition: all 0.2s ease;
+}
+
+.bar:before {
+        left: 50%;
+}
+
+.bar:after {
+        right: 50%;
+}
+
+#page {
+        padding-top: 0px;
+}
+
+hr {
+        margin-top: 15px;
+        background-color: #7C7C7C;
+        height: 2px;
+        border-width: 0;
+}
+
+h3,
+h4 {
+        margin-top: 0px;
+}
+
+hgroup {
+        text-align: center;
+        margin-top: 4em;
+}
+
+input {
+        font-size: 16px;
+        padding: 10px 10px 10px 0px;
+        -webkit-appearance: none;
+        display: block;
+        color: #636363;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #757575;
+        background: none;
+}
+
+input:focus {
+        outline: none;
+}
+
+label {
+        font-size: 16px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: 69px;
+        top: 12px;
+        transition: all 0.5s ease;
+}
+
+input:focus~label,
+input.used~label {
+        top: -15px;
+        background-color: #fff;
+        padding: 1px 5px;
+        transform: scale(.75);
+        font-size: 18px;
+}
+
+input:focus~.bar:before,
+input:focus~.bar:after {
+        width: 20%;
+}
+
+#page {
+        padding-top: 0;
+}
+
+.loginDiv {
+        border-radius: 4px;
+}
+
+.image-div {
+        margin-top: 50px;
+        margin-left: 65px;
+}
+
+.user-logo {
+        height: 85px;
+        width: 75%;
+        margin: auto;
+        padding-top: 10px;
+        padding-bottom: 0px;
+        text-align: center;
+        margin-bottom: 63px;
+}
+
+.group {
+        position: relative;
+        margin: 20px 20px 40px;
+}
+
+.failureMessage {
+        color: red;
+        display: block;
+        text-align: center;
+        padding: 0px 0px 10px;
+}
+
+.successMessage {
+        color: green;
+        display: block;
+        text-align: center;
+        padding: 0px 0px 10px;
+}
+
+.app-footer p {
+        bottom: 0px;
+        position: fixed;
+        padding-right: 30px;
+}
+
+.footer {
+        background-color: #fbfbfb;
+        height: 26px;
+}
+
+.ripples {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+}
+
+@keyframes inputHighlighter {
+        from {
+                background: #4a89dc;
+        }
+
+        to {
+                width: 0;
+                background: transparent;
+        }
+}
+
+@keyframes ripples {
+        0% {
+                opacity: 0;
+        }
+
+        25% {
+                opacity: 1;
+        }
+
+        100% {
+                width: 200%;
+                padding-bottom: 200%;
+                opacity: 0;
+        }
+}
+
+.joforce-forgetpass {
+        font-size: 14px;
+}
+
+/*  jan 20   */
+
+@media screen and (min-width: 1400px) {
+        .joforce-login {
+                margin-top: 20%;
+        }
+}
+
+@keyframes heading-animation-1 {
+        0% {
+                transform: translateY(100px);
+                opacity: 0;
+        }
+
+        20%,
+        80% {
+                transform: translateY(0);
+                opacity: 1;
+        }
+
+        100% {
+                transform: translateY(-100px);
+                opacity: 0;
+        }
+}
+
+@keyframes heading-animation-2 {
+        0% {
+                transform: translateY(100px);
+                opacity: 0;
+        }
+
+        100% {
+                transform: translateY(0);
+                opacity: 1;
+        }
+}
+
+@media screen and (max-width: 800px) {
+        .login-note {
+                display: none;
+        }
+}
+
+/* style added by vijay - starts */
+.loginback {
+        box-shadow: 0px 8px 14.72px 1.28px rgb(229 228 230 / 50%);
+        margin-top: -40px;
+        /* width: 32%; */
+        /* -webkit-border-bottom-right-radius: 150px; */
+        /* -webkit-border-top-left-radius: 150px; */
+        /* position: absolute; */
+        /* top: 88px; */
+        /* left: 23%; */
+        /* margin-left: 150px; */
+        /* opacity: 50%; */
+        /* height: 73%; */
+}
+
+#login_form {
+        height: auto;
+}
+
+#login_form input {
+        width: 70%;
+        margin: 0 auto;
+        /*  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.33, rgb(14,173,173)), color-stop(0.67, rgb(0,255,255)));
+        background-image: -moz-linear-gradient(center bottom, rgb(14,173,173) 33%, rgb(0,255,255) 67% );*/
+        padding: 2px;
+        /* box-shadow: 0px 8px 14.72px 1.28px rgba(229, 228, 230, 0.5); */
+        border: solid 1px #ccc !important;
+        border: none;
+        border-radius: 8px;
+        padding-left: 10px;
+        height: 50px;
+}
+
+#login_form span {
+        margin-left: 80px;
+        position: absolute;
+        bottom: 40px;
+        color: #f00;
+}
+
+.login_form .Skote {
+        padding: 20px;
+}
+
+.login_form .Skote p {
+        font-size: 14px;
+}
+
+.footclour img {
+        height: 0px;
+        width: 100%;
+        margin-top: 20px;
+}
+
+.bg-soft {
+        background-color: #556ee640;
+        -webkit-border-top-left-radius: 7px;
+        -webkit-border-top-right-radius: 7px;
+}
+
+.joforce-login {
+        background-repeat: no-repeat;
+        height: 600px;
+        width: 30%;
+        margin: 8% auto auto auto;
+        background-size: 100% 100%;
+}
+
+.login_form h1 {
+        text-align: center;
+        font-size: 70px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        font-weight: lighter;
+        padding-top: 50px;
+}
+
+.img-fluid,
+.img-thumbnail {
+        max-width: 100%;
+        height: auto;
+}
+
+.avatar-title img {
+        margin-top: 10px;
+        margin-left: 8px;
+
+        height: 56px;
+}
+
+.avatar-md {
+        height: 4.5rem;
+        width: 4.5rem;
+}
+
+.profile-user-wid {
+        margin-top: -26px;
+        border: solid 1px #d4dbf9;
+        background: #fff;
+        border-radius: 50%;
+        margin-left: 22px;
+}
+
+
+
+.avatar-title {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+
+        color: #fff;
+        font-weight: 500;
+        height: 100%;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+}
+
+
+
+.login_form {
+        background-color: #fff;
+        box-shadow: 0px 8px 14.72px 1.28px rgba(229, 228, 230, 0.5);
+        margin-top: -40px;
+        width: 100%;
+        border-radius: 7px;
+        /* -webkit-border-bottom-right-radius: 150px; */
+        /* -webkit-border-top-left-radius:150px; */
+
+}
+
+.user_name input {
+        background-color: fff;
+        border-radius: 8px;
+        box-shadow: 0px 8px 14.72px 1.28px rgba(229, 228, 230, 0.5);
+        border: none;
+}
+
+.sign a {
+        margin-left: 75px;
+}
+
+.sign button {
+        background-color: #4284F4;
+        border-radius: 8px;
+        box-shadow: 0px 8px 14.72px 1.28px rgba(229, 228, 230, 0.5);
+        border: none;
+        color: #fff;
+        width: 70%;
+        height: 50px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bolder;
+        display: inherit;
+}
+
+.sign button:hover {
+        background-color: #1964D1;
+}
+
+/* style added by vijay - ends */
+@media (min-width: 1600px) and (max-width: 2560px) {
+
+
+        #login_form input {
+                width: 85%;
+        }
+
+        button.button.buttonBlue.forgot-submit-btn {
+                width: 85%;
+        }
+}
+
+@media (min-width: 800px) and (max-width: 1280px) {
+        .sign button {
+                font-size: 15px;
+        }
+
+        #login_form input,
+        .sign button {
+                height: 45px;
+        }
+
+        input,
+        label,
+        .joforce-forgetpass {
+                font-size: 13px;
+        }
+
+        .login_form .Skote p {
+                font-size: 12px;
+        }
+
+        .group {
+                margin: 20px 20px 23px;
+        }
+
+        .profile-user-wid {
+                margin-top: -36px;
+        }
+}
+
+@media (min-width: 301px) and (max-width: 600px) {
+        .joforce-login {
+                width: 100%;
+
+        }
+
+        .login_form {
+                margin-top: 40px;
+        }
+
+        .app-nav .module-action-bar .module-action-content {
+                background-color: none;
+        }
+}

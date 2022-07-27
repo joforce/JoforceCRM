@@ -70,18 +70,18 @@
 			<!-- Product Re-Ordering Feature Code Addition ends -->
 			<div class="itemNameDiv form-inline">
 				<div class="row">
-					<div class="col-lg-10">
+				<div class="col-lg-12 p10 item">
 						<div class="input-group" style="width:100%">
 							<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 								   data-rule-required=true {if !empty($data.$productName)} disabled="disabled" {/if}>
 							{if !$data.$productDeleted}
-								<span class="input-group-addon cursorPointer clearLineItem" title="{vtranslate('LBL_CLEAR',$MODULE)}">
+							<span class="input-group-addon cursorPointer clearLineItem" style="top: 0px!important;" title="{vtranslate('LBL_CLEAR',$MODULE)}">
 									<i class="fa fa-times-circle"></i>
 								</span>
 							{/if}
 							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
 							<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
-							<div class="col-lg-2">
+							<div class="col-lg-2 p10">
 								{if $row_no eq 0}
 									<i class="lineItemPopup cursorPointer joicon-services" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid"></i>
 									<i class="lineItemPopup cursorPointer joicon-products" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid"></i>
@@ -169,7 +169,7 @@
 				&nbsp;
 				{assign var=PRICEBOOK_MODULE_MODEL value=Head_Module_Model::getInstance('PriceBooks')}
 				{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView') && $MODULE != 'PurchaseOrder'}
-					<i class="priceBookPopup cursorPointer joicon-pricebooks" data-popup="Popup" data-module-name="PriceBooks" style="float:left"></i>
+				<i class="priceBookPopup cursorPointer joicon-pricebooks p10" data-popup="Popup" data-module-name="PriceBooks" style="float:left"></i>
 				{/if}
 			</div>
 			<div style="clear:both"></div>
@@ -202,7 +202,7 @@
 						<!-- TODO : discount price and amount are hide by default we need to check id they are already selected if so we should not hide them  -->
 						<tr>
 							<td>
-								<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} {if empty($data.$discount_type)}checked{/if} class="discounts" data-discount-type="zero" />
+								<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} class="discounts" data-discount-type="zero" />
 								&nbsp;
 								{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}
 							</td>
@@ -237,6 +237,12 @@
 							</tr>
 						{/if}
 					</table>
+					<div class="modal-footer lineItemPopupModalFooter">
+						<center>
+							<button class="btn btn-primary popoverButton" type="button"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
+							<a href="#" class="popoverCancel  btn btn-danger" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						</center>
+					</div>
 				</div>
 				<div style="width:150px;">
 					<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
@@ -244,8 +250,9 @@
 			{/if}
 
 			<div class="individualTaxContainer {if $IS_GROUP_TAX_TYPE}hide{/if}">
-				(+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </strong>
-			</div>
+				(+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </strong> 
+				
+			
 			<span class="taxDivContainer">
 				<div class="taxUI hide" id="tax_div{$row_no}">
 					<p class="popover_title hide">
@@ -271,10 +278,18 @@
 									</tr>
 								{/foreach}
 							</table>
+							<div class="modal-footer lineItemPopupModalFooter">
+                                                <center>
+                                                        <button class="btn btn-primary popoverButton" type="button"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
+                                                        <a href="#" class="popoverCancel" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                                                </center>
+		                    </div>
+
 						</div>
 					{/if}
 				</div>
 			</span>
+		    </div>    
 		</td>
 	{/if}
 

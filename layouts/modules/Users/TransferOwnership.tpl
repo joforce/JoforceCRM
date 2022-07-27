@@ -11,7 +11,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-    <div class="modal-dialog modelContainer"'>
+    <div class="modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}}
         {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
@@ -22,7 +22,7 @@
             <div name='massEditContent'>
                 <div class="modal-body">
                     <div class="form-group">
-                       <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_TRANSFER_OWNERSHIP_TO_USER', $MODULE)}</label>
+                       <label class="col-form-label fieldLabel col-sm-5">{vtranslate('LBL_TRANSFER_OWNERSHIP_TO_USER', $MODULE)}</label>
                        <div class="controls fieldValue col-xs-6">
                             <select class="select2" name="record">
                                 {foreach from=$USERS_MODEL key=USER_ID item=USER_MODEL}

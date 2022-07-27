@@ -60,13 +60,24 @@ class Head_UpdatePickvalue_Action extends Head_Save_Action {
 	    	foreach($currenct_roles_picklist_values as $id => $stage_info) {
 	            $stage_value = vtranslate($stage_info[$picklist_name], $moduleName);
 	            $stage_seq = $stage_info['sortorderid'];
-	            if($id == $stageId && $stage_seq == $current_stage_sequence) {
-		    	$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'" class="active"><a href="#" data-toggle="tab">'. $stage_value .'</a></li>';
-	            } elseif($stage_seq < $current_stage_sequence) {
-		    	$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'" class="completed"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
-	            } elseif($stage_seq > $current_stage_sequence) {
-		    	$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
-	            }
+				if($moduleName=='Leads'){
+					if($id == $stageId && $stage_seq == $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' ;" id='.$id.'  title="'.$stage_value.'" class="active"><a href="#" data-toggle="tab">'. $stage_value .'</a></li>';
+					} elseif($stage_seq < $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' ;" id='.$id.'  title="'.$stage_value.'" class="completed"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
+					} elseif($stage_seq > $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' ;" id='.$id.'  title="'.$stage_value.'"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
+					}
+				}
+				else{
+					if($id == $stageId && $stage_seq == $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'" class="active"><a href="#" data-toggle="tab">'. $stage_value .'</a></li>';
+					} elseif($stage_seq < $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'" class="completed"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
+					} elseif($stage_seq > $current_stage_sequence) {
+					$html .= '<li style="width:'.$width.' !important;" id='.$id.' data-toggle="tooltip" title="'.$stage_value.'"><a href="#" data-toggle="tab">'.$stage_value.'</a></li>';
+					}
+				}
 	    	}
 	    }
 	}

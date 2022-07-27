@@ -251,11 +251,17 @@ Head.Class("Calendar_Calendar_Js", {
 		return {
 			'start': startDate,
 			'end': endDate,
-			'type': feedCheckbox.data('calendarFeed'),
-			'fieldname': feedCheckbox.data('calendarFieldname'),
-			'color': feedCheckbox.data('calendarFeedColor'),
-			'textColor': feedCheckbox.data('calendarFeedTextcolor'),
-			'conditions': feedCheckbox.data('calendarFeedConditions')
+			// 'type': feedCheckbox.data('calendarFeed'),
+			// 'fieldname': feedCheckbox.data('calendarFieldname'),
+			// 'color': feedCheckbox.data('calendarFeedColor'),
+			// 'textColor': feedCheckbox.data('calendarFeedTextcolor'),
+			// 'conditions': feedCheckbox.data('calendarFeedConditions')
+			'type': feedCheckbox,
+			'fieldname': 'date_start,due_date',
+			'eventColor': '#F93154',
+			'taskColor' : '#00B74A',
+			'textColor': 'white',
+			'conditions': ''
 		};
 	},
 	renderEvents: function () {
@@ -344,17 +350,17 @@ Head.Class("Calendar_Calendar_Js", {
 	},
 	addEvents: function (feedCheckbox) {
 		var thisInstance = this;
-		if (feedCheckbox.is(':checked')) {
+		// if (feedCheckbox.is(':checked')) {
 			app.helper.showProgress();
-			feedCheckbox.attr('disabled', 'disabled');
+			// feedCheckbox.attr('disabled', 'disabled');
 			thisInstance.fetchEvents(feedCheckbox).then(function (events) {
 				thisInstance.getCalendarViewContainer().fullCalendar('addEventSource', events);
-				feedCheckbox.removeAttr('disabled');
+				// feedCheckbox.removeAttr('disabled');
 				app.helper.hideProgress();
 			}, function (e) {
 				console.log("error while fetching events : ", feedCheckbox, e);
 			});
-		}
+		// }
 	},
 	removeEvents: function (feedCheckbox) {
 		var module = feedCheckbox.data('calendarFeed');
@@ -1070,6 +1076,10 @@ Head.Class("Calendar_Calendar_Js", {
 		startTimeElement.val(startDateTime.format(vtUtils.getMomentTimeFormat()));
 		vtUtils.registerEventForDateFields(startDateElement);
 		vtUtils.registerEventForTimeFields(startTimeElement);
+		$('input[name="date_start"]').val(startDateTime.format(vtUtils.getMomentDateFormat()));
+		$('input[name="time_start"]').val(startDateTime.format(vtUtils.getMomentTimeFormat()));
+		$('input[name="due_date"]').val(startDateTime.format(vtUtils.getMomentDateFormat()));
+		$('input[name="time_end"]').val(startDateTime.format(vtUtils.getMomentTimeFormat()));		
 		startDateElement.trigger('change');
 	},
 	showCreateModal: function (moduleName, startDateTime) {
@@ -1471,17 +1481,17 @@ Head.Class("Calendar_Calendar_Js", {
 						'&nbsp;&nbsp;<i class="fa fa-trash"></i>' +
 						'</span> &nbsp;&nbsp;';
 
-				if (sourceModule === 'Events') {
+				if (sourceModule === 'Calendar' || eventObj.activitytype === 'Task') {
+					popOverHTML += '' +
+							'<span class="pull-right cursorPointer" ' +
+							'onClick="Calendar_Calendar_Js.editCalendarTask(\'' + eventObj.id + '\');" title="' + app.vtranslate('JS_EDIT') + '">' +
+							'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
+							'</span>';
+				}else if (sourceModule === 'Events') {
 					popOverHTML += '' +
 							'<span class="pull-right cursorPointer" ' +
 							'onClick="Calendar_Calendar_Js.editCalendarEvent(\'' + eventObj.id +
 							'\',' + eventObj.recurringcheck + ');" title="' + app.vtranslate('JS_EDIT') + '">' +
-							'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
-							'</span>';
-				} else if (sourceModule === 'Calendar') {
-					popOverHTML += '' +
-							'<span class="pull-right cursorPointer" ' +
-							'onClick="Calendar_Calendar_Js.editCalendarTask(\'' + eventObj.id + '\');" title="' + app.vtranslate('JS_EDIT') + '">' +
 							'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
 							'</span>';
 				}
@@ -1539,11 +1549,11 @@ Head.Class("Calendar_Calendar_Js", {
 	},
 	getDefaultCalendarView: function () {
 		var userDefaultActivityView = this.getUserPrefered('activity_view');
-		if (userDefaultActivityView === 'Today') {
+		if (userDefaultActivityView === 'Today ') {
 			userDefaultActivityView = 'agendaDay';
-		} else if (userDefaultActivityView === 'This Week') {
+		} else if (userDefaultActivityView === 'This Week ') {
 			userDefaultActivityView = 'agendaWeek';
-		} else if (userDefaultActivityView === 'Agenda') {
+		} else if (userDefaultActivityView === 'Agenda ') {
 			userDefaultActivityView = 'vtAgendaList';
 		} else {
 			userDefaultActivityView = 'month';
@@ -1658,16 +1668,14 @@ Head.Class("Calendar_Calendar_Js", {
 			viewRender: function (view, element) {
 				if (view.name === 'vtAgendaList') {
 					jQuery(".sidebar-essentials").addClass("hide");
-					jQuery(".content-area").addClass("full-width").css("padding-left","10px");
-					jQuery(".essentials-toggle").addClass("hide");
+					// jQuery(".content-area").addClass("full-width").css("padding-left","10px");
 				} else {
-					jQuery(".essentials-toggle").removeClass("hide");
 					if (Calendar_Calendar_Js.sideBarEssentialsState === 'show') {
 						jQuery(".sidebar-essentials").removeClass("hide");
-						jQuery(".content-area").removeClass("full-width").css("padding-left","10px");
+						// jQuery(".content-area").removeClass("full-width").css("padding-left","10px");
 					} else if (Calendar_Calendar_Js.sideBarEssentialsState === 'hidden') {
 						jQuery(".sidebar-essentials").addClass("hide");
-						jQuery(".content-area").addClass("full-width");
+						// jQuery(".content-area").addClass("full-width");
 					}
 				}
 			}
@@ -1984,5 +1992,14 @@ Head.Class("Calendar_Calendar_Js", {
 		this.registerWidgetPostLoadEvent();
 		this.initializeWidgets();
 		this.registerPostQuickCreateSaveEvent();
+		this.addEvents("All");
 	}
+});
+
+$(document).ready(function() {
+	$(".fc-datepicker").datepicker({
+		dateFormat: 'yy-mm-dd'
+	}).on('changeDate', function (e) {
+		$('#mycalendar').fullCalendar('gotoDate', moment(e.date));
+	});;
 });

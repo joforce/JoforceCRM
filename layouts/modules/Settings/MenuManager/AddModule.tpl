@@ -12,8 +12,7 @@
                                                           '1' => 'SALES',
                                                           '2' => 'INVENTORY',
                                                           '3' => 'SUPPORT',
-                                                          '4' => 'PROJECT',
-                                                          '5' => 'TOOLS'
+                                                          '4' => 'TOOLS'
                                                         ]}
 	<div class="modal-dialog modal-lg addModuleContainer">
 		<div class="modal-content">
@@ -27,7 +26,7 @@
 					</div>
 					<div class="btn-group">
 						{assign var=APP_SELECTED_LABEL value="LBL_SELECT_`$SELECTED_APP_NAME`_MODULES"}
-						<h4 class="pull-left textOverflowEllipsis" style="word-break: break-all;max-width: 100%;">
+						<h4 class="pull-left textOverflowEllipsis {if $SELECTED_APP_NAME neq 'MARKETING'}SALES_quick_create_heading {/if}" style="word-break: break-all;max-width: 100%;">
 						{vtranslate('LBL_SELECT_MODULES', $QUALIFIED_MODULE)}{$SELECTED_APP_NAME}
 						</h4>  
 					</div>

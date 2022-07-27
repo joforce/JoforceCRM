@@ -940,7 +940,7 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
       jQuery('#addFieldBtn').on('click', function (e) {
          e.stopImmediatePropagation();
          var newAddFieldContainer = jQuery('.basicAddFieldContainer').clone(true, true).removeClass('basicAddFieldContainer hide').addClass('conditionRow');
-         jQuery('select', newAddFieldContainer).addClass('select2');
+         jQuery('select', newAddFieldContainer).addClass('select2 w-100');
          jQuery('#save_fieldvaluemapping').append(newAddFieldContainer);
          vtUtils.showSelect2ElementView(newAddFieldContainer.find('.select2'));
       });
@@ -1474,7 +1474,6 @@ Settings_Head_Edit_Js("Settings_Workflows_Edit_Js", {
         if(class_name=='collapse show' || class_name=='show collapse'){
                 parent_formgroup.children('.div_arrow').children().trigger('click');
             }
-         console.log($('.form_fields').next().next());
          if($('.form_fields').next().next().hasClass('hide')){
             $('.form_fields').next().removeClass('hide');
          }

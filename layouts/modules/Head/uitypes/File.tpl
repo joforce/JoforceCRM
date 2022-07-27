@@ -12,8 +12,10 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div class="fileUploadContainer text-left">
-		<div class="fileUploadBtn btn btn-sm btn-secondary joforce-detailview-upload">
-			<span><i class="fa fa-laptop"></i> {vtranslate('LBL_ATTACH_FILES', $MODULE)}</span>
+		<div class="fileUploadBtn btn btn-sm btn-secondary joforce-detailview-upload m0" data-toggle="tooltip" data-original-title="{vtranslate('LBL_MAX_UPLOAD_SIZE',$MODULE)} {$MAX_UPLOAD_LIMIT_MB} {vtranslate('MB',$MODULE)}">
+			<span><i class="fa fa-laptop"></i> {vtranslate('LBL_ATTACH_FILES', $MODULE)} &nbsp;&nbsp; <span class="uploadFileSizeLimit fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{vtranslate('LBL_MAX_UPLOAD_SIZE',$MODULE)} {$MAX_UPLOAD_LIMIT_MB} {vtranslate('MB',$MODULE)}">
+			<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT_BYTES}"></span>
+		</span></span>
 			<input type="file" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" class="inputElement {if $MODULE eq 'ModComments'} multi {/if} " maxlength="6" name="{if $MODULE eq 'ModComments'}{$FIELD_MODEL->getFieldName()}[]{else}{$FIELD_MODEL->getFieldName()}{/if}"
 					value="{$FIELD_VALUE}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} 
 					{if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
@@ -22,9 +24,9 @@
 					{/if}
 					/>
 		</div>&nbsp;&nbsp;
-		<span class="uploadFileSizeLimit fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{vtranslate('LBL_MAX_UPLOAD_SIZE',$MODULE)} {$MAX_UPLOAD_LIMIT_MB} {vtranslate('MB',$MODULE)}">
+		{* <span class="uploadFileSizeLimit fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{vtranslate('LBL_MAX_UPLOAD_SIZE',$MODULE)} {$MAX_UPLOAD_LIMIT_MB} {vtranslate('MB',$MODULE)}">
 			<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT_BYTES}"></span>
-		</span>
+		</span> *}
 		<div class="uploadedFileDetails {if $IS_EXTERNAL_LOCATION_TYPE}hide{/if}">
 			<div class="uploadedFileSize"></div>
 			<div class="uploadedFileName">

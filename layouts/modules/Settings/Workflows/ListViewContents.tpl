@@ -21,8 +21,8 @@
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 		<div class = "row">
-			<div class='col-md-5'>
-				<div class="foldersContainer hidden-xs pull-left">
+			<div class='col-md-6'>
+				<div class="foldersContainer d-none pull-left">
 					<select class="select2" style="width: 300px;" id="moduleFilter">
 						<option value="" data-count='{$MODULES_COUNT['All']}'>{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_WORKFLOWS')}
 						</option>
@@ -38,22 +38,27 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="search-link hidden-xs" style="margin-top: 0px;">
+			<div class="col-md-6">
+				<div class="search-link d-none" style="margin-top: 0px;float:right;">
 					<span aria-hidden="true" class="fa fa-search"></span>
-					<input class="searchWorkflows" type="text" type="text" value="{$SEARCH_VALUE}" placeholder="{vtranslate('LBL_WORKFLOW_SEARCH', $QUALIFIED_MODULE)}">
+					<input class="searchWorkflows" type="text" style="background-color:#ECF0FA;" value="{$SEARCH_VALUE}" placeholder="{vtranslate('LBL_WORKFLOW_SEARCH', $QUALIFIED_MODULE)}">
 				</div> 
 			</div>
 		</div>
 		<div class="list-content row">
 			<div class="col-sm-12 col-xs-12 ">
-				<div id="table-content" class="table-container" style="padding-top:0px !important;">
+			<div class ="col-md-12 col-sm-12  card-header-new  mb20">
+                <div class=''>
+                	<h4 class="">Work flow <h4>
+                </div>
+            </div>
+				<div id="table-content" class="table-container ms_table_container" style="padding-top:0px !important;">
 					<table id="listview-table" class="workflow-table table listview-table">
 						{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 						{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 						<thead>
 							<tr class="listViewContentHeader">
-								<th style="width: 100px;"></th>
+								{* <th style="width: 100px;"></th> *}
 									{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 										{assign var="HEADER_NAME" value="{$LISTVIEW_HEADER->get('name')}"}
 										{*Showing all columns except description column*}
@@ -77,9 +82,6 @@
 							{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 								<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 									data-recordurl="{$LISTVIEW_ENTRY->getEditViewUrl()}">
-									<td>
-										{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
-									</td>
 									{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 										{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 										{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
@@ -121,7 +123,7 @@
 												{/if}
 											</td>
 										{elseif $LISTVIEW_HEADERNAME eq 'module_name' && empty($SOURCE_MODULE)}
-											<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+											<td class="listViewEntryValue table-icons {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
 												{assign var="MODULE_ICON_NAME" value="{strtolower($LISTVIEW_ENTRY->get('raw_module_name'))}"}
 												{if $MODULE_ICON_NAME eq 'events'}
 													{assign var="MODULE_ICON_NAME" value="calendar"}
@@ -131,6 +133,9 @@
 										{else}
 										{/if}
 									{/foreach}
+									<td>
+										{include file="ListViewRecordActions.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+									</td>									
 									<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
 										{assign var=ACTIONS value=$LISTVIEW_ENTRY->getActionsDisplayValue()}
 										{if is_array($ACTIONS) && !empty($ACTIONS)}
@@ -156,7 +161,7 @@
 		</div>
 		<div class="row">
             {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true HEADSHOW=false}
+            {include file="Pagination.tpl"|vtemplate_path:$MODULE  HEADSHOW=false}
 	</div>
 	<div id="scroller_wrapper" class="bottom-fixed-scroll">
 		<div id="scroller" class="scroller-div"></div>

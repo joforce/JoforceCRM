@@ -135,6 +135,16 @@ class Head_Record_Model extends Head_Base_Model {
 		return $this;
 	}
 
+        /**
+         * Function to get the Activity View url for the record
+         * @return <String> - Record Detail View Url
+         */
+    public function getRecordActivityUrl() {
+        global $site_URL;
+        $module = $this->getModule();
+        return $site_URL . $this->getModuleName() . '/view/Activity/' . $this->getId();
+    }
+
 	/**
 	 * Function to get the Detail View url for the record
 	 * @return <String> - Record Detail View Url
@@ -324,21 +334,89 @@ class Head_Record_Model extends Head_Base_Model {
 	 * @return <Array> - List of Head_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module=false) {
+		// $db = PearDatabase::getInstance();
+
+		// $query = 'SELECT label, crmid, setype, createdtime FROM jo_crmentity WHERE label LIKE ? AND jo_crmentity.deleted = 0';
+		// $params = array("%$searchKey%");
+
+		// if($module !== false) {
+		// 	$query .= ' AND setype = ?';
+		// 	$params[] = $module;
+		// }
+		// //Remove the ordering for now to improve the speed
+		// //$query .= ' ORDER BY createdtime DESC';
+
+		// $result = $db->pquery($query, $params);
+		// $noOfRows = $db->num_rows($result);
+
+		// $moduleModels = $matchingRecords = $leadIdsList = array();
+		// for($i=0; $i<$noOfRows; ++$i) {
+		// 	$row = $db->query_result_rowdata($result, $i);
+		// 	if ($row['setype'] === 'Leads') {
+		// 		$leadIdsList[] = $row['crmid'];
+		// 	}
+		// }
+		// $convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
+
+		// for($i=0, $recordsCount = 0; $i<$noOfRows && $recordsCount<100; ++$i) {
+		// 	$row = $db->query_result_rowdata($result, $i);
+		// 	if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+		// 		continue;
+		// 	}
+		// 	if(Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
+		// 		$row['id'] = $row['crmid'];
+		// 		$moduleName = $row['setype'];
+		// 		if(!array_key_exists($moduleName, $moduleModels)) {
+		// 			$moduleModels[$moduleName] = Head_Module_Model::getInstance($moduleName);
+		// 		}
+		// 		$moduleModel = $moduleModels[$moduleName];
+		// 		$modelClassName = Head_Loader::getComponentClassName('Model', 'Record', $moduleName);
+		// 		$recordInstance = new $modelClassName();
+		// 		$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
+		// 		$recordsCount++;
+		// 	}
+		// }
+		// if(empty($matchingRecords)){
+		// 	$matchingRecords = getModulewiseSearchResult($searchKey, $module)
+		// }
+		// return $matchingRecords;
+
 		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT label, crmid, setype, createdtime FROM jo_crmentity WHERE label LIKE ? AND jo_crmentity.deleted = 0';
-		$params = array("%$searchKey%");
-
-		if($module !== false) {
-			$query .= ' AND setype = ?';
-			$params[] = $module;
-		}
-		//Remove the ordering for now to improve the speed
-		//$query .= ' ORDER BY createdtime DESC';
-
+		$query = 'select tablename from jo_entityname where modulename = ?' ;
+		$params = array($module);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
+		$tablename = $db->query_result($result, 0, 'tablename');
 
+		$sql = "SHOW COLUMNS FROM " . $tablename;
+		$result = $db->query($sql);
+		$resField = "";
+		$resFieldId = "";
+		$resCondition = "";
+		foreach($result as $row){
+			if($resField == ""){
+				$resField = 'A.' . $row['Field'];
+			}else{
+				$resField .= ",A." . $row['Field'];
+			}
+			if($row['Key'] === "PRI"){
+				$resFieldId = $row['Field'];
+			}
+			if($row['Key'] != "PRI"){
+				if($resCondition == ""){
+					$resCondition = 'A.' . $row['Field'] . ' like "%' . $searchKey . '%"';
+				}else{
+					$resCondition .= " or " . 'A.' . $row['Field'] . ' like "%' . $searchKey . '%"';
+				}
+			}
+		}
+
+		$query = 'SELECT B.crmid,B.label,B.setype,';
+		$query .= $resField . ' from ' . $tablename . ' as A ';
+		$query .= 'Inner Join jo_crmentity as B on A.' . $resFieldId . ' = B.crmid ';
+		$query .= 'where ';
+		$query .= $resCondition;
+		$result = $db->query($query);
+		$noOfRows = $db->num_rows($result);
 		$moduleModels = $matchingRecords = $leadIdsList = array();
 		for($i=0; $i<$noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);

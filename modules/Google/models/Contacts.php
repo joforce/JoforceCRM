@@ -17,7 +17,7 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <string> id
      */
     public function getId() {
-        return $this->data['entity']['id']['$t'];
+        return $this->data['entity']['resourceName'];
     }
 
     /**
@@ -25,11 +25,15 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <date> modified time 
      */
     public function getModifiedTime() {
-        return $this->vtigerFormat($this->data['entity']['updated']['$t']);
+        return $this->vtigerFormat($this->data['entity']['metadata']['sources'][0]['updateTime']);
+    }
+
+    public function getEtag() {
+        return $this->data['entity']['etag'];
     }
     
     function getNamePrefix() {
-        $namePrefix = $this->data['entity']['gd$name']['gd$namePrefix']['$t'];
+        $namePrefix = "";
         return $namePrefix;
     }
 
@@ -38,7 +42,7 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <string> $first name
      */
     function getFirstName() {
-        $fname = $this->data['entity']['gd$name']['gd$givenName']['$t'];
+        $fname = $this->data['entity']['names'][0]['givenName'];
         return $fname;
     }
 
@@ -47,7 +51,7 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <string> Last name
      */
     function getLastName() {
-        $lname = $this->data['entity']['gd$name']['gd$familyName']['$t'];
+        $lname = $this->data['entity']['names'][0]['familyName'];
         return $lname;
     }
 
@@ -56,17 +60,7 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <array> emails
      */
     function getEmails() {
-        $arr = $this->data['entity']['gd$email'];
-        $emails = array();
-        if (is_array($arr)) {
-            foreach ($arr as $email) {
-                if(isset($email['rel']))
-                    $labelEmail = parse_url($email['rel'], PHP_URL_FRAGMENT);
-                else
-                    $labelEmail = $email['label'];
-                $emails[$labelEmail] = $email['address'];
-            }
-        }
+        $emails = $this->data['entity']['emailAddresses'][0]['value'];
         return $emails;
     }
 
@@ -75,18 +69,7 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <array> phone numbers
      */
     function getPhones() {
-        $arr = $this->data['entity']['gd$phoneNumber'];
-        $phones = array();
-        if(is_array($arr)) {
-            foreach ($arr as $phone) {
-                $phoneNo = $phone['$t'];
-                if(isset($phone['rel']))
-                    $labelPhone = parse_url($phone['rel'], PHP_URL_FRAGMENT);
-                else
-                    $labelPhone = $phone['label'];
-                $phones[$labelPhone] = $phoneNo;
-            }
-        }
+        $phones = $this->data['entity']['phoneNumbers'][0]['value'];
         return $phones;
     }
 
@@ -95,26 +78,17 @@ class Google_Contacts_Model extends WSAPP_SyncRecordModel {
      * @return <array> Addresses
      */
     function getAddresses() {
-        $arr = $this->data['entity']['gd$structuredPostalAddress'];
+        $arr = $this->data['entity']['addresses'][0];
         $addresses = array();
-        if(is_array($arr)) {
-            foreach ($arr as $address) {
-                $structuredAddress = array(
-                    'street' => $address['gd$street']['$t'],
-                    'pobox' => $address['gd$pobox']['$t'],
-                    'postcode' => $address['gd$postcode']['$t'],
-                    'city' => $address['gd$city']['$t'],
-                    'region' => $address['gd$region']['$t'],
-                    'country' => $address['gd$country']['$t'],
-                    'formattedAddress' => $address['gd$formattedAddress']['$t']
-                );
-                if(isset($address['rel']))
-                    $labelAddress = parse_url($address['rel'], PHP_URL_FRAGMENT);
-                else
-                    $labelAddress = $address['label'];
-                $addresses[$labelAddress] = $structuredAddress;
-            }
-        }
+        $structuredAddress = array(
+            'street' => $arr['streetAddress'],
+            'pobox' => $arr['poBox'],
+            'postcode' => $arr['postalCode'],
+            'city' => $arr['city'],
+            'region' => $arr['region'],
+            'country' => $arr['country'],
+            'formattedAddress' => $arr['extendedAddress']
+        );
         return $addresses;
     }
     

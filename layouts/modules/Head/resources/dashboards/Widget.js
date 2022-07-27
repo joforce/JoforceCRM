@@ -13,7 +13,7 @@ Head.Class('Head_Widget_Js', {
     widgetPostRefereshEvent: 'Head.Dashboard.PostRefresh',
     widgetPostResizeEvent: 'Head.DashboardWidget.PostResize',
 
-    getInstance: function(container, widgetName, moduleName) {
+    getInstance: function (container, widgetName, moduleName) {
         if (typeof moduleName == 'undefined') {
             moduleName = app.getModuleName();
         }
@@ -35,33 +35,33 @@ Head.Class('Head_Widget_Js', {
     container: false,
     plotContainer: false,
 
-    init: function(container) {
+    init: function (container) {
         this.setContainer(jQuery(container));
         this.registerWidgetPostLoadEvent(container);
         this.registerWidgetPostRefreshEvent(container);
         this.registerWidgetPostResizeEvent(container);
     },
 
-    getContainer: function() {
+    getContainer: function () {
         return this.container;
     },
 
-    setContainer: function(element) {
+    setContainer: function (element) {
         this.container = element;
         return this;
     },
 
-    isEmptyData: function() {
+    isEmptyData: function () {
         var container = this.getContainer();
         return (container.find('.noDataMsg').length > 0) ? true : false;
     },
 
-    getUserDateFormat: function() {
+    getUserDateFormat: function () {
         return jQuery('#userDateFormat').val();
     },
 
 
-    getPlotContainer: function(useCache) {
+    getPlotContainer: function (useCache) {
         if (typeof useCache == 'undefined') {
             useCache = false;
         }
@@ -72,8 +72,8 @@ Head.Class('Head_Widget_Js', {
         return this.plotContainer;
     },
 
-    restrictContentDrag: function() {
-        this.getContainer().on('mousedown.draggable', function(e) {
+    restrictContentDrag: function () {
+        this.getContainer().on('mousedown.draggable', function (e) {
             var element = jQuery(e.target);
             var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
             var isResizeElement = element.is(".gs-resize-handle") ? true : false;
@@ -85,7 +85,7 @@ Head.Class('Head_Widget_Js', {
         })
     },
 
-    convertToDateRangePicketFormat: function(userDateFormat) {
+    convertToDateRangePicketFormat: function (userDateFormat) {
         if (userDateFormat == 'yyyy-mm-dd') {
             return 'yyyy-MM-dd';
         } else if (userDateFormat == 'mm-dd-yyyy') {
@@ -95,26 +95,26 @@ Head.Class('Head_Widget_Js', {
         }
     },
 
-    loadChart: function() {
+    loadChart: function () {
 
     },
 
-    positionNoDataMsg: function() {
+    positionNoDataMsg: function () {
         var container = this.getContainer();
         var widgetContentsContainer = container.find('.dashboardWidgetContent');
-        widgetContentsContainer.height(container.height() + 50);
+        widgetContentsContainer.height(container.height() - 50);
         var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
-/*	noDataMsgHolder.position({
-            'my': 'center center',
-            'at': 'center center',
-            'of': widgetContentsContainer
-        })*/
-        },
+        /*	noDataMsgHolder.position({
+                    'my': 'center center',
+                    'at': 'center center',
+                    'of': widgetContentsContainer
+                })*/
+    },
 
-    postInitializeCalls: function() {},
+    postInitializeCalls: function () {},
 
     //Place holdet can be extended by child classes and can use this to handle the post load
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         if (!this.isEmptyData()) {
             this.loadChart();
             this.postInitializeCalls();
@@ -126,11 +126,11 @@ Head.Class('Head_Widget_Js', {
         this.restrictContentDrag();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         widgetContent.css({
-            height: widgetContent.height() - 40
+            height: widgetContent.height() - 90
         });
     },
 
-    postResizeWidget: function() {
+    postResizeWidget: function () {
         if (!this.isEmptyData()) {
             this.loadChart();
             this.postInitializeCalls();
@@ -143,7 +143,7 @@ Head.Class('Head_Widget_Js', {
         });
     },
 
-    postRefreshWidget: function() {
+    postRefreshWidget: function () {
         if (!this.isEmptyData()) {
             this.loadChart();
             this.postInitializeCalls();
@@ -152,11 +152,11 @@ Head.Class('Head_Widget_Js', {
         }
     },
 
-    getFilterData: function() {
+    getFilterData: function () {
         return {};
     },
 
-    refreshWidget: function() {
+    refreshWidget: function () {
         var parent = this.getContainer();
         var element = parent.find('a[name="drefresh"]');
         var url = element.data('url');
@@ -168,7 +168,7 @@ Head.Class('Head_Widget_Js', {
         if (widgetFilters.length > 0) {
             params.url = url;
             params.data = {};
-            widgetFilters.each(function(index, domElement) {
+            widgetFilters.each(function (index, domElement) {
                 var widgetFilter = jQuery(domElement);
                 //Filter unselected checkbox, radio button elements
                 if ((widgetFilter.is(":radio") || widgetFilter.is(":checkbox")) && !widgetFilter.is(":checked")) {
@@ -210,7 +210,7 @@ Head.Class('Head_Widget_Js', {
 
         app.helper.showProgress();
         app.request.post(params).then(
-            function(err, data) {
+            function (err, data) {
                 app.helper.hideProgress();
 
                 if (contentContainer.closest('.mCustomScrollbar').length) {
@@ -237,7 +237,7 @@ Head.Class('Head_Widget_Js', {
         );
     },
 
-    registerFilter: function() {
+    registerFilter: function () {
         var thisInstance = this;
         var container = this.getContainer();
         var dateRangeElement = container.find('.input-daterange');
@@ -252,7 +252,7 @@ Head.Class('Head_Widget_Js', {
         };
         vtUtils.registerEventForDateFields(dateRangeElement, pickerParams);
 
-        dateRangeElement.on("changeDate", function(e) {
+        dateRangeElement.on("changeDate", function (e) {
             var start = dateRangeElement.find('input[name="start"]').val();
             var end = dateRangeElement.find('input[name="end"]').val();
             if (start != '' && end != '' && start !== end) {
@@ -262,8 +262,8 @@ Head.Class('Head_Widget_Js', {
         dateRangeElement.attr('data-date-format', thisInstance.getUserDateFormat());
     },
 
-    registerFilterChangeEvent: function() {
-        this.getContainer().on('change', '.widgetFilter, .reloadOnChange', function(e) {
+    registerFilterChangeEvent: function () {
+        this.getContainer().on('change', '.widgetFilter, .reloadOnChange', function (e) {
             var target = jQuery(e.currentTarget);
             if (target.hasClass('dateRange')) {
                 var start = target.find('input[name="start"]').val();
@@ -276,28 +276,28 @@ Head.Class('Head_Widget_Js', {
         })
     },
 
-    registerWidgetPostLoadEvent: function(container) {
+    registerWidgetPostLoadEvent: function (container) {
         var thisInstance = this;
-        container.off(Head_Widget_Js.widgetPostLoadEvent).on(Head_Widget_Js.widgetPostLoadEvent, function(e) {
+        container.off(Head_Widget_Js.widgetPostLoadEvent).on(Head_Widget_Js.widgetPostLoadEvent, function (e) {
             thisInstance.postLoadWidget();
         })
     },
 
-    registerWidgetPostRefreshEvent: function(container) {
+    registerWidgetPostRefreshEvent: function (container) {
         var thisInstance = this;
-        container.on(Head_Widget_Js.widgetPostRefereshEvent, function(e) {
+        container.on(Head_Widget_Js.widgetPostRefereshEvent, function (e) {
             thisInstance.postRefreshWidget();
         });
     },
 
-    registerWidgetPostResizeEvent: function(container) {
+    registerWidgetPostResizeEvent: function (container) {
         var thisInstance = this;
-        container.on(Head_Widget_Js.widgetPostResizeEvent, function(e) {
+        container.on(Head_Widget_Js.widgetPostResizeEvent, function (e) {
             thisInstance.postResizeWidget();
         });
     },
 
-    openUrl: function(url) {
+    openUrl: function (url) {
         var win = window.open(url, '_blank');
         win.focus();
     }
@@ -305,7 +305,7 @@ Head.Class('Head_Widget_Js', {
 
 
 Head_Widget_Js('Head_KeyMetrics_Widget_Js', {}, {
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         this._super();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 50;
@@ -320,7 +320,7 @@ Head_Widget_Js('Head_KeyMetrics_Widget_Js', {}, {
 
 Head_Widget_Js('Head_TopPotentials_Widget_Js', {}, {
 
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         this._super();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 50;
@@ -335,7 +335,7 @@ Head_Widget_Js('Head_TopPotentials_Widget_Js', {}, {
 
 Head_Widget_Js('Head_History_Widget_Js', {}, {
 
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         this._super();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 50;
@@ -349,7 +349,7 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
         this.registerLoadMore();
     },
 
-    postResizeWidget: function() {
+    postResizeWidget: function () {
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var slimScrollDiv = jQuery('.slimScrollDiv', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 100;
@@ -361,11 +361,11 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
         });
     },
 
-    initSelect2Elements: function(widgetContent) {
+    initSelect2Elements: function (widgetContent) {
         var container = widgetContent.closest('.dashboardWidget');
         var select2Elements = container.find('.select2');
         if (select2Elements.length > 0 && jQuery.isArray(select2Elements)) {
-            select2Elements.each(function(index, domElement) {
+            select2Elements.each(function (index, domElement) {
                 domElement.chosen();
             });
         } else {
@@ -373,19 +373,19 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
         }
     },
 
-    postRefreshWidget: function() {
+    postRefreshWidget: function () {
         this._super();
         this.registerLoadMore();
     },
 
-    registerLoadMore: function() {
+    registerLoadMore: function () {
         var thisInstance = this;
         var parent = thisInstance.getContainer();
         var contentContainer = parent.find('.dashboardWidgetContent');
 
         var loadMoreHandler = contentContainer.find('.load-more');
         loadMoreHandler.off('click');
-        loadMoreHandler.click(function() {
+        loadMoreHandler.click(function () {
             var parent = thisInstance.getContainer();
             var element = parent.find('a[name="drefresh"]');
             var url = element.data('url');
@@ -397,7 +397,7 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
                     url: url,
                     data: {}
                 };
-                widgetFilters.each(function(index, domElement) {
+                widgetFilters.each(function (index, domElement) {
                     var widgetFilter = jQuery(domElement);
                     //Filter unselected checkbox, radio button elements
                     if ((widgetFilter.is(":radio") || widgetFilter.is(":checkbox")) && !widgetFilter.is(":checked")) {
@@ -438,11 +438,11 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
             params.data['page'] = loadMoreHandler.data('nextpage');
 
             app.helper.showProgress();
-            app.request.post(params).then(function(err, data) {
+            app.request.post(params).then(function (err, data) {
                 app.helper.hideProgress();
                 loadMoreHandler.parent().parent().replaceWith(jQuery(data).html());
                 thisInstance.registerLoadMore();
-            }, function() {
+            }, function () {
                 app.helper.hideProgress();
             });
         });
@@ -452,14 +452,14 @@ Head_Widget_Js('Head_History_Widget_Js', {}, {
 
 
 Head_Widget_Js('Head_Funnel_Widget_Js', {}, {
-    postInitializeCalls: function() {
+    postInitializeCalls: function () {
         var thisInstance = this;
-        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function(e, data) {
+        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function (e, data) {
             if (data.url)
                 thisInstance.openUrl(data.url);
-        });     
+        });
     },
-    generateLinks: function() {
+    generateLinks: function () {
         var data = this.getContainer().find('.widgetData').val();
         var parsedData = JSON.parse(data);
         var linksData = [];
@@ -472,72 +472,75 @@ Head_Widget_Js('Head_Funnel_Widget_Js', {}, {
         }
         return linksData;
     },
-    loadChart: function() { 
+    loadChart: function () {
         var container = this.getContainer();
         var jData = container.find('.widgetData').val();
         var data = JSON.parse(jData);
         var chart_id = this.getContainer().find('.widgetChartContainer').attr('id');
-        var bulk_value = []; 
-        for(var temp=0;temp<data.length;temp++)
-        { 
-        var single_value = new Array();
-        var single_value = {'name':data[temp][0],'y':parseInt(data[temp][1]),'links': data[temp][3]};   
-        bulk_value.push(single_value);  
+        var bulk_value = [];
+        for (var temp = 0; temp < data.length; temp++) {
+            var single_value = new Array();
+            var single_value = {
+                'name': data[temp][0],
+                'y': parseInt(data[temp][1]),
+                'links': data[temp][3]
+            };
+            bulk_value.push(single_value);
         }
         var load_chart_data = {
-           'id': chart_id,
+            'id': chart_id,
             'bulk_value': bulk_value
         };
-        var myChart = $('#'+chart_id).highcharts({ 
+        var myChart = $('#' + chart_id).highcharts({
             chart: {
                 type: 'funnel'
             },
             title: {
                 text: ''
             },
-             plotOptions: {
-                    series: {
-                      cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: function() {
-                                    location.href = this.options.links;
-                                }
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
+                                location.href = this.options.links;
                             }
                         }
                     }
+                }
             },
             series: [{
                 name: 'Sales Funnel',
                 data: bulk_value
             }],
         });
-    }  
-  
-}); 
+    }
+
+});
 Head_Widget_Js('Head_Pie_Widget_Js', {}, {
 
     /**
      * Function which will give chart related Data
-   */
-    generateData: function() {
+     */
+    generateData: function () {
         var container = this.getContainer();
         var jData = container.find('.widgetData').val();
         var data = JSON.parse(jData);
         console.log(data);
         var chart_id = this.getContainer().find('.widgetChartContainer').attr('id');
         var chart_data = [];
-        for (var index in data){
+        for (var index in data) {
             highchart_data = {
-                'name': data[index]['last_name'], 
+                'name': data[index]['last_name'],
                 'y': parseInt(data[index]['amount']),
-                
+
                 'links': data[index]['links']
             }
             chart_data.push(highchart_data);
         }
-        
-        console.log(chart_data);   
+
+        console.log(chart_data);
         var load_chart_data = {
             'id': chart_id,
             'chart_data': chart_data,
@@ -545,18 +548,18 @@ Head_Widget_Js('Head_Pie_Widget_Js', {}, {
         };
         return load_chart_data;
     },
-    postInitializeCalls: function() {
+    postInitializeCalls: function () {
         var thisInstance = this;
-        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function(e, data) {
+        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function (e, data) {
             if (data.url)
                 thisInstance.openUrl(data.url);
         });
     },
-    loadChart: function() {
-        var data= this.generateData();
+    loadChart: function () {
+        var data = this.generateData();
         var chart_data = data.chart_data;
         var chart_id = data.id;
-        var myChart = $('#'+chart_id).highcharts({ 
+        var myChart = $('#' + chart_id).highcharts({
             chart: {
                 type: 'pie'
             },
@@ -568,7 +571,7 @@ Head_Widget_Js('Head_Pie_Widget_Js', {}, {
                     cursor: 'pointer',
                     point: {
                         events: {
-                            click: function() {
+                            click: function () {
                                 location.href = this.options.links;
                             }
                         }
@@ -576,7 +579,7 @@ Head_Widget_Js('Head_Pie_Widget_Js', {}, {
                 }
             },
             series: [{
-                name:'$',
+                name: '$',
                 colorByPoint: true,
                 data: chart_data,
             }]
@@ -584,78 +587,78 @@ Head_Widget_Js('Head_Pie_Widget_Js', {}, {
     }
 });
 Head_Widget_Js('Head_Barchat_Widget_Js', {}, {
-    generateChartData: function() {
+    generateChartData: function () {
         var container = this.getContainer();
         var jData = container.find('.widgetData').val();
         var data = JSON.parse(jData);
 
         var chart_id = this.getContainer().find('.widgetChartContainer').attr('id');
-        var  id=JSON.parse(jData);
+        var id = JSON.parse(jData);
         var chart_data = [];
         var highchart_data = new Array();
         for (var index in data) {
             highchart_data = {
                 'name': data[index][1],
                 'data': [{
-                	'y': parseInt(data[index][0]), 
-                	'links':data[index]['links']
+                    'y': parseInt(data[index][0]),
+                    'links': data[index]['links']
                 }],
-                
-            } 
-            chart_data.push(highchart_data);   
+
+            }
+            chart_data.push(highchart_data);
         }
         var load_chart_data = {
-           'id': chart_id,
-           'chart_data': chart_data
+            'id': chart_id,
+            'chart_data': chart_data
         };
-        return(load_chart_data);
+        return (load_chart_data);
     },
 
-    postInitializeCalls: function() {
+    postInitializeCalls: function () {
         var thisInstance = this;
-        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function(e, data) {
+        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function (e, data) {
             if (data.url)
                 thisInstance.openUrl(data.url);
         });
     },
-    loadChart: function() {
-            var data = this.generateChartData();
-            var chart_data = data.chart_data;
-            var chart_id = data.id;
-            var myChart = $('#'+chart_id).highcharts({ 
-                chart: {
-                    type: 'column'
-                },
-                title:{
-                   text:''
-                },
+    loadChart: function () {
+        var data = this.generateChartData();
+        var chart_data = data.chart_data;
+        var chart_id = data.id;
+        var myChart = $('#' + chart_id).highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
 
-                xAxis: {
-                      categories: ['']
-                },
-                plotOptions: {
-                    series: {
-                      cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: function () {
+            xAxis: {
+                categories: ['']
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
                                 location.href = this.options.links;
-                                }
                             }
                         }
                     }
-                },
+                }
+            },
 
-                series:chart_data 
-             });
-        }
+            series: chart_data
+        });
+    }
 });
 Head_Widget_Js('Head_MultiBarchat_Widget_Js', {
 
     /**
      * Function which will give char related Data like data , x labels and legend labels as map
      */
-    getCharRelatedData: function() {
+    getCharRelatedData: function () {
         var container = this.getContainer();
         var data = container.find('.widgetData').val();
         var users = new Array();
@@ -691,83 +694,83 @@ Head_Widget_Js('Head_MultiBarchat_Widget_Js', {
             'labels': stages
         }
     },
-    generateDataSets: function(chartRelatedData) {
+    generateDataSets: function (chartRelatedData) {
         var datasets = [];
         var data = [];
         var colors = ['#FF7599', '#A9FF96', '#95CEFF', '#999EFF', '#FDEC6D', '#F7A35C', '#FFBC75'];
         for (var i = 0; i <= chartRelatedData['labels'].length; i++) {
-        
+
             var dataset = {
                 'name': chartRelatedData['labels'][i],
                 'backgroundColor': colors[i],
                 'data': chartRelatedData['data'][i],
-                 'links':chartRelatedData['links'][i]
+                'links': chartRelatedData['links'][i]
 
-                
-             
+
+
             }
 
             datasets.push(dataset);
         }
         return datasets;
-        
+
     },
 
-    postInitializeCalls: function() {
+    postInitializeCalls: function () {
         var thisInstance = this;
-        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function(e, data) {
+        this.getPlotContainer(false).off('vtchartClick').on('vtchartClick', function (e, data) {
             if (data.url)
                 thisInstance.openUrl(data.url);
         });
     },
-    loadChart: function() {
+    loadChart: function () {
 
-            // code for pipeline_sales_person
+        // code for pipeline_sales_person
         var chartRelatedData = this.getCharRelatedData();
         var chart_id = this.getContainer().find('.widgetChartContainer').attr('id');
-        
-        var highchart_data={
-            'chart_data':this.generateDataSets(chartRelatedData),
-            'chart_id':chart_id,
-            
-         }
-         console.log(highchart_data);
-        var chart_data=highchart_data.chart_data;
+
+        var highchart_data = {
+            'chart_data': this.generateDataSets(chartRelatedData),
+            'chart_id': chart_id,
+
+        }
+        console.log(highchart_data);
+        var chart_data = highchart_data.chart_data;
         var chart_id = highchart_data.chart_id;
-        var myChart = $('#'+chart_id).highcharts({ 
+        var myChart = $('#' + chart_id).highcharts({
             chart: {
-                    type: 'column'
+                type: 'column'
             },
-            title:{
-                   text:''
-                },
+            title: {
+                text: ''
+            },
             xAxis: {
-            text: 'xAxis',
-            categories: chartRelatedData['ticks']
+                text: 'xAxis',
+                categories: chartRelatedData['ticks']
             },
-           plotOptions: {
-            series: {
-                cursor: 'pointer',
-                stacking: 'normal',
-               
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    stacking: 'normal',
+
                     events: {
                         click: function () {
-                            var someURL = this.options.links; 
-                             if (someURL)
-                             window.open(''+someURL);
-                            
+                            var someURL = this.options.links;
+                            if (someURL)
+                                window.open('' + someURL);
+
                         }
                     }
-                
-            }
-        },
+
+                }
+            },
             series: chart_data
         });
     }
 });
 // NOTE Widget-class name camel-case convention
 Head_Widget_Js('Head_MiniList_Widget_Js', {
-    registerMoreClickEvent: function(e) {
+    registerMoreClickEvent: function (e) {
         var moreLink = jQuery(e.currentTarget);
         var linkId = moreLink.data('linkid');
         var widgetId = moreLink.data('widgetid');
@@ -784,7 +787,7 @@ Head_Widget_Js('Head_MiniList_Widget_Js', {
         }
         app.request.post({
             "data": params
-        }).then(function(err, data) {
+        }).then(function (err, data) {
             var htmlData = jQuery(data);
             var htmlContent = htmlData.find('.miniListContent');
             moreLink.parent().before(htmlContent);
@@ -797,7 +800,7 @@ Head_Widget_Js('Head_MiniList_Widget_Js', {
     }
 
 }, {
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         app.helper.hideModal();
         this.restrictContentDrag();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
@@ -810,7 +813,7 @@ Head_Widget_Js('Head_MiniList_Widget_Js', {
         });
     },
 
-    postResizeWidget: function() {
+    postResizeWidget: function () {
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var slimScrollDiv = jQuery('.slimScrollDiv', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 100;
@@ -825,7 +828,7 @@ Head_Widget_Js('Head_MiniList_Widget_Js', {
 
 Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
 
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         this._super();
         this.registerTagCloud();
         this.registerTagClickEvent();
@@ -839,7 +842,7 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
         });
     },
 
-    registerTagCloud: function() {
+    registerTagCloud: function () {
         jQuery('#tagCloud').find('a').tagcloud({
             size: {
                 start: parseInt('12'),
@@ -853,8 +856,8 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
         });
     },
 
-    registerChangeEventForModulesList: function() {
-        jQuery('#tagSearchModulesList').on('change', function(e) {
+    registerChangeEventForModulesList: function () {
+        jQuery('#tagSearchModulesList').on('change', function (e) {
             var modulesSelectElement = jQuery(e.currentTarget);
             if (modulesSelectElement.val() == 'all') {
                 jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
@@ -866,10 +869,10 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
         });
     },
 
-    registerTagClickEvent: function() {
+    registerTagClickEvent: function () {
         var thisInstance = this;
         var container = this.getContainer();
-        container.on('click', '.tagName', function(e) {
+        container.on('click', '.tagName', function (e) {
             var tagElement = jQuery(e.currentTarget);
             var tagId = tagElement.data('tagid');
             var params = {
@@ -881,7 +884,7 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
             app.request.post({
                 "data": params
             }).then(
-                function(err, data) {
+                function (err, data) {
                     app.helper.showModal(data);
                     vtUtils.applyFieldElementsView(jQuery(".myModal"));
                     thisInstance.registerChangeEventForModulesList();
@@ -890,7 +893,7 @@ Head_Widget_Js('Head_TagCloud_Widget_Js', {}, {
         });
     },
 
-    postRefreshWidget: function() {
+    postRefreshWidget: function () {
         this._super();
         this.registerTagCloud();
     }
@@ -902,7 +905,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
 }, {
 
     // Override widget specific functions.
-    postLoadWidget: function() {
+    postLoadWidget: function () {
         this.reinitNotebookView();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 50;
@@ -912,7 +915,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
         //widgetContent.css({height: widgetContent.height()-40});
     },
 
-    postResizeWidget: function() {
+    postResizeWidget: function () {
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var slimScrollDiv = jQuery('.slimScrollDiv', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 100;
@@ -927,7 +930,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
         });
     },
 
-    postRefreshWidget: function() {
+    postRefreshWidget: function () {
         this.reinitNotebookView();
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var adjustedHeight = this.getContainer().height() - 50;
@@ -936,22 +939,22 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
         });
     },
 
-    reinitNotebookView: function() {
+    reinitNotebookView: function () {
         var self = this;
-        jQuery('.dashboard_notebookWidget_edit', this.container).click(function() {
+        jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
             self.editNotebookContent();
         });
-        jQuery('.dashboard_notebookWidget_save', this.container).click(function() {
+        jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
             self.saveNotebookContent();
         });
     },
 
-    editNotebookContent: function() {
+    editNotebookContent: function () {
         jQuery('.dashboard_notebookWidget_text', this.container).show();
         jQuery('.dashboard_notebookWidget_view', this.container).hide();
     },
 
-    saveNotebookContent: function() {
+    saveNotebookContent: function () {
         var self = this;
         var refreshContainer = this.container.find('.refresh');
         var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
@@ -962,7 +965,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
         app.helper.showProgress();
         app.request.post({
             "url": params
-        }).then(function(err, data) {
+        }).then(function (err, data) {
             app.helper.hideProgress();
             var parent = self.getContainer();
             var widgetContent = parent.find('.dashboardWidgetContent');
@@ -977,7 +980,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
         });
     },
 
-    refreshWidget: function() {
+    refreshWidget: function () {
         var parent = this.getContainer();
         var element = parent.find('a[name="drefresh"]');
         var url = element.data('url');
@@ -988,7 +991,7 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
 
         app.helper.showProgress();
         app.request.post(params).then(
-            function(err, data) {
+            function (err, data) {
                 app.helper.hideProgress();
 
                 if (contentContainer.closest('.mCustomScrollbar').length) {
@@ -1010,11 +1013,11 @@ Head_Widget_Js('Head_Notebook_Widget_Js', {
 
 Head_History_Widget_Js('Head_OverdueActivities_Widget_Js', {}, {
 
-    registerLoadMore: function() {
+    registerLoadMore: function () {
         var thisInstance = this;
         var parent = thisInstance.getContainer();
         parent.off('click', 'a[name="history_more"]');
-        parent.on('click', 'a[name="history_more"]', function(e) {
+        parent.on('click', 'a[name="history_more"]', function (e) {
             var parent = thisInstance.getContainer();
             var element = jQuery(e.currentTarget);
             var type = parent.find("[name='type']").val();
@@ -1022,7 +1025,7 @@ Head_History_Widget_Js('Head_OverdueActivities_Widget_Js', {}, {
             var params = url + '&content=true&type=' + type;
             app.request.post({
                 "url": params
-            }).then(function(err, data) {
+            }).then(function (err, data) {
                 element.parent().remove();
                 var widgetContent = jQuery('.dashboardWidgetContent', parent);
                 var dashboardWidgetData = parent.find('.dashboardWidgetContent .dashboardWidgetData');

@@ -42,7 +42,7 @@
                 {else if $smarty.request.view eq 'Edit'}
                     <p class="current-filter-name filter-name pull-left "><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a>&nbsp;&nbsp;{vtranslate('LBL_ADDING_NEW', $MODULE)}&nbsp;&nbsp;</a></p>
                 {/if}
-                {if $smarty.request.view eq 'Detail'}
-                    <p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a title="{$RECORD->get('label')}">&nbsp;&nbsp;{$RECORD->get('label')} &nbsp;&nbsp;</a></p>
+                {if $smarty.request.view eq 'Detail' || $smarty.request.view eq 'Activity'}
+                    <p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a title="{$RECORD->get('label')}">{$RECORD->get('label')}</a></p>
                 {/if}
             </div>

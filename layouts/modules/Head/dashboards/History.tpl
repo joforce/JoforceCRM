@@ -17,7 +17,7 @@
     <div class="userList">
         {assign var=CURRENT_USER_ID value=$CURRENT_USER->getId()}
         {if $ACCESSIBLE_USERS|@count gt 1}
-            <select class="select2 widgetFilter col-lg-3 reloadOnChange" name="type">
+            <select class="select2 widgetFilter W-100 reloadOnChange" name="type">
                 <option value="all"  selected>{vtranslate('All', $MODULE_NAME)}</option>
                 {foreach key=USER_ID from=$ACCESSIBLE_USERS item=USER_NAME}
                     <option value="{$USER_ID}">
@@ -34,7 +34,7 @@
         {/if}
     </div>
 </div>
-<div class="dashboardWidgetContent" style="padding-top:15px;">
+<div class="dashboardWidgetContent " style="padding-top:15px;">
 	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
 
@@ -70,9 +70,9 @@
                 </span>
                 <span class="col-lg-7">
                     <div class="input-daterange input-group dateRange widgetFilter" id="datepicker" name="modifiedtime">
-                        <input type="text" class="input-sm form-control" name="start" style="height:30px;"/>
+                        <input type="text" class="form-control-sm form-control" name="start" style="height:30px;"/>
                         <span class="input-group-addon">to</span>
-                        <input type="text" class="input-sm form-control" name="end" style="height:30px;"/>
+                        <input type="text" class="form-control-sm form-control" name="end" style="height:30px;"/>
                     </div>
                 </span>
             </div>

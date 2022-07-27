@@ -25,7 +25,7 @@ echo pageHeader("Service Account Access");
   account.
  ************************************************/
 
-$client = new Google_Client();
+$client = new Google\Client();
 
 /************************************************
   ATTENTION: Fill in these values, or make sure you
@@ -53,14 +53,17 @@ if ($credentials_file = checkServiceAccountCredentialsFile()) {
 
 $client->setApplicationName("Client_Library_Examples");
 $client->setScopes(['https://www.googleapis.com/auth/books']);
-$service = new Google_Service_Books($client);
+$service = new Google\Service\Books($client);
 
 /************************************************
   We're just going to make the same call as in the
   simple query as an example.
  ************************************************/
-$optParams = array('filter' => 'free-ebooks');
-$results = $service->volumes->listVolumes('Henry David Thoreau', $optParams);
+$query = 'Henry David Thoreau';
+$optParams = array(
+  'filter' => 'free-ebooks',
+);
+$results = $service->volumes->listVolumes($query, $optParams);
 ?>
 
 <h3>Results Of Call:</h3>

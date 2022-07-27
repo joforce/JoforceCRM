@@ -9,22 +9,22 @@
 {* modules/Settings/Head/views/TaxIndex.php *}
 
 {strip}
-	<div id="TaxCalculationsContainer">
-		<div class="editViewHeader">
-			<h4>{vtranslate('LBL_TAX_CALCULATIONS', $QUALIFIED_MODULE)}</h4>
+	<div id="TaxCalculationsContainer" class="card mt30" >
+		<div class="editViewHeader card-header-new tax_index_setting">
+			<h1>{vtranslate('LBL_TAX_CALCULATIONS', $QUALIFIED_MODULE)}</h1>
 		</div>
-		<hr>
+		
 		<br>
 		<div class="contents tabbable clearfix">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
-				<li class="tab-item taxesTab active"><a data-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li class="tab-item chargesTab"><a data-toggle="tab" href="#charges"><strong>{vtranslate('LBL_CHARGES_AND ITS_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li class="tab-item taxRegionsTab"><a data-toggle="tab" href="#taxRegions"><strong>{vtranslate('LBL_TAX_REGIONS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item taxesTab active col-lg-4 pull-left p0 m0 tabli"><a data-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item chargesTab col-lg-4 pull-left p0 m0 tabli"><a data-toggle="tab" href="#charges"><strong>{vtranslate('LBL_CHARGES_AND ITS_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item taxRegionsTab col-lg-4 pull-left p0 m0 tabli"><a data-toggle="tab" href="#taxRegions"><strong>{vtranslate('LBL_TAX_REGIONS', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent padding20 overflowVisible joforce-tax-section">
 				<div class="tab-pane active" id="taxes">
 					<div class="col-lg-3 col-md-3 col-sm-3"></div>
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
 						{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 						<div class="marginBottom10px">

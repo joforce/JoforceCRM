@@ -169,7 +169,7 @@ class Reports extends CRMEntity{
 				// Update subordinate user information for re-use
 				CacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
 				
-				//Report sharing for vtiger7
+				//Report sharing
 				$queryObj = new stdClass();
 				$queryObj->query = $ssql;
 				$queryObj->queryParams = $params;

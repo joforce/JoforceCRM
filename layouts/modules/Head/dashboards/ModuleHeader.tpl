@@ -8,14 +8,9 @@
  * Contributor(s): JoForce.com
  ************************************************************************************}
 {strip}
-	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
-	<input type="hidden" id="present-dashboard-tab" value="{$PRESENT_TAB}"/>
-		<div class="module-action-content clearfix {$MODULE}-module-action-content">
-			<div class="module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond dashboard-top" id="dashboard-option" data-boardid=1>
-                                <a id="notificaiton-dashboard" href="{$SITEURL}Home/view/List" title="{vtranslate('LBL_DASHBOARD', $MODULE)}">
-                                        <b><h4 class="module-title pull-left text-uppercase ml10">{vtranslate('LBL_DASHBOARD', $MODULE)}</h4></b>
-                                </a>
-                        </div>
+	<div class="col-sm-12 col-xs-12 col-lg-12 module-action-bar clearfix">
+		<input type="hidden" id="present-dashboard-tab" value="{$PRESENT_TAB}"/>
+		<div class="module-action-content clearfix {$MODULE}-module-action-content col-sm-6 col-xs-6 col-lg-6">
 			<div class="module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond dashboard-top" id="dashlets-option" data-boardid=2>
 				{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 				{if $MODULE_MODEL->getDefaultViewName() neq 'List'}
@@ -35,6 +30,11 @@
 				{/if}
 			</div>
 		</div>
+
+		<div class="pull-right col-sm-6 col-xs-6 col-lg-6 module-action-content clearfix {$MODULE}-module-action-content">
+	            {include file="modules/Head/dashboards/DashBoardHeader.tpl"}
+		</div>
+
 		{if $FIELDS_INFO neq null}
 			<script type="text/javascript">
 				var uimeta = (function () {

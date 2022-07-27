@@ -8,7 +8,9 @@
 ************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 ">
+<div class="col-sm-12 col-xs-12 joforce-bg-list ms_report_page_table_top-0">
+<div class="card mt-4">
+<h4 class="card-header-new"> Reports</h4>
 		<input type="hidden" name="view" id="view" value="{$VIEW}" />
 		<input type="hidden" name="cvid" value="{$VIEWID}" />
 		<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -32,7 +34,7 @@
 		{if !$SEARCH_MODE_RESULTS}
 			{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 		{/if}
-		<div id="table-content" class="table-container">
+		<div id="table-content " class="table-container chart">
 			<form name='list' id='listedit' action='' onsubmit="return false;">
 				<table id="listview-table"  class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
 					<thead>
@@ -78,9 +80,9 @@
 
 						{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
 							<tr class="searchRow">
-								<th class="inline-search-btn">
+								<th class="inline-search-btn" style="min-width:120px!important;>
 									<div class="table-actions">
-										<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+										<button class="btn btn-primary btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 									</div>
 								</th>
 								{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADER_KEY from=$LISTVIEW_HEADERS}
@@ -165,5 +167,6 @@
 		<div id="scroller_wrapper" class="bottom-fixed-scroll">
 			<div id="scroller" class="scroller-div"></div>
 		</div>
+	</div>
 	</div>
 {/strip}

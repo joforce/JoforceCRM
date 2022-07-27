@@ -12,9 +12,11 @@
 -->*}
 
 {* TODO: Review the order of parameters - good to eliminate $RECORD->getId, $RECORD should be used *}
+{* <div>{$FIELD_MODEL->getFieldDataType()}</div>
+<div>{$FIELD_MODEL->get('name')}</div> *}
 {if $FIELD_MODEL->getFieldDataType() eq 'picklist' and $MODULE neq 'Users'}
     {assign var=PICKLIST_COLOR value=Settings_Picklist_Module_Model::getPicklistColorByValue($FIELD_MODEL->getName(), $FIELD_MODEL->get('fieldvalue'))}  
-    <span {if !empty($PICKLIST_COLOR)} class="picklist-color" style="background-color: {$PICKLIST_COLOR}; line-height:15px; color: {Settings_Picklist_Module_Model::getTextColor($PICKLIST_COLOR)};" {/if}>
+    <span {if !empty($PICKLIST_COLOR)} class="picklist-color {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}" style="background-color: {$PICKLIST_COLOR}; line-height:15px; color: {Settings_Picklist_Module_Model::getTextColor($PICKLIST_COLOR)};" {/if}>
         {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
     </span>
 {else if $FIELD_MODEL->getFieldDataType() eq 'multipicklist' and $MODULE neq 'Users'}
@@ -42,6 +44,10 @@
     {/if}
 {else if  $FIELD_MODEL->get('name') eq 'signature'}
 	{decode_html($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD))}
+{else if $FIELD_MODEL->getFieldDataType() eq 'email'}
+    {$FIELD_MODEL->get('fieldvalue')}
+{else if $FIELD_MODEL->getFieldDataType() eq 'url'}
+    {$FIELD_MODEL->get('fieldvalue')}
 {else}
     {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
 {/if}

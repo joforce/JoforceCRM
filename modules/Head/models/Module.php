@@ -1818,7 +1818,6 @@ class Head_Module_Model extends Head_Module {
 		$autoFillModules = array();
 		switch ($moduleName) {
 			case 'Contacts'	: $autoFillModules[] = 'Accounts';					break;
-			case 'Project'	: $autoFillModules = array('Contacts','Accounts');	break;
 		}
 		return $autoFillModules;
 	}

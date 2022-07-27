@@ -12,6 +12,7 @@
 {strip}
 	{assign var=SHOWN_FIELDS_LIST value=array()}
 	<div class="row">
+    <div class="col-sm-2 col-xs-2"></div>
         <div class="col-sm-9 col-xs-9">
             <div class="row form-group">
                 <div class="col-sm-2 col-xs-2">{vtranslate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
@@ -95,7 +96,7 @@
                             <input class="inputElement" type="text" value="{$TASK_OBJECT->startDays}" name="startDays" 
                                    data-rule-WholeNumber="true">&nbsp;
                         </div>
-                        <span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+                        <span class="alignMiddle col-sm-2 col-xs-2">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
                     </div>
                 </div>
                 <span class="col-sm-2 col-xs-2">
@@ -138,7 +139,7 @@
                             <input class="inputElement" type="text" value="{$TASK_OBJECT->endDays}" name="endDays" 
                                    data-rule-WholeNumber="true" >&nbsp;
                         </div>
-                        <span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+                        <span class="alignMiddle col-sm-2 col-xs-2">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
                     </div>
                 </div>
                 <div class="col-sm-2 col-xs-2">

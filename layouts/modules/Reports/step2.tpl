@@ -43,7 +43,7 @@
         <div class="" style="padding:2%;">
             <div class="form-group">
                 <label>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</label>
-                <select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" style="width :100%;" class="select2-container select2 col-lg-11 columns"  data-rule-required="true" multiple="">
+                <select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList"  class="select2-container select2 w-100 columns"  data-rule-required="true" multiple="">
                     {foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
                         {foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
                             <optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
@@ -128,9 +128,9 @@
         <div class="modal-overlay-footer border1px clearfix">
             <div class="row clearfix">
                 <div class="textAlignCenter col-lg-12 col-md-12 col-sm-12 ">
-                    <button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
+                    <a  class="btn back-button backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></a>&nbsp;&nbsp;
                     <button type="submit" class="btn btn-primary nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-                    <a class="cancelLink btn btn-secondary" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+                    <a class="cancelLink btn btn-danger" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
                 </div>
             </div>
         </div>

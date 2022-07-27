@@ -16,7 +16,7 @@
 </div>
 </div>
 <div class="listViewEntriesDiv contents-bottomscroll">
-	<div class="bottomscroll-div">
+	<div class="bottomscroll-div  webform-center-align">	
         <div class="fieldBlockContainer">
 				 <div class="fieldBlockHeader"> 
                      <h4>{vtranslate($SOURCE_MODULE, {$SOURCE_MODULE})} {vtranslate('LBL_FIELD_INFORMATION', {$MODULE_NAME})}</h4>

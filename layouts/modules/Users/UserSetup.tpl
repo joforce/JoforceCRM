@@ -72,7 +72,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="offset1 span6">
-                            <label class="control-label"><strong>{vtranslate('Preferences', $MODULE)}</strong><span class="muted">{vtranslate('LBL_ALL_FIELDS_BELOW_ARE_REQUIRED', $MODULE)}</label>
+                            <label class="col-form-label"><strong>{vtranslate('Preferences', $MODULE)}</strong><span class="muted">{vtranslate('LBL_ALL_FIELDS_BELOW_ARE_REQUIRED', $MODULE)}</label>
                             {if $IS_FIRST_USER}
                                 <div class="controls" id="currency_name_controls">
                                     <select name="currency_name" id="currency_name" placeholder="{vtranslate('LBL_BASE_CURRENCY', $MODULE)}" data-errormessage="{vtranslate('LBL_CHOOSE_BASE_CURRENCY', $MODULE)}" class="inputElement validate[required]" style="width:250px;">

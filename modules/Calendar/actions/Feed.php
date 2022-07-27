@@ -67,6 +67,12 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 			$conditions = $request['conditions'];
 			$result = array();
 			switch ($type) {
+				case 'All'				:	if($fieldName == 'date_start,due_date' || $userid) {
+												$this->pullAllDetails($start, $end, $result,$userid,$color,$textColor,$isGroupId,$conditions);
+											} else {
+												$this->pullDetails($start, $end, $result, $type, $fieldName, $color, $textColor, $conditions);
+											}
+											break;
 				case 'Events'			:	if($fieldName == 'date_start,due_date' || $userid) {
 												$this->pullEvents($start, $end, $result,$userid,$color,$textColor,$isGroupId,$conditions);
 											} else {
@@ -394,6 +400,155 @@ class Calendar_Feed_Action extends Head_BasicAjax_Action {
 			$result[] = $item;
 		}
 	}
+
+	protected function pullAllDetails($start, $end, &$result, $userid = false, $color = null, $textColor = 'white', $isGroupId = false, $conditions = '') {
+		global $site_URL;
+		$dbStartDateOject = DateTimeField::convertToDBTimeZone($start);
+		$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+		$dbStartDateTimeComponents = explode(' ', $dbStartDateTime);
+		$dbStartDate = $dbStartDateTimeComponents[0];
+
+		$dbEndDateObject = DateTimeField::convertToDBTimeZone($end);
+		$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
+
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$groupsIds = Head_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+   		$get_userdetails = get_privileges($currentUser->id);
+        foreach ($get_userdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                    if(is_object($decode_value)){
+                        $value[$decode_key] = (array) $decode_value;
+                    }
+                }
+                $$key = $value;
+                }else{
+                    $$key = $value;
+                }
+        }
+        $get_sharingdetails = get_sharingprivileges($currentUser->id);
+        foreach ($get_sharingdetails as $key => $value) {
+            if(is_object($value)){
+                $value = (array) $value;
+                    foreach ($value as $decode_key => $decode_value) {
+                       if(is_object($decode_value)){
+                          $value[$decode_key] = (array) $decode_value;
+                        }
+                    }
+                    $$key = $value;
+            }else{
+                $$key = $value;
+            }
+        }
+
+
+		$moduleModel = Head_Module_Model::getInstance('Events');
+		if($userid && !$isGroupId){
+			$focus = new Users();
+			$focus->id = $userid;
+			$focus->retrieve_entity_info($userid, 'Users');
+			$user = Users_Record_Model::getInstanceFromUserObject($focus);
+			$userName = $user->getName();
+			$queryGenerator = new QueryGenerator($moduleModel->get('name'), $user);
+		}else{
+			$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
+		}
+
+		$queryGenerator->setFields(array('subject', 'eventstatus', 'visibility','date_start','time_start','due_date','time_end','assigned_user_id','id','activitytype','recurringtype'));
+		$query = $queryGenerator->getQuery();
+
+		$query.= " AND jo_activity.activitytype NOT IN ('Emails') AND ";
+		$hideCompleted = $currentUser->get('hidecompletedevents');
+		if($hideCompleted)
+			$query.= "jo_activity.eventstatus != 'HELD' AND ";
+		if(!empty($conditions)) {
+			// $conditions = Zend_Json::decode(Zend_Json::decode($conditions));
+			$query .=  $this->generateCalendarViewConditionQuery($conditions).'AND ';
+		}
+		$query.= " ((concat(date_start, '', time_start)  >= '$dbStartDateTime' AND concat(due_date, '', time_end) < '$dbEndDateTime') OR ( due_date >= '$dbStartDate'))";
+
+		$params = array();
+		if(empty($userid)){
+			$eventUserId  = $currentUser->getId();
+			$params = array_merge(array($eventUserId), $this->getGroupsIdsForUsers($eventUserId));
+		}else{
+			$eventUserId = $userid;
+			$params = array($eventUserId);
+		}
+
+		$query.= " AND jo_crmentity.smownerid IN (".  generateQuestionMarks($params).")";
+		$queryResult = $db->pquery($query, $params);
+
+		while($record = $db->fetchByAssoc($queryResult)){
+			$item = array();
+			$crmid = $record['activityid'];
+			$visibility = $record['visibility'];
+			$activitytype = $record['activitytype'];
+			$status = $record['eventstatus'];
+			$ownerId = $record['smownerid'];
+			$item['id'] = $crmid;
+			$item['visibility'] = $visibility;
+			$item['activitytype'] = $activitytype;
+			$item['status'] = $status;
+			$recordBusy = true;
+			if(in_array($ownerId, $groupsIds)) {
+				$recordBusy = false;
+			} else if($ownerId == $currentUser->getId()){
+				$recordBusy = false;
+			}
+			// if the user is having view all permission then it should show the record
+			// as we are showing in detail view
+			if($profileGlobalPermission[1] ==0 || $profileGlobalPermission[2] ==0) {
+				$recordBusy = false;
+			}
+
+			if(!$currentUser->isAdminUser() && $visibility == 'Private' && $userid && $userid != $currentUser->getId() && $recordBusy) {
+				$item['title'] = decode_html($userName).' - '.decode_html(vtranslate('Busy','Events')).'*';
+				$item['url']   = '';
+			} else {
+				$item['title'] = decode_html($record['subject']).' - ('.decode_html(vtranslate($record['eventstatus'],'Calendar')).')';
+				$item['url']   = sprintf($site_URL.'Calendar/view/Detail/%s', $crmid);
+			}
+
+			$dateTimeFieldInstance = new DateTimeField($record['date_start'].' '.$record['time_start']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ',$userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			//Conveting the date format in to Y-m-d.since full calendar expects in the same format
+			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			$startTime = $dateTimeComponents[1];
+			$startTime =date('h:i:s',strtotime($startTime . ' +30 minutes'));
+
+			$dateTimeFieldInstance = new DateTimeField($record['due_date'].' '.$record['time_end']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ',$userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			//Conveting the date format in to Y-m-d.since full calendar expects in the same format
+			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$item['end']   =  ($record['activitytype'] === "Task") ? $dataBaseDateFormatedString.' '. $startTime : $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			$item['className'] = $cssClass;
+			$item['allDay'] = false;
+			$item['color'] = ($record['activitytype'] === "Task") ? '#F93154' : '#00B74A';
+			$item['textColor'] = $textColor;
+			$item['module'] = $moduleModel->getName();
+			$recurringCheck = false;
+			if($record['recurringtype'] != '' && $record['recurringtype'] != '--None--') {
+				$recurringCheck = true;
+			}
+			$item['recurringcheck'] = $recurringCheck;
+			$item['userid'] = $eventUserId;
+			$item['fieldName'] = 'date_start,due_date';
+			$item['conditions'] = '';
+			if(!empty($conditions)) {
+				$item['conditions'] = Zend_Json::encode(Zend_Json::encode($conditions));
+			}
+			$result[] = $item;
+		}
+	}
+
 
 	protected function pullMultipleEvents($start, $end, &$result, $data) {
 

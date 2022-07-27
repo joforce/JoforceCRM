@@ -13,10 +13,10 @@ Head_List_Js("Inventory_List_Js", {
 },
         {
 
-            showQuickPreviewForId: function(recordId, appName, templateId) {
+            showQuickPreviewForId: function(recordId, templateId) {
                 var self = this;
                 var vtigerInstance = Head_Index_Js.getInstance();
-                vtigerInstance.showQuickPreviewForId(recordId, self.getModuleName(), app.getAppName(), templateId);
+                vtigerInstance.showQuickPreviewForId(recordId, self.getModuleName(), templateId);
             },
             
             registerEvents: function() {

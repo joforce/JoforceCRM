@@ -108,7 +108,7 @@ class RecycleBin_Module_Model extends Head_Module_Model {
 	 */
 	public function getAllModuleList(){
 		$moduleModels = parent::getEntityModules();
-		$restrictedModules = array('Emails', 'ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home', 'Events');
+		$restrictedModules = array('Emails', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home', 'Events');
 		foreach($moduleModels as $key => $moduleModel){
 			if(in_array($moduleModel->getName(),$restrictedModules) || $moduleModel->get('isentitytype') != 1){
 				unset($moduleModels[$key]);

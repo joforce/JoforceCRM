@@ -257,7 +257,7 @@ Head.Class("Head_Tag_Js",{},{
         jQuery(document).on('click','.editTag', function(e){
             var element = jQuery(e.currentTarget);
             var tag = element.closest('.tag');
-            var editTagContainer = self.editTagContainerCached.clone();
+            var editTagContainer = $('.editTagContainer').clone();
             editTagContainer.find('[name="id"]').val(tag.data('id'));
             editTagContainer.find('[name="tagName"]').val(tag.find('.tagLabel').text());
             if(tag.attr('data-type') == "public") {
@@ -274,9 +274,8 @@ Head.Class("Head_Tag_Js",{},{
                 'placement' : placement,
                 'animation' : true,
                 'trigger' : 'manual',
-                'template' : self.editTagTemplate,
-                'container' : container
-                
+                // 'template' : self.editTagTemplate,
+                // 'container' : container
             });
             element.popover('show');
         });
@@ -315,7 +314,7 @@ Head.Class("Head_Tag_Js",{},{
         jQuery(document).on('click', '.editTagContainer .cancelSaveTag', function(e){
             var element = jQuery(e.currentTarget);
             var popOverId = element.closest('.popover').attr('id');
-            jQuery('[aria-describedby="'+ popOverId +'"]').popover('destroy');
+            jQuery('[aria-describedby="'+ popOverId +'"]').popover('hide');
         });
         
         jQuery(document).on('keyup', '.editTagContainer [name="tagName"]', function(e) {

@@ -21,12 +21,12 @@
             <div name='massEditContent'>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="control-label fieldLabel col-sm-5">{vtranslate('User to be deleted', $MODULE)}</label>
+                        <label class="col-form-label fieldLabel col-sm-5">{vtranslate('User to be deleted', $MODULE)}</label>
                         <label class="control fieldValue col-sm-5" style="padding-top: 6PX;">{$DELETE_USER_NAME}</label>
                     </div>
                         
                     <div class="form-group">
-                       <label class="control-label fieldLabel col-sm-5">{vtranslate('Transfer records to user', $MODULE)}</label>
+                       <label class="col-form-label fieldLabel col-sm-5">{vtranslate('Transfer records to user', $MODULE)}</label>
                        <div class="controls fieldValue col-xs-6">
                            <select class="select2 {if $OCCUPY_COMPLETE_WIDTH} row-fluid {/if}" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
                                {foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
@@ -38,7 +38,7 @@
                                 
                     {if !$PERMANENT}        
                         <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-4"></label>
+                            <label class="col-form-label fieldLabel col-sm-4"></label>
                                 <div class="controls fieldValue col-sm-8">
                                     <input type="checkbox" name="deleteUserPermanent" value="1" >
                                     &nbsp;&nbsp;{vtranslate('LBL_DELETE_USER_PERMANENTLY',$MODULE)}
@@ -56,7 +56,7 @@
                   {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
                 {/if}
                 <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
-                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                <a href="#" class="cancelLink btn btn-danger" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
             </center>
           </div>
         </form>

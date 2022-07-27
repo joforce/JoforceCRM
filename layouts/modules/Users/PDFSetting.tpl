@@ -13,9 +13,9 @@
             <hr>
                <table class="table table-bordered blockContainer showInlineTable"> 
              
-                <div class="col-md-6 col-lg-10 col-md-offset-2 row-space">
+                <div class="col-md-6 col-lg-10 offset-md-2 row-space">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Page Format', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Page Format', $MODULE)}</span></div>
                     </div>
                     <div class="col-md-6 pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
@@ -28,9 +28,9 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-10 col-md-offset-2 row-space"> 
+                <div class="col-md-6 col-lg-10 offset-md-2 row-space"> 
                     <div class="col-md-5 pr0">
-                       <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Page Orientation', $MODULE)}</div>
+                       <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Page Orientation', $MODULE)}</span></div>
                     </div>
                     <div class="col-md-6 pl0">
                        <div class="fieldValue {$WIDTHTYPE}">
@@ -41,9 +41,9 @@
                        </div>
                        </div>
                 </div>
-                <div class="col-md-6 col-lg-10 col-md-offset-2 row-space">
+                <div class="col-md-6 col-lg-10 offset-md-2 row-space">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Margins', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Margins', $MODULE)}</span></div>
                     </div>
                     <div class="col-md-6 pl0">
                     <div class="fieldValue {$WIDTHTYPE}">

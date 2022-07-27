@@ -8,26 +8,30 @@
 *************************************************************************************}
 
 {strip}
-	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-		<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+{* {assign var=FIELDS_MODELS_LIST value=$MODULE_MODEL->getFields()} *}
+{* {assign var=MODULE value=$MODULE_NAME} *}
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-11  {if in_array($MODULE,array(''))} mac_scr_details_view_table_page {elseif in_array($MODULE,array('Accounts','Potentials','HelpDesk'))} mac_scr_details_view_table_page_all {elseif in_array($MODULE,array('Products'))} big_scrn_product_details_page {elseif in_array($MODULE,array('Leads'))} mac_scrn_Leads_details_page_table {elseif in_array($MODULE,array('Vendors'))} mac_scrn_Vendors_details_page_table  {elseif in_array($MODULE,array('Campaigns'))} ipad_scrn_Vendors_details_page_table  {/if}">
+	<div class="col-lg-12 col-xl-12 col-md-12 col-sm-11 p0 ">
+{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
+	<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
 
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 		{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
-		<div class="block block_{$BLOCK_LABEL_KEY}">
+		<div class="block block_{$BLOCK_LABEL_KEY} ml20 {if in_array($MODULE,array('PurchaseOrder','Calendar'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_DESCRIPTION_INFORMATION','LBL_SO_INFORMATION')) } ms_lbl_des_info mt0 {elseif in_array($BLOCK_LABEL_KEY,array('LBL_ADDRESS_INFORMATION','LBL_EVENT_INFORMATION','LBL_TASK_INFORMATION'))} ms_lbl_des_info  {/if} {if in_array($BLOCK_LABEL_KEY,array('LBL_TERMS_INFORMATION','LBL_RECURRENCE_INFORMATION','LBL_RELATED_TO'))} ms_lbl_des_info-new  {/if} {/if} {if in_array($MODULE,array('Campaigns'))}  {if in_array($BLOCK_LABEL_KEY,array( 'LBL_DESCRIPTION_INFORMATION','LBL_REMINDER_INFORMATION')) } ms_lbl_des_info  {/if} {/if} {if in_array($MODULE,array('Calendar'))}  {if in_array($BLOCK_LABEL_KEY,array('LBL_REMINDER_INFORMATION')) } ms_top_0  {/if} {/if} {if in_array($MODULE,array('HelpDesk'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_DESCRIPTION_INFORMATION'))} ticket_description_laptop_scrn {/if} {/if}{if in_array($MODULE,array('Leads','Accounts','Contacts','Potentials','Products','HelpDesk'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_ADDRESS_INFORMATION','LBL_DESCRIPTION_INFORMATION'))} {if in_array($MODULE,array('Products','HelpDesk'))} lap_srn_product_details_view {/if} {if !in_array($MODULE,array('Contacts','Leads'))} lead_add_details_ms_view {/if} {/if} {/if}{if in_array($MODULE,array('Products'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_STOCK_INFORMATION'))} big_scrn_stock  {/if} {/if} {if in_array($MODULE,array('Leads','Quotes','Vendors','PriceBooks','PurchaseOrder','SalesOrder','Invoice'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_ADDRESS_INFORMATION','LBL_DESCRIPTION_INFORMATION'))} {if in_array($MODULE,array('Leads'))} lead_page_only  {/if} lead_add_details_big_view  {/if} {/if} {if in_array($MODULE,array('Leads'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_DESCRIPTION_INFORMATION'))} lead_page_only_lap_srn  {/if} {/if} {if in_array($MODULE,array('Accounts')) && in_array($BLOCK_LABEL_KEY,array('LBL_IMAGE_INFORMATION'))} profile_picture_lap_scr {/if}{if in_array($MODULE,array('Services','Vendors','PriceBooks'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_PRICING_INFORMATION','LBL_DESCRIPTION_INFORMATION'))} services_add_details_big_view {/if} {/if} {if in_array($MODULE,array('Quotes','Services','PurchaseOrder','SalesOrder','Invoice'))} {if in_array($BLOCK_LABEL_KEY,array('LBL_ADDRESS_INFORMATION','LBL_DESCRIPTION_INFORMATION'))} quotes_add_details_big_view {/if} {/if} ">
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
-			<div>
+			<div class='detailhead' style="background: #f7f7f7;color: #264da2;padding: 10px 20px 10px 20px;-webkit-border-top-right-radius: 7px;-webkit-border-top-left-radius: 7px;">
 				<h4 class="textOverflowEllipsis maxWidth50">
 					<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if}" src="{$SITEURL}{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
 					<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" src="{$SITEURL}{vimage_path('arrowdown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>&nbsp;
 					{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}
 				</h4>
 			</div>
-			<hr>
-			<div class="blockData">
+			
+			<div class="blockData {$MODULE}">
 				<table class="table detailview-table no-border">
 					<tbody {if $IS_HIDDEN} class="hide" {/if}>
 						{assign var=COUNTER value=0}
@@ -48,7 +52,7 @@
 										<td class="fieldLabel {$WIDTHTYPE}">
 											<span class='muted'>{vtranslate($tax.taxlabel, $MODULE)}(%)</span>
 										</td>
-										<td class="fieldValue {$WIDTHTYPE}">
+										<td class="fieldValue {$WIDTHTYPE}" style="height:auto!important">
 											<span class="value textOverflowEllipsis" data-field-type="{$FIELD_MODEL->getFieldDataType()}" >
 												{if $tax.check_value eq 1}
 													{$tax.percentage}
@@ -66,7 +70,7 @@
 										{/if}
 									{/if}
 									<td class="fieldLabel {$WIDTHTYPE}"><span class="muted">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</span></td>
-									<td class="fieldValue {$WIDTHTYPE}">
+									<td class="fieldValue {$WIDTHTYPE}" style="height:auto!important">
 										<ul id="imageContainer">
 											{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 												{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -101,7 +105,7 @@
 											{/if}
 										</span>
 									</td>
-									<td class="fieldValue {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $fieldDataType eq 'reminder' or $fieldDataType eq 'recurrence'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<td class="fieldValue {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $fieldDataType eq 'reminder' or $fieldDataType eq 'recurrence'} colspan="3" {assign var=COUNTER value=$COUNTER+1} style="height:auto" {/if} >
 										{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 										{if $fieldDataType eq 'multipicklist'}
 											{assign var=FIELD_DISPLAY_VALUE value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
@@ -126,12 +130,12 @@
 								{/if}
 
 								{if $FIELD_MODEL_LIST|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('name') neq "recurringtype" and $FIELD_MODEL->get('uitype') neq "69" and $FIELD_MODEL->get('uitype') neq "105"}
-									<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
+									<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}" style="height:auto"></td>
 								{/if}
 							{/foreach}
 							{* adding additional column for odd number of fields in a block *}
 							{if $FIELD_MODEL_LIST|@end eq true and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
-								<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
+								<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}" style="height:auto"></td>
 							{/if}
 						</tr>
 					</tbody>

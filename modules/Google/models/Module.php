@@ -41,10 +41,10 @@ class Google_Module_Model extends Head_Module_Model {
         $result = $db->pquery("SELECT appid FROM jo_wsapp WHERE appkey = ?", array($appKey));
         $appId = $db->query_result($result, 0, 'appid');
         
-        $db->pquery("DELETE FROM jo_wsapp_recordmapping WHERE appid = ?", array($appId));
-        $db->pquery("DELETE FROM jo_wsapp WHERE appid = ?", array($appId));
-        $db->pquery("DELETE FROM jo_wsapp_sync_state WHERE name = ? AND userid = ?", array($name, $user));
-        $db->pquery("DELETE FROM jo_google_sync_settings WHERE user = ? AND module = ?", array($user,$module));
+        // $db->pquery("DELETE FROM jo_wsapp_recordmapping WHERE appid = ?", array($appId));
+        // $db->pquery("DELETE FROM jo_wsapp WHERE appid = ?", array($appId));
+        // $db->pquery("DELETE FROM jo_wsapp_sync_state WHERE name = ? AND userid = ?", array($name, $user));
+        // $db->pquery("DELETE FROM jo_google_sync_settings WHERE user = ? AND module = ?", array($user,$module));
         if($module == 'Contacts') {
             $db->pquery("DELETE FROM jo_google_sync_fieldmapping WHERE user = ?", array($user));
         } elseif($module == 'Calendar') {

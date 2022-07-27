@@ -25,8 +25,7 @@
                         {/if}
                     </div>
                 </div>
-            </div>
-            <hr>    
+            </div>           
             <div class="editViewBody">
                 <div class="editViewContents" >
                     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -74,7 +73,7 @@
                 <div class="row clearfix">
                     <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton'  >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink btn btn-secondary'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-danger'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>

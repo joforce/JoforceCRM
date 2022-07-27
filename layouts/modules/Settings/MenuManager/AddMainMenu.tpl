@@ -26,7 +26,7 @@
         
       <div class="modal-footer ">
             <center>
-                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
+                <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">Cancel</a>
             </center>
       </div>
     </div>
@@ -44,10 +44,10 @@
 	
 	      <div class="modal-body">
 		   <div class="">
-			<form class="main-menu-modal-form" action>
-				<div class="add-main-menu-content">
-					<span>Choose Module:</span>
-					<select class="select2 inputElement" name="selected-menu" value='' id="select-module">
+			<form class="main-menu-modal-form " action>
+			<div class="add-main-menu-content row">
+					<span class="col-lg-4 col-md-4 col-sm-4 mt20">Choose Module</span>
+					<select class="select2 inputElement col-lg-6 col-md-6 col-sm-6" name="selected-menu" value='' id="select-module">
 						<option></option>
 						{foreach item=tabid from=$TADID_ARRAY}
 							{assign var=moduleModel value=Settings_MenuManager_Module_Model::getModuleInstanceById($tabid)}
@@ -66,7 +66,7 @@
 			<button class="btn btn-success save-main-menu" id="save-main-menu" type="submit" name="saveButton" data-type="module">
 				<strong>Save</strong>
 			</button>
-			<a href="#" class="cancelLink" type="reset" data-dismiss="modal">Cancel</a>
+			<a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">Cancel</a>
 		    </center>
 	      </div>
 	</div>
@@ -85,14 +85,14 @@
                    <div class="">
                         <form class="main-menu-modal-form" action>
                                 <div class="add-main-menu-content">
-					<div style="margin-bottom: 20px;margin-top: 20px;">
-	                                        <span>Link Label : </span>
-						<input type="text" style="width:400px;" name="link-name" id="linkname" class="inputElement">
+					<div class="row">
+	                                        <span class="col-lg-4 col-md-4 col-sm-4 mt20">Link Label : </span>
+						<input type="text" style="width:400px;" name="link-name" id="linkname" class="inputElement col-lg-6 col-md-6 col-sm-6">
 					</div>
 					
-					<div style="margin-bottom: 20px;">					
-						<span>Link URL   : </span>
-        	                                <input type="text" style="width:400px;" name="link-url" id="linkurl" class="inputElement">
+					<div class="row">					
+						<span class="col-lg-4 col-md-4 col-sm-4 mt20">Link URL   : </span>
+        	                                <input type="text" style="width:400px;" name="link-url" id="linkurl" class="inputElement col-lg-6 col-md-6 col-sm-6">
 					</div>
                                 </div>
                         </form>
@@ -104,7 +104,7 @@
                         <button class="btn btn-primary save-main-menu" id="save-main-menu" type="submit" data-type="link" name="saveButton">
 				<strong>Save</strong>
 			</button>
-                        <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
+                        <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">Cancel</a>
                     </center>
               </div>
         </div>	

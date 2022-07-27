@@ -8,7 +8,7 @@
 ************************************************************************************}
 {strip}
 <!--LIST VIEW RECORD ACTIONS-->
-<div style="width:80px ;">
+<div class="d-flex-center">
     <a class="deleteRecordButton" style=" opacity: 0; padding: 0 5px;">
         <i title="{vtranslate('LBL_DELETE', $MODULE)}" class="fa fa-trash alignMiddle"></i>
     </a>

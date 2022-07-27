@@ -21,7 +21,7 @@
             <input type="hidden" class="editorMode" value="edit" />
             
             <div class="form-group editCalendarViewsList">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-6">
                     <select class="select2" name="usersList" style="min-width: 250px;">
                         <option value="{$CURRENT_USER_ID}">{vtranslate('LBL_MINE',$MODULE)}</option>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-8">
                     <p class="calendarColorPicker"></p>
                 </div>

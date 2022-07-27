@@ -3,7 +3,7 @@
     <input type="hidden" name="parent" value="Settings" />
     <input type="hidden" name="action" value="CompanyDetailsSave" />
     <div class="form-group companydetailsedit" style="margin-top: 3%;">
-        <label class="col-sm-4 fieldLabel control-label"> {vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</label>
+        <label class="col-sm-4 fieldLabel col-form-label"> {vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</label>
         <div class="fieldValue col-sm-8 "  >
             <div class="company-logo-content">
                 <img src="{$COMPANY_DETAILS_MODULE_MODEL->getLogoPath()}" class="alignMiddle company_logo" style="max-width:200px; max-height: 100px;"/>

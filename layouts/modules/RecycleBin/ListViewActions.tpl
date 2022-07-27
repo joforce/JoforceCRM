@@ -10,7 +10,7 @@
 -->*}
 
 {strip}
-	<div id="listview-actions" class="listview-actions-container mt20 mb20">
+	<div id="listview-actions" class="listview-actions-container mb40" style="margin-top:60px;">
 		<div class = "row">
 			<div class="btn-group col-md-4" role="group" aria-label="...">
 				<span class="recordDependentListActions" style="float: left;">
@@ -44,7 +44,7 @@
 			</div>
 			<div class="col-md-3">
 				{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-				{include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+				{include file="Pagination.tpl"|vtemplate_path:$MODULE}
 			</div>
 		</div>
 {/strip}

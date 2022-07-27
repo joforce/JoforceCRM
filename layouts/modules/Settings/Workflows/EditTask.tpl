@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-   <div class="fc-overlay-modal modal-content">
-      <div class="modal-content">
+   <div class="fc-overlay-modal modal-content h-auto d-inline-block " >
+      <div class="modal-content ">
         {assign var=HEADER_TITLE value={vtranslate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}|cat:" -> "|cat:{vtranslate($TASK_TYPE_MODEL->get('label'),$QUALIFIED_MODULE)}}
         {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
          <div class="modal-body editTaskBody">
@@ -28,10 +28,11 @@
                <div id="scrollContainer">
                   <div class="tabbable">
                      <div class="row form-group">
-                        <div class="col-sm-6 col-xs-6">
+                     <div class="col-sm-1 col-xs-1"></div>
+                        <div class="col-sm-9 col-xs-9">
                             <div class="row">
-                                <div class="col-sm-3 col-xs-3">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-                                <div class="col-sm-9 col-xs-9"><input name="summary" class="inputElement" data-rule-required="true" type="text" value="{$TASK_MODEL->get('summary')}" /></div>
+                                <div class="col-sm-2 col-xs-2">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
+                                <div class="col-sm-8 col-xs-8 col-10"><input name="summary" class="inputElement" data-rule-required="true" type="text" value="{$TASK_MODEL->get('summary')}" /></div>
                             </div>
                         </div>
                      </div>
@@ -48,12 +49,13 @@
                            {/if}
                         {/if}
                         <div class="row form-group">
+                        <div class="col-sm-1 col-xs-1"></div>
                             <div class="col-sm-9 col-xs-9">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-2"> {vtranslate('LBL_DELAY_ACTION', $QUALIFIED_MODULE)} </div>
                                     <div class="col-sm-10 col-xs-10">
                                         <div class="row">
-                                            <div class="col-sm-1 col-xs-1" style="margin-top: 7px;">
+                                            <div class="col-sm-2 col-xs-2" style="margin-top: 7px;">
                                                 <input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>
                                             </div>
                                             <div class="col-sm-10 col-xs-10 {if $trigger neq null}show {else} hide {/if}" id="checkSelectDateContainer">
@@ -63,7 +65,7 @@
                                                             <div class="col-sm-6 col-xs-6" style="padding: 0px;">
                                                                 <input class="inputElement" type="text" name="select_date_days" value="{$days}" data-rule-WholeNumber=="true" >&nbsp;
                                                             </div>
-                                                            <div class="alignMiddle col-sm-5 col-xs-5" style="padding: 0px; margin-left: 2px;"><span style="position:relative;top:3px;">&nbsp;{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span></div>
+                                                            <div class="alignMiddle  col-sm-5 col-xs-5" style="padding: 0px; margin-left: 2px;"><span style="position:relative;top:3px;">&nbsp;{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3 col-xs-3" >
@@ -90,6 +92,7 @@
                      <br>
                      <div class="taskTypeUi">
                         {include file="{$TASK_TEMPLATE_PATH}" }
+                        {* {$TASK_TEMPLATE_PATH} *}
                      </div>
                   </div>
                </div>
@@ -97,7 +100,7 @@
 					<div class="row clearfix">
 						<div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 							<button type="submit" class="btn btn-primary" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-							<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 					</div>
 				</div>

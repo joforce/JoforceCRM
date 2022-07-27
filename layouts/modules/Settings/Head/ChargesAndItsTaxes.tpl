@@ -10,16 +10,16 @@
 {* modules/Settings/Head/views/TaxIndex.php *}
 
 {strip}
-<div class="chargesContainer">
+<div class="chargesContainer" style=";">
 	{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 	{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
 
-	<div class="col-lg-6">
+	<div class="col-lg-12">
 		<div class="marginBottom10px">
 			<button type="button" class="btn btn-primary addCharge addButton pull-right" data-url="{Inventory_Charges_Model::getCreateChargeUrl()}" data-type="1">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_CHARGE', $QUALIFIED_MODULE)}</button>
 		</div>
-		<table class="table table-bordered inventoryChargesTable">
+		<table class="table table-bordered inventoryChargesTable mb20">
 			<tr>
 				<th class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_CHARGE_NAME', $QUALIFIED_MODULE)}</strong></th>
 				<th class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_VALUE', $QUALIFIED_MODULE)}</strong></th>
@@ -50,7 +50,7 @@
 		</table>
 	</div>
 
-	<div class="col-lg-6">
+	<div class="col-lg-12">
 		<div class="marginBottom10px">
 			<button type="button" class="btn btn-primary addChargeTax addButton pull-right" data-url="{$CREATE_TAX_URL}" data-type="1">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_NEW_TAX_FOR_CHARGE', $QUALIFIED_MODULE)}</button>

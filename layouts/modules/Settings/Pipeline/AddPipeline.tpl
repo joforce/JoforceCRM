@@ -87,7 +87,7 @@
             	<button class="btn btn-primary save-section" id="save-pipeline" type="submit" name="saveButton">
                     <strong>Save</strong>
             	</button>
-            	<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
+            	<a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">Cancel</a>
             </center>
     	</div>
     </div>  

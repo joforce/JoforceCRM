@@ -48,7 +48,7 @@
                 <input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries"> 
 	            {assign var=RECORD_COUNT value=$TOTAL_RECORD_COUNT} 
 	            {assign var=PAGE_NUMBER value=$PAGING_MODEL->get('page')} 
-	            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true} 
+	            {include file="Pagination.tpl"|vtemplate_path:$MODULE} 
             </div>
         </div>
         <br>

@@ -38,37 +38,24 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                 $moduleSequence = $request->get('sequence');
 
                 if($admin_status == 'true')
-                {
-                        if(file_exists("storage/menu/main_menu_".$user_id.".php"))
-                        {
-			$file_name = "storage/menu/main_menu_".$user_id.".php";
-			require($file_name);
+		{
+			$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+			if(empty($main_menu_array)) {
+                        	require("storage/menu/default_main_menu.php");
 			}
-			else
-			{
-			$file_name = "storage/menu/main_menu_".$user_id.".php";
-                        require("storage/menu/default_main_menu.php");
-			}
-        	        foreach($main_menu_array as $key => $array )
-                		{
-                        	if($menuname == $array['name'])
-                        		{
-	                                unset($main_menu_array[$key]);
-        	                        }
-                	        }
+        	        foreach($main_menu_array as $key => $array) {
+                       	    if($menuname == $array['name']) {
+                                unset($main_menu_array[$key]);
+                             }
+                	}
 			$new_main_menu_array = array_values($main_menu_array);
-			$myfile = fopen($file_name , "w") or die("Unable to open file!");
-                	fwrite($myfile, "<?php
-		".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-		?>");
-                	fclose($myfile);
+			$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $new_main_menu_array);
 		}
 		else
 		{
-			if(file_exists("storage/menu/main_menu_".$user_id.".php"))
+			$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+			if(!empty($main_menu_array))
 			{
-				$file_name = "storage/menu/main_menu_".$user_id.".php";
-	                        require($file_name);
 				foreach($main_menu_array as $key => $array )
                                 {
                                 if($menuname == $array['name'])
@@ -76,16 +63,11 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                                         unset($main_menu_array[$key]);
                                         }
                                 }
-	                        $new_main_menu_array = array_values($main_menu_array);
-        	                $myfile = fopen($file_name , "w") or die("Unable to open file!");
-                	        fwrite($myfile, "<?php
-	                ".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-        	        ?>");
-                	        fclose($myfile);
+				$new_main_menu_array = array_values($main_menu_array);
+				$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $new_main_menu_array);
 			}
 			else
 			{
-				$file_name = "storage/menu/main_menu_".$user_id.".php";
 	                        require("storage/menu/default_main_menu.php");
 				foreach($main_menu_array as $key => $array )
                                 {
@@ -94,12 +76,8 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                                         unset($main_menu_array[$key]);
                                         }
                                 }
-	                        $new_main_menu_array = array_values($main_menu_array);
-        	                $myfile = fopen($file_name , "w") or die("Unable to open file!");
-                	        fwrite($myfile, "<?php
-	                ".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-        	        ?>");
-                	        fclose($myfile);
+				$new_main_menu_array = array_values($main_menu_array);
+				$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $new_main_menu_array);
 			}
 		}
 		$response = new Head_Response();
@@ -117,30 +95,19 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
 		{
 			if($admin_status == 'true')
 			{
-				if(file_exists("storage/menu/main_menu_".$user_id.".php"))
-	                        {
-        	                        $file_name = "storage/menu/main_menu_".$user_id.".php";
-                	                require($file_name);
-                        	}
-	                        else
-        	                {
-                	                $file_name = "storage/menu/main_menu_".$user_id.".php";
+				$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+				if(empty($main_menu_array)) {
                         	        require('storage/menu/default_main_menu.php');
 	                        }
 				$tabid = $request->get('tabid');
 				array_push($main_menu_array, ['tabid' =>$tabid, 'type' => $type, 'name' => getTabModuleName($tabid)]);
-	                	$myfile = fopen($file_name, "w") or die("Unable to open file!");
-	        	        fwrite($myfile, "<?php
-			".'$main_menu_array'." = " .var_export($main_menu_array, true). ";
-			?>");
-        		        fclose($myfile);
+				$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $main_menu_array);
 			}
 			else
 			{
-				if(file_exists("storage/menu/main_menu_".$user_id.".php"))
+				$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+				if(!empty($main_menu_array))
                                 {       
-                                        $file_name = "storage/menu/main_menu_".$user_id.".php";
-                                        require($file_name);
 					foreach($main_menu_array as $key => $array)
                                 	{
 						if($array['type'] == 'module')
@@ -153,16 +120,11 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                         	        }
 					$main_menu_array = array_values($main_menu_array);
 					$tabid = $request->get('tabid');
-	                                array_push($main_menu_array, ['tabid' =>$tabid, 'type' => $type, 'name' => getTabModuleName($tabid)]);
-        	                        $myfile = fopen($file_name, "w") or die("Unable to open file!");
-                	                fwrite($myfile, "<?php
-                        	        ".'$main_menu_array'." = " .var_export($main_menu_array, true). ";
-                                	?>");
-	                                fclose($myfile);
+					array_push($main_menu_array, ['tabid' =>$tabid, 'type' => $type, 'name' => getTabModuleName($tabid)]);
+					$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $main_menu_array);
                                 }
                                 else    
                                 {       
-                                        $file_name = "storage/menu/main_menu_".$user_id.".php";
                                         require('storage/menu/default_main_menu.php');
 					foreach($main_menu_array as $key => $array)
                                         {
@@ -174,37 +136,19 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                                         $main_menu_array = array_values($main_menu_array);
 
 	                                $tabid = $request->get('tabid');
-        	                        array_push($main_menu_array, ['tabid' =>$tabid, 'type' => $type, 'name' => getTabModuleName($tabid)]);
-                	                $myfile = fopen($file_name, "w") or die("Unable to open file!");
-                        	        fwrite($myfile, "<?php
-	                        	".'$main_menu_array'." = " .var_export($main_menu_array, true). ";
-	        	                ?>");
-        	                        fclose($myfile);
+					array_push($main_menu_array, ['tabid' =>$tabid, 'type' => $type, 'name' => getTabModuleName($tabid)]);
+					$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $main_menu_array);
 				}
 			}
-		}
-		
-		else
-		{
-                	if(file_exists("storage/menu/main_menu_".$user_id.".php"))
-                                {
-                                        $file_name = "storage/menu/main_menu_".$user_id.".php";
-                                        require($file_name);
-                                }
-                        else
-                                {
-                                        $file_name = "storage/menu/main_menu_".$user_id.".php";
-                                        require('storage/menu/default_main_menu.php');
-                                }
+		} else {
+			$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+			if(empty($main_menu_array)) {
+				require('storage/menu/default_main_menu.php');
+                        }
 			$linkname = $request->get('linkname');
 	                $linkurl = $request->get('linkurl');
                         array_push($main_menu_array, ['name' => $linkname, 'linkurl' => $linkurl, 'type' => $type]);
-	                $myfile = fopen($file_name, "w") or die("Unable to open file!");
-        	        fwrite($myfile, "<?php
-		        ".'$main_menu_array'." = " .var_export($main_menu_array, true). ";
-		        ?>");
-                        fclose($myfile);
-
+			$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu', $main_menu_array);
 		}
 		$response = new Head_Response();
 		$response->setResult(array('success' => true));
@@ -219,14 +163,8 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
 	
 		if($admin_status == 'true')
 		{
-			if(file_exists("storage/menu/main_menu_".$user_id.".php"))
-			{
-				$file_name = "storage/menu/main_menu_".$user_id.".php";
-				require($file_name);
-			}
-			else
-			{
-				$file_name = "storage/menu/main_menu_".$user_id.".php";
+			$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+			if(empty($main_menu_array)) {
 				require('storage/menu/default_main_menu.php');
 			}
 			$new_main_menu_array = [];
@@ -240,20 +178,13 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
 	                                        array_push($new_main_menu_array, $array);
         	                                }       
                                         }
-                       	        }
-	                $myfile = fopen($file_name, "w") or die("Unable to open file!");
-                        fwrite($myfile, "<?php
-		        ".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-		        ?>");
-               	        fclose($myfile);
-
+			}
+			$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu',$new_main_menu_array);
 		}
 		else
 		{
-			if(file_exists("storage/menu/main_menu_".$user_id.".php"))
-                        {       
-                                $file_name = "storage/menu/main_menu_".$user_id.".php";
-                                require($file_name); 
+			$main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+                        if(!empty($main_menu_array)) {
                                 $new_main_menu_array = [];
                                 
                                 foreach($moduleSequence as $menuname => $sequence)
@@ -266,16 +197,10 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                                                         }
                                                 }
                                         } 
-                                $myfile = fopen($file_name, "w") or die("Unable to open file!");
-                                fwrite($myfile, "<?php
-                        ".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-                        ?>");
-                                fclose($myfile);
-                        
+			$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu',$new_main_menu_array);                        
                         }
                         else    
                         {       
-                                $file_name = "storage/menu/main_menu_".$user_id.".php";
                                 $new_main_menu_array = [];
                                 
                                 require('storage/menu/default_main_menu.php');
@@ -290,12 +215,8 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
                                                         }
 						}
                                                 }
-                                        } 
-                                $myfile = fopen($file_name, "w") or die("Unable to open file!");
-                                fwrite($myfile, "<?php
-                        ".'$main_menu_array'." = " .var_export($new_main_menu_array, true). ";
-                        ?>");
-                                fclose($myfile);
+				} 
+				$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'main_menu',$new_main_menu_array);
                         }
 		}
 
@@ -304,4 +225,3 @@ Class Settings_MenuManager_ChangeMainMenuSequenceAjax_Action extends Settings_He
 		$response->emit();
 	}
 }
-?>

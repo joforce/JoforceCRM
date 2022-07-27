@@ -301,8 +301,15 @@ window.app = (function () {
 		controller: function () {
 			if (_controller == null) {
 				var controllerClass = this.getModuleSpecificViewClass(_view);
-				if(controllerClass === "Head_Import_Js") {
+				if(_view == "Login"){
+					return;
+				}
+				if(_view == "Import") {
 					_controller = new window['Head_List_Js']();
+					_controller.intializeComponents();
+					_controller.registerEvents();
+				}else if(_view == "Activity"){		
+					_controller = new window['Head_Detail_Js']();
 					_controller.intializeComponents();
 					_controller.registerEvents();
 				}else{					
@@ -310,8 +317,8 @@ window.app = (function () {
 					_controller.intializeComponents();
 					_controller.registerEvents();
 				}
+				return _controller;
 			}
-			return _controller;
 		},
 		htmlEncode: function (value) {
 			if (value) {

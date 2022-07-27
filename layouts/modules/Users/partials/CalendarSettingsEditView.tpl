@@ -13,12 +13,11 @@
     {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
         <input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
     {/if}
-    <div name='editContent'>
+    <div name='editContent' class="edit-content">
         {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
             {if $BLOCK_FIELDS|@count gt 0}
-                <div class='fieldBlockContainer'>
-                    <h4 class='fieldBlockHeader' >{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
-                    <hr>
+                <div class='fieldBlockContainer  calsetting ms_scr_calendar_edit_page_setting'>
+                    <h4 class='fieldBlockHeader card-header-new' >{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
                     <table class="table table-borderless">
                         <tr>
                             {assign var=COUNTER value=0}
@@ -39,7 +38,7 @@
                                     {else}
                                         {assign var=COUNTER value=$COUNTER+1}
                                     {/if}
-                                    <td class="fieldLabel alignMiddle">
+                                    <td class="fieldLabel alignMiddle" style="text-align: left;">
                                         {if $isReferenceField eq "reference"}
                                             {if $refrenceListCount > 1}
                                                 <select style="width: 140px;" class="select2 referenceModulesList">

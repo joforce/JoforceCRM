@@ -39,7 +39,7 @@
 				<div class="datacontent row">
 					<div class="col-lg-3"></div>
 					<div class="col-lg-12">
-						<div class="well exportContents">
+						<div class="card card-body exportContents">
 							{if $SOURCE_MODULE eq 'Calendar'}
 								<br><div><b>{vtranslate('LBL_EXPORT_FORMAT',$MODULE)}</b></div><br>
 								<div style="margin-left: 50px;">
@@ -101,7 +101,7 @@
 				<div class="row clearfix">
 					<div class=" textAlignCenter col-lg-12 col-md-12 col-sm-12 ">
 						<div><button type="submit" class="btn btn-primary btn-lg">{vtranslate('LBL_EXPORT', 'Head')}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</button>
-							&nbsp;&nbsp;&nbsp;<a class="cancelLink btn btn-secondary" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							&nbsp;&nbsp;&nbsp;<a class="cancelLink btn btn-danger" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 					</div>
 				</div>

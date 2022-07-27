@@ -29,7 +29,7 @@
 							{assign var=FIELDS value=$MODULE_MODEL->getSetupRuleFields()}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELDS}
 								<tr class="row">
-									<td class="col-lg-2 control-label"><label class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}</label>
+									<td class="col-lg-2 col-form-label"><label class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}</label>
 									<td class="col-lg-4">
 										{assign var=FIELD_DATA_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{if $FIELD_DATA_TYPE eq 'picklist'}
@@ -79,7 +79,7 @@
 								</tr>
 							{/foreach}
 							<tr class="row" id="assignedToBlock">
-								<td class="col-lg-2 control-label"><label class="fieldLabel">{vtranslate('Assigned To')}</label></td>
+								<td class="col-lg-2 col-form-label"><label class="fieldLabel">{vtranslate('Assigned To')}</label></td>
 								<td class="col-lg-4">
 									<select class="select2 fieldValue inputElement" id="assignedTo" name="assignedTo">
 										<optgroup label="{vtranslate('LBL_USERS')}">

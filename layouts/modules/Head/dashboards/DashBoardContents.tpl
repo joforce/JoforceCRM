@@ -11,10 +11,16 @@
     
 {strip}
 <div class="dashBoardContainer clearfix">
+<div id="licence-alert-waring" class="alert">
+  <span class="closebtn " onclick="this.parentElement.style.display='none';">&times;</span> 
+
+  <strong> <span class="licence-waring-icon"><i class="fa fa-warning"></i> </span> Danger!</strong>  You are not secure 
+
+</div>
         <div class="tabContainer">
 	    <div class="tab-content">
                 {foreach key=index item=TAB_DATA from=$DASHBOARD_TABS}
-                    <div id="tab_{$TAB_DATA["id"]}" data-tabid="{$TAB_DATA["id"]}" data-tabname="{$TAB_DATA["tabname"]}" class="tab-pane fade {if $TAB_DATA["id"] eq $SELECTED_TAB}in active{/if}">
+                    <div id="tab_{$TAB_DATA["id"]}" data-tabid="{$TAB_DATA["id"]}" data-tabname="{$TAB_DATA["tabname"]}" class="tab-pane {if $TAB_DATA["id"] eq $SELECTED_TAB}in active{/if}">
                         {if $TAB_DATA["id"] eq $SELECTED_TAB}
                             {include file="dashboards/DashBoardTabContents.tpl"|vtemplate_path:$MODULE TABID=$TABID}
                         {/if}

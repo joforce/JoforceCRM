@@ -505,6 +505,8 @@ Head.Class("Settings_Head_TaxIndex_Js",{
 
 				app.helper.hideProgress();
                 app.helper.showModal(data,{cb:callBackFunction});
+                var form = jQuery('#editCharge');
+				vtUtils.showSelect2ElementView(form.find('select.select2'));
 				
 			},
 			function(error) {
@@ -989,4 +991,21 @@ Head.Class("Settings_Head_TaxIndex_Js",{
         this.registerRegionsClickEvent();
         this.registerActions();
     }
-});
+});$(document).ready(function(){
+	$(".taxesTab").click(function(){
+		$(".taxesTab").toggleClass("active");
+		$(".chargesTab").removeClass("active");
+		$(".taxRegionsTab").removeClass("active");
+
+	});
+	$(".chargesTab").click(function(){
+		$(".chargesTab").toggleClass("active");
+		$(".taxesTab").removeClass("active");;
+		$(".taxRegionsTab").removeClass("active");
+	});
+	$(".taxRegionsTab").click(function(){
+		$(".taxRegionsTab").toggleClass("active");
+		$(".chargesTab").removeClass("active");
+		$(".taxesTab").removeClass("active");
+	});
+	});

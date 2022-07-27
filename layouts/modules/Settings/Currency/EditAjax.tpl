@@ -14,7 +14,7 @@
     {if empty($CURRENCY_ID)}
         {assign var=CURRENCY_MODEL_EXISTS value=false}
     {/if}
-    <div class="currencyModalContainer modal-dialog modelContainer">
+    <div class="currencyModalContainer modal-dialog modelContainer {$MODULE}">
         {if $CURRENCY_MODEL_EXISTS}
             {assign var="HEADER_TITLE" value={vtranslate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}}
         {else}
@@ -27,11 +27,11 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <div class="modal-body">
                     <div class="row-fluid">
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">
+                        <div class="form-group row">
+                            <label class="col-form-label fieldLabel col-md-6 pl0 pr0 pull-left">
                                 {vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span>
                             </label>
-                            <div class="controls fieldValue col-xs-6 pl0">
+                            <div class="controls fieldValue col-md-6 pl0">
                                 <select class="select2 inputElement" name="currency_name">
                                     {foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$ALL_CURRENCIES name=currencyIterator}
                                         {if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
@@ -44,29 +44,29 @@
                                 </select>
                             </div>	
                         </div>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
-                            <div class="controls fieldValue col-xs-6 pl0">
-                                <input type="text" class="inputElement bgColor cursorPointerNotAllowed" name="currency_code" readonly value="{$RECORD_MODEL->get('currency_code')}" data-rule-required = "true" />
+                        <div class="form-group row">
+                        <label class="col-form-label fieldLabel col-md-6 pl0 pr0 pull-left">{vtranslate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
+                            <div class="controls fieldValue col-md-6 pl0">
+                                <input type="text" class="inputElement bgBlack cursorPointerNotAllowed" name="currency_code" readonly value="{$RECORD_MODEL->get('currency_code')}" data-rule-required = "true" />
                             </div>	
                         </div>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
-                            <div class="controls fieldValue col-xs-6 pl0">
-                                <input type="text"  class="inputElement bgColor cursorPointerNotAllowed" name="currency_symbol" readonly value="{$RECORD_MODEL->get('currency_symbol')}" data-rule-required = "true" />
+                        <div class="form-group row">
+                            <label class="col-form-label fieldLabel col-md-6 pull-left pl0 pr0">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
+                            <div class="controls fieldValue col-md-6 pl0">
+                                <input type="text"  class="inputElement bgBlack cursorPointerNotAllowed" name="currency_symbol" readonly value="{$RECORD_MODEL->get('currency_symbol')}" data-rule-required = "true" />
                             </div>	
                         </div>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
-                            <div class="controls fieldValue col-xs-6 pl0">
+                        <div class="form-group row">
+                            <label class="col-form-label fieldLabel col-md-6 pull-left pl0 pr0">{vtranslate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}&nbsp;<span class="red-border">*</span></label>
+                            <div class="controls fieldValue col-md-6 pl0">
                                 <input type="text" class="inputElement" name="conversion_rate" data-rule-required = "true" data-rule-positive ="true" data-rule-greater_than_zero = "true" placeholder="{vtranslate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
                                        value="{$RECORD_MODEL->get('conversion_rate')}"/>
                                 <br><span class="muted">({vtranslate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
                             </div>	
                         </div>
-                        <div class="form-group">
-                            <label class="control-label fieldLabel col-sm-5 pl0 pr0">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-                            <div class="controls fieldValue col-xs-6 pl0">
+                        <div class="form-group row">
+                            <label class="col-form-label fieldLabel col-md-6 pl0 pr0">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+                            <div class="controls fieldValue col-md-6 pl0">
                                 <label class="checkbox">
                                     <input type="hidden" name="currency_status" value="Inactive" />
                                     <input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 
@@ -76,7 +76,7 @@
                         </div>	
                     </div>
                     <div class="form-group control-group transferCurrency hide">
-                        <label class="muted control-label fieldLabel pl0 pr0">
+                        <label class="muted col-form-label fieldLabel pl0 pr0">
                             {vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>&nbsp;<span class="red-border">*</span>
                         <div class="controls row-fluid fieldValue pl0">
                             <select class="select2 span6" name="transform_to_id">

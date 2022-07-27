@@ -31,7 +31,7 @@
         {/foreach}
         <input type=hidden name="advanceFilterOptions" data-value='{ZEND_JSON::encode($ADVANCED_FILTER_OPTIONS)}' />
         <div class="form_trigger_element add_border or_condition" style="width:74%">
-        <h5>When any one of the rule meet?</h5>
+        <h5><b>When any one of the rule meet?</b></h5>
             <div class="allConditionContainer conditionGroup contentsBackground" style="padding-bottom:15px;">
                 <br>
                 <div class="contents">
@@ -59,12 +59,25 @@
                     </div>
                 </div>
                 <div class="addCondition">
-                        <a href="#" id="add_new_or_row">(And +)</a>
+                       <button class="btn newbtn"><a href="#" id="add_new_or_row">And <i class="fa fa-plus"></i></a></button>
+                       <style>
+                            
+                            button.btn.newbtn {
+                border: 2px solid #dadada!important;
+                border-radius: 30px!important;
+                            }
+                             button.btn.newbtn::after{
+                                 content="\f067";
+                                font-family: 'Font Awesome 5 Free';
+                                font-weight: 900;
+                                float: right;
+                             }
+                       </style>
                     </div>
             </div>
             </div>
             <div class="form_trigger_element add_border and_condition" style="width:74%">
-            <h5>When all the rules meet?</h5>
+            <h5><b>When all the rules meet?</b></h5>
             <div class="anyConditionContainer conditionGroup contentsBackground">
                 <div class="contents">
                     <div class="conditionList">
@@ -83,7 +96,7 @@
                     <br>
                 </div>
                 <div class="addCondition">
-                        <a href="#" id="add_new_or_row">(Or +)</a>
+                        <button class="btn newbtn"><a href="#" id="add_new_or_row">Or <i class="fa fa-plus" ></i></a></button>
                 </div>
             </div>
             </div>

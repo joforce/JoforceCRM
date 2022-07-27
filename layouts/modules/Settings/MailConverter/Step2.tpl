@@ -48,7 +48,7 @@
 									{if $CREATE eq 'new'}{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}{else}{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}{/if}
 								</strong>
 							</button>
-							<a class="cancelLink btn btn-secondary" type="reset" onclick="javascript:window.history.go(-2);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<a class="cancelLink btn btn-danger" type="" onclick="javascript:window.history.go(-2);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
 					</div>
 				</div>

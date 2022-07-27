@@ -21,12 +21,21 @@
             }
         {/foreach}
     </style>
+    <div class="contents tabbable">
     {assign var=NON_DELETABLE_VALUES value=$SELECTED_PICKLIST_FIELDMODEL->getNonEditablePicklistValues($SELECTED_PICKLIST_FIELDMODEL->getName())}
     <ul class="nav nav-tabs massEditTabs" style="margin-bottom: 0;">
-        <li class="active"><a href="#allValuesLayout" data-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
-                    {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-            <li id="assignedToRoleTab"><a href="#AssignedToRoleLayout" data-toggle="tab"><strong>{vtranslate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>
-                    {/if}
+        <li class="tab taxesTab active col-md-6 " style="border-bottom:solid 1px #ccc;border-top:unset;margin:unset;">
+            <a href="#allValuesLayout" data-toggle="tab">
+                <strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong>
+            </a>
+        </li>
+        {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
+            <li id="assignedToRoleTab" class="tab chargesTab  col-md-6" style="border-bottom:solid 1px #ccc;border-top:unset;margin:unset;">
+                <a href="#AssignedToRoleLayout" data-toggle="tab">
+                    <strong>{vtranslate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong>
+                </a>
+            </li>
+        {/if}
     </ul>
     <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
         <br>
@@ -36,7 +45,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <table id="pickListValuesTable" class="table table-bordered" style="table-layout: fixed">
                         <thead>
-                            <tr class="listViewHeaders bgColor">
+                            <tr class="listViewHeaders bgBlack">
                                 <th>
                                     <span>{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{vtranslate('LBL_ITEMS',$QUALIFIED_MODULE)}</span>
                                     <button class="btn pull-right btn-default marginLeftZero" id="addItem"><i class="fa fa-plus"></i>&nbsp;{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
@@ -49,7 +58,7 @@
                         {foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                             <tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{Head_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" data-deletable="{if !in_array($PICKLIST_VALUE, $NON_DELETABLE_VALUES)}true{else}false{/if}">
                                 <td class="textOverflowEllipsis fieldPropertyContainer">
-                                    <span class="pull-left"><img class="cursorDrag alignMiddle" src="{$SITEURL}{vimage_path('drag.png')}"/> &nbsp;&nbsp;
+                                    <span class="pull-left"><img class="cursorPointerMove alignMiddle" src="{$SITEURL}{vimage_path('drag.png')}"/> &nbsp;&nbsp;
                                         <span class="picklist-color picklist-{$SELECTED_PICKLIST_FIELDMODEL->getId()}-{$PICKLIST_KEY}"> {vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)} </span>
                                     </span>
                                     <span class="pull-right picklistActions" style='margin-top:0px;'>
@@ -77,9 +86,9 @@
         {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
             <div class="tab-pane form-horizontal row" id="AssignedToRoleLayout">
                 <div class="col-lg-2 col-md-2 col-sm-2"></div>
-                <div class="col-lg-10 col-md-10 col-sm-10">
+                <div class="col-lg-10 col-md-10 col-sm-10" style="margin-left:30%">
                     <div class="form-group row">
-                        <label class="control-label col-lg-2 col-md-2 col-sm-2">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</label>
+                        <label class="col-form-label col-lg-2 col-md-2 col-sm-2">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</label>
                         <div class="controls col-lg-4 col-md-4 col-sm-4">
                             <select id="rolesList" class="select2 inputElement" name="rolesSelected"  data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
                                 {foreach from=$ROLES_LIST item=ROLE}
@@ -94,4 +103,5 @@
             </div>
         {/if}
     </div>	
+    </div>
 {/strip}

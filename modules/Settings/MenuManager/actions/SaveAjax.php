@@ -31,70 +31,52 @@ Class Settings_MenuManager_SaveAjax_Action extends Settings_Head_IndexAjax_View 
     }
 
     function removeModule(Head_Request $request) {
-	global $adb, $current_user;
-	$admin_status = Settings_MenuManager_Module_Model::isAdminUser();
-	$user_id = $current_user->id;
-	$sourceModule = $request->get('sourceModule');
-	$appName = $request->get('appname');
-	$tabid = getTabid($sourceModule);
-	$file_name = "storage/menu/module_apps_".$user_id.".php";	
-	if(file_exists($file_name)) {
-	    require($file_name);
-	} else {
-	    require("storage/menu/default_module_apps.php");
-        }
+		global $adb, $current_user;
+		$admin_status = Settings_MenuManager_Module_Model::isAdminUser();
+		$user_id = $current_user->id;
+		$sourceModule = $request->get('sourceModule');
+		$appName = $request->get('appname');
+		$tabid = getTabid($sourceModule);
+		$app_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'module_apps');
+		$array = $app_menu_array[$appName];
+		$key = array_search($tabid, $array);
+		unset($array[$key]);
+		$app_menu_array[$appName] = array_values($array);
+			
+		$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'module_apps', $app_menu_array);
 
-	$array = $app_menu_array[$appName];
-	$key = array_search($tabid, $array);
-	unset($array[$key]);
-	$app_menu_array[$appName] = array_values($array);
-		
-	$myfile = fopen($file_name, "w") or die("Unable to open file!");
-        fwrite($myfile, "<?php
-		".'$app_menu_array'." = " .var_export($app_menu_array, true). ";
-	?>");
-	fclose($myfile);	
-	$response = new Head_Response();
-	$response->setResult(array('success' => true));
-	$response->emit();
+		$response = new Head_Response();
+		$response->setResult(array('success' => true));
+		$response->emit();
     }
 
     function addModule(Head_Request $request) {
-	global $adb, $current_user;
-	$user_id = $current_user->id;
-	$sourceModules = array($request->get('sourceModule'));
-	if ($request->has('sourceModules')) {
-	    $sourceModules = $request->get('sourceModules');
-	}
-	$source_tab_array = [];
-	foreach($sourceModules as $moduleName) {
-	    $tabid = getTabid($moduleName);
-	    array_push($source_tab_array, $tabid);
-	}
+		global $adb, $current_user;
+		$user_id = $current_user->id;
+		$sourceModules = array($request->get('sourceModule'));
+		if ($request->has('sourceModules')) {
+			$sourceModules = $request->get('sourceModules');
+		}
+		$source_tab_array = [];
+		foreach($sourceModules as $moduleName) {
+			$tabid = getTabid($moduleName);
+			array_push($source_tab_array, $tabid);
+		}
 
-	$appName = $request->get('appname');
-	$file_name = "storage/menu/module_apps_".$user_id.".php";
-        if(file_exists($file_name)) {
-	    require($file_name);
-        } else {
-            require("storage/menu/default_module_apps.php");
-        }
-	if(empty ($app_menu_array[$appName]) ) {
-	    $app_menu_array[$appName] = [];
-	}
+		$appName = $request->get('appname');
+		$app_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'module_apps');
+		if(empty ($app_menu_array[$appName]) ) {
+			$app_menu_array[$appName] = [];
+		}
 
-	foreach($source_tab_array as $tabid) {
-	    array_push($app_menu_array[$appName], $tabid);
-	}
-	$myfile = fopen($file_name, "w") or die("Unable to open file!");
-	fwrite($myfile, "<?php
-		".'$app_menu_array'." = " .var_export($app_menu_array, true). ";
-	?>");
-	fclose($myfile);
+		foreach($source_tab_array as $tabid) {
+			array_push($app_menu_array[$appName], $tabid);
+		}
+		$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'module_apps', $app_menu_array);
 
-	$response = new Head_Response();
-	$response->setResult(array('success' => true));
-	$response->emit();
+		$response = new Head_Response();
+		$response->setResult(array('success' => true));
+		$response->emit();
     }
 
     function saveSequence(Head_Request $request) {
@@ -107,18 +89,11 @@ Class Settings_MenuManager_SaveAjax_Action extends Settings_Head_IndexAjax_View 
 	    array_push($new_app_menu_array, getTabId($moduleName));
 	}
 	
-	$file_name = "storage/menu/module_apps_".$user_id.".php";
-        if(file_exists($file_name)) {
-	    require($file_name);
-	} else {
-	    require("storage/menu/default_module_apps.php");
-        }
+	$app_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'module_apps');
+
 	$app_menu_array[$appName] = $new_app_menu_array;
-	$myfile = fopen($file_name, "w") or die("Unable to open file!");
-	fwrite($myfile, "<?php
-		".'$app_menu_array'." = " .var_export($app_menu_array, true). ";
-	?>");
-	fclose($myfile);
+	$_save = Settings_MenuManager_Module_Model::updateDetailsInTable($user_id, 'module_apps', $app_menu_array);
+
 	$response = new Head_Response();
 	$response->setResult(array('success' => true));
 	$response->emit();

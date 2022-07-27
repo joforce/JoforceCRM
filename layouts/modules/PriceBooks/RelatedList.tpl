@@ -12,7 +12,7 @@
     {if $RELATED_MODULE->get('name') neq 'Products' && $RELATED_MODULE->get('name') neq 'Services'}
         {include file='RelatedList.tpl'|vtemplate_path:'Head'}
     {else}
-        <div class="relatedContainer">
+        <div class="relatedContainer {if in_array($MODULE,array('PriceBooks'))} ms_relatedContainer {/if}">
             <input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
             <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
             <input type="hidden" value="{$ORDER_BY}" id="orderBy">
@@ -67,7 +67,7 @@
                             </tr>
                             <tr class="searchRow">
                                 <th class="inline-search-btn">
-                                    <button class="btn btn-success btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+                                    <button class="btn btn-primary btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
                                 </th>
                                 {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
                                     <th>
@@ -128,7 +128,7 @@
                                     {assign var=PAGING_MODEL value=$PAGING}
                                     {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
                                     {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-                                    {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+                                    {include file="Pagination.tpl"|vtemplate_path:$MODULE}
                     </div>
                 </div>
             <div class="bottomscroll-div"></div>

@@ -96,7 +96,10 @@
 							<td class="fieldValue col-lg-4">
 								{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 							</td>
-
+								
+						
+						</tr>
+						<tr>
 							{assign var="FIELD_MODEL" value=$FIELD_MODELS['folderid']}
 							{if $FIELD_MODELS['folderid']}
 								<td class="fieldLabel col-lg-2">
@@ -183,6 +186,9 @@
 	</div>
 	{assign var=BUTTON_NAME value={vtranslate('LBL_CREATE', $MODULE)}}
 	{assign var=BUTTON_ID value="js-create-document"}
+	{assign var=BACK value=$BACK}
+	{assign var=BACK_ID value="js-back"}
+	{assign var=BACK_URL value="Documents_Index_Js.uploadTo('Head')"}
 	{include file="ModalFooter.tpl"|vtemplate_path:$MODULE}
 	</div>
 </div>

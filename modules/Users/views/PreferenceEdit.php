@@ -88,7 +88,6 @@ Class Users_PreferenceEdit_View extends Head_Edit_View {
 			$viewer->assign('CURRENT_USER_MODEL', $currentUser);
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('COMPANY_DETAILS_SETTINGS',new Settings_Head_CompanyDetails_Model());
-			$viewer->assign('SELECTED_MENU_CATEGORY', 'MARKETING');
 
 			$settingsModel = Settings_Head_Module_Model::getInstance();
 			$menuModels = $settingsModel->getMenus();

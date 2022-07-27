@@ -428,33 +428,6 @@ function __modlib_get_modulevar_value($module, $varname) {
 				'table_index'=> 'vendorid',
 				'popup_fields'=>Array('vendorname'),
 			),
-			'Project' => 
-			Array(
-				'IsCustomModule'=>false,
-				'table_name' => 'jo_project',
-				'table_index'=> 'projectid',
-				'related_tables'=> Array( 
-					'jo_projectcf' => Array('projectid', 'jo_project', 'projectid')
-					),
-			),
-			'ProjectMilestone' =>
-			Array(
-				'IsCustomModule'=>false,
-				'table_name' => 'jo_projectmilestone',
-				'table_index'=> 'projectmilestoneid',
-				'related_tables'=> Array( 
-					'jo_projectmilestonecf' => Array('projectmilestoneid', 'jo_projectmilestone', 'projectmilestoneid')
-					),
-			),
-			'ProjectTask' => 
-			Array(
-				'IsCustomModule'=>false,
-				'table_name' => 'jo_projecttask',
-				'table_index'=> 'projecttaskid',
-				'related_tables'=> Array( 
-					'jo_projecttaskcf' => Array('projecttaskid', 'jo_projecttask', 'projecttaskid')
-					),
-			),
 			'Services' => 
 			Array(
 				'IsCustomModule'=>false,

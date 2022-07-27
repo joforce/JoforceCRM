@@ -10,20 +10,19 @@
 ************************************************************************************/
 -->*}
 
-<div class="container-fluid">
+<div class="container-fluid mt50">
 	<div class="row">
 		{assign var=HEADER_TITLE value={vtranslate('LBL_DUPLICATE')|cat:' '|cat:vtranslate($MODULE, $MODULE)}}
-		<h3>
-			<div class="col-lg-7">
-				{$HEADER_TITLE}
+		
+			<div class="col-lg-7 p20">
+				<h3>{$HEADER_TITLE}</h3>
 			 </div>
-			<div class="col-lg-5">
+			<div class="col-lg-5 p20">
 				<div class="alert alert-static">
 					<span class="fa fa-info-circle icon"></span>
 					<span class="message">{vJsTranslate('JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS',$MODULE)}</span>
 				</div>
 			</div>
-		</h3>
 	</div>
 	<div class="row">
 		<div class="col-lg-1">
@@ -49,7 +48,7 @@
 				</div>
 			</div>
 			{assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-			{include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+			{include file="Pagination.tpl"|vtemplate_path:$MODULE}
 		</div>
 	</div>
 </div>

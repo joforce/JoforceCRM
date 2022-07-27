@@ -58,7 +58,10 @@ class Calendar_Module_Model extends Head_Module_Model {
 	public function isSummaryViewSupported() {
 		return false;
 	}
-
+ 	public function getListViewUrl() {
+        global $site_URL;
+        return $site_URL . $this->get('name') . '/view/Calendar';
+    }
 	/**
 	 * Function returns the URL for creating Events
 	 * @return <String>

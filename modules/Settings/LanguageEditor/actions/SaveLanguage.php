@@ -12,7 +12,6 @@
 class Settings_LanguageEditor_SaveLanguage_Action extends Settings_Head_Index_Action {
 
         public function process(Head_Request $request) {
-//echo "<pre>"; print_r($request);die;
 		global $adb;
                 $module = $request->getModule();
                 $qualifiedModuleName = $request->getModule(false);

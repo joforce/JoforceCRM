@@ -12,7 +12,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 
 {strip}
-        {assign var=summary_view_modules value=array('Contacts', 'Accounts', 'Leads', 'Invoice', 'SalesOrder', 'PurchaseOrder', 'Quotes', 'HelpDesk','Potentials', 'Project')}
+        {assign var=summary_view_modules value=array('Contacts', 'Accounts', 'Leads', 'Invoice', 'SalesOrder', 'PurchaseOrder', 'Quotes', 'HelpDesk','Potentials')}
         <div class="recordDetails">
 	    {if in_array($MODULE_NAME, $summary_view_modules)}
                 {include file='SummaryViewContents.tpl'|@vtemplate_path:$MODULE_NAME}

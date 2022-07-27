@@ -80,7 +80,7 @@
     							<input type="hidden" name="parent" value="Settings" />
 	    						<input type="hidden" name="action" value="CompanyDetailsSave" />
 		    					<div class="form-group companydetailsedit">
-			    					<label class="col-sm-2 fieldLabel control-label"> {vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</label>
+			    					<label class="col-sm-2 fieldLabel col-form-label"> {vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</label>
 				    				<div class="fieldValue col-sm-5" >
 					    				<div class="company-logo-content">
 						    				<img src="{$COMPANY_DETAILS_MODULE_MODEL->getLogoPath()}" class="alignMiddle company_logo" style="max-width:200px; max-height: 100px;"/>
@@ -96,7 +96,7 @@
                                 {foreach from=$COMPANY_DETAILS_MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
                                     {if $FIELD neq 'logoname' && $FIELD neq 'logo' }
 									<div class="form-group companydetailsedit" style="clear:both;">
-										<label class="fieldLabel control-label" style="margin: 0px 0px 20px 40px;">
+										<label class="fieldLabel col-form-label" style="margin: 0px 0px 20px 40px;">
                                             {vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}&nbsp;<span class="red-border"></span>{/if}
 										</label>
 										<div class="fieldValue col-sm-5">
@@ -180,7 +180,7 @@
                                 <input type="hidden" name="record" value="{$CURRENT_USER_MODEL->getId()}">
                             <div class="row">
                                 <div class="span4">
-                                    <label class="control-label"><strong>{vtranslate('Preferences', $MODULE)}</strong><span class="muted">{vtranslate('LBL_ALL_FIELDS_BELOW_ARE_REQUIRED', $MODULE)}</label>
+                                    <label class="col-form-label"><strong>{vtranslate('Preferences', $MODULE)}</strong><span class="muted">{vtranslate('LBL_ALL_FIELDS_BELOW_ARE_REQUIRED', $MODULE)}</label>
                                     {if $IS_FIRST_USER}
                                         <div class="controls" id="currency_name_controls">
                                             <select name="currency_name" id="currency_name" placeholder="{vtranslate('LBL_BASE_CURRENCY', $MODULE)}" data-errormessage="{vtranslate('LBL_CHOOSE_BASE_CURRENCY', $MODULE)}" class="validate[required] select2 inputElement" style="width:250px;">

@@ -7,9 +7,12 @@
  * ********************************************************************************** */
 -->*}
 
-<div  class='col-sm-12 col-xs-12 joforce-bg-list'>
-   <br><br>
-   <form class="col-lg-offset-3 col-lg-6"  name = 'EditServerDetails' method = 'POST' action = 'index.php?module=EmailPlus&action=SaveServerDetails' id='submitServerDetails' style="background:#fff;">
+<!-- joforce-bg-list -->
+<div  class='col-sm-12 col-xs-12 airmail mt0 '>
+  
+   <div class="card">
+   <div class="card-header-new mb20 ml10"><h3>AirMail</h3></div>
+   <form class="offset-lg-3 col-lg-6"  name = 'EditServerDetails' method = 'POST' action = 'index.php?module=EmailPlus&action=SaveServerDetails' id='submitServerDetails' style="background:#fff;">
       <div class="form-group">
          <label class="serversettings-label">{vtranslate('LBL_ACCOUNT_TYPE', $MODULE)}</label>
          <select class="inputElement select2 form-control" id = 'type'  name='type' style = 'width:300px;' onchange='choice()'/>
@@ -62,12 +65,13 @@
       </div> 
       {/if}
 
-      <div class="" style ="">
-         <a class="cancelLink btn btn-secondary" style='position:ablsolute;float:right;' title="cancel" type="reset" href="{$SITE_URL}EmailPlus/view/List">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+      <div class="d-flex justify-content-center" style ="">
+         <a class="cancelLink btn btn-danger" style='position:ablsolute;float:right;' title="cancel" type="" href="{$SITE_URL}EmailPlus/view/List">{vtranslate('LBL_CANCEL', $MODULE)}</a>
          <button type="submit" style = 'position:ablsolute;float:right;'class="btn btn-primary">{vtranslate('LBL_SAVE', $MODULE)}</button>
       </div>
    </form>
 </div> 
+</div>
 
 <script type="text/javascript"> 
    $( document ).ready(function() {

@@ -275,7 +275,9 @@ class Documents_List_View extends Head_List_View {
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('LIST_VIEW_MODEL', $listViewModel);
 		$viewer->assign('NO_SEARCH_PARAMS_CACHE', $request->get('nolistcache'));
-        $viewer->assign('VIEWID', $cvId);
+		$viewer->assign('VIEWID', $cvId);
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Head_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Head_Util_Helper::getMaxUploadSizeInBytes());
 		//Head7
 		$viewer->assign('REQUEST_INSTANCE',$request);
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));

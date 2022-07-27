@@ -39,6 +39,7 @@ class EmailPlus_List_View extends Head_Index_View
 
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
+		$viewer->assign('CVNAME', 'Mail Box');
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

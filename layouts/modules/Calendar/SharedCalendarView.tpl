@@ -17,6 +17,6 @@
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 <input type="hidden" id="hideCompletedEventTodo" value="{$CURRENT_USER->get('hidecompletedevents')}">
 <input type="hidden" id="show_allhours" value="{$CURRENT_USER->get('showallhours')}" />
-<div id="sharedcalendar" class="calendarview col-lg-12 mt30">
+<div id="sharedcalendar" class="calendarview col-lg-12">
 </div>
 {/strip}

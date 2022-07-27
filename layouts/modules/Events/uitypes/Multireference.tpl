@@ -37,14 +37,14 @@
 				data-fieldinfo='{$FIELD_INFO}' data-fieldtype="multireference" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 				{if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
 				/>
-			<span class="input-group-addon relatedPopup cursorPointer" title="{vtranslate('LBL_SELECT', $MODULE)}" style="height:auto;width: 30px;">
+			<span class="input-group-addon relatedPopup cursorPointer " title="{vtranslate('LBL_SELECT', $MODULE)}" style="height:47px;width: 30px;">
 				<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fa fa-search"></i>
 			</span>
 
 			<input type="hidden" name="relatedContactInfo" data-value='{json_encode($RELATED_CONTACTS, $smarty.const.JSON_HEX_APOS)}' />
 		<!-- Show the add button only if it is edit view  -->
 		{if $smarty.request.view eq 'Edit'}
-			<span class="createReferenceRecord cursorPointer clearfix" title="{vtranslate('LBL_CREATE', $MODULE)}">
+			<span class="createReferenceRecord cursorPointer clearfix" style="height:47px;width: 30px;" title="{vtranslate('LBL_CREATE', $MODULE)}">
 				<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fa fa-plus"></i>
 			</span>
 		{/if}

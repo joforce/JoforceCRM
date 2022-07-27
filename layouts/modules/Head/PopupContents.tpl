@@ -42,9 +42,9 @@
                 <table class="listview-table table-bordered listViewEntriesTable">
                 <thead>
                     <tr class="listViewHeaders">
-                        <th class="{$WIDTHTYPE}">
+                        <th class="{$WIDTHTYPE} text-center">
                             {if $MULTI_SELECT}
-                                <input type="checkbox"  class="selectAllInCurrentPage" />
+                                <input type="checkbox"  class="selectAllInCurrentPage float-none" />
                             {elseif $MODULE neq 'EmailTemplates'}
 				<i class="fa fa-search cursorPointer" id="joforce-table-search" style="float:right;margin-left:25px;{if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
                             {/if}
@@ -66,7 +66,7 @@
                 {if $MODULE_MODEL && $MODULE_MODEL->isQuickSearchEnabled()}
                     <tr class="searchRow">
                         <td class="textAlignCenter">
-                            <button class="btn btn-success" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+                            <button class="btn btn-primary" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
                         </td>
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                             <td>
@@ -82,8 +82,8 @@
                     <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" {if $MODULE eq 'EmailTemplates'} data-name="{$RECORD_DATA['subject']}" data-info="{$LISTVIEW_ENTRY->get('body')}" {else} data-name="{$LISTVIEW_ENTRY->getName()}" data-info='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}' {/if}
                     {if $GETURL neq ''} data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
                     {if $MULTI_SELECT}
-                        <td class="{$WIDTHTYPE}">
-                            <input class="entryCheckBox" type="checkbox" />
+                        <td class="{$WIDTHTYPE} text-center">
+                            <input class="entryCheckBox float-none" type="checkbox" />
                         </td>
                     {elseif $MODULE neq 'EmailTemplates'}
                         <td></td>

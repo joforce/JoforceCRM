@@ -11,7 +11,7 @@
 	{if $SALUTATION_FIELD_MODEL}
 		{assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getPicklistValues()}
 		{assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
-		<select class="inputElement select2 name-prefix" name="{$SALUTATION_FIELD_MODEL->get('name')}" >
+		<select class="inputElement select2 name-prefix " name="{$SALUTATION_FIELD_MODEL->get('name')}" {if class eq "Quick Create"} style="height:30px!important" {/if}>
 			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_NONE', $MODULE)}</option>{/if}
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{Head_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>

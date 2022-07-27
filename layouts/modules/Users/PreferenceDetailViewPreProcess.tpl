@@ -18,9 +18,7 @@
     {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
     <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
     <div class="detailViewContainer">
-        <div class="detailViewTitle" id="prefPageHeader">
-        </div>
-        <div class="detailViewInfo userPreferences row-fluid">
+        <div class="detailViewInfo userPreferences row-fluid mt0">
             <div class="details col-xs-12 joforce-bg">
 	{else}
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
@@ -32,8 +30,8 @@
 	</style>
 	<div class="detailViewContainer">
 		<div class="detailViewTitle" id="prefPageHeader">
-			<div class="col-lg-12 col-sm-12 col-xs-12 joforce-bg-prefer">
-				<div class="col-xs-8 col-sm-12">
+			<div class="col-lg-12 col-sm-12 col-xs-12 joforce-bg-prefer pull-left ml30 mt50">
+				<div class="col-xs-9 col-sm-9 pull-left col-md-8">
 					{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 					{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 						{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
@@ -56,11 +54,11 @@
 						</span>
 					</span>
 				</div>
-				<div class="col-xs-4 col-sm-12">
-					<div class="row detailViewButtoncontainer">
+				<div class="col-xs-3 col-sm-3 pull-right col-md-4">
+					<div class="row detailViewButtoncontainer ">
 						<div class="btn-group pull-right">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-								<button class="btn btn-default"
+								<button class="btn btn-default mr10 ml15"
 										onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'">
 									{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}
 								</button>
@@ -90,9 +88,9 @@
 				</div>
 			</div>
 			<div class="detailViewInfo userPreferences">
-				<div class="details col-xs-12 joforce-bg joforce-bg-prefer-detail">
+				<div class="details col-xs-12 joforce-bg-prefer-detail">
 					<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}' method="POST">
-						<div class="contents">
+						<div class="contents big_scr_user_Details_settings" style="margin-top: 14%;">
 							<br>
 		{/if}
 						{/strip}

@@ -34,16 +34,19 @@ Head_ExtensionCommon_Js("Google_Index_Js", {}, {
                 jQuery.each(data, function(module, syncInfo){
 					hasMoreHeadRecords = false;
 					hasMoreGoogleRecords = false;
-					
-					if(syncInfo['google'].more === true) {
-						hasMoreGoogleRecords = true;
-						app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_GOOGLE')});
-					}
-
-					if(syncInfo['vtiger'].more === true) {
-						hasMoreHeadRecords = true;
-						app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_JOFORCE')});
-					}
+                    if(data.error){
+                        alert(data.error);
+                    }else{
+                        if(syncInfo['google'].more === true) {
+                            hasMoreGoogleRecords = true;
+                            app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_GOOGLE')});
+                        }else if(syncInfo['vtiger'].more === true) {
+                            hasMoreHeadRecords = true;
+                            app.helper.showAlertNotification({message : app.vtranslate('JS_MORE_JOFORCE')});
+                        }else{
+                            app.helper.showAlertNotification({message : "Sync Records Successfully"});
+                        }
+                    }
 					
 				});
 				

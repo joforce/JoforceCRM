@@ -6,15 +6,15 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 ************************************************************************************}
-<div class="sidebar-menu sidebar-menu-full">
+<div class="sidebar-menu">
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
 	    <div class="sidebar-header clearfix">
                 <h5 class="pull-left">{vtranslate('LBL_LISTS',$MODULE)}</h5>
-                <span id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="pull-right sidebar-btn new-list" title="{vtranslate('LBL_CREATE_LIST',$MODULE)}">+{vtranslate('LBL_CREATE_NEW', 'Head')}
+                <span id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="pull-right sidebar-btn new-list btn addButton btn-primary" title="{vtranslate('LBL_CREATE_LIST',$MODULE)}"><i class="fa fa-filter"></i>Add Filter
                 </span> 
             </div>
-            <hr>
+            <!-- <hr> -->
             <div>
                 <input class="search-list" type="text" placeholder="Search for List">
             </div>

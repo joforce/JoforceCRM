@@ -22,7 +22,7 @@
 							{assign var=FIELDS value=$MODULE_MODEL->getSetupRuleFields()}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELDS}
 								<tr>
-									<td class="fieldLabel control-label" style="width:25%; padding-right:20px;"><label>{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}</label>
+									<td class="fieldLabel col-form-label" style="width:25%; padding-right:20px;"><label>{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}</label>
 									<td style="word-wrap:break-word;" style="fieldValue">
 										{assign var=FIELD_DATA_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{if $FIELD_DATA_TYPE eq 'picklist'}
@@ -68,7 +68,7 @@
 								</tr>
 							{/foreach}
 							<tr id="assignedToBlock">
-								<td class="fieldLabel control-label" style="width:25%; padding-right:20px;"><label>{vtranslate('Assigned To')}</label></td>
+								<td class="fieldLabel col-form-label" style="width:25%; padding-right:20px;"><label>{vtranslate('Assigned To')}</label></td>
 								<td style="word-wrap:break-word;">
 									<select class="select2 fieldValue inputElement" id="assignedTo" name="assignedTo">
 										<optgroup label="{vtranslate('LBL_USERS')}">
@@ -99,7 +99,7 @@
 					<div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
 						<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 						<button class="btn btn-primary" onclick="javascript:Settings_MailConverter_Edit_Js.thirdStep()"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
-						<a class="cancelLink btn btn-secondary" type="reset" onclick="javascript:window.history.go(-3);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+						<a class="cancelLink btn btn-danger" type="" onclick="javascript:window.history.go(-3);">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					</div>
 				</div>
 			</div>

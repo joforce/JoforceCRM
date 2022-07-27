@@ -66,6 +66,7 @@ class Head_Kanban_View extends Head_Index_View {
 	$pagingModel->set('page', $pageNumber);
 	$pagingModel->set('viewid', $cvId);
 	$pagingModel->set('VIEWID', $cvId);
+	$viewer->assign('VIEWID', $cvId);
 	$listViewCount_total = $this->getListViewCount($sourceModule, $cvId);
 	$listViewCount_page =  $this->getPageCountByTotal($listViewCount_total, $sourceModule);
 

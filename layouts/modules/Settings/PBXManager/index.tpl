@@ -8,16 +8,16 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12">
+	<div class="col-sm-12 col-xs-12  card">
 		<div class="container-fluid" id="AsteriskServerDetails">
 			<input type="hidden" name="module" value="PBXManager"/>
 			<input type="hidden" name="action" value="SaveAjax"/>
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" class="recordid" name="id" value="{$RECORD_ID}">
-			<div class="widget_header row">
-				<div class="col-sm-8"><h4>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h4></div>
+			<div class="row mt20 ml10 mr5 card-header-new">
+				<div class="col-sm-8 col-8"><h4 class="ml30 pt20"><b>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}<b></h4></div>
 				{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
-				<div class="col-sm-4">
+				<div class="col-sm-4 col-4">
 					<div class="clearfix">
 						<div class="btn-group pull-right editbutton-container">
 							<button class="btn btn-default editButton" data-url="{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
@@ -25,7 +25,6 @@
 					</div>
 				</div>
 			</div>
-			<hr>
 			<div class="contents col-lg-12">
 				<table class="table detailview-table no-border">
 					<tbody>

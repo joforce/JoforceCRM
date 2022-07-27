@@ -16,6 +16,7 @@ class Calendar_DetailView_Model extends Head_DetailView_Model {
 	 * @return <array> - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks() {
+		global $site_URL;
 		$recordModel = $this->getRecord();
         $moduleName = $recordModel->getType();
 		$relatedLinks = array();
@@ -25,7 +26,7 @@ class Calendar_DetailView_Model extends Head_DetailView_Model {
 				'linklabel' => vtranslate('LBL_DETAILS', $moduleName),
 				'linkKey' => 'LBL_RECORD_DETAILS',
 				'linkurl' => $recordModel->getDetailViewUrl().'/mode/showDetailViewByMode?requestMode=full',
-				'linkicon' => ''
+				'linkicon' => $site_URL.'/layouts/skins/images/summary_detail.png'
 		);
 
 		$parentModuleModel = $this->getModule();
@@ -34,8 +35,8 @@ class Calendar_DetailView_Model extends Head_DetailView_Model {
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => vtranslate('LBL_UPDATES'),
 					'linkurl' => $recordModel->getDetailViewUrl().'/mode/showRecentActivities?page=1',
-					'linkicon' => ''
-			);
+					'linkicon' => $site_URL.'/layouts/skins/images/summary_history.png'
+								);
 		}
 		return $relatedLinks;
 	}

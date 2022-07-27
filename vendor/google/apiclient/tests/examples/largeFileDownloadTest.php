@@ -18,8 +18,15 @@
  * under the License.
  */
 
-class examples_largeFileDownloadTest extends BaseTest
+namespace Google\Tests\Examples;
+
+use Google\Tests\BaseTest;
+
+class largeFileDownloadTest extends BaseTest
 {
+  /**
+   * @runInSeparateProcess
+   */
   public function testSimpleFileDownloadNoToken()
   {
     $this->checkServiceAccountCredentials();

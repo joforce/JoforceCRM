@@ -7,13 +7,13 @@
 * All Rights Reserved.
 ************************************************************************************}
 
-<form class="form-horizontal" name="step6" method="post" action="index.php">
+<form class="form-horizontal" name="step6" method="post" action="index.php" style="height:100%;">
 	<input type=hidden name="module" value="Install" />
 	<input type=hidden name="view" value="Index" />
 	<input type=hidden name="mode" value="Step7" />
 	<input type=hidden name="auth_key" value="{$AUTH_KEY}" />
 
-	<div class="row main-container">
+	<div class="row main-container" style="height:100%;overflow:auto;">
 		<div class="inner-container">
 			<div class="row">
 				<div class="col-sm-10">

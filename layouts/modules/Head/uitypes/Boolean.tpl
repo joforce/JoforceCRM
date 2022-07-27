@@ -17,7 +17,7 @@
 {if (!$FIELD_NAME)}
     {assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 {/if}
-<div class="fieldValue chckbox">
+<div class="fieldValueNew chckbox Default" style="width:33px!important">
     <input type="hidden" name="{$FIELD_NAME}" value=0 />
     <input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" class="inputElement" data-fieldname="{$FIELD_NAME}" data-fieldtype="checkbox" type="checkbox" name="{$FIELD_NAME}"
 {if $FIELD_MODEL->get('fieldvalue') eq true} checked {/if} {if !empty($SPECIAL_VALIDATOR)}data-validator="{Zend_Json::encode($SPECIAL_VALIDATOR)}"{/if}
@@ -26,5 +26,4 @@
 	    data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
 	{/if} />
 </div>
-<!--<div class="onoffswitch1 pull-left ml30 mr10"><input type="checkbox" style="display:none;" name="isenabled" class="onoffswitch1-checkbox" id="myonoffswitch1" checked="yes" value="1"><label class="onoffswitch1-label" for="myonoffswitch1"><span class="onoffswitch1-inner"></span><span class="onoffswitch1-switch"></span></label></div>-->
 {/strip}

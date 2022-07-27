@@ -25,8 +25,11 @@ jQuery.Class('Settings_Notifications_Js', {}, {
 	
 	form.on('submit', function (e) {
 	    e.preventDefault();
-	    var data = form.serializeArray();
-	    thisInstance.registerSaveEvent(data);
+		var serializedObj = {};
+		$("form input:checkbox").each(function(){
+			serializedObj[this.name] = this.checked;
+		});
+	    thisInstance.registerSaveEvent(serializedObj);
 	    window.onbeforeunload = null; //To prevent chrome and firefox alert
             return false;
 	});
@@ -38,17 +41,25 @@ jQuery.Class('Settings_Notifications_Js', {}, {
     registerSaveEvent: function (data) {
 	var aDeferred = jQuery.Deferred();
 	var updatedFields = {};
-	var global_settings = $('#global-notification').data('value');
+
+	if ($('#global-notification').is(":checked"))
+	{
+		var global_settings = 1;
+	}else{
+		var global_settings = 0;
+	}
 
 	jQuery.each(data, function (key, value) {
-	    updatedFields[key] = value;
+		if(key != 'global-notification'){
+	    	updatedFields[key] = (value == true) ? 1 : 0;
+		}
 	});
 	var params = {
-                        'module': app.getModuleName(),
-                        'parent': app.getParentModuleName(),
-                        'action': 'SaveSettings',
-                        'updatedFields': JSON.stringify(updatedFields),
-			'global_settings' : global_settings,
+		'module': app.getModuleName(),
+		'parent': app.getParentModuleName(),
+		'action': 'SaveSettings',
+		'updatedFields': JSON.stringify(updatedFields),
+		'global_settings' : global_settings,
 	};
 
 	app.request.post({"data": params}).then(function (err, data) {

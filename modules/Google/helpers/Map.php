@@ -44,28 +44,55 @@ class Google_Map_Helper {
 	static function getLocationFields($module) {
 		$locationFields = array();
 		switch ($module) {
-			case 'Contacts'	:	$locationFields = array('street'	=> 'mailingstreet',
-														'city'		=> 'mailingcity',
-														'state'		=> 'mailingstate',
-														'zip'		=> 'mailingzip',
-														'country'	=> 'mailingcountry');
-								break;
-			case 'Leads'	:	$locationFields = array('street'	=> 'lane',
-														'city'		=> 'city',
-														'state'		=> 'state',
-														'zip'		=> 'code',
-														'country'	=> 'country');
-								break;
-			case 'Accounts'	:	$locationFields = array('street'	=> 'bill_street',
-														'city'		=> 'bill_city',
-														'state'		=> 'bill_state',
-														'zip'		=> 'bill_code',
-														'country'	=> 'bill_country');
-								break;
+			case 'Contacts'	:$locationFields = array(
+					'street'	=> 'mailingstreet',
+					'city'		=> 'mailingcity',
+					'state'		=> 'mailingstate',
+					'zip'		=> 'mailingzip',
+					'country'	=> 'mailingcountry');
+			break;
+			case 'Leads'	:$locationFields = array(
+					'street'	=> 'lane',
+					'city'		=> 'city',
+					'state'		=> 'state',
+					'zip'		=> 'code',
+					'country'	=> 'country');
+			break;
+			case 'Accounts'	:$locationFields = array(
+					'street'	=> 'bill_street',
+					'city'		=> 'bill_city',
+					'state'		=> 'bill_state',
+					'zip'		=> 'bill_code',
+					'country'	=> 'bill_country');
+			break;
+			case 'Vendors' :$locationFields = array(
+                                        'street'        => 'street',
+                                        'city'          => 'city',
+                                        'state'         => 'state',
+                                        'zip'           => 'postalcode',
+                                        'country'       => 'country');
+                        break;
 		}
 		return $locationFields;
 	}
 
+	public static function getAddressString($recordId, $module) {
+		$locationFields = self::getLocationFields($module);
+		$address = array();
+		if (!empty($locationFields)) {
+				$recordModel = Head_Record_Model::getInstanceById($recordId, $module);
+				foreach ($locationFields as $key => $value) {
+						$address[$key] = Head_Util_Helper::getDecodedValue($recordModel->get($value));
+				}
+		}
+		$address1 = "";
+		foreach ($address as $key => $value) {
+			if($value){
+				$address1 .= ($address1 == "") ? $value : ",".$value;
+			}
+		}
+		return $address1;
+	}
 }
 
 ?>

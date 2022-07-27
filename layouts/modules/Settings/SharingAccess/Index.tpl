@@ -12,7 +12,12 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 
 {strip}
-<div class="listViewPageDiv " id="sharingAccessContainer">
+<div class="listViewPageDiv card" id="sharingAccessContainer">
+<div class="row contenthead mac_scr_header">
+      <div class='col-md-12 pagenamehead card-header-new sharing_access_page_style'>
+          <h3>Sharing Rules</h3>
+      </div>
+    </div>
         <form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
             <input type="hidden" name="module" value="SharingAccess" />
             <input type="hidden" name="action" value="SaveAjax" />
@@ -20,7 +25,7 @@
             <input type="hidden" class="dependentModules" value='{ZEND_JSON::encode($DEPENDENT_MODULES)}' />
             <br>
             <div class="contents">
-                <table class="table table-bordered table-condensed sharingAccessDetails marginBottom50px">
+                <table class="table table-bordered table-sm sharingAccessDetails marginBottom50px">
                     <colgroup>
                         <col width="20%">
                         <col width="15%">

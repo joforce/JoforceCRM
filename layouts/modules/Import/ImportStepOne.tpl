@@ -46,7 +46,7 @@
             <tr id="has_header_container" style="height:50px">
                 <td>{'LBL_HAS_HEADER'|@vtranslate:$MODULE}</td>
                 <td>
-                    <input type="checkbox" id="has_header" name="has_header" checked />
+                    <input type="checkbox" id="has_header" class="pull-left" name="has_header" checked />
                 </td>
             </tr>
         {/if}

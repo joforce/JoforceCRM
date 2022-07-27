@@ -11,11 +11,11 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-    <div  class="detailViewContainer" id="ConfigEditorDetails">
+    <div  class="detailViewContainer card" id="ConfigEditorDetails">
             {assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
-            <div class="contents ">
-                <div class="clearfix">
-                    <h4 class="pull-left">{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h4>
+            <div class="contents p20">
+                <div class="clearfix card-header-new ConfigEditorDetail_card_header  ">
+                    <h4 class="pull-left mt10">{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h4>
                     <div class="btn-group pull-right">
                         <button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
                     </div>
@@ -25,8 +25,8 @@
                 <div class="detailViewInfo">
                     {assign var=FIELD_DATA value=$MODEL->getViewableData()}
                     {foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-                        <div class="row form-group"><div class="col-lg-4 col-md-4 col-sm-4 fieldLabel"><label>{if $FIELD_NAME == 'upload_maxsize'}{if $FIELD_DATA[$FIELD_NAME] gt 5}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,$FIELD_DATA[$FIELD_NAME])}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,5)}{/if}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}{/if}</label></div>
-                            <div  class="col-lg-8 col-md-8 col-sm-8 fieldValue break-word">
+                        <div class="row form-group"><div class="col-lg-4 col-md-4 col-sm-4 fieldLabel col-6"><label>{if $FIELD_NAME == 'upload_maxsize'}{if $FIELD_DATA[$FIELD_NAME] gt 5}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,$FIELD_DATA[$FIELD_NAME])}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,5)}{/if}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}{/if}</label></div>
+                            <div  class="col-lg-8 col-md-8 col-sm-8 fieldValue break-word col-6">
                                 <div>
                                     {if $FIELD_NAME == 'default_module'}
                                         {vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}

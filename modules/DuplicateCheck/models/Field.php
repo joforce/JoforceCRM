@@ -230,54 +230,21 @@ class DuplicateCheck_Field_Model extends Head_Field_Model {
 
 	}
 
-	/*public static function getInstanceByName($sourceModule){
-		//print_r($sourceModule);
-		//die;
-	}
-*/
 
 	public static function getInstanceByFieldToMatch($sourceModule){
 		$db = PearDatabase::getInstance();
-		/*$fieldstomatch = [];
-		$fieldmapping = [];*/
-		/*if(!is_array($sourceModule)){
-			$fieldID = array($sourceModule);
-		}*/
-		//$fieldID = array($sourceModule);
-		//print_r($fieldID);
+		
 		$query = "SELECT fieldstomatch FROM jo_duplicatechecksettings WHERE modulename=?";
 		$result = $db->pquery($query, array($sourceModule));
 		$numOfRows = $db->num_rows($result);
 		$fetchResult = $db->fetch_array($result);
 		$explodeFieldsToMatch = explode(",", $fetchResult['fieldstomatch']);
-		//print_r($explodeFieldsToMatch);
-		//print_r("Num of rows - ".$numOfRows);
 		return $explodeFieldsToMatch;
 
 
 		
 	}
-/*public static function getInstanceByFieldToMapping($sourceModule){
-		$db = PearDatabase::getInstance();
-		$fieldstomatch = [];
-		$fieldmapping = [];
-		/*if(!is_array($sourceModule)){
-			$fieldID = array($sourceModule);
-		}
-		//$fieldID = array($sourceModule);
-		//print_r($fieldID);
-		$query = "SELECT fieldmapping FROM jo_vtduplicatesettings WHERE modulename=?";
-		$result = $db->pquery($query, array($sourceModule));
-		$numOfRows = $db->num_rows($result);
-		$fetchResult = $db->fetch_array($result);
-		$explodeFieldsToMapping = explode(",",$fetchResult['fieldmapping']);
-		//print_r($explodeFieldsToMapping);
-		//print_r("Num of rows - ".$numOfRows);
-		return $explodeFieldsToMapping;
 
-
-		
-	}*/
 
 	
 	public static function getDetailsForMove($fieldIdsList = array()) {
@@ -303,20 +270,17 @@ class DuplicateCheck_Field_Model extends Head_Field_Model {
 	 * @return <Array> List of Field models <Settings_LayoutEditor_Field_Model>
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance= false) {
-		/*print_r($sourceModule);
-		die;*/
+		
 		$db = PearDatabase::getInstance();
 
 		if(!is_array($blockId)) {
 			$blockId = array($blockId);
 		}
-		/*print_r($blockId);
-		die;*/
+		
 		$query = 'SELECT * FROM jo_field WHERE block IN('. generateQuestionMarks($blockId) .') AND jo_field.displaytype IN (1,2,4) ORDER BY sequence';
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 		//$queryVTdup = "SELECT * FROM "
-		//print_r($numOfRows);
 
 		$fieldModelsList = array();
 
@@ -331,9 +295,7 @@ class DuplicateCheck_Field_Model extends Head_Field_Model {
 			}
 			$fieldModelsList[] = $fieldModel;
 		}
-		/*print_r($fieldModelsList);
-		die;*/
-		return $fieldModelsList;
+				return $fieldModelsList;
 	}
 
 	/**

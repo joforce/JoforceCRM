@@ -37,8 +37,8 @@
                 <table class="listview-table table-bordered listViewEntriesTable">
                     <thead>
                         <tr class="listViewHeaders">
-                                <th>
-                                    <input type="checkbox"  class="selectAllInCurrentPage" />
+                                <th class="text-center">
+                                    <input type="checkbox"  class="selectAllInCurrentPage float-none" />
                                 </th>
                             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                                 <th>
@@ -56,7 +56,7 @@
                         {if $MODULE_MODEL && $MODULE_MODEL->isQuickSearchEnabled()}
                             <tr class="searchRow">
                                     <th class="textAlignCenter searchBtn">
-                                        <button class="btn btn-success pull-right pull-right" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+                                        <button class="btn btn-primary pull-right pull-right" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
                                     </th>
                                 {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                                     <th>
@@ -74,8 +74,8 @@
                         {assign var=EDITED_VALUE value=$SELECTED_RECORDS[$LISTVIEW_ENTRY->getId()]}
                         <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" {if $MODULE eq 'EmailTemplates'} data-name="{$RECORD_DATA['subject']}" data-info="{$LISTVIEW_ENTRY->get('body')}" {else} data-name="{$LISTVIEW_ENTRY->getName()}" data-info='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}' {/if}
                             {if $GETURL neq ''} data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
-                                <td>
-                                    <input class="entryCheckBox" type="checkbox" {if $EDITED_VALUE}checked{/if}/>
+                                <td class="text-center">
+                                    <input class="entryCheckBox float-none" type="checkbox" {if $EDITED_VALUE}checked{/if}/>
                                 </td>
                             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listViewEntry}
                                 {assign var="ROW_NUMBER" value={$smarty.foreach.listViewEntry.index}}

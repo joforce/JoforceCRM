@@ -15,18 +15,34 @@
  * limitations under the License.
  */
 
+namespace Google\Tests;
+
+use Google\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Cache\Adapter\Filesystem\FilesystemCachePool;
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
+
+if (trait_exists('\Prophecy\PhpUnit\ProphecyTrait')) {
+  trait BaseTestTrait
+    {
+    use \Prophecy\PhpUnit\ProphecyTrait;
+  }
+} else {
+  trait BaseTestTrait
+    {
+  }
+}
 
 class BaseTest extends TestCase
 {
   private $key;
   private $client;
-  protected $testDir = __DIR__;
+
+  use BaseTestTrait;
 
   public function getClient()
   {
@@ -59,23 +75,23 @@ class BaseTest extends TestCase
     }
 
     // adjust constructor depending on guzzle version
-    if (!$this->isGuzzle6()) {
+    if ($this->isGuzzle5()) {
       $options = ['defaults' => $options];
     }
 
-    $httpClient = new GuzzleHttp\Client($options);
+    $httpClient = new GuzzleClient($options);
 
-    $client = new Google_Client();
+    $client = new Client();
     $client->setApplicationName('google-api-php-client-tests');
     $client->setHttpClient($httpClient);
-    $client->setScopes([
-        "https://www.googleapis.com/auth/plus.me",
-        "https://www.googleapis.com/auth/urlshortener",
+    $client->setScopes(
+        [
         "https://www.googleapis.com/auth/tasks",
         "https://www.googleapis.com/auth/adsense",
         "https://www.googleapis.com/auth/youtube",
         "https://www.googleapis.com/auth/drive",
-    ]);
+        ]
+    );
 
     if ($this->key) {
       $client->setDeveloperKey($this->key);
@@ -116,7 +132,7 @@ class BaseTest extends TestCase
     return true;
   }
 
-  public function tryToGetAnAccessToken(Google_Client $client)
+  public function tryToGetAnAccessToken(Client $client)
   {
     $this->checkClientCredentials();
 
@@ -140,21 +156,21 @@ class BaseTest extends TestCase
 
   private function getClientIdAndSecret()
   {
-    $clientId = getenv('GCLOUD_CLIENT_ID') ?: null;
-    $clientSecret = getenv('GCLOUD_CLIENT_SECRET') ?: null;
+    $clientId = getenv('GOOGLE_CLIENT_ID') ?: null;
+    $clientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: null;
 
     return array($clientId, $clientSecret);
   }
 
-  public function checkClientCredentials()
+  protected function checkClientCredentials()
   {
     list($clientId, $clientSecret) = $this->getClientIdAndSecret();
     if (!($clientId && $clientSecret)) {
-      $this->markTestSkipped("Test requires GCLOUD_CLIENT_ID and GCLOUD_CLIENT_SECRET to be set");
+      $this->markTestSkipped("Test requires GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to be set");
     }
   }
 
-  public function checkServiceAccountCredentials()
+  protected function checkServiceAccountCredentials()
   {
     if (!$f = getenv('GOOGLE_APPLICATION_CREDENTIALS')) {
       $skip = "This test requires the GOOGLE_APPLICATION_CREDENTIALS environment variable to be set\n"
@@ -171,21 +187,17 @@ class BaseTest extends TestCase
     return true;
   }
 
-  public function checkKey()
+  protected function checkKey()
   {
-    $this->key = $this->loadKey();
-
-    if (!strlen($this->key)) {
-      $this->markTestSkipped("Test requires api key\nYou can create one in your developer console");
-      return false;
+    if (file_exists($apiKeyFile = __DIR__ . DIRECTORY_SEPARATOR . '.apiKey')) {
+      $apiKey = file_get_contents($apiKeyFile);
+    } elseif (!$apiKey = getenv('GOOGLE_API_KEY')) {
+      $this->markTestSkipped(
+          "Test requires api key\nYou can create one in your developer console"
+      );
+      file_put_contents($apiKeyFile, $apiKey);
     }
-  }
-
-  public function loadKey()
-  {
-    if (file_exists($f = __DIR__ . DIRECTORY_SEPARATOR . '.apiKey')) {
-      return file_get_contents($f);
-    }
+    $this->key = $apiKey;
   }
 
   protected function loadExample($example)
@@ -208,8 +220,20 @@ class BaseTest extends TestCase
     return false;
   }
 
+  protected function isGuzzle7()
+  {
+    if (!defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
+      return false;
+    }
+
+    return (7 === ClientInterface::MAJOR_VERSION);
+  }
+
   protected function isGuzzle6()
   {
+    if (!defined('\GuzzleHttp\ClientInterface::VERSION')) {
+      return false;
+    }
     $version = ClientInterface::VERSION;
 
     return ('6' === $version[0]);
@@ -217,6 +241,10 @@ class BaseTest extends TestCase
 
   protected function isGuzzle5()
   {
+    if (!defined('\GuzzleHttp\ClientInterface::VERSION')) {
+      return false;
+    }
+
     $version = ClientInterface::VERSION;
 
     return ('5' === $version[0]);
@@ -240,6 +268,13 @@ class BaseTest extends TestCase
   {
     if (!$this->isGuzzle5()) {
       $this->markTestSkipped('Guzzle 5 only');
+    }
+  }
+
+  public function onlyGuzzle6Or7()
+  {
+    if (!$this->isGuzzle6() && !$this->isGuzzle7()) {
+      $this->markTestSkipped('Guzzle 6 or 7 only');
     }
   }
 

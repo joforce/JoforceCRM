@@ -17,7 +17,7 @@
 															'listview_max_textlength'	=> 'data-rule-range=[1,100] data-rule-positive="true" data-rule-wholeNumber="true"',
 															'list_max_entries_per_page'	=> 'data-rule-range=[1,100] data-rule-positive="true" data-rule-wholeNumber="true"']}
 
-					<div>
+					<div class="card-header-new  ml20">
 						<h4>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h4>
 					</div>
 					<hr>
@@ -26,13 +26,13 @@
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 						{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
 							<div class="row form-group">
-								<div class="col-lg-4 control-label fieldLabel">
+								<div class="col-lg-4 col-form-label fieldLabel col-6">
 									<label>{if $FIELD_NAME == 'upload_maxsize'}{if $FIELD_DATA[$FIELD_NAME] gt 5}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,$FIELD_DATA[$FIELD_NAME])}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE,5)}{/if}{else}{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}{/if}</label>
 								</div>
-								<div  class="{$WIDTHTYPE}  col-lg-4 input-group">
+								<div  class="{$WIDTHTYPE}  col-lg-4 input-group col-6">
 									{if $FIELD_DETAILS['fieldType'] == 'picklist'}
 
-										<select class="select2-container inputElement select2 col-lg-11" name="{$FIELD_NAME}" >
+										<select class="select2-container  select2 " name="{$FIELD_NAME}" >
 											{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
 												{if $FIELD_NAME != 'default_module' && $FIELD_NAME != 'default_reply_to'}
 													<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $QUALIFIED_MODULE)}</option>
@@ -49,14 +49,19 @@
 
 									{else if $FIELD_NAME == 'USE_RTE'}
 										<input type="hidden" name="{$FIELD_NAME}" value="false" />
-										<div class=" "> <input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} /></div>
+										<div class="inputFlex"> 
+										<div class="fieldValueNew chckbox Default " style="width:33px!important">
+										<input type="checkbox" name="{$FIELD_NAME}" class="inputElement" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
+										</div>
 										{else if $FIELD_NAME == 'email_tracking'}
-										<input type="hidden" name="{$FIELD_NAME}" value="No" />
-										<input type="checkbox" name="{$FIELD_NAME}" value="Yes" {if $FIELD_DATA[$FIELD_NAME] == "Yes"} checked {/if} />
+										<div class="fieldValueNew chckbox Default " style="width:33px!important">
+										<input type="hidden" class="inputElement" name="{$FIELD_NAME}" value="No" />
+										<input type="checkbox" class="inputElement" name="{$FIELD_NAME}" value="Yes" {if $FIELD_DATA[$FIELD_NAME] == "Yes"} checked {/if} />
+										</div>
 										<div class="input-info-addon"> <i class="fa fa-question-circle"  data-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_PERSONAL_EMAIL_TRACKING_INFO',$QUALIFIED_MODULE)}"></i>
 										</div>
 									{else}
-										<div class=" input-group inputElement"> 
+										<div class=" input-group inputFlex"> 
 											<input type="text" class="inputElement "  name="{$FIELD_NAME}" data-rule-required="true" {if $FIELD_VALIDATION[$FIELD_NAME]} {$FIELD_VALIDATION[$FIELD_NAME]} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 											{if $FIELD_NAME == 'upload_maxsize'}
 												<div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
@@ -71,7 +76,7 @@
 						<div class=" row clearfix">
 							<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 								<button type='submit' class='btn btn-primary saveButton'  >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-								<a class='cancelLink btn btn-secondary' type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class='cancelLink btn btn-danger' type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 						</div>
 					</div>

@@ -10,16 +10,23 @@
 {* modules/Settings/PickListDependency/views/List.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv" id="listViewContent">
+<div class="listViewPageDiv card" id="listViewContent">
     <div class="col-sm-12 col-xs-12">
         <div id="listview-actions" class="listview-actions-container">
-            <div class = "row">
-                <div class='col-md-6'>
+        <div class = "row card-header-new picklist_dependancy_setting">
+                <div class='col-md-6 '>
+                <h4 class="">PickList Dependency<h4>
                 </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <span class="pull-right listViewActions" style="padding-right: 15px;">
-                            <select class="select2 pickListSupportedModules" name="pickListSupportedModules" style="min-width: 220px;">
+
+
+
+
+
+
+                <div class="col-md-6 ">
+                    <div class="row pull-right">
+                        <span class="pull-right listViewActions dropbox" style="padding-right: 15px;">
+                            <select class="select2 pickListSupportedModules " name="pickListSupportedModules" style="min-width: 220px;">
                                 <option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
                                 {foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
                                     {assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}

@@ -189,7 +189,7 @@ class HelpDesk_Module_Model extends Head_Module_Model {
 	 * @return <String> Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		if (in_array($sourceModule, array('Assets', 'Project', 'ServiceContracts', 'Services'))) {
+		if (in_array($sourceModule, array('Assets', 'ServiceContracts', 'Services'))) {
 			$condition = " jo_troubletickets.ticketid NOT IN (SELECT relcrmid FROM jo_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM jo_crmentityrel WHERE relcrmid = '$record') ";
 			$pos = stripos($listQuery, 'where');
 

@@ -76,7 +76,7 @@
 						</div>
 						{assign var=IS_FIELDS_SORTABLE value=$SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}
 						<div class="blockFieldsList {if $IS_FIELDS_SORTABLE} blockFieldsSortable {/if} row">
-							<ul name="{if $IS_FIELDS_SORTABLE}sortable1{else}unSortable1{/if}" class="connectedSortable col-sm-6">
+							<ul name="{if $IS_FIELDS_SORTABLE}sortable1{else}unSortable1{/if}" class="connectedSortable col-sm-5">
 								{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 									{if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -253,14 +253,14 @@
 											<span class="dragUiText col-sm-8">
 												{vtranslate('LBL_ADD_NEW_FIELD_HERE',$QUALIFIED_MODULE)}
 											</span>
-											<span class="col-sm-4" style="margin-top: 7%;margin-left: -15%;">
+											<span class="col-sm-4" style="margin-top: 5%;margin-left: -15%;">
 												<button class="btn btn-secondary btn-sm addButton" style="padding: 2px 15px;"><i class="fa fa-plus"></i>&nbsp;{vtranslate('LBL_ADD',$QUALIFIED_MODULE)}</button>
 											</span>
 										</li>
 									{/if}
 								{/if}
 							</ul>
-							<ul name="{if $IS_FIELDS_SORTABLE}sortable2{else}unSortable2{/if}" class="connectedSortable col-sm-6">
+							<ul name="{if $IS_FIELDS_SORTABLE}sortable2{else}unSortable2{/if}" class="connectedSortable col-sm-5">
 								{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 									{if $smarty.foreach.fieldlist1.index % 2 neq 0}
@@ -466,7 +466,7 @@
 			</div>
 		</div>
 		<div class="blockFieldsList row blockFieldsSortable">
-			<ul class="connectedSortable col-sm-6 ui-sortable"name="sortable1">
+			<ul class="connectedSortable col-sm-5 ui-sortable"name="sortable1">
 				<li class="row dummyRow">
 					<span class="dragUiText col-sm-8">
 						{vtranslate('LBL_ADD_NEW_FIELD_HERE',$QUALIFIED_MODULE)}
@@ -476,7 +476,7 @@
 					</span>
 				</li>
 			</ul>
-			<ul class="connectedSortable col-sm-6 ui-sortable" name="sortable2"></ul>
+			<ul class="connectedSortable col-sm-5 ui-sortable" name="sortable2"></ul>
 		</div>
 	</div>
 
@@ -560,21 +560,21 @@
 		<form class="form-horizontal addCustomBlockForm">
 		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 			<div class="modal-body">
-				<div class="form-group">
-					<label class="control-label fieldLabel col-sm-5">
+			<div class="form-group row">
+					<label class="fieldLabel col-sm-6 pull-left">
 						<span>{vtranslate('LBL_BLOCK_NAME', $QUALIFIED_MODULE)}</span>
 						<span class="redColor">*</span>
 					</label>
 					<div class="controls col-sm-6">
-						<input type="text" name="label" class="col-sm-3 inputElement" data-rule-required='true' style='width: 75%'/>
+					<input type="text" name="label" class="inputElement" data-rule-required='true' style='width: 75%'/>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="control-label fieldLabel col-sm-5">
+				<div class="form-group row">
+					<label class=" fieldLabel col-sm-6">
 						{vtranslate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-sm-6">
-						<select class="col-sm-9" name="beforeBlockId">
+					<select class="" name="beforeBlockId">
 							{foreach key=BLOCK_ID item=BLOCK_MODEL from=$ALL_BLOCK_LABELS}
 								<option value="{$BLOCK_ID}" data-label="{$BLOCK_MODEL->get('label')}">{vtranslate($BLOCK_MODEL->get('label'), $SELECTED_MODULE_NAME)}</option>
 							{/foreach}

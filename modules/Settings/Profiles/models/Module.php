@@ -55,7 +55,6 @@ class Settings_Profiles_Module_Model extends Settings_Head_Module_Model {
 	 * @return <Array> list of modules
 	 */
 	public static function getNonVisibleModulesList() {
-        return array('ModTracker', 'Webmails', 'Users', 'Mobile', 'Integration', 'WSAPP', 'ConfigEditor',
-					'FieldFormulas', 'HeadBackup', 'CronTasks', 'Import', 'Tooltip', 'CustomerPortal', 'Home', 'ExtensionStore');
-    }
+	        return array('ModTracker', 'Webmails', 'Users', 'Mobile', 'Integration', 'WSAPP', 'ConfigEditor','FieldFormulas', 'HeadBackup', 'CronTasks', 'Import', 'Tooltip', 'CustomerPortal', 'Home', 'ExtensionStore',  'RecycleBin', 'PBXManager');
+	}
 }

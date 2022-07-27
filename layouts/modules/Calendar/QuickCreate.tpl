@@ -41,7 +41,7 @@
 					{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE]['recordStructure']}
 					{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE]['moduleModel']}
 
-					<div class="quickCreateContent calendarQuickCreateContent" style="padding-top:2%;">
+					<div class="quickCreateContent calendarQuickCreateContent" style="padding-top:2%;padding-bottom:5%;">
 						{if $MODULE eq 'Calendar'}
 							{if !empty($PICKIST_DEPENDENCY_DATASOURCE_TODO)}
 								<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE_TODO)}' />
@@ -70,14 +70,14 @@
 
 						<div class="row" style="padding-top: 2%;">
 							<div class="col-sm-12">
-								<div class="col-sm-5">
+								<div class="col-sm-5 pull-left">
 									{assign var="FIELD_MODEL" value=$RECORD_STRUCTURE['date_start']}
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 								</div>
-								<div class="muted col-sm-1" style="line-height: 67px;left: 20px; padding-right: 7%;">
+								<div class="muted col-sm-2 pull-left" style="line-height: 67px;left: 20px; padding-right: 7%;">
 									{vtranslate('LBL_TO',$MODULE)}
 								</div>
-								<div class="col-sm-5" {if $MODULE eq 'Calendar'}style="margin-top: 4%;"{/if}>
+								<div class="col-sm-5 pull-left" {if $MODULE eq 'Calendar'}style="margin-top: 4%;"{/if}>
 									{assign var="FIELD_MODEL" value=$RECORD_STRUCTURE['due_date']}
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 								</div>
@@ -99,8 +99,8 @@
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
-								</div><div class="col-lg-12">
-									<div class='fieldLabel col-lg-4 pr0 pl0' style="border-bottom: 1px solid #e8e8e8;padding-bottom: 3px;">
+								</div><div class="col-lg-12 row">
+									<div class='fieldLabel col-lg-4 pr0 pl0 pull-let' style="padding-bottom: 3px;margin-top: 37px;">
 										{if $isReferenceField neq "reference"}<label class="muted">{/if}
 											{if $isReferenceField eq "reference"}
 												{if $referenceListCount > 1}
@@ -124,7 +124,7 @@
 											{/if}
 											{if $isReferenceField neq "reference"}</label>{/if}
 									</div>
-									<div class="fieldValue col-lg-8 pl0 pr0" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="fieldValue col-lg-8 pl0 pr0 pull-left" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 									</div>
 								{/foreach}
@@ -144,9 +144,9 @@
 						{if $MODULE eq 'Events'}
 							{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 						{/if}
-						<button class="btn btn-success" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
+						<a class="btn btn-success" id="goToFullForm" href="{$EDIT_VIEW_URL}" type=""><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></a>
 						<button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
-						<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</center>
 				</div>
 			</form>

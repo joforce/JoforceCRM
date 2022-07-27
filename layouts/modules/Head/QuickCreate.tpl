@@ -50,14 +50,15 @@
                                         {/if}
                                     {/if}
                                     {if $COUNTER eq 2}
-                                    </div><div class="col-lg-12"> 
+                                    </div><div class="col-lg-12 pull-left">  
                                         {assign var=COUNTER value=1}
                                     {else}
                                         {assign var=COUNTER value=$COUNTER+1}
                                     {/if}
-				    <div class="col-lg-6 pr0 pl0">
-                                    <div class='fieldLabel'>
-                                        {if $isReferenceField neq "reference"}<label class="muted">{/if}
+                                    <div class="col-lg-6 pr0 pl0 pull-left">
+                                   
+                                    <div class='fieldLabel {if vtranslate($FIELD_MODEL->get('label'), $MODULE)=="Qty. in Stock"} m0 {/if}'>
+                                        {if $isReferenceField neq "reference"}{if vtranslate($FIELD_MODEL->get('label'), $MODULE)!="Taxes"}<label class="muted"  >{/if}{/if}
                                             {if $isReferenceField eq "reference"}
                                                 {if $referenceListCount > 1}
                                                     {assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -73,7 +74,7 @@
                                                         </select>
                                                     </span>
                                                 {else}
-                                                    <label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}</label>
+                                                    <label class="muted">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}  &nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}</label>
                                                 {/if}
                                             {else if $FIELD_MODEL->get('uitype') eq '83'}
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE PULL_RIGHT=true}
@@ -90,11 +91,11 @@
                                             {else}
                                                 {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="red-border">*</span> {/if}
                                             {/if}
-                                            {if $isReferenceField neq "reference"}</label>{/if}
+                                            {if $isReferenceField neq "reference"}{if vtranslate($FIELD_MODEL->get('label'), $MODULE)!="Taxes"}</label>{/if}{/if}
                                     </div>
 				    </div>
                                     {if $FIELD_MODEL->get('uitype') neq '83'}
-					<div class="col-lg-6 pl0 pr0">
+                                    <div class="col-lg-6 pl0 pr0 pull-left">
                                         <div class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
                                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
                                         </div>
@@ -105,7 +106,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="{if in_array($MODULE,array('Accounts','Invoice','Contacts','SalesOrder','Potentials','Products','Vendors'))} modal-footer  {else} modal-footer {/if} {$PAGE} ">
                     <center>
                         {if $BUTTON_NAME neq null}
                             {assign var=BUTTON_LABEL value=$BUTTON_NAME}
@@ -114,9 +115,9 @@
                         {/if}
                         {assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
                         {* <button class="btn btn-success" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button> *}
-                        <a class="btn btn-success" id="goToFullForm" href="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></a>
+                        <a class="btn btn-success" id="goToFullForm" href="{$EDIT_VIEW_URL}" type=""><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></a>
                         <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary" type="submit" name="saveButton"><strong>{$BUTTON_LABEL}</strong></button>
-                        <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </center>
                 </div>
             </form>

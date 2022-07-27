@@ -19,6 +19,7 @@ class Install_Index_view extends Head_View_Controller {
 	}
 
 	public function __construct() {
+		$this->PermissionCheck();
 		$this->exposeMethod('Step1');
 		$this->exposeMethod('Step2');
 		$this->exposeMethod('Step3');
@@ -28,9 +29,63 @@ class Install_Index_view extends Head_View_Controller {
 		$this->exposeMethod('Step7');
 	}
 
+	public function PermissionCheck(){
+		$request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
+		$slash_pos = strrpos($request_uri, "/");
+		if ($slash_pos === FALSE) {
+			$request_uri_full = $request_uri;
+		}
+		else {
+			$request_uri_full = substr($request_uri, 0, $slash_pos);
+		}
+		$filePath = $_SERVER['DOCUMENT_ROOT'] . $request_uri_full;
+
+		$filePermission = substr(sprintf('%o', fileperms($filePath)),-4);
+
+		$filePermission = (decoct(octdec($filePermission)));
+
+		$filePermission = $this->octalToDecimal($filePermission);
+		
+		$writablePermission = $this->octalToDecimal(755);
+
+		if ($filePermission < $writablePermission) {
+			echo "<div id='myModal' class='myModal' style='display: block;position:fixed;left:0;top:0;width:100%;height:100%;background-color: rgba(0, 0, 0, 0.5);opacity: 1;z-index: 1;'>
+					<div class='modal-content' style='position:absolute;top:50%;left:50%;transform: translate(-50%, -50%);background-color: white;padding: 1rem 1.5rem;border-radius: 0.5rem;width: 30%;z-index: 10;overflow: auto;'>
+						<div style='display:flex;justify-content:space-between;'>
+							<h3 style='margin:0px 0px 15px 0px;'><strong>Directory Access</strong></h3>
+							<span class='close-button' style='float: right;width: 1.5rem;line-height: 1.5rem;text-align: center;cursor: pointer;border-radius: 0.25rem;background-color: lightgray;height:25px;' onclick=document.getElementById('myModal').style.display='none'>×</span>
+						</div>
+						<div style='float:right'>
+							<label>The <b>'  $filePath  '</b> directory is not writable on this server please talk to your host or server admin about making writable <b>'  $filePath  '</b> directory on this server.</label>
+						</div>
+					</div>
+				</div>";
+			ob_flush(); 
+			flush(); 
+			die;
+		}
+	}
+
+	public function octalToDecimal($n)
+	{		
+		$num = $n;
+		$dec_value = 0;
+		$base = 1;
+		$temp = $num;
+		while ($temp)
+		{
+			$last_digit = $temp % 10;
+			$temp = $temp / 10;
+			$dec_value += $last_digit * $base;
+			$base = $base * 8;
+		}
+		return $dec_value;
+	}
+
     protected function applyInstallFriendlyEnv() {
         // config.inc.php - will not be ready to control this yet.
-        version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+
+        // version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(~E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(~E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
         set_time_limit(0); // override limits on execution time to allow install to finish
     }
@@ -97,6 +152,12 @@ class Install_Index_view extends Head_View_Controller {
 	}
 
 	public function Step3(Head_Request $request) {
+		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"]:$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+		$request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
+		$slash_pos = strrpos($request_uri, "/");
+		$request_uri_full = substr($request_uri, 0, $slash_pos);
+		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://":"http://").$webRoot.$request_uri_full.'/';
+
 		$viewer = $this->getViewer($request);
 		$php_Self = $_SERVER['PHP_SELF'];
 		$phpbase = str_replace('index.php','',$php_Self);
@@ -111,9 +172,8 @@ class Install_Index_view extends Head_View_Controller {
 				$viewer->assign('HT_PER','true');
 			}
 			else {
-				$viewer->assign('HT_PER','false');
 				$viewer->assign('HTACC_PER','Please Provide the writable permission for .htaccess. That htaccess file placed in your root folder');
-
+				$viewer->assign('HT_PER','false');
 			}
 		}else{
 			$viewer->assign('HT_PER','false');
@@ -136,15 +196,22 @@ class Install_Index_view extends Head_View_Controller {
 			$viewer->assign('SERVERTYPE','.htaccess');
 			$viewer->assign('SERVERHEAD','File Permission Check');
 		}
-	
 		$viewer->assign('FAILED_FILE_PERMISSIONS', Install_Utils_Model::getFailedPermissionsFiles());
 		$viewer->assign('PHP_INI_CURRENT_SETTINGS', Install_Utils_Model::getCurrentDirectiveValue());
 		$viewer->assign('PHP_INI_RECOMMENDED_SETTINGS', Install_Utils_Model::getRecommendedDirectives());
 		$viewer->assign('SYSTEM_PREINSTALL_PARAMS', Install_Utils_Model::getSystemPreInstallParameters());
+		$viewer->assign('PHP_INI_LOCATION',php_ini_loaded_file());
+		$viewer->assign('SITE_URL',$webRoot);
 		$viewer->view('Step3.tpl', $moduleName);
 	}
 
 	public function Step4(Head_Request $request) {
+		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"]:$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+		$request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
+		$slash_pos = strrpos($request_uri, "/");
+		$request_uri_full = substr($request_uri, 0, $slash_pos);
+		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://":"http://").$webRoot.$request_uri_full.'/';
+
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
@@ -162,11 +229,16 @@ class Install_Index_view extends Head_View_Controller {
 		$viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-
+		$viewer->assign('SITE_URL',$webRoot);
 		$viewer->view('Step4.tpl', $moduleName);
 	}
 
 	public function Step5(Head_Request $request) {
+		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"]:$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+		$request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
+		$slash_pos = strrpos($request_uri, "/");
+		$request_uri_full = substr($request_uri, 0, $slash_pos);
+		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://":"http://").$webRoot.$request_uri_full.'/';
 		set_time_limit(0); // Override default limit to let install complete.
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -177,8 +249,9 @@ class Install_Index_view extends Head_View_Controller {
 		}
 
 		$createDataBase = false;
-		$createDB = $request->get('create_db');
-		if($createDB == 'on') {
+		// $createDB = $request->get('create_db');
+		$createDB = $request->get('db_action');
+		if($createDB === 'create') {
 			$rootUser = $request->get('db_username');
 			$rootPassword = $request->get('db_password');
 			$createDataBase = true;
@@ -210,6 +283,7 @@ class Install_Index_view extends Head_View_Controller {
 		$viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$viewer->assign('INFORMATION', $requestData);
 		$viewer->assign('AUTH_KEY', $authKey);
+		$viewer->assign('SITE_URL',$webRoot);
 		$viewer->view('Step5.tpl', $moduleName);
 	}
 
@@ -241,7 +315,7 @@ class Install_Index_view extends Head_View_Controller {
         $adb->query('SET NAMES utf8');
 
         $import_sql = Install_MysqlImport_Model::ImportDump($configParams);
-
+		
         $current_user = Users::getActiveAdminUser();
         $recordModel = Head_Record_Model::getInstanceById(1, 'Users');
         $recordModel->set('id', 1);
@@ -263,6 +337,13 @@ class Install_Index_view extends Head_View_Controller {
         $viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
         $viewer->assign('CURRENT_VERSION', $_SESSION['jo_version']);
         $viewer->assign('INDUSTRY', $request->get('industry'));
+
+		if (isset($_SESSION['progress'])) {
+			session_start(); //IMPORTANT!
+		}
+		$_SESSION['progress'] = 100;
+		session_write_close(); //IMPORTANT!
+
         $viewer->view('Step7.tpl', $moduleName);
     }
 

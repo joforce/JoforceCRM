@@ -313,7 +313,7 @@ class Settings_Picklist_Module_Model extends Head_Module_Model
 		$db = PearDatabase::getInstance();
 		$restrictedPickListModule = array('Transactions');
 		// modlib customization: Ignore disabled modules.
-		$query = "SELECT distinct jo_tab.tablabel, jo_tab.name as tabname
+		$query = "SELECT distinct jo_tab.tablabel, jo_tab.name as tabname,jo_tab.tabid
 				  FROM jo_tab
 						inner join jo_field on jo_tab.tabid=jo_field.tabid
 				  WHERE uitype IN (15,33,16,114) and jo_field.tabid NOT IN (29,10)  and jo_tab.presence != 1 and jo_field.presence in (0,2)

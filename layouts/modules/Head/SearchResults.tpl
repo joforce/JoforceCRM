@@ -17,12 +17,13 @@
  }
  .moduleResults-container{
  	padding-bottom:10px;
+	 margin-bottom:120px;
  }
 </style>
 {strip}
 	<script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Head/resources/List.js')}"></script>
 	<script type="text/javascript" src="{$SITEURL}{vresource_url('layouts/modules/Head/resources/SearchList.js')}"></script>
-	<div id="searchResults-container" class="modal-body" style="padding:0!important">
+	<div id="searchResults-container" class="modal-body" style="padding:0!important;margin-bottom:200px;max-height:unset !important;height:unset !important;">
 		<div class="col-lg-12 clearfix">
 			<div class="pull-right overlay-close">
 				<button type="button" class="close" aria-label="Close" data-target="#overlayPage" data-dismiss="modal">
@@ -44,6 +45,11 @@
 						{assign var=MODULE_MODEL value=$LISTVIEW_MODEL->getModule()}
 						{assign var=QUICK_PREVIEW_ENABLED value=$MODULE_MODEL->isQuickPreviewEnabled()}
 						{include file="ModuleSearchResults.tpl"|vtemplate_path:$MODULE SEARCH_MODE_RESULTS=true}
+						{if $RECORDS_COUNT gt 5}
+							<div class="d-flex justify-content-end pt5">
+								<a href="{$SITEURL}{$MODULE}/view/List?{if $SEARCH_FIELD neq ''}search_key={$SEARCH_FIELD}&{/if}search_value={$SEARCH_VALUE}">Show More</a>
+							</div>
+						{/if}
 						<br>
 					{/foreach}
 					{if !$MATCHING_RECORDS}

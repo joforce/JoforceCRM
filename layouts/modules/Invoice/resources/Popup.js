@@ -8,4 +8,4 @@
  * Contributor(s): JoForce.com
  ************************************************************************************/
 
-Inventory_Popup_Js('Invoice_Popup_Js', {}, {});
+Head_Popup_Js('Invoice_Popup_Js', {}, {});

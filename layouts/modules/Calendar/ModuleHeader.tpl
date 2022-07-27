@@ -10,9 +10,9 @@
 
 {strip}
     <input type="hidden" name="is_record_creation_allowed" id="is_record_creation_allowed" value="{$IS_CREATE_PERMITTED}">
-    <div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
-	<div class="module-action-content clearfix {$MODULE}-module-action-content">
-	    <div class="col-lg-2 col-md-2 module-breadcrumb module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
+    <div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix ">
+	<div class="module-action-content clearfix {$MODULE}-module-action-content ipad_calendar_clearfix">
+	    <div class="col-lg-3 col-md-3 module-breadcrumb pull-left module-breadcrumb-{$smarty.request.view} transitionsAllHalfSecond">
 		{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 		{if $MODULE_MODEL->getDefaultViewName() neq 'List'}
 		    {assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getDefaultUrl()}
@@ -53,11 +53,11 @@
 	    </div>
 			
 	    {if $IS_LIST_VIEW}
-		<div class="col-lg-3 col-md-3 col-sm-2 col-xs-12">
-                </div>
+		<!-- <div class="col-lg-3 col-md-3 col-sm-2 col-xs-12">
+                </div> -->
             {/if}
 	
-	    <div class="col-lg-2">
+	    <div class="col-lg-3 col-md-4 pull-left">
             	<div id="topbar-menu" class="topbar-menu text-center pt10">
                     <ul style="list-style: none;">
                     	{foreach item=SIDE_BAR_LINK from=$QUICK_LINKS['SIDEBARLINK']}
@@ -70,8 +70,8 @@
                                 {assign var=CURRENT_LINK_NAME value="SharedCalendar"}
                                 {assign var=VIEW_ICON_CLASS value="joicon-sharedcalendar"}
                             {/if}
-                            <li class="ml5 mr5 topbar-qtip {if $CURRENT_LINK_NAME eq $CURRENT_VIEW}active{/if}" title="{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}" style="display: inline-block;">
-                            	<a href="{$SIDE_BAR_LINK->get('linkurl')}">
+                            <li class="pull-left ml5 mr5 topbar-qtip {if $CURRENT_LINK_NAME eq $CURRENT_VIEW}active{/if}" title="{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}" style="display: inline-block;">
+                            	<a href="{if $VIEW_ICON_CLASS == 'joicon-calendarlist'}{$SITEURL}Calendar/view/List {else} {$SIDE_BAR_LINK->get('linkurl')} {/if}" >
                                     <i class="{$VIEW_ICON_CLASS} mr5"></i>
                                     <!-- <span>{vtranslate($SIDE_BAR_LINK->get('linklabel'),'Calendar')}</span> -->
                                 </a>
@@ -81,10 +81,10 @@
                 </div>
             </div>
 
-	    <div class="col-lg-5 col-md-5 pull-right">
-		<div id="appnav" class="navbar-right">
-		    <ul class="nav navbar-nav">
-			<li>
+	    <div class="col-lg-6 col-md-5 pull-right">
+		<div id="appnav" class="calendar_apanav_mob ">
+		    <ul class="nav navbar-nav row">
+			<li class="nav-item pull-left">
 			    <div class="dropdown-filter">
                             	<button class="btn btn-filter btn-warning" title="{vtranslate('LBL_FILTER', $MODULE)}">
                                     <i class="fa fa-filter"></i>
@@ -96,7 +96,7 @@
 			</li>
 			{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
 			    {if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}{else}
-			    <li>
+			    <li class="nav-item pull-left">
 				<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-primary" 
 				{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 				    onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
@@ -110,7 +110,7 @@
 			    {/if}
 		    	{/foreach}
 			{if $MODULE_SETTING_ACTIONS|@count gt 0}
-			    <li>
+			    <li class="nav-item pull-left">
 				<div class="settingsIcon">
 				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 					<span aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;{vtranslate('LBL_MORE', 'Reports')}

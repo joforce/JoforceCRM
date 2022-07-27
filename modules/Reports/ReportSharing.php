@@ -97,7 +97,6 @@ function getVisibleCriteria($recordid='')
 	global $mod_strings; 
 	global $app_strings;
 	global $adb,$current_user;
-	//print_r("i am here");die;
 	$filter = array();
 	$selcriteria = "";
 	if($recordid!='')

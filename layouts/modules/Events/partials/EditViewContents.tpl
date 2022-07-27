@@ -17,7 +17,7 @@
 			<hr>
 			<table class="table table-borderless">
 				<div class="col-lg-12">
-                                        <div class="col-lg-3 pr0"><div class="fieldLabel alignMiddle">{vtranslate('LBL_INVITE_PEOPLE',$MODULE)}</div></div>
+                                        <div class="col-lg-3 pr0"><div class="fieldLabel alignMiddle"><span class="inline-label">{vtranslate('LBL_INVITE_PEOPLE',$MODULE)} </span></div></div>
                                         <div class="col-lg-3 pl0">
                                         <div class="fieldValue">
                                                 <select id="selectedUsers" class="select2 inputElement" multiple name="selectedusers[]">

@@ -22,7 +22,7 @@
         </div>
         <div class="container-fluid">
             <div id="advanceSearchHolder" class="row">
-                <div class="col-lg-2 col-md-1 hidden-xs hidden-sm">&nbsp;</div>
+                <div class="col-lg-2 col-md-1 d-none d-sm-none">&nbsp;</div>
                 <div id="advanceSearchContainer" class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
                     <div class="row">
                         <div class="searchModuleComponent">
@@ -38,10 +38,10 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12">
-                            <div class="filterElements well filterConditionContainer" id="searchContainer" style="height: auto;">
+                            <div class="filterElements card card-body filterConditionContainer" id="searchContainer" style="height: auto;">
                                 <form name="advanceFilterForm" method="POST">
                                     {if $SOURCE_MODULE eq 'Home'}
-                                        <div class="textAlignCenter well contentsBackground">{vtranslate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
+                                        <div class="textAlignCenter card card-body contentsBackground">{vtranslate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
                                     {else}
                                         <input type="hidden" name="labelFields" {if !empty($SOURCE_MODULE_MODEL)}  data-value='{ZEND_JSON::encode($SOURCE_MODULE_MODEL->getNameFields())}' {/if} />
                                         {include file='AdvanceFilter.tpl'|@vtemplate_path}
@@ -72,7 +72,7 @@
                                 </div>
                     <div>&nbsp;</div>
                 </div>
-                  <div class="col-lg-2 col-md-1 hidden-xs hidden-sm">&nbsp;</div>
+                  <div class="col-lg-2 col-md-1 d-none d-sm-none">&nbsp;</div>
             </div>
        </div>
         <div class="searchResults">

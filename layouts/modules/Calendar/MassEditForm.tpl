@@ -23,7 +23,7 @@
 					<div class="modal-body ">
 						<div class="form-group">
 							{assign var=FIELD_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()->getField('assigned_user_id')}
-							<label class="control-label fieldLabel col-sm-5">
+							<label class="col-form-label fieldLabel col-sm-5">
 								{vtranslate($FIELD_MODEL->get('label'),$MODULE)}
 							</label>
 							<div class="controls col-sm-6">

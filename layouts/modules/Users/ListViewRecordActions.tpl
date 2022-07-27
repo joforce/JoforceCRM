@@ -10,10 +10,10 @@
 {strip}
 	<div class="table-actions">
 		<span class="more dropdown action">
-			<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+			<span href="javascript:;" class="mr10" data-toggle="dropdown">
 				<i title="{vtranslate("LBL_MORE_OPTIONS",$MODULE)}" class="fa fa-ellipsis-v icon"></i>
 			</span>
-			<ul class="dropdown-menu">
+			<ul class="dropdown-menu" style="left:-130px;">
 				{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
 					{if Users_Privileges_Model::isPermittedToChangeUsername($LISTVIEW_ENTRY->getId())}
 						<li><a onclick="Settings_Users_List_Js.triggerChangeUsername('{$LISTVIEW_ENTRY->getChangeUsernameUrl()}');">{vtranslate('LBL_CHANGE_USERNAME', $MODULE)}</a></li>

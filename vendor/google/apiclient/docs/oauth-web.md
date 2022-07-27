@@ -50,7 +50,7 @@ To run any of the code samples in this document, you'll need a Google account, a
 
 To run the PHP code samples in this document, you'll need:
 
-*   PHP 5.4 or greater with the command-line interface (CLI) and JSON extension installed.
+*   PHP 5.6 or greater with the command-line interface (CLI) and JSON extension installed.
 *   The [Composer](https://getcomposer.org/) dependency management tool.
 *   The Google APIs Client Library for PHP:
     ```sh
@@ -73,16 +73,16 @@ The list below quickly summarizes these steps:
 
 Your first step is to create the authorization request. That request sets parameters that identify your application and define the permissions that the user will be asked to grant to your application.
 
-The code snippet below creates a `Google_Client()` object, which defines the parameters in the authorization request.
+The code snippet below creates a `Google\Client()` object, which defines the parameters in the authorization request.
 
 That object uses information from your **client_secret.json** file to identify your application. The object also identifies the scopes that your application is requesting permission to access and the URL to your application's auth endpoint, which will handle the response from Google's OAuth 2.0 server. Finally, the code sets the optional access_type and include_granted_scopes parameters.
 
 For example, this code requests read-only, offline access to a user's Google Drive:
 
 ```php
-$client = new Google_Client();
+$client = new Google\Client();
 $client->setAuthConfig('client_secret.json');
-$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+$client->addScope(Google\Service\Drive::DRIVE_METADATA_READONLY);
 $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
 $client->setAccessType('offline');        // offline access
 $client->setIncludeGrantedScopes(true);   // incremental auth
@@ -97,7 +97,7 @@ The request specifies the following information:
 **Required**. The client ID for your application. You can find this value in the [API Console](https://console.developers.google.com/). In PHP, call the `setAuthConfig` function to load authorization credentials from a **client_secret.json** file.
 
 ```php
-$client = new Google_Client();
+$client = new Google\Client();
 $client->setAuthConfig('client_secret.json');
 ```
 
@@ -118,7 +118,7 @@ $client->setRedirectUri('http://localhost:8080/oauth2callback.php');
 Scopes enable your application to only request access to the resources that it needs while also enabling users to control the amount of access that they grant to your application. Thus, there is an inverse relationship between the number of scopes requested and the likelihood of obtaining user consent. To set this value in PHP, call the `addScope` function:
 
 ```php
-$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+$client->addScope(Google\Service\Drive::DRIVE_METADATA_READONLY);
 ```
 
 The [OAuth 2.0 API Scopes](https://developers.google.com/identity/protocols/googlescopes) document provides a full list of scopes that you might use to access Google APIs.
@@ -175,7 +175,7 @@ $client->setLoginHint('timmerman@google.com');
 
 **Optional**. A space-delimited, case-sensitive list of prompts to present the user. If you don't specify this parameter, the user will be prompted only the first time your app requests access.
 
-To set this value in PHP, call the `setApprovalPrompt` function:
+To set this value in PHP, call the `setPrompt` function:
 
 ```php
 $client->setPrompt('consent');
@@ -275,16 +275,16 @@ $access_token = $client->getAccessToken();
 
 Use the access token to call Google APIs by completing the following steps:
 
-1.  If you need to apply an access token to a new `Google_Client` object—for example, if you stored the access token in a user session—use the `setAccessToken` method:
+1.  If you need to apply an access token to a new `Google\Client` object—for example, if you stored the access token in a user session—use the `setAccessToken` method:
 
     ```php
     $client->setAccessToken($access_token);
     ```
 
-2.  Build a service object for the API that you want to call. You build a a service object by providing an authorized `Google_Client` object to the constructor for the API you want to call. For example, to call the Drive API:
+2.  Build a service object for the API that you want to call. You build a a service object by providing an authorized `Google\Client` object to the constructor for the API you want to call. For example, to call the Drive API:
 
     ```php
-    $drive = new Google_Service_Drive($client);
+    $drive = new Google\Service\Drive($client);
     ```
 
 3.  Make requests to the API service using the [interface provided by the service object](start.md). For example, to list the files in the authenticated user's Google Drive:
@@ -315,7 +315,7 @@ To run this example:
     ```
 
 4.  Create the files `index.php` and `oauth2callback.php` with the content below.
-5.  Run the example with a web server configured to serve PHP. If you use PHP 5.4 or newer, you can use PHP's built-in test web server:
+5.  Run the example with a web server configured to serve PHP. If you use PHP 5.6 or newer, you can use PHP's built-in test web server:
 
     ```sh
     php -S localhost:8080 ~/php-oauth2-example
@@ -329,13 +329,13 @@ require_once __DIR__.'/vendor/autoload.php';
 
 session_start();
 
-$client = new Google_Client();
+$client = new Google\Client();
 $client->setAuthConfig('client_secrets.json');
-$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+$client->addScope(Google\Service\Drive::DRIVE_METADATA_READONLY);
 
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   $client->setAccessToken($_SESSION['access_token']);
-  $drive = new Google_Service_Drive($client);
+  $drive = new Google\Service\Drive($client);
   $files = $drive->files->listFiles(array())->getItems();
   echo json_encode($files);
 } else {
@@ -352,10 +352,10 @@ require_once __DIR__.'/vendor/autoload.php';
 
 session_start();
 
-$client = new Google_Client();
+$client = new Google\Client();
 $client->setAuthConfigFile('client_secrets.json');
 $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
-$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+$client->addScope(Google\Service\Drive::DRIVE_METADATA_READONLY);
 
 if (! isset($_GET['code'])) {
   $auth_url = $client->createAuthUrl();

@@ -71,3 +71,24 @@ Head_List_Js("Settings_Head_List_Js",{
 	
 	}
 });
+function checkWidth() {
+    if ($(window).width() < 500) {
+		 $('.table-toggle').removeClass('fixed-scroll-table');
+		 $('.table-toggle1').removeClass('table form-horizontal no-border');
+		
+    } 
+	else {
+		$('.table-toggle').addClass('fixed-scroll-table');
+		$('.table-toggle1').addClass('table form-horizontal no-border');
+    }
+	
+}
+//$(window).resize(checkWidth);
+window.onload = function() {
+$(window).resize(checkWidth);
+if ($(window).width() < 500) {
+	$('.table-toggle').removeClass('fixed-scroll-table');
+	$('.table-toggle1').removeClass('table form-horizontal no-border');
+	
+} 
+}

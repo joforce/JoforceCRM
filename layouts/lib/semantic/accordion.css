@@ -31,8 +31,8 @@
 /* Default Styling */
 .ui.accordion .title:not(.ui) {
   padding: 0.5em 0em;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-size: 1em;
+  /* font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif; */
+  font-size: 1.07em;
   color: rgba(0, 0, 0, 0.87);
 }
 

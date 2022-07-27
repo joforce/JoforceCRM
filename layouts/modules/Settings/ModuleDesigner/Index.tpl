@@ -1,13 +1,13 @@
-<div class="" style="width:97% !important;">
-    <div class="row-fluid widget_header" style="">
-	<div class="col-md-12">
+<div class="setmanagement mt0 card" style="width:100% !important;">
+    <div class="row-fluid widget_head" style="">
+	<div class="col-md-12 card-header-new p0 ml5 mb10">
 	    <a href="index.php?module={$MODULE}&view=Index&parent=Settings"><h3>{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</h3></a>
-	    <hr/>
+	    
 	</div>
     </div>
 
     <div id="md-container">
-	<div id="md-header" class='related-tabs'>
+	<div id="md-header" class='related-tabs '>
 		<ul class="nav nav-tabs bread-box">
 		  <li class="active md-tab" id='md-tab-general'>
 		 
@@ -36,7 +36,7 @@
 		  </li>
 		</ul>
 	</div><!-- md-header -->
-	<div id="md-body" class='tab-content'>
+	<div id="md-body" class='tab-content ml50'>
 			<div id="md-trash" class="md-trash"></div>
 	
 			<div id="md-page-general" class="md-page active tab-pane">

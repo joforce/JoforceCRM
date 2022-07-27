@@ -24,9 +24,9 @@
                 <input type="hidden" name="pickListValues" value='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
                 <input type="hidden" name="picklistColorMap" value='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode(Settings_Picklist_Module_Model::getPicklistColorMap($FIELD_MODEL->get('name'))))}' />
                 <div class="modal-body tabbable">
-                    <div class="form-group mb20">
-                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-4 col-xs-4">
+                <div class="form-group mb20 row">
+                        <div class="col-form-label col-sm-6 col-md-6 pull-left">{vtranslate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-6 col-md-6">
                             {assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
                             <select class="select2 form-control" name="oldValue">
                                 {foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
@@ -40,13 +40,13 @@
                             </select>	
                         </div><br>
                     </div>
-                    <div class="form-group mb20">
-                        <div class="control-label col-sm-4 col-xs-4"><span class="redColor">*</span>{vtranslate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-4 col-xs-4"><input class="form-control inputElement" type="text"  name="renamedValue" {if in_array($FIELD_VALUE,$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES)} disabled='disabled' {/if} data-rule-required="true" value="{Head_Util_Helper::toSafeHTML($FIELD_VALUE)}"></div>
+                    <div class="form-group mb20 row">
+                        <div class="col-form-label col-sm-4 col-md-6 pull-left"><span class="redColor">*</span>{vtranslate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-4 col-md-6"><input class="form-control inputElement" type="text"  name="renamedValue" {if in_array($FIELD_VALUE,$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES)} disabled='disabled' {/if} data-rule-required="true" value="{Head_Util_Helper::toSafeHTML($FIELD_VALUE)}"></div>
                     </div>
-                    <div class="form-group mt30">
-                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-3 col-xs-3">
+                    <div class="form-group mt30 row">
+                        <div class="col-form-label col-sm-4 col-md-6">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-3 col-md-6">
                             <input type="hidden" name="selectedColor" value="{Settings_Picklist_Module_Model::getPicklistColor($FIELD_MODEL->get('name'), $FIELD_VALUE_ID)}" />
                             <div class="colorPicker">
                             </div>

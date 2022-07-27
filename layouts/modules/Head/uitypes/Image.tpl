@@ -21,9 +21,9 @@
 		{assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 		<div class="fileUploadContainer text-left">
 			<div class="fileUploadBtn">
-                        	<div class="inputElement form-control border-right-0 browse-file"></div>
+                        	<div class="border-right-0 browse-file"></div>
 				<label class="input-group-btn browse-file-input">
-        	                    <span class="btn browse-file-input-span">
+        	                    <span class="btn btn-primary browse-file-input-span">
 					<!--<i class="fa fa-laptop"></i> -->
 					{vtranslate('LBL_BROWSE', $MODULE)}
 					<input type="file" class="inputElement {if $MODULE eq 'Products'}multi max-6{/if} {if $FIELD_MODEL->get('fieldvalue') and $FIELD_INFO["mandatory"] eq true} ignore-validation {/if}" name="{$FIELD_MODEL->getFieldName()}[]" value="{$FIELD_MODEL->get('fieldvalue')}"
@@ -37,7 +37,7 @@
 	                        </label>
 			</div>
 
-			<div class="uploadedFileDetails {if $IS_EXTERNAL_LOCATION_TYPE}hide{/if}">
+			<div class="uploadedFileDetails col-lg-4 {if $IS_EXTERNAL_LOCATION_TYPE}hide{/if}">
 				<div class="uploadedFileSize"></div>
 				<div class="uploadedFileName">
 					{if !empty($FIELD_VALUE) && !$smarty.request['isDuplicate']}

@@ -16,7 +16,7 @@ class Settings_Workflows_SaveWorkflow_Action extends Head_Action_Controller {
 	}
 
 	public function process(Head_Request $request) {
-		//echo'<pre>';print_r($request);die('asd');
+
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
 		$moduleName = $request->get('module_name');

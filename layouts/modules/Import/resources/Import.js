@@ -10,24 +10,26 @@
 if (typeof (Head_Import_Js) == 'undefined') {
 
     Head_Import_Js = {
-        triggerImportAction: function(url) {
+        triggerImportAction: function (url) {
             var params = Head_Import_Js.getDefaultParams();
             //Only for contacts and Calendar show landing page.
-            if(params.module != 'Contacts' && params.module != 'Calendar') {
+            if (params.module != 'Contacts' && params.module != 'Calendar') {
                 Head_Import_Js.showImportActionStepOne();
                 return false;
             }
             params['mode'] = 'landing';
             app.helper.showProgress();
-            app.request.get({data: params}).then(function(err, data) {
-                app.helper.loadPageContentOverlay(data).then(function() {
+            app.request.get({
+                data: params
+            }).then(function (err, data) {
+                app.helper.loadPageContentOverlay(data).then(function () {
                     app.helper.hideProgress();
                     Head_Import_Js.registerEvents();
                 });
             });
             return false;
         },
-        bactToStep1: function() {
+        bactToStep1: function () {
             jQuery('#step2').removeClass('active');
             jQuery('#step1').addClass('active');
             jQuery('#uploadFileContainer').addClass('show');
@@ -42,25 +44,27 @@ if (typeof (Head_Import_Js) == 'undefined') {
 
             return false;
         },
-        importActionStep2: function() {
-			if(Head_Import_Js.validateFilePath()){
-				jQuery('#uploadFileContainer').removeClass('show');
-				jQuery('#uploadFileContainer').addClass('hide');
+        importActionStep2: function () {
+            if (Head_Import_Js.validateFilePath()) {
+                $('#step2 span.breadcrumb_line,#step2 span.stepNum.fa.fa-files-o').css('background-color', '#5fbeef');
 
-				jQuery('#step1').removeClass('active');
-				jQuery('#step2').addClass('active');
+                jQuery('#uploadFileContainer').removeClass('show');
+                jQuery('#uploadFileContainer').addClass('hide');
 
-				jQuery('#importStep2Conatiner').addClass('show');
+                jQuery('#step1').removeClass('active');
+                jQuery('#step2').addClass('active');
 
-				jQuery('#importStepTwoButtonsDiv').removeClass('hide');
-				jQuery('#importStepTwoButtonsDiv').addClass('show');
+                jQuery('#importStep2Conatiner').addClass('show');
 
-				jQuery('#importStepOneButtonsDiv').removeClass('show');
-				jQuery('#importStepOneButtonsDiv').addClass('hide');
-			}
-			return false;
+                jQuery('#importStepTwoButtonsDiv').removeClass('hide');
+                jQuery('#importStepTwoButtonsDiv').addClass('show');
+
+                jQuery('#importStepOneButtonsDiv').removeClass('show');
+                jQuery('#importStepOneButtonsDiv').addClass('hide');
+            }
+            return false;
         },
-        uploadAndParse: function(auto_merge) {
+        uploadAndParse: function (auto_merge) {
             if (Head_Import_Js.validateFilePath() && Head_Import_Js.validateMergeCriteria(auto_merge)) {
                 jQuery("#auto_merge").val(auto_merge);
                 var form = jQuery("form[name='importBasic']");
@@ -71,51 +75,110 @@ if (typeof (Head_Import_Js) == 'undefined') {
                     processData: false
                 };
                 app.helper.showProgress();
-                app.request.post(postParams).then(function(err, response) {
+                app.request.post(postParams).then(function (err, response) {
+                    $('#step3 span.breadcrumb_line,#step3 span.stepNum.fa.fa-chain').css('background-color', '#5fbeef');
                     $("#importStep3Conatiner").html(response);
                     // app.helper.loadPageContentOverlay(response);
 
                     jQuery('#importStep2Conatiner').removeClass('show');
                     jQuery('#importStep2Conatiner').addClass('hide');
-    
+
                     jQuery('#importStep3Conatiner').removeClass('hide');
                     jQuery('#importStep3Conatiner').addClass('show');
-    
+
                     jQuery('#step2').removeClass('active');
                     jQuery('#step3').addClass('active');
 
                     jQuery('#importStepTwoButtonsDiv').removeClass('show');
                     jQuery('#importStepTwoButtonsDiv').addClass('hide');
-    
+
                     jQuery('#importStepThreeButtonsDiv').removeClass('hide');
                     jQuery('#importStepThreeOneButtonsDiv').addClass('show');
 
-					Head_Import_Js.loadDefaultValueWidgetForMappedFields();
+                    Head_Import_Js.loadDefaultValueWidgetForMappedFields();
                     app.helper.hideProgress();
                 });
             }
             return false;
         },
-        backToLandingPage: function() {
+        not_dup_uploadAndParse: function (auto_merge) {
+            if (Head_Import_Js.validateFilePath() && Head_Import_Js.validateMergeCriteria(auto_merge)) {
+                jQuery("#auto_merge").val(auto_merge);
+                var form = jQuery("form[name='importBasic']");
+                var data = new FormData(form[0]);
+                var postParams = {
+                    data: data,
+                    contentType: false,
+                    processData: false
+                };
+                app.helper.showProgress();
+                app.request.post(postParams).then(function (err, response) {
+                    $("#importStep3Conatiner").html(response);
+                    // app.helper.loadPageContentOverlay(response);
+
+                    jQuery('#uploadFileContainer').removeClass('show');
+                    jQuery('#uploadFileContainer').addClass('hide');
+
+                    jQuery('#importStep3Conatiner').removeClass('hide');
+                    jQuery('#importStep3Conatiner').addClass('show');
+
+                    jQuery('#step1').removeClass('active');
+                    jQuery('#step3').addClass('active');
+
+                    jQuery('#importStepOneButtonsDiv').removeClass('show');
+                    jQuery('#importStepOneButtonsDiv').addClass('hide');
+
+                    jQuery('#importStepThreeButtonsDiv').removeClass('hide');
+                    jQuery('#importStepThreeButtonsDiv').addClass('show');
+
+                    Head_Import_Js.loadDefaultValueWidgetForMappedFields();
+                    app.helper.hideProgress();
+                });
+            }
+            return false;
+        },
+        backToLandingPage: function () {
             Head_Import_Js.triggerImportAction();
             return false;
         },
-        sanitizeAndSubmit: function() {
+        sanitizeAndSubmit: function () {
             if (Head_Import_Js.sanitizeFieldMapping() && Head_Import_Js.validateCustomMap()) {
                 var formData = jQuery("form[name='importAdvanced']").serialize();
                 app.helper.showProgress();
-                app.request.post({data: formData}).then(function(err, response) {
+                app.request.post({
+                    data: formData
+                }).then(function (err, response) {
                     // app.helper.loadPageContentOverlay(response);
-                    app.helper.showModal(response);
+                    //app.helper.showModal(response);
+                    $('#step4 span.breadcrumb_line,#step4 span.stepNum.fa.fa-list-alt').css('background-color', '#5fbeef');
+
+                    $("#importStep3Conatiner").removeClass('show');
+                    $("#importStep3Conatiner").addClass('hide');
+                    $('#importStepThreeButtonsDiv').addClass('hide');
+                    $('#importStepThreeButtonsDiv').removeClass('show');
+
+                    $("#importStep4Conatiner").removeClass('hide');
+                    $("#importStep4Conatiner").addClass('show');
+                    $("#importStep4Conatiner").html(response);
+                    $('#importStepFourButtonsDiv').addClass('show');
+                    $('#importStepFourButtonsDiv').removeClass('hide');
+
+
+                    $('#importContainer .wizards').find('.active').each(function () {
+                        $(this).removeClass('active');
+                    });
+                    $('#step4').addClass('active');
                     app.helper.hideProgress();
-                    if(!err){
-                        app.helper.showSuccessNotification({message:'Import Completed.'});
+                    if (!err) {
+                        app.helper.showSuccessNotification({
+                            message: 'Import Completed.'
+                        });
                     }
                 });
             }
             return false;
         },
-        sanitizeFieldMapping: function() {
+        sanitizeFieldMapping: function () {
             var fieldsList = jQuery('.fieldIdentifier');
 
             var mappedFields = {};
@@ -138,7 +201,9 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 if (selectedFieldName != '') {
                     if (selectedFieldName in mappedFields) {
                         errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
-                        app.helper.showErrorNotification({'message': errorMessage});
+                        app.helper.showErrorNotification({
+                            'message': errorMessage
+                        });
                         return false;
                     }
                     mappedFields[selectedFieldName] = rowId - 1;
@@ -163,21 +228,25 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             if (missingMandatoryFields.length > 0) {
                 errorMessage = app.vtranslate('JS_MAP_MANDATORY_FIELDS') + missingMandatoryFields.join(',');
-                app.helper.showErrorNotification({'message': errorMessage});
+                app.helper.showErrorNotification({
+                    'message': errorMessage
+                });
                 return false;
             }
             jQuery('#field_mapping').val(JSON.stringify(mappedFields));
             jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
             return true;
         },
-        validateCustomMap: function() {
+        validateCustomMap: function () {
             var errorMessage;
             var saveMap = jQuery('#save_map').is(':checked');
             if (saveMap) {
                 var mapName = jQuery('#save_map_as').val();
                 if (jQuery.trim(mapName) == '') {
                     errorMessage = app.vtranslate('JS_MAP_NAME_CAN_NOT_BE_EMPTY');
-                    app.helper.showErrorNotification({'message': errorMessage});
+                    app.helper.showErrorNotification({
+                        'message': errorMessage
+                    });
                     return false;
                 }
                 var mapOptions = jQuery('#saved_maps option');
@@ -185,14 +254,16 @@ if (typeof (Head_Import_Js) == 'undefined') {
                     var mapOption = jQuery(mapOptions.get(i));
                     if (mapOption.html() == mapName) {
                         errorMessage = app.vtranslate('JS_MAP_NAME_ALREADY_EXISTS');
-                        app.helper.showErrorNotification({'message': errorMessage});
+                        app.helper.showErrorNotification({
+                            'message': errorMessage
+                        });
                         return false;
                     }
                 }
             }
             return true;
         },
-        getParamsFromURL: function(url) {
+        getParamsFromURL: function (url) {
             var urlParams = url.slice(url.indexOf('?') + 1).split('&');
             var params = {};
             for (var i = 0; i < urlParams.length; i++) {
@@ -201,16 +272,16 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             return params;
         },
-        undoImport: function(url) {
+        undoImport: function (url) {
             var params = Head_Import_Js.getParamsFromURL(url);
             Head_Import_Js.showOverLayModal(params);
         },
-        loadSavedMap: function() {
+        loadSavedMap: function () {
             var selectedMapElement = jQuery('#saved_maps option:selected');
             var mapId = selectedMapElement.attr('id');
             var fieldsList = jQuery('.fieldIdentifier');
             var deleteMapContainer = jQuery('#delete_map_container');
-            fieldsList.each(function(i, element) {
+            fieldsList.each(function (i, element) {
                 var fieldElement = jQuery(element);
                 jQuery('[name=mapped_fields]', fieldElement).val('');
             });
@@ -231,7 +302,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 header = header.replace(/\/amp\//g, '&amp;');
                 mapping["'" + header + "'"] = mappingPair[1];
             }
-            fieldsList.each(function(i, element) {
+            fieldsList.each(function (i, element) {
                 var fieldElement = jQuery(element);
                 var mappedFields = jQuery('[name=mapped_fields]', fieldElement);
                 var rowId = jQuery('[name=row_counter]', fieldElement).get(0).value;
@@ -245,7 +316,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 Head_Import_Js.loadDefaultValueWidget(fieldElement.attr('id'));
             });
         },
-        deleteMap: function(module) {
+        deleteMap: function (module) {
             if (confirm(app.vtranslate('LBL_DELETE_CONFIRMATION'))) {
                 var selectedMapElement = jQuery('#saved_maps option:selected');
                 var mapId = selectedMapElement.attr('id');
@@ -257,27 +328,31 @@ if (typeof (Head_Import_Js) == 'undefined') {
                     "mapid": mapId
                 }
 
-                app.request.post({'data': postData}).then(
-                        function(err, data) {
-                            jQuery('#savedMapsContainer').html(data);
-                            vtUtils.showSelect2ElementView(jQuery('#saved_maps'));
-                        });
+                app.request.post({
+                    'data': postData
+                }).then(
+                    function (err, data) {
+                        jQuery('#savedMapsContainer').html(data);
+                        vtUtils.showSelect2ElementView(jQuery('#saved_maps'));
+                    });
             }
         },
-        validateMergeCriteria: function(auto_merge) {
-			if (auto_merge == 1) {
-				var selectedOptions = jQuery('#selected_merge_fields option');
-				if (selectedOptions.length == 0) {
-					var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
-					app.helper.showErrorNotification({message: errorMessage});
-					return false;
-				}
-				Head_Import_Js.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
-			}
+        validateMergeCriteria: function (auto_merge) {
+            if (auto_merge == 1) {
+                var selectedOptions = jQuery('#selected_merge_fields option');
+                if (selectedOptions.length == 0) {
+                    var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
+                    app.helper.showErrorNotification({
+                        message: errorMessage
+                    });
+                    return false;
+                }
+                Head_Import_Js.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
+            }
             return true;
         },
         //TODO move to a common file
-        convertOptionsToJSONArray: function(objName, targetObjName) {
+        convertOptionsToJSONArray: function (objName, targetObjName) {
             var obj = jQuery(objName);
             var arr = [];
             if (typeof (obj) != 'undefined' && obj[0] != '') {
@@ -292,13 +367,15 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             return arr;
         },
-        validateFilePath: function() {
+        validateFilePath: function () {
             var importFile = jQuery('#import_file');
             var fileFormats = importFile.data('fileFormats');
             var filePath = importFile.val();
             if (jQuery.trim(filePath) == '') {
                 var errorMessage = app.vtranslate('JS_IMPORT_FILE_CAN_NOT_BE_EMPTY');
-                app.helper.showErrorNotification({message: errorMessage});
+                app.helper.showErrorNotification({
+                    message: errorMessage
+                });
                 importFile.focus();
                 return false;
             }
@@ -310,22 +387,22 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             return true;
         },
-        showPopup: function(url) {
+        showPopup: function (url) {
             var params = Head_Import_Js.getParamsFromURL(url);
             var popupInstance = Head_Popup_Js.getInstance();
             popupInstance.showPopup(params);
             return false;
         },
-        showLastImportedRecords: function(url) {
+        showLastImportedRecords: function (url) {
             this.showPopup(url);
         },
-        showSkippedRecords: function(url) {
+        showSkippedRecords: function (url) {
             this.showPopup(url);
         },
-        showFailedImportRecords: function(url) {
+        showFailedImportRecords: function (url) {
             this.showPopup(url);
         },
-        loadDefaultValueWidget: function(rowIdentifierId) {
+        loadDefaultValueWidget: function (rowIdentifierId) {
             var affectedRow = jQuery('#' + rowIdentifierId);
             if (typeof affectedRow == 'undefined' || affectedRow == null)
                 return;
@@ -341,10 +418,11 @@ if (typeof (Head_Import_Js) == 'undefined') {
             var defaultValueWidget = selectedFieldDefValueContainer.detach();
             defaultValueWidget.appendTo(defaultValueContainer);
         },
-        loadDefaultValueWidgetForMappedFields: function() {
+        loadDefaultValueWidgetForMappedFields: function () {
             var fieldsList = jQuery('.fieldIdentifier');
-            fieldsList.each(function(i, element) {
+            fieldsList.each(function (i, element) {
                 var fieldElement = jQuery(element);
+                vtUtils.showSelect2ElementView(fieldElement.find('select.select2'));
                 var mappedFieldName = jQuery('[name=mapped_fields]', fieldElement).val();
                 if (mappedFieldName != '') {
                     Head_Import_Js.loadDefaultValueWidget(fieldElement.attr('id'));
@@ -353,7 +431,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
 
         },
         //TODO: move to a common file
-        copySelectedOptions: function(source, destination) {
+        copySelectedOptions: function (source, destination) {
 
             var srcObj = jQuery(source);
             var destObj = jQuery(destination);
@@ -389,7 +467,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
             return false;
         },
         //TODO move to a common file
-        removeSelectedOptions: function(objName) {
+        removeSelectedOptions: function (objName) {
             var obj = jQuery(objName);
             if (obj == null || typeof (obj) == 'undefined')
                 return;
@@ -401,7 +479,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             return false;
         },
-        checkFileType: function(e) {
+        checkFileType: function (e) {
             var filePath = jQuery('#import_file').val();
             if (filePath != '') {
                 var fileExtension = filePath.split('.').pop();
@@ -413,7 +491,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 jQuery('#importFileDetails').text('');
             }
         },
-        handleFileTypeChange: function() {
+        handleFileTypeChange: function () {
             var fileType = jQuery('#type').val();
             var delimiterContainer = jQuery('#delimiter_container');
             var hasHeaderContainer = jQuery('#has_header_container');
@@ -425,7 +503,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 hasHeaderContainer.show();
             }
         },
-        uploadFilter: function(elementId, allowedExtensions) {
+        uploadFilter: function (elementId, allowedExtensions) {
             var obj = jQuery('#' + elementId);
             if (obj) {
                 var filePath = obj.val();
@@ -435,57 +513,63 @@ if (typeof (Head_Import_Js) == 'undefined') {
 
                 if (validExtensions.indexOf(fileType) < 0) {
                     var errorMessage = app.vtranslate('JS_SELECT_FILE_EXTENSION') + '\n' + validExtensions;
-                    app.helper.showErrorNotification({message: errorMessage});
+                    app.helper.showErrorNotification({
+                        message: errorMessage
+                    });
                     obj.focus();
                     return false;
                 }
             }
             return true;
         },
-        uploadFileSize: function(elementId) {
+        uploadFileSize: function (elementId) {
             var element = jQuery('#' + elementId);
             var importMaxUploadSize = element.closest('td').data('importUploadSize');
             var importMaxUploadSizeInMb = element.closest('td').data('importUploadSizeMb');
             var uploadedFileSize = element.get(0).files[0].size;
             if (uploadedFileSize > importMaxUploadSize) {
                 var errorMessage = app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS') + " " + importMaxUploadSizeInMb + " MB." + app.vtranslate('JS_PLEASE_SPLIT_FILE_AND_IMPORT_AGAIN');
-                app.helper.showErrorNotification({message: errorMessage});
+                app.helper.showErrorNotification({
+                    message: errorMessage
+                });
                 return false;
             }
             return true;
         },
-        showOverLayModal: function(params) {
+        showOverLayModal: function (params) {
             app.helper.showProgress();
-            app.request.get({data: params}).then(function(err, data) {
+            app.request.get({
+                data: params
+            }).then(function (err, data) {
                 // app.helper.loadPageContentOverlay(data);
                 app.helper.showModal(data);
                 app.helper.hideProgress();
             });
         },
 
-		timer : 0,
-		isReloadStatusPageStopped : false,
-        scheduledImportRunning: function() {
-			var form = jQuery("#importStatusForm");
-			var data = new FormData(form[0]);
-			var postParams = {
-				data: data,
-				contentType: false,
-				processData: false
-			};
-			app.request.post(postParams).then(function(err, response) {
-				if(!Head_Import_Js.isReloadStatusPageStopped) {
-					app.helper.loadPageContentOverlay(response);
-					if (jQuery('#scheduleImportStatus').length > 0) {
-						if (!Head_Import_Js.isReloadStatusPageStopped) {
-							Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 50000);
-						}
-					}
-				}
-			});
+        timer: 0,
+        isReloadStatusPageStopped: false,
+        scheduledImportRunning: function () {
+            var form = jQuery("#importStatusForm");
+            var data = new FormData(form[0]);
+            var postParams = {
+                data: data,
+                contentType: false,
+                processData: false
+            };
+            app.request.post(postParams).then(function (err, response) {
+                if (!Head_Import_Js.isReloadStatusPageStopped) {
+                    app.helper.loadPageContentOverlay(response);
+                    if (jQuery('#scheduleImportStatus').length > 0) {
+                        if (!Head_Import_Js.isReloadStatusPageStopped) {
+                            Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 50000);
+                        }
+                    }
+                }
+            });
         },
 
-        googleImportHandler : function() {
+        googleImportHandler: function () {
             var params = {
                 module: 'Google',
                 view: 'Setting',
@@ -493,95 +577,100 @@ if (typeof (Head_Import_Js) == 'undefined') {
                 mode: 'googleImport'
             };
             app.helper.showProgress();
-            app.request.get({data: params}).then(function(err, data) {
+            app.request.get({
+                data: params
+            }).then(function (err, data) {
                 app.helper.hideProgress();
-                app.helper.hidePageContentOverlay().then(function(){
-                    app.helper.loadPageContentOverlay(data).then(function(){
+                app.helper.hidePageContentOverlay().then(function () {
+                    app.helper.loadPageContentOverlay(data).then(function () {
                         var container = jQuery('.googleSettings');
                         var googleSettingInstance = new Google_Settings_Js();
                         googleSettingInstance.registerSettingsEventsForContacts(container);
-						
+
                         Head_Import_Js.registerAuthorizeButton(container);
                         Head_Import_Js.registerSyncNowButton(container, googleSettingInstance);
-                    });    
+                    });
                 });
             });
         },
-        
-        registerImportEvents: function() {
+
+        registerImportEvents: function () {
             var importContainer = jQuery('#landingPageDiv');
-            importContainer.on('click', '#csvImport', function(e) {
+            importContainer.on('click', '#csvImport', function (e) {
                 Head_Import_Js.showImportActionStepOne();
             });
 
-            importContainer.on('click', '#vcfImport', function(e) {
+            importContainer.on('click', '#vcfImport', function (e) {
                 Head_Import_Js.showImportActionStepOne('vcf');
             });
 
-			importContainer.on('click', '#icsImport', function(e) {
+            importContainer.on('click', '#icsImport', function (e) {
                 Head_Import_Js.showImportActionStepOne('ics');
             });
-            
-            importContainer.on('click', '#googleImport', function(e) {
+
+            importContainer.on('click', '#googleImport', function (e) {
                 Head_Import_Js.googleImportHandler(e);
             });
         },
-        registerAuthorizeButton: function(container) {
-            container.on('click', '#authorizeButton', function(e) {
+        registerAuthorizeButton: function (container) {
+            container.on('click', '#authorizeButton', function (e) {
                 var element = jQuery(e.currentTarget);
                 var url = element.data('url');
                 var win = window.open(url, '', 'height=600,width=600,channelmode=1');
                 //http://stackoverflow.com/questions/1777864/how-to-run-function-of-parent-window-when-child-window-closes 
-                window.sync = function() {
+                window.sync = function () {
                     Head_Import_Js.googleImportHandler();
                 };
-                window.startSync = function() {};
-                win.onunload = function() {};
+                window.startSync = function () {};
+                win.onunload = function () {};
             });
         },
-        registerSyncNowButton: function(container, googleSettingInstance) {
-            container.find('#saveSettingsAndImport').on('click', function() {
-                googleSettingInstance.validateFieldMappings(container).then(function() {
+        registerSyncNowButton: function (container, googleSettingInstance) {
+            container.find('#saveSettingsAndImport').on('click', function () {
+                googleSettingInstance.validateFieldMappings(container).then(function () {
                     var form = jQuery("form[name='contactsyncsettings']");
                     var fieldMapping = googleSettingInstance.packFieldmappingsForSubmit(container);
                     form.find('#user_field_mapping').val(fieldMapping);
                     var serializedFormData = form.serialize();
                     app.helper.showProgress();
-                    app.request.post({data: serializedFormData}).then(function(err, response) {
+                    app.request.post({
+                        data: serializedFormData
+                    }).then(function (err, response) {
                         app.helper.hideProgress();
                         app.helper.hideModal();
-                        if(err){
+                        if (err) {
                             app.helper.showErrorNotification();
-                        }
-                        else{
+                        } else {
                             var params = {
-                                module:'Contacts',
-                                view:'Extension',
-                                extensionModule:'Google',
-                                extensionView:'Index',
-                                viewType:'modal'
+                                module: 'Contacts',
+                                view: 'Extension',
+                                extensionModule: 'Google',
+                                extensionView: 'Index',
+                                viewType: 'modal'
                             };
                             app.helper.showProgress();
-                            app.helper.hidePageContentOverlay().then(function(){
-                                app.request.get({data:params}).then(function(err, data){
-                                app.helper.hideProgress();
-                                    app.helper.loadPageContentOverlay(data).then(function(overlayPageContent){
+                            app.helper.hidePageContentOverlay().then(function () {
+                                app.request.get({
+                                    data: params
+                                }).then(function (err, data) {
+                                    app.helper.hideProgress();
+                                    app.helper.loadPageContentOverlay(data).then(function (overlayPageContent) {
                                         var overlayContainer = overlayPageContent.find('.data');
                                         var extensionCommonJs = new Head_ExtensionCommon_Js;
-                                        extensionCommonJs.getListUrlParams = function() {
+                                        extensionCommonJs.getListUrlParams = function () {
                                             var params = {
-                                                'module' : app.getModuleName(),
-                                                'view' : 'Extension',
-                                                'extensionModule' : 'Google',
-                                                'extensionView' : 'Index',
-                                                'mode' : 'showLogs',
-                                                'viewType' : 'modal'
+                                                'module': app.getModuleName(),
+                                                'view': 'Extension',
+                                                'extensionModule': 'Google',
+                                                'extensionView': 'Index',
+                                                'mode': 'showLogs',
+                                                'viewType': 'modal'
                                             }
 
                                             return params;
                                         };
                                         extensionCommonJs.registerPaginationEvents(overlayContainer);
-										extensionCommonJs.registerLogDetailClickEvent(overlayContainer);
+                                        extensionCommonJs.registerLogDetailClickEvent(overlayContainer);
                                     });
                                 });
                             });
@@ -591,15 +680,15 @@ if (typeof (Head_Import_Js) == 'undefined') {
 
             });
         },
-        
-        clearSheduledImportData: function() {
+
+        clearSheduledImportData: function () {
             var params = {};
             params['module'] = app.getModuleName();
             params['view'] = 'Import';
-            params['mode'] =  'clearCorruptedData';
+            params['mode'] = 'clearCorruptedData';
             Head_Import_Js.showOverLayModal(params);
         },
-        cancelImport: function(url) {
+        cancelImport: function (url) {
             var urlParams = url.slice(url.indexOf('?') + 1).split('&');
             var params = {};
             for (var i = 0; i < urlParams.length; i++) {
@@ -610,7 +699,7 @@ if (typeof (Head_Import_Js) == 'undefined') {
 
 
         },
-        scheduleImport: function(url) {
+        scheduleImport: function (url) {
             var urlParams = url.slice(url.indexOf('?') + 1).split('&');
             var params = {};
             for (var i = 0; i < urlParams.length; i++) {
@@ -619,30 +708,32 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             Head_Import_Js.showOverLayModal(params);
         },
-        showImportActionStepOne: function(format) {
+        showImportActionStepOne: function (format) {
             var params = Head_Import_Js.getDefaultParams();
             params['mode'] = 'importBasicStep';
             if (format == 'vcf') {
                 params['fileFormat'] = format;
             } else if (format == 'ics') {
-				params['fileFormat'] = format;
-			}
+                params['fileFormat'] = format;
+            }
             app.helper.showProgress();
-            app.request.get({data: params}).then(function(err, data) {
+            app.request.get({
+                data: params
+            }).then(function (err, data) {
                 app.helper.loadPageContentOverlay(data);
                 app.helper.hideProgress();
-				if (jQuery('#scheduleImportStatus').length > 0) {
-					app.event.one('post.overlayPageContent.hide', function(container) {
-						clearTimeout(Head_Import_Js.timer);
-						Head_Import_Js.isReloadStatusPageStopped = true;
-					});
+                if (jQuery('#scheduleImportStatus').length > 0) {
+                    app.event.one('post.overlayPageContent.hide', function (container) {
+                        clearTimeout(Head_Import_Js.timer);
+                        Head_Import_Js.isReloadStatusPageStopped = true;
+                    });
 
-					Head_Import_Js.isReloadStatusPageStopped = false;
-					Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 5000);
-				}
+                    Head_Import_Js.isReloadStatusPageStopped = false;
+                    Head_Import_Js.timer = setTimeout(Head_Import_Js.scheduledImportRunning, 5000);
+                }
             });
         },
-        getDefaultParams: function() {
+        getDefaultParams: function () {
             var module = window.app.getModuleName();
             var url = "index.php?module=" + module + "&view=Import";
             var urlParams = url.slice(url.indexOf('?') + 1).split('&');
@@ -654,27 +745,25 @@ if (typeof (Head_Import_Js) == 'undefined') {
             }
             return params;
         },
-        finishUndoOperation: function(){
+        finishUndoOperation: function () {
             Head_Import_Js.loadListRecords();
         },
-        loadListRecords : function(){
-			var listInstance;
-			if(app.getModuleName() == 'Users') {
-				listInstance = new Settings_Users_List_Js();
-			}else { 
-				listInstance = new Head_List_Js();
-			}
-			
-			var params = {'page': '1'};
-			listInstance.loadListViewRecords(params);
+        loadListRecords: function () {
+            var listInstance;
+            if (app.getModuleName() == 'Users') {
+                window.location.href = $('#joforce_site_url').val() + app.getModuleName() + '/Settings/List?page=1'
+
+            } else {
+                window.location.href = $('#joforce_site_url').val() + app.getModuleName() + '/view/List?page=1'
+
+            }
         },
-        
-        registerEvents: function() {
+
+        registerEvents: function () {
             Head_Import_Js.registerImportEvents();
         }
     }
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         Head_Import_Js.loadDefaultValueWidgetForMappedFields();
     });
 }
-

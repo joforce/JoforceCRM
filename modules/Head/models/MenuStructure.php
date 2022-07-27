@@ -130,7 +130,6 @@ class Head_MenuStructure_Model extends Head_Base_Model {
 				'SalesOrder',
 				'HelpDesk',
 				'Faq',
-				'Project',
 				'Assets',
 				'ServiceContracts',
 				'Products',
@@ -143,8 +142,6 @@ class Head_MenuStructure_Model extends Head_Base_Model {
 				'Documents',
 				'SMSNotifier',
 				'RecycleBin',
-				'ProjectTask',
-				'ProjectMilestone'
 			);
 		}
 		$apos  = array_search($a, $order);
@@ -183,9 +180,6 @@ class Head_MenuStructure_Model extends Head_Base_Model {
 									'Vendors'		=> array('INVENTORY'),
 									'PurchaseOrder'	=> array('INVENTORY'),
 									'SalesOrder'	=> array('INVENTORY'),
-									'Project'		=> array('PROJECT'),
-									'ProjectTask'	=> array('PROJECT'),
-									'ProjectMilestone'	=> array('PROJECT'),
 									'ServiceContracts'	=> array('SUPPORT'),
 							);
 

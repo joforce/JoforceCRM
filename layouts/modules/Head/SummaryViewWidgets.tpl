@@ -9,10 +9,11 @@
  ************************************************************************************}
 
 {strip}
-    <div class="left-block col-lg-6 col-md-6 col-sm-6">
+{assign var=MODULE value=$MODULE_NAME}
+    <div class="left-block col-lg-6 col-md-6 col-sm-6 pull-left ml10 p0 {if in_array($MODULE,array('PurchaseOrder','SalesOrder','Invoice','Quotes'))} ms_width_invoice_page {/if}">
         {foreach item=DETAIL_VIEW_WIDGET from=$DETAILVIEW_LINKS['DETAILVIEWWIDGET'] name=count}
             {if $smarty.foreach.count.index % 2 == 0}
-                <div class="summaryWidgetContainer">
+                <div class="summaryWidgetContainer ipad_summaryWidgetContainer">
                     <div class="widgetContainer_{$smarty.foreach.count.index}" data-url="{$DETAIL_VIEW_WIDGET->getUrl()}" data-name="{$DETAIL_VIEW_WIDGET->getLabel()}">
                         <div class="widget_header clearfix">
                             <input type="hidden" name="relatedModule" value="{$DETAIL_VIEW_WIDGET->get('linkName')}" />
@@ -36,7 +37,7 @@
 
     </div>
 
-    <div class="right-block col-lg-6 col-md-6 col-sm-6">
+    <div class="right-block col-lg-6 col-md-6 col-sm-6 pull-left p0 {if in_array($MODULE,array('PurchaseOrder','SalesOrder','Invoice','Quotes'))} ms_width_for_invoice_act_cmts {/if}">
 
         {* Summary View Related Activities Widget*}
         <div id="relatedActivities">
@@ -46,7 +47,7 @@
 
         {foreach item=DETAIL_VIEW_WIDGET from=$DETAILVIEW_LINKS['DETAILVIEWWIDGET'] name=count}
             {if $smarty.foreach.count.index % 2 != 0}
-                <div class="summaryWidgetContainer">
+                <div class="summaryWidgetContainer ipad_summaryWidgetContainer">
                     <div class="widgetContainer_{$smarty.foreach.count.index}" data-url="{$DETAIL_VIEW_WIDGET->getUrl()}" data-name="{$DETAIL_VIEW_WIDGET->getLabel()}">
                         <div class="widget_header clearfix">
                             <input type="hidden" name="relatedModule" value="{$DETAIL_VIEW_WIDGET->get('linkName')}" />

@@ -88,6 +88,7 @@ class Settings_Head_Index_View extends Head_Basic_View {
 		$viewer->assign('SELECTED_MENU', $selectedMenu);
 		$viewer->assign('SETTINGS_MENUS', $menuModels);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('EDITVIEW','Edit');
 		
 		try {
 				$url = "https://www.joforce.com/news.xml";
@@ -146,6 +147,7 @@ class Settings_Head_Index_View extends Head_Basic_View {
 	}
 
 	public function process(Head_Request $request) {
+		global $site_URL;
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$usersCount = Users_Record_Model::getCount(true);
@@ -155,8 +157,9 @@ class Settings_Head_Index_View extends Head_Basic_View {
 
 		$settings_module_model =Settings_Head_Module_Model::getInstance();
                 $settings_menus = $settings_module_model->getMenus();
-		$viewer->assign('SETTINGS_MODULE_MODEL', $settings_module_model);
 		$viewer->assign('SETTINGS_MENUS', $settings_menus);
+		$viewer->assign('SETTINGS_MODULE_MODEL', $settings_module_model);
+		$viewer->assign('site_URL', $site_URL);
 		$viewer->assign('USERS_COUNT',$usersCount);
 		$viewer->assign('ACTIVE_WORKFLOWS',$activeWorkFlows);
 		$viewer->assign('ACTIVE_MODULES',$activeModules);

@@ -266,7 +266,15 @@ function isPermitted($module,$actionname,$record_id='')
 	global $adb;
 	global $current_user;
 	global $seclog;
-        $get_userdetails = get_privileges($current_user->id);
+
+	$role = $current_user->roleid;
+	$profileid = getUserProfileid($current_user->id);
+    
+	$get_userdetails = get_privileges($current_user->id);
+
+
+
+		
         foreach ($get_userdetails as $key => $value) {
             if(is_object($value)){
                 $value = (array) $value;
@@ -360,7 +368,7 @@ function isPermitted($module,$actionname,$record_id='')
 	if($checkModule == 'Events'){
 		$checkModule = 'Calendar';
 	}
-
+	$profileTabsPermission = getProfileTabsPermission($profileid);
 	if(modlib_isModuleActive($checkModule)){
 
 		//Checking whether the user is admin
@@ -388,6 +396,7 @@ function isPermitted($module,$actionname,$record_id='')
 		}
 
 		$action = getActionname($actionid);
+		$profileGlobalPermission = getProfileGlobalPermission($profileid);
 		//Checking for view all permission
 		if($profileGlobalPermission[1] ==0 || $profileGlobalPermission[2] ==0)
 		{
@@ -417,6 +426,7 @@ function isPermitted($module,$actionname,$record_id='')
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
+		$profileActionPermission =	getProfileActionPermission($profileid);
 		//Checking for Action Permission
 		if(strlen($profileActionPermission[$tabid][$actionid]) <  1 && $profileActionPermission[$tabid][$actionid] == '')
 		{
@@ -428,6 +438,13 @@ function isPermitted($module,$actionname,$record_id='')
 		if($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '')
 		{
 			$permission = "no";
+			$log->debug("Exiting isPermitted method ...");
+			return $permission;
+
+		}
+		if($profileActionPermission[$tabid][$actionid] == 0 )
+		{
+			$permission = "yes";
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 
@@ -466,6 +483,7 @@ function isPermitted($module,$actionname,$record_id='')
 			$recOwnId=$id;
 		}
 		//Retreiving the default Organisation sharing Access
+		$defaultOrgSharingPermission = get_defaultOrgSharingPermission($current_user->id);
 		$others_permission_id = $defaultOrgSharingPermission[$tabid];
 
 		if($recOwnType == 'Users')
@@ -722,6 +740,7 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 	}
 
 	//Checking for the Related Sharing Permission
+	$related_module_share = get_related_module_share($current_user->id);
 	$relatedModuleArray=$related_module_share[$tabid];
 	if(is_array($relatedModuleArray))
 	{
@@ -733,6 +752,7 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 				$parModName=getTabname($parModId);
 				$rel_var=$parModName."_".$module."_share_read_permission";
 				$read_related_per_arr=$$rel_var;
+				$read_related_per_arr=$rel_var;
 				$rel_owner_type='';
 				$rel_owner_id='';
 				foreach($parRecordOwner as $rel_type=>$rel_id)
@@ -743,7 +763,11 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 				if($rel_owner_type=='Users')
 				{
 					//Checking in Role Users
-					$read_related_role_per=$read_related_per_arr['ROLE'];
+					$readarray =$relatedModuleArray[$read_related_per_arr];
+				
+					$read_related_role_per=$readarray['ROLE'];
+					//$read_related_role_per=$read_related_per_arr['ROLE'];
+				
 					foreach($read_related_role_per as $roleid=>$userids)
 					{
 						if(in_array($rel_owner_id,$userids))
@@ -766,6 +790,9 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 						}
 
 					}
+					$sharePer='yes';
+					$log->debug("Exiting isReadPermittedBySharing method ...");
+					return $sharePer;
 
 				}
 				elseif($rel_owner_type=='Groups')
@@ -875,6 +902,7 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 		}
 	}
 	//Checking for the Related Sharing Permission
+	$related_module_share = get_related_module_share($current_user->id);
 	$relatedModuleArray=$related_module_share[$tabid];
 	if(is_array($relatedModuleArray))
 	{
@@ -897,6 +925,8 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 				{
 					//Checking in Role Users
 					$write_related_role_per=$write_related_per_arr['ROLE'];
+					$writearray =$relatedModuleArray[$write_related_per_arr];
+					$write_related_role_per=$writearray['ROLE'];
 					foreach($write_related_role_per as $roleid=>$userids)
 					{
 						if(in_array($rel_owner_id,$userids))
@@ -920,6 +950,10 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 
 					}
 
+						$sharePer='yes';
+							$log->debug("Exiting isReadWritePermittedBySharing method ...");
+							return $sharePer;
+					
 				}
 				elseif($rel_owner_type=='Groups')
 				{
@@ -932,10 +966,10 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 					}
 
 				}
+				
 			}
 		}
 	}
-
 	$log->debug("Exiting isReadWritePermittedBySharing method ...");
 	return $sharePer;
 }
@@ -1527,6 +1561,26 @@ function getUserProfile($userId)
 
 }
 
+function getUserProfileid($userId)
+{
+	global $log;
+	$log->debug("Entering getUserProfile(".$userId.") method ...");
+	global $adb;
+	$roleId=fetchUserRole($userId);
+	//$profArr=Array();
+	$sql1 = "select profileid from jo_role2profile where roleid=?";
+	$result1 = $adb->pquery($sql1, array($roleId));
+	$num_rows=$adb->num_rows($result1);
+	for($i=0;$i<$num_rows;$i++)
+	{
+
+			$profileid=  $adb->query_result($result1,$i,"profileid");
+		$profArr=$profileid;
+	}
+		$log->debug("Exiting getUserProfile method ...");
+		return $profArr;
+
+}
 /** To retreive the global permission of the specifed user from the various jo_profiles associated with the user
   * @param $userid -- The User Id:: Type Integer
   * @returns  user global permission  array in the following format:

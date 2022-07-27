@@ -19,8 +19,15 @@
  * under the License.
  */
 
-class examples_largeFileUploadTest extends BaseTest
+namespace Google\Tests\Examples;
+
+use Google\Tests\BaseTest;
+
+class largeFileUploadTest extends BaseTest
 {
+  /**
+   * @runInSeparateProcess
+   */
   public function testLargeFileUpload()
   {
     $this->checkServiceAccountCredentials();

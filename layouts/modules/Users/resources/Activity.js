@@ -10,7 +10,6 @@
 
 Users_Detail_Js("Settings_Users_Activity_Js",{
     getUserActivityFilters : function(filtertype, date) {
-        console.log('eventss');
         var aDeferred = jQuery.Deferred();
         var params = {
             'module' : app.getModuleName(),
@@ -27,7 +26,6 @@ Users_Detail_Js("Settings_Users_Activity_Js",{
                 if(responseData == null){
                     app.helper.showErrorNotification({"message": app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER')});
                 } else {
-                    console.log(responseData['success']);
                     window.location.reload();
                 }
             },

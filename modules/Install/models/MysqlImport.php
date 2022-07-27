@@ -31,29 +31,73 @@ class Install_MysqlImport_Model {
                 $query = '';
 		$adb->pquery('SET foreign_key_checks = 0');
 		$adb->pquery('ALTER DATABASE '.$dbconfig['db_name'].' CHARACTER SET utf8 COLLATE utf8_general_ci');
-
+				$fileCount = 0;
+				$sqlScript = file('migrate/import.sql');
+                foreach ($sqlScript as $line)   {
+					if (strpos($line, 'CREATE TABLE') !== false) {
+						$fileCount = $fileCount+1;
+					}
+				}
+				if (strlen(session_id()) === 0) {
+					session_start();
+					unset($_SESSION['progress']);
+				}
+				$i = 0;
                 $sqlScript = file('migrate/import.sql');
                 foreach ($sqlScript as $line)   {
-        
-                        $startWith = substr(trim($line), 0 ,2);
-                        $endWith = substr(trim($line), -1 ,1);
-        
-                        if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
-                                continue;
-                        }
-                
-                        $query = $query . $line;
-                        if ($endWith == ';') {
-                                $adb->pquery($query);
-                                $query= '';             
-                        }
+					$startWith = substr(trim($line), 0 ,2);
+					$endWith = substr(trim($line), -1 ,1);
+	
+					if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
+							continue;
+					}
+
+					if (strpos($line, 'CREATE TABLE') !== false) {
+						$i = $i+1;
+
+						$progress = round(($i / $fileCount) * 99);
+						if (isset($_SESSION['progress'])) {
+							session_start(); //IMPORTANT!
+						}
+						$_SESSION['progress'] = $progress;
+						session_write_close(); //IMPORTANT!						
+					}
+			
+					$query = $query . $line;
+					if ($endWith == ';') {
+						$adb->pquery($query);
+						$query= '';    
+					}
                 }
 
 		$adb->pquery('SET foreign_key_checks = 1');
 		$currencyName = $configParams['currency_name'];
                 $currencyCode = $configParams['currency_code'];
                 $currencySymbol = $configParams['currency_symbol'];
-                $adb->pquery("INSERT INTO jo_currency_info VALUES (?,?,?,?,?,?,?,?)", array($adb->getUniqueID("jo_currency_info"), $currencyName,$currencyCode,$currencySymbol,1,'Active','-11','0'));
+				
+				$result = $adb->pquery("SELECT * From jo_currency_info Where currency_name = ?",array($currencyName));
+				$rows = $adb->num_rows($result);
+				if($rows <= 0){
+                	$adb->pquery("INSERT INTO jo_currency_info VALUES (?,?,?,?,?,?,?,?)", array($adb->getUniqueID("jo_currency_info"), $currencyName,$currencyCode,$currencySymbol,1,'Active','-11','0'));
+					$adb->pquery('update jo_currency_info set defaultid = 0 where currency_name != ?', array($currencyName));
+				}
+				$result = $adb->pquery("SELECT * From jo_currency_info Where currency_name = ?",array($currencyName));
+				$currency_id = $adb->query_result($result,0,'id');
+				$currency_name = $adb->query_result($result,0,'currency_name');
+				$currency_code = $adb->query_result($result,0,'currency_code');
+				$currency_symbol = $adb->query_result($result,0,'currency_symbol');
+
+				$adb->pquery('update jo_users set currency_id = ? where id = 1', array($currency_id));
+
+				$result = $adb->pquery('select * from jo_privileges where user_id = ?', array("1"));
+				$user_privilege = $adb->query_result($result,0,'user_privilege');
+				$user_priv = json_decode(html_entity_decode($user_privilege));
+				$user_priv->user_info->currency_id = $currency_id;
+				$user_priv->user_info->currency_name = $currency_name;
+				$user_priv->user_info->currency_code = $currency_code;
+				$user_priv->user_info->currency_symbol = $currency_symbol;
+				$upd_user_priv = html_entity_decode(json_encode($user_priv));
+				$adb->pquery('update jo_privileges set user_privilege = ? where user_id = 1', array($upd_user_priv));
 
 		// Kanban view Extenion module related chanages - starts
 		include_once('libraries/modlib/Head/Module.php');
@@ -67,8 +111,6 @@ class Install_MysqlImport_Model {
 		        $seq = $cur_seq + 1;
 		    }
 		}
-		$adb->pquery('INSERT INTO jo_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active, pinned) VALUES (?,?,?,?,?,?,?,?,?)', array($fieldid, $blockid, 'Kanban view', 'fa fa-th-large', 'KanbanView', 'Pipeline/Settings/Index', $seq, 0, 0));
-
 		if (!Head_Utils::CheckTable('jo_visualpipeline')) {
                         Head_Utils::CreateTable('jo_visualpipeline',
                                         	"(`pipeline_id` int(19) NOT NULL,
@@ -109,56 +151,13 @@ class Install_MysqlImport_Model {
 							)"
 						);
 
-			$blockId = $adb->getUniqueID('jo_settings_blocks');
-			$sql = "Insert into jo_settings_blocks(blockid,label,sequence) 
-					select $blockId,'LBL_COMPANY_INFO',max(sequence)+1 
-					from jo_settings_blocks";
-			$adb->query($sql);
-
 			$adb->query("update jo_settings_field as a 
 							inner join jo_settings_blocks as b on b.label='LBL_COMPANY_INFO' 
 							set a.blockid=b.blockid 
 							where a.name in (
 							'LBL_TAX_SETTINGS' , 'INVENTORYTERMSANDCONDITIONS'
 							)"
-						);
-			
-			$blockId = $adb->getUniqueID('jo_blocks');
-			$tabId = getTabid('Accounts');
-			$sql = "Insert Into jo_blocks(blockid,tabid,blocklabel,sequence,show_title,display_status) values($blockId,$tabId,'LBL_IMAGE_INFORMATION',5,0,1)";
-			$adb->query($sql);
-
-			$fieldId = $adb->getUniqueID('jo_field');
-			$sql = "Insert into jo_field (tabid,fieldid,columnname,tablename,generatedtype, uitype,fieldname,fieldlabel,readonly,presence,defaultvalue,maximumlength, sequence,block,displaytype,typeofdata,quickcreate,quickcreatesequence, info_type, masseditable,helpinfo,summaryfield,headerfield)
-					select $tabId,$fieldId,a.columnname,'jo_account',a.generatedtype,a.uitype,a.fieldname,a.fieldlabel, a.readonly,a.presence,a.defaultvalue,a.maximumlength,a.sequence,$blockId,a.displaytype, a.typeofdata,a.quickcreate,a.quickcreatesequence,a.info_type,a.masseditable,a.helpinfo, a.summaryfield,a.headerfield from jo_field as a 
-					inner join jo_tab as b on b.name = 'Contacts' 
-					inner join jo_blocks as c on c.tabid = b.tabid and c.blocklabel = 'LBL_IMAGE_INFORMATION' and c.blockid = a.block";
-			$adb->query($sql);
-
-			$adb->query("Alter table jo_account add imagename varchar(150)");	
-
-		//Add related field to related list table for projects
-		
-		/* //updated on sql file - (don't delete the code - need ref for migration)
-		$project_milestone_tabid = getTabid('ProjectMilestone');
-		$project_tabid = getTabid('Project');
-		$project_task_tabid = getTabid('ProjectTask');
-		$milestone_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_milestone_tabid)));
-		$milestone_project_fieldid = $milestone_project['fieldid'];
-
-		$task_project = $adb->fetch_array($adb->pquery('select fieldid from jo_field where fieldname = ? and tabid = ?', array('projectid', $project_task_tabid)));
-		$task_project_fieldid = $task_project['fieldid'];
-		$update_query = 'update jo_relatedlists set relationfieldid = ? where tabid = ? and related_tabid = ?';
-		$adb->pquery($update_query , array($milestone_project_fieldid, $project_tabid, $project_milestone_tabid)); //milestone
-		$adb->pquery($update_query , array($task_project_fieldid, $project_tabid, $project_task_tabid)); //project task
-		
-		$adb->pquery("INSERT INTO jo_relatedlists VALUES(" . $adb->getUniqueID('jo_relatedlists') . "," . getTabid('Potentials') . "," . getTabid('HelpDesk') . ",'get_related_list',5,'HelpDesk',0, 'add,select','','','1:N')");
-		$adb->pquery("INSERT INTO jo_relatedlists VALUES(" . $adb->getUniqueID('jo_relatedlists') . "," . getTabid('HelpDesk') . "," . getTabid('Potentials') . ",'get_related_list',6,'Potentials',0, 'add,select','','','1:N')");
-
-		$ticket_tabid = getTabid('HelpDesk');
-		$adb->pquery('update jo_field set summaryfield = ? where fieldname = ? and tabid = ?', array(0,'description',$ticket_tabid));
-		// updated on sql
-		*/
+						);	
 
 		//Write module contents on default_module_apps.php
 		$file_contents = "<?php \$app_menu_array = array(
@@ -197,14 +196,6 @@ class Install_MysqlImport_Model {
 			    0 => '" .getTabid('Contacts'). "',
 			    1 => '" .getTabid('Accounts'). "',
 			    2 => '" .getTabid('HelpDesk'). "'
-			  ),
-	    	'PROJECT' =>
-		    array (
-			    0 => '" .getTabid('Contacts'). "',
-			    1 => '" .getTabid('Accounts'). "',
-			    2 => '" .getTabid('ProjectTask'). "',
-			    3 => '" .getTabid('ProjectMilestone'). "',
-			    4 => '" .getTabid('Project') ."'
 			  ),
 	    	'TOOLS' =>
 		    array (

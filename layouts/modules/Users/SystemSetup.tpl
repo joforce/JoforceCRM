@@ -20,14 +20,14 @@
 	<style type="text/css">
 	    {literal}
 		body{
-			font-family: 'Crimson Text', serif !important;
+			font-family: 'Roboto', sans-serif !important;
 			background: #F4FAFC;
 			color : #555;
 			font-size: 13px;
 			min-height: 98%;
 		}
 		p{
-			font-family: 'Crimson Text', serif !important;
+			font-family: 'Roboto', sans-serif !important;
 			font-size: 14px;
 		}
 		.offset2{
@@ -287,7 +287,6 @@
 			url: "index.php?module=Users&view=SystemSetup&mode=showmodules&packages="+selected, 
 			success: function(result){
 				data = JSON.parse(result);
-console.log(data);
 				$('#system_app_div_form').hide();
 				$("#system_modules_div_form").html(data.html);
 				$("#system_modules_div_form").show();

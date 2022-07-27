@@ -14,7 +14,7 @@
    <input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 {/if}
 {include file='DetailViewBlockView.tpl'|@vtemplate_path:'Head' RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
-<div class="block block_LBL_INVITE_USER_BLOCK">
+<div class="block block_LBL_INVITE_USER_BLOCK  {if in_array($MODULE,array('Calendar'))}   calender_page_block_view  {/if}">
     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     {assign var="IS_HIDDEN" value=false}
     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

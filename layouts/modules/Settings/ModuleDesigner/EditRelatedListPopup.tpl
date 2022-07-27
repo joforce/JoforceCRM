@@ -16,7 +16,7 @@
 </tr>
 <tr>
 	<td>{vtranslate("LBL_RELATED_LIST_LABEL", $QUALIFIED_MODULE)}</td>
-	<td colspan="2"><input type="text" name="label" size="50" value="{if !empty($a_relatedList.label)}{$a_relatedList.label}{/if}" onkeyup="md_setLabel(this, 'label', '')" /></td>
+	<td colspan="2"><input type="text" name="label" size="50"  class="spaceremover" style =text-transform:capitalize   value="{if !empty($a_relatedList.label)}{$a_relatedList.label}{/if}" /></td>
 </tr>
 {foreach item=language from=$a_languages}
 {assign var="label" value='label_'|cat:$language}
@@ -123,6 +123,12 @@ function setRelatedListName(cb)
 		$("input[name='custom_name']").hide();
 	{rdelim}
 {rdelim}
+$('.spaceremover').keypress(function(e){
+	if (e.which === 32  ) {
+		return false;
+	}
+});
+
 </script>
 </body>
 </html>

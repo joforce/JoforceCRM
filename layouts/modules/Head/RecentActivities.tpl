@@ -8,7 +8,7 @@
 ************************************************************************************}
 
 {strip}
-    <div class="recentActivitiesContainer" id="updates">
+    <div class="recentActivitiesContainer {if in_array($MODULE,array('Potentials','Products','HelpDesk','Services'))} Mob_rela_Width {elseif in_array($MODULE,array('Campaigns','PriceBooks','PurchaseOrder','SalesOrder','Documents','Vendors','Invoice','Quotes','Calendar'))} ms_recentActivities_width {$MODULE} {/if} {if in_array($MODULE,array('Products'))} mac_scr_align_recent {/if} {if in_array($MODULE,array('Services'))} big_scr_service_page_detailview_align {/if} " id="updates" >
         <input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
         <div class='history'>
             {if !empty($RECENT_ACTIVITIES)}
@@ -51,6 +51,7 @@
                                     </div>
                                 </div>
                             {else if $RECENT_ACTIVITY->isUpdate()}
+				{if $key}
                                 <div class="timeline-wrapper {if $key is odd}jotimeline-odd{else} inverted-timeline jotimeline-even {/if}">
                                     {assign var=USER_MODEL value=$RECENT_ACTIVITY->getModifiedBy()}
                                     {assign var=IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
@@ -104,6 +105,7 @@
                                     {/foreach}
                                     </div>
                                 </div>
+				{/if}
 
                             {else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
                                 {assign var=RELATED_MODULE value= $RELATION->getLinkedRecord()->getModuleName()}
@@ -163,6 +165,7 @@
                             {/if}
                         {/if}
                     {/foreach}
+                    <div class="container-fluid"><div id="loadMore">Load more ..</div><div id="showLess">.. Show less</div></div>
                     {if $PAGING_MODEL->isNextPageExists()}
                         <div id='more_button'>
                             <div class='update_icon bg-info' id="moreLink">
@@ -172,10 +175,11 @@
                     {/if}
                 </div>
             {else}
-                <div class="summaryWidgetContainer">
+                <div class="summaryWidgetContainer no-recent-update">
                     <p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
                 </div>
             {/if}
         </div>
     </div>
+    
 {/strip}

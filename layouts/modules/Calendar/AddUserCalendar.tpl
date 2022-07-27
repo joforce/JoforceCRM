@@ -21,7 +21,7 @@
             <input type="hidden" class="editorMode" value="create" />
 
             <div class="form-group addCalendarViewsList">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-6">
                     <select class="select2" name="usersList" style="min-width: 250px;">
                         {foreach key=USER_ID item=USER_NAME from=$SHAREDUSERS}
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
+                <label class="col-form-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-8">
                     <p class="calendarColorPicker"></p>
                 </div>

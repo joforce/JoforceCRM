@@ -15,20 +15,20 @@
         <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
         <input type="hidden" name="record" value="{$RECORD_ID}" />
         <input type=hidden id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
-        <div style="padding:2%;">
-            <div class="row">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="red-border">*</span></label>
-                    <div class="col-lg-4 pl0">
+        <div style="padding:2%;" class="col-lg-12">
+            <div class="row ">
+                <div class="form-group col-lg-6">
+                    <label class="col-lg-6 col-form-label textAlignLeft  pr0 pl0 pull-left">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="red-border">*</span></label>
+                    <div class="col-lg-6 pl0 pull-left">
                         <input type="text" class="inputElement" data-rule-required="true" name="reportname" value="{$REPORT_MODEL->get('reportname')}"/>
                     </div>
                 </div>
-            </div>
-            <div class="row">		
-                <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="red-border">*</span></label>
-                    <div class="col-lg-4 pl0">
-                        <select class="select2 col-lg-12 inputElement" name="folderid" data-rule-required="true">
+
+
+                <div class="form-group col-lg-6">
+                    <label class="col-lg-6 col-form-label textAlignLeft  pr0 pl0 pull-left">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="red-border">*</span></label>
+                    <div class="col-lg-6 pl0 pull-left">
+                        <select class="select2 w-100 inputElement" name="folderid" data-rule-required="true">
                             {foreach item=REPORT_FOLDER from=$REPORT_FOLDERS}
                                 <option value="{$REPORT_FOLDER->getId()}" 
                                         {if $REPORT_FOLDER->getId() eq $REPORT_MODEL->get('folderid')}
@@ -39,12 +39,14 @@
                         </select>
                     </div>
                 </div>
+
+
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="red-border">*</span></label>
-                    <div class="col-lg-4 pl0">
-                        <select class="select2-container select2 col-lg-12 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
+            <div class="row">	
+                <div class="form-group col-lg-6">
+                    <label class="col-lg-6 col-form-label textAlignLeft  pr0 pl0 pull-left">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="red-border">*</span></label>
+                    <div class="col-lg-6 pl0 pull-left">
+                        <select class="select2-container select2 w-100 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
                                 {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
                                 <option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected" {/if}>
@@ -57,11 +59,9 @@
                         {/if}
                     </div>
                 </div>	
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
-                    <div class="col-lg-4 pl0">
+           <div class="form-group col-lg-6">
+                    <label class="col-lg-6 pull-left col-form-label textAlignLeft  pr0 pl0">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
+                    <div class="col-lg-6 pl0 pull-left">
                         {assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
                         {assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
@@ -73,7 +73,7 @@
                             {/foreach}
                         {/if}
                         {assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
-                        <select class="select2-container col-lg-12 inputElement" id="secondary_module" multiple name="secondary_modules[]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}"
+                        <select class="select2-container w-100  inputElement" id="secondary_module" multiple name="secondary_modules[]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}"
                                 {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
                                 <option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
@@ -84,20 +84,23 @@
                         {/if}
                     </div>
                 </div>	
+
+                
             </div>
+            
             <div class="row">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0">{vtranslate('LBL_DESCRIPTION',$MODULE)}</label>
-                    <div class="col-lg-4 pl0">
+                <div class="form-group col-lg-6 ">
+                    <label class="col-lg-6 pull-left col-form-label textAlignLeft  pr0 pl0">{vtranslate('LBL_DESCRIPTION',$MODULE)}</label>
+                    <div class="col-lg-6 pull-left pl0">
                         <textarea type="text" cols="50" rows="3" class="inputElement" name="description">{$REPORT_MODEL->get('description')}</textarea>
                     </div>
-                </div>	
-            </div>
-            <div class='row'>
-                <div class='form-group'>
-                    <label class='col-lg-3 control-label textAlignLeft fieldLabel pr0 pl0'>{vtranslate('LBL_SHARE_REPORT',$MODULE)}</label>
-                    <div class='col-lg-4 pl0'>
-                        <select id="memberList" class="col-lg-12 select2-container select2 members " multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $MODULE)}">
+                </div>
+                
+
+                <div class='form-group col-lg-6'>
+                    <label class='col-lg-6 pull-left col-form-label textAlignLeft  pr0 pl0'>{vtranslate('LBL_SHARE_REPORT',$MODULE)}</label>
+                    <div class='col-lg-6 pull-left pl0'>
+                        <select id="memberList" class="w-100 select2-container select2 members " multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $MODULE)}">
                             {foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                 <optgroup label="{$GROUP_LABEL}">
                                     {foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -110,12 +113,15 @@
                 </div>
             </div>	
             {include file="ScheduleReport.tpl"|@vtemplate_path:$MODULE}	
-        </div>
+                
+
+            </div>
+            
         <div class="border1px modal-overlay-footer clearfix">
             <div class="row clearfix">
                 <div class="textAlignCenter col-lg-12 col-md-12 col-lg-12 ">
                     <button class="btn btn-primary nextStep" type="submit">{vtranslate('LBL_NEXT',$MODULE)}</button>&nbsp;&nbsp;
-                    <a type="reset" onclick='window.history.back();' class="cancelLink btn btn-secondary cursorPointer">{vtranslate('LBL_CANCEL',$MODULE)}</a>
+                    <a type="reset" onclick='window.history.back();' class="cancelLink btn btn-danger cursorPointer">{vtranslate('LBL_CANCEL',$MODULE)}</a>
                 </div>
             </div>
         </div>

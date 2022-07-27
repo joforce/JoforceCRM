@@ -7,28 +7,28 @@
     <tbody class="row col-sm-12">
 	<tr class="col-sm-6">
 	    <td class='col-sm-4'>{vtranslate('LBL_SYSTEM_MODULE_NAME', $QUALIFIED_MODULE)}</td>
-	    <td class='col-sm-6'>
+	    <td class='col-sm-5 p0'>
 		<input type="text" name="module_name" class="md-medium-text-input inputElement" maxlength="25" onkeyup="md_setModuleName(this)" onfocusout="md_updateFieldsTableName(this)" placeholder='Contacts' id="module_name"/>
 		<input type="hidden" name="old_module_table_name" />
 	    </td>
-	    <td class="col-sm-2">
+	    <td class="col-sm-3">
 		<a href="javascript:showLoadModulePopup()"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/load.png" alt="{vtranslate('LBL_LOAD_MODULE_ALT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_LOAD_MODULE', $QUALIFIED_MODULE)}" /></a> &nbsp;
 		<a href="javascript:showUploadModulePopup()"><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/upload.png" alt="{vtranslate('LBL_UPLOAD_MODULE_ALT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_UPLOAD_MODULE', $QUALIFIED_MODULE)}" /></a>
 	    </td>
 	</tr>
 	<tr class="col-sm-6">
 	    <td class='col-sm-4'>{vtranslate('LBL_VERSION', $QUALIFIED_MODULE)}</td>
-	    <td colspan="2" class="col-sm-8">
+	    <td colspan="2" class="col-sm-8 p0">
 		<input type="text" name="module_version" class="md-medium-text-input inputElement" maxlength="25" placeholder='1.0'/>
 	    </td>
 	</tr>
 	<tr class="md-module-name-translation col-sm-6">
 	    <td class="col-sm-4">{vtranslate('LBL_MODULE_NAME_TRANSLATION', $QUALIFIED_MODULE)} <em>en_us</em></td>
-	    <td colspan="2" class="col-sm-8"><input type="text" name="module_label_en_us" class="md-medium-text-input inputElement" placeholder='Contacts'/></td>
+	    <td colspan="2" class="col-sm-8 p0"><input type="text" name="module_label_en_us" class="md-medium-text-input inputElement" placeholder='Contacts'/></td>
 	</tr>
 	<tr class="md-module-name-translation col-sm-6">
 	    <td class="col-md-4">{vtranslate('LBL_MODULE_NAME_SINGLE_TRANSLATION', $QUALIFIED_MODULE)} <em>en_us</em></td>
-            <td colspan="2" class="col-sm-8"><input type="text" name="module_label_single_en_us" class="md-medium-text-input inputElement" placeholder='Contact'/></td>
+		<td colspan="2" class="col-sm-8 p0"><input type="text" name="module_label_single_en_us" class="md-medium-text-input inputElement" placeholder='Contact'/></td>
 	</tr>
     </tbody>
 </table>
@@ -38,7 +38,7 @@
 
 <table class='table table-borderless'>
     <tbody class=" row col-sm-12">
-	<tr class="col-sm-6">
+	<tr class="col-sm-6 col-sm-6">
 	    <td class='col-sm-4'>{vtranslate('LBL_PARENT_TAB_CHOICE', $QUALIFIED_MODULE)}</td>
 	    <td class="col-sm-8">
 		<select name="module_parent_tab" class='select2'>

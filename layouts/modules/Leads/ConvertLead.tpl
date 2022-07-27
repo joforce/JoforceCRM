@@ -26,7 +26,7 @@
                         {foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
                             <div class="row">
                                 <div class="col-lg-1"></div>
-                                <div class="col-lg-10 moduleContent" style="border:1px solid #CCC;">
+                                <div class="col-lg-10 moduleContent">
                                     <div class="accordion-group convertLeadModules">
                                         <div class="header accordion-heading pointer">
                                             <div data-parent="#leadAccordion" data-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo" data-modulename="{$MODULE_NAME}">
@@ -53,7 +53,7 @@
                                                 {foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
                                                     <div class="row">
                                                         <div class="fieldLabel col-lg-4">
-                                                            <label class='muted pull-right'>
+                                                            <label class='muted {if (vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME))!='Amount'} pull-right {/if}'>
                                                                 {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;
                                                                 {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
                                                             </label>

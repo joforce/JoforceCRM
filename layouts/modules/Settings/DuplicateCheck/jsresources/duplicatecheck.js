@@ -219,9 +219,8 @@ function getModuleDuplicateCheck(selectedModule) {
 
 function registerModuleChangeEvent() {
     var thisInstance = this;
-    var container = jQuery('#layoutEditorContainer');
+    var container = jQuery('#settings-duplicate-check');
     var contentsDiv = container.closest('.settingsPageDiv');
-
     container.on('change', '#layoutEditorModules', function (e) {
     	var currentTarget = jQuery(e.currentTarget);
     	var selectedModule = currentTarget.val();
@@ -231,6 +230,7 @@ function registerModuleChangeEvent() {
     	}
     	thisInstance.getModuleDuplicateCheck(selectedModule).then(function (data) {
 	    contentsDiv.html(data);
+
 	    $('[name="layoutEditorModules"]').select2({
 		closeOnSelect: true
 	    });

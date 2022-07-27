@@ -10,13 +10,17 @@
 {* modules/Settings/Picklist/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer form-horizontal" id="listViewContent">
+<div class="listViewPageDiv detailViewContainer form-horizontal picklist_page_style card" id="listViewContent">
         <br>
-        <div class="detailViewInfo">
-            <div class="row form-group"><div class="col-lg-3 col-md-3 col-sm-3 control-label fieldLabel pr0">
+        <div class=" card-header-new picklist_setting" >
+		<h4>Picklist</h4>
+		
+	    </div>
+        <div class="detailViewInfo ms_picklist_ml">
+            <div class="row form-group"><div class="col-lg-4 col-md-5 col-sm-3 col-form-label fieldLabel pr0">
                     <label class="fieldLabel ">{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </label>
                 </div>
-                <div class="fieldValue col-sm-3 col-xs-12 pl0">
+                <div class="fieldValue col-sm-3 col-lg-3 col-xs-12 pl0">
                     <select class="select2 inputElement" id="pickListModules" name="pickListModules">
                         <option value="">{vtranslate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>
                         {foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}

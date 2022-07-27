@@ -105,6 +105,7 @@ class Google_Head_Handler extends vtigerCRMHandler {
 			}
 		}
 
+
 		if (count($updatedRecords) > 0) {
 			$updatedRecords = $this->translateReferenceFieldNamesToIds($updatedRecords, $user);
 		}

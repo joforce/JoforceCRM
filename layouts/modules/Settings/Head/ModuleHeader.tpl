@@ -11,9 +11,9 @@
 -->*}
 
 {strip}
-    <div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
-	<div class="module-action-content clearfix">
-	    <div class="col-lg-5 col-md-5 module-breadcrumb">
+    <div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
+	<div class="module-action-content clearfix d-flex align-items-center">
+	    <div class="col-lg-6 col-md-6  module-breadcrumb col-6">
 		{if $USER_MODEL->isAdminUser()}
 		    {assign var=sett_url value='Head/Settings/Index'}
 		{else}
@@ -96,9 +96,10 @@
 					{$RECORD->getName()}
 				    {/if}
 			    {else}
-				&nbsp;{if $smarty.request.extensionModule}{$smarty.request.extensionModule}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}
+				{if $smarty.request.extensionModule}{$smarty.request.extensionModule}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}
 			{/if}
 		    </span>
+
 		{else}
 		    {if $smarty.request.view eq 'TaxIndex'}
 			{assign var=SELECTED_MODULE value='LBL_TAX_MANAGEMENT'}
@@ -107,27 +108,30 @@
 		    {else}
 			{assign var=SELECTED_MODULE value=$ACTIVE_BLOCK['menu']}
 		    {/if}
+
+		    <span class="current-filter-name">{vtranslate({$SELECTED_MODULE}, $QUALIFIED_MODULE)}</span>
 		{/if}
 	    {/if}
+		
 	</div>
-	<div class="col-lg-3 col-md-3">
+	<div class="{if in_array($MODULE,array('Users'))} col-lg-2 col-md-4 {else} col-lg-3 col-md-5 {/if}">
 	{if $MODULE eq 'Head' and $VIEW eq 'Index'}
 	{else}
     	    {include file="modules/Settings/Head/Sidebar.tpl"}
 	{/if}
 	</div>
-	<div class="col-lg-4 col-md-4 pull-right">
-	    <div id="appnav" class="navbar-right">
+	<div class=" {if in_array($MODULE,array('Users'))} col-lg-4 col-md-7 pull-right col-7 {else} col-lg-3 col-md-6 pull-right col-6 {/if}">
+	<div id="appnav" class="{if in_array($MODULE,array('Groups','Webforms','Workflows','Webforms','Webhooks','MailConverter','Currency','PickListDependency','Users','Head'))}  ml-auto nextappnav setting_page_head_btn {else} ml-auto nextappnav  {/if} {if in_array($module,array('Users'))} pull-right {/if}">
                 {if $MODULE eq 'Head' and $VIEW eq 'Index'}
-                    <div class = "settings_search">
+                    <div class = "settings_search {if in_array($MODULE,array('Head'))}setting_main_search{/if}">
                     	<input type ='text' class="search-settings pull-right" id="search_settings" style="" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}">
                     </div>
                 {/if}
-		<ul class="nav navbar-nav">
+		<ul class="nav navbar-nav row {if in_array($MODULE,array('Users'))} user-top-menu {/if}">
 		    {foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
-			<li>
+			<li class="nav-item  {if in_array($MODULE,array('Webforms','','PickListDependency'))} Ms_hide_nav pull-right {elseif !in_array($MODULE,array('MailConverter'))} pull-left {/if}">
 			{if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}
-			   <div class="import-icon">
+			   <div>
 				<button id="{$MODULE}_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-primary" 
 				{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 				    onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
@@ -155,14 +159,14 @@
 		    {if empty($QUALIFIEDMODULE)} 
 			{assign var=QUALIFIEDMODULE value=$MODULE}
 		    {/if}
-		    <li>
+		    <li class="nav-item">
 			<div class="settingsIcon">
 			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>
 			    </button>
 			    <ul class="detailViewSetting dropdown-menu">
 				{foreach item=SETTING from=$LISTVIEW_LINKS['LISTVIEWSETTING']}
-				    <li id="{$MODULE}_setings_lisview_advancedAction_{$SETTING->getLabel()}">
+				    <li id="{$MODULE}_setings_lisview_advancedAction_{$SETTING->getLabel()}" class="dropdown-item">
                                         <a {if stripos($SETTING->getUrl(), 'javascript:') === 0}
 						 onclick='{$SETTING->getUrl()|substr:strlen("javascript:")};'
                                            {else}
@@ -183,7 +187,7 @@
 			{/if}
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 			    {if $MODULE eq 'Users'} {assign var=LANGMODULE value=$MODULE} {/if}
-				<li>
+				<li class="nav-item {if in_array($MODULE,array(''))} Ms_hide_nav {/if}">
 				    <button class="btn btn-primary addButton" id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" 
 					{if $MODULE eq 'Workflows'}
 					    onclick='Settings_Workflows_List_Js.triggerCreate("{$LISTVIEW_BASICACTION->getUrl()}?mode=V7Edit")'

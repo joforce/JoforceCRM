@@ -1055,8 +1055,6 @@ class Head_Util_Helper {
 	static function getRelatedModuleLabel($relatedModule, $parentModule = "Contacts") {
 		global $adb;
 
-		if (in_array($relatedModule, array('ProjectTask', 'ProjectMilestone')))
-			$parentModule = 'Project';
 		$sql = "SELECT jo_relatedlists.label FROM jo_relatedlists
 				INNER JOIN jo_tab ON jo_relatedlists.related_tabid =jo_tab.tabid WHERE jo_tab.name=? AND jo_relatedlists.tabid=?";
 		$sqlResult = $adb->pquery($sql, array($relatedModule, getTabid($parentModule)));

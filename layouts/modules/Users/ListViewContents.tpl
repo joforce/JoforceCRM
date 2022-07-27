@@ -29,14 +29,20 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<input type="hidden" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
 
+	<div class="user-container card ">
+	<div class="ml15 mr15 mt20 card-header-new">
+            <h3>User Details</h3>
+        </div>
+	<br>
 	<div id="table-content" class="table-container userpage-search" style="margin-bottom:50px;">
+		<div class = "table-toggle fixed-scroll-table">
 		<form name='list' id='listedit' action='' onsubmit="return false;">
-			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
+			<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords- {/if} listview-table">
 				<thead>
 					<tr class="listViewContentHeader">
-						<th>
+						{* <th>
 							{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
-						</th>
+						</th> *}
 
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{if $LISTVIEW_HEADER->getName() neq 'last_name' and $LISTVIEW_HEADER->getName() neq 'email1' and $LISTVIEW_HEADER->getName() neq 'status'}
@@ -62,42 +68,40 @@
 							{/if}
 						{/foreach}
 						<th>
-						     <i class="fa fa-search cursorPointer user-search-2" id="" {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
+						     <i class="fa fa-search cursorPointer user-search-2" style="position:unset !important;top:unset !important;" id="joforce-table-search" {if $CURRENT_CV_MODEL and !($CURRENT_CV_MODEL->isCvEditable())}margin-top:5px !important;margin-left:18px !important;{/if}"></i>
 						</th>
 						   
 					</tr>
-					
-					
-				</thead>
-				<tbody class="overflow-y">
+
 					{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
-						<tr class="searchRow" >
-							<th class="inline-search-btn">
+						<tr class="searchRow"  style="display:none;">
+							{* <th class="inline-search-btn">
 								<div class="table-actions">
 									<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 								</div>
-							</th>
+							</th> *}
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{if $LISTVIEW_HEADER->getName() eq 'last_name' or $LISTVIEW_HEADER->getName() eq 'email1' or $LISTVIEW_HEADER->getName() eq 'status'}
 									{continue}
 								{/if}
-								<th>
+								<th style="height:62px !important;max-height:62px !important;">
 									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
 									<input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
 								</th>
 							{/foreach}
-							<th></th>
+							<th style="height:62px !important;max-height:62px !important;display:flex;justify-content:center;align-items:center;">
+								<button style="" class="btn-success btn-sm" data-trigger="listSearch"><i class="fa fa-search"></i></button>
+							</th>
 						</tr>
 
 					{/if}
-
+					
+				</thead>
+				<tbody class="overflow-y">
 
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-							<td class="listViewRecordActions">
-								{include file="ListViewRecordActions.tpl"|vtemplate_path:$MODULE}
-							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LISTVIEW_ENTRY_RAWVALUE value=$LISTVIEW_ENTRY->getRaw($LISTVIEW_HEADER->get('column'))}
@@ -105,8 +109,8 @@
 								{if $LISTVIEW_HEADER->getName() eq 'first_name'}
 									<td data-name="{$LISTVIEW_HEADER->get('name')}" data-rawvalue="{$LISTVIEW_ENTRY_RAWVALUE}" data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 										<span class="fieldValue">
-											<span class="value textOverflowEllipsis">
-												<div style="margin-left: -13px;">
+											<span class="value textOverflowEllipsis p-0" style="max-width:100% !important">
+												<div style=" display:flex;align-items:center;">
 													{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 													{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 														{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -127,11 +131,13 @@
 															</div>
 														</div>
 													{/if}
-													<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 " title="{$LISTVIEW_ENTRY->get('last_name')}">
-														<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)} {$LISTVIEW_ENTRY->get('last_name')}</a>
-													</div>
-													<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 ">
-														{$LISTVIEW_ENTRY->get('email1')}
+													<div>
+														<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 " title="{$LISTVIEW_ENTRY->get('last_name')}" style="white-space:normal !important">
+															<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)} {$LISTVIEW_ENTRY->get('last_name')}</a>
+														</div>
+														<div class="usersinfo col-lg-9 textOverflowEllipsis pl30 " style="white-space:normal !important">
+															{$LISTVIEW_ENTRY->get('email1')}
+														</div>
 													</div>
 												</div>
 											</span>
@@ -140,13 +146,16 @@
 								{elseif $LISTVIEW_HEADER->getName() neq 'last_name' and $LISTVIEW_HEADER->getName() neq 'email1' and $LISTVIEW_HEADER->getName() neq 'status'}
 									<td class="{$WIDTHTYPE}" nowrap>
 										<span class="fieldValue">
-											<span class="value textOverflowEllipsis">
+											<span class="value textOverflowEllipsis p-0">
 												{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 											</span>
 										</span>
 									</td>
 								{/if}
 							{/foreach}
+							<td class="listViewRecordActions" style="z-index:unset !important;">
+								{include file="ListViewRecordActions.tpl"|vtemplate_path:$MODULE}
+							</td>
 						</tr>
 					{/foreach}
 					{if $LISTVIEW_ENTRIES_COUNT eq '0'}
@@ -169,6 +178,12 @@
 				</tbody>
 			</table>
 		</form>
+		</div>
+	</div>
+	</div>
+	<div class="row">
+		{assign var=RECORD_COUNT value=$LISTVIEW_ENTIRES_COUNT}
+		{include file="Pagination.tpl"|vtemplate_path:$MODULE}
 	</div>
 	<div id="scroller_wrapper" class="bottom-fixed-scroll">
 		<div id="scroller" class="scroller-div"></div>

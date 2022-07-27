@@ -1,3 +1,8 @@
+<div class="col-sm-12 text-center">
+  <div class="logo install-logo">
+    <img src="{'logo.png'|vimage_path}"/>
+  </div>
+</div>
 <div class="gs-wizard">
         <ul class="gs-wizard-section">
           <li class="active">
@@ -23,6 +28,5 @@
               <span class="wiz-circle"></span><span class="wiz-text">{vtranslate('LBL_CHECK_INSTALLATION_SETTINGS', 'Install')}</span>
             </a>
           </li>
-
         </ul>
 </div>

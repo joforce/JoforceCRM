@@ -25,7 +25,7 @@
                 </div>
                 </div> 
     {else}
-        <span class="noDataMsg">
+        <span class="noDataMsg mt20">
             {vtranslate('LBL_NO')} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_MATCHED_THIS_CRITERIA')}
         </span>
     {/if}

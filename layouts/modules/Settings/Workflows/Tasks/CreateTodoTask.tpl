@@ -12,10 +12,11 @@
 {strip}
 	{assign var=SHOWN_FIELDS_LIST value=array()}
 	<div class="row">
+    <div class="col-sm-2 col-xs-2"></div>
         <div class="col-sm-9 col-xs-9">
             <div class="row form-group">
                 <div class="col-sm-2 col-xs-2">{vtranslate('LBL_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-                <div class="col-sm-8 col-xs-8">
+                <div class="col-sm-8 col-xs-8 ">
                     <input data-rule-required="true" class="inputElement" name="todo" type="text" value="{$TASK_OBJECT->todo}" />
                     {$SHOWN_FIELDS_LIST['subject'] = 'subject'}
                 </div>
@@ -78,7 +79,7 @@
                             {assign var=TIME value=$TASK_OBJECT->time}
                         {/if}
                         <input type="text" class="timepicker-default inputElement" value="{$TIME}" name="time" />
-                        <span  class="input-group-addon">
+                        <span  class="input-group-addon ms_scr_icon_clock">
                             <i  class="fa fa-clock-o"></i>
                         </span>
                     </div>
@@ -91,7 +92,7 @@
                         <div class="col-sm-8 col-xs-8">
                             <input class="inputElement" type="text" name="days" value="{$TASK_OBJECT->days}">&nbsp;
                         </div>
-                        <span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+                        <span class="alignMiddle col-sm-2 col-xs-2">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
                     </div>
                 </div>
                 <div class="col-sm-2 col-xs-2 marginLeftZero">

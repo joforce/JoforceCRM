@@ -28,18 +28,18 @@
             {* <div class='modal-body'>
 				{assign var=LABELS value=[]}
                 {if $FORMAT eq 'vcf'}
-                    {$LABELS["step1"] = 'LBL_UPLOAD_VCF'}
+                    {$LABELS["step1"] = array('LBL_UPLOAD_VCF', 'fa fa-file-text-o')}
                 {else if $FORMAT eq 'ics'}
-					{$LABELS["step1"] = 'LBL_UPLOAD_ICS'}
-				{else}
-                    {$LABELS["step1"] = 'LBL_UPLOAD_CSV'}
+		    {$LABELS["step1"] = array('LBL_UPLOAD_ICS', 'fa fa-file-text-o')}
+		{else}
+                    {$LABELS["step1"] = array('LBL_UPLOAD_CSV', 'fa fa-file-text-o')}
                 {/if}
 
                 {if $DUPLICATE_HANDLING_NOT_SUPPORTED eq 'true'}
-                    {$LABELS["step3"] = 'LBL_FIELD_MAPPING'}
+                    {$LABELS["step3"] = array('LBL_FIELD_MAPPING', 'fa fa-chain')}
                 {else}
-                    {$LABELS["step2"] = 'LBL_DUPLICATE_HANDLING'}
-                    {$LABELS["step3"] = 'LBL_FIELD_MAPPING'}
+                    {$LABELS["step2"] = array('LBL_DUPLICATE_HANDLING', 'fa fa-files-o')}
+                    {$LABELS["step3"] = array('LBL_FIELD_MAPPING', 'fa fa-chain')}
                 {/if}
                 {include file="BreadCrumbs.tpl"|vtemplate_path:$MODULE BREADCRUMB_ID='navigation_links'
                          ACTIVESTEP=3 BREADCRUMB_LABELS=$LABELS MODULE=$MODULE} *}

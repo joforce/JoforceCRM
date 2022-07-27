@@ -69,7 +69,7 @@ class Migration_Index_View extends Head_View_Controller {
 			'~/layouts/modules/Migration/css/style.css',
 			'~/layouts/modules/Migration/css/mkCheckbox.css',
 			'~/libraries/bootstrap/css/bootstrap-responsive.css',
-			'~/libraries/bootstrap/css/bootstrap.min.css',
+			'~/libraries/bootstrap/css/bootstrap.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

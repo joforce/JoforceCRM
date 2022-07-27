@@ -39,7 +39,7 @@
 								<div class="col-lg-5">
 									<input class="form-control" type="text" id="viewname" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" data-rule-required="true" data-record-id="{$RECORD_ID}" data-rule-maxsize="100" data-rule-check-filter-duplicate='{Head_Util_Helper::toSafeHTML(Zend_JSON::encode($CUSTOM_VIEWS_LIST))}'>
 								</div>
-								<div class="col-lg-5">
+								<div class="col-lg-5 Default">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}> &nbsp;&nbsp;{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}
 									</label>
@@ -111,11 +111,11 @@
 						</div>
 						<div>
 							<label class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</label>
-							<div class="filterElements well filterConditionContainer filterConditionsDiv">
+							<div class="filterElements  card-body filterConditionContainer filterConditionsDiv">
 								{include file='AdvanceFilter.tpl'|@vtemplate_path}
 							</div>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox shares">
 							<label>
 								<input type="hidden" name="sharelist" value="0" />
 								<input type="checkbox" data-toogle-members="true" name="sharelist" value="1" {if $LIST_SHARED} checked="checked"{/if}> &nbsp;&nbsp;{vtranslate('LBL_SHARE_THIS_LIST',$MODULE)}
@@ -147,7 +147,7 @@
 							<div class="row clearfix">
 								<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 									<button type='submit' class='btn btn-primary saveButton' id="customViewSubmit">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-									<a class='cancelLink btn btn-secondary' href="javascript:void(0);" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+									<a class='cancelLink btn btn-danger' href="javascript:void(0);" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 								</div>
 							</div>
 						</div>

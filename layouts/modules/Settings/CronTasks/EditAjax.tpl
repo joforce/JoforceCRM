@@ -25,17 +25,17 @@
 				<input type="hidden" name="frequency" id="frequency" value="" />
 
 				<div class="modal-body">
-					<div class="form-group">
-						<label class="control-label fieldLabel col-xs-5">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
-						<div class="controls fieldValue col-xs-5">
+				<div class="form-group row">
+						<label class=" fieldLabel col-md-6 pull-left">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+						<div class=" fieldValue col-md-6 pull-right">
 							<select class="select2 inputElement" name="status">
 								<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
 								<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label fieldLabel col-xs-5">{vtranslate('Frequency',$QUALIFIED_MODULE)}</label>
+					<div class="form-group row">
+						<label class=" fieldLabel col-md-6 pull-left">{vtranslate('Frequency',$QUALIFIED_MODULE)}</label>
 						{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}
 						{if $VALUES[0] == '00' && $VALUES[1] == '00'}
 							{assign var=MINUTES value="true"}
@@ -50,10 +50,10 @@
 							{assign var=MINUTES value="true"}
 							{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 						{/if}
-						<div class="controls fieldValue col-xs-2">
+						<div class="controls fieldValue col-md-2 pull-left">
 							<input type="text" class="inputElement" value="{$FIELD_VALUE}" {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if} id="frequencyValue"/>&nbsp;
 						</div>
-						<div class="controls fieldValue col-xs-3" style="padding-left: 0px;">
+						<div class="controls fieldValue col-md-3 pull-right" style="padding-left: 0px;">
 							<select class="select2 inputElement" id="time_format">
 								<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate('LBL_MINUTES',$QUALIFIED_MODULE)}</option>
 								<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate('LBL_HOURS',$QUALIFIED_MODULE)}</option>

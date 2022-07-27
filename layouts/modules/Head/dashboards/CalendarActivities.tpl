@@ -32,7 +32,7 @@
         </div>
     {/if}
 </div>
-<div name="history" class="dashboardWidgetContent" style="padding-top:15px;">
+<div name="history" class="dashboardWidgetContent " style="padding-top:15px;">
     {include file="dashboards/CalendarActivitiesContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 <div class="widgeticons dashBoardWidgetFooter">

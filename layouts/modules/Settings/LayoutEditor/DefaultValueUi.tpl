@@ -9,11 +9,11 @@
 
 {strip}
 	{if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
-		<div class="form-group pl15">
-			<label class="control-label fieldLabel col-sm-5 pl0 pr0">
+	<div class="form-group pl15 row">
+			<label class=" fieldLabel col-md-6 pull-left pl0 pr0 ">
 				<img src="{$SITEURL}{vimage_path('DefaultValue.png')}" height=14 width=14/> &nbsp; {vtranslate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
 			</label>
-			<div class="controls col-sm-7 pl0">
+			<div class="controls col-md-6 pull-right pl0">
 				<div class="defaultValueUi">
 					{if !$NAME_ATTR}
 						{assign var=NAME_ATTR value="fieldDefaultValue"}
@@ -81,7 +81,7 @@
 						{assign var=INVENTORY_TERMS_AND_CONDITIONS_MODEL value= Settings_Head_MenuItem_Model::getInstance("INVENTORYTERMSANDCONDITIONS")}
 						<a href="{$INVENTORY_TERMS_AND_CONDITIONS_MODEL->getUrl()}" target="_blank">{vtranslate('LBL_CLICK_HERE_TO_EDIT', $QUALIFIED_MODULE)}</a>
 					{else if $FIELD_MODEL->getFieldDataType() eq "text"}
-						<textarea class="input-lg col-sm-4" name="{$NAME_ATTR}"  style="resize: vertical">{$DEFAULT_VALUE}</textarea>
+						<textarea class="form-control-lg col-sm-4" name="{$NAME_ATTR}"  style="resize: vertical">{$DEFAULT_VALUE}</textarea>
 					{else}
 						<input type="text" class="inputElement col-sm-3" name="{$NAME_ATTR}" value="{$DEFAULT_VALUE}" style='width: 75%'/>
 					{/if}

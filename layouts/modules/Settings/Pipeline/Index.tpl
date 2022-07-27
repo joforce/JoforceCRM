@@ -7,20 +7,21 @@
 * All Rights Reserved.
 * Contributor(s): JoForce.com
 ************************************************************************************}
-<div class="col-sm-12 col-xs-12 ">
+<div class="col-sm-12 col-xs-12 setpipeline mt0 card">
     <div class="" style="position: relative; clear:both;">
 	<div id="table-content" class="table-container ps-container" style="">
-	    <div class="userFilter" style="margin-top: 30px">
+	<div class="userFilter card-header-new row mb20 justify-content-between" style="">
+		<h4 class="col-md-6 col-sm-6 mt10">Kanban</h4>
 		<a class="btn btn-default addButton pull-right" id="add-pipeline" href="{$SITEURL}Pipeline/Settings/List?mode=create" data-searchvalue="Active"><i class="fa fa-plus"></i>Add Kanban view</a>
 	    </div>
 
-	    <table id="listview-table" class="table listview-table" style="min-width:97%; table-layout: fixed;">
+	    <table id="listview-table" class="table listview-table mt20" style="min-width:97%;">
 		<thead>
 		    <tr class="listViewContentHeader">
 			<th nowrap="" class="floatThead-col">{vtranslate('LBL_MODULE')}</th>
 			<th nowrap="" class="floatThead-col">{vtranslate('LBL_PICKLIST')}</th>
 			<th nowrap="" class="floatThead-col">{vtranslate('LBL_RECORDS_PER_PAGE', $QUALIFIED_MODULE)}</th>
-			<th style="width:25%" class="floatThead-col">{vtranslate('LBL_ACTIONS')}</th>
+			<th style="width:10% !important" class="floatThead-col">{vtranslate('LBL_ACTIONS')}</th>
 		    </tr>
 		</thead>
 		<tbody class="overflow-y">
@@ -33,7 +34,7 @@
 				<td class="listViewEntryValue textOverflowEllipsis">{$pipeline.records_per_page}</td>
 				<td width="10%">
                                     <div class="table-actions">
-                                        <a class="pipeline-edit" href="{$SITEURL}Pipeline/Settings/List?mode=edit&id={$pipeline.pipeline_id}" data-id="{$pipeline.pipeline_id}">
+                                        <a class="pipeline-edit ml10" href="{$SITEURL}Pipeline/Settings/List?mode=edit&id={$pipeline.pipeline_id}" data-id="{$pipeline.pipeline_id}">
                                             <i class="fa fa-pencil" title="Edit" data-id="{$pipeline.pipeline_id}"></i>
                                         </a>
                                         <span class="pipeline-delete" data-id="{$pipeline.pipeline_id}">

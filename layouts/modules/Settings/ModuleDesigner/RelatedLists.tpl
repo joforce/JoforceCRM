@@ -23,11 +23,11 @@
 </td>
 </table>
 
-    <div class="row">
+<div class="modulnext">
+    	
+<button class="btn btn-default related-prev-btn ">Previous</button>
     	 <button class="btn btn-primary related-next-btn ">Next</button>
-	  <button class="btn btn-default related-prev-btn ">Previous</button>
     </div>
-
 <div id="md_related_list_dialog_form" title="{vtranslate('LBL_RELATED_LIST_OTHER_MODULE', $QUALIFIED_MODULE)}"> 
   <form>
   <fieldset>

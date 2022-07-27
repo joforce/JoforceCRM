@@ -10,12 +10,22 @@
 {* modules/Settings/MenuManager/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<div class="listViewPageDiv detailViewContainer" id="listViewContent">
-    <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
-    </div>
-    <div class="col-sm-12">
+<div class="listViewPageDiv card detailViewContainer" id="listViewContent">
+<div class="row contenthead card-header-new mb20 pb0" >
+      <div class='editViewHeader ml10 mr10 mt0 row col-md-12 pagenamehead '>
+          <h3 class="col-md-10 col-sm-11 mt10 col-9" >{if $MODULE eq 'LanguageEditor'} Language Editor {else} Sharing Rules {/if} </h3>
+          
+          <span class="fa fa-info-circle alertShow pull-right ml20 mt15 "></span>
+          <hr>
+      </div>
+</div>
+    {* <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
+    </div> *}
+    <div class="alerthide">
+    <div class="col-sm-12 tooltiptext ">
 	<div class="row">
-	    <div class=" vt-default-callout vt-info-callout">
+    <div class="col-md-6"></div>
+	    <div class=" vt-default-callout vt-info-callout col-md-5 pull-right">
 		<h4 class="vt-callout-header">
 		    <span class="fa fa-info-circle"></span>{vtranslate('LBL_INFO', $QUALIFIED_MODULE)}
 		</h4>
@@ -23,21 +33,22 @@
 	    </div>
 	</div>
     </div>
+    </div>
 
-    <div class="col-sm-12 widget_header row pt20">
-	<button class="btn addButton btn-primary pull-right" id="add-language">
+    <div class="col-sm-12  float-right">
+	<button class="btn addButton btn-primary float-right" id="add-language">
 	    {vtranslate('LBL_ADD_LANGUAGE', $QUALIFIED_MODULE)}
 	</button>
     </div>
 
     <div class="col-sm-12">
-        <div class="widget_header row pt30">
-	    <div class="select-module">
-            	<label class="col-sm-2 textAlignCenter" style="padding-top: 8px;">
+    <div class="mt30  Languages">
+	    <div class="select-module col-sm-6 pull-left col-md-12">
+            	<label class="col-sm-4 pull-left textAlignCenter" style="padding-top: 8px;">
                     {vtranslate('SELECT_MODULE', $QUALIFIED_MODULE)}
                 </label>
-                <div class="col-sm-4">
-	            <select class="select2 inputElement col-sm-3" name="lanugageEditorModules" id="lanugageEditorModules">
+                <div class="col-sm-7 pull-left">
+	            <select class="select2 inputElement " name="lanugageEditorModules" id="lanugageEditorModules">
                     	<option value=''>{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</option>
                         {foreach item=MODULE_NAME from=$ALL_MODULES}
                         <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>
@@ -53,12 +64,12 @@
                     </select>
                 </div>
 	    </div>
-	    <div class="select-language">
-		<label class="col-sm-2 textAlignCenter" style="padding-top: 8px;">
+	    <div class="select-language col-sm-6 pull-left col-md-12">
+		<label class="col-sm-4 pull-left textAlignCenter" style="padding-top: 8px;">
                     {vtranslate('SELECT_LANGUAGE', $QUALIFIED_MODULE)}
                 </label>
-                <div class="col-sm-4">
-		    <select class="select2 inputElement col-sm-3" name="lanugageEditorLanguages" id="lanugageEditorLanguages">
+                <div class="col-sm-7 pull-left">
+		    <select class="select2 inputElement" name="lanugageEditorLanguages" id="lanugageEditorLanguages">
                     	<option value=''>{vtranslate('LBL_SELECT_LANGUAGE', $QUALIFIED_MODULE)}</option>
                         {foreach item=LANGUAGE_NAME key=folder_name from=$LANGUAGES}
                         <option value="{$folder_name}" >
@@ -91,6 +102,6 @@
         </table>
     </div>
 
-    <div id="languageEditorDiv" style="padding-left:30px;">
+    <div id="languageEditorDiv" style="">
     </div>
 </div>

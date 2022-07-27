@@ -67,7 +67,8 @@ abstract class WSAPP_BaseConnector {
 
 	public function performBasicTransformationsToSourceRecords(WSAPP_SyncRecordModel $sourceRecord, WSAPP_SyncRecordModel $targetRecord){
 		$sourceRecord->setId($targetRecord->getId())
-					->setModifiedTime($targetRecord->getModifiedTime());
+					->setModifiedTime($targetRecord->getModifiedTime())
+					->setEtag($targetRecord->getEtag());
 		return $sourceRecord;
 	}
 

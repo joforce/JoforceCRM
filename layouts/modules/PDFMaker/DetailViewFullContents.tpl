@@ -12,7 +12,7 @@
 {strip}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 <div class="col-sm-12 col-xs-12">
-    <div class=" detailview-header-block">
+    <div class=" detailview-header-block pdfkil">
     	<div class="detailview-header">
             <div class="row">
 	        <div class="col-sm-6 col-lg-6 col-md-6">
@@ -30,15 +30,15 @@
             </div>
         </div>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-        <div class="detailview-content container-fluid">
-            <div class="details row">
-                <div class="block">
+        <div class="detailview-content pdf_detailview_content container-fluid">
+            <div class="details row PDF_details_row">
+                <div class="block  pdf_block">
                     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                     <div>
                         <h4>{vtranslate('PDF Maker - Properties of ', $MODULE_NAME)} " {$RECORD->get('name')} "</h4>
                     </div>
                     <hr>
-	<table class="table detailview-table no-border">
+	<table class="table detailview-table no-border {if in_array($MODULE,array('PDFMaker'))} PDFMaker_details_view {/if} ">
 		<tbody> 
 			<tr>
 				<td class="fieldLabel {$WIDTHTYPE}"><label class="muted marginRight10px">{vtranslate('Name', $MODULE_NAME)}</label></td>

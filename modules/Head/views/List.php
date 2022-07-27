@@ -179,6 +179,10 @@ class Head_List_View extends Head_Index_View {
 	$requestViewName = $request->get('viewname');
 	$tagSessionKey = $moduleName.'_TAG';
 
+	if(empty($pageNumber)){
+		$pageNumber = 1;
+	}
+
 	if(!empty($requestViewName) && empty($tag)) {
 	    unset($_SESSION[$tagSessionKey]);
 	}
@@ -303,8 +307,11 @@ class Head_List_View extends Head_Index_View {
 	    $viewer->assign('ALPHABET_VALUE',$searchValue);
 	}
 
-	if(!empty($searchKey) && !empty($searchValue)) {
+	if(!empty($searchKey)) {
 	    $listViewModel->set('search_key', $searchKey);
+	}
+
+	if(!empty($searchValue)){
 	    $listViewModel->set('search_value', $searchValue);
 	}
 
@@ -353,7 +360,23 @@ class Head_List_View extends Head_Index_View {
 	}
 
 	if(!$this->listViewEntries){
-	    $this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);		
+		global $adb, $current_user,$site_URL;
+		$is_Admin = $current_user->is_admin;
+		$current_user_role = $current_user->roleid;
+		$user_name = $current_user->user_name;
+		$moduleName = $request->getModule();
+			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
+		 if ($moduleName == "Contacts"){
+			if($current_user_role == 'H6' && $is_Admin == 'off') {	
+				$record_details_of_msq_user = getMasqueradeUserRecordDetails();
+				$record_id=$record_details_of_msq_user['record_id'];
+				foreach($this->listViewEntries as $key=>$res){
+					if($record_id != $key){
+						unset($this->listViewEntries[$key]);
+					}
+				}
+			}
+		}                               
 	}
 	//if list view entries restricted to show, paging should not fail
 	if(!$this->noOfEntries) {
@@ -412,10 +435,6 @@ class Head_List_View extends Head_Index_View {
 	$viewer->assign('ALL_USER_TAGS', $this->allUserTags);
 	$viewer->assign('ALL_CUSTOMVIEW_MODEL', CustomView_Record_Model::getAllFilterByModule($moduleName));
 	$viewer->assign('CURRENT_TAG',$tag);
-	$appName = $request->get('app');
-	if(!empty($appName)){
-	    $viewer->assign('SELECTED_MENU_CATEGORY',$appName);
-	}
 	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 	    if(!$this->listViewCount){
 		$this->listViewCount = $listViewModel->getListViewCount();
@@ -578,3 +597,4 @@ class Head_List_View extends Head_Index_View {
 	return $recordActions;
     }
 }
+

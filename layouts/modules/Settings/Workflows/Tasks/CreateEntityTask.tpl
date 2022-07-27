@@ -11,6 +11,7 @@
 -->*}
 {strip}
 	<div class="row">
+    <div class="col-xs-2 col-sm-2"></div>
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-lg-2" style="position:relative;top:4px;padding-right: 0px;">

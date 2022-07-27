@@ -10,7 +10,7 @@ class NotificationHandler extends VTEventHandler
 {
 	function handleEvent($eventName, $entityData)
 	{
-		$moduleName = $entityData->getModuleName();
+$moduleName = $entityData->getModuleName();
 		$allowed_event_handlers = array('jo.entity.aftersave', 'jo.entity.beforedelete', 'jo.entity.afterrestore');
 		if (in_array($eventName, $allowed_event_handlers)) {
 			if ($moduleName !== 'Users') {
@@ -107,11 +107,27 @@ class NotificationHandler extends VTEventHandler
 
 				$adb->pquery($query, $value_array);
 				#mobile push notification 
-				if (file_exists("user_privileges/notifications/notification_" . $related_user_id . ".php"))
-					$file_name = "user_privileges/notifications/notification_" . $related_user_id . ".php";
-				else
-					$file_name = 'user_privileges/notifications/default_settings.php';
-				require($file_name);
+				// if (file_exists("user_privileges/notifications/notification_" . $related_user_id . ".php"))
+				// 	$file_name = "user_privileges/notifications/notification_" . $related_user_id . ".php";
+				// else
+				// 	$file_name = 'user_privileges/notifications/default_settings.php';
+				// require($file_name);
+
+				$db = PearDatabase::getInstance();
+				$query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+				$result = $db->pquery($query, array($related_user_id));
+				$rows = $db->num_rows($result);
+				if($rows <= 0){
+					$query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+					$result = $db->pquery($query, array(0));
+					$rows = $db->num_rows($result);
+				}
+				for ($i=0; $i<$rows; $i++) {
+					$row = $db->query_result_rowdata($result, $i);
+					$global_settings = $row['global'];
+					$notification_settings = unserialize(base64_decode($row['notificationlist']));
+				}
+
 				if ($global_settings == 1) {
 					$exits = PushNotificaiton::getnotifyauthtoken($related_user_id);
 					if (!empty($exits['token'])) {

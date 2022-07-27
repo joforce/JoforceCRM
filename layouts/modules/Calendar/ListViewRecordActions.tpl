@@ -33,13 +33,13 @@
 			<span class="fa fa-flag icon action" title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" onclick="Calendar_Calendar_Js.holdFollowUp('{$LISTVIEW_ENTRY->getId()}');"></span>
 		{/if}
 		<span class="more dropdown action">
-			<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+			<span href="javascript:;" class="" data-toggle="dropdown">
 				<i class="fa fa-ellipsis-v icon"></i></span>
 			<ul class="dropdown-menu">
 				<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
 					{if $RECORD_ACTIONS}
 						{if $RECORD_ACTIONS['edit']}
-						<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}/{$SELECTED_MENU_CATEGORY}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
+						<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
 						{/if}
 						{if $RECORD_ACTIONS['delete']}
 						<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" class="deleteRecordButton">{vtranslate('LBL_DELETE', $MODULE)}</a></li>

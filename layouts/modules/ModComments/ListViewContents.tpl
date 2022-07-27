@@ -32,7 +32,6 @@
     <input type="hidden" name="tag" value="{$CURRENT_TAG}" />
     <input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
     <input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
-    <input type="hidden" name="app" id="appName" value="{$SELECTED_MENU_CATEGORY}">
     {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
         <input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
     {/if}
@@ -55,9 +54,9 @@
                                     </div>
                                     {if $MODULE_MODEL->isFilterColumnEnabled() and $CURRENT_CV_MODEL->isEditable() and $CURRENT_CV_MODEL->isMine()}
                                         <span style="float: left;">&nbsp;&nbsp;</span>
-                                        <div class="listColumnFilter" style="cursor: pointer;" title="{vtranslate('LBL_CLICK_HERE_TO_MANAGE_LIST_COLUMNS',$MODULE)}">
+                                        <!-- <div class="listColumnFilter" style="cursor: pointer;" title="{vtranslate('LBL_CLICK_HERE_TO_MANAGE_LIST_COLUMNS',$MODULE)}">
                                             <i class="fa fa-th-large"></i>
-                                        </div>
+                                        </div> -->
                                     {/if}
                                 </div>
                             {else}
@@ -92,7 +91,7 @@
                         <tr class="searchRow">
                             <th class="inline-search-btn">
                                 <div class="table-actions">
-                                    <button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+                                    <button class="btn btn-primary btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
                                 </div>
                             </th>
                             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

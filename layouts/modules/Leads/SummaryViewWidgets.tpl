@@ -19,10 +19,10 @@
 	{/if}
 {/foreach}
 
-<div class="left-block col-md-6">
+<div class="left-block col-md-6 pull-left p0 ml10 ">
     {* Summary View Documents Widget*}
     {if $DOCUMENT_WIDGET_MODEL}
-        <div class="summaryWidgetContainer">
+        <div class="summaryWidgetContainer ipad_summaryWidgetContainer">
             <div class="widgetContainer_documents" data-url="{$DOCUMENT_WIDGET_MODEL->getUrl()}" data-name="{$DOCUMENT_WIDGET_MODEL->getLabel()}">
                 <div class="widget_header clearfix">
                     <input type="hidden" name="relatedModule" value="{$DOCUMENT_WIDGET_MODEL->get('linkName')}" />
@@ -33,13 +33,13 @@
                         {assign var=PARENT_ID value=$RECORD->getId()}
                         <div class="pull-right">
                             <div class="dropdown">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <button type="button" onclick="Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')" class="btn btn-default dropdown-toggle" >
                                     <span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}
                                 </button>
-                                <ul class="dropdown-menu">
+                                {* <ul class="dropdown-menu">
                                     <li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', 'Documents')}</li>
                                     <li id="HeadAction">
-                                        <a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')">
+                                        <a href="javascript:Documents_Index_Js.uploadTo('U',{$PARENT_ID},'{$MODULE_NAME}')">
                                             <img style="  margin-top: -3px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins//images/JoForce.png">
                                             {vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_JOFORCE', 'Documents')})}
                                         </a>
@@ -49,7 +49,7 @@
                                     <li id="shareDocument"><a href="javascript:Documents_Index_Js.createDocument('E',{$PARENT_ID},'{$MODULE_NAME}')">&nbsp;<i class="fa fa-external-link"></i>&nbsp;&nbsp; {vtranslate('LBL_FROM_SERVICE', 'Documents', {vtranslate('LBL_FILE_URL', 'Documents')})}</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li id="createDocument"><a href="javascript:Documents_Index_Js.createDocument('W',{$PARENT_ID},'{$MODULE_NAME}')"><i class="fa fa-file-text"></i> {vtranslate('LBL_CREATE_NEW', 'Documents', {vtranslate('SINGLE_Documents', 'Documents')})}</a></li>
-                            	</ul>
+                            	</ul> *}
                             </div>
                     	</div>
                     {/if}
@@ -70,7 +70,7 @@
 
 </div>
 
-<div class="middle-block col-md-6">
+<div class="middle-block p0 col-md-6 pull-left ml15">
     {* Summary View Related Activities Widget*}
     <div id="relatedActivities">
         {$RELATED_ACTIVITIES}
@@ -79,7 +79,7 @@
 
     {* Summary View Comments Widget*}
     {if $COMMENTS_WIDGET_MODEL}
-        <div class="summaryWidgetContainer">
+        <div class="summaryWidgetContainer ipad_summaryWidgetContainer_1">
             <div class="widgetContainer_comments" data-url="{$COMMENTS_WIDGET_MODEL->getUrl()}" data-name="{$COMMENTS_WIDGET_MODEL->getLabel()}">
                 <div class="widget_header">
                     <input type="hidden" name="relatedModule" value="{$COMMENTS_WIDGET_MODEL->get('linkName')}" />

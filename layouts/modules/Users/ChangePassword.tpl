@@ -11,7 +11,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-	<div id="massEditContainer" class="modal-dialog modelContainer">
+	<div id="massEditContainer " class="modal-dialog modelContainer {if in_array($MODULE,array('Users'))} change_pwd_user {/if}">
 		{assign var=HEADER_TITLE value={vtranslate('LBL_CHANGE_PASSWORD', $MODULE)}}
 		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 		<div class="modal-content">
@@ -22,7 +22,7 @@
 					<div class="modal-body ">
 						<div class="form-group">
 							{if !$CURRENT_USER_MODEL->isAdminUser()}
-								<label class="control-label fieldLabel col-sm-5 pl0 pr0">
+								<label class="col-form-label fieldLabel col-sm-5 pl0 pr0">
 									{vtranslate('LBL_OLD_PASSWORD', $MODULE)}&nbsp;
 									<span class="red-border">*</span>
 								</label>
@@ -32,22 +32,24 @@
 							{/if}
 						</div>
 
-						<div class="form-group">
-							<label class="control-label fieldLabel col-sm-5 pl0 pr0">
+						<div class="form-group row">
+							<label class="col-form-label- fieldLabel col-md-5 pull-left pl0 pr0">
 								{vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
 								<span class="red-border">*</span>
 							</label>
-							<div class="controls fieldValue col-xs-6 pl0">
+							{* <div class="col-md-1 pl0 pr0"></div> *}
+							<div class="controls fieldValue col-md-6 pl0">
 								<input type="password" class="form-control inputElement	" name="new_password" data-rule-required="true" autofocus="autofocus"/>
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label class="control-label fieldLabel col-sm-5 pl0 pr0">
+						<div class="form-group row">
+							<label class="col-form-label- fieldLabel col-md-5 pull-left pl0 pr0">
 								{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
 								<span class="red-border">*</span>
 							</label>
-							<div class="controls fieldValue col-xs-6 pl0">
+							{* <div class="col-md-1 pl0 pr0"></div> *}
+							<div class="controls fieldValue col-md-6 pl0">
 								<input type="password" class="form-control inputElement	" name="confirm_password" data-rule-required="true"/>
 							</div>
 						</div>

@@ -8,23 +8,19 @@
 *************************************************************************************}
 
 {strip}
-	<div class="listViewPageDiv" id="listViewContent">
+	<div class="listViewPageDiv " id="listViewContent">
 		<div class="col-sm-12 col-xs-12 full-height">
 			<div id="listview-actions" class="listview-actions-container">
 				<div class = "row">
-					<div class='col-md-9' style="padding-top: 5px">
-						<div class="btn-group userFilter" style="margin-left: 25%">
-							<button class="btn btn-primary" id="activeUsers" data-searchvalue="Active">
+				<div class='col-md-12' style="padding-top: 15px;padding-bottom: 10px;">
+						<div class="btn-group userFilter" style="float:right;">
+							<button class="btn btn-primary" id="activeUsers"  data-searchvalue="Active">
 								{vtranslate('LBL_ACTIVE_USERS', $MODULE)}
 							</button>
-							<button class="btn" id="inactiveUsers" data-searchvalue="Inactive">
+							<button class="btn" id="inactiveUsers"  data-searchvalue="Inactive">
 								{vtranslate('LBL_INACTIVE_USERS', $MODULE)}
 							</button>
 						</div>
-					</div>
-					<div class="col-md-3">
-						{assign var=RECORD_COUNT value=$LISTVIEW_ENTIRES_COUNT}
-						{include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
 					</div>
 				</div>
 				<div class="list-content">

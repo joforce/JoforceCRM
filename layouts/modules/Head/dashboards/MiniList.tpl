@@ -11,7 +11,7 @@
 	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
 
-<div class="dashboardWidgetContent">
+<div class="dashboardWidgetContent ">
 	{include file="dashboards/MiniListContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
 

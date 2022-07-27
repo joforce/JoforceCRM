@@ -12,7 +12,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="modules/Head/partials/Topbar.tpl"}
 
-<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
+<div class="container-fluid app-nav module-header  {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
         {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
     </div>

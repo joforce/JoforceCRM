@@ -23,10 +23,10 @@
             </div>
         </div>
         <span class="col-lg-4 col-md-4 col-sm-4">
-            <div id="appnav" class="navbar-right">
+            <div id="appnav" class="ml-auto">
                 <ul class="nav navbar-nav">
                     {foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-                        <li><button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" type="button" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}  onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>
+                        <li class="nav-item"><button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" type="button" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}  onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>
                                 <div class="fa fa-plus"></div>&nbsp;&nbsp;
                                {vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}
                             </button>

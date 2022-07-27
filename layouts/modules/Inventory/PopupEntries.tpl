@@ -38,8 +38,8 @@
                 <thead>
                     <tr class="listViewHeaders">
                         {if $MULTI_SELECT}
-                            <th class="{$WIDTHTYPE}">
-                                <input type="checkbox"  class="selectAllInCurrentPage" />
+                            <th class="{$WIDTHTYPE} text-center">
+                                <input type="checkbox"  class="selectAllInCurrentPage float-none" />
                             </th>
                         {else}
                             <th class="{$WIDTHTYPE}">&nbsp;</th>
@@ -64,7 +64,7 @@
                 {if $MODULE_MODEL && $MODULE_MODEL->isQuickSearchEnabled()}
                     <tr class="searchRow">
                         <td class="searchBtn textAlignCenter">
-                            <button class="btn btn-success" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+                            <button class="btn btn-primary" data-trigger="PopupListSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
                         </td>
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                             <td>
@@ -83,8 +83,8 @@
                     <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}'
                         {if $GETURL neq '' } data-url="{$LISTVIEW_ENTRY->$GETURL()|cat:'&sourceModule='|cat:$SOURCE_MODULE}" {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
                         {if $MULTI_SELECT}
-                            <td class="{$WIDTHTYPE}">
-                                <input class="entryCheckBox" type="checkbox" />
+                            <td class="{$WIDTHTYPE} text-center">
+                                <input class="entryCheckBox float-none" type="checkbox" />
                             </td>
                         {else}
                             <td></td>

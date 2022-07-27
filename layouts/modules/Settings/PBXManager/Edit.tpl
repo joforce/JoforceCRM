@@ -8,11 +8,13 @@
 *************************************************************************************}
 
 {strip}
-	<div class="widget_header col-lg-12">
-		<h4>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h4>
-		<hr>
-	
-	<div class="container-fluid">
+
+	<div class="PBXManager-container bg-white PBXManagercalls " >
+	<div class="card m50 pbxManager-page_ms">
+	<div class="col-lg-12 card-header-new p0">
+		<h4><b>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</b></h4>
+	</div>
+	<div class="container-fluid ">
 		{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 		<form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
 			<input type="hidden" name="module" value="PBXManager"/>
@@ -25,7 +27,7 @@
 						{assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
 							<tr>
-								<td class="fieldLabel control-label" style="width:25%"><label>{vtranslate($FIELD_NAME, $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></td>
+								<td class="col-form-label" style="width:25%"><label>{vtranslate($FIELD_NAME, $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></td>
 								<td style="word-wrap:break-word;">
 									<input class="inputElement fieldValue" type="{$FIELD_TYPE}" name="{$FIELD_NAME}" data-rule-required="true" value="{$RECORD_MODEL->get($FIELD_NAME)}" />
 								</td>
@@ -38,7 +40,7 @@
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
 						<button type="submit" class="btn btn-primary saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-						<a class="cancelLink btn btn-secondary" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink btn btn-danger" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>
@@ -51,4 +53,6 @@
 			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)} : {vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>
 	</div>
+	<div>
+	<div>
 {/strip}

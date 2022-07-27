@@ -1,0 +1,3275 @@
+/* settings - search - starts */
+
+.settingsmenu-starts {
+	position: relative;
+	background-color: #fff;
+	min-height: auto;
+	width: 97%;
+	/* padding: 1px 0px 58px 0 !important; */
+	padding: 40px !important;
+	margin: 78px 0 20px 20px;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	background-clip: border-box;
+	border-radius: 5px;
+	border: 1px solid #deebfd;
+	margin-bottom: 21px;
+	/* box-shadow: -8px 12px 18px 0 #dadee8; */
+}
+
+.settingsmenu-start {
+	position: relative;
+	background-color: #ecf0faf6;
+	min-height: auto;
+	width: 100%;
+	padding: 0px;
+	margin: 0;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	background-clip: border-box;
+	border-radius: 5px;
+	border: 1px solid #deebfd;
+
+	margin-bottom: 21px;
+}
+
+.PBXManager-container h4 {
+	padding: 20px 30px;
+}
+
+.PBXManagercalls {
+	height: 700px !important;
+	margin-top: 85px !important;
+	margin-right: 20px;
+	padding: 20px;
+}
+
+.edit-content {
+	height: 700px;
+	padding: 20px;
+	margin-bottom: 40px;
+}
+
+.user-container {
+	background-color: #fff;
+	margin-top: 50px 30px;
+	padding: 20px;
+}
+
+.admin-settings .module_search .horizontal-hr {
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 20px;
+}
+
+.settingsmenu-starts .sethead {
+	padding: 0 20px;
+}
+
+.settingsmenu-starts .listViewPageDiv #modulePickListValuesContainer .massEditTabs {
+	justify-content: space-between;
+	display: flex;
+	list-style: none;
+}
+
+/* .dropbox .select2-container a span{ color: #fff;} */
+.dropbox .select2-container a {
+	height: 39px;
+	padding-top: 3px;
+	padding-left: 8px;
+}
+
+/* .module-header .module-action-content #MailConverter_listView_basicAction_LBL_ADD_RECORD{ margin-top: 25px;} */
+
+.fieldBlockContainer .addMailBoxStep .editview-table .scanner {
+	height: 70px;
+}
+
+.settings_search {
+	padding-right: 0px !important;
+	border: 1px solid #ecf0fa;
+	border-radius: 6px;
+	margin-left: 10px;
+	position: relative;
+	float: left;
+	display: inline-block;
+	height: 33px;
+	color: #aaa;
+	/* margin-top: 27px; */
+	text-decoration: none;
+	vertical-align: top;
+	background: #fff;
+}
+
+.settings_search input:focus {
+	outline: none;
+}
+
+.settings_search input {
+	background: transparent;
+	border: none;
+	padding: 5px 20px 5px 40px;
+	background: url(images/magnifier.png) no-repeat left;
+	position: relative;
+	left: 0px;
+	box-sizing: border-box;
+}
+
+.settingsPageDiv #search_settings:focus {
+	border-color: #0c4da2 !important;
+	outline: 0;
+}
+
+.settingsPageDiv #search_settings:hover {
+	border-color: #969696 !important;
+}
+
+.settingsPageDiv #search_settings {
+	background-color: white;
+	margin: 15px;
+	border: none !important;
+	border-bottom: 1px solid #e8e8e8 !important;
+	color: #7a7a7a !important;
+	padding: 5px 10px 5px 25px !important;
+	background: url(images/magnifier.png) no-repeat left;
+	position: absolute;
+	margin-top: 50px;
+	margin-right: 30px;
+}
+
+.Search .settings {
+	background: url(images/magnifier.png) no-repeat left;
+	margin-top: 10px;
+	width: 500px !important;
+	color: #000;
+}
+
+#settingsMenuSearch {
+	background-color: #fff;
+	margin-left: 12px;
+	margin-top: 12px;
+	padding: 6px 8px 7px 32px !important;
+	width: 100%;
+	color: #000;
+	border: solid 1px #ccc !important;
+}
+
+.module-action-bar .settingsgroup {
+	background-color: transparent !important;
+	margin: 0px;
+}
+
+.settingsgroup {
+	background: #303030;
+	height: 100%;
+}
+
+.settingsgroup,
+.settingsgroup .panel-collapse {
+	/* width: 230px; */
+}
+
+.search-list {
+	background-color: transparent !important;
+	margin-top: 50px;
+}
+
+.search-list {
+	border: none !important;
+	border-bottom: 1px solid #e8e8e8 !important;
+	color: #7a7a7a !important;
+	padding: 5px 10px 5px 25px !important;
+	background: url(images/magnifier.png) no-repeat left;
+	border-radius: 5px;
+}
+
+.search-folders,
+.search-list {
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	margin: 5px 0 10px;
+	color: #ccc;
+	padding: 5px 10px;
+}
+
+.contenthead {
+	border-bottom: solid 1px #f7f7f7;
+	margin-bottom: 40px;
+	padding-bottom: 10px;
+}
+
+.langedit {
+	padding: 10px 10px;
+	border-bottom: solid 1px #f7f7f7;
+	margin-bottom: 22px;
+}
+
+/* settings - search - ends */
+
+
+/* settings - loginhistory - starts */
+
+.settingsmenu-starts #layoutEditorContainer {
+	padding-top: 20px;
+}
+
+
+/* settings - loginhistory - ends */
+
+
+/* settings - languageeditor - starts */
+
+table.language-table thead th {
+	width: 50%;
+}
+
+table.language-table tbody td input {
+	width: 80%;
+	border: none;
+	outline: none;
+}
+
+.listbg {
+	width: 100%;
+	background-color: #fff;
+}
+
+.settingsmenu-starts .siging {
+	font-size: 20px;
+	margin-top: 20px;
+	color: #000;
+	margin-left: 60px !important;
+
+}
+
+.settingsmenu-starts .google {
+	font-size: 35px;
+
+	color: #fd5344 !important;
+	border-right: solid 3px #ccc;
+	padding-right: 30px;
+}
+
+.leadsFieldMappingListPageDiv #detailView {
+	border: solid 1px #ccc !important;
+}
+
+#languageEditorDiv {
+	margin-bottom: 30px;
+	padding-bottom: 50px;
+}
+
+.languagebg {
+	background-color: #f8f8f8;
+	padding-bottom: 30px;
+	border: 1px solid #e3e3e7;
+}
+
+.userFilter h4 {}
+
+.settingsmenu-starts #table-content #listview-table {
+	border: solid 1px #ccc !important;
+}
+
+.settingsmenu-starts .langedit h4 {
+	margin-top: 10px;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+table.language-table tbody td .language-edit {
+	display: inline-block;
+	/* margin-left: 15px; */
+	position: absolute;
+	right: 57px;
+	margin-top: 4px;
+}
+
+.Languages {
+	margin-top: 100px;
+	margin-bottom: 50px;
+}
+
+#languageEditorDiv thead th:first-child {
+	border-left: solid 1px #ccc;
+}
+
+
+
+#languageEditorDiv thead th:last-child {
+	border-right: solid 1px #ccc;
+}
+
+table.language-table tbody td .language-edit span {
+	width: 25px;
+	height: 25px;
+	padding: 4px;
+	cursor: pointer;
+	text-align: center;
+}
+
+table.language-table tbody td .language-edit span.save-edit,
+table.language-table tbody td .language-edit span.save-add-edit {
+	color: #32a082;
+}
+
+table.language-table tbody td .language-edit span.close-edit {
+	color: #ff5e5e;
+}
+
+table.language-table tbody td.active-editable input.language-input {
+	border-bottom: 1px solid #0c4da2;
+}
+
+#languageEditorDiv thead .label-button {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	width: 100%;
+}
+
+#languageEditorDiv {
+	display: inline-block;
+	width: 100%;
+}
+
+#languageEditorDiv .labels-content {
+	position: relative;
+	cursor: pointer;
+}
+
+#languageEditorDiv .labels-content:hover {
+	background-color: #f9f9f9;
+}
+
+#languageEditorDiv .table {
+	width: 95%;
+	margin-left: 33px;
+	border: solid 1px #ccc;
+}
+
+.calsetting .table .fieldLabel {
+	background: transparent;
+	padding-top: 28px;
+	padding-right: 40px;
+}
+
+
+.block .fieldValue .alert {
+	margin-left: 30px;
+	width: 30%;
+}
+
+.blockData .errorMessage .block .editview-table tbody {
+	margin-top: 30px;
+	display: inline-block;
+}
+
+#languageEditorDiv .table tbody>tr:first-child {
+	border-top: none;
+}
+
+#languageEditorDiv .table tbody>tr>td {
+	width: 50%;
+}
+
+/* .block .fieldValue div{ margin-bottom: 30px; margin-top: 30px;} */
+
+
+.pip .fieldValue .select2-container {
+	margin-bottom: 30px;
+}
+
+#languageEditorDiv .table tbody>tr>td input {
+	background: transparent;
+	padding: 10px;
+}
+
+#languageEditorDiv .table.picklist thead:first-child {
+	width: 50%;
+}
+
+#languageEditorDiv .row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+#languageEditorDiv h3 {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.1;
+	margin: 0px;
+	padding: 20px 10px;
+	border-bottom: 1px solid #ededed;
+}
+
+#languageEditorDiv .language-editor-module .toggle-icon {
+	position: absolute;
+	right: 1%;
+	top: 22px;
+}
+
+#languageEditorDiv .language-editor-module .toggle-icon.rotate {
+	-moz-transition: all .5s linear;
+	-webkit-transition: all .5s linear;
+	transition: all .5s linear;
+}
+
+#languageEditorDiv .language-editor-module .toggle-icon.rotate.down {
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
+#languageEditorDiv tbody tr:hover {
+	background-color: #f9f9f9;
+}
+
+#languageEditorDiv thead {
+	border-bottom: 2px solid #ccc !important;
+}
+
+#languageEditorDiv thead th {
+	font-size: 16px;
+	text-transform: none !important;
+	color: #000;
+	border-bottom: 0px !important;
+	width: 605px;
+}
+
+#languageEditorDiv .outside-border {
+	border: 1px solid #ededed;
+	border-radius: 6px;
+	margin-bottom: 5px;
+}
+
+#languageEditorDiv .accordion-heading {
+	margin: 15px 0px;
+	display: block;
+}
+
+
+/* settings - languageeditor - ends */
+
+
+/*settings admin - starts*/
+
+.settingsgroup {
+	background: #303030;
+	height: 100%;
+	background-color: transparent !important;
+	margin: 0px;
+}
+
+.settingsgroup .panel-group {
+	padding-top: 15px;
+	width: 250px;
+}
+
+.settingsgroup ul.list-group {
+	list-style-type: none;
+	font-size: 13px;
+	padding: 5px 0
+}
+
+.settingsgroup ul li a {
+	padding: 8px 8px 8px 30px;
+	display: block;
+}
+
+.settingsgroup ul li a i {
+	padding: 4px 12px 4px 0px;
+}
+
+.settingsgroup-accordion {
+	color: #fff;
+	font-size: 14px;
+	cursor: pointer
+}
+
+.settingsgroup-accordion a {
+	padding: 10px 10px;
+	display: block
+}
+
+.settingsgroup-accordion a i {
+	margin-right: 5px;
+	float: right;
+}
+
+.settingsgroup div.panel-collapse.ulBlock.in.collapse.show {
+	background-color: #303030;
+	visibility: inherit !important;
+	display: block !important;
+}
+
+.settingsgroup [data-instafilta-hide="true"] {
+	display: none !important
+}
+
+.settingsgroup [data-instafilta-hide="false"] {
+	display: block !important
+}
+
+.settingsgroup .settingsgroup-panel {
+	background: #fff !important;
+	color: #000 !important;
+}
+
+.settingsgroup .settingsgroup-panel a {
+	color: #000;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+
+
+.settingsgroup .settingsgroup-panel:hover {
+	background-color: #eee !important;
+}
+
+.settingsgroup .settingsgroup-panel .panel-collapse {
+	width: 230px
+}
+
+.settingsgroup .settingsgroup-panel .panel-collapse .list-group.widgetContainer {
+	color: #000;
+	background: #fff !important;
+}
+
+.settingsgroup .settingsgroup-panel .panel-collapse .list-group.widgetContainer li a:hover {
+	background-color: #eee !important;
+}
+
+.settingsgroup .settingsgroup-panel .panel-collapse .list-group.widgetContainer li a.settingsgroup-menu-color {
+	background-color: #eee !important;
+}
+
+.settingsgroup .settingsgroup-panel .panel-collapse .list-group.widgetContainer li a {
+	font-size: 14px;
+	font-weight: normal !important;
+}
+
+.settingsPageDiv #listview-actions .usersinfo.textOverflowEllipsis {
+	padding: 0px;
+}
+
+.settingsPageDiv .modal-overlay-footer {
+	margin-left: 0px !important;
+}
+
+.settingsIndexPage pre {
+	background: #fff;
+	border: none;
+	font-size: 15px;
+}
+
+.settingsIcon.open .dropdown-menu>li>a {
+	padding: 8px 10px;
+}
+
+.settingsIcon.open .dropdown-menu>li>a:hover {
+	color: #333 !important;
+}
+
+.serversettings-table tbody {
+	margin-top: 40px !important;
+	display: table;
+}
+
+.serversettings-table tbody tr td {
+	border: none !important;
+	text-align: left !important;
+}
+
+.settingsPageDiv.content-area.clearfix .ModulemanagerSettings .moduleImage {
+	padding-right: 0px;
+}
+
+.settingsPageDiv.content-area.clearfix .ModulemanagerSettings .moduleImage .alignMiddle {
+	float: right;
+}
+
+.settingsPageDiv.content-area.clearfix .ModulemanagerSettings .moduleName {
+	padding-left: 5px;
+}
+
+.settingsPageDiv #search_display {
+	display: inline-block;
+	margin-top: 10px;
+	min-width: 100%;
+	/* overflow-x: hidden; */
+	background: #fff;
+	margin-top: 71px;
+	border-radius: 10px;
+	padding-bottom: 40px;
+
+}
+
+.settingsPageDiv #search_display ul.result_found {
+	padding: 0px;
+}
+
+.settingsPageDiv #search_display ul.result_found.row {
+	margin: 0px;
+}
+
+.settingsPageDiv #search_display ul.result_found li {
+	list-style: none;
+	margin: 5px 10px;
+	/* text-align: center; */
+	width: 16%;
+	height: 80px;
+}
+
+.settingsPageDiv #search_display #empty_settings {
+	text-align: center;
+	width: 100%;
+}
+
+.admin-settings .settings-list li {
+	/* width: 12%; */
+	list-style: none;
+	text-align: center;
+	margin: 5px 20px;
+	display: inline-table;
+	white-space: normal;
+	cursor: pointer;
+}
+
+.admin-settings .settings-list li a {
+	text-align: center;
+	color: #333;
+	font-weight: 500;
+	font-size: 15px;
+}
+
+.admin-settings .settings-list li label:after,
+.settingsPageDiv #search_display ul.result_found li a.ref_search label:afte {
+	content: " ";
+	width: 76px;
+	height: 76px;
+	position: absolute;
+	border-radius: 50%;
+	visibility: hidden;
+	border: 3px solid #7a7a7a;
+	top: -9px;
+	left: -9px;
+	transition: 0.5s all;
+	animation: circles 0.5s linear;
+}
+
+.admin-settings .settings-list li p,
+.settingsPageDiv #search_display ul.result_found li a.ref_search p {
+	font-size: 15px;
+	color: #333;
+	transition: 0.5s all;
+}
+
+.admin-settings .settings-list li:hover label,
+.settingsPageDiv #search_display ul.result_found li:hover label {
+	/* background: #616161;
+	border-color: #7a7a7a;
+	color: #fff; */
+}
+
+.admin-settings .settings-list li label:after,
+.settingsPageDiv #search_display ul.result_found li:hover label:after {
+	content: " ";
+	width: 76px;
+	height: 76px;
+	position: absolute;
+	border-radius: 50%;
+	visibility: hidden;
+	border: 3px solid #7a7a7a;
+	top: -9px;
+	left: -9px;
+	transition: 0.5s all;
+	animation: circles 0.5s linear;
+}
+
+.admin-settings .settings-list li label,
+.col-lg-6.col-md-6.col-sm-12.d-flex label,
+.settingsPageDiv #search_display ul.result_found li a.ref_search label {
+	width: 40px;
+	height: 40px;
+	/* border: 3px solid #000; */
+	background-image: url(../resources/Images/settings_icon_boder.png);
+	background-size: 100%;
+	border-radius: 12%;
+	text-align: center;
+	padding: 7px 0px;
+	/* background: #fff; */
+	cursor: pointer;
+	position: relative;
+	transition: all 0.5s;
+}
+
+#settingsmenu-starts #ConfigEditorDetails {
+	/* margin-top: 5%;*/
+	background-color: #fff;
+	border-radius: 10px;
+	padding-top: 10px;
+}
+
+#settingsmenu-starts #EditViewPipeline {
+	margin-top: 80px;
+}
+
+#settingsmenu-starts .listViewPageDiv {
+	/*margin-top: 6%;*/
+	background: #fff;
+	border-radius: 10px;
+	padding: 21px 27px;
+}
+
+.admin-settings .settings-list li label:hover,
+.col-lg-6.col-md-6.col-sm-12.d-flex:hover label,
+.search_display .col-lg-12 .col-sm-12 .col-md-12 .result_found .row .col-lg-6 .col-md-6 .col-sm-12 .d-flex .newSearch:hover label,
+.settingsPageDiv #search_display ul.result_found li label:hover {
+	/* background: #000 !important; */
+	background-image: url(../../../community/layouts/resources/Images/settings_icon_bg.png);
+	/* color: #fff; */
+	transition: all 0.5s !important;
+	background-image: url(../resources/Images/settings_icon_bg.png) !important;
+	background-size: 100%;
+}
+
+.admin-settings .settings-list li label:hover span,
+.settingsPageDiv #search_display ul.result_found li label:hover span {
+	/* color: #fff !important; */
+}
+
+.admin-settings .settings-list li label span,
+.col-lg-6.col-md-6.col-sm-12.d-flex label,
+.settingsPageDiv #search_display ul.result_found li a.ref_search label span {
+	color: #000000;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+.admin-settings .settings-list li:hover label span,
+.settingsPageDiv #search_display ul.result_found li:hover a {
+	/* color: #fff; */
+}
+
+.admin-settings .settings-list li:hover .para_list,
+.settingsPageDiv #search_display ul.result_found li:hover .para_list {
+	transform: translateY(10px);
+	transition: 0.2s;
+}
+
+.overlay-container-300 {
+	margin-left: 0px !important;
+}
+
+
+/*settings admin - ends*/
+
+
+/*settings input- starts*/
+
+.tagInfo.input-info-addon {
+	vertical-align: middle
+}
+
+.input-info-addon {
+	display: inline-block;
+	margin: 1px 10px;
+	vertical-align: top
+}
+
+.input-select-addon {
+	background: 0;
+	border: 0
+}
+
+
+/*settings input- ends*/
+
+
+/* settings styles - starts */
+
+.help-inline {
+	padding: 5px;
+	display: inline-block;
+	border: 1px solid #ddd;
+	background: #f3f3f3;
+	margin-left: -15px;
+	float: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+/* settings styles - ends */
+
+
+/* Settings - Tags - starts */
+
+#editTagContainer .inputElement {
+	width: 50%
+}
+
+#editTagContainer td {
+	vertical-align: middle
+}
+
+
+/* Settings - Tags - ends */
+.customRuleContainer .ruleListContainer .title {
+	margin-top: 30px;
+	;
+}
+
+
+
+/* Settings - roles - ends */
+
+.treeView .toolbar-handle {
+	margin-top: 25px !important;
+}
+
+.table-bordered tr {
+	/* height: 50px; */
+}
+
+.treeView .toolbar-handle a.droppable {
+	border: 1px solid #a4b1c3 !important;
+	background: #ecf0f5 !important;
+	margin-left: 15px;
+}
+
+.fieldValue .select2-container .select2-choices .select2-search-field input {
+	height: 38px;
+}
+
+.settingsmenu-starts .editViewContents .Privileges .fieldLabel {
+	left: 100px;
+	position: relative;
+	font-size: 24px !important;
+}
+
+.form-horizontal .col-form-label.fieldLabel {
+	text-align: left;
+	font-weight: normal;
+	color: #303030;
+	position: relative;
+	/* top: 18px; */
+	/* left: -13px; */
+	top: 10px;
+}
+
+.pbx h4 {
+	padding: 30px 0px;
+}
+
+
+.alluser .form-group .col-form-label3 {
+	padding-bottom: 30px;
+}
+
+.editViewBody .editViewContents .Privileges {
+	padding-top: 40px;
+	;
+}
+
+.alluser {
+	margin-top: 50px;
+	/* background-color: #fbf8ff; */
+	margin-left: 247px;
+	border: solid 1px #ccc;
+	/* height: 506px; */
+	/* padding-top: 80px; */
+	padding: 50px 100px;
+}
+
+.alluser .form-group .fieldLabel {
+	background: transparent;
+}
+
+
+
+
+.profilesEditView .blockHeader th label .verticalAlignMiddle {
+	margin-left: 40px;
+}
+
+.treeView li .toolbar-handle a {}
+
+.toolbar a span {
+	color: #ccc;
+	padding-left: 10px;
+	font-size: 20px;
+}
+
+.treeView ul {
+	margin-top: -18px;
+	margin-left: 30px;
+}
+
+.treeView>ul>li:before {
+	height: 0px;
+}
+
+.treeView li {
+	border-left: 4px solid #ddd;
+	list-style: none;
+	padding-top: 15px
+}
+
+.treeView li:before {
+	content: " ";
+	width: 30px;
+	height: 40px;
+	position: absolute;
+}
+
+.treeView li:last-child {
+	border-left: none;
+}
+
+.treeView li:last-child:before {
+	border-left: 4px solid #ddd;
+}
+
+.treeView li .toolbar-handle {
+	margin-top: 10px;
+	margin-left: 25px;
+	position: relative;
+}
+
+.treeView li .toolbar-handle a:before {
+	background: none repeat scroll 0 0 #ddd;
+	content: " ";
+	display: inline-block;
+	height: 4px;
+	left: -25px;
+	position: absolute;
+	top: 12px;
+	width: 40px
+}
+
+.settingsmenu-starts .editViewPageDiv .editViewHeader {
+	padding: 25px 38px;
+	font-size: 26px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.treeView .toolbar-handle a:first-child:before {
+	background: none repeat scroll 0 0 rgb(192, 92, 92);
+	display: none;
+}
+
+.modal.myModal .modal-dialog .modal-content.roles-modal {
+	height: 90vh;
+	position: initial;
+}
+
+
+/* Settings - roles - ends */
+
+
+/* Settings - profiles - starts */
+
+.mini-slider-control {
+	width: 50px
+}
+
+.mini-slider-control+div {
+	margin-left: 15px
+}
+
+.mini-slider-control .ui-slider-handle {
+	border: 0;
+	border-radius: 50%;
+	height: 13px;
+	top: -1px;
+	width: 13px;
+	cursor: pointer
+}
+
+.mini-slider-control .ui-slider-handle:focus {
+	outline: 0
+}
+
+.mini-slider-control[data-value="2"] .ui-slider-handle {
+	background: #0c4da2 !important;
+}
+
+.mini-slider-control[data-value="1"] .ui-slider-handle {
+	background: red;
+}
+
+.mini-slider-control[data-value="0"] .ui-slider-handle {
+	background: #7d7e7d;
+	background: -moz-linear-gradient(top, #7d7e7d 0, #0e0e0e 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d7e7d), color-stop(100%, #0e0e0e));
+	background: -webkit-linear-gradient(top, #7d7e7d 0, #0e0e0e 100%);
+	background: -o-linear-gradient(top, #7d7e7d 0, #0e0e0e 100%);
+	background: -ms-linear-gradient(top, #7d7e7d 0, #0e0e0e 100%);
+	background: linear-gradient(to bottom, #7d7e7d 0, #0e0e0e 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7e7d', endColorstr='#0e0e0e', GradientType=0);
+	margin-left: 0
+}
+
+.mini-slider-control[data-value="1"] .ui-slider-handle {
+	background: #ffb76b;
+	background: -moz-linear-gradient(top, #ffb76b 0, #ffa73d 0, #ff7c00 49%, #ff7f04 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffb76b), color-stop(0%, #ffa73d), color-stop(49%, #ff7c00), color-stop(100%, #ff7f04));
+	background: -webkit-linear-gradient(top, #ffb76b 0, #ffa73d 0, #ff7c00 49%, #ff7f04 100%);
+	background: -o-linear-gradient(top, #ffb76b 0, #ffa73d 0, #ff7c00 49%, #ff7f04 100%);
+	background: -ms-linear-gradient(top, #ffb76b 0, #ffa73d 0, #ff7c00 49%, #ff7f04 100%);
+	background: linear-gradient(to bottom, #ffb76b 0, #ffa73d 0, #ff7c00 49%, #ff7f04 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb76b', endColorstr='#ff7f04', GradientType=0);
+	margin-left: -6px
+}
+
+.mini-slider-control[data-value="2"] .ui-slider-handle {
+	background: #bfd255;
+	background: -moz-linear-gradient(top, #bfd255 0, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bfd255), color-stop(79%, #8eb92a), color-stop(100%, #72aa00), color-stop(100%, #9ecb2d));
+	background: -webkit-linear-gradient(top, #bfd255 0, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
+	background: -o-linear-gradient(top, #bfd255 0, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
+	background: -ms-linear-gradient(top, #bfd255 0, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
+	background: linear-gradient(to bottom, #bfd255 0, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bfd255', endColorstr='#9ecb2d', GradientType=0);
+	margin-left: -13px
+}
+
+.blockHeader {
+	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	background-color: #474747;
+	background-image: -moz-linear-gradient(top, #555, #333);
+	background-image: -ms-linear-gradient(top, #555, #333);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#555), to(#333));
+	background-image: -webkit-linear-gradient(top, #555, #333);
+	background-image: -o-linear-gradient(top, #555, #333);
+	background-image: linear-gradient(top, #555, #333);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#333333', GradientType=0);
+	min-height: 30px
+}
+
+
+
+.blockHeader h4 {
+	margin: 10px 0
+}
+
+.blockHeader th {
+	text-align: center !important;
+	text-align: center;
+	color: #fff
+}
+
+.Composer {
+	margin-top: 60px;
+}
+
+.comper {
+	margin-top: 30px;
+}
+
+
+/* Settings - profiles - ends */
+/* Settings - Groups - starts */
+
+.collectiveGroupMembers {
+
+	border-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+	line-height: .5em
+}
+
+.collectiveGroupMembers ul {
+	padding: 0;
+	margin: 0
+}
+
+.collectiveGroupMembers ul li {
+	padding: 4px 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word
+}
+
+.collectiveGroupMembers ul li a {
+	display: inline-block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	width: 100%;
+	margin: 2px;
+}
+
+
+#listview-actions #table-content #listview-table .overflow-y .listViewEntries .listViewEntryValue {
+	padding: 10px !important;
+}
+
+
+
+
+
+#settingsmenu-starts .listViewPageDiv .listview-actions .table-container .listview-table .overflow-y .listViewEntries .listViewEntryValue {
+	padding: 15px;
+}
+
+
+
+
+
+.collectiveGroupMembers ul li.groupLabel {
+	padding: 6px 5px;
+	margin: 0;
+	font-weight: bolder;
+	color: #444;
+}
+
+
+#s2id_memberList li>div,
+.groupMembersColors li>div {
+	margin-left: 10px
+}
+
+.groupMembersColors li {
+	text-shadow: 1px 0 2px #fff
+}
+
+#s2id_memberList .Users,
+.groupMembersColors .Users {
+	background-color: #f99984 !important;
+	padding: 5px;
+	margin-bottom: 2px;
+	background-image: none
+}
+
+#s2id_memberList .Groups,
+.groupMembersColors .Groups {
+	background-color: #acd5ff !important;
+	background-image: none;
+	padding: 5px;
+	margin-bottom: 2px
+}
+
+#s2id_memberList .Roles,
+.groupMembersColors .Roles {
+	background-color: #ffec98 !important;
+	background-image: none;
+	padding: 5px;
+	margin-bottom: 2px
+}
+
+#s2id_memberList .RoleAndSubordinates,
+.groupMembersColors .RoleAndSubordinates {
+	background-color: #c4dea2 !important;
+	background-image: none;
+	padding: 5px;
+	margin-bottom: 2px
+}
+
+
+/* Settings - Groups - ends */
+
+
+/* Settings - picklist dependency - starts */
+
+#dependencyGraph .tableHeading {
+	text-align: center;
+	padding-top: 30px;
+	font-size: 1.2em;
+	font-weight: bold
+}
+
+#dependencyGraph .depandencyTable .blockHeader {
+	background: #f3f3f3
+}
+
+#dependencyGraph .dependencyMapping {
+	text-align: center;
+	background: #fff
+}
+
+#dependencyGraph .dependencyMapping .mCSB_container {
+	margin-bottom: 16px !important
+}
+
+#dependencyGraph .dependencyMapping .pickListDependencyTable {
+	border: 0
+}
+
+#dependencyGraph .dependencyMapping .pickListDependencyTable .blockHeader th {
+	background: #f3f3f3
+}
+
+#dependencyGraph .dependencyMapping .pickListDependencyTable .selectedCell {
+	background: #a9cbf5
+}
+
+
+/* Settings - picklist dependency - ends */
+
+
+/* Settings - picklist - starts */
+
+.pickListValue {
+	background-color: #fff
+}
+
+.pickListValue .picklistActions {
+	opacity: 0
+}
+
+.pickListValue:hover .picklistActions {
+	opacity: 1
+}
+
+.picklist-color {
+	display: inline-block;
+	padding: 2px 1px !important;
+	line-height: 15px
+}
+
+
+/* Settings - picklist - ends */
+
+
+/* Settings - layout editor - starts */
+
+#addRelationContainer .relationImages a:hover,
+#addRelationContainer .relationImages a:focus {
+	color: black
+}
+
+#addRelationContainer .relationImages img {
+	border: 5px solid transparent
+}
+
+#addRelationContainer .relationImages img.selected,
+#addRelationContainer .relationImages img:hover {
+	border: 5px solid #ddd
+}
+
+#addRelationContainer .relationImages h5 {
+	margin-left: 20px;
+	margin-top: -20px
+}
+
+.layoutContent li.dummyRow {
+	border: 1px dotted #ddd;
+	min-height: 116px;
+	height: auto
+}
+
+.layoutContent li.dummyRow .dragUiText {
+	font-size: 20px;
+	opacity: .3;
+	padding-top: 7%;
+	padding-left: 15%
+}
+
+.layoutContent .actions {
+	opacity: 0
+}
+
+.layoutContent .opacity:hover .actions {
+	opacity: 1;
+	-ms-filter: "alpha(opacity=0)";
+	filter: alpha(opacity=100)
+}
+
+.layoutContent .fieldPropertyContainer:hover .actions {
+	opacity: 1;
+	-ms-filter: "alpha(opacity=0)";
+	filter: alpha(opacity=100)
+}
+
+.layoutContent .addButton,
+.relatedTabModulesList .addButton {
+	border-radius: 2px;
+	border: 1px solid #ddd;
+	color: #666;
+	background: #fff
+}
+
+.layoutContent .addButton:hover,
+.layoutContent .addButton:focus,
+.layoutContent .addButton:active,
+.relatedTabModulesList .addButton:hover,
+.relatedTabModulesList .addButton:focus,
+.relatedTabModulesList .addButton:active {
+	background-color: #f9f9f9;
+	border: 1px solid #ccc
+}
+
+.layoutContent .blockFieldsList ul {
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding: 2px;
+	margin-left: 5%;
+	margin-top: 1%;
+	width: 44%
+}
+
+.layoutContent .blockFieldsList {
+	padding: 5px;
+	min-height: 27px
+}
+
+.blockActions .bootstrap-switch {
+	height: 26px;
+}
+
+.layoutContent .editFields {
+	min-height: 167px;
+	height: auto;
+	border-right: 1px solid #ddd
+}
+
+.detailViewContainer .widget_header .select-module label {
+	font-size: 18px;
+	margin-top: 10px;
+}
+
+.detailViewContainer .widget_header .select-language label {
+	font-size: 18px;
+	margin-top: 10px;
+}
+
+.layoutContent .fieldLabelContainer {
+	padding-top: 15px;
+	margin-right: 6px;
+	text-align: left
+}
+
+.layoutContent .fieldProperties .switch:hover {
+	opacity: 1
+}
+
+.fieldProperties .disabled {
+	opacity: .3
+}
+
+.relatedTabModulesList .relationListInfo {
+	border: 1px solid #0c4da2;
+	border-left: 3px solid #6565d9
+}
+
+.relatedTabModulesList .relatedListInfoHeader {
+	color: #0c4da2 !important;
+}
+
+.relatedListContainer .ONE_TO_ONE {
+	width: 300px;
+	padding: 5px;
+	padding-left: 14px
+}
+
+.editViewContainer #pickListDependencyForm .editViewBody .editViewContents .form-group .controls {
+	display: inline-block;
+}
+
+
+
+.block_LBL_CURRENCY_CONFIGURATION .blockData .detailview-table #Users_detailView_fieldValue_date_format .edit .editElement .select2-container {
+	display: inline-block;
+	float: left;
+}
+
+
+
+.detailViewContainer .contents #ConfigEditorForm .detailViewInfo .form-group .input-group input {
+	width: 100% !important;
+	margin-top: 10px;
+	border-radius: 3px !important;
+	box-shadow: none !important;
+	background: #fff;
+	display: block;
+	/* height: 40px; */
+	padding: 0.375rem 0.75rem;
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #4d5875;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #e1e5ef;
+}
+
+#EditViewOutgoing .block .editview-table .fieldValue {}
+
+.editViewContainer .companydetailsedit .fieldValue {
+	display: inline-block;
+}
+
+.addMailBoxStep .editview-table tr:nth-child(even) {
+	background-color: transparent;
+	border: none;
+}
+
+.addMailBoxStep .editview-table .fieldValue input {
+	margin: 10px 0px 10px 0px;
+}
+
+.addMailBoxStep .editview-table .fieldLabel label {
+	font-size: 18px;
+	margin-left: 45px;
+}
+
+.relatedListContainer .referenceModule,
+.relatedListContainer .relatedModulesList .moduletranslatedLabel {
+	font-size: 10px;
+	color: green;
+	font-weight: bold;
+	opacity: .6
+}
+
+.relatedListContainer .ONE_TO_MANY {
+	width: 300px;
+	padding: 5px;
+	height: 70px
+}
+
+.form-horizontal .inActiveList span {
+	vertical-align: top;
+	margin-left: 5px;
+	word-break: break-all
+}
+
+.confirm-box-ok {
+	margin-right: 5px
+}
+
+.confirm-box-btn-pad {
+	padding-right: 20px;
+	padding-left: 20px
+}
+
+.createFieldModal .modal-body .form-group .fieldLabel {
+	/* border-bottom: 1px solid #efefef; */
+	padding-bottom: 2px;
+}
+
+.blockFieldsList.blockFieldsSortable ul li .border1px:hover {
+	background: #f9fcff;
+}
+
+.container-fluid .Layouttop h4 {
+	margin-top: 10px;
+}
+
+.address-lookup-table #addFormFieldRow td {
+	border: 1px solid #e0e0e0;
+}
+
+/* Settings - layout editor - ends */
+
+
+/* Settings - currency - starts */
+
+.currencyModalContainer .form-group {
+	padding-left: 15px;
+}
+
+.currencyModalContainer .form-group .fieldLabel {
+	/* border-bottom: 1px solid #d9d9d9; */
+	padding-bottom: 2px;
+}
+
+.modal.myModal .modal-dialog.currencyTransformModalContainer .modal-content {
+	height: 93vh;
+}
+
+.Workflows .conditionRow .Condition_add .add_border_withoutradious {
+	background-color: #fff;
+	border: solid 1px #ccc;
+	border-radius: 5px;
+}
+
+.Workflows {
+	background-image: url(../resources/Images/workflow_bg.png);
+}
+
+.Workflows .settingsmenu-starts {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	border: none;
+}
+
+.Workflows .settingsmenu-starts #EditView .editViewBody .editViewContents {
+	border: none;
+}
+
+.Workflows .Condition_add .fields_inline .select2-container {
+	background-color: transparent;
+	height: 40px;
+}
+
+.Workflows .Condition_add .fields_inline .select2-container a {
+	height: 40px;
+}
+
+.workflow-table tr.listViewEntries td.listViewEntryValue {
+	cursor: pointer !important;
+}
+
+td.listViewEntryValue.table-icons i {
+	display: flex;
+	justify-content: center;
+}
+
+/* Settings - currency - ends */
+
+
+/* Settings - tax - starts */
+
+#TaxCalculationsContainer .table tr:first-child,
+.taxModalContainer #editTax .table tr:first-child {
+	border-bottom: 1px solid #ccc;
+	background: #f5f5f5
+}
+
+.taxModalContainer #editTax .inputEle,
+.taxRegionContainer #editTaxRegion .inputEle,
+.chargeModalContainer #editCharge .inputEle {
+	min-height: 30px;
+	min-width: 180px
+}
+
+.taxModalContainer #editTax .block,
+.chargeModalContainer #editCharge .block {
+	padding-bottom: 20px
+}
+
+.table.listview-table tr:hover,
+.shippingTaxTable tr:hover,
+.joforce-tax-section table tr:hover {
+	box-shadow: 4px 0px 5px rgba(69, 73, 73, 0.1);
+
+}
+
+.table.listview-table tr:hover,
+.shippingTaxTable tr:hover {
+	background-color: #e7f4fa;
+	box-shadow: 4px 0px 5px rgba(69, 73, 73, 0.1);
+}
+
+.radio-group {
+	margin-bottom: 5px
+}
+
+.radio-group input[type="radio"] {
+	margin-top: 0
+}
+
+.radio-group .radio-label {
+	vertical-align: top
+}
+
+.pagenamehead h3 {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	/* text-transform: uppercase; */
+}
+
+
+/* Settings - tax - ends */
+
+.usersListDiv .select2-container .select2-choice {
+	width: 300px;
+}
+
+/* Settings - workflow - starts */
+
+#workflow_edit .editViewBody {
+	overflow: inherit
+}
+
+.workflowListContainer .listview-table>tbody>tr>td {
+	vertical-align: top;
+	padding: 18px 0px;
+}
+
+.timePicker {
+	width: 9.5em !important;
+	z-index: 11010 !important
+}
+
+.weekDaySelect .ui-state-default {
+	background: inherit;
+	padding: 6px 12px
+}
+
+.weekDaySelect .ui-selecting {
+	background: #28c5f9
+}
+
+.weekDaySelect .ui-selected {
+	background: #06afe8;
+	color: #fff
+}
+
+.workflow-table .listViewEntryValue {
+	word-wrap: break-word;
+	white-space: normal
+}
+
+.d-flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* Settings - workflow - ends */
+
+
+/* settings - extension store - starts */
+
+.extensionWidgetContainer {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	min-height: 200px;
+	padding: 2%
+}
+
+.extensionWidgetContainer .extension_contents {
+	margin-top: 2%;
+	padding: 15px 0
+}
+
+.extensionWidgetContainer .extension_contents .slimScrollDiv {
+	padding-right: 10px
+}
+
+.extensionWidgetContainer .extension_header .font-x-x-large {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #1560bd
+}
+
+.extensionWidgetContainer .extensionDescription {
+	line-height: 20px
+}
+
+.extensionWidgetContainer .extensionInfo {
+	/* padding-top: 5% */
+}
+
+.tabbable-line>.nav-tabs {
+	border: 0;
+	margin: 0
+}
+
+.tabbable-line>.nav-tabs>li.open,
+.tabbable-line>.nav-tabs>li:hover {
+	border-bottom: 4px solid #5ce68a
+}
+
+.tabbable-line>.nav-tabs>li.open>a,
+.tabbable-line>.nav-tabs>li:hover>a {
+	border: 0;
+	background: none !important;
+	color: #333
+}
+
+.tabbable-line>.nav-tabs>li.open>a>i,
+.tabbable-line>.nav-tabs>li:hover>a>i {
+	color: #a6a6a6
+}
+
+.tabbable-line>.nav-tabs>li {
+	margin-right: 10px;
+	margin-left: 10px
+}
+
+.tabbable-line>.nav-tabs>li>a {
+	border: 0;
+	margin-right: 0;
+	color: #737373
+}
+
+.tabbable-line>.nav-tabs>li>a>i {
+	color: #a6a6a6
+}
+
+.tabbable-line>.nav-tabs>li.active {
+	border-bottom: 4px solid #449d44;
+	position: relative
+}
+
+.tabbable-line>.nav-tabs>li.active>a {
+	outline: 0;
+	border: 0;
+	color: #333
+}
+
+.tabbable-line>.nav-tabs>li.active>a>i {
+	color: #404040
+}
+
+.fieldBlockContainer-webform .table-bordered .listViewEntries .org {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	padding-left: 16px !important;
+}
+
+.tabbable-line>.tab-content {
+	margin-top: -3px;
+	background-color: #fff;
+	border: 0;
+	padding: 15px 0
+}
+
+.extensionContents .btn-google-plus span,
+.extensionContents .btn-google-plus i {
+	color: #000;
+	margin-right: 10px;
+}
+
+.extensionContents .table-bordered {
+	border: none;
+}
+
+.extensionContents {
+	padding-bottom: 30px;
+	background-color: #fff;
+}
+
+.extensionContents .extensionLink {
+	cursor: pointer;
+	color: #0f0;
+	text-decoration: underline
+}
+
+.extensionContents .navigationLink {
+	cursor: pointer
+}
+
+.extensionContents .listview-table {
+	width: 100%
+}
+
+.extensionContents .extensionError {
+	color: #f10404
+}
+
+.extension_container a label {
+	min-height: 50px;
+}
+
+.row .descriptions {
+	overflow: auto;
+}
+
+.row .descriptions::-webkit-scrollbar {
+	width: 0px;
+}
+
+.nav .divider-vertical {
+	height: 45px;
+	margin: 0 9px;
+	border-right: 3px solid #fff;
+	border-left: 3px solid #ddd
+}
+
+
+/* settings - extension store - ends */
+
+
+/* users - onboard - starts  */
+
+.modal.on-board {
+	width: 700px;
+	max-height: 600px !important;
+	height: 600px !important;
+	left: 43%;
+	top: 42%;
+	border-radius: 0px;
+	outline: none;
+	overflow: hidden;
+}
+
+.modal.on-board .modal-header {
+	background: #fff !important;
+	height: 40px;
+}
+
+.modal.on-board .modal-header .modal-title {
+	text-align: center;
+	color: #000 !important;
+}
+
+.modal.on-board .modal-body {
+	overflow: hidden;
+	overflow-y: auto;
+	height: 530px;
+}
+
+.modal.on-board .modal-body .modal-detail {
+	padding-bottom: 70px;
+}
+
+.modal.on-board .modal-body .modal-detail .form-horizontal .col-form-label {
+	text-align: left;
+}
+
+.modal.on-board .modal-body .modal-detail .form-group {
+	position: relative;
+	margin-top: 20px;
+}
+
+.modal.on-board .modal-body .modal-detail .form-group .fieldValue .inputElement {
+	width: 60% !important;
+}
+
+.modal.on-board .modal-body .modal-detail table tbody tr {
+	margin-top: 20px;
+}
+
+.modal.on-board .modal-body .modal-detail table tbody tr td {
+	border: none;
+	position: relative;
+}
+
+.modal.on-board .modal-body .modal-detail table tbody tr td:hover {
+	background: none !important;
+}
+
+.modal.on-board .modal-body .modal-detail table tbody tr:hover {
+	background: none !important;
+}
+
+.modal.on-board .modal-body .modal-detail table tbody tr:hover td {
+	background: none !important;
+}
+
+.modal.on-board .modal-body .modal-detail .span4 {
+	width: 80%;
+	margin-left: 10%;
+}
+
+.modal.on-board .modal-body .modal-detail .span4 .controls {
+	margin-top: 20px;
+}
+
+.modal.on-board .modal-body .modal-detail .span4 .controls .inputElement {
+	width: 90% !important;
+}
+
+.modal.on-board .modal-footer {
+	position: absolute;
+	width: 95.5%;
+	bottom: 0px;
+}
+
+.users-menu-starts .editViewPageDiv .recordEditView .editViewHeader .editHeader {
+	padding-top: 25px;
+}
+
+.users-menu-starts .editViewPageDiv .recordEditView .editViewContents .fieldBlockContainer {
+	box-shadow: none;
+	border: solid 1px #ccc !important
+}
+
+.editViewContents .fieldBlockContainer h4 {
+	font-weight: bolder;
+	font-size: 24px;
+}
+
+/* users - onboard - ends */
+
+
+.menu-box .dropdown .dropdown-menu li {
+	padding: 10px 20px !important;
+}
+
+.menu-box .dropdown .dropdown-menu li:hover {
+	background-color: #f7f7f7;
+	color: #000;
+}
+
+.settingsmenu-starts .vt-default-callout {
+	margin-left: 20px;
+}
+
+/* settings - user list view - starts */
+
+.users-menu-starts {
+	position: relative;
+
+	min-height: auto;
+	border-radius: 5px;
+	width: 97%;
+	margin-left: 2% !important;
+	background-color: #fff;
+	margin: 60px 0 20px 0px;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	background-clip: border-box;
+
+	top: 22px;
+	margin-bottom: 21px;
+	/* 	background-color: #fff;box-shadow: -8px 12px 18px 0 #dadee8; */
+}
+
+
+.userpage-search .fixed-scroll-table .listview-table thead tr th {
+	color: #504C4C !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table {
+	/* margin-left: 300px !important; */
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table thead tr th:nth-child(1) {
+	color: #504C4C !important;
+	min-width: auto !important;
+	max-width: none !important;
+	width: 300px !important;
+	border-right: double #b9b9b9 !important;
+}
+
+#table-content table tbody tr.emptyRecordsDiv:hover {
+	background-color: transparent !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table thead tr th:nth-child(2) {
+	min-width: auto !important;
+	max-width: none !important;
+	width: 200px !important;
+	margin-right: unset !important;
+	position: unset !important;
+	left: unset !important;
+	right: unset !important;
+	border-right: none !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table thead tr th,
+.table-container .fixed-scroll-table table.listview-table-norecords thead tr th {
+	height: 47px !important;
+	min-height: 47px !important;
+	max-height: 47px !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table tbody tr td:first-child {
+	color: #504C4C !important;
+	min-width: auto !important;
+	max-width: none !important;
+	width: 300px !important;
+	height: 110px !important;
+	border-right: double #b9b9b9 !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table tbody tr td:last-child {
+	height: 110px !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table tbody tr td:nth-child(2) {
+	min-width: auto !important;
+	max-width: none !important;
+	width: 200px !important;
+	margin-right: unset !important;
+	position: unset !important;
+	left: unset !important;
+	right: unset !important;
+	border-right: none !important;
+}
+
+.userpage-search .fixed-scroll-table #listview-table.listview-table tbody tr {
+	height: 110px !important;
+	max-height: 110px !important;
+}
+
+.userpage-search .fixed-scroll-table .listview-table thead .searchRow th {
+	height: 62px !important;
+	min-height: 62px !important;
+	max-height: 62px !important;
+}
+
+.userpage-search .listview-table {
+	text-align: unset;
+}
+
+.userpage-search .fixed-scroll-table #listview-table .listview-table-norecords {
+	margin-left: unset !important;
+}
+
+.joforce-bg-prefer {
+	background-color: white;
+	width: 96%;
+	border-radius: 5px 5px 0px 0px;
+	padding-top: 20px;
+	padding-right: 23px;
+	padding-left: 23px;
+	padding-bottom: 20px;
+	margin-left: 17px;
+	border-radius: 7px;
+	border: solid 1px #ccc;
+}
+
+.joforce-bg-prefer-detail {
+	border-radius: 0px 0px 5px 5px;
+	padding-top: 0px;
+}
+
+#prefPageHeader .jofofrce-bg-prefer .logo img {
+	border-radius: 50% !important;
+}
+
+.main-container #modnavigator {
+	z-index: -1 !important;
+}
+
+
+/* settings - user list view - ends */
+
+
+/* settings - user detail view - starts */
+
+#userPageHeader .recordImage {
+	background: none !important;
+	border-color: transparent !important;
+}
+
+#userPageHeader .recordImage img {
+	border-radius: 50% !important;
+}
+
+.detailViewTitle {
+	margin-top: 20px;
+	/* background: #fff;
+    padding: 16px;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+	 margin-bottom: 20px; */
+}
+
+.detailViewTitle #Users_detailView_basicAction_LBL_EDIT {
+	margin-right: 32px;
+	color: #fff !important;
+	background-color: #00b9ff !important;
+	border-color: #00b9ff !important;
+}
+
+.detailViewTitle #Users_detailView_basicAction_LBL_EDIT:hover {
+	color: #718b94;
+	border-color: #00b9ff !important;
+}
+
+
+.detailViewTitle .font-x-x-large {
+	margin-top: 20px !important;
+}
+
+
+/* settings - user detail view - ends */
+
+
+/* settings - notifications - starts */
+
+.notification-enable {
+	display: inline-block;
+	padding: 15px 0px;
+}
+
+.notification-enable #global-notification-box {
+	margin-right: 10px;
+}
+
+.notification-enable label {
+	cursor: pointer;
+	font-weight: normal;
+}
+
+#notification-editor-div {
+	padding: 20px 0px 50px 0px;
+}
+
+#notification-editor-div .notification-editor-module .accordion-module {
+	background: #fff;
+	padding: 10px 10px;
+	display: block;
+	border-top: 1px solid #e8e8e8;
+	cursor: pointer;
+}
+
+#notification-editor-div .notification-editor-module .toggle-icon {
+	display: inline-block;
+	font-size: 18px;
+	float: right;
+}
+
+#notification-editor-div .notification-editor-module .accordion-panel {
+	padding: 20px 30px;
+	display: none;
+}
+
+#notification-editor-div .notification-editor-module .accordion-panel .notification-message {
+	padding: 10px 0px;
+}
+
+#notification-editor-div .notification-editor-module .accordion-panel .notification-message .check-box {
+	margin-right: 10px;
+}
+
+#notification-editor-div .notification-editor-module .accordion-panel .notification-message label {
+	font-weight: normal;
+}
+
+#notification-editor-div .notification-editor-module:last-child {
+	border-bottom: 1px solid #e8e8e8;
+}
+
+
+/* settings - notifications - ends */
+
+
+/* settings - menu manager - starts */
+
+.add-main-menu-content label.fieldLabel {
+	border-bottom: none;
+	/*1px solid #e8e8e8;*/
+	display: block;
+	padding-bottom: 8px;
+}
+
+.menu-box {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border: solid 1px #ccc;
+	background: #fff;
+	/* box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1); */
+}
+
+.menu-box .custom-menu-header,
+.menu-box .more-menu-list-header {
+	width: 100%;
+	color: #333;
+	margin: 0px 0px 20px 0px;
+	font-size: 15px;
+}
+
+.menu-box .custom-menu-header .dropdown-menu,
+.menu-box .more-menu-list-header .dropdown-menu {
+	padding: 0px;
+	left: 40%;
+}
+
+.menu-box .custom-menu-header .dropdown-menu li,
+.menu-box .more-menu-list-header .dropdown-menu li {
+	padding: 0px;
+}
+
+.menu-box .custom-menu-header .dropdown-menu li a,
+.menu-box .more-menu-list-header .dropdown-menu li a {
+	padding: 10px 10px;
+}
+
+.menu-box .custom-menu-header .dropdown-menu.main-menu-dropdown,
+.menu-box .more-menu-list-header .dropdown-menu.main-menu-dropdown {
+	left: 66%;
+	top: 60%;
+}
+
+.menu-box .custom-menu-header i,
+.menu-box .more-menu-list-header i {
+	cursor: pointer;
+}
+
+.menu-box .custom-menu {
+	padding: 0px;
+	list-style: none;
+}
+
+.menu-box .custom-menu li.custom-menu-list {
+	width: 100%;
+	height: 45px;
+	padding: 10px;
+	background: #fff;
+	color: #000;
+	border: 1px solid #e6e6e6;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 5px 0px;
+}
+
+.menu-box .custom-menu li.custom-menu-list .menu-name {
+	width: 80%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.menu-box .custom-menu li.custom-menu-list .menu-name i {
+	font-size: 20px;
+}
+
+.menu-box .custom-menu li.custom-menu-list:hover {
+	color: #000;
+	font-weight: 500;
+	background: #eee;
+}
+
+.menu-box .custom-menu li.custom-menu-list:hover .fa.fa-close {
+	display: block;
+}
+
+.menu-box .custom-menu .fa.fa-close {
+	display: none;
+}
+
+.menu-box .more-menu-section {
+	padding: 0px;
+	list-style: none;
+}
+
+.menu-box .more-menu-section li.more-menu-list {
+	width: 45%;
+	padding: 10px;
+	border: 1px solid #f4f4f4;
+	display: inline-table;
+	margin: 1% 2.3%;
+	border-radius: 5px;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu {
+	padding: 0px;
+	list-style: none;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu li {
+	width: 100%;
+	height: 45px;
+	padding: 10px;
+	background: #fff;
+	color: #000;
+	border: 1px solid #e6e6e6;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 5px 0px;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu li .menu-name i {
+	font-size: 20px;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu li:hover {
+	color: #000;
+	background: #eee;
+	font-weight: 500;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu li:hover .pull-right.whiteIcon.menuEditorRemoveItem.fa.fa-close {
+	display: block;
+}
+
+.menu-box .more-menu-section li.more-menu-list .more-menu .pull-right.whiteIcon.menuEditorRemoveItem.fa.fa-close {
+	display: none;
+}
+
+
+/* settings - menu manager - ends */
+
+
+/* settings - modulemanager - starts */
+
+.moduleManagerBlock .moduleName h5 {
+	font-size: 15px;
+	margin-top: 9px;
+}
+
+.main-container .settingsPageDiv.content-area.clearfix input {
+	border-radius: 1px;
+}
+
+.settingsPageDiv.content-area.clearfix .ModulemanagerSettings .btn-group.actions {
+	width: 91px;
+	margin-top: 0px;
+}
+
+.main-container .settingsPageDiv.content-area.clearfix input {
+	border-radius: 5px !important;
+	border: solid 1px #ccc;
+	margin-left: 0px;
+	/* width: 100%;
+	height: 38px; */
+}
+
+.ModulemanagerSettings .moduleblock .hiden {
+	display: none
+}
+
+.ModulemanagerSettings:hover .unpin {
+	display: inline-block;
+	margin-left: -30px;
+}
+
+.ModulemanagerSettings .actions {
+	opacity: 0;
+	width: 80px
+}
+
+.ModulemanagerSettings {
+	/* width: 12px; */
+	background: #fff
+}
+
+.ModulemanagerSettings:hover .actions {
+	opacity: 1;
+
+}
+
+.ModulemanagerSettings .moduleManagerBlock input {
+	margin: 3px 16px;
+}
+
+.modulesTable .ModulemanagerSettings {
+	/* height: 132px;*/
+}
+
+.ModulemanagerSettings .btn-group.actions {
+	width: 90px;
+}
+
+#s2id_BillingAddress {
+	margin-left: 50px;
+}
+
+/* settings - modulemanager - ends */
+
+
+/* settings - duplicatecheck  - starts */
+
+.logo-container .mobilelogo {
+	display: none;
+}
+
+.widget_header {
+
+	margin-top: 100px;
+	-webkit-border-top-right-radius: 7px;
+	-webkit-border-top-left-radius: 7px;
+	/* margin-left: 105px; */
+}
+
+.widget_header h3 {
+	font-size: 15px;
+	text-transform: uppercase;
+	padding: 0px 0px 10px 0px;
+}
+
+.widget_header h4 {
+	font-size: 26PX;
+
+	color: #264da2 !important;
+}
+
+.note {
+	margin-top: 16px;
+}
+
+.moduleBlocks {
+	padding: 25px;
+}
+
+.fa-toggle-on:before {
+	padding: 0px;
+	display: inline-block;
+}
+
+.circle {
+	padding: 8px;
+	font-size: 10px;
+}
+
+.select2-container .select2-choice {
+	padding: 3px 0px 3px 0px;
+}
+
+.fancy-checkbox .checked {
+	background: #000;
+	color: #fff !important;
+}
+
+.fancy-checkbox .fa-2x.checked {
+	background: #0000;
+	color: #0c4da2 !important;
+
+	top: -26px !important;
+	/* margin-top: -10px !important; */
+}
+
+
+.fancy-checkbox .fa-2x.unchecked {
+	margin-top: 0px !important;
+}
+
+
+/* settings - duplicatecheck - ends */
+
+
+/* settings - addresslookup - starts */
+
+.settingsPageDiv.content-area.clearfix {
+	background-color: #ECF0F5 !important;
+}
+
+.joforce-bg #joaddresslookup {
+	padding: 5px;
+}
+
+.select2-container .select2-choice {
+	padding: 3px 0px 3px 0px;
+	/* background-color: #f6f6f7 !important; */
+}
+
+.onoffswitch1-switch {
+	margin: .5px 1px 0px 0;
+	border: 1px solid #999999 !important;
+}
+
+.onoffswitch1-label {
+	border: solid 1px #999;
+}
+
+.onoffswitch1-switch {
+	width: 30px;
+	height: 30px;
+}
+
+.onoffswitch1-inner:before,
+.onoffswitch1-inner:after {
+	width: 50% !important;
+	font-size: 11px;
+}
+
+.select2-arrow b {
+	background-position: 0px 21px;
+}
+
+#addFormFieldRow thead tr th {
+	border: solid 1px #ddd;
+}
+
+.input#APIkey:focus {
+	outline: none !important;
+}
+
+.input#APIkey {
+	width: 330px;
+}
+
+.btn.joforce-default {
+	color: red
+}
+
+.onoffswitch1-inner:after {
+	background-color: #fff;
+}
+
+.onoffswitch1-inner:before,
+.onoffswitch1-inner:after {
+	box-shadow: none;
+}
+
+.onoffswitch1 {
+	position: relative;
+	width: 90px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.onoffswitch1-checkbox {
+	display: none;
+}
+
+.onoffswitch1-label {
+	display: block !important;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #999999;
+	border-radius: 30px;
+}
+
+
+
+.editViewContainer h4 {
+	padding-left: 20px;
+}
+
+.detailViewContainer .detailViewInfo {
+	padding-top: 30px;
+}
+
+.onoffswitch1-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+	-moz-transition: margin 0.3s ease-in 0s;
+	-webkit-transition: margin 0.3s ease-in 0s;
+	-o-transition: margin 0.3s ease-in 0s;
+	transition: margin 0.3s ease-in 0s;
+}
+
+.detailViewContainer .block .detailhead {
+	background-color: #f7f7f7;
+	padding: 20px 10px;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.detailViewContainer .joforce-detailview-btn {
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+.detailViewContainer .record-header {
+	margin-top: 50px;
+	margin-bottom: 40px;
+}
+
+.onoffswitch1-inner:before,
+.onoffswitch1-inner:after {
+	display: block;
+	float: left;
+	width: 40%;
+	height: 30px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 14px;
+	color: white;
+	font-family: Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 30px;
+	box-shadow: 0px 15px 0px rgba(0, 0, 0, 0.08) inset;
+}
+
+.onoffswitch1-inner:before {
+	content: "Enabled";
+	width: 100px;
+	padding-left: 10px;
+	background-color: #0c4da2;
+	color: #FFFFFF;
+	border-radius: 30px 0 0 30px;
+	font-size: 12px;
+}
+
+.onoffswitch1-inner:after {
+	content: "Disabled";
+	padding-right: 3px;
+	background-color: #EEEEEE;
+	color: #999999;
+	text-align: right;
+	border-radius: 0 30px 30px 0;
+	font-size: 12px;
+}
+
+.onoffswitch1-switch {
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 2px -1px;
+	background: #FFFFFF;
+	border: 2px solid #999999;
+	border-radius: 30px;
+	position: absolute;
+	top: 16px;
+	bottom: 0;
+	right: 56px;
+	-moz-transition: all 0.3s ease-in 0s;
+	-webkit-transition: all 0.3s ease-in 0s;
+	-o-transition: all 0.3s ease-in 0s;
+	transition: all 0.3s ease-in 0s;
+	background-image: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.1) 0%, transparent 80%);
+	background-image: -webkit-linear-gradient(center top, rgba(0, 0, 0, 0.1) 0%, transparent 80%);
+	background-image: -o-linear-gradient(center top, rgba(0, 0, 0, 0.1) 0%, transparent 80%);
+	background-image: linear-gradient(center top, rgba(0, 0, 0, 0.1) 0%, transparent 80%);
+	box-shadow: 0 1px 1px white inset;
+}
+
+.onoffswitch1-checkbox:checked+.onoffswitch1-label .onoffswitch1-inner {
+	margin-left: 0;
+}
+
+.onoffswitch1-checkbox:checked+.onoffswitch1-label .onoffswitch1-switch {
+	right: -11px;
+}
+
+.fancy-checkbox input[type="checkbox"],
+.fancy-checkbox .checked {
+	display: none;
+}
+
+input#APIkey {
+	outline: none;
+	border: 1px solid #e8e8e8;
+	padding: 7px 10px;
+	border-radius: 5px;
+	margin-left: 20px;
+}
+
+.jo-link:hover {
+	color: #0c4da2;
+}
+
+.fancy-checkbox input[type="checkbox"]:checked~.checked {
+	display: inline-block;
+}
+
+.fancy-checkbox input[type="checkbox"]:checked~.unchecked {
+	display: none;
+}
+
+.scroll {
+	overflow-y: auto;
+	overflow-x: auto;
+	height: 300px;
+}
+
+.scroll #addFormFieldRow .fa.fa-trash {
+	font-size: 20px;
+}
+
+.scroll #addFormFieldRow .fa.fa-trash:hover {
+	cursor: pointer;
+	color: #0c4da2;
+}
+
+.scroll.address-lookup-table {
+	max-height: 400px;
+	height: auto;
+}
+
+.onoffswitch1-switch {
+	right: 60px !important;
+}
+
+.onoffswitch1-checkbox:checked+.onoffswitch1-label .onoffswitch1-switch {
+	right: 0px !important;
+}
+
+
+/* settings - addresslookup - ends */
+
+
+/* settings - mailconverter - starts */
+
+.mailBoxEditDiv .crumbs li {
+	width: 22%
+}
+
+
+.massEditTabs.nav>li:active,
+.massEditTabs.nav>li:hover,
+.massEditTabs.nav>li:focus {
+	background-color: #f7f7f7;
+	border: solid 1px #ccc;
+	border-bottom: none;
+}
+
+/* settings - mailconverter - ends */
+
+
+#TaxCalculationsContainer .contents {
+	border: solid 1px #ccc;
+	background-color: #f7f7f7;
+	border-top: none;
+}
+
+.editViewContainer {
+	padding: 15px 0;
+	padding-bottom: 60px
+}
+
+.massEditTabs.nav>li {
+	padding: 15px 20px !important;
+	margin: 0 4px;
+	border: solid 1px #ccc;
+	background-color: #fff;
+}
+
+.settingsPageDiv table tbody tr.listViewEntries td {
+	font-size: 15px !important;
+}
+
+.settingsPageDiv table tbody tr.listViewEntries td .table-actions .more.action {
+	border: none;
+	margin-left: 10px;
+}
+
+.settingsPageDiv table tbody tr.listViewEntries td i {
+	font-size: 20px;
+}
+
+.settingsPageDiv table tbody tr.listViewEntries td .textOverflowEllipsis .use-icon {
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	border-color: #E7FFE4;
+	background: #E7FFE4;
+}
+
+.editContent .alluser .form-group .fieldLabel1 {
+	top: -30px;
+}
+
+.settingsPageDiv table tbody tr.listViewEntries td .textOverflowEllipsis .use-icon span {
+	font-size: 20px;
+	color: #0c4da2;
+	display: block;
+	text-align: center;
+	line-height: 2;
+}
+
+
+
+
+.settingsPageDiv.content-area.clearfix input:focus {
+	outline: none;
+	border-color: #0c4da2 !important;
+	box-shadow: none;
+}
+
+.settingsPageDiv.content-area {
+	margin-right: 0
+}
+
+.settingsPageDiv .modal-overlay-footer {
+	margin-left: 230px;
+	border-left: 0 solid
+}
+
+.settingsOverlayContainer .modal-overlay-footer {
+	margin: 0;
+	border-top: 1px solid #e5e5e5
+}
+
+div[name="massEditContent"] .modal-body .form-group {
+	padding-left: 20px;
+}
+
+div[name="massEditContent"] .modal-body .form-group .fieldLabel.col-form-label {
+	/* border-bottom: 1px solid #e8e8e8 !important; */
+	padding-bottom: 14px;
+}
+
+div[name="massEditContent"] .modal-body .form-group .fieldValue {
+	/* margin-top: 9px; */
+}
+
+.companydetailsedit .company-logo-content {
+	/* width: 220px; */
+}
+
+
+.settingsPageDiv .admin-settings {
+	margin-top: 94px;
+	background: #fff;
+	padding: 21px 20px;
+	border-radius: 10px;
+}
+
+.selectedModule {
+	background-color: #0c4da2 !important;
+	color: #fff !important;
+	font-weight: inherit;
+	border-color: #0c4da2 !important;
+}
+
+.list-content #table-content #listview-table {
+	border: solid 1px#ccc !important;
+}
+
+.ModulemanagerSettings .moduleManagerBlock .moduleblock {
+	margin-top: 18px;
+	height: 34px;
+}
+
+.contents .layoutTabs .detailviewTab {
+
+	padding: 12px 50px;
+
+}
+
+.contents .layoutTabs .detailviewTab:hover {
+	background-color: #f5f5f5;
+	border: solid 1px #ccc;
+	padding: 12px 50px;
+
+}
+
+.contents .layoutTabs .relatedListTab {
+	padding: 12px 50px;
+}
+
+.contents .layoutTabs .relatedListTab:hover {
+	background-color: #f5f5f5;
+
+	padding: 12px 50px;
+}
+
+#md-module-name tbody tr td a {
+	border: solid 1px #ccc;
+	padding: 7px;
+	border-radius: 5px;
+	top: -2px;
+	position: relative;
+	float: left;
+	margin-left: 2px;
+}
+
+.md-module-name-translation td input {
+	height: 37px;
+}
+
+.modbox h2 {
+	background-color: #ccc;
+	display: inline-block;
+}
+
+.userFilter .btn-primary {
+	margin-right: 20px;
+}
+
+.editview-table .pip #pipeline-select {
+	margin-bottom: 20px;
+}
+
+#settingsmenu-starts .addreslookup {
+	background-color: #fff;
+	margin-top: 70px;
+	border-radius: 10px;
+	padding-bottom: 50px;
+}
+
+#settingsmenu-starts .settings-duplicate-check {
+	background: #fff;
+	/*margin-top: 80px;*/
+	border-radius: 10px;
+}
+
+#settingsmenu-starts .leadsFieldMappingEditPageDiv {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+}
+
+#settingsmenu-starts .langedit {
+	background: #fff;
+	border-radius: 10px;
+}
+
+#settingsmenu-starts .mailBoxEditDiv {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+}
+
+#detailView .block h4 {
+	background-color: #f7f7f7;
+	padding: 10px 20px;
+	-webkit-border-top-right-radius: 7px;
+	-webkit-border-top-left-radius: 7px;
+}
+
+#settingsmenu-starts .setmanumanager {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+}
+
+#settingsmenu-starts .setnotifications {
+	background: #fff;
+	/*margin-top: 80px; */
+	border-radius: 10px;
+}
+
+#settingsmenu-starts .setmanagement {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+}
+
+/* .listViewPageDiv #setlist{background: #fff;
+					margin-top: 80px; border-radius: 10px;} */
+
+#settingsmenu-starts #TaxCalculationsContainer {
+	background: #fff;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts #EditView {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts #importModules {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .setpipeline {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .TermsAndConditionsContainer {
+	background: #fff;
+	margin-top: 0px !important;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .settingsIndexPage {
+	background: #fff;
+	margin: 80px;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .googleaccount {
+	background: #fff;
+	margin-top: 15px !important;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .configgoogle {
+	background: #fff;
+	/*margin: 80px 80px !important; */
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .AsteriskServerDetails {
+	background: #fff;
+	margin-top: 80px !important;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .PBXManager-container {
+	background: #fff;
+	margin-top: 80px !important;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .setPortalUser {
+	background: #fff;
+	/*margin-top: 80px !important;*/
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#settingsmenu-starts .mailConverter {
+	background: #fff;
+	margin-top: 80px;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+#listViewContent .googleaccount {
+	background: #fff;
+	margin-top: 80px !important;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+
+
+.checkbutton {
+	background-color: #f7f7f7;
+	padding: 5px 10px;
+	border-radius: 3px;
+	border: solid 1px #ccc;
+}
+
+.checkbutton input {
+	height: 23px !important;
+	width: 23px !important;
+	/* margin-left: 10px; */
+	margin-left: -30px;
+	/* margin-left: 0px; */
+	margin-top: 2px;
+	border-radius: 40px !important;
+	border: solid 1px #000 !important;
+}
+
+.checkbutton label {
+	font-size: 18px;
+}
+
+@media screen and(max-width:1280px) {
+	.form-horizontal .col-form-label.fieldLabel {
+		left: 50px !important;
+	}
+}
+
+@media not all and (min-resolution:.001dpcm) {
+	@media screen and (min-width: 800px) and (max-width: 1280px) and (-webkit-min-device-pixel-ratio:0) {
+		.safari10 {
+			/* color:#0000FF; 
+            background-color:#CCCCCC;  */
+		}
+
+		body {
+			font-size: 12px;
+		}
+
+		input[type="checkbox"] {
+			margin-left: 6px;
+			float: none;
+		}
+
+		.ModulemanagerSettings .moduleManagerBlock input {
+			margin-left: 6px !important;
+		}
+
+
+
+	}
+}
+
+@media screen and (min-width: 800px) and (max-width: 1280px) and (-webkit-min-device-pixel-ratio:0) {
+	div[name="massEditContent"] .modal-body .form-group {
+		/* padding-left: 130px; */
+	}
+}
+
+@media screen and (max-width:1280px) {
+	.settingsmenu-starts {
+		padding: 50px !important;
+	}
+
+	.settingsPageDiv table tbody tr.listViewEntries td {
+		font-size: 13px !important;
+	}
+
+	.menu-box .custom-menu li.custom-menu-list,
+	.menu-box .more-menu-section li.more-menu-list .more-menu li {
+		font-size: 13px;
+	}
+
+	.settingsgroup .settingsgroup-panel a {
+		font-size: 14px;
+	}
+}
+
+@media (min-width: 301px) and (max-width: 600px) {
+	.setnotifications .col-sm-12.ml20 {
+		margin: 0px !important;
+	}
+
+	.settingsmenu-starts {
+		padding: 15px !important;
+	}
+
+	.settingsmenu-starts {
+		margin: 78px 0 20px -4px;
+		margin-top: 51px;
+	}
+
+	.module-action-bar .settingsgroup {
+		margin-top: 55px;
+		/* margin-left: 90px; */
+		margin-left: 56px !important;
+	}
+
+	.alluser {
+		margin: 0px;
+		padding: 0px;
+		top: 20px;
+	}
+
+	.settingsmenu-starts .editViewContents .Privileges .fieldLabel {
+		left: 0px;
+	}
+
+	.form-horizontal .col-form-label.fieldLabel {
+		top: 0px;
+	}
+
+	.ModulemanagerSettings:hover .unpin {
+		margin-left: 0px;
+	}
+
+	.ModulemanagerSettings {
+		width: -1px;
+	}
+
+	.layoutContent .fieldLabelContainer {
+		margin-left: 2px;
+	}
+
+	.relatedListContainer .ONE_TO_ONE {
+		width: 288px;
+	}
+
+	.editViewContainer h4 {
+		margin-left: 30px !important;
+	}
+
+	#languageEditorDiv .table {
+		margin-left: 8px;
+	}
+
+	.clearfix.sethead.card-header-new.p10.row {
+		margin-left: 20px !important;
+	}
+
+	#settingsmenu-starts .listViewPageDiv {
+		margin-top: 6%;
+	}
+
+	.settingsPageDiv table tbody tr.listViewEntries td i {
+		margin-top: 11px;
+	}
+
+	#settingsmenu-starts #EditView,
+	.settingsmenu-starts .editViewPageDiv .editViewHeader {
+		padding: 0px;
+		margin-left: 21px;
+	}
+
+	.editMode.transform.mt0.card {
+		border: none;
+	}
+
+	.settings_search {
+		/* margin-left: 23px; */
+		/* margin-left: -113px;
+		top: -10px; */
+		margin-left: 20px;
+		/* top: 8px; */
+	}
+
+	#settingsmenu-starts .listViewPageDiv {
+		/* padding:27px 20px 0px 0px; */
+	}
+
+	#settingsmenu-starts .addreslookup {
+		margin-top: 20px;
+	}
+
+	.onoffswitch1-switch {
+		margin: 1px -1px;
+	}
+
+	.joforce-bg-prefer {
+		padding-right: 0px;
+		margin-left: 10px !important;
+	}
+
+	.listbg {
+		display: block;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.PBXManagercalls {
+		margin-right: 0px;
+		padding: 0px;
+	}
+
+	.users-menu-starts {
+		margin-top: 0px;
+	}
+
+	.treeView li .toolbar-handle a:before {
+		width: 25px;
+	}
+
+	.treeView .toolbar-handle a.droppable {
+		margin-left: 0px;
+	}
+
+	label.col-form-label.fieldLabel.col-lg-12.col-md-12.col-sm-12.pr0.pl0 {
+		left: 38px;
+	}
+
+	.pagenamehead h3 {
+		/* margin-left: 39px; */
+	}
+
+	table.language-table tbody td .language-edit {
+		right: -24px;
+	}
+
+	.PBXManagercalls {
+		margin-top: 0px !important;
+	}
+
+	.main-container .settingsPageDiv.content-area.clearfix input {
+		margin-left: 0px;
+	}
+
+	.admin-settings .settings-list li {
+		width: 12%;
+	}
+}
+
+/* ipad screen size media query */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1023px) and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
+	.onoffswitch1-switch {
+		margin: 1px -1px;
+	}
+}
+
+/* normal laptop screen size 1600 x 900*/
+@media screen and (min-width:1400px) and (max-width:1699px) {
+	div[name="massEditContent"] .modal-body .form-group {
+		/* padding-left: 55px; */
+	}
+
+	.quick-panel .modal-header {
+		right: -202px;
+	}
+}
+
+.h4_Configure_Mapping {
+	margin-top: 15px;
+}
+
+.nav.navbar-nav.row.user-top-menu {
+	display: flex !important;
+	flex-direction: row;
+}
+
+.extensionInfo .row {
+	flex-direction: column;
+}
+
+.change_pwd_user .modal-header {
+	right: -231px;
+}

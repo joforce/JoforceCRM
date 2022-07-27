@@ -23,7 +23,7 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                                <label class="control-label fieldLabel col-sm-3">
+                                <label class="col-form-label fieldLabel col-sm-3">
                                     <span>{vtranslate('LBL_SELECTED_RELATED_MODULE', $QUALIFIED_MODULE)}</span>
                                 </label>
                                 <div class="controls col-sm-9">
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <span class="control-label fieldLabel col-sm-3">
+                                <span class="col-form-label fieldLabel col-sm-3">
                                     {vtranslate('LBL_SELECTED_RELATION_TYPE', $QUALIFIED_MODULE)}
                                 </span>
                                 <div class="controls col-sm-9">
@@ -105,7 +105,7 @@
                             </div>
                             <input type="hidden" class="singularModuleNames" value='{ZEND_JSON::encode($SINGULAR_MODULE_NAMES)}'>
                             <div class="form-group fieldInPrimary relationFieldTabLabelHolders">
-                                <span class="control-label fieldLabel col-sm-3">
+                                <span class="col-form-label fieldLabel col-sm-3">
                                     <span class="primaryFieldLabel break-word">
                                         {vtranslate('LBL_FIELD_NAME_TEXT', $QUALIFIED_MODULE,
                                                       vtranslate($SELECTED_RELATED_MODULE_NAME,$SELECTED_RELATED_MODULE_NAME),
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="form-group tabInPrimary relationFieldTabLabelHolders">
-                                <span class="control-label fieldLabel col-sm-3">
+                                <span class="col-form-label fieldLabel col-sm-3">
                                     <span class="primaryTabLabel break-word">
                                         {vtranslate('LBL_TAB_NAME_TEXT', $QUALIFIED_MODULE,
                                                     vtranslate($SELECTED_RELATED_MODULE_NAME,$SELECTED_RELATED_MODULE_NAME),
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
                             <div class="form-group fieldInRelated relationFieldTabLabelHolders">
-                                <span class="control-label fieldLabel col-sm-3">
+                                <span class="col-form-label fieldLabel col-sm-3">
                                     <span class="relatedFieldLabel break-word">
                                         {vtranslate('LBL_FIELD_NAME_TEXT', $QUALIFIED_MODULE,
                                                     vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME),
@@ -171,7 +171,7 @@
                                 </div>
                             </div>
                             <div class="form-group tabInRelated relationFieldTabLabelHolders">
-                                <span class="control-label fieldLabel col-sm-3 ">
+                                <span class="col-form-label fieldLabel col-sm-3 ">
                                     <span class="relatedTabLabel break-word">
                                         {vtranslate('LBL_TAB_NAME_TEXT', $QUALIFIED_MODULE,
                                                         vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME),
@@ -197,7 +197,7 @@
                             <div class="row clearfix">
                                 <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                                     <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                                    <a class='cancelLink btn btn-secondary' type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                                    <a class='cancelLink btn btn-danger' type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                                 </div>
                             </div>
                         </div>

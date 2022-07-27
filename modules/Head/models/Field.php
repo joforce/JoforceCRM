@@ -978,9 +978,7 @@ class Head_Field_Model extends Head_Field {
 			case 'enddate'				:	$funcName = array('name' => 'greaterThanDependentField', 'params' => array('startdate'));
 											break;
 			case 'start_date'			:
-			case 'startdate'			:	if($this->getModule()->get('name') == 'Project') {
-												$params = array('targetenddate');
-											} else if ($this->getModule()->get('name') == 'Products' || $this->getModule()->get('name') == 'Services') {
+			case 'startdate'			:	if ($this->getModule()->get('name') == 'Products' || $this->getModule()->get('name') == 'Services') {
 												$params = array('expiry_date');
 											} else if ($this->getModule()->get('name') == 'ServiceContracts') {
 												$params = array('due_date');

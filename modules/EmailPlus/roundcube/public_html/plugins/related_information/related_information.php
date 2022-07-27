@@ -32,7 +32,6 @@ class related_information extends rcube_plugin {
 
 	function init() {
 		$rcmail = rcube::get_instance();
-#print '<pre>'; print_r($rcmail); print '</pre>'; die('smackcoders');
 		$this->include_script('relatedinfo.js');
 
 		if ($rcmail->output->type == 'html') {

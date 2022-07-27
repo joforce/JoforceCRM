@@ -29,11 +29,12 @@
         {include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 
         <div id="table-content" class="table-container" style="overflow-x: auto;">
+        <div class="">
             <form name='list' id='listedit' action='' onsubmit="return false;">
                 <table id="listview-table"  class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {else} listview-table{/if} ">
                     <thead>
                         <tr class="listViewContentHeader">
-                            <th>
+                            <th style="min-width:67px!important;width:120px !important;">
                                 {if !$SEARCH_MODE_RESULTS}
                         <div class="table-actions">
                             <span class="input">
@@ -43,9 +44,18 @@
                     {else}
                         {vtranslate('LBL_ACTIONS',$MODULE)}
                     {/if}
+                    <div class="searchRow">
+					<h2></h2>
+                                    </div>
                     </th>
                     {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-                        <th>
+                    {if $SEARCH_MODE_RESULTS and ($LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist')}
+						{assign var=NO_SORTING value=1}
+					{else}
+						{assign var=NO_SORTING value=0}
+					{/if}
+                        <th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if} style="left:120px !important;background:#f6f6f7 !important">
+                        <div style=""> 
                             {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
                                 <a href="#" class="removeSorting pull-right">x</a>
                             {/if}
@@ -57,27 +67,31 @@
                                 {/if}
                                 <span>{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</span>
                             </a>
+                            </div>
                         </th>
                     {/foreach}
                     </tr>
 
                     {if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
                         <tr class="searchRow">
-                            <th class="inline-search-btn">
+                            <th class="inline-search-btn" style="min-width:120px!important;min-height:74px!important">
                         <div class="table-actions">
-                            <button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+                            <button class="btn btn-primary btn-sm" style="margin-top:0px!important" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
                         </div>
                         </th>
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-                            <th>
+                            <th style="left:120px !important;background:#f6f6f7 !important">
+                            <div style=""> 
                                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
                                 {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$SOURCE_MODULE)
                                             FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
                                 <input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
+                           </div>
                             </th>
                         {/foreach}
                         </tr>
                     {/if}
+                    </thead>
 
                     <tbody class="overflow-y">
                         {foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
@@ -145,12 +159,18 @@
                             </tr>
                         {/if}
                     </tbody>
-                </thead>
+               
             </table>
         </form>
     </div>   
+    <div class="row" style="height: 40px;">
+		<div class="col-lg-12">
+		</div>
+	</div>	
     <div id="scroller_wrapper" class="bottom-fixed-scroll">
         <div id="scroller" class="scroller-div"></div>
     </div>
+    <div class="quickviewcontent hide" id="quickviewcontent" style="width:30%;">
+	</div>
 </div>
 {/strip}

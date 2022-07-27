@@ -11,10 +11,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-  <div class="">
-             
-             <div class=" main-content-body-invoice">
-                 <div class=" detailview-header-block"> 
+<div class="ms_scrn_invoice">
+    <div class=" main-content-body-invoice quotes_detail_views ml10 ">
                      <div class="card-body"> 
                          <div class="invoice-header"> 
                              <h1 class="invoice-title">Quote</h1> 
@@ -51,9 +49,9 @@
                                  <tr>
                                      <th class="wd-20p">Type</th>
                                      <th class="wd-40p">Description</th>
-                                     <th class="tx-center">QNTY</th>
-                                     <th class="tx-right">Unit Price</th>
-                                     <th class="tx-right">Amount</th>
+                                     <th class="textAlignCenter">QNTY</th>
+                                     <th class="textAlignRight">Unit Price</th>
+                                     <th class="textAlignRight">Amount</th>
                                  </tr> 
                                  </thead> 
                                  <tbody>
@@ -69,7 +67,6 @@
                          <a href="javascript:PDFMaker_Helper_Js.sendEmail('{$RECORDID}')" class="btn btn-success float-right mt-3">
                              <i class="fa fa-paper-plane" aria-hidden="true"></i>Send Quote</a>
                      </div> 
-                 </div> 
              </div>
       </div>
     <form id="detailView" method="POST">

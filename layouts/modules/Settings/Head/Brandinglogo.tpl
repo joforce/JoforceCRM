@@ -4,7 +4,7 @@
     <input type="hidden" name="action" value="BrandinglogoSave" />
 
     <div class="form-group companydetailsedit" style="margin-top: 3%;">
-         <center><label class="col-sm-4 fieldLabel control-label"> {vtranslate('LBL_BRANDING_LOGO',$QUALIFIED_MODULE)}</label> </center>
+         <center><label class="col-sm-4 fieldLabel col-form-label"> {vtranslate('LBL_BRANDING_LOGO',$QUALIFIED_MODULE)}</label> </center>
         <div class="fieldValue col-sm-8 "  >
             <div class="company-logo-content">
                 <img src="{$COMPANY_DETAILS_MODULE_MODEL->getBrandLogoPath('brandinglogo')}" class="alignMiddle company_logo" style="max-width:200px; max-height: 100px;"/>
@@ -16,7 +16,7 @@
                 {vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
             </div>
         </div>
-        <center> <label class="col-sm-4 fieldLabel control-label"> {vtranslate('LBL_SITE_LOGO',$QUALIFIED_MODULE)}</label> </center>
+        <center> <label class="col-sm-4 fieldLabel col-form-label"> {vtranslate('LBL_SITE_LOGO',$QUALIFIED_MODULE)}</label> </center>
         <div class="fieldValue col-sm-8 ">
             <div class="company-logo-content" >
                 <img src="{$COMPANY_DETAILS_MODULE_MODEL->getBrandLogoPath('siteicon')}" class="alignMiddle company_logo" style="max-width:200px; max-height: 100px;"/>

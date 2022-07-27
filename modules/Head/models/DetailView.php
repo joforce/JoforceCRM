@@ -67,6 +67,16 @@ class Head_DetailView_Model extends Head_Base_Model {
 
 		$detailViewLink = array();
 		$linkModelList = array();
+
+		if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {
+			$detailViewLinks[] = array(
+                                        'linktype' => 'DETAILVIEWBASIC',
+                                        'linklabel' => 'LBL_ACTIVITY',
+                                        'linkurl' => $recordModel->getRecordActivityUrl(),
+                                        'linkicon' => ''
+                        );
+		}
+
 		if(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId)) {
 			$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
@@ -141,7 +151,6 @@ class Head_DetailView_Model extends Head_Base_Model {
 				$linkModelList['DETAILVIEWSETTING'][] = Head_Link_Model::getInstanceFromValues($settingsLink);
 			}
 		}
-
 		return $linkModelList;
 	}
 
@@ -182,7 +191,6 @@ class Head_DetailView_Model extends Head_Base_Model {
 					'linkicon' => $site_URL.'/layouts/skins/images/summary_history.png'
 			);
 		}
-
 
 		$relationModels = $parentModuleModel->getRelations();
 

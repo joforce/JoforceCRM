@@ -62,7 +62,7 @@
                 <center>
                     <footer>
                         <button class="btn btn-primary saveButton" type="submit">Save</button>
-                        <a class="cancelLink btn btn-secondary" data-dismiss="modal" type="reset">Cancel</a>
+                        <a class="cancelLink btn btn-danger" data-dismiss="modal" type="">Cancel</a>
                     </footer>
                 </center>
             </div>

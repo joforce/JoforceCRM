@@ -11,9 +11,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-  <div class="">
+  <div class="ms_scrn_invoice">
              
-             <div class=" main-content-body-invoice">
+             <div class=" main-content-body-invoice ml10">
                  <div class=" detailview-header-block"> 
                      <div class="card-body"> 
                          <div class="invoice-header"> 
@@ -51,9 +51,9 @@
                                  <tr>
                                      <th class="wd-20p">Type</th>
                                      <th class="wd-40p">Description</th>
-                                     <th class="tx-center">QNTY</th>
-                                     <th class="tx-right">Unit Price</th>
-                                     <th class="tx-right">Amount</th>
+                                     <th class="textAlignCenter">QNTY</th>
+                                     <th class="textAlignRight">Unit Price</th>
+                                     <th class="textAlignRight">Amount</th>
                                  </tr> 
                                  </thead> 
                                  <tbody>

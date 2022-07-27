@@ -208,6 +208,31 @@ class Head_ListView_Model extends Head_Base_Model {
 			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
 		}
 
+		$listQuery = $this->getQuery();
+
+		if(empty($searchKey) && !empty($searchValue)) {
+			$query = 'select tablename from jo_entityname where modulename = ?' ;
+			$params = array($moduleName);
+			$result = $db->pquery($query, $params);
+			$tablename = $db->query_result($result, 0, 'tablename');
+
+	
+			$sql = "SHOW COLUMNS FROM " . $tablename;
+			$result = $db->query($sql);
+			$resField = "";
+			$resFieldId = "";
+			$resCondition = "";
+			foreach($result as $row){
+				if($row['Key'] != "PRI"){
+					if($resCondition == ""){
+						$resCondition = $tablename . '.' . $row['Field'] . ' like "%' . $searchValue . '%"';
+					}else{
+						$resCondition .= " or " . $tablename . '.' . $row['Field'] . ' like "%' . $searchValue . '%"';
+					}
+				}
+			}
+			$listQuery .= " And ($resCondition) ";
+		}
 		$orderBy = $this->get('orderby');
 		$sortOrder = $this->get('sortorder');
 
@@ -220,7 +245,7 @@ class Head_ListView_Model extends Head_Base_Model {
 				$queryGenerator->addWhereField($orderBy);
 			}
 		}
-		$listQuery = $this->getQuery();
+		// $listQuery = $this->getQuery();
 
 		$sourceModule = $this->get('src_module');
 		if(!empty($sourceModule)) {
@@ -375,10 +400,9 @@ class Head_ListView_Model extends Head_Base_Model {
 		$queryGenerator = new EnhancedQueryGenerator($moduleModel->get('name'), $currentUser);
 		$customView = new CustomView();
 		if (!empty($viewId) && $viewId != "0") {
-			$queryGenerator->initForCustomViewById($viewId);
-
 			//Used to set the viewid into the session which will be used to load the same filter when you refresh the page
 			$viewId = $customView->getViewId($moduleName);
+			$queryGenerator->initForCustomViewById($viewId);
 		} else {
 			$viewId = $customView->getViewId($moduleName);
 			if(!empty($viewId) && $viewId != 0) {

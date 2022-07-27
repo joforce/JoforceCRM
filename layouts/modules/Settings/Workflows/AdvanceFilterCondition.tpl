@@ -20,10 +20,10 @@
 	</div>
 </div>
 <div class="Condition_add">
-<div class="add_border_withoutradious padding">
+<div class="add_border_withoutradious mt0 p0">
 <div class="fields_inline">
-	<span class="col-lg-7 col-md-4 col-sm-4">
-		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+	<span class="col-lg-6 col-md-6 col-sm-6 pull-left">
+		<select class="{if empty($NOCHOSEN)}select2{/if} w-100" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
@@ -76,8 +76,8 @@
 			{/foreach}
 		</select>
 	</span>
-	<span class="conditionComparator col-lg-5 col-md-3 col-sm-3">
-		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="comparator" data-placeholder="{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}">
+	<span class="conditionComparator col-lg-5 col-md-3 col-sm-3 pull-left">
+		<select class="{if empty($NOCHOSEN)}select2{/if} w-100" name="comparator" data-placeholder="{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
@@ -88,8 +88,8 @@
 		</select>
 	</span>
 </div>
-	<span class="col-lg-12 col-md-4 col-sm-4  fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
+	<span class="col-lg-12 col-md-4 col-sm-4 pull-left fieldUiHolder col-md-12">
+		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement w-100" type="text" value="{$CONDITION_INFO['value']|escape}" />
 	</span>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->

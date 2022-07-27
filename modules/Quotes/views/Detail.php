@@ -28,7 +28,6 @@ protected $module;
 			$currencyInfo = $recordModel->getCurrencyInfo();
 			$taxes = $recordModel->getProductTaxes();
 			$relatedProducts = $recordModel->getProducts();
-			//echo'<pre>';print_r($this->focus);die('sad');
 		$this->associated_products = getAssociatedProducts($this->moduleName,$focus);
 		$this->companydetails = $this->getcompanyinfo();
 		$this->billingaddress = $this->getbillingaddress();

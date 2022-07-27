@@ -24,7 +24,7 @@
 		<span class="markStar fa icon action {if $STARRED} fa-star active {else} fa-star-o{/if}" title="{if $STARRED} {vtranslate('LBL_STARRED', $MODULE)} {else} {vtranslate('LBL_NOT_STARRED', $MODULE)}{/if}"></span> 
 	{/if}
     <span class="more dropdown action">
-        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v icon"></i></a>
+        <a href="javascript:;" class="" data-toggle="dropdown"><i class="fa fa-ellipsis-v icon"></i></a>
         <ul class="dropdown-menu">
             <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
             {if $RECORD_ACTIONS}

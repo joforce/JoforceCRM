@@ -1,0 +1,65 @@
+Project
+
+delete from jo_tab where tabid=44;
+delete from jo_ws_entity where name='Project';
+delete from jo_field where tabid=44;
+drop tables jo_address;
+drop table jo_addresscf;
+delete from jo_profile2tab where tabid=44;
+delete from jo_blocks where tabid=44;
+delete from jo_def_org_field where tabid=44;
+delete from jo_entityname where tabid=44;
+delete from jo_modtracker_tabs where tabid=44;
+delete from jo_org_share_action2tab where tabid=44;
+delete from jo_profile2field where tabid=44;
+delete from jo_profile2utility where tabid=44;
+delete from jo_tab_info where tabid=44;
+delete from jo_relatedlists where tabid=44 or related_tabid=44;
+delete from jo_crmentityrel where module='Project';
+delete from jo_fieldmodulerel where module='Project' or relmodule='Project';
+delete from jo_parenttabrel where tabid=44;
+delete from jo_crmentity where setype='Project';
+delete from jo_links where linkurl like "%Project%";
+rm -rf modules/Project
+user_privileges/permissions.php
+storage/menu/main_menu_1.php
+storage/menu/module_apps_1.php
+
+
+
+drop table jo_project;
+drop table jo_projectcf;
+drop table jo_projectmilestone;
+drop table jo_projectmilestonecf;
+drop table jo_projectmilestonetype;
+drop table jo_projectpriority;
+drop table jo_projectstatus;
+drop table jo_projecttask;
+drop table jo_projecttask_status_color;
+drop table jo_projecttaskcf;
+drop table jo_projecttaskpriority;
+drop table jo_projecttaskprogress;
+drop table jo_projecttaskstatus;
+drop table jo_projecttasktype;
+drop table jo_projecttype;
+
+
+
+Settings
+--------
+drop table jo_convertpotentialmapping;
+drop table jo_customerportal_relatedmoduleinfo;
+delete from jo_settings_field  where name = 'LBL_OPPORTUNITY_MAPPING';
+
+rm -rf layouts/modules/Settings/Potentials/
+rm -rf modules/Settings/Potentials/
+rm layouts/modules/Head/ProjectTaskSummaryWidgetContents.tpl
+rm layouts/modules/Head/ProjectMilestoneSummaryWidgetContents.tpl
+
+rm modules/Potentials/views/ConvertPotential.php
+rm modules/Potentials/views/SaveConvertPotential.php
+rm layouts/modules/Potentials/ConvertPotential.tpl
+rm layouts/modules/Potentials/ConvertPotentialError.tpl
+
+rm modules/Users/DefaultDataPopulator.php
+rm includes/Webservices/ConvertPotential.php

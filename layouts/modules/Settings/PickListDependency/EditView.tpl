@@ -11,7 +11,12 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
-    <div class="editViewPageDiv">
+    <div class="editViewPageDiv card mt0">
+    <div class = "row card-header-new ml20 mr10">
+                <div class='col-md-12 col-sm-12'>
+                <h4 class="">Add PickList Dependency <h4>
+                </div>
+                </div>
             <div class="editViewContainer container-fluid">
                 <br>
                 <form id="pickListDependencyForm" class="form-horizontal" method="POST">
@@ -20,9 +25,10 @@
                     {/if}
                     <div class="editViewBody">
                         <div class="editViewContents">
-                            <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-12">
+                            <div class="form-group row">
+                            <div class="col-md-2 col-sm-12"></div>
+                                <label class="muted col-form-label col-sm-3 col-xs-12 pull-left col-5 ml20">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12 col-6 col-md-4">
                                     <select name="sourceModule" class="select2 form-control marginLeftZero">
                                         {foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
                                             {assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
@@ -37,9 +43,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-12">
+                            <div class="form-group row ">
+                            <div class="col-md-2 col-sm-12"></div>
+                                <label class="muted col-form-label col-sm-3 col-xs-12 pull-left col-5 ml20">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12 col-6 col-md-4">
                                 <select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" data-rule-required="true">
                                     <option value=''></option>
                                     {foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
@@ -48,9 +55,10 @@
                                 </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="muted control-label col-sm-2 col-xs-12">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
-                                <div class="controls col-sm-3 col-xs-12">
+                            <div class="form-group  row">
+                            <div class="col-md-2 col-sm-12"></div>
+                                <label class="muted col-form-label col-sm-3 col-xs-12 pull-left col-5 ml20">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+                                <div class="controls col-sm-3 col-xs-12 col-6 col-md-4">
                                     <select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" data-rule-required="true">
                                         <option value=''></option>
                                         {foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
@@ -80,7 +88,7 @@
                 <div class="row clearfix">
                     <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink btn btn-secondary'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-danger'  href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>

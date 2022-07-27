@@ -7,44 +7,54 @@
 </head>
 
 <body>
-<div style="font-family: Roboto, sans-serif !important;">
-<h2>{vtranslate('LBL_CUSTOM_LINK', $QUALIFIED_MODULE)} - {vtranslate({$a_customLink.type}, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
+<div style="font-family: Arial,Verdana,'Times New Roman',sans-serif;">
+<h2>{vtranslate('LBL_RELATED_LIST_LINK_TO_MODULE', $QUALIFIED_MODULE)} - {vtranslate($a_relatedList.relatedModule, $QUALIFIED_MODULE)}<i class="fa fa-times pull-right module_popup_close" onclick="md_closePopup();"></i></h2>
 
 <table id="form" style="font-size:12px;">
-<tr><td colspan="2"><h3>{vtranslate("LBL_CUSTOM_LINK_DESCRIPTION", $QUALIFIED_MODULE)}</h3></td></tr>
 <tr>
-	<td>{vtranslate("LBL_CUSTOM_LINK_LABEL", $QUALIFIED_MODULE)}</td>
-	<td><input type="text" name="label" value="{if !empty($a_customLink.label)}{$a_customLink.label}{else}LBL_{/if}" size="50" onkeyup="md_setLabel(this, 'label', '')" /></td>
+	<td colspan="2"><h3>{vtranslate("LBL_RELATED_LIST_DESCRIPTION", $QUALIFIED_MODULE)}</h3></td>
+</tr>
+<tr>
+	<td>{vtranslate("LBL_RELATED_LIST_LABEL", $QUALIFIED_MODULE)}</td>
+	<td colspan="2"><input type="text" name="label" size="50"  class="spaceremover" style =text-transform:capitalize   value="{if !empty($a_relatedList.label)}{$a_relatedList.label}{/if}" /></td>
 </tr>
 {foreach item=language from=$a_languages}
 {assign var="label" value='label_'|cat:$language}
 <tr>
-	<td>{vtranslate("LBL_CUSTOM_LINK_LABEL_TRANSLATION", $QUALIFIED_MODULE)} <em>{$language}</em></td>
-	<td><input type="text" name="label-{$language}" size="50" value="{$a_customLink.$label}" /></td>
+	<td>{vtranslate("LBL_RELATED_LIST_LABEL_TRANSLATION", $QUALIFIED_MODULE)} <em>{$language}</em></td>
+	<td><input type="text" name="label-{$language}" size="50" value="{if !empty($a_relatedList.$label)}{$a_relatedList.$label}{/if}" /></td>
 </tr>
 {/foreach}
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td style="vertical-align: top;">{vtranslate("LBL_RELATED_LIST_NAME", $QUALIFIED_MODULE)}</td>
+	<td>
+		<select name="name" onchange="setRelatedListName(this)" class="inputElement select2 ">
+			<option value="get_related_list" {if empty($a_relatedList.functionName) || $a_relatedList.functionName == 'get_related_list'}selected="selected"{/if}>get_related_list</option>
+			<option value="get_dependents_list" {if $a_relatedList.functionName == 'get_dependents_list'}selected="selected"{/if}>get_dependents_list</option>
+			<option value="get_attachments" {if $a_relatedList.functionName == 'get_attachments'}selected="selected"{/if}>get_attachments</option>
+			<option value="get_history" {if $a_relatedList.functionName == 'get_history'}selected="selected"{/if}>get_history</option>
+			<option value="CUSTOM" {if !empty($a_relatedList.functionName) && !in_array($a_relatedList.functionName, array('get_related_list', 'get_dependents_list', 'get_attachments', 'get_history'))}selected="selected"{/if}>{vtranslate("LBL_RELATED_LIST_CUSTOM_NAME", $QUALIFIED_MODULE)}</option>
+		</select>
+		<input type="text" name="custom_name" size="25" value="{if !in_array($a_relatedList.functionName, array('get_related_list', 'get_dependents_list', 'get_attachments', 'get_history'))}{$a_relatedList.functionName}{/if}" {if in_array($a_relatedList.functionName, array('', 'get_related_list', 'get_dependents_list', 'get_attachments', 'get_history'))}style="display: none;"{/if} />
+	</td>
+</tr>
+<tr>
+	<td><img src="layouts/modules/Settings/{$MODULE}/assets/images/presence.png" alt="{vtranslate("LBL_RELATED_LIST_PRESENCE_ALT", $QUALIFIED_MODULE)}" /> {vtranslate("LBL_RELATED_LIST_PRESENCE", $QUALIFIED_MODULE)}</td>
+	<td><input type="checkbox" name="presence" value="1" {if $a_relatedList.presence == 1}checked="checked"{/if} /></td>
+</tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<td>{vtranslate("LBL_CUSTOM_LINK_URL", $QUALIFIED_MODULE)}</td>
-	<td><input type="text" name="url" size="50" value="{$a_customLink.url}" /></td>
+	<td colspan="2"><h3>{vtranslate("LBL_RELATED_LIST_ACTIONS", $QUALIFIED_MODULE)}</h3></td>
 </tr>
 <tr>
-	<td><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/icon.png" alt="{vtranslate('LBL_CUSTOM_LINK_ICON_ALT', $QUALIFIED_MODULE)}" /> {vtranslate("LBL_CUSTOM_LINK_ICON", $QUALIFIED_MODULE)}</td>
-	<td><input type="text" name="icon" size="50" value="{vtranslate($a_customLink.icon)}" /></td>
+	<td><img src="layouts/modules/Settings/{$MODULE}/assets/images/add.png" alt="{vtranslate("LBL_RELATED_LIST_ACTION_ADD_ALT", $QUALIFIED_MODULE)}" /> {vtranslate("LBL_RELATED_LIST_ACTION_ADD", $QUALIFIED_MODULE)}</td>
+	<td><input type="checkbox" name="action_add" value="1" {if $a_relatedList.actionAdd}checked="checked"{/if} /></td>
 </tr>
 <tr>
-	<td><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/handler-path.png" alt="{vtranslate('LBL_CUSTOM_LINK_HANDLER_PATH_ALT', $QUALIFIED_MODULE)}" /> {vtranslate("LBL_CUSTOM_LINK_HANDLER_PATH", $QUALIFIED_MODULE)}</td>
-	<td colspan="2"><input type="text" name="handler_path" size="50" value="{$a_customLink.handlerPath}" /></td>
-</tr>
-<tr>
-	<td><img src="{$SITEURL}layouts/modules/Settings/{$MODULE}/assets/images/handler-class.png" alt="{vtranslate('LBL_CUSTOM_LINK_HANDLER_CLASS_ALT', $QUALIFIED_MODULE)}" /> {vtranslate("LBL_CUSTOM_LINK_HANDLER_CLASS", $QUALIFIED_MODULE)}</td>
-	<td><input type="text" name="handler_class" size="50" value="{$a_customLink.handlerClass}" /></td>
-</tr>
-<tr>
-	<td>{vtranslate("LBL_CUSTOM_LINK_HANDLER", $QUALIFIED_MODULE)}</td>
-	<td><input type="text" name="handler" size="50" value="{$a_customLink.handler}" /></td>
+	<td><img src="layouts/modules/Settings/{$MODULE}/assets/images/select.png" alt="{vtranslate("LBL_RELATED_LIST_ACTION_SELECT_ALT", $QUALIFIED_MODULE)}" /> {vtranslate("LBL_RELATED_LIST_ACTION_SELECT", $QUALIFIED_MODULE)}</td>
+	<td><input type="checkbox" name="action_select" value="1"  {if $a_relatedList.actionSelect}checked="checked"{/if} /></td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
@@ -54,9 +64,9 @@
 	<td><input type="button" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></td>
 </tr> -->
 </table>
-<div class="modal-footer cus-save-btn">
+<div class="modal-footer rel-save-btn">
 	
-	<center><input type="button" class="btn btn-success " onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
+	<center><input type="button" class="btn btn-success" onclick="md_popupSave();" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" /></center>
 
 </div>
 </div>
@@ -65,15 +75,14 @@
 function md_popupSave()
 {ldelim}
 	var o_data = new Object();
-	o_data.id				= {if !empty($a_customLink.id)}'{$a_customLink.id}'{else}undefined{/if};
-	o_data.index			= {if !empty($a_customLink.index)}{$a_customLink.index}{else}undefined{/if};
-	o_data.type				= '{$a_customLink.type}';
+	o_data.id				= {if !empty($a_relatedList.id)}'{$a_relatedList.id}'{else}undefined{/if};
+	o_data.index			= {if !empty($a_relatedList.index)}{$a_relatedList.index}{else}undefined{/if};
+	o_data.relatedModule	= '{$a_relatedList.relatedModule}';
 	o_data.label			= $("input[name='label']").val();
-	o_data.url				= $("input[name='url']").val();
-	o_data.icon				= $("input[name='icon']").val();
-	o_data.handlerPath		= $("input[name='handler_path']").val();
-	o_data.handlerClass		= $("input[name='handler_class']").val();
-	o_data.handler			= $("input[name='handler']").val();
+	o_data.functionName		= $("select[name='name']").val() == 'CUSTOM' ? $("input[name='custom_name']").val() : $("select[name='name']").val();
+	o_data.presence			= $("input[name='presence']").attr("checked") == "checked" ? 1 : 0;
+	o_data.actionAdd		= $("input[name='action_add']").attr("checked") == "checked";
+	o_data.actionSelect		= $("input[name='action_select']").attr("checked") == "checked";
 
 {foreach item=language from=$a_languages}
 	o_data.label_{$language} = $("input[name='label-{$language}']").val();	
@@ -83,13 +92,13 @@ function md_popupSave()
 	var field = '';
 	
 	if(o_data.label == '' || o_data.label == 'LBL_')
-		field = '{addslashes(vtranslate("LBL_CUSTOM_LINK_LABEL", $QUALIFIED_MODULE))}';
+		field = '{addslashes(vtranslate("LBL_RELATED_LIST_LABEL", $QUALIFIED_MODULE))}';
 {foreach item=language from=$a_languages}
 	else if('{$language}' == window.parent.defaultLanguage && o_data.label_{$language} == '')
-		field = '{addslashes(vtranslate("LBL_CUSTOM_LINK_LABEL_TRANSLATION", $QUALIFIED_MODULE)|cat:' '|cat:$language)}';
+		field = '{addslashes(vtranslate("LBL_RELATED_LIST_LABEL_TRANSLATION", $QUALIFIED_MODULE)|cat:' '|cat:$language)}';
 {/foreach}
-	else if(o_data.url == '')
-		field = '{vtranslate("LBL_CUSTOM_LINK_URL", $QUALIFIED_MODULE)}';
+	else if(o_data.functionName == '')
+		field = '{addslashes(vtranslate("LBL_RELATED_LIST_NAME", $QUALIFIED_MODULE))}';
 	else
 		valid = true;
 
@@ -97,10 +106,31 @@ function md_popupSave()
 		alert("{vtranslate('LBL_FIELD_VALUE_HAS_TO_BE_DEFINED', $QUALIFIED_MODULE)} "+field);
 	else
 	{ldelim}
-		window.parent.md_addCustomLink(o_data, false);
+		window.parent.md_addRelatedList(o_data, false);
 		window.parent.md_closePopup();
 	{rdelim}
 {rdelim}
+
+function setRelatedListName(cb)
+{ldelim}
+	if($(cb).val() == 'CUSTOM')
+	{ldelim}
+		$("input[name='custom_name']").show();
+		$("input[name='custom_name']").focus();
+	{rdelim}
+	else
+	{ldelim}
+		$("input[name='custom_name']").hide();
+	{rdelim}
+{rdelim}
+
+$('.spaceremover').keypress(function(e){
+	if (e.which === 32  ) {
+		return false;
+	}
+});
+
+
 </script>
 </body>
 </html>

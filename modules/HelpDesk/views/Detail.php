@@ -26,12 +26,10 @@ class HelpDesk_Detail_View extends Head_Detail_View {
                 $getRelatedDeals = getRelatedRecordSumValue($recordId, $request->getModule(), 'Potentials', 'amount');
                 $getCalendarCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'Calendar');
                 $getServicesCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'Services', 'unit_price');
-                $getProjectCount = getRelatedRecordSumValue($recordId, $request->getModule(), 'Project');
 
 		$totalValue = array();
                 $totalValue['Potentials'] = $getRelatedDeals? $getRelatedDeals : 0;
                 $totalValue['Calendar'] = $getCalendarCount? $getCalendarCount : 0;
-                $totalValue['Project'] = $getProjectCount? $getProjectCount : 0;
                 $totalValue['Services'] = $getServicesCount? $getServicesCount : 0;
 
                 $viewer->assign('TOTAL', $totalValue);

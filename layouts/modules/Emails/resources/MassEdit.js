@@ -8,24 +8,24 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-jQuery.Class("Emails_MassEdit_Js",{},{
+jQuery.Class("Emails_MassEdit_Js", {}, {
 
 	init: function () {
 		this.preloadData = new Array();
-	}, 
+	},
 
-	ckEditorInstance : false,
-	massEmailForm : false,
-	saved : "SAVED",
-	sent : "SENT",
-	attachmentsFileSize : 0,
-	documentsFileSize : 0,
+	ckEditorInstance: false,
+	massEmailForm: false,
+	saved: "SAVED",
+	sent: "SENT",
+	attachmentsFileSize: 0,
+	documentsFileSize: 0,
 
-	getPreloadData : function() {
+	getPreloadData: function () {
 		return this.preloadData;
 	},
 
-	setPreloadData : function(dataInfo){
+	setPreloadData: function (dataInfo) {
 		this.preloadData = dataInfo;
 		return this;
 	},
@@ -33,8 +33,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	/*
 	 * Function to get the Mass Email Form
 	 */
-	getMassEmailForm : function(){
-		if(this.massEmailForm == false){
+	getMassEmailForm: function () {
+		if (this.massEmailForm == false) {
 			this.massEmailForm = jQuery("#massEmailForm");
 		}
 		return this.massEmailForm;
@@ -43,8 +43,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	/**
 	 * Function to get ckEditorInstance
 	 */
-	getckEditorInstance : function(){
-		if(this.ckEditorInstance == false){
+	getckEditorInstance: function () {
+		if (this.ckEditorInstance == false) {
 			this.ckEditorInstance = new Head_CkEditor_Js();
 		}
 		return this.ckEditorInstance;
@@ -54,15 +54,19 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	 * function to display the email form
 	 * return UI
 	 */
-	showComposeEmailForm : function(params){
+	showComposeEmailForm: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		app.request.post({data:params}).then(function(err,data){
+		app.request.post({
+			data: params
+		}).then(function (err, data) {
 			app.helper.hideProgress();
-			if(err == null) {
-				var modalContainer = app.helper.showModal(data, {cb: function(){
-					 thisInstance.registerEvents();
-				}});
+			if (err == null) {
+				var modalContainer = app.helper.showModal(data, {
+					cb: function () {
+						thisInstance.registerEvents();
+					}
+				});
 				return aDeferred.resolve(modalContainer);
 			}
 		});
@@ -72,16 +76,18 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	/**
 	 * function to call the registerevents of send Email step1
 	 */
-	registerEmailFieldSelectionEvent : function(){
+	registerEmailFieldSelectionEvent: function () {
 		var thisInstance = this;
 		var selectEmailForm = jQuery("#SendEmailFormStep1");
-		selectEmailForm.on('submit',function(e){
+		selectEmailForm.on('submit', function (e) {
 			e.preventDefault();
 			var form = jQuery(e.currentTarget);
 
 			var checkedEmails = form.find('.emailField:checked').length;
 			if (checkedEmails < 1) {
-				app.helper.showErrorNotification({message: app.vtranslate("JS_PLEASE_SELECT_ATLEAST_ONE_OPTION")});
+				app.helper.showErrorNotification({
+					message: app.vtranslate("JS_PLEASE_SELECT_ATLEAST_ONE_OPTION")
+				});
 				return false;
 			}
 
@@ -100,23 +106,25 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 					selectedFields: selectedFields,
 					source_module: form.find('input[name="source_module"]').val()
 				};
-				app.request.post({"data":params});
+				app.request.post({
+					"data": params
+				});
 			}
 
 			var params = form.serialize();
 			app.helper.showProgress();
-			app.helper.hideModal().then(function(e){
+			app.helper.hideModal().then(function (e) {
 				thisInstance.showComposeEmailForm(params);
 			});
 		});
 	},
 
-	 registerPreventFormSubmitEvent : function(){
+	registerPreventFormSubmitEvent: function () {
 		var form = this.getMassEmailForm();
-		form.on('submit',function(e){
+		form.on('submit', function (e) {
 			e.preventDefault();
-		}).on('keypress',function(e){
-			if(e.which == 13){
+		}).on('keypress', function (e) {
+			if (e.which == 13) {
 				e.preventDefault();
 			}
 		});
@@ -126,35 +134,39 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	 * Function to register select Email Template click event
 	 * @returns {undefined} 
 	 */
-	registerSelectEmailTemplateEvent : function(){
+	registerSelectEmailTemplateEvent: function () {
 		var thisInstance = this;
-		jQuery("#selectEmailTemplate").on("click",function(e){
-			var url = "index.php?"+jQuery(e.currentTarget).data('url');
+		jQuery("#selectEmailTemplate").on("click", function (e) {
+			var url = "index.php?" + jQuery(e.currentTarget).data('url');
 			var postParams = app.convertUrlToDataParams(url);
-			app.request.post({data:postParams}).then(function(err,data){
-				if(err === null){
+			app.request.post({
+				data: postParams
+			}).then(function (err, data) {
+				if (err === null) {
 					jQuery('.popupModal').remove();
 					var ele = jQuery('<div class="modal popupModal"></div>');
 					ele.append(data);
 					jQuery('body').append(ele);
 
 					thisInstance.showpopupModal();
-					app.event.trigger("post.Popup.Load",{"eventToTrigger":"post.EmailTemplateList.click"})
+					app.event.trigger("post.Popup.Load", {
+						"eventToTrigger": "post.EmailTemplateList.click"
+					})
 				}
 			});
 		});
 	},
 
-	showpopupModal : function(){
+	showpopupModal: function () {
 		var thisInstance = this;
 		vtUtils.applyFieldElementsView(jQuery('.popupModal'));
 		jQuery('.popupModal').modal();
-		jQuery('.popupModal').on('shown.bs.modal', function() {
+		jQuery('.popupModal').on('shown.bs.modal', function () {
 			jQuery('.myModal').css('opacity', .5);
 			jQuery('.myModal').unbind();
 		});
 
-		jQuery('.popupModal').on('hidden.bs.modal', function() {
+		jQuery('.popupModal').on('hidden.bs.modal', function () {
 			this.remove();
 			jQuery('.myModal').css('opacity', 1);
 			jQuery('.myModal').removeData("modal").modal(app.helper.defaultModalParams());
@@ -162,18 +174,18 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		});
 	},
 
-	registerSaveDraftOrSendEmailEvent : function(){
+	registerSaveDraftOrSendEmailEvent: function () {
 		var thisInstance = this;
 		var form = this.getMassEmailForm();
-		form.on('click','#sendEmail, #saveDraft',function(e){
+		form.on('click', '#sendEmail, #saveDraft', function (e) {
 			var targetName = jQuery(e.currentTarget).attr('name');
-			if(targetName === 'savedraft'){
+			if (targetName === 'savedraft') {
 				jQuery('#flag').val(thisInstance.saved);
 			} else {
 				jQuery('#flag').val(thisInstance.sent);
 			}
 			var params = {
-				submitHandler: function(form) {
+				submitHandler: function (form) {
 					form = jQuery(form);
 					app.helper.hideModal();
 					app.helper.showProgress();
@@ -183,23 +195,27 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 					var data = new FormData(form[0]);
 					var postParams = {
-						data:data,
+						data: data,
 						// jQuery will set contentType = multipart/form-data based on data we are sending
-						contentType:false,
+						contentType: false,
 						// we don’t want jQuery trying to transform file data into a huge query string, we want raw data to be sent to server
-						processData:false 
+						processData: false
 					};
-					app.request.post(postParams).then(function(err,data){
-                                                app.helper.hideProgress();
-                                                var ele = jQuery(data);
-                                                var success_value = jQuery(ele).children('div').text();
-                                                var success = ele.find('.mailSentSuccessfully');
-                                                if(success.length <= 0){
-                                                        app.helper.showErrorNotification({'message' : success_value});
-                                                } else {
-                                                        app.helper.showSuccessNotification({'message' : success_value});
-                                                }
-                                        });
+					app.request.post(postParams).then(function (err, data) {
+						app.helper.hideProgress();
+						var ele = jQuery(data);
+						var success_value = jQuery(ele).children('div').text();
+						var success = ele.find('.mailSentSuccessfully');
+						if (success.length <= 0) {
+							app.helper.showErrorNotification({
+								'message': success_value
+							});
+						} else {
+							app.helper.showSuccessNotification({
+								'message': success_value
+							});
+						}
+					});
 				}
 			};
 			form.vtValidate(params);
@@ -209,13 +225,13 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	/*
 	 * Function to register the events for bcc and cc links
 	 */
-	registerCcAndBccEvents : function(){
+	registerCcAndBccEvents: function () {
 		var thisInstance = this;
-		jQuery('#ccLink').on('click',function(e){
+		jQuery('#ccLink').on('click', function (e) {
 			jQuery('.ccContainer').removeClass("hide");
 			jQuery(e.currentTarget).hide();
 		});
-		jQuery('#bccLink').on('click',function(e){
+		jQuery('#bccLink').on('click', function (e) {
 			jQuery('.bccContainer').removeClass("hide");
 			jQuery(e.currentTarget).hide();
 		});
@@ -225,35 +241,35 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	 * Function which will handle the reference auto complete event registrations
 	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 	 */
-	registerAutoCompleteFields : function(container) {
-        var site_url = jQuery('#joforce_site_url').val();
+	registerAutoCompleteFields: function (container) {
+		var site_url = jQuery('#joforce_site_url').val();
 		var thisInstance = this;
 		var lastResults = [];
 		container.find('#emailField').select2({
 			minimumInputLength: 3,
-			closeOnSelect : false,
+			closeOnSelect: false,
 
-			tags : [],
+			tags: [],
 			tokenSeparators: [","],
 
-			ajax : {
-				'url' : site_url+'index.php?module=Emails&action=BasicAjax',
-				'dataType' : 'json',
-				'data' : function(term,page){
-					 var data = {};
-					 data['searchValue'] = term;
-					 return data;
+			ajax: {
+				'url': site_url + 'index.php?module=Emails&action=BasicAjax',
+				'dataType': 'json',
+				'data': function (term, page) {
+					var data = {};
+					data['searchValue'] = term;
+					return data;
 				},
-				'results' : function(data){
+				'results': function (data) {
 					var finalResult = [];
 					var results = data.result;
 					var resultData = new Array();
-					for(var moduleName in results) {
+					for (var moduleName in results) {
 						var moduleResult = [];
 						moduleResult.text = moduleName;
 
 						var children = new Array();
-						for(var recordId in data.result[moduleName]) {
+						for (var recordId in data.result[moduleName]) {
 							var emailInfo = data.result[moduleName][recordId];
 							for (var i in emailInfo) {
 								var childrenInfo = [];
@@ -270,17 +286,20 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 					lastResults = resultData;
 					return finalResult;
 				},
-				transport : function(params) {
+				transport: function (params) {
 					return jQuery.ajax(params);
 				}
 			},
-			createSearchChoice : function(term) {
+			createSearchChoice: function (term) {
 				//checking for results if there is any if not creating as value
-				if(lastResults.length == 0) {
-					return { id: term, text: term };
+				if (lastResults.length == 0) {
+					return {
+						id: term,
+						text: term
+					};
 				}
 			},
-			escapeMarkup: function(m) {
+			escapeMarkup: function (m) {
 				// Do not escape HTML in the select options text
 				return m;
 			},
@@ -289,9 +308,9 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			var addedElement = selectedData.added;
 			if (typeof addedElement != 'undefined') {
 				var data = {
-					'id' : addedElement.recordId,
-					'name' : addedElement.text,
-					'emailid' : addedElement.id
+					'id': addedElement.recordId,
+					'name': addedElement.text,
+					'emailid': addedElement.id
 				}
 				thisInstance.addToEmails(data);
 				if (typeof addedElement.recordId != 'undefined') {
@@ -301,7 +320,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 				var preloadData = thisInstance.getPreloadData();
 				var emailInfo = {
-					'id' : addedElement.id
+					'id': addedElement.id
 				}
 				if (typeof addedElement.recordId != 'undefined') {
 					emailInfo['text'] = addedElement.text;
@@ -316,9 +335,9 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			var removedElement = selectedData.removed;
 			if (typeof removedElement != 'undefined') {
 				var data = {
-					'id' : removedElement.recordId,
-					'name' : removedElement.text,
-					'emailid' : removedElement.id
+					'id': removedElement.recordId,
+					'name': removedElement.text,
+					'emailid': removedElement.id
 				}
 				thisInstance.removeFromEmails(data);
 				if (typeof removedElement.recordId != 'undefined') {
@@ -328,7 +347,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 				var preloadData = thisInstance.getPreloadData();
 				var updatedPreloadData = [];
-				for(var i in preloadData) {
+				for (var i in preloadData) {
 					var preloadDataInfo = preloadData[i];
 					var skip = false;
 					if (removedElement.id == preloadDataInfo.id) {
@@ -344,10 +363,10 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 		container.find('#emailField').select2("container").find("ul.select2-choices").sortable({
 			containment: 'parent',
-			start: function(){
+			start: function () {
 				container.find('#emailField').select2("onSortStart");
 			},
-			update: function(){
+			update: function () {
 				container.find('#emailField').select2("onSortEnd");
 			}
 		});
@@ -362,15 +381,15 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 		var preloadData = thisInstance.getPreloadData();
 		if (typeof toEmailInfo != 'undefined') {
-			for(var key in toEmailInfo) {
+			for (var key in toEmailInfo) {
 				if (toEmailNamesList.hasOwnProperty(key)) {
 					for (var i in toEmailNamesList[key]) {
 						var emailInfo = [];
 						var emailId = toEmailNamesList[key][i].value;
 						var emailInfo = {
-							'recordId' : key,
-							'id' : emailId,
-							'text' : toEmailNamesList[key][i].label+' <b>('+emailId+')</b>'
+							'recordId': key,
+							'id': emailId,
+							'text': toEmailNamesList[key][i].label + ' <b>(' + emailId + ')</b>'
 						}
 						preloadData.push(emailInfo);
 						if (jQuery.inArray(emailId, toFieldValues) != -1) {
@@ -384,11 +403,11 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			}
 		}
 		if (typeof toFieldValues != 'undefined') {
-			for(var i in toFieldValues) {
+			for (var i in toFieldValues) {
 				var emailId = toFieldValues[i];
 				var emailInfo = {
-					'id' : emailId,
-					'text' : emailId
+					'id': emailId,
+					'text': emailId
 				}
 				preloadData.push(emailInfo);
 			}
@@ -400,14 +419,14 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 	},
 
-	removeFromEmailAddressData : function(mailInfo) {
+	removeFromEmailAddressData: function (mailInfo) {
 		var mailInfoElement = this.getMassEmailForm().find('[name="toemailinfo"]');
 		var previousValue = JSON.parse(mailInfoElement.val());
 		var elementSize = previousValue[mailInfo.id].length;
 		var emailAddress = mailInfo.emailid;
 		var selectedId = mailInfo.id;
 		//If element length is not more than two delete existing record.
-		if(elementSize < 2){
+		if (elementSize < 2) {
 			delete previousValue[selectedId];
 		} else {
 			// Update toemailinfo hidden element value
@@ -415,7 +434,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			var reserveValue = previousValue[selectedId];
 			delete previousValue[selectedId];
 			//Remove value from an array and return the resultant array
-			newValue = jQuery.grep(reserveValue, function(value) {
+			newValue = jQuery.grep(reserveValue, function (value) {
 				return value != emailAddress;
 			});
 			previousValue[selectedId] = newValue;
@@ -424,16 +443,16 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		mailInfoElement.val(JSON.stringify(previousValue));
 	},
 
-	removeFromSelectedIds : function(selectedId) {
+	removeFromSelectedIds: function (selectedId) {
 		var selectedIdElement = this.getMassEmailForm().find('[name="selected_ids"]');
 		var previousValue = JSON.parse(selectedIdElement.val());
 		var mailInfoElement = this.getMassEmailForm().find('[name="toemailinfo"]');
 		var mailAddress = JSON.parse(mailInfoElement.val());
 		var elements = mailAddress[selectedId];
-		var noOfEmailAddress = elements.length; 
+		var noOfEmailAddress = elements.length;
 
 		//Don't remove id from selected_ids if element is having more than two email id's
-		if(noOfEmailAddress < 2){
+		if (noOfEmailAddress < 2) {
 			var updatedValue = [];
 			for (var i in previousValue) {
 				var id = previousValue[i];
@@ -449,7 +468,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		}
 	},
 
-	removeFromEmails : function(mailInfo){
+	removeFromEmails: function (mailInfo) {
 		var toEmails = this.getMassEmailForm().find('[name="to"]');
 		var previousValue = JSON.parse(toEmails.val());
 
@@ -467,41 +486,41 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		toEmails.val(JSON.stringify(updatedValue));
 	},
 
-	addToEmails : function(mailInfo){
+	addToEmails: function (mailInfo) {
 		var toEmails = this.getMassEmailForm().find('[name="to"]');
 		var value = JSON.parse(toEmails.val());
-		if(value == ""){
+		if (value == "") {
 			value = new Array();
 		}
 		value.push(mailInfo.emailid);
 		toEmails.val(JSON.stringify(value));
 	},
 
-	addToEmailAddressData : function(mailInfo) {
+	addToEmailAddressData: function (mailInfo) {
 		var mailInfoElement = this.getMassEmailForm().find('[name="toemailinfo"]');
 		var existingToMailInfo = JSON.parse(mailInfoElement.val());
-		 if(typeof existingToMailInfo.length != 'undefined') {
+		if (typeof existingToMailInfo.length != 'undefined') {
 			existingToMailInfo = {};
-		} 
+		}
 		//If same record having two different email id's then it should be appended to
 		//existing email id
-		 if(existingToMailInfo.hasOwnProperty(mailInfo.id) === true){
+		if (existingToMailInfo.hasOwnProperty(mailInfo.id) === true) {
 			var existingValues = existingToMailInfo[mailInfo.id];
 			var newValue = new Array(mailInfo.emailid);
-			existingToMailInfo[mailInfo.id] = jQuery.merge(existingValues,newValue);
+			existingToMailInfo[mailInfo.id] = jQuery.merge(existingValues, newValue);
 		} else {
 			existingToMailInfo[mailInfo.id] = new Array(mailInfo.emailid);
 		}
 		mailInfoElement.val(JSON.stringify(existingToMailInfo));
 	},
 
-	appendToSelectedIds : function(selectedId) {
+	appendToSelectedIds: function (selectedId) {
 		var selectedIdElement = this.getMassEmailForm().find('[name="selected_ids"]');
 		var previousValue = '';
-		if(JSON.parse(selectedIdElement.val()) != '') {
+		if (JSON.parse(selectedIdElement.val()) != '') {
 			previousValue = JSON.parse(selectedIdElement.val());
 			//If value doesn't exist then insert into an array
-			if(jQuery.inArray(selectedId,previousValue) === -1){
+			if (jQuery.inArray(selectedId, previousValue) === -1) {
 				previousValue.push(selectedId);
 			}
 		} else {
@@ -511,85 +530,85 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 	},
 
-	checkHiddenStatusofCcandBcc : function(){
+	checkHiddenStatusofCcandBcc: function () {
 		var ccLink = jQuery('#ccLink');
 		var bccLink = jQuery('#bccLink');
-		if(ccLink.is(':hidden') && bccLink.is(':hidden')){
+		if (ccLink.is(':hidden') && bccLink.is(':hidden')) {
 			ccLink.closest('div.row').addClass('hide');
 		}
 	},
 
-	loadCkEditor : function(textAreaElement){
+	loadCkEditor: function (textAreaElement) {
 		var ckEditorInstance = this.getckEditorInstance();
 		ckEditorInstance.loadCkEditor(textAreaElement);
 	},
 
-	setAttachmentsFileSizeByElement : function(element){
+	setAttachmentsFileSizeByElement: function (element) {
 		this.attachmentsFileSize += element.get(0).files[0].size;
 	},
 
-	setAttachmentsFileSizeBySize : function(fileSize){
+	setAttachmentsFileSizeBySize: function (fileSize) {
 		this.attachmentsFileSize += parseFloat(fileSize);
 	},
 
-	getAttachmentsFileSize : function(){
+	getAttachmentsFileSize: function () {
 		return this.attachmentsFileSize;
 	},
-	setDocumentsFileSize : function(documentSize){
+	setDocumentsFileSize: function (documentSize) {
 		this.documentsFileSize += parseFloat(documentSize);
 	},
-	getDocumentsFileSize : function(){
+	getDocumentsFileSize: function () {
 		return this.documentsFileSize;
 	},
 
-	getTotalAttachmentsSize : function(){
-		return parseFloat(this.getAttachmentsFileSize())+parseFloat(this.getDocumentsFileSize());
+	getTotalAttachmentsSize: function () {
+		return parseFloat(this.getAttachmentsFileSize()) + parseFloat(this.getDocumentsFileSize());
 	},
 
-	getMaxUploadSize : function(){
+	getMaxUploadSize: function () {
 		return jQuery('#maxUploadSize').val();
 	},
 
-	removeAttachmentFileSizeByElement : function(element) {
+	removeAttachmentFileSizeByElement: function (element) {
 		this.attachmentsFileSize -= element.get(0).files[0].size;
 	},
 
-	removeDocumentsFileSize : function(documentSize){
+	removeDocumentsFileSize: function (documentSize) {
 		this.documentsFileSize -= parseFloat(documentSize);
 	},
 
-	removeAttachmentFileSizeBySize : function(fileSize) {
+	removeAttachmentFileSizeBySize: function (fileSize) {
 		this.attachmentsFileSize -= parseFloat(fileSize);
 	},
 
 	/**
 	 * Function to calculate upload file size
 	 */
-	calculateUploadFileSize : function(){
+	calculateUploadFileSize: function () {
 		var thisInstance = this;
 		var composeEmailForm = this.getMassEmailForm();
 		var attachmentsList = composeEmailForm.find('#attachments');
 		var attachments = attachmentsList.find('.customAttachment');
-		jQuery.each(attachments,function(){
+		jQuery.each(attachments, function () {
 			var element = jQuery(this);
 			var fileSize = element.data('fileSize');
 			var fileType = element.data('fileType');
-			if(fileType == "file"){
+			if (fileType == "file") {
 				thisInstance.setAttachmentsFileSizeBySize(fileSize);
-			} else if(fileType == "document"){
+			} else if (fileType == "document") {
 				thisInstance.setDocumentsFileSize(fileSize);
 			}
 		})
 	},
 
-	 setReferenceFieldValue : function(container,object){
+	setReferenceFieldValue: function (container, object) {
 		var thisInstance = this;
 		var preloadData = thisInstance.getPreloadData();
 
 		var emailInfo = {
-			'recordId' : object.id,
-			'id' : object.emailid,
-			'text' : object.name+' <b>('+object.emailid+')</b>'
+			'recordId': object.id,
+			'id': object.emailid,
+			'text': object.name + ' <b>(' + object.emailid + ')</b>'
 		}
 		preloadData.push(emailInfo);
 		thisInstance.setPreloadData(preloadData);
@@ -598,15 +617,15 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		var toEmailField = container.find('.sourceField');
 		var toEmailFieldExistingValue = toEmailField.val();
 		var toEmailFieldNewValue;
-		if(toEmailFieldExistingValue != ""){
-			toEmailFieldNewValue = toEmailFieldExistingValue+","+object.emailid;
+		if (toEmailFieldExistingValue != "") {
+			toEmailFieldNewValue = toEmailFieldExistingValue + "," + object.emailid;
 		} else {
 			toEmailFieldNewValue = object.emailid;
 		}
 		toEmailField.val(toEmailFieldNewValue);
 	},
 
-	fileAfterSelectHandler : function(element, value, master_element){
+	fileAfterSelectHandler: function (element, value, master_element) {
 		var thisInstance = this;
 		var mode = jQuery('[name="emailMode"]').val();
 		var existingAttachment = JSON.parse(jQuery('[name="attachments"]').val());
@@ -614,18 +633,22 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		thisInstance.setAttachmentsFileSizeByElement(element);
 		var totalAttachmentsSize = thisInstance.getTotalAttachmentsSize();
 		var maxUploadSize = thisInstance.getMaxUploadSize();
-		if(totalAttachmentsSize > maxUploadSize){
-			app.helper.showAlertBox({message:app.vtranslate('JS_MAX_FILE_UPLOAD_EXCEEDS')});
+		if (totalAttachmentsSize > maxUploadSize) {
+			app.helper.showAlertBox({
+				message: app.vtranslate('JS_MAX_FILE_UPLOAD_EXCEEDS')
+			});
 			this.removeAttachmentFileSizeByElement(jQuery(element));
 			master_element.list.find('.MultiFile-label:last').find('.MultiFile-remove').trigger('click');
-		}else if((mode != "") && (existingAttachment != "")){
+		} else if ((mode != "") && (existingAttachment != "")) {
 			var pattern = /\\/;
 			var fileuploaded = value;
-			jQuery.each(existingAttachment,function(key,value){
-				if((value['attachment'] == fileuploaded) && !(value.hasOwnProperty( "docid"))){
-					var errorMsg = app.vtranslate("JS_THIS_FILE_HAS_ALREADY_BEEN_SELECTED")+fileuploaded;
-					app.helper.showAlertBox({message:app.vtranslate(errorMsg)});
-					thisInstance.removeAttachmentFileSizeByElement(jQuery(element),value);
+			jQuery.each(existingAttachment, function (key, value) {
+				if ((value['attachment'] == fileuploaded) && !(value.hasOwnProperty("docid"))) {
+					var errorMsg = app.vtranslate("JS_THIS_FILE_HAS_ALREADY_BEEN_SELECTED") + fileuploaded;
+					app.helper.showAlertBox({
+						message: app.vtranslate(errorMsg)
+					});
+					thisInstance.removeAttachmentFileSizeByElement(jQuery(element), value);
 					master_element.list.find('.MultiFile-label:last').find('.MultiFile-remove').trigger('click');
 					return false;
 				}
@@ -634,36 +657,36 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		return true;
 	},
 
-	 registerEventsForToField: function() {
-		 var thisInstance = this;
-		this.getMassEmailForm().on('click','.selectEmail',function(e){
+	registerEventsForToField: function () {
+		var thisInstance = this;
+		this.getMassEmailForm().on('click', '.selectEmail', function (e) {
 			var moduleSelected = jQuery('.emailModulesList').select2('val');
 			var parentElem = jQuery(e.target).closest('.toEmailField');
 			var sourceModule = jQuery('[name=module]').val();
 			var params = {
-				'module' : moduleSelected,
-				'src_module' : sourceModule,
+				'module': moduleSelected,
+				'src_module': sourceModule,
 				'view': 'EmailsRelatedModulePopup'
 			}
-			var popupInstance =Head_Popup_Js.getInstance();
-			popupInstance.showPopup(params, function(data){
-					var responseData = JSON.parse(data);
+			var popupInstance = Head_Popup_Js.getInstance();
+			popupInstance.showPopup(params, function (data) {
+				var responseData = JSON.parse(data);
 
-					for(var id in responseData){
-						var data = {
-							'name' : responseData[id].name,
-							'id' : id,
-							'emailid' : responseData[id].email
-						}
-						thisInstance.setReferenceFieldValue(parentElem, data);
-						thisInstance.addToEmailAddressData(data);
-						thisInstance.appendToSelectedIds(id);
-						thisInstance.addToEmails(data);
+				for (var id in responseData) {
+					var data = {
+						'name': responseData[id].name,
+						'id': id,
+						'emailid': responseData[id].email
 					}
-				},'relatedEmailModules');
+					thisInstance.setReferenceFieldValue(parentElem, data);
+					thisInstance.addToEmailAddressData(data);
+					thisInstance.appendToSelectedIds(id);
+					thisInstance.addToEmails(data);
+				}
+			}, 'relatedEmailModules');
 		});
 
-		this.getMassEmailForm().on('click','[name="clearToEmailField"]',function(e){
+		this.getMassEmailForm().on('click', '[name="clearToEmailField"]', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.closest('div.toEmailField').find('.sourceField').val('');
 			thisInstance.getMassEmailForm().find('[name="toemailinfo"]').val(JSON.stringify(new Array()));
@@ -675,28 +698,32 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			thisInstance.getMassEmailForm().find('#emailField').select2('data', preloadData);
 		});
 
-	 },
+	},
 
-	registerBrowseCrmEvent : function(){
+	registerBrowseCrmEvent: function () {
 		var thisInstance = this;
-		jQuery('#browseCrm').on('click',function(e){
+		jQuery('#browseCrm').on('click', function (e) {
 			var url = jQuery(e.currentTarget).data('url');
-			var postParams = app.convertUrlToDataParams("index.php?"+url);
+			var postParams = app.convertUrlToDataParams("index.php?" + url);
 
-			app.request.post({"data":postParams}).then(function(err,data){
+			app.request.post({
+				"data": postParams
+			}).then(function (err, data) {
 				jQuery('.popupModal').remove();
 				var ele = jQuery('<div class="modal popupModal"></div>');
 				ele.append(data);
 				jQuery('body').append(ele);
 				thisInstance.showpopupModal();
-				app.event.trigger("post.Popup.Load",{"eventToTrigger":"post.DocumentsList.click"});
+				app.event.trigger("post.Popup.Load", {
+					"eventToTrigger": "post.DocumentsList.click"
+				});
 			});
 		});
 	},
 
 
-	getDocumentAttachmentElement : function(selectedFileName,id,selectedFileSize){
-		return '<div class="MultiFile-label"><a href="#" class="removeAttachment cursorPointer" data-id='+id+' data-file-size='+selectedFileSize+'>x </a><span>'+selectedFileName+'</span></div>';
+	getDocumentAttachmentElement: function (selectedFileName, id, selectedFileSize) {
+		return '<div class="MultiFile-label"><a href="#" class="removeAttachment cursorPointer" data-id=' + id + ' data-file-size=' + selectedFileSize + '>x </a><span>' + selectedFileName + '</span></div>';
 	},
 
 	/**
@@ -705,66 +732,68 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	 * @param expects document id to check
 	 * @return true if present false if not present
 	 */
-	checkIfExisitingAttachment : function(selectedDocumentId){
+	checkIfExisitingAttachment: function (selectedDocumentId) {
 		var documentExist;
 		var documentPresent;
 		var mode = jQuery('[name="emailMode"]').val();
 		var selectedDocumentIds = jQuery('#documentIds').val();
 		var existingAttachment = JSON.parse(jQuery('[name="attachments"]').val());
-		if((mode != "") && (existingAttachment != "")){
-			jQuery.each(existingAttachment,function(key,value){
-				if(value.hasOwnProperty( "docid")){
-					if(value['docid'] == selectedDocumentId){
+		if ((mode != "") && (existingAttachment != "")) {
+			jQuery.each(existingAttachment, function (key, value) {
+				if (value.hasOwnProperty("docid")) {
+					if (value['docid'] == selectedDocumentId) {
 						documentExist = 1;
 						return false;
-					} 
+					}
 				}
 			})
-			if(selectedDocumentIds != ""){
+			if (selectedDocumentIds != "") {
 				selectedDocumentIds = JSON.parse(selectedDocumentIds);
 			}
-			if((documentExist == 1) || (jQuery.inArray(selectedDocumentId,selectedDocumentIds) != '-1')){
+			if ((documentExist == 1) || (jQuery.inArray(selectedDocumentId, selectedDocumentIds) != '-1')) {
 				documentPresent = 1;
 			} else {
 				documentPresent = 0;
 			}
-		} else if(selectedDocumentIds != ""){
+		} else if (selectedDocumentIds != "") {
 			selectedDocumentIds = JSON.parse(selectedDocumentIds);
-			if((jQuery.inArray(selectedDocumentId,selectedDocumentIds) != '-1')){
+			if ((jQuery.inArray(selectedDocumentId, selectedDocumentIds) != '-1')) {
 				documentPresent = 1;
 			} else {
 				documentPresent = 0;
 			}
 		}
-		if(documentPresent == 1){
+		if (documentPresent == 1) {
 			var errorMsg = app.vtranslate("JS_THIS_DOCUMENT_HAS_ALREADY_BEEN_SELECTED");
-			app.helper.showErrorNotification({message: errorMsg});
+			app.helper.showErrorNotification({
+				message: errorMsg
+			});
 			return true;
 		} else {
 			return false;
 		}
 	},
 
-	writeDocumentIds :function(selectedDocumentId){
+	writeDocumentIds: function (selectedDocumentId) {
 		var thisInstance = this;
 		var newAttachment;
 		var selectedDocumentIds = jQuery('#documentIds').val();
-		if(selectedDocumentIds != ""){
+		if (selectedDocumentIds != "") {
 			selectedDocumentIds = JSON.parse(selectedDocumentIds);
 			var existingAttachment = thisInstance.checkIfExisitingAttachment(selectedDocumentId);
-			if(!existingAttachment){
+			if (!existingAttachment) {
 				newAttachment = 1;
 			} else {
 				newAttachment = 0;
 			}
 		} else {
 			var existingAttachment = thisInstance.checkIfExisitingAttachment(selectedDocumentId);
-			if(!existingAttachment){
+			if (!existingAttachment) {
 				newAttachment = 1;
 				var selectedDocumentIds = new Array();
 			}
 		}
-		if(newAttachment == 1){
+		if (newAttachment == 1) {
 			selectedDocumentIds.push(selectedDocumentId);
 			jQuery('#documentIds').val(JSON.stringify(selectedDocumentIds));
 			return true;
@@ -773,32 +802,32 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		}
 	},
 
-	removeDocumentIds : function(removedDocumentId){
+	removeDocumentIds: function (removedDocumentId) {
 		var documentIdsContainer = jQuery('#documentIds');
 		var documentIdsArray = JSON.parse(documentIdsContainer.val());
-		documentIdsArray.splice( jQuery.inArray('"'+removedDocumentId+'"', documentIdsArray), 1 );
+		documentIdsArray.splice(jQuery.inArray('"' + removedDocumentId + '"', documentIdsArray), 1);
 		documentIdsContainer.val(JSON.stringify(documentIdsArray));
 	},
 
-	registerRemoveAttachmentEvent : function(){
+	registerRemoveAttachmentEvent: function () {
 		var thisInstance = this;
-		this.getMassEmailForm().on('click','.removeAttachment',function(e){
+		this.getMassEmailForm().on('click', '.removeAttachment', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var id = currentTarget.data('id');
 			var fileSize = currentTarget.data('fileSize');
 			currentTarget.closest('.MultiFile-label').remove();
 			thisInstance.removeDocumentsFileSize(fileSize);
 			thisInstance.removeDocumentIds(id);
-			if (jQuery('#attachments').is(':empty')){
+			if (jQuery('#attachments').is(':empty')) {
 				jQuery('.MultiFile,.MultiFile-applied').removeClass('removeNoFileChosen');
 			}
 		});
 	},
 
-	registerEventForRemoveCustomAttachments : function() {
+	registerEventForRemoveCustomAttachments: function () {
 		var thisInstance = this;
 		var composeEmailForm = this.getMassEmailForm();
-		jQuery('[name="removeAttachment"]').on('click',function(e){
+		jQuery('[name="removeAttachment"]').on('click', function (e) {
 			var attachmentsContainer = composeEmailForm.find('[ name="attachments"]');
 			var attachmentsInfo = JSON.parse(attachmentsContainer.val());
 			var element = jQuery(e.currentTarget);
@@ -807,14 +836,14 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			var fileType = imageContainerData['fileType'];
 			var fileSize = imageContainerData['fileSize'];
 			var fileId = imageContainerData['fileId'];
-			if(fileType == "document"){
+			if (fileType == "document") {
 				thisInstance.removeDocumentsFileSize(fileSize);
-			} else if(fileType == "file"){
+			} else if (fileType == "file") {
 				thisInstance.removeAttachmentFileSizeBySize(fileSize);
 			}
-			jQuery.each(attachmentsInfo,function(index,attachmentObject){
-				if((typeof attachmentObject != "undefined") && (attachmentObject.fileid == fileId)){
-					attachmentsInfo.splice(index,1);
+			jQuery.each(attachmentsInfo, function (index, attachmentObject) {
+				if ((typeof attachmentObject != "undefined") && (attachmentObject.fileid == fileId)) {
+					attachmentsInfo.splice(index, 1);
 				}
 			});
 			attachmentsContainer.val(JSON.stringify(attachmentsInfo));
@@ -822,23 +851,23 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		});
 	},
 
-	registerEvents : function(){
+	registerEvents: function () {
 		var thisInstance = this;
 		var container = this.getMassEmailForm();
-		if(container.length > 0){
+		if (container.length > 0) {
 			this.registerPreventFormSubmitEvent();
 			this.registerCcAndBccEvents();
 			this.registerAutoCompleteFields(container);
 			jQuery("#multiFile").MultiFile({
 				list: '#attachments',
-				'afterFileSelect' : function(element, value, master_element){
+				'afterFileSelect': function (element, value, master_element) {
 					var masterElement = master_element;
 					var newElement = jQuery(masterElement.current);
 					newElement.addClass('removeNoFileChosen');
 					thisInstance.fileAfterSelectHandler(element, value, master_element);
 				},
-				'afterFileRemove' : function(element, value, master_element){
-					if (jQuery('#attachments').is(':empty')){
+				'afterFileRemove': function (element, value, master_element) {
+					if (jQuery('#attachments').is(':empty')) {
 						jQuery('.MultiFile,.MultiFile-applied').removeClass('removeNoFileChosen');
 					}
 					thisInstance.removeAttachmentFileSizeByElement(jQuery(element));
@@ -849,23 +878,23 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			this.calculateUploadFileSize();
 			this.registerSaveDraftOrSendEmailEvent();
 			var isCkeditorApplied = jQuery('#description').data('isCkeditorApplied');
-			if(isCkeditorApplied != true && jQuery('#description').length > 0)   {
-				this.loadCkEditor(jQuery('#description').data('isCkeditorApplied',true));
+			if (isCkeditorApplied != true && jQuery('#description').length > 0) {
+				this.loadCkEditor(jQuery('#description').data('isCkeditorApplied', true));
 			}
 			this.registerSelectEmailTemplateEvent();
 			this.registerEventsForToField();
 			this.registerEventForRemoveCustomAttachments();
 
-			app.event.on("post.DocumentsList.click",function(event, data){
+			app.event.on("post.DocumentsList.click", function (event, data) {
 				var responseData = JSON.parse(data);
 				jQuery('.popupModal').modal('hide');
-				for(var id in responseData){
+				for (var id in responseData) {
 					selectedDocumentId = id;
 					var selectedFileName = responseData[id].info['filename'];
 					var selectedFileSize = responseData[id].info['filesize'];
 					var response = thisInstance.writeDocumentIds(selectedDocumentId)
-					if(response){
-						var attachmentElement = thisInstance.getDocumentAttachmentElement(selectedFileName,id,selectedFileSize);
+					if (response) {
+						var attachmentElement = thisInstance.getDocumentAttachmentElement(selectedFileName, id, selectedFileSize);
 						//TODO handle the validation if the size exceeds 5mb before appending.
 						jQuery(attachmentElement).appendTo(jQuery('#attachments'));
 						jQuery('.MultiFile-applied,.MultiFile').addClass('removeNoFileChosen');
@@ -874,19 +903,19 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 				}
 			});
 
-			jQuery('#emailTemplateWarning .alert-warning .close').click(function(e){
+			jQuery('#emailTemplateWarning .alert-warning .close').click(function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				jQuery('#emailTemplateWarning').addClass('hide');
 			});
 
-			app.event.on("post.EmailTemplateList.click",function(event, data){
+			app.event.on("post.EmailTemplateList.click", function (event, data) {
 				var responseData = JSON.parse(data);
 				jQuery('.popupModal').modal('hide');
 
 				var ckEditorInstance = thisInstance.getckEditorInstance();
 
-				for(var id in responseData){
+				for (var id in responseData) {
 					var data = responseData[id];
 					ckEditorInstance.loadContentsInCkeditor(data['info']);
 					//fill subject
@@ -896,27 +925,25 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 				var sourceModule = jQuery('[name=source_module]').val();
 				var tokenDataPair = selectedTemplateBody.split('$');
 				var showWarning = false;
-				for (var i=0; i<tokenDataPair.length; i++) {
+				for (var i = 0; i < tokenDataPair.length; i++) {
 					var module = tokenDataPair[i].split('-');
 					var pattern = /^[A-z]+$/;
-					if(pattern.test(module[0])) {
-						if(!(module[0] == sourceModule.toLowerCase() || module[0] == 'users' || module[0] == 'custom')) {
+					if (pattern.test(module[0])) {
+						if (!(module[0] == sourceModule.toLowerCase() || module[0] == 'users' || module[0] == 'custom')) {
 							showWarning = true;
 						}
 					}
 				}
-				if(showWarning) {
+				if (showWarning) {
 					jQuery('#emailTemplateWarning').removeClass('hide');
 				} else {
 					jQuery('#emailTemplateWarning').addClass('hide');
 				}
 			});
 			var params = {
-				setHeight:(jQuery(window).height() - container.find('.modal-header').height() - container.find('.modal-footer').height() - 100)+'px'
+				setHeight: (jQuery(window).height() - container.find('.modal-header').height() - container.find('.modal-footer').height() - 100) + 'px'
 			};
 			app.helper.showVerticalScroll(container.find('.modal-body'), params);
 		}
 	}
 });
-
-

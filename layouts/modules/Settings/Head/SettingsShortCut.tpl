@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="col-lg-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}" style="height: 100px; width: 22.5%;">
+	<span id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="col-lg-3 contentsBackground card card-body cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}" style="height: 100px; width: 22.5%;">
 		<div>
 			<span>
 				<b class="themeTextColor">{vtranslate($SETTINGS_SHORTCUT->get('name'),$MODULE)}</b>

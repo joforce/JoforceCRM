@@ -56,10 +56,33 @@
         	            </li>
                     {/if}
 		{/foreach}
-
+			{foreach key=SECTION_NAME item=ICON from=$SECTION_ARRAY}					
+					{foreach item=tabid from=$APP_MODULE_ARRAY[$SECTION_NAME]}
+					{assign var=moduleModel value=Head_Module_Model::getModuleInstanceById($tabid)}
+					{if (vtranslate($moduleModel->get('label'),$moduleName ))=='Calendar'}
+					{if $moduleModel->isActive()}
+						{assign var=moduleName value=$moduleModel->get('name')}
+						{assign var=translatedModuleLabel value=vtranslate($moduleModel->get('label'),$moduleName )}
+						{if $USER_PRIVILEGES_MODEL->hasModulePermission($tabid)}
+						<li class="custom-menu-list container-fluid {if $moduleName eq $MODULE} active {/if}" id="sidebar_{$MODULE}" >
+							<a href="{$moduleModel->getListViewUrl()}" >
+							{if $moduleName == 'EmailPlus'}
+								<i class="joicon-mailmanager mr10"></i>{$translatedModuleLabel}
+							{elseif $moduleName == 'PDFMaker'}
+								<i class="fa fa-file-pdf-o mr10"></i>{$translatedModuleLabel}
+							{else}
+								<i class="joicon-{strtolower($moduleName)} mr10 module-icon"></i><span class="module-name textOverflowEllipsis ml-1 {if $LEFTPANELHIDE eq '1'} hide {/if}"> {vtranslate($moduleModel->getName(), $moduleModel->getName())}</span>
+							{/if}
+							</a>
+						</li>
+						{/if}
+					{/if}
+					{/if}
+			    {/foreach}
+		    {/foreach}
 		<input type="hidden" name=shot-cut-menu-array[] id="shot-cut-menu-array" value="{$hidden_tab_array}">
                 {if $QUALIFIED_MODULE eq $MODULE}
-                	{if !in_array($MODULE, $tabs_array) && ($MODULE neq 'Home')}
+                	{if !in_array($MODULE, $tabs_array) && ($MODULE neq 'Home') && ($MODULE neq 'Calendar')}
                             <li class="custom-menu-list temporary-main-menu active container-fluid" id="sidebar_{$MODULE}">
                                 {assign var=moduleid value=getTabid($MODULE)}
                                 {assign var=moduleModel value=Settings_MenuManager_Module_Model::getModuleInstanceById($moduleid)}
@@ -90,9 +113,9 @@
 	    <div class="p0 panel-group ui container" id="sidebar-more-menu-list">
 		<div class="ui accordion">
 		    {foreach key=SECTION_NAME item=ICON from=$SECTION_ARRAY}
-			<div class="title sidebar-more-menu-title">
+			<div class="title sidebar-more-menu-title mb5">
 			    <i class="{$ICON} menu-icon"></i>
-			    <span class="menu-name {if $LEFTPANELHIDE eq '1'}hide{/if} text-font-crimson">{vtranslate($SECTION_NAME, $SECTION_NAME)}</span>
+			    <span class="menu-name {if $LEFTPANELHIDE eq '1'}hide{/if} text-font-Roboto">{vtranslate($SECTION_NAME, $SECTION_NAME)}</span>
 			    <i class="fa fa-angle-right dropdown-icon pull-right {if $LEFTPANELHIDE eq '1'}hide{/if}"></i>
 			</div>
 			<ul class="content ml40">

@@ -7,8 +7,8 @@
 * All Rights Reserved.
 ************************************************************************************}
 
-<footer class="app-footer">
-    <a href="//www.joforce.com" target="_blank">
+<footer class="app-footer login_footer">
+    <a href="https://www.joforce.com" target="_blank">
 	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px" style="position:absolute;right: 0px;z-index: 1000;">
     </a>
     <p>

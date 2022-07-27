@@ -10,7 +10,7 @@
 
 {include file="modules/Head/partials/Topbar.tpl"}
 {assign var=IS_LIST_VIEW value=true}
-<div class="container-fluid app-nav module-header {if $LEFTPANELHIDE eq '1'} full-header {/if}">
+<div class="container-fluid app-nav module-header  {if $LEFTPANELHIDE eq '1'} full-header {/if}">
     <div class="row">
 	{include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
     </div>

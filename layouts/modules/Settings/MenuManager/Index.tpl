@@ -10,28 +10,48 @@
 {* modules/Settings/MenuManager/views/Index.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-    <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
-    </div>
-    <div class="col-sm-12">
+<div class="setmanumanager mt10 card">
+    {* <div class ="add_section modal-dialog" id="add-section-modalbody" style="width: 600px;margin: 30px auto;position: relative;">
+    
+    </div> *}
+	<div class="editViewHeader ml10 mr10 mt0 card-header-new row">
+			<h1 class="col-md-10 col-sm-11">Menu Manager</h1>
+			<span class="fa fa-info-circle alertShow pull-right ml20 mt15 "></span>
+		</div>
+<style>
+			
+			
+		</style>
+		<script>
+		
+		</script>
+		<div class="alerthide">
+    <div class="col-sm-12 tooltiptext ">
 	<div class="row">
-	    <div class=" vt-default-callout vt-info-callout">
-		<h4 class="vt-callout-header">
+
+	
+		<div class="col-md-6"></div>
+	    <div class="vt-default-callout vt-info-callout col-md-5 pull-right ">
+		<h4 class="vt-callout-header" >
 		    <span class="fa fa-info-circle"></span>{vtranslate('LBL_INFO', $QUALIFIED_MODULE_NAME)}
 		</h4>
-		<p>{vtranslate('LBL_MENU_MANAGEMENT_INFO', $QUALIFIED_MODULE_NAME)}</p>
+		<p >{vtranslate('LBL_MENU_MANAGEMENT_INFO', $QUALIFIED_MODULE_NAME)}</p>
 	    </div>
+		
+	
 	</div>
     </div>
+	</div>
     <br>
     <div class="row">
-	<div class="col-lg-12 mt10">
-	    <div class="col-lg-4 mt10">
+	<div class="col-lg-12 ">
+	    <div class="col-lg-4 pull-left mt10">
 		<div class="menu-box">
 		    <div class="custom-menu-header">
-		    	<div class="dropdown ">Main menu <i class="fa fa-ellipsis-h pull-right dropdown-toggle" data-toggle="dropdown" title="Add New"></i>
+		    	<div class="dropdown ">Main menu <i class="pull-right dropdown-toggle" data-toggle="dropdown" title="Add New"></i>
 			    <ul class="dropdown-menu main-menu-dropdown">
-				<li class="add-main-menu" id="add-main-menu" type="button" data-mode="module"><a>Add module</a></li>
-				<li class="add-link" id="add-link" type="button" data-mode="link"><a>Add link</a></li>
+				<li class="add-main-menu dropdown-item" id="add-main-menu" type="button" data-mode="module"><a>Add module</a></li>
+				<li class="add-link dropdown-item" id="add-link" type="button" data-mode="link"><a>Add link</a></li>
 			    </ul>
 			</div>
 		    </div>
@@ -67,16 +87,15 @@
 		</ul>
 	    </div>
 	</div>
-	<div class="col-lg-8 mt10">
+	<div class="col-lg-8 pull-left mt10">
 	    <div class="menu-box" style="overflow:hidden;">
 		<div class = "custom-menu-header more-menu-header pull-right">More Section
-		    <i id="add_new_menu_bar" type="button" class="addButton btn-primary fa fa-plus pull-right" title="Add Section" ></i>
+		    <i id="add_new_menu_bar" type="button" class="fa fa-plus pull-right" title="Add Section" ></i>
         	</div>
 		{assign var=default_main_sections value=[ '0' => 'MARKETING', 
 							  '1' => 'SALES',
 							  '2' => 'INVENTORY',
   							  '3' => 'SUPPORT',
-							  '4' => 'PROJECT',
 							  '5' => 'TOOLS'
 							]}
 		<ul class="more-menu-section">

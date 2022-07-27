@@ -9,7 +9,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="row">
+	<div class="row" id="extension-store">
 		{assign var=IS_AUTH value=($REGISTRATION_STATUS and $PASSWORD_STATUS)}
 		{assign var=EXTENSIONS_COUNT value=0}
 		{foreach item=EXTENSION from=$EXTENSIONS_LIST name=extensions}
@@ -23,7 +23,7 @@
 			{/if}
 			{assign var=IS_FREE value=(($EXTENSION->get('price') eq 'Free') or ($EXTENSION->get('price') eq 0))}
 			<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:30px;">
-				<div class="extension_container extensionWidgetContainer" style="padding:15px;border: 15px solid white;background-clip: border-box;box-shadow: 1px 1px 10px 5px #E0E0E0;border-radius: 25px;
+				<div class="extension_container extensionWidgetContainer" style="padding:15px;background-clip: border-box;box-shadow: 1px 1px 10px 5px #E0E0E0;border-radius: 25px;
 					{if $smarty.foreach.extensions.index % 7 == 0}
 						background-color:#db3236;
 					{else if $smarty.foreach.extensions.index % 7 == 1}

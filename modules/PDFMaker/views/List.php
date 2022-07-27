@@ -134,7 +134,6 @@ class PDFMaker_List_View extends Head_Index_View {
 			"libraries.jquery.ckeditor.ckeditor",
 			"libraries.jquery.ckeditor.adapters.jquery",
 			"modules.Head.resources.CkEditor",
-			//for vtiger7 
 			"modules.Head.resources.MergeRecords",
 			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js",
 			'modules.Head.resources.Tag',
@@ -387,10 +386,6 @@ class PDFMaker_List_View extends Head_Index_View {
 		$viewer->assign('ALL_USER_TAGS', $this->allUserTags);
 		$viewer->assign('ALL_CUSTOMVIEW_MODEL', CustomView_Record_Model::getAllFilterByModule($moduleName));
 		$viewer->assign('CURRENT_TAG',$tag);
-		$appName = $request->get('app');
-		if(!empty($appName)){
-			$viewer->assign('SELECTED_MENU_CATEGORY',$appName);
-		}
 		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
@@ -415,10 +410,8 @@ class PDFMaker_List_View extends Head_Index_View {
 		$viewer->assign('NO_SEARCH_PARAMS_CACHE', $request->get('nolistcache'));
 		$viewer->assign('STAR_FILTER_MODE',$starFilterMode);
 		$viewer->assign('VIEWID', $cvId);
-		//Head7
 		$viewer->assign('REQUEST_INSTANCE',$request);
 
-		//vtiger7
 		$moduleModel = Head_Module_Model::getInstance($moduleName);
 		if($moduleModel->isQuickPreviewEnabled()){
 			$viewer->assign('QUICK_PREVIEW_ENABLED', 'true');

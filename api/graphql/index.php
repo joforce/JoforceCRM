@@ -106,10 +106,8 @@ if (isset($_REQUEST['api'])) {
             $graphql =  new GraphQL(new JoHelper($adb, $current_user));
             $queryType = $graphql->generateQueryType($requested_data);
             $mutationType = $graphql->generateMutationType($requested_data);
-            $schema = $graphql->schema($queryType, $mutationType);
-
+	    $schema = $graphql->schema($queryType, $mutationType);
             $graphql_response = $graphql->execute($schema, $requested_data);
-
             echo json_encode($graphql_response);
         } catch (Exception $e) {
 
@@ -132,6 +130,7 @@ if (isset($_REQUEST['api'])) {
         echo json_encode($request_for_responce);
         return;
     }elseif($_REQUEST['api'] == 'notification'){
+            
         $token = $_REQUEST['token'];
         $decoded = tokenAuthentication($token,$application_unique_key);
         $_REQUEST['userid']=$decoded->data->userId;

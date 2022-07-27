@@ -144,18 +144,18 @@
                                              <!-- invoice-notes --> 
                                          </td>
                                          <td class="t">{vtranslate('LBL_ITEMS_TOTAL',$MODULE_NAME)}</td>
-                                         <td class="tx-right" colspan="2">{$FINAL_DETAILS["hdnSubTotal"]}</td>
+                                         <td class="textAlignRight" colspan="2">{$FINAL_DETAILS["hdnSubTotal"]}</td>
                                      </tr>
                                      <tr>
                                         <td class="">
                                             {vtranslate('LBL_PRE_TAX_TOTAL', $MODULE_NAME)}
                                         </td>
-                                        <td class="tx-right" colspan="2">{$FINAL_DETAILS["preTaxTotal"]}</td>
+                                        <td class="textAlignRight" colspan="2">{$FINAL_DETAILS["preTaxTotal"]}</td>
                                     </tr>
                                     <tr>
                                     <td width="">{vtranslate('LBL_ADJUSTMENT',$MODULE_NAME)}
                                     </td>
-                                    <td class="tx-right" colspan="2">
+                                    <td class="textAlignRight" colspan="2">
                                             {$FINAL_DETAILS["adjustment"]}
                                     </td>
                                 </tr>
@@ -163,7 +163,7 @@
                                     <td width="">
                                             {vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}(in {$currencySymbol})
                                     </td>
-                                    <td class="tx-right" colspan="2">
+                                    <td class="textAlignRight" colspan="2">
                                             {$FINAL_DETAILS["grandTotal"]}
                                     </td>
                                 </tr>                                  

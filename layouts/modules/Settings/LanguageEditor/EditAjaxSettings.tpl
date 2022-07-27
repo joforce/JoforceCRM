@@ -10,7 +10,7 @@
 <div class="row">
     <div class="language-editor-module outside-border mt30">
 	<div class="accordion-module labels-content">
-	    <h3 class="panel-title">{vtranslate($HEADING, $MODULE)}
+	    <h3 class="card-title">{vtranslate($HEADING, $MODULE)}
                 <span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span>
             </h3>
 	</div>

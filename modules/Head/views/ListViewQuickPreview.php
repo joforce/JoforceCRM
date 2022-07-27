@@ -41,8 +41,6 @@ class Head_ListViewQuickPreview_View extends Head_Index_View {
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		$viewer->assign('$SOCIAL_ENABLED', false);
-		$appName = $request->get('app');
-		$viewer->assign('SELECTED_MENU_CATEGORY', $appName);
 
 		$viewer->assign('LIST_PREVIEW', true);
 
@@ -64,7 +62,7 @@ class Head_ListViewQuickPreview_View extends Head_Index_View {
 		}
 
 		$viewer->assign('SHOW_ENGAGEMENTS', 'false');
-		$recentActivities = ModTracker_Record_Model::getUpdates($recordId, $pagingModel, $moduleName);
+		$recentActivities = ModTracker_Record_Model::getUpdates($recordId, $pagingModel, $moduleName,"");
 		//To show more button for updates if there are more than 5 records
 		if (count($recentActivities) >= 5) {
 			$pagingModel->set('nextPageExists', true);

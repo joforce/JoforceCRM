@@ -7,15 +7,15 @@
  * ********************************************************************************** */
 -->*}
 {strip}
-
-	<form class="form-horizontal recordEditView joforce-bg" id="EditView" name="EditView" method="post" action="{$SITEURL}index.php">
+	<form class="form-horizontal recordEditView joforce-bg {if in_array($MODULE,array('PDFMaker'))} PDFMaker_lap_scr {/if}" id="EditView" name="EditView" method="post" action="{$SITEURL}index.php">
 		{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<input type="hidden" name="module" value="{$MODULE}" />
 		<input type="hidden" name="action" value="Save" />
 		<input type="hidden" name="record" value="{$RECORD_ID}" />
-
-		<div class="editViewHeader row-fluid">
+        <div class="card-body">
+        <div class="card">
+		<div class="editViewHeader row-fluid card-header-new">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}
 			<span class="span8 font-x-x-large textOverflowEllipsis" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {decode_html($RECORD->get('name'))}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {decode_html($RECORD->get('name'))}</span>
@@ -41,39 +41,39 @@
 			<div class="col-md-12">
 				<h4 class="">{vtranslate('SINGLE_PDFMaker', $MODULE)}</h4>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 pull-left">
                 <div class="col-md-5 pr0">
-				<div class="fieldLabel {$WIDTHTYPE}"><span class="red-border">*</span>{vtranslate('LBL_NAME', $MODULE)}</div>
+				<div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label"><span class="red-border">*</span>{vtranslate('LBL_NAME', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
 				<div class="fieldValue {$WIDTHTYPE}">
 					<input id="{$MODULE}_editView_fieldName_templatename" type="text" class="input-large inputElement" data-validation-engine="validate[required]" name="templatename" value="{decode_html($RECORD->get('name'))}">
 				</div>
                 </div>
 			</div>
-			<div class="col-md-6">
-                            <div class="col-md-5 pr0">
-                                <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Template Active', $MODULE)}</div>
+			<div class="col-md-6 pull-left">
+                           <div class="col-md-5 pr0 pull-left checkmouse">
+                                <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Template Active', $MODULE)}</span></div>
                             </div>
-                            <div class="col-md-6 pl0">
+                            <div class="col-md-6 pl0 checkfell">
                                 <div class="fieldValue {$WIDTHTYPE}">
                                         <input id="{$MODULE}_editView_fieldName_status" type="checkbox" class="input-large" name="status" value="1" {if decode_html($RECORD->get('status')) == '1'} checked {else} {/if}>
 				</div>
                 </div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 pull-left">
                 <div class="col-md-5 pr0">
-				<div class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_DESCRIPTION', $MODULE)}</div>
+				<div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('LBL_DESCRIPTION', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
 				<div class="fieldValue {$WIDTHTYPE}"><textarea class="row-fluid inputElement" id="description" name="description">{decode_html($RECORD->get('description'))}</textarea></div>
                 </div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 pull-left">
                 <div class="col-md-5 pr0">
-				<div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Module', $MODULE)}</div>
+				<div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Module', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
 				<div class="fieldValue {$WIDTHTYPE}">
 					<span class="filterContainer" >
 						<input type="hidden" name="moduleFields" data-value='{ZEND_JSON::encode($ALL_FIELDS)|escape}' />
@@ -102,12 +102,12 @@
                         <div class="col-md-12">
                            <h4 class="">{vtranslate('Company Details', $MODULE)}</h4>
                         </div>
-                        <div class="col-md-6">  
+                        <div class="col-md-6 pull-left">  
 			    <input type='hidden' id = 'logo' value='{$LOGO}'>
                 <div class="col-md-5 pr0">
-		            <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Company Information', $MODULE)}</div>
+		            <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Company Information', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
                             <div class="fieldValue {$WIDTHTYPE}">
                                 <span class="filterContainer" >
                                     <span class="span4 conditionRow">
@@ -125,11 +125,11 @@
 			    </div>
                 </div>
 			</div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 pull-left">
                             <div class="col-md-5 pr0">
-                            <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Terms and Conditions', $MODULE)}</div>
+                            <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Terms and Conditions', $MODULE)}</span></div>
                             </div>
-                            <div class="col-md-6 pl0">
+                            <div class=" pl0">
                             <div class="fieldValue {$WIDTHTYPE}">
                                 <span class="filterContainer" >
                                     <span class="span4 conditionRow">
@@ -147,11 +147,11 @@
                         <div class="col-md-12">
                                 <h4 class="">{vtranslate('General Fields', $MODULE)}</h4>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 pull-left">
                             <div class="col-md-5 pr0">
-                            <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Current Date & Time', $MODULE)}</div>
+                            <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Current Date & Time', $MODULE)}</span></div>
                             </div>
-                            <div class="col-md-6 pl0">
+                            <div class=" pl0">
                             <div class="fieldValue {$WIDTHTYPE}">
                                 <span class="filterContainer" >
                                     <span class="span4 conditionRow">
@@ -172,11 +172,11 @@
                 <div class="col-md-12">
                     <h4 class="">{vtranslate('Product Block', $MODULE)}</h4>
                 </div>
-		<div class="col-md-6">
+		<div class="col-md-6 pull-left">
                 <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Product block template', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Product block template', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <span class="filterContainer" >
                             <select name='product_tax_block' id='product_tax_block' class='inputElement select2 chzn-select' style="height: 30px;width: 200px;">
@@ -188,11 +188,11 @@
 		    </div>
             </div>
 		</div>
-                <div class="col-md-6">
+                <div class="col-md-6 pull-left">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Product block', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Product block', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <span class="filterContainer" >
                             <select name='product_block' id='product_block' class='inputElement select2 chzn-select' style="height: 30px;width: 200px;">
@@ -207,11 +207,11 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pull-left">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Product fields', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Product fields', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <span class="filterContainer" >
                             <select class="inputElement select2 chzn-select" id="product_fields" name="product_fields" style="height: 30px;width: 200px;">
@@ -220,11 +220,11 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pull-left">
                     <div class="col-md-5 pr0">
                     <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Service fields', $MODULE)}</div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <span class="filterContainer" >
                             <select class="inputElement select2 chzn-select" id="service_fields" name="service_fields" style="height: 30px;width: 200px;">
@@ -242,9 +242,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Header/Footer variables', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Header/Footer variables', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <span class="filterContainer" >
                             <select class="inputElement select2 chzn-select" id="header_footer" name="header_footer" style="height: 30px;width: 200px;">
@@ -263,21 +263,21 @@
                 <div class="col-md-12">
                     <h4 class="">{vtranslate('PDF Settings', $MODULE)}</h4>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pull-left">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('File Name', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><spacol-md-5 pr0n class="inline-label">{vtranslate('File Name', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
                         <input id="{$MODULE}_editView_fieldName_templatename" type="text" class="input-large inputElement" data-validation-engine="validate[required]" name="filename" value="{$settings['file_name']}">
                     </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pull-left">
                     <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Page Format', $MODULE)}</div>
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Page Format', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
 		        <select name='page_format' class='inputElement select2 chzn-select' style="height: 30px;width: 200px;">
 		            <option value='A3' {if $settings['page_format'] eq 'A3'} selected {/if}>A3</option>
@@ -288,11 +288,11 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-6"> 
+                <div class="col-md-6 pull-left"> 
                 <div class="col-md-5 pr0">
-                   <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Page Orientation', $MODULE)}</div>
+                   <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Page Orientation', $MODULE)}</span></div>
                 </div>
-                <div class="col-md-6 pl0">
+                <div class=" pl0">
                    <div class="fieldValue {$WIDTHTYPE}">
 		        <select name='page_orientation' class='inputElement select2 chzn-select' style="height: 30px;width: 200px;"> 
 		            <option value='P' {if $settings['page_orientation'] eq 'P'} selected {/if}>Portrait</option>      
@@ -301,22 +301,22 @@
                    </div>
                    </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="col-md-5 pr0">
-                    <div class="fieldLabel {$WIDTHTYPE}">{vtranslate('Margins', $MODULE)}</div>
+                <div class="col-md-6 pull-left">
+                    <div class="col-md-5 pr0 mb30">
+                    <div class="fieldLabel {$WIDTHTYPE}"><span class="inline-label">{vtranslate('Margins', $MODULE)}</span></div>
                     </div>
-                    <div class="col-md-6 pl0">
+                    <div class=" pl0">
                     <div class="fieldValue {$WIDTHTYPE}">
-                            <div class="col-md-6">
+                            <div class="col-md-6 pull-left">
                             <span style='position:relative;margin-left:15px;'>Top</span>
 		                    <input type='text' class="inputElement mb5" name='margin_top' style='position:relative;width:100%;margin-left:15px;' value='{$settings['margin_top']}'></div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 pull-left">
                             <span style='position:relative;margin-left:15px;'>Bottom</span>
                             <input type='text' class="inputElement mb5" name='margin_bottom' style='position:relative;width:100%;margin-left:15px;' value='{$settings['margin_bottom']}'></div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 pull-left">
                             <span style='position:relative;margin-left:15px;'>Left</span>
                             <input type='text' class="inputElement mb5" name='margin_left' style='position:relative;width:100%;margin-left:15px;' value='{$settings['margin_left']}'></div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 pull-left">
                             <span style='position:relative;margin-left:15px;'>Right</span>
                             <input type='text' class="inputElement mb5" name='margin_right' style='position:relative;width:100%;margin-left:15px;' value='{$settings['margin_right']}'></div>
                     </div>
@@ -334,7 +334,7 @@
             </ul>
 
      <div class="row-fluid padding-bottom1per active" id='body'>
-	<textarea id="templatecontent" name="templatecontent">{$RECORD->get('body')}</textarea>
+	<textarea id="templatecontent" name="templatecontent" style="height:400px">{$RECORD->get('body')}</textarea>
      </div>
      <div class="row-fluid padding-bottom1per inactive" id='header'>
         <textarea id="templatecontent-header" name="templatecontent-header">{$RECORD->get('header')}</textarea>
@@ -346,14 +346,15 @@
 	</div>
 	     <div class="modal-overlay-footer clearfix" style="border-left-width: 0px;">
 		     <div class="row clearfix">
-        		    <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
+        		    <div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12'>
                         	    <button type='submit' class='btn btn-primary saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                                	    <a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                                	    <a class='cancelLink btn btn-danger' href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 	                    </div>
         	      </div>
 	     </div>
            </div>
          </div>
+         </div></div>
       </form>
   </div>
 </div>

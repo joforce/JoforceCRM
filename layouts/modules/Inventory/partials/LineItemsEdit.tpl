@@ -77,10 +77,10 @@
 			<div class="row">
 				<span class="col-lg-6">
 					<div class="row">
-						<div class="col-lg-6 pl25 pr0">
+						<div class="col-lg-4 pl25 pr0">
 							<h4 class='fieldBlockHeader' style="margin-top:5px;">&nbsp;&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
 						</div>
-						<div class="col-lg-6 " style="top: 3px;">
+						<div class="col-lg-8 " style="top: 3px;">
 							{if $LINEITEM_FIELDS['region_id'] && $LINEITEM_FIELDS['region_id']->isEditable()}
 								<span class="">
 									<i class="fa fa-info-circle"></i>&nbsp;
@@ -92,7 +92,7 @@
 										{/foreach}
 									</select>
 									<input type="hidden" id="prevRegionId" value="{$RECORD->get('region_id')}" />
-									&nbsp;&nbsp;<a class="fa fa-wrench" href="{vglobal('site_URL')}Head/Settings/TaxIndex" target="_blank" style="vertical-align:middle;"></a>
+									&nbsp;&nbsp;<a class="fa fa-wrench p10 f10" href="{vglobal('site_URL')}Head/Settings/TaxIndex" target="_blank" style="vertical-align:middle;"></a>
 
 								</span>
 							{/if}
@@ -144,6 +144,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="sizeofpopup">
 			<div class="lineitemTableContainer pl25 pr25 mt30">
 				<table class="table table-bordered" id="lineItemTab">
 					<tr>
@@ -195,7 +196,9 @@
 				</table>
 			</div>
 		</div>
+		</div>
 		<br>
+		<div class="fieldBlockContainer">
 		<div>
 			<div class="pl25 pr25">
 				{if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
@@ -227,7 +230,7 @@
 			</div>
 		</div>
 		<br>
-		<table class="table table-bordered blockContainer lineItemTable pl25 pr25" id="lineItemResult" style="width: 95%; margin:auto;">
+		<table class="table table-bordered blockContainer lineItemTable pl25 pr25" id="lineItemResult" style="width: 95%; margin:auto;background: #fff;">
 			<tr>
 				<td width="50%">
 					<div class=""><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
@@ -238,8 +241,8 @@
 			</tr>
 			{if $DISCOUNT_AMOUNT_EDITABLE || $DISCOUNT_PERCENT_EDITABLE}
 				<tr>
-					<td width="50%">
-						<span class="">(-)&nbsp;
+					<td>
+					<span class="expand2">(-)&nbsp;
 							<strong><a href="javascript:void(0)" id="finalDiscount">{vtranslate('LBL_OVERALL_DISCOUNT',$MODULE)}&nbsp;
 									<span id="overallDiscount">
 										{if $DISCOUNT_PERCENT_EDITABLE && $FINAL.discount_type_final eq 'percentage'}
@@ -252,12 +255,8 @@
 									</span></a>
 							</strong>
 						</span>
-					</td>
-					<td>
-						<span id="discountTotal_final" class=" discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
-
 						<!-- Popup Discount Div -->
-						<div id="finalDiscountUI" class="finalDiscountUI validCheck hide">
+						<div id="finalDiscountUI" class="finalDiscountUI validCheck hide collapse">
 							{assign var=DISCOUNT_TYPE_FINAL value="zero"}
 							{if !empty($FINAL.discount_type_final)}
 								{assign var=DISCOUNT_TYPE_FINAL value=$FINAL.discount_type_final }
@@ -292,14 +291,17 @@
 						</div>
 						<!-- End Popup Div -->
 					</td>
+					<td>
+						<span id="discountTotal_final" class=" discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
+					</td>
 				</tr>
 			{/if}
 			{if $SH_PERCENT_EDITABLE}
 				{assign var=CHARGE_AND_CHARGETAX_VALUES value=$FINAL.chargesAndItsTaxes}
 				<tr>
 					<td width="50%">
-						<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="charges">{vtranslate('LBL_CHARGES',$MODULE)}</a></strong></span>
-						<div id="chargesBlock" class="validCheck hide chargesBlock">
+						<span class="expand1">(+)&nbsp;<strong><a href="javascript:void(0)" id="charges">{vtranslate('LBL_CHARGES',$MODULE)}</a></strong></span>
+						<div id="chargesBlock" class="validCheck hide chargesBlock collapse">
 							<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 								{foreach key=CHARGE_ID item=CHARGE_MODEL from=$INVENTORY_CHARGES}
 									<tr>
@@ -343,9 +345,9 @@
 
 			<tr id="group_tax_row" valign="top" class="{if $IS_INDIVIDUAL_TAX_TYPE}hide{/if}">
 				<td width="50%">
-					<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></strong></span>
+					<span class="expand4">(+)&nbsp;<strong><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></strong></span>
 					<!-- Pop Div For Group TAX -->
-					<div class="hide finalTaxUI validCheck" id="group_tax_div">
+					<div class="hide finalTaxUI collapse validCheck" id="group_tax_div">
 						<input type="hidden" class="popover_title" value="{vtranslate('LBL_GROUP_TAX',$MODULE)}" />
 						<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 							{foreach item=tax_detail name=group_tax_loop key=loop_count from=$TAXES}
@@ -372,14 +374,17 @@
 			{if $SH_PERCENT_EDITABLE}
 				<tr>
 					<td width="50%">
-						<span class="">(+)&nbsp;<strong><a href="javascript:void(0)" id="chargeTaxes">{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE)} </a></strong></span>
+						<span class="expand"  ddata-toggle="collapse" data-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">(+)&nbsp;<strong><a href="javascript:void(0)" id="chargeTaxes">{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE)} </a></strong></span>
 
 						<!-- Pop Div For Shipping and Handling TAX -->
 						<div id="chargeTaxesBlock" class="hide validCheck chargeTaxesBlock">
-							<p class="popover_title hide">
+							<p class="popover_title hide" >
 								{vtranslate('LBL_TAXES_ON_CHARGES', $MODULE)} : <span id="SHChargeVal" class="SHChargeVal">{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
 							</p>
-							<table class="table table-nobordered popupTable">
+							<script>
+
+							</script>
+							<table class="table table-nobordered popupTable collapse" id="collapseExample">
 								<tbody>
 									{foreach key=CHARGE_ID item=CHARGE_MODEL from=$INVENTORY_CHARGES}
 										{foreach key=CHARGE_TAX_ID item=CHARGE_TAX_MODEL from=$RECORD->getChargeTaxModelsList($CHARGE_ID)}
@@ -422,9 +427,9 @@
 				</tr>
 				<tr>
 					<td width="50%">
-						<span class="">(-)&nbsp;<strong><a href="javascript:void(0)" id="deductTaxes">{vtranslate('LBL_DEDUCTED_TAXES',$MODULE)} </a></strong></span>
+						<span class="expand3">(-)&nbsp;<strong><a href="javascript:void(0)" id="deductTaxes">{vtranslate('LBL_DEDUCTED_TAXES',$MODULE)} </a></strong></span>
 
-						<div id="deductTaxesBlock" class="hide validCheck deductTaxesBlock">
+						<div id="deductTaxesBlock" class="hide validCheck deductTaxesBlock collapse">
 							<table class="table table-nobordered popupTable">
 								<tbody>
 									{foreach key=DEDUCTED_TAX_ID item=DEDUCTED_TAX_INFO from=$DEDUCTED_TAXES}
@@ -506,5 +511,6 @@
 				</tr>
 			{/if}
 		</table>
+		</div>
 	{/if}
 </div>

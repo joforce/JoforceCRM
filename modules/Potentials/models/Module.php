@@ -374,11 +374,11 @@ class Potentials_Module_Model extends Head_Module_Model {
 		$settingLinks = parent::getSettingLinks();
 		
 		if($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
+			/*$settingLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_CUSTOM_FIELD_MAPPING',
 					'linkurl' => $site_URL.'Settings/Potentials/MappingDetail',
-					'linkicon' => '');
+					'linkicon' => '');*/
 			
 		}
 		return $settingLinks;

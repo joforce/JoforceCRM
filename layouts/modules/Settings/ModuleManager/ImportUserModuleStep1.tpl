@@ -8,8 +8,8 @@
 *************************************************************************************}
 
 {strip}
-	<div class="" id="importModules">
-		<div class="widget_header row col-lg-12 col-md-12 col-sm-12">
+	<div class="mt0 card" id="importModules">
+		<div class="widget_header card-header-new row col-lg-12 col-md-12 col-sm-12 mt0 ml0">
 			<h4>{vtranslate('LBL_IMPORT_MODULE_FROM_ZIP', $QUALIFIED_MODULE)}</h4>
 		</div>
 		<form class="form-horizontal" id="importUserModule" name="importUserModule" action='{$SITEURL}index.php' method="POST" enctype="multipart/form-data">
@@ -43,7 +43,7 @@
 				<div class="row clearfix">
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
 						<button class="btn btn-primary saveButton" disabled="disabled" type="submit" name="importFromZip"><strong>{vtranslate('LBL_IMPORT', $MODULE)}</strong></button>&nbsp;&nbsp;
-						<a class="cancelLink btn btn-secondary" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink btn btn-danger" href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>

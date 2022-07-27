@@ -21,7 +21,7 @@
 	{/if}
 {/foreach}
 
-<div class="left-block col-lg-5">
+<div class="left-block col-lg-6 pull-left p0 pl20 mswidth" style="">
 
 	{* Summary View Documents Widget*}
 	{if $DOCUMENT_WIDGET_MODEL}
@@ -29,7 +29,7 @@
 			<div class="widgetContainer_documents" data-url="{$DOCUMENT_WIDGET_MODEL->getUrl()}" data-name="{$DOCUMENT_WIDGET_MODEL->getLabel()}">
 				<div class="widget_header clearfix">
 					<input type="hidden" name="relatedModule" value="{$DOCUMENT_WIDGET_MODEL->get('linkName')}" />
-					<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+					<span class="toggleButton pull-left">&nbsp;&nbsp;</span>
 					<h4 class="display-inline-block pull-left">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 					{if $DOCUMENT_WIDGET_MODEL->get('action')}
@@ -40,9 +40,9 @@
 								<ul class="dropdown-menu">
 									<li class="dropdown-header"><i class="fa fa-upload"></i> {vtranslate('LBL_FILE_UPLOAD', 'Documents')}</li>
 									<li id="HeadAction">
-										<a href="javascript:Documents_Index_Js.uploadTo('Head',{$PARENT_ID},'{$MODULE_NAME}')">
+										<a href="javascript:Documents_Index_Js.uploadTo('U',{$PARENT_ID},'{$MODULE_NAME}')">
 											<img style="  margin-top: -3px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins//images/JoForce.png">
-											{vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_VTIGER', 'Documents')})}
+											{* {vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_VTIGER', 'Documents')})}  *} Vitger
 										</a>
 									</li>
 									<li class="dropdown-header"><i class="fa fa-link"></i> {vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', 'Documents')}</li>
@@ -76,16 +76,17 @@
 
 </div>
 
-<div class="middle-block col-lg-7">
-
+<div class="{if in_array($MODULE,array('Contacts','Potentials'))}middle-block-new p0 col-lg-6 pull-left ml15 {else}middle-block p0 col-lg-6 pull-left ml15 {/if} mobscrnwidth">
+    
 	{* Summary View Comments Widget*}
 	{if $COMMENTS_WIDGET_MODEL}
 		<div class="summaryWidgetContainer">
+			<div class="widget_header">
+				<input type="hidden" name="relatedModule" value="{$COMMENTS_WIDGET_MODEL->get('linkName')}" />
+				<h4 class="display-inline-block">{vtranslate($COMMENTS_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+			</div>
 			<div class="widgetContainer_comments" data-url="{$COMMENTS_WIDGET_MODEL->getUrl()}" data-name="{$COMMENTS_WIDGET_MODEL->getLabel()}">
-				<div class="widget_header">
-					<input type="hidden" name="relatedModule" value="{$COMMENTS_WIDGET_MODEL->get('linkName')}" />
-					<h4 class="display-inline-block">{vtranslate($COMMENTS_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
-				</div>
+				
 				<div class="widget_contents">
 				</div>
 			</div>

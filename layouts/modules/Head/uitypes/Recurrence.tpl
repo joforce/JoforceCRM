@@ -38,28 +38,29 @@
 				<span>
 					<span class="alignMiddle displayInlineBlock">&nbsp;&nbsp;{vtranslate('LBL_UNTIL', $MODULE)}</span>
 					<span class="input-group date pull-right">
-						<input type="text" id="calendar_repeat_limit_date" class="dateField input-small form-control inputElement" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
+						<input type="text" id="calendar_repeat_limit_date " class="dateField input-small form-control inputElement" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
 							   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
 							   data-rule-date="true" data-rule-required="true"/>
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<span class="input-group-addon {if in_array($MODULE,array('Events'))} new-icon-data
+						 {/if}"><i class="fa fa-calendar"></i></span>
 					</span>
 				</span>
 			</div>
-			<div class="row {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'}show{else}hide{/if}"  id="repeatWeekUI" style="margin:10px 0;">
-				<span class="col-lg-2">
+			<div class="row {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'}show{else}hide{/if}"  id="repeatWeekUI" style="margin:70px 0;">
+				<span class="">
 					<span class="medium" style="padding-left:23px">{ucwords(vtranslate('LBL_ON', $MODULE))}</span>
 				</span>
 				<span class="col-lg-10">
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sun_flag" value="sunday" {$RECURRING_INFORMATION['week0']} type="checkbox"/>{vtranslate('LBL_SM_SUN', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="mon_flag" value="monday" {$RECURRING_INFORMATION['week1']} type="checkbox">{vtranslate('LBL_SM_MON', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="tue_flag" value="tuesday" {$RECURRING_INFORMATION['week2']} type="checkbox">{vtranslate('LBL_SM_TUE', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="wed_flag" value="wednesday" {$RECURRING_INFORMATION['week3']} type="checkbox">{vtranslate('LBL_SM_WED', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="thu_flag" value="thursday" {$RECURRING_INFORMATION['week4']} type="checkbox">{vtranslate('LBL_SM_THU', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="fri_flag" value="friday" {$RECURRING_INFORMATION['week5']} type="checkbox">{vtranslate('LBL_SM_FRI', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sat_flag" value="saturday" {$RECURRING_INFORMATION['week6']} type="checkbox">{vtranslate('LBL_SM_SAT', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="sun_flag" value="sunday" {$RECURRING_INFORMATION['week0']} type="checkbox"/> {vtranslate('LBL_SM_SUN', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="mon_flag" value="monday" {$RECURRING_INFORMATION['week1']} type="checkbox"> {vtranslate('LBL_SM_MON', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="tue_flag" value="tuesday" {$RECURRING_INFORMATION['week2']} type="checkbox"> {vtranslate('LBL_SM_TUE', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="wed_flag" value="wednesday" {$RECURRING_INFORMATION['week3']} type="checkbox"> {vtranslate('LBL_SM_WED', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="thu_flag" value="thursday" {$RECURRING_INFORMATION['week4']} type="checkbox"> {vtranslate('LBL_SM_THU', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="fri_flag" value="friday" {$RECURRING_INFORMATION['week5']} type="checkbox"> {vtranslate('LBL_SM_FRI', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 10px;display: inline;"><input name="sat_flag" value="saturday" {$RECURRING_INFORMATION['week6']} type="checkbox"> {vtranslate('LBL_SM_SAT', $MODULE)}</label>
 				</span>
 			</div>
-			<div class="{if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'}show{else}hide{/if}" id="repeatMonthUI" style="margin-top:10px;"RCa>
+			<div class="{if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'}show{else}hide{/if}" id="repeatMonthUI" style="margin-top:70px;"RCa>
 				<div class="row">
 					<span class="col-lg-4">
 						<span class="pull-right">
@@ -82,7 +83,7 @@
 						</span>	
 					</span>
 					<span class="col-lg-2">
-						<select id="repeatMonthDayType" class="select2" name="repeatMonth_daytype" style="width: 90px;">
+						<select id="repeatMonthDayType" class="select2" name="repeatMonth_daytype" style="width: 100px;">
 							<option value="first" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'first'} selected {/if}>{vtranslate('LBL_FIRST', $MODULE)}</option>
 							<option value="last" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'last'} selected {/if}>{vtranslate('LBL_LAST', $MODULE)}</option>
 						</select>

@@ -12,7 +12,7 @@
             <hr>
             <table class="table editview-table no-border">
                 <tbody>
-                <tr class="col-md-offset-2">
+                <tr class="offset-md-2">
                     <td class="{$WIDTHTYPE} fieldLabel"><label>{vtranslate('LBL_SERVER_TYPE', $QUALIFIED_MODULE)}</label></td>
                     <td class="{$WIDTHTYPE} fieldValue">
                         <div class=" col-lg-6 col-md-6 col-sm-12">

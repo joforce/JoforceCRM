@@ -8,13 +8,13 @@
 ************************************************************************************}
 
 {strip}
-	<div class="sidebar-menu sidebar-menu-full">
+	<div class="sidebar-menu">
 		<div class="module-filters" id="module-filters">
 			<div class="sidebar-container lists-menu-container">
 				<div class="sidebar-header clearfix">
 					<h5 class="pull-left">{vtranslate('LBL_FOLDERS', $MODULE)}</h5>
-					<a id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="pull-right" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
-						<!-- <div class="fa fa-plus" aria-hidden="true"></div> --> + Create new
+					<a id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="pull-right btn addButton btn-primary" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
+						<!-- <div class="fa fa-plus" aria-hidden="true"></div> --><i class="fa fa-filter"></i>Add Filter
 					</a> 
 				</div>
 				<hr>

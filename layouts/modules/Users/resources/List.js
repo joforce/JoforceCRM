@@ -8,227 +8,266 @@
  * Contributor(s): JoForce.com
  *************************************************************************************/
 
-Settings_Head_List_Js("Settings_Users_List_Js",{
-	showTransferOwnershipForm : function() {
+Settings_Head_List_Js("Settings_Users_List_Js", {
+	showTransferOwnershipForm: function () {
 		var thisInstance = this;
 		app.helper.showProgress();
 
 		var data = {
-			'module' : app.getModuleName(),
-			'view' : 'TransferOwnership'
+			'module': app.getModuleName(),
+			'view': 'TransferOwnership'
 		};
 
-		app.request.post({'data':data}).then(function(err, response) {
+		app.request.post({
+			'data': data
+		}).then(function (err, response) {
 			app.helper.hideProgress();
-			if(err === null) {
+			if (err === null) {
 				app.helper.showModal(response);
 				thisInstance.registerTransferOwnership();
-			}else {
-				app.helper.showErrorNotification({"message":err.message});
+			} else {
+				app.helper.showErrorNotification({
+					"message": err.message
+				});
 			}
 		});
 	},
 
-	registerTransferOwnership : function() {
-		jQuery('#transferOwner').on('submit',function(e) {
+	registerTransferOwnership: function () {
+		jQuery('#transferOwner').on('submit', function (e) {
 			e.preventDefault();
 			var form = jQuery(e.currentTarget);
 			app.helper.showProgress();
 			app.helper.hideModal();
 			var params = form.serializeFormData();
 
-			app.request.post({'data':params}).then(function(err, response) {
+			app.request.post({
+				'data': params
+			}).then(function (err, response) {
 				app.helper.hideProgress();
-				if(err === null) {
-					app.helper.showSuccessNotification({'message': response.message});
+				if (err === null) {
+					app.helper.showSuccessNotification({
+						'message': response.message
+					});
 					var listInstance = new Settings_Users_List_Js;
 					var listParams = listInstance.getListViewParams();
 					listInstance.loadListViewRecords(listParams);
 				} else {
-					app.helper.showErrorNotification({'message':err.message});
+					app.helper.showErrorNotification({
+						'message': err.message
+					});
 				}
 			});
 		});
 	},
 
 
-	triggerDeleteUser : function(deleteUserUrl, deletePermanently) {
-		if(typeof deletePermanently !== 'undefined') {
+	triggerDeleteUser: function (deleteUserUrl, deletePermanently) {
+		if (typeof deletePermanently !== 'undefined') {
 			deleteUserUrl += '&mode=permanent';
 		}
 
 		var checkActiveUsersState = jQuery('#listViewContent').find('.userFilter > button:first');
-		if(checkActiveUsersState.hasClass('btn-primary')){
+		if (checkActiveUsersState.hasClass('btn-primary')) {
 			var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
 		} else {
 			var message = app.vtranslate('LBL_DELETE_USER_PERMANENT_CONFIRMATION');
 		}
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
-				app.request.post({'url':deleteUserUrl}).then(
-				function(err, data){
-					if(err === null){
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(function (data) {
+			app.request.post({
+				'url': deleteUserUrl
+			}).then(
+				function (err, data) {
+					if (err === null) {
 						app.helper.showModal(data, {
-							cb : function(){
+							cb: function () {
 								vtUtils.enableTooltips();
 							}
 						});
 						var form = jQuery("#deleteUser");
-						form.on('submit', function(e){
+						form.on('submit', function (e) {
 							e.preventDefault();
 							Settings_Users_List_Js.deleteUser(form, deletePermanently);
 						});
-					}else {
-						app.helper.showErrorNotification({'message': err.message});
+					} else {
+						app.helper.showErrorNotification({
+							'message': err.message
+						});
 					}
 				});
-			}
-		);
+		});
 	},
 
-	deleteUser: function (form, deletePermanently){
+	deleteUser: function (form, deletePermanently) {
 		var userid = form.find('[name="userid"]').val();
 		var transferUserId = form.find('[name="tranfer_owner_id"]').val();
 		app.helper.showProgress();
 		var data = {
-				'module': app.getModuleName(),
-				'action' : "DeleteAjax",
-				'transfer_user_id' : transferUserId,
-				'userid' : userid
-			};
+			'module': app.getModuleName(),
+			'action': "DeleteAjax",
+			'transfer_user_id': transferUserId,
+			'userid': userid
+		};
 
-		if(typeof deletePermanently !== 'undefined') {
+		if (typeof deletePermanently !== 'undefined') {
 			data['mode'] = 'permanent';
 			jQuery('#inactiveUsers').removeClass('btn-primary');
 			jQuery('#activeUsers').addClass('btn-primary');
-		}else {
+		} else {
 			data['permanent'] = jQuery('[name="deleteUserPermanent"]:checked', form).val();
 		}
 
-		app.request.post({'data' : data}).then(
-			function(err, data) {
+		app.request.post({
+			'data': data
+		}).then(
+			function (err, data) {
 				app.helper.hideProgress();
-				if(err === null){
-					app.helper.showSuccessNotification({'message': data.message});
+				if (err === null) {
+					app.helper.showSuccessNotification({
+						'message': data.message
+					});
 					app.helper.hideModal();
 					var listInstance = new Settings_Users_List_Js;
 					var listParams = listInstance.getListViewParams();
 					listInstance.loadListViewRecords(listParams);
-				}else {
-					app.helper.showErrorNotification({'message': err.message});
+				} else {
+					app.helper.showErrorNotification({
+						'message': err.message
+					});
 				}
 			}
 		);
 	},
 
-	triggerLogin : function(recordId){
+	triggerLogin: function (recordId) {
 		var params = {
-			data : {
+			data: {
 				'module': app.getModuleName(),
-				'action' : "ListAjax",
-				'mode' : 'signInAsUser',
-				'userid' : recordId
+				'action': "ListAjax",
+				'mode': 'signInAsUser',
+				'userid': recordId
 			}
 		};
 
 		var message = app.vtranslate('LBL_SIGN_IN_AS_USER');
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(function (data) {
 			app.request.post(params).then(
-				function(err, data){
-					if(err === null){
+				function (err, data) {
+					if (err === null) {
 						window.location.href = data;
-					}else {
-						app.helper.showErrorNotification({'message': err.message});
+					} else {
+						app.helper.showErrorNotification({
+							'message': err.message
+						});
 					}
-			});
+				});
 		});
 	},
 
 	/*
-	*Function to restore Inactive User
-	*@param userId, event
-	*/
-	restoreUser : function(userId) {
+	 *Function to restore Inactive User
+	 *@param userId, event
+	 */
+	restoreUser: function (userId) {
 		app.helper.showConfirmationBox({
-			'message' : app.vtranslate('LBL_RESTORE_CONFIRMATION')
-		}).then( function() {
+			'message': app.vtranslate('LBL_RESTORE_CONFIRMATION')
+		}).then(function () {
 			var params = {
-				data : {
+				data: {
 					'module': app.getModuleName(),
-					'action' : "SaveAjax",
-					'userid' : userId,
-					'mode' : 'restoreUser'
+					'action': "SaveAjax",
+					'userid': userId,
+					'mode': 'restoreUser'
 				}
 			};
 			app.helper.showProgress();
 
 			app.request.post(params).then(
-				function(err, response) {
-					if(err === null){
-						app.helper.showSuccessNotification({'message' : response.message});
+				function (err, response) {
+					if (err === null) {
+						app.helper.showSuccessNotification({
+							'message': response.message
+						});
 						jQuery('#activeUsers').trigger('click');
 					} else {
-						app.helper.showErrorNotification({message: err.message});
+						app.helper.showErrorNotification({
+							message: err.message
+						});
 					}
 				}
 			);
 		});
 	},
 
-	triggerChangePassword : function (url, module){
+	triggerChangePassword: function (url, module) {
 		var site_url = jQuery('#joforce_site_url').val();
-		app.request.get({'url' :url}).then(
-			function(err, data) {
-				if(err === null) {
+		app.request.get({
+			'url': url
+		}).then(
+			function (err, data) {
+				if (err === null) {
 					app.helper.showModal(data);
 					var form = jQuery('#changePassword');
 
-					form.on('submit',function(e){
+					form.on('submit', function (e) {
 						e.preventDefault();
 					});
 
 					var params = {
-						submitHandler: function(form) {
+						submitHandler: function (form) {
 							form = jQuery(form);
-							var new_password  = form.find('[name="new_password"]');
+							var new_password = form.find('[name="new_password"]');
 							var confirm_password = form.find('[name="confirm_password"]');
-							var old_password  = form.find('[name="old_password"]');
+							var old_password = form.find('[name="old_password"]');
 							var userid = form.find('[name="userid"]').val();
 
-							if(new_password.val() === confirm_password.val()){
+							if (new_password.val() === confirm_password.val()) {
 								var params = {
-//                                    'url' : site_url,
-									'data' : {
+									//                                    'url' : site_url,
+									'data': {
 										'module': app.getModuleName(),
-										'action' : "SaveAjax",
-										'mode' : 'savePassword',
-										'old_password' : old_password.val(),
-										'new_password' : new_password.val(),
-										'userid' : userid
+										'action': "SaveAjax",
+										'mode': 'savePassword',
+										'old_password': old_password.val(),
+										'new_password': new_password.val(),
+										'userid': userid
 									}
 								};
 
 								app.request.post(params).then(
-									function(err, data) {
-										if(err == null){
+									function (err, data) {
+										if (err == null) {
 											app.helper.hideModal();
 											var successMessage = app.vtranslate(data.message);
-											app.helper.showSuccessNotification({"message":successMessage});
-										}else{
-											app.helper.showErrorNotification({"message":err});	
+											app.helper.showSuccessNotification({
+												"message": successMessage
+											});
+										} else {
+											app.helper.showErrorNotification({
+												"message": err
+											});
 											return false;
 										}
 									}
 								);
 							} else {
 								var errorMessage = app.vtranslate('JS_PASSWORD_MISMATCH_ERROR');
-								app.helper.showErrorNotification({"message":errorMessage});
+								app.helper.showErrorNotification({
+									"message": errorMessage
+								});
 								return false;
 							}
 						}
 					};
 					form.vtValidate(params);
-				}else {
-					app.helper.showErrorNotification({'message': err.message});
+				} else {
+					app.helper.showErrorNotification({
+						'message': err.message
+					});
 				}
 			}
 		);
@@ -237,14 +276,16 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 	triggerChangeUsername: function (url) {
 		app.helper.showProgress(app.vtranslate('JS_PLEASE_WAIT'));
 
-		app.request.post({'url' : url}).then(function (err, data) {
+		app.request.post({
+			'url': url
+		}).then(function (err, data) {
 			app.helper.hideProgress();
-			if(err === null) {
+			if (err === null) {
 				var callback = function (data) {
 					var form = data.find('#changeUsername');
 
 					var params = {
-						submitHandler : function(form) {
+						submitHandler: function (form) {
 							var form = jQuery(form);
 							var new_password = form.find('[name="new_password"]');
 							var confirm_password = form.find('[name="confirm_password"]');
@@ -254,13 +295,13 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 									position: {
 										my: 'bottom left',
 										at: 'top left',
-										container : form
+										container: form
 									},
 								};
 								vtUtils.showValidationMessage(new_password, app.vtranslate('JS_REENTER_PASSWORDS'), params);
 								vtUtils.showValidationMessage(confirm_password, app.vtranslate('JS_REENTER_PASSWORDS'), params);
 								return false;
-							}else {
+							} else {
 								vtUtils.hideValidationMessage(new_password);
 								vtUtils.hideValidationMessage(confirm_password);
 							}
@@ -272,7 +313,7 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 					form.vtValidate(params);
 				};
 				var params = {
-					cb : callback
+					cb: callback
 				};
 				app.helper.showModal(data, params);
 			}
@@ -298,19 +339,23 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 		};
 		vtUtils.hideValidationMessage(newUsername);
 
-		app.request.post({'data' : params}).then(function (err, data) {
+		app.request.post({
+			'data': params
+		}).then(function (err, data) {
 			app.helper.hideProgress();
 
-			if(err === null) {
-				app.helper.showSuccessNotification({'message' : app.vtranslate(data)});
+			if (err === null) {
+				app.helper.showSuccessNotification({
+					'message': app.vtranslate(data)
+				});
 				app.helper.hideModal();
 				location.reload();
-			}else {
+			} else {
 				var params = {
 					position: {
 						my: 'bottom left',
 						at: 'top left',
-						container : form
+						container: form
 					},
 				};
 				vtUtils.showValidationMessage(newUsername, app.vtranslate(err.message), params);
@@ -318,23 +363,26 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 			}
 		});
 	}
-},{
+}, {
 
 	/*
 	 *Function to filter Active and Inactive users from Users List View
 	 */
-	registerUserStatusToggleEvent : function() {
-		jQuery('#activeUsers, #inactiveUsers').on('click', function(e) {
+	registerUserStatusToggleEvent: function () {
+		jQuery('#activeUsers, #inactiveUsers').on('click', function (e) {
 			var currentEle = jQuery(e.currentTarget);
 			//If it is already selected then you dont need to load again
-			if(currentEle.hasClass('btn-primary')) {
+			if (currentEle.hasClass('btn-primary')) {
 				return;
 			}
-
+			if (window.screen.availWidth <= 500) {
+				// alert(window.screen.availWidth)
+				$('.table-toggle').removeClass('fixed-scroll-table');
+			}
 			app.helper.showProgress();
-			if(currentEle.attr('id') === 'activeUsers') {
+			if (currentEle.attr('id') === 'activeUsers') {
 				jQuery('#inactiveUsers').removeClass('btn-primary');
-			}else {
+			} else {
 				jQuery('#activeUsers').removeClass('btn-primary');
 			}
 			currentEle.addClass('btn-primary');
@@ -351,38 +399,38 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 	/**
 	 * Function to get Page Jump Params
 	 */
-	getPageJumpParams : function(){
+	getPageJumpParams: function () {
 		var params = this.getDefaultParams();
 		params['view'] = "ListAjax";
 		params['mode'] = "getPageCount";
 		params['search_key'] = 'status',
-		params['operator'] = 'e';
+			params['operator'] = 'e';
 		params['search_value'] = jQuery('.userFilter').find('button.btn-primary').data('searchvalue');
 		return params;
 	},
 
-	getListViewParams : function() {
+	getListViewParams: function () {
 		var self = this;
 		var listParams = {
-			'module' : app.getModuleName(),
-			'view' : 'List',
-			'parent' : app.getParentModuleName(),
-			'search_key' : 'status',
-			'operator' : 'e',
-			'search_value' : self.getListViewContainer().find('.userFilter').find('button.btn-primary').data('searchvalue')
+			'module': app.getModuleName(),
+			'view': 'List',
+			'parent': app.getParentModuleName(),
+			'search_key': 'status',
+			'operator': 'e',
+			'search_value': self.getListViewContainer().find('.userFilter').find('button.btn-primary').data('searchvalue')
 		};
 		return listParams;
 	},
 
-	loadListViewRecords : function(urlParams) {
+	loadListViewRecords: function (urlParams) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var defParams = thisInstance.getDefaultParams();
-		if(typeof urlParams == "undefined") {
+		if (typeof urlParams == "undefined") {
 			urlParams = {};
 		}
 
-		if(typeof urlParams.search_params == "undefined") {
+		if (typeof urlParams.search_params == "undefined") {
 			urlParams.search_params = JSON.stringify(this.getListSearchParams(false));
 		}
 
@@ -391,7 +439,9 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 		jQuery.extend(usersListParams, urlParams);
 		app.helper.showProgress();
 
-		app.request.get({'data':usersListParams}).then(function(err, res){
+		app.request.get({
+			'data': usersListParams
+		}).then(function (err, res) {
 			aDeferred.resolve(res);
 			var container = thisInstance.getListViewContainer();
 			container.find('#listview-actions div.list-content').html(res);
@@ -403,22 +453,22 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 		return aDeferred.promise();
 	},
 
-	getListSearchParams : function(includeStarFilters) {
-		if(typeof includeStarFilters == "undefined") {
+	getListSearchParams: function (includeStarFilters) {
+		if (typeof includeStarFilters == "undefined") {
 			includeStarFilters = true;
 		}
 		var listViewPageDiv = this.getListViewContainer();
 		var listViewTable = listViewPageDiv.find('.searchRow');
 		var searchParams = new Array();
 		var currentSearchParams = new Array();
-		if(listViewPageDiv.find('#currentSearchParams').val()) {
+		if (listViewPageDiv.find('#currentSearchParams').val()) {
 			currentSearchParams = JSON.parse(listViewPageDiv.find('#currentSearchParams').val());
 		}
 		var listSearchParams = new Array();
 		listSearchParams[0] = new Array();
 
 
-		listViewTable.find('.listSearchContributor').each(function(index,domElement){
+		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
 			var searchInfo = new Array();
 			var searchContributorElement = jQuery(domElement);
 			var fieldName = searchContributorElement.attr('name');
@@ -428,15 +478,15 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 			 *  If we have any related record fields in the list, then list search will not work.
 			 *  Because, uimeta will only hold field info of current module not all related modules
 			 */
-			if(typeof fieldInfo == 'undefined'){
+			if (typeof fieldInfo == 'undefined') {
 				fieldInfo = searchContributorElement.data("fieldinfo");
 			}
 
-			if(fieldName in currentSearchParams) {
+			if (fieldName in currentSearchParams) {
 				delete currentSearchParams[fieldName];
-				if(fieldName == 'first_name') {
+				if (fieldName == 'first_name') {
 					//To add both lastname and email for search , since all those three are combined to show in list view 
-					var combinedFields = new Array('last_name','email1');
+					var combinedFields = new Array('last_name', 'email1');
 
 					for (var index in combinedFields) {
 						delete currentSearchParams[combinedFields[index]];
@@ -444,37 +494,37 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 				}
 			}
 
-			if('starred' in currentSearchParams) {
+			if ('starred' in currentSearchParams) {
 				delete currentSearchParams['starred'];
 			}
 
 			var searchValue = searchContributorElement.val();
 
-			if(typeof searchValue == "object") {
-				if(searchValue == null) {
+			if (typeof searchValue == "object") {
+				if (searchValue == null) {
 					searchValue = "";
-				}else{
+				} else {
 					searchValue = searchValue.join(',');
 				}
 			}
 			//for Account owner field no value will be emtpty string so we are avoiding trimming
-			if(fieldName != 'is_owner') {
+			if (fieldName != 'is_owner') {
 				searchValue = searchValue.trim();
 			}
-			if(searchValue.length <=0 ) {
+			if (searchValue.length <= 0) {
 				//continue
 				return true;
 			}
 			var searchOperator = 'c';
-			if(fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+			if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			}else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
-				|| fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
+			} else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer" ||
+				fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
 				fieldInfo.type == "picklist") {
 				searchOperator = 'e';
 			}
 			var storedOperator = searchContributorElement.parent().parent().find('.operatorValue').val();
-			if(storedOperator) {
+			if (storedOperator) {
 				searchOperator = storedOperator;
 				storedOperator = false;
 			}
@@ -483,11 +533,11 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 			searchInfo.push(searchValue);
 
 
-			if(fieldName == 'first_name') {
+			if (fieldName == 'first_name') {
 				listSearchParams[1] = new Array();
 				listSearchParams[1].push(searchInfo);
 				//To add both lastname and email for search , since all those three are combined to show in list view 
-				var combinedFields = new Array('last_name','email1');
+				var combinedFields = new Array('last_name', 'email1');
 
 				for (var index in combinedFields) {
 					var searchInfo = new Array();
@@ -498,15 +548,15 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 					listSearchParams[1].push(searchInfo);
 				}
 
-			}else{
+			} else {
 				searchParams.push(searchInfo);
 			}
 		});
-		for(var i in currentSearchParams) {
+		for (var i in currentSearchParams) {
 			var fieldName = currentSearchParams[i]['fieldName'];
 			var searchValue = currentSearchParams[i]['searchValue'];
 			var searchOperator = currentSearchParams[i]['comparator'];
-			if(fieldName== null || fieldName.length <=0 ){
+			if (fieldName == null || fieldName.length <= 0) {
 				continue;
 			}
 			var searchInfo = new Array();
@@ -515,17 +565,17 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 			searchInfo.push(searchValue);
 			searchParams.push(searchInfo);
 		}
-		if(searchParams.length > 0) {
+		if (searchParams.length > 0) {
 			listSearchParams[0] = searchParams;
 		}
-		if(includeStarFilters) {
+		if (includeStarFilters) {
 			listSearchParams = this.addStarSearchParams(listSearchParams);
 		}
 
 		return listSearchParams;
 	},
 
-	registerEvents : function() {
+	registerEvents: function () {
 		this._super();
 		this.registerUserStatusToggleEvent();
 		this.registerListViewSearch();
@@ -536,3 +586,12 @@ Settings_Head_List_Js("Settings_Users_List_Js",{
 		this.registerEditLink();
 	}
 });
+
+
+function btn_click_load() {
+	if (window.screen.availWidth <= 500) {
+
+		$('.table-toggle').removeClass('fixed-scroll-table');
+	}
+
+}

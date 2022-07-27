@@ -126,20 +126,22 @@ class Settings_Head_List_View extends Settings_Head_Index_View {
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
         $viewer->assign('SHOW_LISTVIEW_CHECKBOX', true);
 
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
-			if(!$this->listViewCount){
-				$this->listViewCount = $listViewModel->getListViewCount();
-			}
-			$totalCount = $this->listViewCount;
-			$pageLimit = $this->pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-			if($pageCount == 0){
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		if(!$this->listViewCount){
+			$this->listViewCount = $listViewModel->getListViewCount();
 		}
+		$totalCount = $this->listViewCount;
+		$pageLimit = $this->pagingModel->getPageLimit();
+		$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+
+		if($pageCount == 0){
+			$pageCount = 1;
+		}
+		$result = array();
+		$result['page'] = $pageCount;
+		$result['numberOfRecords'] = $totalCount;
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('NO_OF_PAGES', $result);
 	}
     
     public function postProcess(Head_Request $request) {

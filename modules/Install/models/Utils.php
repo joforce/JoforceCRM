@@ -55,36 +55,96 @@ class Install_Utils_Model {
      * @return <Array>
      */
     static function getCurrentDirectiveValue() {
-	$directiveValues = array();
-	if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') > -1)
-	    $directiveValues['safe_mode'] = 'On';
-	if (ini_get('display_errors') != '1' || stripos(ini_get('display_errors'), 'Off') > -1)
-	    $directiveValues['display_errors'] = 'Off';
-	if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') > -1)
-	    $directiveValues['file_uploads'] = 'Off';
-	if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') > -1)
-	    $directiveValues['register_globals'] = 'On';
-	if (ini_get(('output_buffering') < '4096' && ini_get('output_buffering') != '0') || stripos(ini_get('output_buffering'), 'Off') > -1)
-	    $directiveValues['output_buffering'] = 'Off';
-	if (ini_get('max_execution_time') != 0)
-	    $directiveValues['max_execution_time'] = ini_get('max_execution_time');
-	if (ini_get('memory_limit') < 32)
-	    $directiveValues['memory_limit'] = ini_get('memory_limit');
+		$cruDir = true;
+		$directiveValues = array();
+		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') > -1){
+			$directiveValues['safe_mode'] = 'On';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['safe_mode'] = 'Off';
+		}
+		
+		if (ini_get('display_errors') != '1' || stripos(ini_get('display_errors'), 'Off') > -1){
+			$directiveValues['display_errors'] = 'Off';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['display_errors'] = 'On';
+		}
 
-	$errorReportingValue = E_WARNING & ~E_NOTICE;
-        if(version_compare(PHP_VERSION, '5.5.0') >= 0){
-            $errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
-        } else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-	    $errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
-	}
-	if (ini_get('error_reporting') != $errorReportingValue)
-	    $directiveValues['error_reporting'] = 'NOT RECOMMENDED';
-	if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') > -1)
-	    $directiveValues['log_errors'] = 'On';
-	if (ini_get('short_open_tag') == '1' || stripos(ini_get('short_open_tag'), 'On') > -1)
-	    $directiveValues['short_open_tag'] = 'On';
+		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') > -1){
+			$directiveValues['file_uploads'] = 'Off';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['file_uploads'] = 'On';
+		}
 
-	return $directiveValues;
+		// if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') > -1){
+		// 	$directiveValues['register_globals'] = 'On';
+		// }
+		// else{
+		// 	$directiveValues['register_globals'] = 'Off';
+		// }
+
+		if (ini_get(('output_buffering') < '4096' && ini_get('output_buffering') != '0') || stripos(ini_get('output_buffering'), 'Off') > -1){
+			$directiveValues['output_buffering'] = 'Off';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['output_buffering'] = 'On';
+		}
+
+		if (ini_get('max_execution_time') != 0){
+			$directiveValues['max_execution_time'] = ini_get('max_execution_time');
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['max_execution_time'] = 0;
+		}
+		
+		$directiveValues['memory_limit'] = substr(ini_get('memory_limit'), 0, -1);
+		if($directiveValues['memory_limit'] < 32){
+			$cruDir = false;
+		}
+			
+		$errorReportingValue = ~E_WARNING & ~E_NOTICE;
+		$strerrorReportingValue = '~E_WARNING & ~E_NOTICE';
+		if(version_compare(PHP_VERSION, '5.5.0') >= 0){
+			$errorReportingValue = ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
+			$strerrorReportingValue = '~E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
+		} 
+		else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
+			$errorReportingValue = ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
+			$strerrorReportingValue = '~E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
+		}
+
+		if (ini_get('error_reporting') == $errorReportingValue || ini_get('error_reporting') == $strerrorReportingValue){
+			$directiveValues['error_reporting'] = $strerrorReportingValue;	
+		}
+		else{
+			$directiveValues['error_reporting'] = 'E_ALL & ~E_DEPRECATED & ~E_STRICT';
+			$cruDir = false;
+		}
+
+		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') > -1){
+			$directiveValues['log_errors'] = 'On';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['log_errors'] = 'Off';
+		}
+
+		if (ini_get('short_open_tag') == '1' || stripos(ini_get('short_open_tag'), 'On') > -1){
+			$directiveValues['short_open_tag'] = 'On';
+			$cruDir = false;
+		}
+		else{
+			$directiveValues['short_open_tag'] = 'Off';
+		}
+		$directiveValues['success'] = $cruDir;
+		return $directiveValues;
     }
 
     /**
@@ -99,9 +159,9 @@ class Install_Utils_Model {
 	'output_buffering' => 'On',
 	'max_execution_time' => '0',
 	'memory_limit' => '32',
-	'error_reporting' => 'E_WARNING & ~E_NOTICE',
+	'error_reporting' => '~E_WARNING & ~E_NOTICE',
 	'log_errors' => 'Off',
-	'short_open_tag' => 'On'
+	'short_open_tag' => 'Off'
     );
 
     /**
@@ -110,9 +170,12 @@ class Install_Utils_Model {
      */
     public static function getRecommendedDirectives(){
 	if(version_compare(PHP_VERSION, '5.5.0') >= 0){
-	    self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
-        } else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-	    self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
+	    // self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
+	    self::$recommendedDirectives['error_reporting'] = '~E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
+	} else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
+	    // self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
+	    self::$recommendedDirectives['error_reporting'] = '~E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
+
 	}
 	return self::$recommendedDirectives;
     }
@@ -124,6 +187,7 @@ class Install_Utils_Model {
     public static function getSystemPreInstallParameters() {
 	$server_type = $_SERVER['SERVER_SOFTWARE'];
 	$webServerName = explode('/', $server_type)[0];		
+	$SysPreIns = false;
 	$preInstallConfig = array();
 	// Name => array( System Value, Recommended value, supported or not(true/false) );
 	$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '5.4.0', (version_compare(phpversion(), '5.4.0', '>=')));
@@ -135,8 +199,8 @@ class Install_Utils_Model {
 	$preInstallConfig['LBL_IMAP_SUPPORT']	= array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
 	$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
 	$preInstallConfig['LBL_SIMPLE_XML_SUPPORT']=array(function_exists('simplexml_load_file'), true, (function_exists('simplexml_load_file') == true));
-        if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.5.0') {
-            $preInstallConfig['LBL_MYSQLI_CONNECT_SUPPORT'] = array(extension_loaded('mysqli'), true, extension_loaded('mysqli'));
+	if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.5.0') {
+		$preInstallConfig['LBL_MYSQLI_CONNECT_SUPPORT'] = array(extension_loaded('mysqli'), true, extension_loaded('mysqli'));
 	}
 	$preInstallConfig['LBL_OPEN_SSL'] = array(extension_loaded('openssl'), true, extension_loaded('openssl'));
 	$preInstallConfig['LBL_CURL'] = array(extension_loaded('curl'), true, extension_loaded('curl'));
@@ -150,6 +214,21 @@ class Install_Utils_Model {
 	}
 	$preInstallConfig['LBL_GD_LIBRARY'] = array((extension_loaded('gd') || $gnInstalled), true, (extension_loaded('gd') || $gnInstalled));
 	$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
+	if(
+		(version_compare(phpversion(), '5.4.0', '>=')) &&
+		(in_array('mod_rewrite', apache_get_modules()) == true) &&
+		(function_exists('imap_open') == true) &&
+		(function_exists('gzinflate') == true) &&
+		(function_exists('simplexml_load_file') == true) &&
+		(extension_loaded('mysqli')) &&
+		(extension_loaded('openssl')) &&
+		(extension_loaded('curl')) &&
+		(extension_loaded('gd') || $gnInstalled)
+	)
+	{
+		$SysPreIns = true;
+	}
+	$preInstallConfig['LBL_Success'] = array('Success',$SysPreIns);
 	return $preInstallConfig;
     }
 	
@@ -330,15 +409,15 @@ class Install_Utils_Model {
       +	 * @param DbConnection $conn 
       +	 * @return boolean
       +	 */
-    public static function isMySQLSqlModeFriendly($conn) {
+    public static function isMySQLSqlModeFriendly($conn) {		
         $rs = $conn->Execute("SHOW VARIABLES LIKE 'sql_mode'");
         if ($rs && ($row = $rs->fetchRow())) {
             $values = explode(',', strtoupper($row['Value']));
             $unsupported = array('ONLY_FULL_GROUP_BY', 'STRICT_TRANS_TABLES', 'NO_ZERO_IN_DATE', 'NO_ZERO_DATE');
             foreach ($unsupported as $check) {
                 if (in_array($check, $values)) {
-                    return false;
-                }
+					return false;
+				}
             }
         }
         return true;
@@ -364,11 +443,12 @@ class Install_Utils_Model {
 	$db_creation_failed = false; // did we try to create a database and fail?
 	$db_exist_status = false; // does the database exist?
 	$db_utf8_support = false; // does the database support utf8?
-        $db_sqlmode_support = false; // does the database having friendly sql_mode?
+    $db_sqlmode_support = false; // does the database having friendly sql_mode?
 
 	//Checking for database connection parameters
 	if($db_type) {
 	    $conn = NewADOConnection($db_type);
+
 	    $db_type_status = true;
 	    if(@$conn->Connect($db_hostname,$db_username,$db_password)) {
 		$db_server_status = true;
@@ -376,7 +456,10 @@ class Install_Utils_Model {
 		if(self::isMySQL($db_type)) {
 		    $mysql_server_version = self::getMySQLVersion($serverInfo);
 		}
+		$query1 = "set global sql_mode = ''";
+			$conn->Execute($query1);
 
+			//	 $conn->Execute("SET SESSION sql_mode = ''");
                 $db_sqlmode_support = self::isMySQLSqlModeFriendly($conn);
                 //$db_sqlmode_support = true; // Need to check sql mode is friendly
                 if($create_db && $db_sqlmode_support) {
@@ -402,6 +485,7 @@ class Install_Utils_Model {
 			if($createdb_conn->Execute($query)) {
 			    $db_creation_failed = false;
 			}
+		//	 $createdb_conn->Execute("SET SESSION sql_mode = ''");
 			$createdb_conn->Close();
 		    }
 		}

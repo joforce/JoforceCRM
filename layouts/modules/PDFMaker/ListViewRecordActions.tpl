@@ -25,13 +25,13 @@
     <span class="markStar fa icon action {if $STARRED} fa-star active {else} fa-star-o{/if}" title="{if $STARRED} {vtranslate('LBL_STARRED', $MODULE)} {else} {vtranslate('LBL_NOT_STARRED', $MODULE)}{/if}"></span> 
     {/if}
     <span class="more dropdown action">
-        <span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+        <span href="javascript:;" class="ml30" data-toggle="dropdown">
             <i class="fa fa-ellipsis-v icon"></i></span>
         <ul class="dropdown-menu">
-            <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
+            <li class="dropdown-item"><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
 			{if $RECORD_ACTIONS}
 				{if $RECORD_ACTIONS['edit']}
-					<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
+					<li class="dropdown-item"><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
 				{/if}
 			{/if}
         </ul>

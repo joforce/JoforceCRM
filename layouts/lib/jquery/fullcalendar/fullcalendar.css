@@ -1236,9 +1236,9 @@ be a descendant of the grid when it is being dragged.
 	cursor: s-resize;
 }
 
-.fc-time-grid-event.fc-allow-mouse-resize .fc-resizer:after {
+/* .fc-time-grid-event.fc-allow-mouse-resize .fc-resizer:after {
 	content: "=";
-}
+} */
 
 /* resizer (touch device) */
 

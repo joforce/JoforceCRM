@@ -14,9 +14,12 @@
     {assign var = COMPANY_LOGO value = $LOGO->get('imagepath')}
     {assign var = COMPANY_NAME value = getCompanyDetails()}
 
-    <div class="listViewPageDiv " id="listViewContent">
+    <div class="listViewPageDiv card" id="listViewContent">
+    <div class="ml25 mr15 mt20 card-header-new">
+            <h3>Roles Details</h3>
+        </div>
             <br>
-            <div class="clearfix treeView">
+            <div class="clearfix treeView ms_treeView">
                 <ul>
                     <li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
                         <div class="toolbar-handle">

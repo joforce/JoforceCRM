@@ -25,7 +25,7 @@ class ModTracker_Record_Model extends Head_Record_Model {
 	 * @param <type> $limit - number of latest changes that need to retrieved
 	 * @return <array> - list of  ModTracker_Record_Model
 	 */
-	public static function getUpdates($parentRecordId, $pagingModel,$moduleName) {
+	public static function getUpdates($parentRecordId, $pagingModel,$moduleName,$filter_date) {
 		if($moduleName == 'Calendar') {
 			if(getActivityType($parentRecordId) != 'Task') {
 				$moduleName = 'Events';
@@ -33,23 +33,62 @@ class ModTracker_Record_Model extends Head_Record_Model {
 		}
 		$db = PearDatabase::getInstance();
 		$recordInstances = array();
+		$date = '';
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
-		$listQuery = "SELECT * FROM jo_modtracker_basic WHERE crmid = ? AND module = ? ".
+		$listQuery = "SELECT * FROM jo_modtracker_basic WHERE 1=1";
+		if($filter_date != '') {
+			$listQuery .= " and changedon like '".$filter_date."%'";
+		}
+		$listQuery .= " and crmid = ? AND module = ? ".
 						" ORDER BY changedon DESC LIMIT $startIndex, $pageLimit";
 
 		$result = $db->pquery($listQuery, array($parentRecordId, $moduleName));
 		$rows = $db->num_rows($result);
-
+		$dateArray = [];
 		for ($i=0; $i<$rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$recordInstance = new self();
+			$date = explode(" ", $row['changedon']);
+			$row["date"] = date_format(date_create($date[0]),"M d Y");
+			$row["time"] = date('h:i A', strtotime($row['changedon']));
+
 			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
+	}
+
+	public static function getDateUpdates($parentRecordId, $pagingModel,$moduleName,$filter_date) {
+		if($moduleName == 'Calendar') {
+			if(getActivityType($parentRecordId) != 'Task') {
+				$moduleName = 'Events';
+			}
+		}
+		$db = PearDatabase::getInstance();
+		$recordInstances = array();
+		$date = '';
+
+		$startIndex = $pagingModel->getStartIndex();
+		$pageLimit = $pagingModel->getPageLimit();
+
+		$listQuery = "SELECT * FROM jo_modtracker_basic WHERE 1=1";
+		if($filter_date != '') {
+			$listQuery .= " and changedon like '".$filter_date."%'";
+		}
+		$listQuery .= " and crmid = ? AND module = ? ".
+						" ORDER BY changedon DESC LIMIT $startIndex, $pageLimit";
+
+		$result = $db->pquery($listQuery, array($parentRecordId, $moduleName));
+		$rows = $db->num_rows($result);
+		for ($i=0; $i<$rows; $i++) {
+            $row = $db->query_result_rowdata($result, $i);
+			$date = explode(" ", $row['changedon']);
+            $recordInstances[] = date_format(date_create($date[0]),"M d Y");
+        }
+        return array_unique($recordInstances);
 	}
 
 	public static function getActivities($userId, $moduleName, $filters = []) {

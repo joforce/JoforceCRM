@@ -10,9 +10,9 @@
 -->*}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
+	<div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
 		<div class="module-action-content clearfix">
-			<span class="col-lg-3 col-md-3">
+			<span class="col-lg-3 col-md-6 pull-left report">
 				<span>
 					{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
 					{assign var=DEFAULT_FILTER_ID value=$MODULE_MODEL->getDefaultCustomFilter()}
@@ -51,15 +51,15 @@
 			</span>
 		
 			{if $IS_LIST_VIEW}
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-left">
                         </div>
                         {/if}
 
-			<span class="col-lg-7 col-md-7 pull-right">
-				<div id="appnav" class="navbar-right">
+			<span class="col-lg-3 col-md-6 pull-right mt5">
+				<div id="appnav" class="ms_report_page_mt10">
                                 <div class="dropdown-filter" style="display:inline-block;">
-                                        <button class="btn btn-filter btn-warning" title="{vtranslate('LBL_FILTER', $MODULE)}">
-					    <i class="fa fa-filter mr10"></i>
+                                        <button class="btn btn-filter btn-warning " title="{vtranslate('LBL_FILTER', $MODULE)}">
+					    <i class="fa fa-filter "></i>
 					</button>
                                         <div class="filter-open">
                                                 {include file="modules/Reports/partials/SidebarEssentials.tpl"}
@@ -70,8 +70,8 @@
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						{if $childLinks && $LISTVIEW_BASICACTION->get('linklabel') == 'LBL_ADD_RECORD'}
-							<span class="btn-group">
-								<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
+							<span class="btn-group pull-right">
+								<button class="btn btn-secondary dropdown-toggle ms_report_page_dropdown" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 									<i class="fa fa-plus"></i>&nbsp;
 									{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}&nbsp;
 								</button>

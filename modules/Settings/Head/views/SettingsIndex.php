@@ -180,6 +180,7 @@ class Settings_Head_SettingsIndex_View extends Head_Basic_View {
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'modules.Settings.Head.resources.Index',
 			"modules.Settings.$moduleName.resources.Index",
+			"modules.Settings.Head.resources.SettingsIndex",
 			"~layouts/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.js",
 		);
 

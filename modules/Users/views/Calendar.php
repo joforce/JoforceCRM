@@ -38,7 +38,8 @@ class Users_Calendar_View extends Head_Detail_View {
 	}
 
 	public function preProcess(Head_Request $request, $display=true) {
-		if($this->checkPermission($request)) {
+		global $current_user;
+if($this->checkPermission($request)) {
 			$qualifiedModuleName = $request->getModule(false);
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$recordId = $request->get('record');
@@ -98,7 +99,6 @@ class Users_Calendar_View extends Head_Detail_View {
 			$viewer->assign('SKIN_PATH', Head_Theme::getCurrentUserThemePath());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-			$viewer->assign('SELECTED_MENU_CATEGORY', 'MARKETING');
 			$settingsModel = Settings_Head_Module_Model::getInstance();
 			$menuModels = $settingsModel->getMenus();
 
@@ -144,7 +144,7 @@ class Users_Calendar_View extends Head_Detail_View {
 
 			$activeBLock = Settings_Head_Module_Model::getActiveBlockName($request);
 			$viewer->assign('ACTIVE_BLOCK', $activeBLock);
-
+			$user_id = $current_user->id;
 			$viewer->assign('SECTION_ARRAY', getSectionList($user_id)); //section names
                     	$viewer->assign('MAIN_MENU_TAB_IDS', getMainMenuList($user_id)); //main menu
 			$viewer->assign('APP_MODULE_ARRAY', getAppModuleList($user_id)); //modules and sections

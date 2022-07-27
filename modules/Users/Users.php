@@ -2094,16 +2094,6 @@ class Users_CRMSetup
 					'PriceBooks' => 'Price Books',
 				)
 			),
-			'Project' => array(
-				'label' => 'Project Management',
-				'imageName' => 'ProjectManagement.png',
-				'description' => 'Build and manage customer-associated projects, with detailed tasks that can be assigned to CRM users and placed on their calendars.',
-				'modules' => array(
-					'Project' => 'Projects',
-					'ProjectTask' => 'Tasks',
-					'ProjectMilestone' => 'Milestones'
-				)
-			)
 		);
 
 		global $adb;

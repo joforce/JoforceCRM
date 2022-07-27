@@ -21,7 +21,7 @@
                 <input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
                 <div name='massEditContent'>
                     <div class="modal-body">
-                            <div class="col-sm-5"><div class="control-label fieldLabel pull-right ">{vtranslate('LBL_TRANSFER_TO_OTHER_ROLE',$QUALIFIED_MODULE)}
+                            <div class="col-sm-5"><div class="col-form-label fieldLabel pull-right ">{vtranslate('LBL_TRANSFER_TO_OTHER_ROLE',$QUALIFIED_MODULE)}
                                 &nbsp;<span class="redColor">*</span></div></div>
                             <div class="input-group fieldValue col-xs-6">
                                 <input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField" data-rule-required="true">

@@ -1090,26 +1090,84 @@ function get_sharingprivileges($userid){
   $user_query =  $adb->pquery("SELECT * FROM jo_privileges where user_id=?",array($userid));
           $user_count = $adb->num_rows($user_query);
           if($user_count > 0){
-              $sharing_privilege =  $adb->query_result($user_query,0,'sharing_privilege');
-              $decode_sharing_privilege_value = json_decode(html_entity_decode($sharing_privilege));
-              foreach ($decode_sharing_privilege_value as $key => $value) {
-                
-                if(is_object($value)){
-                  $value = (array) $value;
-                  foreach ($value as $decode_key => $decode_value) {
-                    if(is_object($decode_value)){
-                      $value[$decode_key] = (array) $decode_value;
-                    }
+            $sharing_privilege =  $adb->query_result($user_query,0,'sharing_privilege');
+            $decode_sharing_privilege_value = json_decode(html_entity_decode($sharing_privilege));
+            foreach ($decode_sharing_privilege_value as $key => $value) {
+              
+              if(is_object($value)){
+                $value = (array) $value;
+                foreach ($value as $decode_key => $decode_value) {
+                  if(is_object($decode_value)){
+                    $value[$decode_key] = (array) $decode_value;
                   }
-                  $$key = $value;
-                }else{
-                  $$key = $value;
                 }
-                
+                $$key = $value;
+              }else{
+                $$key = $value;
               }
-          }
+              
+            }
+        }
 }
 
+function get_defaultOrgSharingPermission($userid){
+    global $adb;
+    $user_query =  $adb->pquery("SELECT * FROM jo_privileges where user_id=?",array($userid));
+            $user_count = $adb->num_rows($user_query);
+            if($user_count > 0){
+                $sharing_privilege =  $adb->query_result($user_query,0,'sharing_privilege');
+                $decode_sharing_privilege_value = json_decode(html_entity_decode($sharing_privilege));
+            
+                foreach ($decode_sharing_privilege_value as $key => $value) {
+                
+                  if($key == 'defaultOrgSharingPermission'){
+                     
+                     if(is_object($value)){
+  
+                          $values = (array) $value;
+                 
+                      }
+                  
+                  
+                  }
+                  
+                 
+                  
+                }
+                
+            }
+    return $values;     
+}
+
+function get_related_module_share($userid){
+    global $adb;
+    $user_query =  $adb->pquery("SELECT * FROM jo_privileges where user_id=?",array($userid));
+            $user_count = $adb->num_rows($user_query);
+            if($user_count > 0){
+                $sharing_privilege =  $adb->query_result($user_query,0,'sharing_privilege');
+                $decode_sharing_privilege_value = json_decode(html_entity_decode($sharing_privilege));
+               
+                foreach ($decode_sharing_privilege_value as $key => $value) {
+                
+                  if($key == 'related_module_share'){
+                     
+                     if(is_object($value)){
+  
+                          $values = (array) $value;
+                     
+                      }
+                  
+                  
+                  }
+                  
+                 
+                  
+                }
+            
+                return $values;
+            }
+            
+  }
 /**
  * Function to generate question marks for a given list of items
  */
@@ -2560,36 +2618,27 @@ function getPermittedEntityModuleNames(){
  * function to get the array of amin menu list
  */
 function getMainMenuList($user_id){
-    if(file_exists("storage/menu/main_menu_".$user_id.".php")) {
-	require( "storage/menu/main_menu_".$user_id.".php");
-    } else {
-        require("storage/menu/default_main_menu.php");
-    }
-    return $main_menu_array;
+    $main_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'main_menu');
+	foreach($main_menu_array as $sequence => $obj) {
+	    $main_menu_array[$sequence] = (array)$obj;
+	}
+    return (array)$main_menu_array;
 }
 
 /**
  * function to get the array
  */
 function getSectionList($user_id){
-    if(file_exists("storage/menu/sections_".$user_id.".php")) {
-	require( "storage/menu/sections_".$user_id.".php");
-    } else {
-	require("storage/menu/default_sections.php");
-    }
-    return $section_array;
+    $section_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'default_sections');
+    return (array)$section_array;
 }
 
 /**
  * function to get sections and modules
  */
-function getAppModuleList($user_id){
-    if(file_exists("storage/menu/module_apps_".$user_id.".php")) {
-	require( "storage/menu/module_apps_".$user_id.".php");
-    } else {
-	require("storage/menu/default_module_apps.php");
-    }
-    return $app_menu_array;
+function getAppModuleList($user_id) {
+    $app_menu_array = Settings_MenuManager_Module_Model::getUserMenuDetails($user_id, 'module_apps');
+    return (array)$app_menu_array;
 }
 
 /**
@@ -2706,19 +2755,35 @@ function getUsersListForStarredRecords($recordId) {
  * Function to check the notification settings of a module for a user
  **/
 function getNotificationSettingsForUser($user_id, $moduleName, $action) {
-    if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-        $file_name = "user_privileges/notifications/notification_".$user_id.".php";
-    else
-        $file_name = 'user_privileges/notifications/default_settings.php';
+    // if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
+    //     $file_name = "user_privileges/notifications/notification_".$user_id.".php";
+    // else
+    //     $file_name = 'user_privileges/notifications/default_settings.php';
 
-    require($file_name);
-    if($global_settings) {
-	if(isset($notification_settings[$moduleName][$action]))
-	    return true;
-	else
-	    return false;
-    } else {
-	return false;
+    // require($file_name);
+    $db = PearDatabase::getInstance();
+    $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+    $result = $db->pquery($query, array($related_user_id));
+    $rows = $db->num_rows($result);
+    if($rows <= 0){
+        $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+        $result = $db->pquery($query, array(0));
+        $rows = $db->num_rows($result);
+    }
+    for ($i=0; $i<$rows; $i++) {
+        $row = $db->query_result_rowdata($result, $i);
+        $global_settings = $row['global'];
+        $notification_settings = unserialize(base64_decode($row['notificationlist']));
+    }
+
+    if($global_settings == 1) {
+        if(isset($notification_settings[$moduleName][$action]))
+            return true;
+        else
+            return false;
+        } 
+    else {
+        return false;
     }
 }
 
@@ -2996,4 +3061,101 @@ function getRelatedRecordSumValue($recordId, $module, $relatedModuleName, $req_f
 		$sum = $sum + $record_obj->get($req_field);
 	}
 	return $currency.$sum;
+}
+
+function getEntityModuleWSId($moduleName) {
+	$moduleWSIdCache = array();
+    if (!isset($moduleWSIdCache[$moduleName])) {
+        global $adb;
+        $result = $adb->pquery("SELECT id FROM jo_ws_entity WHERE name=?", array($moduleName));
+        if ($result && $adb->num_rows($result)) {
+            $moduleWSIdCache[$moduleName] = $adb->query_result($result, 0, 'id');
+        }
+    }
+    return $moduleWSIdCache[$moduleName];
+}
+
+function gatherModuleFieldGroupInfo($module) {
+    global $adb;
+    $gatherModuleFieldGroupInfoCache = array();
+    if($module == 'Events') $module = 'Calendar';
+    
+    // Cache hit?
+    if(isset($gatherModuleFieldGroupInfoCache[$module])) {
+        return $gatherModuleFieldGroupInfoCache[$module];
+    }
+    
+    $result = $adb->pquery(
+        "SELECT fieldname, fieldlabel, blocklabel, uitype FROM jo_field INNER JOIN
+        jo_blocks ON jo_blocks.tabid=jo_field.tabid AND jo_blocks.blockid=jo_field.block 
+        WHERE jo_field.tabid=? AND jo_field.presence != 1 ORDER BY jo_blocks.sequence, jo_field.sequence", array(getTabid($module))
+    );
+
+    $fieldgroups = array();
+    while($resultrow = $adb->fetch_array($result)) {
+        $blocklabel = getTranslatedString($resultrow['blocklabel'], $module);
+        if(!isset($fieldgroups[$blocklabel])) {
+            $fieldgroups[$blocklabel] = array();
+        }
+        $fieldgroups[$blocklabel][$resultrow['fieldname']] = 
+            array(
+                'label' => getTranslatedString($resultrow['fieldlabel'], $module),
+                'uitype'=> fixUIType($module, $resultrow['fieldname'], $resultrow['uitype'])
+            );
+    }
+    
+    // Cache information
+    $gatherModuleFieldGroupInfoCache[$module] = $fieldgroups;
+    
+    return $fieldgroups;
+}
+
+function detectFieldnamesToResolve($module) {
+    global $adb;
+    $detectFieldnamesToResolveCache = array();
+    // Cache hit?
+    if(isset($detectFieldnamesToResolveCache[$module])) {
+        return $detectFieldnamesToResolveCache[$module];
+    }
+    
+    $resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 78, 80, 81);
+    
+    $result = $adb->pquery(
+        "SELECT DISTINCT fieldname FROM jo_field WHERE uitype IN(". 
+        generateQuestionMarks($resolveUITypes) .") AND tabid=?", array($resolveUITypes, getTabid($module)) 
+    );
+    $fieldnames = array();
+    while($resultrow = $adb->fetch_array($result)) {
+        $fieldnames[] = $resultrow['fieldname'];
+    }
+    
+    // Cache information		
+    $detectFieldnamesToResolveCache[$module] = $fieldnames;
+    
+    return $fieldnames;
+}
+
+function detectModulenameFromRecordId($wsrecordid) {
+    global $adb;
+    $idComponents = vtws_getIdComponents($wsrecordid);
+    $result = $adb->pquery("SELECT name FROM jo_ws_entity WHERE id=?", array($idComponents[0]));
+    if($result && $adb->num_rows($result)) {
+        return $adb->query_result($result, 0, 'name');
+    }
+    return false;
+}
+
+function fixUIType($module, $fieldname, $uitype) {
+    if ($module == 'Contacts' || $module == 'Leads') {
+        if ($fieldname == 'salutationtype') {
+            return 16;
+        }
+    }
+    else if ($module == 'Calendar' || $module == 'Events') {
+        if ($fieldname == 'time_start' || $fieldname == 'time_end') {
+            // Special type for mandatory time type (not defined in product)
+            return 252;
+        }
+    }
+    return $uitype;
 }

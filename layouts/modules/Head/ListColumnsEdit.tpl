@@ -47,21 +47,21 @@
 						</div>
 						<div class="col-lg-6 availFiedlsContainer">
 							<div class="row">
-								<div class="col-lg-10">
+								<div class="col-lg-12">
 									<h5>{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}</h5>
 									<input type="text" class="inputElement searchAvailFields" placeholder="{vtranslate('LBL_SEARCH_FIELDS', $QUALIFIED_MODULE)}" />
 									<div class="panel-group avialFieldsListContainer" id="accordion">
-										<div class="panel panel-default" id="avialFieldsList">
+										<div class="card panel panel-default" id="avialFieldsList">
 											{foreach item=BLOCK_FIELDS key=BLOCK_LABEL from=$RECORD_STRUCTURE name=availFieldsLoop}
 												{assign var=RAND_ID value=10|mt_rand:1000}
 												<div class="instafilta-section">
 													<div id="{$RAND_ID}_accordion" class="availFieldBlock" role="tab">
-														<a class="fieldLabel" data-toggle="collapse" data-parent="#accordion" href="#{$RAND_ID}">
+														<a class="fieldLabel" data-toggle="collapse" data-parent="#accordion" data-target="#accordion_{$RAND_ID}">
 															<i class="fa fa-caret-right"></i><span>{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}</span>
 														</a>
 													</div>
-													<div id="{$RAND_ID}" class="panel-collapse collapse">
-														<div class="panel-body">
+													<div id="accordion_{$RAND_ID}" class="collapse">
+														<div class="card card-body">
 															{foreach item=FIELD_MODEL key=FIELD_NAME from=$BLOCK_FIELDS}
 																{assign var=FIELD_MODULE_NAME value={$FIELD_MODEL->getModule()->getName()}}
 																{if $FIELD_MODEL->getDisplayType() eq '6'}
@@ -87,7 +87,7 @@
 				</div>
 				<div class="modal-footer ">
 					<button class="btn btn-primary" type="button" name="saveButton"><strong>{vtranslate('LBL_UPDATE_LIST')}</strong></button>
-					<a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 			</form>
 		</div>

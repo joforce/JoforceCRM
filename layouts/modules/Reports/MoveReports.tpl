@@ -22,7 +22,7 @@
 				<input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-4 control-label">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></label>
+						<label for="inputEmail3" class="col-sm-4 col-form-label">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></label>
 						<div>
 							<select class="select2 col-sm-6 " name="folderid">
 								<optgroup label="{vtranslate('LBL_FOLDERS', $MODULE)}">

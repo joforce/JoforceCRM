@@ -20,10 +20,13 @@
 	    <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	    <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	    <div id="listview-actions" class="listview-actions-container">
+	    <div id="listview-actions" class="listview-actions-container card">
 		<div class="list-content row">
+			<div class="col-md-11 col-sm-11  mt0 m40 mb20 card-header-new ">
+				<h4>{$MODULE}</h4>
+			</div>
 		    <div class="col-sm-12 col-xs-12 ">
-			<div id="table-content" class="table-container" style="padding-top:0px !important;">
+			<div id="table-content" class="table-container table_container_align_left" style="padding-top:0px !important;overflow-x:auto;">
 			    <table id="listview-table" class="table listview-table">
 				{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 				{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}

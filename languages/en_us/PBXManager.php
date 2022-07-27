@@ -13,9 +13,9 @@ $languageStrings = array(
 	'Call From'=>'Call From',
 	'Call To'=>'Call To',
 	'LBL_CALL_INFORMATION' => 'Call Details',
-	'PBXManager ID'=>'PBX Manager ID',
-	'PBXManager' => 'PBX Manager',
-	'SINGLE_PBXManager' => 'PBX Manager',
+	'PBXManager ID'=>'Call ID',
+	'PBXManager' => 'Calls',
+	'SINGLE_PBXManager' => 'Call',
 	'Time Of Call'=>'Time Of Call',
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Call Details',
@@ -35,7 +35,4 @@ $languageStrings = array(
     'Total Duration' => 'Duration (sec)',
     'Bill Duration'  => 'Bill Duration (sec)',
     'Recording URL' => 'Recording',
-    
-    'SINGLE_PBXManager' => 'Call Record' ,
-
 );

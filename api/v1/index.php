@@ -115,8 +115,26 @@ $app->post('/authorize', function ($request, $response, $args) use ($app, $conta
     ];
 
     $token = \Firebase\JWT\JWT::encode($jwt_data, $application_unique_key);
+	global $site_URL;
+       	 $user_info = $jwt_data['data'];
+	    $detailViewModel = \Head_DetailView_Model::getInstance('Users', $current_user->id);
+            $userModel = $detailViewModel->getRecord();
+            $user_image = $userModel->getImageDetails();
+            $user_profile_url = null;
+            if ($user_image) {
+                if (isset($user_image[0]['id']) && !empty($user_image[0]['id'])) { 
+                    $user_profile_url = $site_URL . $user_image[0]['path'] . '_' . $user_image[0]['name'];
+                }
+            }          
 
-    $response_data = ['success' => true, 'token' => $token];
+	    $user_info['fullname'] = $current_user->first_name.' '.$current_user->last_name;
+            $user_info['user_profile_url'] = $user_profile_url;
+            $user_info['user_currency_id'] = fetchCurrency($current_user->id);
+            $user_info['version'] = 'v2.0';
+            $notificationstatus=notificationstatus($current_user->id);
+            $user_info['notificationstatus'] = $notificationstatus;
+
+    $response_data = ['success' => true, 'data'=>$user_info, 'token' => $token ,'time_format' => $current_user->hour_format];
     return $response->withJson($response_data, 200);
 });
 
@@ -263,3 +281,21 @@ function generateRandomString($length = 10)
     }
     return $randomString;
 }
+  function notificationstatus($user_id){
+        global $adb;
+        $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+        $result = $adb->pquery($query, array($user_id));
+        $rows = $adb->num_rows($result);
+       if($rows <= 0){
+            $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+            $result = $adb->pquery($query, array(0));
+            $rows = $adb->num_rows($result);
+       }
+        for ($i=0; $i<$rows; $i++) {
+            $row = $adb->query_result_rowdata($result, $i);
+            $global_settings = $row['global'];
+            $notification_settings = unserialize(base64_decode($row['notificationlist']));
+        }
+        return $global_settings;
+    }
+

@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-lg-6 selectTagContainer">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="col-form-label">
                                         {vtranslate('LBL_CURRENT_TAGS',$MODULE)}
                                     </label>
                                     <div class="currentTagScroll">
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="col-form-label">
                                         {vtranslate('LBL_SELECT_FROM_AVAIL_TAG', $MODULE)}
                                     </label>
                                     <div class="dropdown">
@@ -69,7 +69,7 @@
                             </div>
                             <div class=" col-lg-6 selectTagContainerborder">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="col-form-label">
                                         {vtranslate('LBL_CREATE_NEW_TAG',$MODULE)}
                                     </label>
                                     <div>

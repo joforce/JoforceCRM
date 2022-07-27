@@ -23,9 +23,9 @@
                 <input type="hidden" name="mode" value="remove" />
                 <input type="hidden" name="picklistName" value="{$FIELD_MODEL->get('name')}" />
                 <div class="modal-body tabbable">
-                    <div class="form-group">
-                        <div class="control-label col-sm-4 col-xs-4 ml5">{vtranslate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-4 col-xs-4">
+                <div class="form-group row">
+                        <div class="col-form-label col-sm-4 col-md-6 pull-left">{vtranslate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-4 col-md-6">
                             <select class="select2 form-control" multiple="" id="deleteValue" name="delete_value[]" >
                                 {foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
                                     <option {if in_array($PICKLIST_VALUE,$FIELD_VALUES)} selected="" {/if} value="{$PICKLIST_VALUE_KEY}">{vtranslate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
@@ -35,9 +35,9 @@
                         </div>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
-                        <div class="controls  col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <div class="col-form-label col-sm-4 col-md-6 pull-left">{vtranslate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
+                        <div class="controls  col-sm-4 col-md-6">
                             <select id="replaceValue" name="replace_value" class="select2 form-control" data-validation-engine="validate[required]">
                                 {foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
                                     {if !(in_array($PICKLIST_VALUE, $FIELD_VALUES))}
@@ -54,9 +54,9 @@
                     </div>
                     {if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
                         <br>
-                        <div class="form-group">
-                            <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
-                            <div class="controls col-sm-4 col-xs-4 nonEditableValuesDiv">
+                        <div class="form-group row">
+                            <div class="col-form-label col-sm-3 col-md-6 pull-left">{vtranslate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
+                            <div class="controls col-sm-4 col-md-6 nonEditableValuesDiv">
                                 <ul class="nonEditablePicklistValues" style="list-style-type: none;">
                                 {foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}
                                     <li>{vtranslate($NON_EDITABLE_VALUE,$SOURCE_MODULE)}</li>

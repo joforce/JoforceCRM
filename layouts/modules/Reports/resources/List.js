@@ -47,7 +47,7 @@ Head_List_Js("Reports_List_Js",{
 	},
 
 	massDelete : function(url) {
-		var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if(validationResult != true){
 			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
@@ -83,7 +83,7 @@ Head_List_Js("Reports_List_Js",{
 	},
 
 	massMove : function(url){
-		var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if(validationResult != true){
 			var selectedIds = listInstance.readSelectedIds(true);

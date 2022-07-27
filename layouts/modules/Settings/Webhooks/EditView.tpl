@@ -6,14 +6,15 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 ************************************************************************************}
-      <div class="editViewPageDiv">
-         <form class="form-horizontal" id="EditView" name="edit" method="post" action="{$SITEURL}index.php" enctype="multipart/form-data">
-            <div class="editViewHeader">
+      <div class="settingsmenu-start col-lg-12 col-md-12 col-sm-12 col-xs-12" id="settingsmenu-starts">
+      <div class="editViewPageDiv mt0">
+         <form class="form-horizontal recordEditView joforce-bg mt0" id="EditView" name="edit" method="post" action="{$SITEURL}index.php" enctype="multipart/form-data">
+            <div class="editViewHeader card-header-new p20 mt0 webhooks_lap_screen">
                      {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                      {if $RECORD_ID neq ''}
-                        <h3 class="editHeader" style="margin-top:5px;" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
+                        <h3 class="editHeader" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
                      {else}
-                        <h3 class="editHeader" style="margin-top:5px;">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+                        <h3 class="editHeader" >{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
                      {/if}
                </div>
             <div class="editViewBody">
@@ -63,10 +64,11 @@
                 <div class="row clearfix">
                     <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink btn btn-secondary' href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-danger' href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>
          </form>
+      </div>
       </div>
 </div>

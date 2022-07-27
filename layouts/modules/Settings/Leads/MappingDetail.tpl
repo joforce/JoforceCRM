@@ -10,18 +10,19 @@
 -->*}
 
 {strip}
-    <div class="leadsFieldMappingListPageDiv">
-            <div class="row settingsHeader">
-                <span class="col-sm-12">
-                    <span class="pull-right">
+    <div class="leadsFieldMappingListPageDiv mt0 card">
+            <div class="row settingsHeader  pr20 ml10">
+            <span class="col-sm-12 col-md-12 card-header-new row {if in_array($MODULE,array('Leads'))} lead_mapping_header_setting {/if}">
+                    <h4 class="col-sm-6 col-md-6 mt10">Lead Conversion Data Mapping</h4>
+                    <span  class="col-sm-6 col-md-6">
                         {foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-                            <button type="button" class="btn btn-default" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
+                            <button type="button" class="btn btn-default pull-right" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
                         {/foreach}
                     </span>
                 </span>
             </div>
             <br/>
-            <div class="contents table-container" id="detailView">
+            <div class="contents table-container {if in_array($MODULE,array('Leads'))} ms_srn_table_align {/if}" id="detailView">
                 <table id="listview-table" class="table listview-table" style="margin-bottom:2%;">
                     <thead>
                         <tr>

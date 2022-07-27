@@ -13,7 +13,7 @@
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 		{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
-		<div class="block block_{$BLOCK_LABEL_KEY}">
+		<div class="block block_{$BLOCK_LABEL_KEY} ml30 mr30">
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 
@@ -63,7 +63,7 @@
 										{/if}
 									{/if}
 									<td class="fieldLabel {$WIDTHTYPE}"><span class="muted">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</span></td>
-									<td class="fieldValue {$WIDTHTYPE}">
+									<td class="fieldValue {$WIDTHTYPE}" style="height:auto!important">
 										<ul id="imageContainer">
 											{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 												{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -76,7 +76,7 @@
 								{else}
 									{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19" or $fieldDataType eq 'reminder' or $fieldDataType eq 'recurrence'}
 										{if $COUNTER eq '1'}
-											<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+											<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr style="height:45px;">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}

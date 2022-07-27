@@ -1,6 +1,53 @@
 Google API Client Upgrade Guide
 ===============================
 
+2.x to 2.10.0
+-------------
+
+### Namespaces
+
+The Google API Client for PHP now uses namespaces for all classes. Code using
+the legacy classnames will continue to work, but it is advised to upgrade to the
+underspaced names, as the legacy classnames will be deprecated some time in the
+future.
+
+**Before**
+
+```php
+$client = new Google_Client();
+$service = new Google_Service_Books($client);
+```
+
+**After**
+```php
+$client = new Google\Client();
+$service = new Google\Service\Books($client);
+```
+
+### Service class constructors
+
+Service class constructors now accept an optional `Google\Client|array` parameter
+as their first argument, rather than requiring an instance of `Google\Client`.
+
+**Before**
+
+```php
+$client = new Google_Client();
+$client->setApplicationName("Client_Library_Examples");
+$client->setDeveloperKey("YOUR_APP_KEY");
+
+$service = new Google_Service_Books($client);
+```
+
+**After**
+
+```php
+$service = new Google\Service\Books([
+    'application_name' => "Client_Library_Examples",
+    'developer_key'    => "YOUR_APP_KEY",
+]);
+```
+
 1.0 to 2.0
 ----------
 
@@ -244,7 +291,7 @@ $client->revokeToken($token);
 $client->isAccessTokenExpired();
 ```
 
-## PHP 5.4 is now the minimum supported PHP version
+## PHP 5.6 is now the minimum supported PHP version
 
 This was previously `PHP 5.2`. If you still need to use PHP 5.2, please continue to use
 the [v1-master](https://github.com/google/google-api-php-client/tree/v1-master) branch.
@@ -308,20 +355,23 @@ setting the Guzzle `GuzzleHttp\ClientInterface` object.
     1. Automatically refreshes access tokens if one is set and the access token is expired
  - Removed `Google_Config`
  - Removed `Google_Utils`
- - [`Google\Auth\CacheInterface`][Google Auth CacheInterface] is used for all caching. As a result:
+ - [`PSR-6`][PSR 6] cache is used for all caching. As a result:
     1. Removed `Google_Cache_Abstract`
     1. Classes `Google_Cache_Apc`, `Google_Cache_File`, `Google_Cache_Memcache`, and
     `Google_Cache_Null` now implement `Google\Auth\CacheInterface`.
+    1. Google Auth provides simple [caching utilities][Google Auth Cache] which
+   are used by default unless you provide alternatives.
  - Removed `$boundary` constructor argument for `Google_Http_MediaFileUpload`
 
-[PSR 3]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
+[PSR 3]: https://www.php-fig.org/psr/psr-3/
+[PSR 6]: https://www.php-fig.org/psr/psr-6/
 [Guzzle 5]: https://github.com/guzzle/guzzle
 [Guzzle 6]: http://docs.guzzlephp.org/en/latest/psr7.html
 [Monolog]: https://github.com/Seldaek/monolog
 [Google Auth]: https://github.com/google/google-auth-library-php
+[Google Auth Cache]: https://github.com/googleapis/google-auth-library-php/tree/master/src/Cache
 [Google Auth GCE]: https://github.com/google/google-auth-library-php/blob/master/src/GCECredentials.php
 [Google Auth OAuth2]: https://github.com/google/google-auth-library-php/blob/master/src/OAuth2.php
 [Google Auth Simple]: https://github.com/google/google-auth-library-php/blob/master/src/Simple.php
 [Google Auth AppIdentity]: https://github.com/google/google-auth-library-php/blob/master/src/AppIdentityCredentials.php
-[Google Auth CacheInterface]: https://github.com/google/google-auth-library-php/blob/master/src/CacheInterface.php
 [Firebase JWT]: https://github.com/firebase/php-jwt

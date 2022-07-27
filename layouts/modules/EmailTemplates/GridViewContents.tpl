@@ -37,6 +37,9 @@
 	{/if}
 
 	<div class="table-container" style="padding:5px;border: 0px;">
+       {if !$SEARCH_MODE_RESULTS}
+		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
+	    {/if}
             <ul class="thumbnails">
             {foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
                 {assign var="IS_EDITABLE" value=$LISTVIEW_ENTRY->get('systemtemplate')}

@@ -61,19 +61,7 @@ class Users_Login_Action extends Head_Action_Controller {
         	        $systemSetUpModel = Users_Record_Model::getCurrentUserModel();
                 	$isFirstUser = Users_CRMSetup::isFirstUser($systemSetUpModel);
 
-/*			// Get user setup status
-			$userModel = Users_Record_Model::getCurrentUserModel();
-        	        $userSetupStatus = $userModel->isFirstTimeLogin($userModel->id);echo "<pre>"; print_r($userSetupStatus);
-			
-			$default_landing_page = Users_Module_Model::getDefaultLandingPage($userid);
-print_r($default_landing_page);die;
-			if(!$userSetupStatus){
-				if($default_landing_page == "Dashboard")
-					header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
-				else
-					header ("Location: ".$site_URL.$default_landing_page."/view/List");
-			}
-			else{*/
+
 			header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
 
 			exit();

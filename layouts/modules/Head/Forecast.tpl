@@ -7,7 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************}
-<div class="col-sm-12 col-xs-12 joforce-bg  pl0 pr0 mt20">
+<div class="col-sm-12 col-xs-12 joforce-bg tickerall  pl0 pr0 mt100">
     <input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}" />
     <input type="hidden" name="source_module_name" id="source_module_name" value="{$MODULE}">
     <input type="hidden" name="custom_view_id" id="custom_view_id" value="{$DEFAULT_CUSTOM_VIEW_ID}">
@@ -25,23 +25,15 @@
     <input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
     <input type='hidden' name="sum_field_name" value="{$sum_field_name}" id='sum_field_name'>
 
-	<input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}">
-	<input type="hidden" name="picklist_name" id="picklist_name" class="picklist_name" value="{$picklist_name}">
-	<input type="hidden" name="picklist_id" id="picklist_id" class="picklist_id" value="{$picklist_id}">
+    <input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}">
+    <input type="hidden" name="picklist_name" id="picklist_name" class="picklist_name" value="{$picklist_name}">
+    <input type="hidden" name="picklist_id" id="picklist_id" class="picklist_id" value="{$picklist_id}">
 
-	<div id="third-listview-actions" class="third-listview-actions-container">
-	    <div class=" col-md-4">
-            </div>
-	    <div class="col-md-5 msgsection"></div>
-            <div class="col-md-3">
-		{include file="kanban/Pagination_kanban.tpl"|vtemplate_path:"Head" SHOWPAGEJUMP=true}
-            </div>
-	</div>
-	<table style="overflow-x: auto;overflow-y: auto;">
-	    <tbody>
-		<tr>
-		   <td>
-			<div style="white-space: nowrap;">
+    <table id="forecast-table">
+	<tbody>
+	    <tr>
+		<td>
+		    <div style="white-space: nowrap;">
 			{assign var=FIELDS_MODELS_LIST value=$SOURCE_MODULE_MODEL->getFields()}
 			{foreach key=picklist_value_id item=picklist_value from=$PICKLISTS_VALUES}
 			    {assign var=picklist_value_name value=$picklist_value.$picklist_name}
@@ -50,6 +42,10 @@
 				<ul class="table-header header-view p0">
 		  		    <li style="display: inline-block;{if !empty($picklist_value_color)}background:{$picklist_value_color} {/if}" class="pipe_stage" id="pipe_stage_{$picklist_value_id}" data-stage_id="{$picklist_value_id}">
 					<span class="stage_name">{$picklist_value_name}</span>
+						<div class="arrow">
+						  <div class="arrow-top"></div>
+						  <div class="arrow-bottom"></div>
+						</div>
 					<span>
 					    <span class="stage_value ml15" id="total_amount-{$picklist_value_id}">{vtranslate($picklist_label, 'Head')}</span>
 					</span>
@@ -99,9 +95,9 @@
 				</ul>
 			    </div>
 			{/foreach}
-			<div>
-		   </td>
-		</tr>
-	    </tbody>
-	</table>
+		    <div>
+		</td>
+	    </tr>
+	</tbody>
+    </table>
 </div>

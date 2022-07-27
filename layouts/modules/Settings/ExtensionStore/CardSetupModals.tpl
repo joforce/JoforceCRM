@@ -22,7 +22,7 @@
 			<input type="hidden" name="mode" value="updateCardDetails" />
 			<div class="modal-body">
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="col-form-label col-sm-3 col-xs-3">
 						{vtranslate('LBL_CARD_NUMBER', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="col-form-label col-sm-3 col-xs-3">
 						{vtranslate('LBL_EXPIRY_DATE', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
@@ -42,7 +42,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="col-form-label col-sm-3 col-xs-3">
 						{vtranslate('LBL_SECURITY_CODE', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
@@ -61,9 +61,9 @@
 					<div class="col-sm-9 col-xs-9">
 						<div class="pull-right">
 							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
-							<button class="btn btn-success saveButton" type="submit" name="saveButton" style="padding: 5px 12px;"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+							<button class="btn btn-success saveButton" type="" name="saveButton" style="padding: 5px 12px;"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 			<div class="row-fluid">
 				<div class="pull-right">
 					<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-						<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 					<button class="btn btn-success updateBtn">{vtranslate('Update', $MODULE)}</button>
 				</div>
@@ -123,9 +123,9 @@
 			<input type="hidden" name="action" value="Basic" />
 			<input type="hidden" name="userAction" value="signup" />
 			<input type="hidden" name="mode" value="registerAccount" />
-			<div class="modal-body col-md-offset-2">
+			<div class="modal-body offset-md-2">
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_EMAIL_ADDRESS', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -133,7 +133,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_FIRST_NAME', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -141,7 +141,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_LAST_NAME', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_COMPANY_NAME', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -157,7 +157,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -165,7 +165,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-4">
+					<span class="col-form-label col-sm-4">
 						{vtranslate('LBL_CONFIRM_PASSWORD', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls col-sm-5">
@@ -180,7 +180,7 @@
 					<span class="col-sm-6">
 						<div class="pull-right">
 							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 							<button class="btn btn-success" name="saveButton"><strong>{vtranslate('LBL_REGISTER', $QUALIFIED_MODULE)}</strong></button>
 						</div>
@@ -203,23 +203,23 @@
 			<input type="hidden" name="action" value="Basic" />
 			<input type="hidden" name="userAction" value="login" />
 			<input type="hidden" name="mode" value="registerAccount" />
-			<div class="modal-body col-md-offset-2">
+			<div class="modal-body offset-md-2">
 				<div class="form-group">
-					<span class="control-label col-sm-3 fieldLabel">
+					<span class="col-form-label col-sm-3 fieldLabel">
 						{vtranslate('LBL_EMAIL', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
 					<div class="controls col-sm-5">
 						{if $REGISTRATION_STATUS}
 							<input class="inputElement" type="hidden" name="emailAddress" value="{$USER_NAME}" />
-							<span class="control-label"><span class="pull-left">{$USER_NAME}</span></span>
+							<span class="col-form-label"><span class="pull-left">{$USER_NAME}</span></span>
 							{else}
 							<input class="inputElement" type="text" name="emailAddress" data-rule-required="true" data-rule-email="true" />
 						{/if}
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label fieldLabel col-sm-3">
+					<span class="col-form-label fieldLabel col-sm-3">
 						{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
@@ -245,7 +245,7 @@
 					<span class="col-sm-4">
 						<div class="pull-right">
 							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+								<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 							<button class="btn btn-success" name="saveButton" type="submit"><strong>{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE)}</strong></button>
 						</div>
@@ -267,9 +267,9 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="action" value="Basic" />
 			<input type="hidden" name="mode" value="forgotPassword" />
-			<div class="modal-body col-md-offset-1">
+			<div class="modal-body offset-md-1">
 				<div class="form-group">
-					<span class="control-label col-sm-5">
+					<span class="col-form-label col-sm-5">
 						{vtranslate('LBL_ENTER_REGISTERED_EMAIL', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
@@ -281,7 +281,7 @@
 				<div class="row-fluid">
 					<div class="pull-right">
 						<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 						<button class="btn btn-success okBtn" type="submit" style="padding: 5px 12px;">{vtranslate('LBL_OK', $QUALIFIED_MODULE)}</button>
 					</div>

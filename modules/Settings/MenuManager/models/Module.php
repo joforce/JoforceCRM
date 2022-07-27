@@ -206,4 +206,40 @@ class Settings_MenuManager_Module_Model extends Settings_Head_Module_Model {
 
 	return $module_names_array;
     }
+
+    /**
+     * returns specified value from table
+     **/
+    public static function getUserMenuDetails($user_id, $column) {
+		global $adb;
+		$user_id = ($user_id > 0) ? $user_id : 0;
+		if($user_id >0){
+			$query = $adb->pquery("SELECT $column FROM jo_user_menu_arrangement where user_id = ?" , array($user_id));
+			if($adb->num_rows($query) == 0) {
+				$query = $adb->pquery("Insert Into jo_user_menu_arrangement(user_id,default_sections,main_menu,module_apps,notifications) Select $user_id,default_sections,main_menu,module_apps,notifications from jo_user_menu_arrangement where user_id = ?" , array('0'));
+				$query = $adb->pquery("SELECT $column FROM jo_user_menu_arrangement where user_id = ?" , array($user_id));
+				$result = $adb->query_result($query,0,$column);
+				return (unserialize(base64_decode($result)));
+			} else {
+				$result = $adb->query_result($query,0,$column);
+				return (unserialize(base64_decode($result)));
+			}
+		}else{
+			return array();
+		}
+    }
+
+    /**
+     * saving the details on table
+     **/
+    public static function updateDetailsInTable($user_id, $column, $values) {
+        global $adb;
+		$json_array = base64_encode(serialize($values));
+		$query = $adb->pquery("SELECT * FROM jo_user_menu_arrangement where user_id = ?" , array($user_id));
+		if ($adb->num_rows($query) == 0) {
+			$adb->pquery("insert into jo_user_menu_arrangement (user_id,$column) values(?,?)", array($user_id, $json_array));
+		} else {
+	    	$adb->pquery("update jo_user_menu_arrangement set $column = ? where user_id = ?", array($json_array, $user_id));
+        }
+    }
 }

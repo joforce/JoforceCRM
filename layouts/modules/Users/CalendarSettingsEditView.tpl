@@ -10,7 +10,7 @@
 <div class="editViewPageDiv row">
     <div class="col-sm-12 col-xs-12">
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
-            <div class="editViewBody">
+            <div style="width:100% editViewBody">
                 <div class="editViewContents">
                     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                     {assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
@@ -56,7 +56,7 @@
                 <div class="row clearfix">
                     <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                         <button type='submit' class='btn btn-primary saveButton' type="submit" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                        <a class='cancelLink btn btn-secondary'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a class='cancelLink btn btn-danger'  href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                 </div>
             </div>

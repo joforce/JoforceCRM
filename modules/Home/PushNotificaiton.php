@@ -62,14 +62,12 @@
       }
 
       public function PushNotificaitonAndroidCurl($token,$notification) {
-
         $fcmNotification = [ 
             'to'        => $token, //single token
             'data' => $notification,
             'priority'=> 'high',
             'time_to_live' => 600
         ];
-      
         $notify=json_encode($fcmNotification);
           $curl = curl_init();
           curl_setopt_array($curl, array(
@@ -83,11 +81,12 @@
           CURLOPT_CUSTOMREQUEST => "POST",
           CURLOPT_POSTFIELDS =>json_encode($fcmNotification),
           CURLOPT_HTTPHEADER => array(
-            "Authorization: key=AAAAwkJXI-0:APA91bH0aBK_6VZ3kbSFcNYBr6_X63hNXXxaXzCCsxiUhb6HxOmAYNKVsn3LG39YnH552COPpW4mN7Uo8qP1OI-VqgmzUEuGRqbVtFXqo10CrXgpQbtVz8w167WwsGjqovYJ2uXF5dit",
-            "Content-Type: application/json"
-          ),
+            "Authorization: key=AAAAwkJXI-0:APA91bHkn02F4Tr5nM8DJm4jbySPWR52KM4UDiaqbY0kf7_Fh8SquDl40u-mqrNf59xVZYdmijiyA2Zk5G1C4e_C6siHHJWHjEPRcYbMu0q0H2CR50q--UIYZquUrsPwHaQpWnS9TJE-","Content-Type: application/json"),
         ));
-        $response = curl_exec($curl); 
+        $response = curl_exec($curl);
+	if (curl_errno($curl)) {
+    $error_msg = curl_error($curl);
+}
         curl_close($curl);      
         return;  
       }

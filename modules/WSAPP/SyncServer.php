@@ -43,16 +43,17 @@ class SyncServer {
 		if (!is_array($serverids)) $serverids = array($serverids);
 		$db = PearDatabase::getInstance(); 		;
 		$result = $db->pquery(sprintf(
-			"SELECT serverid, clientid,clientmodifiedtime,servermodifiedtime,id FROM jo_wsapp_recordmapping WHERE appid=? AND serverid IN ('%s')",
-			implode("','", $serverids)), array($appid));
+			"SELECT serverid, clientid,clientmodifiedtime,servermodifiedtime,id,etag FROM jo_wsapp_recordmapping WHERE serverid IN ('%s')",
+			implode("','", $serverids)));
 
 		$mapping = array();
 		if ($db->num_rows($result)) {
 			while ($row = $db->fetch_array($result)) {
 				$mapping[$row['serverid']] = array("clientid"=>$row['clientid'],"clientmodifiedtime"=>$row['clientmodifiedtime'],
-					"servermodifiedtime"=>$row['servermodifiedtime'],"id"=>$row['id']);
+					"servermodifiedtime"=>$row['servermodifiedtime'],"id"=>$row['id'],"etag"=>$row['etag']);
 			}
 		}
+		// print_r($mapping);die;
 		return $mapping;
 	}
 
@@ -135,18 +136,18 @@ class SyncServer {
 	/**
 	 * Create serverid-clientid record map for the application
 	 */
-	function idmap_put($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$mode="save") {
+	function idmap_put($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$mode="save",$etag) {
 		$db = PearDatabase::getInstance(); 
 		if($mode == $this->create)
-			$this->idmap_create($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId);
+			$this->idmap_create($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$etag);
 		else if ($mode == $this->update)
-			$this->idmap_update($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId);
+			$this->idmap_update($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId,$etag);
 		else if($mode==$this->save){
 			$result = $db->pquery("SELECT * FROM jo_wsapp_recordmapping WHERE appid=? and serverid=? and clientid=?",array($appid,$serverid,$clientid));
 			if($db->num_rows($result)<=0)
-				$this->idmap_create($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId);
+				$this->idmap_create($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId,$etag);
 			else
-				$this->idmap_update($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId);
+				$this->idmap_update($appid, $serverid, $clientid, $clientModifiedTime,$serverModifiedTime,$serverAppId,$etag);
 		}
 		else if ($mode == $this->delete)
 			$this->idmap_delete($appid, $serverid, $clientid,$serverAppId);
@@ -160,10 +161,10 @@ class SyncServer {
 	 * @param  $modifiedTime
 	 * create mapping for server and client id
 	 */
-	function idmap_create($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId){
+	function idmap_create($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$etag){
 		$db = PearDatabase::getInstance();
-		$db->pquery("INSERT INTO jo_wsapp_recordmapping (appid, serverid, clientid,clientmodifiedtime,servermodifiedtime,serverappid) VALUES (?,?,?,?,?,?)",
-							array($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId));
+		$db->pquery("INSERT INTO jo_wsapp_recordmapping (appid, serverid, clientid,clientmodifiedtime,servermodifiedtime,serverappid,etag) VALUES (?,?,?,?,?,?,?)",
+							array($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$etag));
 	}
 
 	/**
@@ -174,10 +175,10 @@ class SyncServer {
 	 * @param <type> $modifiedTime
 	 * update the mapping of server and client id
 	 */
-	function idmap_update($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId){
+	function idmap_update($appid, $serverid, $clientid,$clientModifiedTime,$serverModifiedTime,$serverAppId,$etag){
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE jo_wsapp_recordmapping SET clientmodifiedtime=?,servermodifiedtime=? WHERE appid=? and serverid=? and clientid=? and serverappid=?",
-							array($clientModifiedTime,$serverModifiedTime,$appid, $serverid, $clientid,$serverAppId));
+		$db->pquery("UPDATE jo_wsapp_recordmapping SET clientmodifiedtime=?,servermodifiedtime=?,etag=? WHERE appid=? and serverid=? and clientid=? and serverappid=?",
+							array($clientModifiedTime,$serverModifiedTime,$etag,$appid, $serverid, $clientid,$serverAppId));
 	}
 
 	/**
@@ -194,10 +195,10 @@ class SyncServer {
 	}
 
 
-	function idmap_updateMapDetails($appid,$clientid,$clientModifiedTime,$serverModifiedTime){
+	function idmap_updateMapDetails($appid,$clientid,$clientModifiedTime,$serverModifiedTime,$update,$etag){
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE jo_wsapp_recordmapping SET clientmodifiedtime=?,servermodifiedtime=? WHERE appid=? and clientid=?",
-							array($clientModifiedTime,$serverModifiedTime,$appid, $clientid));
+		$db->pquery("UPDATE jo_wsapp_recordmapping SET clientmodifiedtime=?,servermodifiedtime=?,etag=? WHERE appid=? and clientid=?",
+							array($clientModifiedTime,$serverModifiedTime,$etag,$appid, $clientid));
 	}
 
 	function getDestinationHandleDetails(){
@@ -306,10 +307,10 @@ class SyncServer {
 				}
 			}
 		}
-
 	   $recordDetails['created'] = $createRecords;
 	   $recordDetails['updated'] = $updateRecords;
 	   $recordDetails['deleted'] = $deleteRecords;
+
 	   $result = $this->destHandler->put($recordDetails,$user);
 
 	   $response= array();
@@ -318,23 +319,44 @@ class SyncServer {
 	   $response['deleted'] = array();
 	   $clientID2ServerIDMap = array();
 
+	   $resData = array_merge($recordDetails['created'],$result['created']);
+
+	   foreach($recordDetails['created'] as $clientRecordId=>$record){
+	   		foreach($result['created'] as $clientRecordId1=>$record1){
+				if($clientRecordId === $clientRecordId1){
+					$result['created'][$clientRecordId1]['etag'] = $record['etag']; 
+				}
+			}
+	   }
+
+	   foreach($recordDetails['updated'] as $clientRecordId=>$record){
+			foreach($result['updated'] as $clientRecordId1=>$record1){
+				if($clientRecordId === $clientRecordId1){
+					$result['updated'][$clientRecordId1]['etag'] = $record['etag']; 
+				}
+			}
+		}
+
+
 	   $nextSyncDeleteRecords = $this->destHandler->getAssignToChangedRecords();
 	   foreach($result['created'] as $clientRecordId=>$record){
-		   $this->idmap_put($appid, $record['id'], $clientRecordId,$clientModifiedTimeList[$clientRecordId],$record['modifiedtime'],$serverAppId,$this->create);
+		   $this->idmap_put($appid, $record['id'], $clientRecordId,$clientModifiedTimeList[$clientRecordId],$record['modifiedtime'],$serverAppId,$this->create,$record['etag']);
 		   $responseRecord = $record;
 		   $responseRecord['_id'] = $record['id'];
 		   $responseRecord['id'] = $clientRecordId;
 		   $responseRecord['_modifiedtime'] = $record['modifiedtime'];
 		   $responseRecord['modifiedtime'] = $clientModifiedTimeList[$clientRecordId];
+		   $responseRecord['etag'] = $record['etag'];
 		   $response['created'][] = $responseRecord;
 	   }
 	   foreach($result['updated'] as $clientRecordId=>$record){
-		   $this->idmap_put($appid, $record['id'], $clientRecordId,$clientModifiedTimeList[$clientRecordId],$record['modifiedtime'],$serverAppId,$this->update);
+		   $this->idmap_put($appid, $record['id'], $clientRecordId,$clientModifiedTimeList[$clientRecordId],$record['modifiedtime'],$serverAppId,$this->update,$record['etag']);
 		   $responseRecord = $record;
 		   $responseRecord['_id'] = $record['id'];
 		   $responseRecord['id'] = $clientRecordId;
 		   $responseRecord['_modifiedtime'] = $record['modifiedtime'];
 		   $responseRecord['modifiedtime'] = $clientModifiedTimeList[$clientRecordId];
+		   $responseRecord['etag'] = $record['etag'];
 		   $response['updated'][] = $responseRecord;
 	   }
 	   foreach($result['deleted'] as $clientRecordId=>$record){
@@ -401,18 +423,18 @@ class SyncServer {
 		//if the record exist in both the update and delete , then send record as update
 		// and unset the id from deleted list
 		$deletedIds = array_diff($deletedIds,$updateDeleteCommonIds);
-
 		$updatedLookupIds = $this->idmap_get_clientmap($appid, $updatedIds);
 		$deletedLookupIds = $this->idmap_get_clientmap($appid, $deletedIds);
 		$filteredCreates = array(); $filteredUpdates = array();
 		foreach ($result['updated'] as $u) {
 			if(in_array($u['id'],$updatedIds)){
-				if (isset($updatedLookupIds[$u['id']]) && ($u['modifiedtime'] > $updatedLookupIds[$u['id']]['servermodifiedtime'])) {
+				if (isset($updatedLookupIds[$u['id']])) {
+					$u['etag'] = $updatedLookupIds[$u['id']]['etag'];
 					$u['_id'] = $u['id'];
 					$u['id'] = $updatedLookupIds[$u['id']]['clientid']; // Replace serverid with clientid
 					$u['_modifiedtime'] = $u['modifiedtime'];
 					$filteredUpdates[] = $u;
-					} else if (empty($updatedLookupIds[$u['id']])){
+				} else if (empty($updatedLookupIds[$u['id']])){
 					$u['_id'] = $u['id'];// Rename the id key
 					$u['_modifiedtime'] = $u['modifiedtime'];
 					unset($u['id']);
@@ -453,10 +475,10 @@ class SyncServer {
 		$serverAppId = $this->appid_with_key($serverKey);
 		//$lookups = $this->idmap_get_clientmap($appid, array_values($createDetails));
 		foreach ($createDetails as $clientid => $serverDetails) {
-			$this->idmap_put( $appid, $serverDetails['serverid'], $clientid,$serverDetails['modifiedtime'],$serverDetails['_modifiedtime'],$serverAppId,$this->create);
+			$this->idmap_put( $appid, $serverDetails['serverid'], $clientid,$serverDetails['modifiedtime'],$serverDetails['_modifiedtime'],$serverAppId,$this->create,$serverDetails['etag']);
 		}
 		foreach($updatedDetails as $clientid=>$serverDetails){
-			$this->idmap_updateMapDetails( $appid, $clientid,$serverDetails['modifiedtime'],$serverDetails['_modifiedtime'],$this->update);
+			$this->idmap_updateMapDetails( $appid, $clientid,$serverDetails['modifiedtime'],$serverDetails['_modifiedtime'],$this->update,$serverDetails['etag']);
 			$syncServerId = $this->getSyncServerId($clientid,$serverDetails['serverid'],$appid);
 			if(isset($syncServerId) && $syncServerId != NULL){
 				$deleteQueueSyncServerIds[] = $syncServerId;

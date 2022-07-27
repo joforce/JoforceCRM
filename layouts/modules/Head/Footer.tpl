@@ -7,13 +7,14 @@
 * All Rights Reserved.
 * Contributor(s): JoForce.com
 ************************************************************************************}
+<script type="text/javascript" src="{$SITEURL}layouts/modules/Head/resources/Footer.js"></script>
 
-<footer class="app-footer">
-    <a href="www.joforce.com" target="_blank">
-	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px">
+<footer  class="app-footer {$MODULE} {$EDIT_VIEWS} {$MODE} {$settings}  {if $MODE eq 'edit'} Edit_potentials {/if}{if $kanban_view_enabled } kanbanview {/if}">
+    <a href="//www.joforce.com" target="_blank">
+	<img id="footer-logo" class="pull-right" src='{$SITEURL}{$Image_Footer}'  width="30px">
     </a>
     <p>
-	Powered By <a class="joforce-link" href="https://www.smackcoders.com" target="_blank">Smackcoders</a>
+	Powered By <a class="joforce-link" id="footer-main-company" href="{$Company_Footer_Link}" target="_blank">{$Company_Footer}</a>
     </p>
 </footer>
 </div>

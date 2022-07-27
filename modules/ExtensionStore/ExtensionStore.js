@@ -35,7 +35,9 @@ jQuery.Class('ExtensionStore_ExtensionStore_Js', {}, {
 			'view': 'Listings',
 			'mode': 'getPromotions'
 		};
-		app.request.post({data:params}).then(
+		app.request.post({
+			data: params
+		}).then(
 			function (err, data) {
 				if ((typeof data != 'undefined') && (jQuery(data).find('img').length > 0)) {
 					//jQuery('.dashboardBanner').append(data);
@@ -44,8 +46,7 @@ jQuery.Class('ExtensionStore_ExtensionStore_Js', {}, {
 					jQuery('.togglePromotion').addClass('hide');
 				}
 			},
-			function (error) {
-			}
+			function (error) {}
 		);
 	},
 
@@ -60,7 +61,9 @@ jQuery.Class('ExtensionStore_ExtensionStore_Js', {}, {
 				'action': 'Promotion',
 				'mode': 'maxCreatedOn'
 			};
-			app.request.post({data:maxPromotionParams}).then(
+			app.request.post({
+				data: maxPromotionParams
+			}).then(
 				function (err, data) {
 					var date = data['result'];
 					var dateObj = new Date(date);
@@ -101,12 +104,12 @@ jQuery.Class('ExtensionStore_ExtensionStore_Js', {}, {
 	},
 
 	insertTogglePromotionHtml: function () {
-		var toggleHtml = '<div class="btn-group">'+
-				'<button class="btn btn-default addButton togglePromotion up">'+
-					'<span id="hide" class="fa fa-chevron-up"></span>'+
-					'<span id="show" class="fa fa-chevron-down hide"></span>'+
-				'</button>'+
-				'</div>';
+		var toggleHtml = '<div class="btn-group">' +
+			'<button class="btn btn-default addButton togglePromotion up">' +
+			'<span id="hide" class="fa fa-chevron-up"></span>' +
+			'<span id="show" class="fa fa-chevron-down hide"></span>' +
+			'</button>' +
+			'</div>';
 		jQuery('.dashboardHeading').find('.buttonGroups').append(toggleHtml);
 	},
 

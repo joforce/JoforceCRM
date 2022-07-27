@@ -1,3 +1,11 @@
+<style>
+	.select2 a{
+		height:40px !important;
+	}
+	.select2-arrow{
+		top:3px !important;
+	}
+</style>
 <script type="text/javascript" src="{$SITEURL}layouts/modules/Settings/{$MODULE}/resources/CustomScript.js"></script>
 
 <h2>{vtranslate('LBL_CUSTOM_VALUES', $QUALIFIED_MODULE)}</h2>
@@ -18,7 +26,8 @@
 </td>
 </tr>
 </table>
-<div class="row">
-	  <button class="btn btn-primary cust-next-btn ">Next</button>
+<div class="modulnext">
+	  
 	  <button class="btn btn-default cust-prev-btn ">Previous</button>
+	  <button class="btn btn-primary cust-next-btn ">Next</button>
 </div>

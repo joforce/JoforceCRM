@@ -11,8 +11,8 @@
 -->*}
 {strip}
 	{assign var=MODULE_NAME value="Calendar"}
-	<div class="summaryWidgetContainer">
-		<div class="widget_header clearfix joforce-detailview-btn">
+	<div class="summaryWidgetContainer {if in_array($MODULE,array('HelpDesk'))} ipad_summaryWidgetContainer_1 {elseif !in_array($MODULE,array('Contacts'))} ipad_summaryWidgetContainer  {/if}">
+		<div class="widget_header clearfix joforce-detailview-btn {if !in_array($MODULE,array('Contacts'))} ms-view {else} contact_ms_view {/if}">
 			<h4 class="display-inline-block pull-left">{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}</h4>
 			{*<div class="">
 			<button class="btn addButton createActivity" type="button" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true">
@@ -45,10 +45,10 @@
 						<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 						<div class='media'>
 							<div class='row'>
-								<div class='media-left module-icon col-lg-1 col-md-1 col-sm-1 textAlignCenter'>
+								<div class='media-left module-icon col-lg-3 col-md-3 col-sm-3 col-3 textAlignCenter'>
 									<span class='joicon-{strtolower($RECORD->get('activitytype'))}'></span>
 								</div>
-								<div class='media-body col-lg-7 col-md-7 col-sm-7'>
+								<div class='media-body col-lg-8 col-md-8 col-sm-8 col-5'>
 									<div class="summaryViewEntries">
 										{if $DETAILVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getDetailViewUrl()}" title="{$RECORD->get('subject')}">{$RECORD->get('subject')}</a>{else}{$RECORD->get('subject')}{/if}&nbsp;&nbsp;
 										{if $EDITVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getEditViewUrl()}?sourceModule={$SOURCE_MODEL->getModuleName()}&sourceRecord={$SOURCE_MODEL->getId()}&relationOperation=true" class="fieldValue"><i class="summaryViewEdit fa fa-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></a>{/if}&nbsp;
@@ -57,7 +57,7 @@
 								<span><strong title="{Head_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")}">{Head_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong></span>
 							</div>
 
-							<div class='col-lg-4 col-md-4 col-sm-4 activityStatus' style='line-height: 0px;padding-right:30px;'>
+							<div class='col-lg-4 col-md-4 col-sm-4 col-3 activityStatus' >
 								<div class="row">
 									{if $RECORD->get('activitytype') eq 'Task'}
 										{assign var=MODULE_NAME value=$RECORD->getModuleName()}
@@ -65,7 +65,7 @@
 										<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 										<div class="pull-right">
 											 {assign var=FIELD_MODEL value=$RECORD->getModule()->getField('taskstatus')}
-											<style>
+											
 												{assign var=PICKLIST_COLOR_MAP value=Settings_Picklist_Module_Model::getPicklistColorMap('taskstatus', true)}
 												{foreach item=PICKLIST_COLOR key=PICKLIST_VALUE from=$PICKLIST_COLOR_MAP}
 													{assign var=PICKLIST_TEXT_COLOR value=Settings_Picklist_Module_Model::getTextColor($PICKLIST_COLOR)}
@@ -74,8 +74,8 @@
 															background-color: {$PICKLIST_COLOR};color: {$PICKLIST_TEXT_COLOR};
 														}
 												{/foreach}
-											</style>
-											<strong><span class="value picklist-color picklist-{$FIELD_MODEL->getId()}-{Head_Util_Helper::convertSpaceToHyphen($RECORD->get('status'))}">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+											
+											<strong class="d-flex"><span class="value picklist-color picklist-{$FIELD_MODEL->getId()}-{Head_Util_Helper::convertSpaceToHyphen($RECORD->get('status'))}">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>&nbsp&nbsp;
 											{if $EDITVIEW_PERMITTED == 'yes'}
 												<span class="editStatus cursorPointer"><i class="fa fa-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></span>
 												<span class="edit hide">
@@ -84,6 +84,7 @@
 													<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
 												</span>
 											{/if}
+											</strong>
 										</div>
 									{else}
 										{assign var=MODULE_NAME value="Events"}
@@ -101,7 +102,7 @@
 														}
 												{/foreach}
 											</style>
-											<strong><span class="value picklist-color picklist-{$FIELD_MODEL->getId()}-{Head_Util_Helper::convertSpaceToHyphen($RECORD->get('eventstatus'))}">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+											<strong class="d-flex"><span class="value picklist-color picklist-{$FIELD_MODEL->getId()}-{Head_Util_Helper::convertSpaceToHyphen($RECORD->get('eventstatus'))}">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span>&nbsp&nbsp;
 											{if $EDITVIEW_PERMITTED == 'yes'}
 												<span class="editStatus cursorPointer"><i class="fa fa-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></span>
 												<span class="edit hide">
@@ -115,6 +116,7 @@
 												</span>
 											</div>
 										{/if}
+										</strong>
 									{/if}
 								</div>
 							</div>

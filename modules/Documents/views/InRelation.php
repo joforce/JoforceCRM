@@ -132,7 +132,9 @@ class Documents_InRelation_View extends Head_RelatedList_View {
 		$viewer->assign('PARENT_ID', $parentId);
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('TAB_LABEL', $request->get('tab_label'));
-
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Head_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Head_Util_Helper::getMaxUploadSizeInBytes());
+		
 		return $viewer->view('DocumentsRelatedList.tpl', 'Documents', 'true');
 	}
 

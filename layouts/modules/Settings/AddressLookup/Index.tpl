@@ -46,7 +46,7 @@
         $(".formChanges").live('click', function(){        
             warnMessage = null;             
             $(".submitcheck").removeClass("formChanges");
-            $("#vtaddresslookup").submit();
+            $("#joaddresslookup").submit();
             return false;
 	});             
         window.onbeforeunload = function () {
@@ -57,25 +57,27 @@
 {/literal}
 
 {strip}
-    <div>
-	<h2 style="margin-bottom: -43px; padding: 5px;">
-            <i style = "padding: 10px;" class="fa fa-map-marker" aria-hidden="true"></i> {vtranslate('Address Lookup', $MODULE)}
+<form method="post" id ="joaddresslookup" action="{$SITEURL}index.php?module=AddressLookup&parent=Settings&action=SaveFields" class="form-inline form-horizontal recordEditView">
+<div class="addreslookup card">
+    <div class="card-header-new ml10">
+		<h2 >
+             {vtranslate('Address Lookup', $MODULE)}
         </h2>
     </div>
-    <br/><br/>
-    <div>
-	<div >
-	    <h4 style="margin:6px; float:left;padding-left:10px;">{vtranslate('LBL_CONFIGURE_MAPPING_FOR', $MODULE)}</h4>
-	    <select class="select2 col-sm-3 pull-left ml20" id="modulename" style="float: right;" onchange="location.href='{$SITEURL}AddressLookup/Settings/List?sourceModule='+this.value" name="modulename">
+    <br><br>
+    <div class="col-md-12">
+	<div  class="col-md-6 pull-left ">
+	    <h4  class="h4_Configure_Mapping" style="float:left;margin-right:30px">{vtranslate('LBL_CONFIGURE_MAPPING_FOR', $MODULE)}</h4>
+	    <select class="select2  pull-left" id="modulename" style="width:200px" onchange="location.href='{$SITEURL}AddressLookup/Settings/List?sourceModule='+this.value" name="modulename">
 		{foreach item=MODULE_NAME from=$ENABLED_MODULES}
 		    <option value="{$MODULE_NAME[1]}" {if $MODULE_NAME[1] eq $SELECTED_MODULE_NAME} selected {/if} >{vtranslate($MODULE_NAME[0], $MODULE)}</option>
 		{/foreach}
 	    </select>
 	</div>
-    </div>
 
-    <form method="post" id ="vtaddresslookup" action="{$SITEURL}index.php?module=AddressLookup&parent=Settings&action=SaveFields" class="form-inline form-horizontal recordEditView">
-	<div class="onoffswitch1 pull-left ml30 mr10">
+
+<div class="col-md-6 pull-left">
+<div class="onoffswitch1 pull-left ml30 mr10">
 	    <input type="checkbox" style="display:none;" name="isenabled" class="onoffswitch1-checkbox" id="myonoffswitch1" {if $ENABLE_CHECK eq 1}checked="yes"{/if} style="float: left; margin-top:0px;" value="1">
 	    <label class="onoffswitch1-label" for="myonoffswitch1">
 	        <span class="onoffswitch1-inner"></span>
@@ -83,12 +85,17 @@
 	    </label>
 	</div>
 
-        <div class="Api-key pull-right">
+        <div class="Api-key pull-right mr30">
             <b>{vtranslate('LBL_ENTER_API_KEY', $MODULE)}</b>
 	    <sup style="color:red;"><b>*</b></sup>
 	    <input id="APIkey" type="text"  name="APIkey" value="{$APIkey}"><br>
-	    <a class="jo-link joforce-link pull-right mr10" href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true">{vtranslate('LBL_CLICK_TO_CREATE_API_KEY', $MODULE)}</a>
+	    <a class="jo-link joforce-link pull-right mr10" target="_blank" href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true">{vtranslate('LBL_CLICK_TO_CREATE_API_KEY', $MODULE)}</a>
         </div>
+</div>
+
+    </div>
+
+	
 	<br/><br/><br/>
 	<div class="scroll address-lookup-table" style = "margin: 25px 20px;">
 	    <table id = "addFormFieldRow" class="table">
@@ -175,15 +182,16 @@
 	    </table>
 	</div>
 	<hr style="border-color:#ddd";></hr>
-	<div style = "margin: 0 50px;"id="addMore" class="pointer btn btn-default">
+	<div style = "margin: 0 0px auto auto;"id="addMore" class="pointer btn btn-default">
 	    <span onclick = "addOneMore();">
 		<b>{vtranslate('LBL_ADD', $MODULE)}&nbsp;&nbsp;</b>
 		<i class="fa fa-plus" title="Add More"> </i>
 	    </span>
 	</div>
-	<div class="pull-right" style = "margin: 0 50px;">
+	<div class="pull-right" style = "margin: 0 0px auto auto;">
 	    <button type="submit" id="savebutton" class="btn btn-primary input-small submitcheck" name="submitCustomModule" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-	    <button class="btn input-small" onclick="window.location.reload();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+	    <button class="btn btn-danger input-small" onclick="window.location.reload();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
 	</div>
     </form>
 {/strip}
+

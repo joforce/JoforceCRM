@@ -10,7 +10,7 @@
  <style>
 #extensionContainer{
 padding-left: 10%;
-padding-right: 10%; 
+padding-right: 10%;margin-top:100px; 
 }
  </style>
 <div class="main-container clearfix">
@@ -31,26 +31,25 @@ padding-right: 10%;
     <input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
     <input type='hidden' name="sum_field_name" value="{$sum_field_name}" id='sum_field_name'>
 
-    <div class = "col-sm-12 col-xs-12 content-area">
-    <div class="col-lg-2 col-md-2 pull-right" style="">
-        {include file="Pagination_shopview.tpl"|vtemplate_path:"Products" SHOWPAGEJUMP=true}
+    <div class="col-lg-12 col-md-12 pull-right" style="">
+        {include file="Pagination_shopview.tpl"|vtemplate_path:"Products"}
     </div>
 	<input type="hidden" name="module_name" id="module_name" class="module_name" value="{$MODULE}">
 	<input type="hidden" name="picklist_name" id="picklist_name" class="picklist_name" value="{$picklist_name}">
 	<input type="hidden" name="picklist_id" id="picklist_id" class="picklist_id" value="{$picklist_id}">
-			<div class="col-sm-12 col-xs-12" id="extensionContainer">
+			 <div class="col-sm-12 col-xs-12" id="extensionContainer">
             <div class="row">
 				    {foreach item=RECORD key=record_id from=$RECORDS}
 					{assign var=recordModel value=Head_Record_Model::getInstanceById($record_id, $MODULE)}
 					{assign var=IMAGE_DETAILS $recordModel->getImageDetails()}
-					        	 <a href="{$RECORD->getDetailViewUrl()}">
-                                <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:30px;">
-                                    <div class="extension_container extensionWidgetContainer" style="padding:15px;border: 15px solid white;box-shadow: 1px 1px 10px 5px #E0E0E0;">
+					        	 <a class="col-lg-4 col-md-6 col-sm-6" href="{$RECORD->getDetailViewUrl()}">
+                                <div  style="margin-bottom:30px;">
+                                    <div class="extension_container extensionWidgetContainer" style="padding:15px;box-shadow: 1px 1px 10px 5px #E0E0E0; min-height: 400px;background: #fff;border-radius: 7px;">
                                     <div class="">
                                     <ul id="imageContainer">
 									{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 										{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-											<ul>
+											<ul style=" padding:0px;margin:0px;">
 												<img src="{$SITEURL}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="400" height="300" />
 											</ul>
 										{/if}
@@ -78,5 +77,4 @@ padding-right: 10%;
 				    {/foreach}
 			</div>
 			</div>
-    </div>
 </div>

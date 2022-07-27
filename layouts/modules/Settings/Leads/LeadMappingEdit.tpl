@@ -10,13 +10,19 @@
 -->*}
 
 {strip}
-    <div class="leadsFieldMappingEditPageDiv">
-            <div class="editViewContainer ">
+    <div class="leadsFieldMappingEditPageDiv mt0 card">
+    <div class="row settingsHeader pl20 pr20 ml20">
+            <span class="col-sm-12 col-md-12 card-header-new row lead_mapping_header_setting_edit">
+                    <h4 >Add Lead Conversion Data Mapping </h4>
+                    
+                </span>
+            </div>
+            <div class="editViewContainer pb0 ">
                 <form id="leadsMapping" method="POST">
                     <div class="editViewBody ">
                         <div class="editViewContents table-container" >
                             <input type="hidden" id="restrictedFieldsList" value={ZEND_JSON::encode($RESTRICTED_FIELD_IDS_LIST)} />
-                            <table class="table listview-table-norecords" width="100%" id="convertLeadMapping">
+                            <table class="table listview-table-norecords- {if in_array($MODULE,array('Leads'))} ms_srn_table_align {/if}" width="100%" id="convertLeadMapping">
                                 <tbody>
                                     <tr>
                                         <th></th>
@@ -101,15 +107,7 @@
                                         </tr>
                                     {/foreach}
                                     <tr class="hide newMapping listViewEntries">
-                                        <td>
-                                            {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
-                                                <div class="table-actions">
-                                                    <span class="actionImages">
-                                                        <i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="fa fa-trash deleteMapping"></i>
-                                                    </span>
-                                                </div>
-                                            {/foreach}
-                                        </td>
+                                        
                                         <td>
                                             <select class="leadsFields newSelect col-sm-12">
                                                 <option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -159,6 +157,15 @@
                                                 {/foreach}
                                             </select>
                                         </td>
+                                        <td>
+                                            {foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
+                                                <div class="table-actions">
+                                                    <span class="actionImages">
+                                                        <i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="fa fa-trash deleteMapping"></i>
+                                                    </span>
+                                                </div>
+                                            {/foreach}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -171,7 +178,7 @@
                                 <span class="col-sm-8">
                                     <span class="pull-right">
                                         <button type="submit" class="btn btn-primary"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                                        <a class="cancelLink btn btn-secondary" type="reset" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
+                                        <a class="cancelLink btn btn-danger" type="" href="{$MODULE_MODEL->getDetailViewUrl()}">Cancel</a>
                                     </span>
                                 </span>
                             </div>

@@ -53,7 +53,7 @@
 
 {if $SOURCEMODULE == 'Calendar'} 
     <div id="mappingTable">
-        <table  class="table table-condensed table-striped table-bordered "  >
+        <table  class="table table-sm table-striped table-bordered "  >
             <thead>
                 <tr>
                     <td><b>{vtranslate('APPTITLE',$MODULE_NAME)}</b></td>

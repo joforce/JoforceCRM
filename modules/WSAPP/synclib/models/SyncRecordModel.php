@@ -71,6 +71,10 @@ class WSAPP_SyncRecordModel extends WSAPP_BaseModel{
 		return $this->set('_syncidentificationkey',$key);
 	}
 
+	public function setEtag($etag){
+		return $this->set('etag',$etag);
+	}
+
 	public static function getInstanceFromValues($recordValues){
 		$model = new WSAPP_SyncRecordModel($recordValues);
 		return $model;

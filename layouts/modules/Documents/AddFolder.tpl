@@ -27,7 +27,7 @@
 		<div class="modal-body">
 			<div class="container-fluid">
 				<div class="form-group">
-					<label class="control-label fieldLabel col-sm-3">
+					<label class="col-form-label fieldLabel col-sm-3">
 						<span class="redColor">*</span>
 						{vtranslate('LBL_FOLDER_NAME', $MODULE)}
 					</label>
@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label fieldLabel col-sm-3">
+					<label class="col-form-label fieldLabel col-sm-3">
 						{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}
 					</label>
 					<div class="controls col-sm-9">

@@ -29,7 +29,7 @@
         <hr>	
             <div class="contents">
                 {if $RULE_MODEL_LIST}
-                    <table class="table table-bordered table-condensed customRuleTable">
+                    <table class="table table-bordered table-sm customRuleTable">
                         <thead>
                             <tr class="customRuleHeaders">
                                 <th>{vtranslate('LBL_RULE_NO', $QUALIFIED_MODULE)}</th>

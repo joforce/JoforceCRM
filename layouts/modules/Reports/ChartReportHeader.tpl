@@ -11,7 +11,7 @@
         <div class="reportsDetailHeader">
             <input type="hidden" name="date_filters" data-value='{Head_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
             {include file="DetailViewActions.tpl"|vtemplate_path:$MODULE}
-            <div class="filterElements contactAdd filterConditionsDiv{if !$REPORT_MODEL->isEditableBySharing()} hide{/if}">
+            <div class="filterElements filterConditionsDiv{if !$REPORT_MODEL->isEditableBySharing()} hide{/if}">
                 <form name='chartDetailForm' id='chartDetailForm' method="POST">
                     <input type="hidden" name="module" value="{$MODULE}" />
                     <input type="hidden" name="action" value="ChartSave" />
@@ -45,7 +45,7 @@
                             {$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
                         {/foreach}
                     {/foreach}
-                    <div class="well filterConditionContainer">
+                    <div class="card card-body filterConditionContainer">
                         <div>
                             <div class='row'>
                                 <span class="col-lg-4">

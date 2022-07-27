@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
+	<div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
 		<div class="module-action-content clearfix">
 			<div class="col-lg-5 col-md-5 module-breadcrumb">
 				{assign var=MODULE_MODEL value=Head_Module_Model::getInstance($MODULE)}
@@ -31,10 +31,10 @@
 				</p>
 			</div>
 			<div class="col-lg-7 col-md-7 pull-right">
-				<div id="appnav" class="navbar-right">
+				<div id="appnav" class="">
 					<ul class="nav navbar-nav">
 						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
-							<li>
+							<li class="nav-item">
 								<button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default" 
 										{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}  
 											onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'

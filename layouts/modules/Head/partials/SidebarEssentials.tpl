@@ -12,14 +12,60 @@
         <div class="sidebar-container lists-menu-container list-group">
             <div class="sidebar-header clearfix list-header">
                 <h5 class="pull-left">{vtranslate('LBL_LISTS',$MODULE)}</h5>
-                <span id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="pull-right sidebar-btn new-list" title="{vtranslate('LBL_CREATE_LIST',$MODULE)}">+{vtranslate('LBL_CREATE_NEW', 'Head')}
+                <span id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="pull-right sidebar-btn new-list btn addButton btn-primary" title="{vtranslate('LBL_CREATE_LIST',$MODULE)}"><i class="fa fa-filter"></i>Add Filter
                 </span> 
             </div>
-            <hr>
+            <!-- <hr> -->
+            
+            <div class="mylist">
+                <label>My List</label>
+                <select name="cars" class="custom-select filter">
+                {assign var=CUSTOM_VIEW_NAMES value=array()}
+                        {if $CUSTOM_VIEWS && count($CUSTOM_VIEWS) > 0}
+
+                            {foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+                            {if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'Shared'}
+                                {continue}
+                             {/if}
+                        {assign var=count value=0}
+                                {assign var=LISTVIEW_URL value=$MODULE_MODEL->getListViewUrl()}
+                                {$GROUP_CUSTOM_VIEWS|print_r}
+                                {foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS name="customView"}
+                                    {assign var=IS_DEFAULT value=$CUSTOM_VIEW->isDefault()}
+                                    {assign var="CUSTOME_VIEW_RECORD_MODEL" value=CustomView_Record_Model::getInstanceById($CUSTOM_VIEW->getId())}
+                                    {assign var="MEMBERS" value=$CUSTOME_VIEW_RECORD_MODEL->getMembers()}
+                                    {assign var="LIST_STATUS" value=$CUSTOME_VIEW_RECORD_MODEL->get('status')}
+                                    {foreach key=GROUP_LABEL item="MEMBER_LIST" from=$MEMBERS}
+                                        {if $MEMBER_LIST|@count gt 0}
+                                        {assign var="SHARED_MEMBER_COUNT" value=1}
+                                        {/if}
+                                    {/foreach}
+
+                                        {assign var=VIEWNAME value={vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}}
+                                        {append var="CUSTOM_VIEW_NAMES" value=$VIEWNAME}
+                    <option value="fiat" data-href ="{$LISTVIEW_URL|cat:'/filter/'|cat:$CUSTOM_VIEW->getId()}" oncontextmenu="return false;" data-filter-id="{$CUSTOM_VIEW->getId()}" >{$VIEWNAME|@escape:'html'}</option>
+                                        {/foreach}
+ {/foreach}
+ {/if}
+                </select>
+            </div>
+
+
+
+            <div class="sharelist">
+                <label> Shared List</label>
+                <select name="cars" class="custom-select">
+                    <option value="fiat">All</option>
+                    
+                </select>
+            </div>
+
+
+
             <div>
                 <input class="search-list" type="text" placeholder="{vtranslate('LBL_SEARCH_FOR_LIST',$MODULE)}">
             </div>
-            <div class="menu-scroller scrollContainer" style="position:relative; top:0; left:0;">
+            <div style="display: none;" class="menu-scroller scrollContainer" style="position:relative; top:0; left:0;">
 				<div class="list-menu-content">
 						{assign var=CUSTOM_VIEW_NAMES value=array()}
                         {if $CUSTOM_VIEWS && count($CUSTOM_VIEWS) > 0}
@@ -176,10 +222,10 @@
                         <input type="hidden" name="id" value="" />
                         <div class="editTagContents">
                             <div>
-                                <input type="text" name="tagName" value="" style="width:100%" maxlength="25"/>
+                                <input type="text" class="inputElement" name="tagName" value="" style="width:100%" maxlength="25"/>
                             </div>
                             <div>
-                                <div class="checkbox">
+                                <div class="checkbox" style="padding:unset;margin-top:20px;">
                                     <label>
                                         <input type="hidden" name="visibility" value="{Head_Tag_Model::PRIVATE_TYPE}"/>
                                         <input type="checkbox" name="visibility" value="{Head_Tag_Model::PUBLIC_TYPE}" />
@@ -188,8 +234,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <button class="btn btn-mini btn-success saveTag" type="button" style="width:50%;float:left">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-mini btn-success saveTag" type="button" style="width:50%;">
                                 <center> <i class="fa fa-check"></i> </center>
                             </button>
                             <button class="btn btn-mini btn-danger cancelSaveTag" type="button" style="width:50%">

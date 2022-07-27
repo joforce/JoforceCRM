@@ -18,22 +18,30 @@ class Settings_Notifications_Index_View extends Settings_Head_Index_View {
 	parent::preProcess($request);
     }
 
-    public function process (Head_Request $request) {
+    public function process(Head_Request $request) {
 	global $current_user;
 	$user_id = $current_user->id;
 	$viewer = $this->getViewer($request);
 	$qualifiedModuleName = $request->getModule(false);
 
 	$permittedTabIdList = getPermittedModuleIdList();
-	if(file_exists("user_privileges/notifications/notification_".$user_id.".php"))
-	    $file_name = "user_privileges/notifications/notification_".$user_id.".php";
-	else
-	   $file_name = 'user_privileges/notifications/default_settings.php';
-
-	require($file_name);
+	$db = PearDatabase::getInstance();
+	$query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+	$result = $db->pquery($query, array($user_id));
+	$rows = $db->num_rows($result);
+	if($rows <= 0){
+		$query = "select id,global,notificationlist from jo_notification_manager where id = ?";
+		$result = $db->pquery($query, array(0));
+		$rows = $db->num_rows($result);
+	}
+	for ($i=0; $i<$rows; $i++) {
+		$row = $db->query_result_rowdata($result, $i);
+		$global_settings = $row['global'];
+		$notification_settings = unserialize(base64_decode($row['notificationlist']));
+	}
 	$viewer->assign('GLOBAL_SETTINGS', $global_settings);
 	//$viewer->assign('notify_all', $notification_for_all);
-	$viewer->assign('FILE_PATH', $file_name);
+	// $viewer->assign('FILE_PATH', $file_name);
 	$viewer->assign('PERMITTED_MODULES', $notification_settings);
 	$viewer->assign('user_permitted_modules', $permittedTabIdList);
 	$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);

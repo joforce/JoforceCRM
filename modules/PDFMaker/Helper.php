@@ -2,9 +2,10 @@
 class Helper{
 
 	public function __construct(){
+		include("modules/PDFMaker/mpdf/mpdf.php");
 	}
 
-	public function convertFieldAndExportPDF($sourceModule, $recordIds, $tempId, $action_type = false, $templatecontent = false, $filename=false){
+	public function convertFieldAndExportPDF($sourceModule, $recordIds, $tempId, $action_type = false, $templatecontent = false){
 		global $adb, $site_URL;
 		$html = "";
 
@@ -41,7 +42,7 @@ class Helper{
                         $margin_bottom = '10%';
 
 
-		$mpdf=new \Mpdf\Mpdf();
+		$mpdf=new mPDF('', $page_format, '', '', $margin_left, $margin_right, $margin_top, $margin_bottom, 10, 10, $unserializedValue['page_orientation']);
 
 		foreach($recordId_value as $recordId){
 			$getValue = $adb->pquery('select * from jo_pdfmaker where pdfmakerid = ?', array($tempId));

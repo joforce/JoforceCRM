@@ -21,14 +21,14 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <div class="modal-body">
                     <div class="row-fluid">
-                        <div class="form-group">
-                            <span class="control-label fieldLabel col-sm-5">
+                        <div class="form-group ml50">
+                            <span class="col-form-label fieldLabel col-sm-5 mt0">
                                 <strong>
                                     {vtranslate('LBL_TRANSFORM_OWNERSHIP', $QUALIFIED_MODULE)} {vtranslate('LBL_TO', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
                                 </strong>
                             </span>
-                            <div class="controls fieldValue col-xs-6">
-                                <select id="transfer_record" name="transfer_record" class="select2">
+                            <div class="controls fieldValue col-xs-6  mt30">
+                                <select id="transfer_record" name="transfer_record" class="select2 w-100">
                                     <optgroup label="{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}">
                                         {foreach from=$ALL_USERS key=USER_ID item=USER_MODEL}
                                             <option value="{$USER_ID}">{$USER_MODEL->getName()}</option>

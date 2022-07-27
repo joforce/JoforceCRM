@@ -12,22 +12,27 @@ Head_List_Js("RecycleBin_List_Js", {
 	recordSelectTrackerInstance: false,
 	emptyRecycleBin: function (url) {
 		var message = app.vtranslate('JS_MSG_EMPTY_RB_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(
 			function (e) {
 				var deleteURL = url + '&mode=emptyRecycleBin';
 				var instance = new RecycleBin_List_Js();
-				app.request.post({url: deleteURL}).then(
-						function (error, data) {
-							if (!error) {
-								instance.recycleBinActionPostOperations(data);
-							} else {
-								app.helper.showErrorNotification({message: error});
-							}
+				app.request.post({
+					url: deleteURL
+				}).then(
+					function (error, data) {
+						if (!error) {
+							instance.recycleBinActionPostOperations(data);
+						} else {
+							app.helper.showErrorNotification({
+								message: error
+							});
 						}
+					}
 				);
 			},
-			function (error, err) {
-			}
+			function (error, err) {}
 		)
 	},
 	deleteRecords: function (url) {
@@ -37,23 +42,26 @@ Head_List_Js("RecycleBin_List_Js", {
 			var selectedIds = listInstance.readSelectedIds(true);
 			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(
+			app.helper.showConfirmationBox({
+				'message': message
+			}).then(
 				function (e) {
 					var sourceModule = jQuery('#sourceModule').val();
 					var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&mode=deleteRecords&sourceModule=' + sourceModule;
 					app.helper.showProgress();
-					app.request.post({url: deleteURL}).then(
-							function (error, data) {
-								if (data) {
-									app.helper.hideProgress();
-									var instance = new RecycleBin_List_Js();
-									instance.recycleBinActionPostOperations(data);
-								}
+					app.request.post({
+						url: deleteURL
+					}).then(
+						function (error, data) {
+							if (data) {
+								app.helper.hideProgress();
+								var instance = new RecycleBin_List_Js();
+								instance.recycleBinActionPostOperations(data);
 							}
+						}
 					);
 				},
-				function (error, err) {
-				})
+				function (error, err) {})
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -67,23 +75,26 @@ Head_List_Js("RecycleBin_List_Js", {
 			var excludedIds = listInstance.readExcludedIds(true);
 			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('JS_LBL_RESTORE_RECORDS_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(
+			app.helper.showConfirmationBox({
+				'message': message
+			}).then(
 				function (e) {
 					var sourceModule = jQuery('#sourceModule').val();
 					var restoreURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&mode=restoreRecords&sourceModule=' + sourceModule;
 					app.helper.showProgress();
-					app.request.post({url: restoreURL}).then(
-							function (error, data) {
-								if (data) {
-									app.helper.hideProgress();
-									var instance = new RecycleBin_List_Js();
-									instance.recycleBinActionPostOperations(data);
-								}
+					app.request.post({
+						url: restoreURL
+					}).then(
+						function (error, data) {
+							if (data) {
+								app.helper.hideProgress();
+								var instance = new RecycleBin_List_Js();
+								instance.recycleBinActionPostOperations(data);
 							}
+						}
 					);
 				},
-				function (error, err) {
-				})
+				function (error, err) {})
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -107,7 +118,9 @@ Head_List_Js("RecycleBin_List_Js", {
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		var sourceModule = jQuery('#sourceModule').val();
 		var cvId = listInstance.getCurrentCvId();
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(
 			function (e) {
 				var module = app.getModuleName();
 				var postData = {
@@ -119,18 +132,19 @@ Head_List_Js("RecycleBin_List_Js", {
 					"mode": "deleteRecords"
 				}
 				app.helper.showProgress();
-				app.request.post({data: postData}).then(
-						function (error, data) {
-							if (data) {
-								app.helper.hideProgress();
-								var instance = new RecycleBin_List_Js();
-								instance.recycleBinActionPostOperations(data);
-							}
+				app.request.post({
+					data: postData
+				}).then(
+					function (error, data) {
+						if (data) {
+							app.helper.hideProgress();
+							var instance = new RecycleBin_List_Js();
+							instance.recycleBinActionPostOperations(data);
 						}
+					}
 				);
 			},
-			function (error, err) {
-			});
+			function (error, err) {});
 	},
 	restoreAction: function (recordId, restoreExternalFile) {
 		var recordId = RecycleBin_List_Js.convertToJsonString(recordId);
@@ -151,7 +165,9 @@ Head_List_Js("RecycleBin_List_Js", {
 			postData.restoreExternalFiles = true;
 		}
 		app.helper.showProgress();
-		app.request.post({data: postData}).then(
+		app.request.post({
+			data: postData
+		}).then(
 			function (error, data) {
 				if (data) {
 					app.helper.hideProgress();
@@ -166,17 +182,17 @@ Head_List_Js("RecycleBin_List_Js", {
 	 */
 	restoreRecord: function (recordId) {
 		var message = app.vtranslate('JS_LBL_RESTORE_RECORD_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(
 			function (e) {
 				RecycleBin_List_Js.restoreAction(recordId, false);
 			},
-			function (error, err) {
-			});
+			function (error, err) {});
 	}
 }, {
 	// Overiding the parent function
-	registerDynamicListHeaders: function () {
-	},
+	registerDynamicListHeaders: function () {},
 	getRecordSelectTrackerInstance: function () {
 		if (RecycleBin_List_Js.recordSelectTrackerInstance === false) {
 			RecycleBin_List_Js.recordSelectTrackerInstance = Head_RecordSelectTracker_Js.getInstance();
@@ -219,7 +235,9 @@ Head_List_Js("RecycleBin_List_Js", {
 		var listInstance = Head_List_Js.getInstance();
 		if (data) {
 			var params = thisInstance.getDefaultParams();
-			app.request.post({data: params}).then(function (error, data) {
+			app.request.post({
+				data: params
+			}).then(function (error, data) {
 				app.helper.hideModal();
 				var listViewContainer = thisInstance.getListViewContainer();
 				listViewContainer.html(data);
@@ -244,13 +262,14 @@ Head_List_Js("RecycleBin_List_Js", {
 			"view": "ListAjax",
 			"mode": "getRecordsCount"
 		}
-		app.request.post({data: postData}).then(
+		app.request.post({
+			data: postData
+		}).then(
 			function (error, data) {
 				jQuery("#recordsCount").val(data['count']);
 				aDeferred.resolve(data);
 			},
-			function (error, err) {
-			}
+			function (error, err) {}
 		);
 
 		return aDeferred.promise();

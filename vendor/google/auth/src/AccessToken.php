@@ -25,8 +25,8 @@ use Firebase\JWT\SignatureInvalidException;
 use Google\Auth\Cache\MemoryCacheItemPool;
 use Google\Auth\HttpHandler\HttpClientCache;
 use Google\Auth\HttpHandler\HttpHandlerFactory;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
 use phpseclib\Crypt\RSA;
 use phpseclib\Math\BigInteger;
@@ -82,22 +82,19 @@ class AccessToken
      * accepted.  By default, the id token must have been issued to this OAuth2 client.
      *
      * @param string $token The JSON Web Token to be verified.
-     * @param array $options [optional] {
-     *     Configuration options.
-     *
-     *     @type string $audience The indended recipient of the token.
-     *     @type string $issuer The intended issuer of the token.
-     *     @type string $certsLocation The location (remote or local) from which
+     * @param array $options [optional] Configuration options.
+     * @param string $options.audience The indended recipient of the token.
+     * @param string $options.issuer The intended issuer of the token.
+     * @param string $options.cacheKey The cache key of the cached certs. Defaults to
+     *        the sha1 of $certsLocation if provided, otherwise is set to
+     *        "federated_signon_certs_v3".
+     * @param string $options.certsLocation The location (remote or local) from which
      *        to retrieve certificates, if not cached. This value should only be
      *        provided in limited circumstances in which you are sure of the
      *        behavior.
-     *     @type string $cacheKey The cache key of the cached certs. Defaults to
-     *        the sha1 of $certsLocation if provided, otherwise is set to
-     *        "federated_signon_certs_v3".
-     *     @type bool $throwException Whether the function should throw an
+     * @param bool $options.throwException Whether the function should throw an
      *        exception if the verification fails. This is useful for
      *        determining the reason verification failed.
-     * }
      * @return array|bool the token payload, if successful, or false if not.
      * @throws InvalidArgumentException If certs could not be retrieved from a local file.
      * @throws InvalidArgumentException If received certs are in an invalid format.
@@ -129,7 +126,8 @@ class AccessToken
         $alg = $this->determineAlg($certs);
         if (!in_array($alg, ['RS256', 'ES256'])) {
             throw new InvalidArgumentException(
-                'unrecognized "alg" in certs, expected ES256 or RS256');
+                'unrecognized "alg" in certs, expected ES256 or RS256'
+            );
         }
         try {
             if ($alg == 'RS256') {
@@ -186,13 +184,11 @@ class AccessToken
      *
      * @param string $token The JSON Web Token to be verified.
      * @param array $certs Certificate array according to the JWK spec (see
-     *                     https://tools.ietf.org/html/rfc7517).
+     *        https://tools.ietf.org/html/rfc7517).
      * @param string|null $audience If set, returns false if the provided
-     *                              audience does not match the "aud" claim on
-     *                              the JWT.
+     *        audience does not match the "aud" claim on the JWT.
      * @param string|null $issuer If set, returns false if the provided
-     *                            issuer does not match the "iss" claim on
-     *                            the JWT.
+     *        issuer does not match the "iss" claim on the JWT.
      * @return array|bool the token payload, if successful, or false if not.
      */
     private function verifyEs256($token, array $certs, $audience = null, $issuer = null)
@@ -228,13 +224,11 @@ class AccessToken
      *
      * @param string $token The JSON Web Token to be verified.
      * @param array $certs Certificate array according to the JWK spec (see
-     *                     https://tools.ietf.org/html/rfc7517).
+     *        https://tools.ietf.org/html/rfc7517).
      * @param string|null $audience If set, returns false if the provided
-     *                              audience does not match the "aud" claim on
-     *                              the JWT.
+     *        audience does not match the "aud" claim on the JWT.
      * @param string|null $issuer If set, returns false if the provided
-     *                            issuer does not match the "iss" claim on
-     *                            the JWT.
+     *        issuer does not match the "iss" claim on the JWT.
      * @return array|bool the token payload, if successful, or false if not.
      */
     private function verifyRs256($token, array $certs, $audience = null, $issuer = null)
@@ -306,7 +300,7 @@ class AccessToken
             }
         }
 
-        $body = Psr7\stream_for(http_build_query(['token' => $token]));
+        $body = Utils::streamFor(http_build_query(['token' => $token]));
         $request = new Request('POST', self::OAUTH2_REVOKE_URI, [
             'Cache-Control' => 'no-store',
             'Content-Type'  => 'application/x-www-form-urlencoded',
@@ -325,6 +319,7 @@ class AccessToken
      * are PEM encoded certificates.
      *
      * @param string $location The location from which to retrieve certs.
+     * @param string $cacheKey The key under which to cache the retrieved certs.
      * @param array $options [optional] Configuration options.
      * @return array
      * @throws InvalidArgumentException If received certs are in an invalid format.

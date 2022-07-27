@@ -13,7 +13,7 @@
 	<input type="text" placeholder="{vtranslate('LBL_SEARCH_FOR_SETTINGS', $QUALIFIED_MODULE)}" class="search-list col-lg-8" id='settingsMenuSearch'>
     </div>
     <div class="panel-group hide" id="accordion" role="tablist" aria-multiselectable="true">
-	<div class="settingsgroup-panel panel panel-default">
+	<div class="settingsgroup-panel card panel panel-default">
 	{foreach item=BLOCK_MENUS key=BLOCK_NAME from=$SETTINGS_MENU_LIST}
 	    {assign var=NUM_OF_MENU_ITEMS value= $BLOCK_MENUS|@sizeof}
 	    {if $NUM_OF_MENU_ITEMS gt 0}

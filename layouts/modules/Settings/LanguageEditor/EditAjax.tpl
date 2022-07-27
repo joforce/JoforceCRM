@@ -11,9 +11,9 @@
 <input type="hidden" name="file-path" id="file-path" value="{$FILE}" />
 <input type="hidden" name="filename" id="filename" value="{$SAVE_FILE}" />
 <div class="row">
-    <div class="language-editor-module outside-border mt30">
+    <div class="language-editor-module col-12 outside-border p0 mt30">
 	<div class="accordion-module labels-content">
-	    <h3 class="panel-title">{vtranslate('LBL_MODULE_LABELS', $QUALIFIED_MODULE)}
+	    <h3 class="card-title">{vtranslate('LBL_MODULE_LABELS', $QUALIFIED_MODULE)}
 		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span>
 	    </h3>
 	</div>
@@ -43,7 +43,7 @@
 </div>
 
 <div class="row">
-    <div class="language-editor-module outside-border">
+    <div class="language-editor-module col-12 p0 outside-border">
 	<div class="accordion-module labels-content">
 	    <h3>{vtranslate('LBL_JAVA_LABELS', $QUALIFIED_MODULE)}
 		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span>
@@ -75,8 +75,8 @@
 </div>
 
 <div class="row">
-    <div class="customfields-languageeditor language-editor-module outside-border">
-	<div class="row">
+    <div class="customfields-languageeditor col-12 p0 language-editor-module outside-border">
+	
 	    <div class="accordion-module labels-content">
 		<h3>{vtranslate('LBL_CUSTOM_FIELD_LABELS', $QUALIFIED_MODULE)}
 		<span class="toggle-icon fa fa-caret-right rotate" style="display: inline-block;"></span></h3>
@@ -92,12 +92,12 @@
 	            {include file="PicklistEditAjax.tpl"|vtemplate_path:$QUALIFIED_MODULE LANGUAGE_STRING_ARRAY=$CF_LANGUAGE_STRING_ARRAY HINT='lbl'}
         	</tbody>
 	    </table>
-	</div>
+	
     </div>
 </div>
 
 <div class="row">
-    <div class="picklist-languageeditor language-editor-module outside-border">
+    <div class="picklist-languageeditor col-12 p0 language-editor-module outside-border">
 	<div class="accordion-module labels-content picklist">
 	    <h3>{vtranslate('PICKLIST VALUES AND LABELS', $QUALIFIED_MODULE)}
 		<span class="toggle-icon fa fa-caret-right rotate" style="display:inline-block;"></span>

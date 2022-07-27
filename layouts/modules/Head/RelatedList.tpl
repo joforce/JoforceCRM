@@ -9,8 +9,9 @@
 ************************************************************************************}
 {strip}
 	{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
+	{* {assign var=MODULE value=$MODULE_NAME} *}
 	{include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE LISTVIEW_HEADERS=$RELATED_HEADERS}
-	<div class="relatedContainer">
+	<div class="relatedContainer  {if in_array($MODULE,array('Campaigns','PurchaseOrder','SalesOrder','Documents','Vendors','Invoice','Quotes'))} ms_relatedContainer ipad_scrn_campaigns {elseif in_array($MODULE,array('HelpDesk'))} big_scrn_details_view_ticket {elseif in_array($MODULE,array('Products'))} big_scrn_details_view_product {elseif in_array($MODULE,array('Services'))} big_scrn_details_view_Services {elseif in_array($MODULE,array('Contacts'))} big_scrn_details_view_Contact {/if} {if in_array($MODULE,array('Potentials','Accounts'))} mac_scr_left_align {/if}">
 		{assign var=IS_RELATION_FIELD_ACTIVE value="{if $RELATION_FIELD}{$RELATION_FIELD->isActiveField()}{else}false{/if}"}
 		<input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
@@ -33,8 +34,9 @@
 			</div>
 		{/if}
 
-		<div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container">
-				<table id="listview-table" class="table listview-table">
+		<div class="relatedContents col-lg-12 col-md-12 col-sm-12 table-container tablec-fixedc-columnc-outterc">
+		<div class="tablec-fixedc-columnc-innerc">
+				<table id="listview-table" class="table listview-table tablec-fixedc-columnc tablec-fixedc-columnc tablec tablec-borderedc tablec-stripedc">
 					<thead>
 						<tr class="listViewHeaders">
 							<th style="min-width:100px">
@@ -69,7 +71,7 @@
 						</tr>
 						<tr class="searchRow">
 							<th class="inline-search-btn">
-								<button class="btn btn-success btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
+								<button class="btn btn-primary btn-sm" data-trigger="relatedListSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
 							</th>
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								<th>
@@ -191,12 +193,13 @@
 						</tr>
 					{/foreach}
 				</table>
+				</div>
 
 			        <div class="col-lg-12 col-md-12 col-sm-12">
 		        	    {assign var=PAGING_MODEL value=$PAGING}
 			            {assign var=RECORD_COUNT value=$RELATED_RECORDS|@count}
 			            {assign var=PAGE_NUMBER value=$PAGING->get('page')}
-			            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+			            {include file="Pagination.tpl"|vtemplate_path:$MODULE }
 		        	</div>
 		</div>
 		<div class="bottomscroll-div"></div>
@@ -230,4 +233,62 @@
 			})();
 		</script>
 	</div>
+<style>
+/*.tablec-fixedc-columnc-outterc {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 100%;
+}
+
+.tablec-fixedc-columnc-innerc {
+  overflow-x: scroll;
+  overflow-y: visible;
+  margin-left: 177px;
+}
+.tablec-fixedc-columnc-innerc .tablec {
+  margin-bottom: 0.25rem;
+}
+
+.tablec.tablec-fixedc-columnc {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.tablec td,
+.tablec th {
+  width: 100px;
+}
+
+.tablec th:first-child,
+.tablec tr td:first-child {
+  position: absolute;
+  left: 0;
+  width: 100px;
+}
+@media only screen and (min-width: 412px) and (max-width: 767px) { 
+	
+.tablec-fixedc-columnc-innerc {
+
+  margin-left: 100px !important;
+}
+
+}
+@media only screen and (min-width: 375px) and (max-width: 767px) { 
+	
+.tablec-fixedc-columnc-innerc {
+
+  margin-left: 100px !important;
+}
+
+}
+@media only screen and (min-width: 757px) and (max-width: 1507px) { 
+	
+.tablec-fixedc-columnc-innerc {
+
+  
+}
+
+}*/
+
+</style>
 {/strip}

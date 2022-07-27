@@ -9,50 +9,43 @@
 *************************************************************************************}
 
 {strip}
-    <div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
+    <div class="col-lg-12 col-sm-12 col-xs-12 module-action-bar clearfix">
 	<div class="module-action-content clearfix {$MODULE}-module-action-content">
-	    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 mt10">
+	    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 mt10 d-inline-block pull-left">
 		{include file="partials/HeaderBreadCrumb.tpl"|vtemplate_path:$MODULE}
 	    </div>
-	    <div class="col-sm-4 col-md-4 col-lg-4 pull-left mt10">
-		<select class="select2 col-sm-9" name="moduleFilters" id="moduleFilters" style="background:white !important;">
+	    <div class="col-sm-3 col-md-3 col-lg-3 pull-left mt10">
+		<select class="select2 col-sm-9 p-0" name="moduleFilters" id="moduleFilters" style="">
 		    {foreach item=FILTER key=FILTER_ID from=$CUSTOM_LIST}
                     	<option value="{$FILTER->id}" {if $FILTER->id eq $VIEWID} selected {/if}>{$FILTER->name}</option>
                     {/foreach}
                 </select>
             </div>
 
-	    <div class="col-lg-6 col-md-4 pull-right">
-	        <div id="appnav" class="navbar-right">
-		    <ul class="nav navbar-nav">
+	    <div class="col-lg-7 col-md-4 pull-right">
+		<div id="third-listview-actions" class="third-listview-actions-container pull-left mt-2">
+                	{include file="kanban/Pagination_kanban.tpl"|vtemplate_path:"Head"}
+        	</div>
+
+	        <div id="appnav" class="ml-auto">
+		    <ul class="nav navbar-nav" id="header-actions">
                         {if $kanban_view_enabled}
                             {if $VIEW == 'List' or $VIEW == 'Kanban'}
                                 <input type="hidden" name="potential-view-type" id="potential-view-type" value="{$VIEW}" >
-                                <li class="">
+                                <li class="nav-item">
                                     <button id="forecast-view" type="button" class="btn" data-cvid="{$VIEWID}" data-modulename="{$MODULE}"><i class="joicon joicon-columns"></i></button>
                                 </li>
-                                <li class="">
+                                <li class="nav-item">
                                     <button id="backto-list-view" type="button" class="btn" data-cvid="{$VIEWID}" data-modulename="{$MODULE}"><i class="joicon joicon-list" aria-hidden="true"></i></button>
                                 </li>
                             {/if}
                         {/if}
+			{if !empty($MODULE_BASIC_ACTIONS)}
 			{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
 			    {if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}
-				<!--<li>
-				   <div class="joforce-import-btn">
-					<button id="{$MODULE}_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-default"
-					    {if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
-						onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
-					    {else}
-						onclick="Head_Import_Js.triggerImportAction('{$BASIC_ACTION->getUrl()}')"
-					    {/if}>
-					    <div class="fa {$BASIC_ACTION->getIcon()}" aria-hidden="true"></div>&nbsp;&nbsp;
-					    {vtranslate($BASIC_ACTION->getLabel(), $MODULE)}
-					</button>
-				    </div>
-				</li>-->
+				{assign var=import_option value=true}
 			    {else}
-				<li>
+				<li class="nav-item">
 				    <button id="{$MODULE}_listView_basicAction_{Head_Util_Helper::replaceSpaceWithUnderScores($BASIC_ACTION->getLabel())}" type="button" class="btn addButton btn-primary" 
 					{if stripos($BASIC_ACTION->getUrl(), 'javascript:')===0}
 					    onclick='{$BASIC_ACTION->getUrl()|substr:strlen("javascript:")};'
@@ -65,8 +58,9 @@
 				</li>
 			    {/if}
 			{/foreach}
+			{/if}
 			{if $MODULE_SETTING_ACTIONS|@count gt 0}
-			    <li>
+			    <li class="nav-item">
 				<div class="settingsIcon">
 				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 					<span aria-hidden="true" title="{vtranslate('LBL_MORE', $MODULE)}"></span>&nbsp;{vtranslate('LBL_MORE','Head')}

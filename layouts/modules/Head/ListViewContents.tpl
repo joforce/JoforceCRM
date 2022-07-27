@@ -12,7 +12,13 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 joforce-bg-list  pl0 pr0">
+<div class="col-sm-12 col-xs-12 lists  pl0 pr0">
+<div id="licence-alert-waring" class="alert">
+  <span class="closebtn " onclick="this.parentElement.style.display='none';">&times;</span> 
+
+  <strong> <span class="licence-waring-icon"><i class="fa fa-warning"></i> </span> Danger!</strong>   You are not secure 
+
+</div>
 	<input type="hidden" name="view" id="view" value="{$VIEW}" />
 	<input type="hidden" name="cvid" value="{$VIEWID}" />
 	<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -35,7 +41,6 @@
 	<input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
 	<input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
 	<input type="hidden" name="viewType" value="{$VIEWTYPE}" />
-	<input type="hidden" name="app" id="appName" value="{$SELECTED_MENU_CATEGORY}">
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 		<input type="hidden" name="picklistDependency" value='{Head_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
@@ -43,8 +48,8 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content"  class="table-container" style="">
-	<div class="fixed-scroll-table">
+	<div id="table-content"  class="table-container mt10 {if $MODULE eq 'Calendar'} pt35 {/if} {if in_array($MODULE,array('EmailTemplates'))}ml10{/if}" style="overflow: auto;top:0px!important">
+	<div class="table-toggle fixed-scroll-table">
 
 	    <form name='list' id='listedit' action='' onsubmit="return false;">
 		<table id="listview-table" class="table {if $LISTVIEW_ENTRIES_COUNT eq '0'}listview-table-norecords {/if} listview-table">
@@ -57,19 +62,21 @@
 				    {vtranslate('LBL_ACTIONS',$MODULE)}
 				{/if}
 
-				<!--{if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
-				    <div class="table-actions">
-					<button class="btn btn-success btn-sm" data-trigger="listSearch">{vtranslate("LBL_SEARCH",$MODULE)}</button>
-                                    </div>
-				{/if}-->
+				<!-- {if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS} -->
+				    {* <div class="searchRow">
+					<h2></h2>
+                                    </div> *}
+				<!-- {/if} -->
 			    </th>
 			    {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}					
 					{if $SEARCH_MODE_RESULTS and ($LISTVIEW_HEADER->getFieldDataType() eq 'multipicklist')}
 						{assign var=NO_SORTING value=1}
-					{else}
+					{* {else} <div class="searchRow">
+					<h2></h2>
+                                    </div> *}
 						{assign var=NO_SORTING value=0}
 					{/if}
-					<th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if}>
+					<th {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')} nowrap="nowrap" {/if} class="{if in_array($MODULE,array('PriceBooks'))} big_scr_th_width {/if}">
 						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}
 						    <a href="#" class="removeSorting pull-right">x</a> 
 						{/if}
@@ -83,7 +90,7 @@
 							{/if}
 							<span>{vtranslate($LISTVIEW_HEADER->get('label'), $LISTVIEW_HEADER->getModuleName())}</span>
 						</a>
-						<div class="inner-addon left-addon searchRow">
+						<div class="inner-addon left-addon searchRow ml20" >
 						    {if $MODULE_MODEL->isQuickSearchEnabled() && !$SEARCH_MODE_RESULTS}
 							<i class="fa fa-search"></i>
                                                         {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -227,19 +234,48 @@
 	</div>
 	<div class="row">
             {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-            {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true HEADSHOW=false}
+            {include file="Pagination.tpl"|vtemplate_path:$MODULE HEADSHOW=false}
 	</div>
+	<div class="row" style="height: 40px;">
+		<div class="col-lg-12">
+		</div>
+	</div>	
 	<div id="scroller_wrapper" class="bottom-fixed-scroll">
 		<div id="scroller" class="scroller-div"></div>
 	</div>
 
-	<div class="quickviewcontent hide" id="quickviewcontent" style="width:30%;">
+	<div class="quickviewcontent mt20 ml5 hide" id="quickviewcontent" style="width:30%;">
 	</div>
 
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		/*$('#joforce-table-search').on('click' , function(event){
+			
+			var className = $('.table-actions.table-left-column').attr("class");
+
+			if( className == 'table-actions table-left-column'){
+			$(".table-left-column").addClass("table-height");
+				//alert('clickram');
+			}
+			else{
+				$(".table-left-column").removeClass("table-height");
+				//alert('chand');
+			}
+		})*/
+		
+		/*$( ".button.btn-success.btn-small.save").load('click',function() {
+			//alert('rfdf');
+			$(".table-left-column").addClass("");
+			var newClass=$('.button.btn-success.btn-small.save').attr('class');
+			if ( newClass == 'button btn-success btn-small save') {
+				$(".table-left-column").addClass("mb50");
+			}
+			else{
+				$(".table-left-column").removeClass("mb50");
+			}
+		});*/
 		$('.fixed-scroll-table').floatingScroll();
 		var screenheight = $(window).height();
 		var alterheight = screenheight-180;
@@ -251,7 +287,6 @@
 			$('#page').css("min-height","auto");
 			$('.content-area').css("min-height","auto");
 			$('#table-content').css("height",alterheight);
-			$('.app-footer').css("width","100%").css("position","fixed").css("bottom","0px").css("z-index","1000");
 		}
 
 		if(testheight > alterheight){

@@ -29,8 +29,9 @@
 </table>
 
   
-     <div class="row">
-	  <button class="btn btn-primary custom-next-btn ">Next</button>
+<div class="modulnext">
+	  
 	  <button class="btn btn-default custom-prev-btn ">Previous</button>
+	  <button class="btn btn-primary custom-next-btn ">Next</button>
       </div>
   

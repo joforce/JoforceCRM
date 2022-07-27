@@ -36,7 +36,9 @@ $languageStrings = array(
 	'LBL_ACTIONS' => 'Actions',
 	'LBL_ADD' => 'Add',
 	'LBL_EDIT' => 'Edit',
+	'LBL_ACTIVITY' => 'Activity',
 	'LBL_DELETE' => 'Delete',
+	'LBL_RECORD_ACTIVITY' => 'Record Activity',
 	'LBL_COMMENT' => 'Comment',
 	'LBL_STARRED' => 'Unfollow',
 	'LBL_NOT_STARRED' => 'Click to follow',
@@ -1256,6 +1258,7 @@ $languageStrings = array(
 	'LBL_CALL' => 'Call',
 	'LBL_CALLS' => 'Calls',
 	'LBL_SHOW_TOTAL_NUMBER_OF_RECORDS' => 'Click for this list size',
+	'LBL_ENTRIES' => 'Entries',
 
 	'LBL_GENERAL_FIELDS' => 'General Fields',
 	'LBL_ROLL_UP' => 'Roll up',

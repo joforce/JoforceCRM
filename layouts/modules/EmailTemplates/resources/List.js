@@ -27,25 +27,29 @@ Head_List_Js("EmailTemplates_List_Js", {
                 var message = app.vtranslate('LBL_CUTOMER_LOGIN_DETAILS_TEMPLATE_DELETE_MESSAGE');
             }
 
-            app.helper.showConfirmationBox({'message': message}).then(
-                    function (e) {
-                        var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
-                        var listViewInstance = Head_List_Js.getInstance();
+            app.helper.showConfirmationBox({
+                'message': message
+            }).then(
+                function (e) {
+                    var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
+                    var listViewInstance = Head_List_Js.getInstance();
 
-                        if (app.getModuleName() == 'Documents') {
-                            var defaultparams = listInstance.getDefaultParams();
-                            deleteURL += '&folder_id=' + defaultparams['folder_id'] + '&folder_value=' + defaultparams['folder_value'];
+                    if (app.getModuleName() == 'Documents') {
+                        var defaultparams = listInstance.getDefaultParams();
+                        deleteURL += '&folder_id=' + defaultparams['folder_id'] + '&folder_value=' + defaultparams['folder_value'];
+                    }
+                    deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchParams());
+                    app.helper.showProgress();
+                    app.request.post({
+                        url: deleteURL
+                    }).then(
+                        function () {
+                            app.helper.hideProgress();
+                            listInstance.clearList();
+                            listInstance.loadListViewRecords();
                         }
-                        deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchParams());
-                        app.helper.showProgress();
-                        app.request.post({url: deleteURL}).then(
-                                function () {
-                                    app.helper.hideProgress();
-                                    listInstance.clearList();
-                                    listInstance.loadListViewRecords();
-                                }
-                        );
-                    })
+                    );
+                })
         } else {
             listInstance.noRecordSelectedAlert();
         }
@@ -59,57 +63,62 @@ Head_List_Js("EmailTemplates_List_Js", {
             var message = app.vtranslate('LBL_CUTOMER_LOGIN_DETAILS_TEMPLATE_DELETE_MESSAGE');
         }
 
-        app.helper.showConfirmationBox({'message': message}).then(
-                function (e) {
-                    var module = app.getModuleName();
-                    var postData = {
-                        "module": module,
-                        "action": "DeleteAjax",
-                        "record": recordId,
-                        "parent": app.getParentModuleName()
-                    }
-                    app.helper.showProgress();
-                    app.request.post({data: postData}).then(
-                            function (error, data) {
-                                app.helper.hideProgress();
-                                if (!error) {
-                                    var orderBy = jQuery('#orderBy').val();
-                                    var sortOrder = jQuery("#sortOrder").val();
-                                    var urlParams = {
-                                        "viewname": data.viewname,
-                                        "orderby": orderBy,
-                                        "sortorder": sortOrder
-                                    }
-                                    jQuery('#recordsCount').val('');
-                                    jQuery('#totalPageCount').text('');
-                                    listInstance.loadListViewRecords(urlParams).then(function () {
-                                        listInstance.updatePagination();
-                                    });
-                                } else {
-                                    app.helper.showErrorNotification({message: error});
-                                }
-                            },
-                            function (error, err) {
-
-                            }
-                    );
-                },
-                function (error, err) {
+        app.helper.showConfirmationBox({
+            'message': message
+        }).then(
+            function (e) {
+                var module = app.getModuleName();
+                var postData = {
+                    "module": module,
+                    "action": "DeleteAjax",
+                    "record": recordId,
+                    "parent": app.getParentModuleName()
                 }
+                app.helper.showProgress();
+                app.request.post({
+                    data: postData
+                }).then(
+                    function (error, data) {
+                        app.helper.hideProgress();
+                        if (!error) {
+                            var orderBy = jQuery('#orderBy').val();
+                            var sortOrder = jQuery("#sortOrder").val();
+                            var urlParams = {
+                                "viewname": data.viewname,
+                                "orderby": orderBy,
+                                "sortorder": sortOrder
+                            }
+                            jQuery('#recordsCount').val('');
+                            jQuery('#totalPageCount').text('');
+                            listInstance.loadListViewRecords(urlParams).then(function () {
+                                listInstance.updatePagination();
+                            });
+                        } else {
+                            app.helper.showErrorNotification({
+                                message: error
+                            });
+                        }
+                    },
+                    function (error, err) {
+
+                    }
+                );
+            },
+            function (error, err) {}
         );
     }
 
 }, {
-    
+
     registerRowDoubleClickEvent: function () {
-        
-	},
-	
-	addIndexComponent : function() {
-		this.addModuleSpecificComponent('Index','Head','Settings');
-	},
-	
-    
+
+    },
+
+    addIndexComponent: function () {
+        this.addModuleSpecificComponent('Index', 'Head', 'Settings');
+    },
+
+
     /**
      * Function to override function written in Head List.js file to add extra parameter for
      * every page navigation click and sorting
@@ -123,7 +132,6 @@ Head_List_Js("EmailTemplates_List_Js", {
         var cvId = this.getCurrentCvId();
         var orderBy = container.find('[name="orderBy"]').val();
         var sortOrder = container.find('[name="sortOrder"]').val();
-        var appName = container.find('#appName').val();
         var params = {
             'module': module,
             'parent': parent,
@@ -132,7 +140,6 @@ Head_List_Js("EmailTemplates_List_Js", {
             'viewname': cvId,
             'orderby': orderBy,
             'sortorder': sortOrder,
-            'app': appName
         }
         params.search_params = JSON.stringify(this.getListSearchParams());
         params.tag_params = JSON.stringify(this.getListTagParams());
@@ -161,7 +168,7 @@ Head_List_Js("EmailTemplates_List_Js", {
      * Function to register the list view delete record click event
      */
     registerDeleteRecordClickEvent: function () {
-        jQuery('#page').on('click', '.deleteRecordButton', function(e){
+        jQuery('#page').on('click', '.deleteRecordButton', function (e) {
             var elem = jQuery(e.currentTarget);
             var originalDropDownMenu = elem.closest('.dropdown-menu').data('original-menu');
             var parent = app.helper.getDropDownmenuParent(originalDropDownMenu);
@@ -175,12 +182,12 @@ Head_List_Js("EmailTemplates_List_Js", {
         listViewContentDiv.on('click', '.viewType', function (e) {
             var mode = jQuery(e.currentTarget).data('mode');
             //If template view is in thumbnail mode, delete icon should be hided
-            if(mode == 'grid'){
-                 jQuery('.fa-trash').parents('div.btn-group').addClass('hide');
+            if (mode == 'grid') {
+                jQuery('.fa-trash').parents('div.btn-group').addClass('hide');
             } else {
                 jQuery('.fa-trash').parents('div.btn-group').removeClass('hide');
             }
-                
+
             listViewContentDiv.find('input[name="viewType"]').val(mode);
             var listViewInstance = Head_List_Js.getInstance();
             var urlParams = thisInstance.getDefaultParams();
@@ -200,7 +207,7 @@ Head_List_Js("EmailTemplates_List_Js", {
             jQuery(e.currentTarget).find('div').eq(1).removeClass('templateActions').addClass('hide');
         });
     },
-    
+
     /**
      * Function to create the template or edit the existing template
      */
@@ -208,22 +215,22 @@ Head_List_Js("EmailTemplates_List_Js", {
         var site_url = jQuery('#joforce_site_url').val();
         jQuery('#listViewContent').on('click', '.imageDiv img,.editTemplate', function (e) {
             var templateId = jQuery(e.currentTarget).data('value');
-            var redirectUrl = site_url+'EmailTemplates/view/Edit/'+templateId;
+            var redirectUrl = site_url + 'EmailTemplates/view/Edit/' + templateId;
             window.location.href = redirectUrl;
         });
     },
-    
+
     /**
      * Function will duplicate the existing template
      */
     registerTemplateDuplicationEvent: function () {
         jQuery('#listViewContent').on('click', '.templateDuplication', function (e) {
             var templateId = jQuery(e.currentTarget).attr('data-value');
-            var redirectUrl = 'index.php?module=EmailTemplates&view=Edit&record='+templateId+'&isDuplicate=true';
+            var redirectUrl = 'index.php?module=EmailTemplates&view=Edit&record=' + templateId + '&isDuplicate=true';
             window.location.href = redirectUrl;
         });
     },
-    
+
     /**
      * Function to prompt before deleting the template
      */
@@ -232,14 +239,16 @@ Head_List_Js("EmailTemplates_List_Js", {
         jQuery('#listViewContent').on('click', '.fa-trash', function (e) {
             var templateId = jQuery(e.currentTarget).attr('data-value');
             var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-            app.helper.showConfirmationBox({message: message}).then(function(e){
+            app.helper.showConfirmationBox({
+                message: message
+            }).then(function (e) {
                 thisInstance.registerTemplateDeleteEvent(templateId);
             }, function (error, err) {
                 // if error occurred
             });
         });
     },
-    
+
     /**
      * Function to delete the template 
      */
@@ -250,83 +259,91 @@ Head_List_Js("EmailTemplates_List_Js", {
             'record': templateId,
             'ajaxDelete': true,
         };
-        app.request.post({data:params}).then(function (error,data) {
+        app.request.post({
+            data: params
+        }).then(function (error, data) {
             if (data) {
                 window.location.href = data;
             }
-         });
+        });
     },
-    
-    
-     loadListViewRecords : function(urlParams) {
+
+
+    loadListViewRecords: function (urlParams) {
         var self = this;
         var aDeferred = jQuery.Deferred();
         var defParams = this.getDefaultParams();
-        if(typeof urlParams == "undefined") {
+        if (typeof urlParams == "undefined") {
             urlParams = {};
         }
-        if(typeof urlParams.search_params == "undefined") {
+        if (typeof urlParams.search_params == "undefined") {
             urlParams.search_params = JSON.stringify(this.getListSearchParams(false));
         }
         urlParams = jQuery.extend(defParams, urlParams);
         app.helper.showProgress();
-		
-        app.request.post({data:urlParams}).then(function(err, res){
+
+        app.request.post({
+            data: urlParams
+        }).then(function (err, res) {
             aDeferred.resolve(res);
             self.placeListContents(res);
             app.event.trigger('post.listViewFilter.click', jQuery('.searchRow'));
             app.helper.hideProgress();
             self.markSelectedIdsCheckboxes();
             self.registerDynamicListHeaders();
-            
+
             self.registerDynamicDropdownPosition();
-            self.registerDropdownPosition();//for every ajax request more-drop down in listview
+            self.registerDropdownPosition(); //for every ajax request more-drop down in listview
         });
         return aDeferred.promise();
     },
-    
+
     /**
      * Function to preview existing email template
      * @returns {undefined}
      */
-    registerPreviewTemplateEvent: function(){
+    registerPreviewTemplateEvent: function () {
         var thisInstance = this;
-        jQuery('#listViewContent').on('click','.previewTemplate',function(e){
+        jQuery('#listViewContent').on('click', '.previewTemplate', function (e) {
             var record = jQuery(e.currentTarget).data('value');
             var params = {
                 'module': 'EmailTemplates',
-                'view'  : "ListAjax",
-                "mode"  : "previewTemplate",
+                'view': "ListAjax",
+                "mode": "previewTemplate",
                 "record": record
             };
             app.helper.showProgress();
-            app.request.post({data: params}).then(function (error, data) {
-                app.helper.loadPageContentOverlay(data).then(function(){
+            app.request.post({
+                data: params
+            }).then(function (error, data) {
+                app.helper.loadPageContentOverlay(data).then(function () {
                     thisInstance.showTemplateContent(record);
                 });
             });
-        });  
+        });
     },
-    
+
     /**
      * Function to show template content
      * @param {type} record
      * @returns {undefined}
      */
-    showTemplateContent: function(record){
-        var params={
-            "module" : "EmailTemplates",
-            "action" : "ShowTemplateContent",
-            "mode"   : "getContent",
-            "record" : record
+    showTemplateContent: function (record) {
+        var params = {
+            "module": "EmailTemplates",
+            "action": "ShowTemplateContent",
+            "mode": "getContent",
+            "record": record
         };
-        app.request.post({data: params}).then(function(error, data){
+        app.request.post({
+            data: params
+        }).then(function (error, data) {
             app.helper.hideProgress();
             var templateContent = data.content;
             jQuery('#TemplateIFrame').contents().find('html').html(templateContent);
         });
     },
-    
+
     registerEvents: function () {
         this._super();
         this.registerAccordionClickEvent();
@@ -336,16 +353,16 @@ Head_List_Js("EmailTemplates_List_Js", {
         this.registerTemplateDuplicationEvent();
         this.registerTemplateEditEvent();
         this.registerPreviewTemplateEvent();
-        if(window.hasOwnProperty('Settings_Head_Index_Js')){
-            var instance = new Settings_Head_Index_Js(); 
+        if (window.hasOwnProperty('Settings_Head_Index_Js')) {
+            var instance = new Settings_Head_Index_Js();
             instance.registerBasicSettingsEvents();
         }
-        
+
     }
 });
 
 
-$(document).ready(function(){
+$(document).ready(function () {
     if (document.querySelector('.main-container-EmailTemplates') !== null) {
         $('.table-container .fixed-scroll-table').removeClass('fixed-scroll-table');
     }

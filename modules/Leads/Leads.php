@@ -149,6 +149,60 @@ class Leads extends CRMEntity {
 	}
 
 
+function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions=false) {
+		global $log, $singlepane_view,$currentModule,$current_user;
+		$log->debug("Entering get_opportunities(".$id.") method ...");
+		$this_module = $currentModule;
+
+        $related_module = modlib_getModuleNameById($rel_tab_id);
+		require_once("modules/$related_module/$related_module.php");
+		$other = new $related_module();
+        modlib_setup_modulevars($related_module, $other);
+		$singular_modname = modlib_toSingular($related_module);
+
+		$parenttab = getParentTab();
+
+		if($singlepane_view == 'true')
+			$returnset = '&return_module='.$this_module.'&return_action=DetailView&return_id='.$id;
+		else
+			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
+
+		$button = '';
+
+		if($actions) {
+			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
+			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
+				$button .= "<input title='".getTranslatedString('LBL_SELECT')." ". getTranslatedString($related_module). "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id&parenttab=$parenttab','test','width=640,height=602,resizable=0,scrollbars=0');\" value='". getTranslatedString('LBL_SELECT'). " " . getTranslatedString($related_module) ."'>&nbsp;";
+			}
+			if(in_array('ADD', $actions) && isPermitted($related_module,1, '') == 'yes') {
+				$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString($singular_modname) ."' class='crmbutton small create'" .
+					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";this.form.return_action.value=\"updateRelations\"' type='submit' name='button'" .
+					" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString($singular_modname) ."'>&nbsp;";
+			}
+		}
+
+		// Should Opportunities be listed on Secondary Contacts ignoring the boundaries of Organization.
+		// Useful when the Reseller are working to gain Potential for other Organization.
+		$ignoreOrganizationCheck = true;
+
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
+							'jo_users.first_name', 'last_name' => 'jo_users.last_name'), 'Users');
+		$query ='select case when (jo_users.user_name not like "") then '.$userNameSql.' else jo_groups.groupname end as user_name, jo_leaddetails.leadid, jo_crmentity.crmid, jo_potential.potentialid, jo_potential.potentialname, jo_potential.potentialtype, jo_potential.sales_stage, jo_potential.amount, jo_potential.closingdate,jo_potential.related_to,jo_potential.contact_id, jo_crmentity.crmid, jo_crmentity.smownerid from jo_leaddetails left join jo_crmentityrel on jo_crmentityrel.crmid=jo_leaddetails.leadid left join jo_potential on (jo_potential.potentialid = jo_crmentityrel.relcrmid) left join jo_crmentity on jo_crmentity.crmid = jo_potential.potentialid
+		LEFT JOIN jo_potentialscf ON jo_potential.potentialid = jo_potentialscf.potentialid left join jo_groups on jo_groups.groupid=jo_crmentity.smownerid left join jo_users on jo_users.id=jo_crmentity.smownerid where jo_crmentity.deleted=0 and jo_leaddetails.leadid ='.$id;
+		// die($query);
+		if (!$ignoreOrganizationCheck) {
+			// Restrict the scope of listing to only related contacts of the organization linked to potential via related_to of Potential
+			$query .= ' and (jo_leaddetails.leadid = jo_potential.related_to or jo_leaddetails.contactid=jo_potential.contact_id)';
+		}
+
+		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
+
+		if($return_value == null) $return_value = Array();
+		$return_value['CUSTOM_BUTTON'] = $button;
+
+		$log->debug("Exiting get_opportunities method ...");
+		return $return_value;
+	}
 
 	/** Returns a list of the associated tasks
 	 * @param  integer   $id      - leadid

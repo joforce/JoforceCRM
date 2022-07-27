@@ -55,7 +55,7 @@ class Settings_Head_Menu_Model extends Head_Base_Model {
 	 */
 	public static function getAll() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM '.self::$menusTable.' ORDER BY sequence', array());
+		$result = $db->pquery('SELECT * FROM '.self::$menusTable.' ORDER BY sequence DESC' , array());
 		$noOfMenus = $db->num_rows($result);
 
 		$menuModels = array();

@@ -1,0 +1,26 @@
+ProjectMilestone
+
+delete from jo_tab where tabid=42;
+delete from jo_ws_entity where name='ProjectMilestone';
+delete from jo_field where tabid=42;
+drop tables jo_address;
+drop table jo_addresscf;
+delete from jo_profile2tab where tabid=42;
+delete from jo_blocks where tabid=42;
+delete from jo_def_org_field where tabid=42;
+delete from jo_entityname where tabid=42;
+delete from jo_modtracker_tabs where tabid=42;
+delete from jo_org_share_action2tab where tabid=42;
+delete from jo_profile2field where tabid=42;
+delete from jo_profile2utility where tabid=42;
+delete from jo_tab_info where tabid=42;
+delete from jo_relatedlists where tabid=42 or related_tabid=42;
+delete from jo_crmentityrel where module='ProjectMilestone';
+delete from jo_fieldmodulerel where module='ProjectMilestone' or relmodule='ProjectMilestone';
+delete from jo_parenttabrel where tabid=42;
+delete from jo_crmentity where setype='ProjectMilestone';
+delete from jo_links where linkurl like "%ProjectMilestone%";
+rm -rf modules/ProjectMilestone
+user_privileges/permissions.php
+storage/menu/main_menu_1.php
+storage/menu/module_apps_1.php

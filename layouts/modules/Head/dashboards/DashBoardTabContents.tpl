@@ -13,7 +13,7 @@
     <div class="dashboardBanner"></div>
     <div class="dashBoardTabContents clearfix">
 	<div class="gridster_{$TABID}">
-	    <ul>
+	    <ul class="col-sm-12 p0 ">
 		{assign var=COLUMNS value=2}
 		{assign var=ROW value=1}
 		{foreach from=$WIDGETS item=WIDGET name=count}
@@ -28,23 +28,23 @@
 			    {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} 
 				{assign var=ROWCOUNT value=$ROW+1} data-row="{$WIDGET->getPositionRow($ROWCOUNT)}" 
 			    {else} 
-				data-row="{$WIDGET->getPositionRow($ROW)}" 
+				data-row="1" 
 			    {/if}
 			    {assign var=COLCOUNT value=($smarty.foreach.count.index % $COLUMNS)+1} 
-			    data-col="{$WIDGET->getPositionCol($COLCOUNT)}" data-sizex="{$WIDGET->getWidth()}" data-sizey="{$WIDGET->getHeight()}" {if $WIDGET->get('position') eq ""} data-position="false"{/if}
-			    class="dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="{$WIDGET->getName()}">
+			    data-col="0" data-sizex="5" data-sizey="0" {if $WIDGET->get('position') eq ""} data-position="false"{/if}
+			    class="dashboardWidget col-sm-6  dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="{$WIDGET->getName()}">
 			</li>
 		    {else}
 			{assign var=CHARTWIDGETDOMID value=$WIDGET->get('reportid')}
 			{assign var=WIDGETID value=$WIDGET->get('id')}
 			<li id="{$CHARTWIDGETDOMID}-{$WIDGETID}" 
 			    {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0}
-				{assign var=ROWCOUNT value=$ROW+1} data-row="{$WIDGET->getPositionRow($ROWCOUNT)}" 
+				{assign var=ROWCOUNT value=$ROW+1} data-row="1" 
 			    {else}
 				data-row="{$WIDGET->getPositionRow($ROW)}" 
 			    {/if}
 			    {assign var=COLCOUNT value=($smarty.foreach.count.index % $COLUMNS)+1} data-col="{$WIDGET->getPositionCol($COLCOUNT)}" data-sizex="{$WIDGET->getWidth()}" data-sizey="{$WIDGET->getHeight()}" {if $WIDGET->get('position') eq ""} data-position="false"{/if}
-			    class="dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="ChartReportWidget"> 
+			    class="dashboardWidget col-sm-6  dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="ChartReportWidget"> 
 			</li>
 		    {/if}
 		{/foreach}

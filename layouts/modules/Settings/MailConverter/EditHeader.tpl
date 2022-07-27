@@ -8,21 +8,21 @@
 ************************************************************************************}
 
 {strip}
-	<div class="editViewPageDiv mailBoxEditDiv viewContent">
+	<div class="editViewPageDiv mailBoxEditDiv mt0  viewContent card">
 		<div>
 			<input type="hidden" id="create" value="{$CREATE}" />
 			<input type="hidden" id="recordId" value="{$RECORD_ID}" />
 			<input type="hidden" id="step" value="{$STEP}" />
-			<h4>
+			<h4 class="card-header-new m0 p20 ml10">
 				{if $CREATE eq 'new'}
 					{vtranslate('LBL_ADDING_NEW_MAILBOX', $QUALIFIED_MODULE)}
 				{else}
 					{vtranslate('LBL_EDIT_MAILBOX', $QUALIFIED_MODULE)}
 				{/if}
 			</h4>
-			<hr>
-			<div class="editViewContainer" style="padding-left: 2%;padding-right: 2%">
-				<div class="row">
+			
+			<div class="editViewContainer " >
+				<div class="row ">
 					{assign var=BREADCRUMB_LABELS value = ["step1" => "MAILBOX_DETAILS", "step2" => "SELECT_FOLDERS"]}
 					{if $CREATE eq 'new'}
 						{append var=BREADCRUMB_LABELS index=step3 value=ADD_RULES}

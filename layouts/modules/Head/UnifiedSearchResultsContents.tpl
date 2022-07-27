@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-4 pull-right">
                 {assign var=RECORD_COUNT value=$LISTVIEW_ENTRIES_COUNT}
-                {include file="Pagination.tpl"|vtemplate_path:$MODULE SHOWPAGEJUMP=true}
+                {include file="Pagination.tpl"|vtemplate_path:$MODULE}
         </div>
     </div>
     <div class="row">

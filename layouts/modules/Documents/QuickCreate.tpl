@@ -13,6 +13,8 @@
 	{/foreach}
 	{if $FILE_LOCATION_TYPE eq 'I'}
 		{include file="UploadDocument.tpl"|vtemplate_path:$MODULE}
+	{else if $FILE_LOCATION_TYPE eq 'U'}
+		{include file="UploadFile.tpl"|vtemplate_path:$MODULE}
 	{else}
 		{include file="CreateDocument.tpl"|vtemplate_path:$MODULE}
 	{/if}

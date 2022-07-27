@@ -7,10 +7,10 @@
 * All Rights Reserved.
 ************************************************************************************}
 
-<div class="row" style = "margin-bottom: 10px">
+<div style = "margin-bottom: 10px">
     <div class = "form-group">
         <div class = "col-lg-2" style="margin-top:8px">
-            <label class ="control-label" for="saved_maps">{'LBL_USE_SAVED_MAPS'|@vtranslate:$MODULE}</label>
+            <label class ="col-form-label" for="saved_maps">{'LBL_USE_SAVED_MAPS'|@vtranslate:$MODULE}</label>
         </div>
         <div class="col-lg-4">
             <select name="saved_maps" id="saved_maps" class="select2 form-control" onchange="Head_Import_Js.loadSavedMap();">

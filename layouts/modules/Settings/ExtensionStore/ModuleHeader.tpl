@@ -9,15 +9,15 @@
 ************************************************************************************}
 
 {strip}
-    <div class="col-sm-12 col-xs-12 module-action-bar clearfix coloredBorderTop">
+    <div class="col-sm-12 col-xs-12 col-lg-12 module-action-bar clearfix">
 		<div class="module-action-content clearfix">
 			<div class="col-lg-4 col-md-4">
 				<h4 title="{strtoupper(vtranslate($MODULE, $MODULE))}" class="module-title pull-left text-uppercase"> {strtoupper(vtranslate($MODULE, $MODULE))} </h4>
 			</div>
 			{*<div class="col-lg-8 col-md-8">
-				<div class="navbar-right">
+				<div class="ml-auto">
 					<ul class="nav navbar-nav">
-						<li>
+						<li class="nav-item">
 							{if !($PASSWORD_STATUS)}
 								<button class="btn btn-default" type="button" id="logintoMarketPlace">
 									<div class="fa fa-sign-in" aria-hidden="true"></div>

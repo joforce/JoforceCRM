@@ -12,7 +12,7 @@
 {strip}
     <span>
         <div class="col-lg-6">
-            <select class="select2 col-lg-11 selectedSortFields " name="selectstep2dropdown_{$ROW_VAL}">
+            <select class="select2  selectedSortFields " name="selectstep2dropdown_{$ROW_VAL}">
                 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
                 {foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
                     {foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}

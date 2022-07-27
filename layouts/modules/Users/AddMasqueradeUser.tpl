@@ -10,9 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
     <div class="modal-content" id="add-main-menu-content-modal">
-	<div class="modal-header" style="min-height:53px">
+	<div class="modal-header" style="min-height:53px;">
 	    <strong>{vtranslate('LBL_ADD_RECORD', $MODULE)}</strong>
 	    <button type="button" class="close" aria-label="Close" data-dismiss="modal" style="color: inherit;">
 		<span aria-hidden="true" class="fa fa-close"></span>
@@ -68,93 +68,93 @@
 		    <input type="hidden" name="is_masquerade_user" value=true />
 
 		    <div class="add-main-menu-content">
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pl0 pull-left pr0">
 				<label class="fieldLabel alignMiddle">{vtranslate('User Name', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
 				<input type="text" name="user_name" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('lastname')}" />
                             </div>
 			</div>
 		
-			<div class="col-md-12 pl0 mt10">    
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">    
+            <div class="col-md-5 pull-left pl0 pr0">
                             	<label class="fieldLabel alignMiddle">{vtranslate('First Name', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                             	<input type="text" name="first_name" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('firstname')}" />
                             </div>
                         </div>
 
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Last Name', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                                 <input type="text" name="last_name" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('lastname')}" />
                             </div>
                         </div>
 					
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Email', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                                 <input type="text" name="email1" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('email')}" />
 			    </div>
                         </div>
 
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Title', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                                 <input type="text" name="title" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('title')}"/>
 			    </div>
                         </div>
 
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Phone', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                                 <input type="text" name="phone" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('phone')}"/>
 			    </div>
 			</div>
 
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Description', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                             	<input type="text" name="description" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('des</div>cription')}" />
 			    </div>
                         </div>
 
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Department', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                             	<input type="text" name="department" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('dep</div>artment')}" />
 			    </div>
                         </div>
 	
-			<div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+			<div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Secondary Email', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
                                 <input type="text" name="secondaryemail" class="inputElement col-md-7 pl0" value="{$RECORD_MODEL->get('sec</div>ondaryemail')}" />
                             </div>
                         </div>
-            <div class="col-md-12 pl0 mt10">
-                            <div class="col-md-5 pl0 pr0">
+            <div class="col-md-12 pl0 mt10 row">
+            <div class="col-md-5 pull-left pl0 pr0">
                                 <label class="fieldLabel alignMiddle">{vtranslate('Masquerade User end date', $MODULE)}</label>
                             </div>
-                            <div class="col-md-7 pl0">
+                            <div class="col-md-7 pull-right pl0">
 
-                            <input id="masqueradeuserenddate" type="text" class="inputElement dateField form-control "  data-fieldtype="date" name="masqueradeuserenddate" data-date-format="mm-dd-yyyy" value="" />
+                            <input id="masqueradeuserenddate" type="text" class="inputElement col-md-7 pl0 dateField form-control "  data-fieldtype="date" name="masqueradeuserenddate" data-date-format="mm-dd-yyyy" value="" />
                                 
                             </div>
                         </div>
@@ -168,7 +168,7 @@
             	<button class="btn btn-primary save-masquerade-user" id="save-masquerade-user" type="submit" name="saveButton" data-type="module">
                     <strong>Save</strong>
                 </button>
-                <a href="#" class="cancelLink btn btn-secondary" type="reset" data-dismiss="modal">Cancel</a>
+                <a href="#" class="cancelLink btn btn-danger" type="reset" data-dismiss="modal">Cancel</a>
             </center>
 	</div>
     </div>

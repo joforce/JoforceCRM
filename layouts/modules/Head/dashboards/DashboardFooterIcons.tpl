@@ -10,11 +10,6 @@
   *
  ********************************************************************************/
 -->*}
-{if $SETTING_EXIST}
-<a name="dfilter">
-	<i class='fa fa-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
-</a>
-{/if}
 {if !empty($CHART_TYPE)}
     {assign var=CHART_DATA value=ZEND_JSON::decode($DATA)}
     {assign var=CHART_VALUES value=$CHART_DATA['values']}

@@ -51,7 +51,6 @@ class GraphQL
                     'args' => $fields['args'],
                     'resolve' => function($root, $args, $context) use ($requested_data) {
                         $data = $this->helper->resolve($requested_data, $args);
-
                         // Update the structure of retrieve information
                         if(isset($context['action']) && $context['action'] == 'get_record') {
                             foreach($data['blocks'] as $block_id => $block_information) {
@@ -78,7 +77,7 @@ class GraphQL
                                             $data['records'][$record_id]['blocks'][$block_id]['fields'][$field_id]['record_label'] = ""; 
                                         }
                                     }
-                                }   
+                                }
                             }
                         }
                         return $data;
@@ -86,7 +85,6 @@ class GraphQL
                 ]
             ]
         ]);
-        
         return $queryType;
     }
 
@@ -123,7 +121,7 @@ class GraphQL
                     'resolve' => function($root, $request_data, $context) use ($args) {
                         $data = $this->helper->syncRecord($request_data['data'], $request_data['module'], $request_data['id']);
             			if($request_data['module'] == 'ModComments')	{
-            				return $data['modcommentsid'];
+            				return $data['id'];
 			            }
                         return $data['record']['id'];
                     }
@@ -169,7 +167,7 @@ class GraphQL
      * @param $requested_data
      * @return array
      */
-    public function execute($schema, $requested_data)
+	public function execute($schema, $requested_data)
     {
         $result = \GraphQL\GraphQL::executeQuery(
             $schema,
@@ -178,8 +176,10 @@ class GraphQL
             $requested_data,
             (array) $requested_data
         );
-
-        $response = $result->toArray();
-        return $response;
+	$module = $requested_data['module'];
+	$action = $requested_data['action'];
+	$response = $result->toArray();
+      	 return $response;
     }
 }
+

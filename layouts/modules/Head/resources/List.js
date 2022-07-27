@@ -39,30 +39,39 @@ Head.Class("Head_List_Js", {
 		return Head_List_Js.listInstance;
 	},
 	triggerMassEdit: function (url) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var selectedRecordCount = listInstance.getSelectedRecordCount();
 		if (selectedRecordCount > 500) {
-			app.helper.showErrorNotification({message: app.vtranslate('JS_MASS_EDIT_LIMIT')});
+			app.helper.showErrorNotification({
+				message: app.vtranslate('JS_MASS_EDIT_LIMIT')
+			});
 			return;
 		}
 		app.event.trigger('post.listViewMassEdit.click', url);
 		var params = listInstance.getListSelectAllParams(true);
 		if (params) {
 			app.helper.showProgress();
-			app.request.get({url: url, data: params}).then(function (error, data) {
-				var overlayParams = {'backdrop': 'static', 'keyboard': false};
+			app.request.get({
+				url: url,
+				data: params
+			}).then(function (error, data) {
+				var overlayParams = {
+					'backdrop': 'static',
+					'keyboard': false
+				};
 				app.helper.loadPageContentOverlay(data, overlayParams).then(function (container) {
 					app.event.trigger('post.listViewMassEdit.loaded', container);
 				})
 				app.helper.hideProgress();
 			});
-		}
-		else {
+		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
 	triggerSendSms: function (massActionUrl, module) {
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
 			app.helper.showProgress();
@@ -71,11 +80,12 @@ Head.Class("Head_List_Js", {
 				if (data == true) {
 					Head_List_Js.triggerMassAction(massActionUrl);
 				} else {
-					app.helper.showAlertBox({message: app.vtranslate('JS_SMS_SERVER_CONFIGURATION')})
+					app.helper.showAlertBox({
+						message: app.vtranslate('JS_SMS_SERVER_CONFIGURATION')
+					})
 				}
 			});
-		}
-		else {
+		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 
@@ -84,11 +94,13 @@ Head.Class("Head_List_Js", {
 		return window.app.controller();
 	},
 	massDeleteRecords: function (url, instance) {
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		listInstance.performMassDeleteRecords(url);
 	},
 	triggerExportAction: function (exportActionUrl) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		listInstance.performExportAction(exportActionUrl);
 	},
 	/*
@@ -96,7 +108,8 @@ Head.Class("Head_List_Js", {
 	 * @params: send email url , module name.
 	 */
 	triggerSendEmail: function (massActionUrl, module, params) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(false);
 		if (listSelectParams) {
 			var postData = listInstance.getDefaultParams();
@@ -110,41 +123,45 @@ Head.Class("Head_List_Js", {
 				jQuery.extend(postData, params);
 			}
 			Head_Index_Js.showComposeEmailPopup(postData);
-		}
-		else {
+		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
 	triggerTransferOwnership: function (massActionUrl) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams();
 		if (listSelectParams) {
 			app.helper.showProgress();
-			app.request.get({'url': massActionUrl}).then(
-					function (error, data) {
-						app.helper.hideProgress();
-						if (data) {
-							var callback = function (data) {
-								var chagneOwnerForm = jQuery('#changeOwner');
-								chagneOwnerForm.vtValidate({
-									submitHandler: function (form) {
-										listInstance.transferOwnershipSave(jQuery(form));
-										return false;
-									}
-								});
-							}
-							var params = {};
-							params.cb = callback
-							app.helper.showModal(data, params);
+			app.request.get({
+				'url': massActionUrl
+			}).then(
+				function (error, data) {
+					app.helper.hideProgress();
+					if (data) {
+						var callback = function (data) {
+							var chagneOwnerForm = jQuery('#changeOwner');
+							chagneOwnerForm.vtValidate({
+								submitHandler: function (form) {
+									listInstance.transferOwnershipSave(jQuery(form));
+									return false;
+								}
+							});
 						}
+						var params = {};
+						params.cb = callback
+						app.helper.showModal(data, params);
+						vtUtils.showSelect2ElementView(jQuery('#changeOwner').find('select.select2'));
 					}
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
 	triggerMassAction: function (massActionUrl) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(true);
 		if (listSelectParams) {
 			var postData = listInstance.getDefaultParams();
@@ -155,20 +172,23 @@ Head.Class("Head_List_Js", {
 			postData = jQuery.extend(postData, data);
 			postData = jQuery.extend(postData, listSelectParams);
 			app.helper.showProgress();
-			app.request.get({'data': postData}).then(
-					function (err, data) {
-						app.helper.hideProgress();
-						if (data) {
-							app.helper.showModal(data, {'cb': function (modal) {
-									if (postData.mode === "showAddCommentForm") {
-										var vtigerInstance = Head_Index_Js.getInstance();
-										vtigerInstance.registerMultiUpload();
-									}
-									app.event.trigger('post.listViewMassAction.loaded', modal);
+			app.request.get({
+				'data': postData
+			}).then(
+				function (err, data) {
+					app.helper.hideProgress();
+					if (data) {
+						app.helper.showModal(data, {
+							'cb': function (modal) {
+								if (postData.mode === "showAddCommentForm") {
+									var vtigerInstance = Head_Index_Js.getInstance();
+									vtigerInstance.registerMultiUpload();
 								}
-							});
-						}
+								app.event.trigger('post.listViewMassAction.loaded', modal);
+							}
+						});
 					}
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -176,55 +196,67 @@ Head.Class("Head_List_Js", {
 	},
 	showDuplicateSearchForm: function (url) {
 		app.helper.showProgress();
-		app.request.get({'url': url}).then(function (error, data) {
+		app.request.get({
+			'url': url
+		}).then(function (error, data) {
 			if (data) {
 				app.helper.hideProgress();
-				app.helper.showModal(data, {'cb': function (container) {
+				app.helper.showModal(data, {
+					'cb': function (container) {
 						container.find('form').vtValidate({})
-					}});
+					}
+				});
 			}
 		})
 	},
 	triggerMergeRecord: function () {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		listInstance.performMergeRecords();
 	},
 	triggerAddStar: function () {
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(true)
 		if (listSelectParams) {
-			listInstance.massStarSave({'value': 1});
+			listInstance.massStarSave({
+				'value': 1
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
 	triggerRemoveStar: function () {
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(true)
 		if (listSelectParams) {
-			listInstance.massStarSave({'value': 0});
+			listInstance.massStarSave({
+				'value': 0
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
-	triggerPreviewForRecord: function (recordId, appName) {
+	triggerPreviewForRecord: function (recordId) {
 		var listInstance = Head_List_Js.getInstance();
-		listInstance.showQuickPreviewForId(recordId, appName, '');
+		listInstance.showQuickPreviewForId(recordId);
 		return false;
 	},
 	triggerAddTag: function () {
-		var listInstance = app.controller();
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(true);
 		if (listSelectParams) {
-			listInstance.showAllTags(jQuery('.main-container'));
+			listInstance.showAllTags(jQuery('.sidebar-menu'));
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 
 	},
 	triggerRemoveTag: function (tagId) {
-		var listInstance = app.controller();
+		// var listInstance = app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(true);
 		if (listSelectParams) {
 			listInstance.massRemoveTag(tagId);
@@ -248,7 +280,9 @@ Head.Class("Head_List_Js", {
 				record: recordId,
 				attachmentid: attachmentId
 			};
-			app.request.post({data: params}).then(function (err, res) {
+			app.request.post({
+				data: params
+			}).then(function (err, res) {
 				app.helper.showModal(res);
 				jQuery('.filePreview .preview-area').height(jQuery(window).height() - 143);
 			});
@@ -269,10 +303,16 @@ Head.Class("Head_List_Js", {
 		this.addModuleSpecificComponent('Pagination');
 		this.addComponent('Head_Tag_Js');
 
-		$(document).on('click', '.link-as-menu',function(e) {
+		$(document).on('click', '.link-as-menu', function (e) {
 			e.preventDefault();
 			var url = $(this).attr('href');
-		        window.open(url, '_blank');
+			window.open(url, '_blank');
+		});
+		$(document).on('change', '.custom-select', function (e) {
+			e.preventDefault();
+			var url = $(this).find(":selected").data('href');
+			$('.listViewFilter').has('a[href="' + url + '"]').click();
+			window.location = url;
 		});
 	},
 	addIndexComponent: function () {
@@ -316,7 +356,9 @@ Head.Class("Head_List_Js", {
 	 * Function to return alerts if no records selected.
 	 */
 	noRecordSelectedAlert: function () {
-		return app.helper.showAlertBox({message: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')});
+		return app.helper.showAlertBox({
+			message: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')
+		});
 	},
 	registerRemoveListViewSort: function () {
 		var listViewContainer = this.getListViewContainer();
@@ -324,7 +366,9 @@ Head.Class("Head_List_Js", {
 
 		listViewContainer.on('click', '.removeSorting', function (e) {
 			var cvId = thisInstance.getCurrentCvId();
-			thisInstance.loadFilter(cvId, {'mode': 'removeSorting'});
+			thisInstance.loadFilter(cvId, {
+				'mode': 'removeSorting'
+			});
 		});
 	},
 	performMassDeleteRecords: function (url) {
@@ -339,35 +383,44 @@ Head.Class("Head_List_Js", {
 		listSelectParams = jQuery.extend(listSelectParams, params);
 		if (listSelectParams) {
 			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(function (e) {
+			app.helper.showConfirmationBox({
+				'message': message
+			}).then(function (e) {
 				listSelectParams['module'] = app.getModuleName();
 				listSelectParams['action'] = 'MassDelete';
 				listSelectParams['search_params'] = JSON.stringify(listInstance.getListSearchParams());
 				app.helper.showProgress();
-				app.request.post({data: listSelectParams}).then(
-						function (error, result) {
-							app.helper.hideProgress();
-							if (error) {
-								app.helper.showErrorNotification();
-								return;
-							}
-							listInstance.clearList();
-							listInstance.getPageCount().then(function (data) {
-								var pageCount = parseInt(data.page);
-								var container = listInstance.getListViewContainer();
-								var currentPageElement = container.find('#pageNumber');
-								var currentPageNumber = parseInt(currentPageElement.val());
-								var params = {};
-								if (currentPageNumber > pageCount) {
-									params = {'page': 1};
-								}
-								listInstance.loadListViewRecords(params);
-							});
+				app.request.post({
+					data: listSelectParams
+				}).then(
+					function (error, result) {
+						app.helper.hideProgress();
+						if (error) {
+							app.helper.showErrorNotification();
+							return;
 						}
+						listInstance.clearList();
+						listInstance.getPageCount().then(function (data) {
+							if (data.numberOfRecords == 0) {
+								window.onbeforeunload = null;
+								window.location.reload();
+							}
+							var pageCount = parseInt(data.page);
+							var container = listInstance.getListViewContainer();
+							var currentPageElement = container.find('#pageNumber');
+							var currentPageNumber = parseInt(currentPageElement.val());
+							var params = {};
+							if (currentPageNumber > pageCount) {
+								params = {
+									'page': 1
+								};
+							}
+							listInstance.loadListViewRecords(params);
+						});
+					}
 				);
 			});
-		}
-		else {
+		} else {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
@@ -393,7 +446,9 @@ Head.Class("Head_List_Js", {
 		// 	});
 		// 	app.helper.hideProgress();
 		// });
-		app.request.get({data: postData}).then(function (error, data) {
+		app.request.get({
+			data: postData
+		}).then(function (error, data) {
 			app.helper.showModal(data)
 			app.helper.hideProgress();
 		});
@@ -457,25 +512,28 @@ Head.Class("Head_List_Js", {
 		app.helper.showProgress();
 
 		if (urlParams['view'] == 'ListAjax') {
-			app.request.post({data: urlParams}).then(function (err, res) {
+			app.request.post({
+				data: urlParams
+			}).then(function (err, res) {
 				aDeferred.resolve(res);
 				self.postLoadListViewRecords(res);
 				self.addstyle(urlParams.search_params);
 			});
 		} else {
-			app.request.pjax({data: urlParams}).then(function (err, res) {
+			app.request.pjax({
+				data: urlParams
+			}).then(function (err, res) {
 				aDeferred.resolve(res);
 				self.postLoadListViewRecords(res);
 				self.addstyle(urlParams.search_params);
 			});
 		}
-			return aDeferred.promise();
+		return aDeferred.promise();
 	},
-	addstyle: function(params){
-		if(params == ''){
+	addstyle: function (params) {
+		if (params == '') {
 			jQuery('.searchRow').hide();
-		}
-		else{
+		} else {
 			jQuery('.searchRow').show();
 		}
 	},
@@ -483,11 +541,17 @@ Head.Class("Head_List_Js", {
 		var self = this;
 		self.placeListContents(res);
 		app.event.trigger('post.listViewFilter.click', jQuery('.searchRow'));
-		app.helper.hideProgress();	
+		app.helper.hideProgress();
 		self.markSelectedIdsCheckboxes();
 		self.registerDynamicListHeaders();
 		self.registerPostLoadListViewActions();
 		app.helper.registerTableAlignment();
+		$(".table-left-column").addClass('table-height');
+		if ($(window).width() < 500) {
+			$('.table-toggle').removeClass('fixed-scroll-table');
+		}
+
+
 	},
 	placeListContents: function (contents) {
 		var container = this.getListViewContainer();
@@ -501,7 +565,6 @@ Head.Class("Head_List_Js", {
 		var cvId = this.getCurrentCvId();
 		var orderBy = container.find('[name="orderBy"]').val();
 		var sortOrder = container.find('[name="sortOrder"]').val();
-		var appName = container.find('#appName').val();
 		var params = {
 			'module': module,
 			'parent': parent,
@@ -510,7 +573,6 @@ Head.Class("Head_List_Js", {
 			'viewname': cvId,
 			'orderby': orderBy,
 			'sortorder': sortOrder,
-			'app': appName
 		}
 		params.search_params = JSON.stringify(this.getListSearchParams());
 		params.tag_params = JSON.stringify(this.getListTagParams());
@@ -624,9 +686,9 @@ Head.Class("Head_List_Js", {
 			searchParams.push(searchInfo);
 		});
 		for (var i in currentSearchParams) {
-//			Number.isInteger(parseInt(i)) (Previously Used which is not supported by IE.)
-//			http://codereview.stackexchange.com/questions/101484/simple-function-to-verify-if-a-number-is-integer
-//			http://stackoverflow.com/questions/26482645/number-isintegerx-which-is-created-can-not-work-in-ie
+			//			Number.isInteger(parseInt(i)) (Previously Used which is not supported by IE.)
+			//			http://codereview.stackexchange.com/questions/101484/simple-function-to-verify-if-a-number-is-integer
+			//			http://stackoverflow.com/questions/26482645/number-isintegerx-which-is-created-can-not-work-in-ie
 			if (!this.isInteger(parseInt(i))) {
 				continue;
 			}
@@ -664,8 +726,7 @@ Head.Class("Head_List_Js", {
 			starSearchParams.push('e');
 			starSearchParams.push('1');
 			listSearchParams[0].push(starSearchParams);
-		}
-		else if (activeStarFilter == "unstarred") {
+		} else if (activeStarFilter == "unstarred") {
 			if (typeof listSearchParams[0] == "undefined") {
 				listSearchParams[0] = new Array();
 			}
@@ -718,13 +779,17 @@ Head.Class("Head_List_Js", {
 		var totalPages = parseInt(container.find('#tl_no_of_pages').val());
 		if (newPageNumber > totalPages) {
 			var message = app.vtranslate('JS_PAGE_NOT_EXIST');
-			app.helper.showErrorNotification({'message': message})
+			app.helper.showErrorNotification({
+				'message': message
+			})
 			return;
 		}
 
 		if (newPageNumber === currentPageNumber) {
 			var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + " " + newPageNumber;
-			app.helper.showAlertNotification({'message': message});
+			app.helper.showAlertNotification({
+				'message': message
+			});
 			return;
 		}
 
@@ -918,25 +983,34 @@ Head.Class("Head_List_Js", {
 				var params = jQuery.extend(values, params);
 				app.helper.showProgress();
 				jQuery('.inline-save', currentTrElement).find('button').attr('disabled', 'disabled');
-				app.request.post({data: params}).then(function (err, result) {
+				app.request.post({
+					data: params
+				}).then(function (err, result) {
 					if (result) {
 						jQuery('.inline-save', currentTrElement).find('button').removeAttr('disabled');
+						$('.button.btn-success.btn-small.save').toggle(function () {
+							$(".table-left-column").addClass('table-height');
+						})
 						var params = {};
 						thisInstance.loadListViewRecords(params).then(function (data) {
 							thisInstance.toggleInlineEdit(currentTrElement);
 							app.helper.hideProgress();
-							app.helper.showSuccessNotification({"message": ''});
+							app.helper.showSuccessNotification({
+								"message": ''
+							});
 							//Register Event to show quick preview for reference field.
 							app.event.trigger('onclick.referenceField.quickPreview', currentTrElement);
 						});
 					} else {
 						app.helper.hideProgress();
-						app.helper.showErrorNotification({"message": err});
+						app.helper.showErrorNotification({
+							"message": err
+						});
 						jQuery('.inline-save', currentTrElement).find('button').removeAttr('disabled');
 						return false;
 					}
 				});
-				return false;  // blocks regular submit since you have ajax
+				return false; // blocks regular submit since you have ajax
 			}
 		};
 		validateAndSubmitForm(listViewContainer.find('#listedit'), params);
@@ -1048,14 +1122,16 @@ Head.Class("Head_List_Js", {
 			}
 		}
 
-		app.request.get({data: params}).then(
-				function (err, res) {
-					aDeferred.resolve(res);
-				},
-				function (error) {
-					//TODO : Handle error
-					aDeferred.reject();
-				}
+		app.request.get({
+			data: params
+		}).then(
+			function (err, res) {
+				aDeferred.resolve(res);
+			},
+			function (error) {
+				//TODO : Handle error
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -1066,7 +1142,7 @@ Head.Class("Head_List_Js", {
 		var tdElement = jQuery(element).closest('td');
 		var params = {};
 		var referenceModuleElement = jQuery('input[name="referenceModule"]', tdElement).length ?
-				jQuery('input[name="referenceModule"]', tdElement) : jQuery('input.referenceModule', tdElement);
+			jQuery('input[name="referenceModule"]', tdElement) : jQuery('input.referenceModule', tdElement);
 		var searchModule = referenceModuleElement.val();
 		params.search_module = searchModule;
 		return params;
@@ -1096,43 +1172,36 @@ Head.Class("Head_List_Js", {
 			}
 			e.stopPropagation();
 		});
-		
+
 		// Single click event - detail view
-                listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			if(moduleName == 'Reports' || moduleName == 'PDFMaker')
-			{
-                        var target = jQuery(e.target);
-                        if (!target.hasClass('js-reference-display-value')) {
-                                setTimeout(function () {
-                                        var editedLength = jQuery('.listViewEntries.edited').length;
-                                        if (editedLength === 0) {
-                                                var selection = window.getSelection().toString();
-                                                if (selection.length == 0) {
-                                                        var target = jQuery(e.target, jQuery(e.currentTarget));
-                                                        if (target.closest('td').is('td:first-child'))
-                                                                return;
-                                                        if (target.closest('tr').hasClass('edited'))
-                                                                return;
-                                                        if (jQuery(e.target).is('input[type="checkbox"]'))
-                                                                return;
-                                                        var elem = jQuery(e.currentTarget);
-                                                        var recordUrl = elem.data('recordurl');
-                                                        if (typeof recordUrl == 'undefined') {
-                                                                return;
-                                                        }
-                                                        window.location.href = recordUrl;
-                                                }
-                                        }
-                                }, 300);
-                        }
+		listViewContentDiv.on('click', '.listViewEntries', function (e) {
+			if (moduleName == 'Reports' || moduleName == 'PDFMaker') {
+				var target = jQuery(e.target);
+				if (!target.hasClass('js-reference-display-value')) {
+					setTimeout(function () {
+						var editedLength = jQuery('.listViewEntries.edited').length;
+						if (editedLength === 0) {
+							var selection = window.getSelection().toString();
+							if (selection.length == 0) {
+								var target = jQuery(e.target, jQuery(e.currentTarget));
+								if (target.closest('td').is('td:first-child'))
+									return;
+								if (target.closest('tr').hasClass('edited'))
+									return;
+								if (jQuery(e.target).is('input[type="checkbox"]'))
+									return;
+								var elem = jQuery(e.currentTarget);
+								var recordUrl = elem.data('recordurl');
+								if (typeof recordUrl == 'undefined') {
+									return;
+								}
+								window.location.href = recordUrl;
+							}
+						}
+					}, 300);
+				}
 			}
-/*			else
-			{
-				var recordId = $(this).data('id');
-	                        var app = $('#appName').val();
-        	                self.showQuickPreviewForId(recordId, app);
-			}*/
-                });
+		});
 	},
 	/*
 	 * Function to register the list view row double click event
@@ -1150,8 +1219,7 @@ Head.Class("Head_List_Js", {
 				if (jQuery(elem).data('timer')) {
 					clearTimeout(jQuery(elem).data('timer'));
 					jQuery(elem).data('timer', null);
-				}
-				;
+				};
 			});
 			var editedLength = jQuery('.listViewEntries.edited').length;
 			if (editedLength === 0) {
@@ -1262,10 +1330,16 @@ Head.Class("Head_List_Js", {
 							var status = statusDetails.status;
 							if (status == 'Failed') {
 								var errorMsg = statusDetails.statusmessage + '<br>' + app.vtranslate('JS_PHONEFORMAT_ERROR');
-								app.helper.showErrorNotification({'title': status, 'message': errorMsg});
+								app.helper.showErrorNotification({
+									'title': status,
+									'message': errorMsg
+								});
 							} else {
 								var msg = statusDetails.statusmessage;
-								app.helper.showSuccessNotification({'title': status, 'message': msg});
+								app.helper.showSuccessNotification({
+									'title': status,
+									'message': msg
+								});
 							}
 						}
 						app.event.trigger('post.listViewMassEditSave');
@@ -1294,8 +1368,7 @@ Head.Class("Head_List_Js", {
 					//To unmark the all the selected ids
 					jQuery('#deSelectAllMsgDiv').trigger('click');
 				},
-				function (textStatus, errorThrown) {
-				}
+				function (textStatus, errorThrown) {}
 			);
 		});
 
@@ -1314,7 +1387,7 @@ Head.Class("Head_List_Js", {
 				prevSearchValues[fieldName] = searchValue;
 			}
 		});
-		
+
 		listViewPageDiv.on('datepicker-change', '.dateField', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.trigger('change');
@@ -1330,9 +1403,9 @@ Head.Class("Head_List_Js", {
 			var newData = app.convertUrlToDataParams(form_new_data);
 
 			for (var key in originalData) {
-				if ((form.find('[name="' + key + '"]').is("select")
-						|| form.find('[name="' + key + '"]').is("input[type='checkbox']"))
-						&& (originalData[key] == newData[key])) {
+				if ((form.find('[name="' + key + '"]').is("select") ||
+						form.find('[name="' + key + '"]').is("input[type='checkbox']")) &&
+					(originalData[key] == newData[key])) {
 					delete newData[key];
 				}
 			}
@@ -1342,7 +1415,9 @@ Head.Class("Head_List_Js", {
 				form_update_data += key + '=' + newData[key] + '&';
 			}
 			form_update_data = form_update_data.slice(0, -1);
-			app.request.post({data: form_update_data}).then(function (data) {
+			app.request.post({
+				data: form_update_data
+			}).then(function (data) {
 				app.helper.hideProgress();
 				app.helper.hidePageContentOverlay();
 				window.onbeforeunload = null;
@@ -1350,7 +1425,9 @@ Head.Class("Head_List_Js", {
 			});
 		} else {
 			app.helper.hideProgress();
-			app.helper.showAlertBox({'message': app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT')});
+			app.helper.showAlertBox({
+				'message': app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT')
+			});
 		}
 	},
 	markSelectedIdsCheckboxes: function () {
@@ -1379,8 +1456,7 @@ Head.Class("Head_List_Js", {
 				rows.each(function (i, elem) {
 					jQuery(elem).find(".listViewEntriesCheckBox").prop('checked', true);
 				});
-			}
-			else {
+			} else {
 				rows.each(function (i, elem) {
 					var rowId = $(elem).data('id');
 					jQuery(elem).find('.listViewEntriesCheckBox').prop('checked', true);
@@ -1422,15 +1498,21 @@ Head.Class("Head_List_Js", {
 		var self = this;
 		var selectedIds = self.readSelectedIds();
 		if (selectedIds.length > 3) {
-			app.helper.showErrorNotification({message: app.vtranslate('JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS')});
+			app.helper.showErrorNotification({
+				message: app.vtranslate('JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS')
+			});
 			return;
 		}
 		if (selectedIds.length < 2) {
-			app.helper.showErrorNotification({message: app.vtranslate('JS_SELECT_ATLEAST_TWO_RECORD_FOR_MERGING')});
+			app.helper.showErrorNotification({
+				message: app.vtranslate('JS_SELECT_ATLEAST_TWO_RECORD_FOR_MERGING')
+			});
 			return;
 		}
 
-		app.event.trigger('Request.MergeRecords.show', {records: selectedIds});
+		app.event.trigger('Request.MergeRecords.show', {
+			records: selectedIds
+		});
 		app.event.one('post.MergeRecords', function (e) {
 			self.clearList();
 			self.loadListViewRecords();
@@ -1457,7 +1539,9 @@ Head.Class("Head_List_Js", {
 			var row = element.closest('.listViewEntries');
 
 			if (element.is(':checked')) {
-				row.trigger('Post.ListRow.Checked', {"id": row.data('id')});
+				row.trigger('Post.ListRow.Checked', {
+					"id": row.data('id')
+				});
 				self.registerPostLoadListViewActions();
 				if (recordSelectTrackerInstance.selectAllMode) {
 					var excludedIds = recordSelectTrackerInstance.getExcludedIds();
@@ -1466,7 +1550,9 @@ Head.Class("Head_List_Js", {
 					}
 				}
 			} else {
-				row.trigger('Post.ListRow.UnChecked', {"id": row.data('id')});
+				row.trigger('Post.ListRow.UnChecked', {
+					"id": row.data('id')
+				});
 				self.registerPostLoadListViewActions();
 				if (recordSelectTrackerInstance.selectAllMode) {
 					listViewPageDiv.find('.listViewEntriesMainCheckBox').prop("checked", false)
@@ -1543,7 +1629,9 @@ Head.Class("Head_List_Js", {
 				rows.find('.listViewEntriesCheckBox').each(function (e) {
 					jQuery(this).prop('checked', true);
 					var row = jQuery(this).closest('.listViewEntries');
-					row.trigger('Post.ListRow.Checked', {"id": row.data('id')});
+					row.trigger('Post.ListRow.Checked', {
+						"id": row.data('id')
+					});
 					self.registerPostLoadListViewActions();
 				});
 				if (self.getSelectAllMode() == true) {
@@ -1552,18 +1640,18 @@ Head.Class("Head_List_Js", {
 					// If it is not select all mode then only do this
 					self.showSelectAll();
 				}
-			}
-			else {
+			} else {
 				if (self.getSelectAllMode() == true) {
 					self.showDeSelectAllMsgDiv();
-				}
-				else {
+				} else {
 					self.deSelectAllWithNoMessage();
 				}
 				jQuery('.listViewEntriesCheckBox').each(function (e) {
 					jQuery(this).prop('checked', false);
 					var row = jQuery(this).closest('.listViewEntries');
-					row.trigger('Post.ListRow.UnChecked', {"id": row.data('id')});
+					row.trigger('Post.ListRow.UnChecked', {
+						"id": row.data('id')
+					});
 					self.registerPostLoadListViewActions();
 				});
 			}
@@ -1575,7 +1663,10 @@ Head.Class("Head_List_Js", {
 		listViewPageDiv.on('click', '#selectAllMsgDiv', function (e) {
 			self.showDeSelectAllMsgDiv();
 			var cvId = self.getCurrentCvId();
-			listViewPageDiv.trigger('Post.ListSelectAll', {"mode": true, "cvId": cvId});
+			listViewPageDiv.trigger('Post.ListSelectAll', {
+				"mode": true,
+				"cvId": cvId
+			});
 		});
 		self.markSelectedIdsCheckboxes();
 	},
@@ -1585,7 +1676,9 @@ Head.Class("Head_List_Js", {
 		listViewPageDiv.on('click', '#deSelectAllMsgDiv', function (e) {
 			jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').removeClass('show');
 			jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').addClass("hide");
-			listViewPageDiv.trigger('Post.ListDeSelectAll', {"mode": false});
+			listViewPageDiv.trigger('Post.ListDeSelectAll', {
+				"mode": false
+			});
 			self.registerPostLoadListViewActions();
 			jQuery('.listViewEntriesMainCheckBox').prop('checked', false);
 			jQuery('.listViewEntriesCheckBox').each(function (e) {
@@ -1612,26 +1705,31 @@ Head.Class("Head_List_Js", {
 		var params = {};
 		params.data = postData;
 		app.request.get(params).then(
-				function (err, response) {
-					aDeferred.resolve(response);
-				}
+			function (err, response) {
+				aDeferred.resolve(response);
+			}
 		);
 		return aDeferred.promise();
 	},
 	transferOwnershipSave: function (form) {
-		var listInstance = window.app.controller();
+		// var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var listSelectParams = listInstance.getListSelectAllParams(false);
 		if (listSelectParams) {
 			var formData = form.serializeFormData();
 			var data = jQuery.extend(formData, listSelectParams);
 			app.helper.showProgress();
-			app.request.post({'data': data}).then(function (err, data) {
+			app.request.post({
+				'data': data
+			}).then(function (err, data) {
 				if (err == null) {
 					app.helper.hideProgress();
 					app.helper.hideModal();
 					listInstance.loadListViewRecords().then(function (e) {
 						listInstance.clearList();
-						app.helper.showSuccessNotification({message: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY')});
+						app.helper.showSuccessNotification({
+							message: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY')
+						});
 					});
 				}
 			});
@@ -1660,7 +1758,9 @@ Head.Class("Head_List_Js", {
 			}
 			element.toggleClass('active');
 			params._timeStampNoChangeMode = true;
-			app.request.post({data: params}).then(function (err, data) {
+			app.request.post({
+				data: params
+			}).then(function (err, data) {
 				if (data) {
 					if (params.value == 0) {
 						element.attr("title", app.vtranslate('JS_NOT_STARRED'));
@@ -1670,16 +1770,20 @@ Head.Class("Head_List_Js", {
 				}
 				element.removeClass('processing');
 			})
-			if(element.hasClass('active')){
-				app.helper.showSuccessNotification({'message':app.vtranslate('JS_FOLLOW_RECORD')});
+			if (element.hasClass('active')) {
+				app.helper.showSuccessNotification({
+					'message': app.vtranslate('JS_FOLLOW_RECORD')
+				});
 			} else {
-				app.helper.showSuccessNotification({'message':app.vtranslate('JS_UNFOLLOW_RECORD')});
+				app.helper.showSuccessNotification({
+					'message': app.vtranslate('JS_UNFOLLOW_RECORD')
+				});
 			}
 		});
 	},
 	massStarSave: function (params) {
 		var self = this;
-		var listInstance = window.app.controller();
+		var listInstance = Head_List_Js.getInstance();
 		var selectedRecordCount = listInstance.getSelectedRecordCount();
 		params.module = this.getModuleName();
 		params.action = 'SaveStar';
@@ -1689,15 +1793,25 @@ Head.Class("Head_List_Js", {
 		params = jQuery.extend(params, self.getListSelectAllParams(false));
 		params._timeStampNoChangeMode = true;
 		app.helper.showProgress();
-		app.request.post({data: params}).then(function (err, data) {
+		app.request.post({
+			data: params
+		}).then(function (err, data) {
 			app.helper.hideProgress();
 			self.loadListViewRecords().then(function (e) {
 				self.clearList();
-				 if(params.value == 1){
-                    app.helper.showSuccessNotification({'message':(app.vtranslate('JS_FOLLOWING')) +' '+ selectedRecordCount +' '+ app.vtranslate(params.module)});
-                } else {
-					app.helper.showSuccessNotification({'message':app.vtranslate('JS_UNFOLLOWING') +' '+ selectedRecordCount +' '+ app.vtranslate(params.module)}); 
-                }
+				if (params.value == 1) {
+					app.helper.showSuccessNotification({
+						'message': (app.vtranslate('JS_FOLLOWING')) + ' ' + selectedRecordCount + ' ' + app.vtranslate(params.module)
+					});
+					window.onbeforeunload = null;
+					window.location.reload();
+				} else {
+					app.helper.showSuccessNotification({
+						'message': app.vtranslate('JS_UNFOLLOWING') + ' ' + selectedRecordCount + ' ' + app.vtranslate(params.module)
+					});
+					window.onbeforeunload = null;
+					window.location.reload();
+				}
 			});
 		})
 	},
@@ -1779,22 +1893,22 @@ Head.Class("Head_List_Js", {
 		}
 
 		app.request.get(params).then(
-				function (err, data) {
-					var response;
-					if (typeof data !== "object") {
-						response = JSON.parse(data);
-					} else {
-						response = data;
-					}
-					aDeferred.resolve(response);
+			function (err, data) {
+				var response;
+				if (typeof data !== "object") {
+					response = JSON.parse(data);
+				} else {
+					response = data;
 				}
+				aDeferred.resolve(response);
+			}
 		);
 		return aDeferred.promise();
 	},
 
 	registerDeleteRecordClickEvent: function () {
 		var thisInstance = this;
-		jQuery('#page').on('click', '.deleteRecordButton', function (e) {
+		jQuery('.deleteRecordButton').on('click', function (e) {
 			var elem = jQuery(e.currentTarget);
 			var parent = elem;
 			var params = {};
@@ -1811,7 +1925,7 @@ Head.Class("Head_List_Js", {
 
 			var recordId = parent.closest('tr').data('id');
 			thisInstance.deleteRecord(recordId, params);
-//			e.stopPropagation();
+			//			e.stopPropagation();
 		});
 	},
 	_deleteRecord: function (recordId, extraParams) {
@@ -1838,17 +1952,22 @@ Head.Class("Head_List_Js", {
 			function (err, data) {
 				if (err == null) {
 					app.helper.hideProgress();
-					thisInstance.loadListViewRecords();
+					// thisInstance.loadListViewRecords();
+					window.location.reload();
 				} else {
 					app.helper.hideProgress();
-					app.helper.showErrorNotification({message: app.vtranslate(err.message)})
+					app.helper.showErrorNotification({
+						message: app.vtranslate(err.message)
+					})
 				}
 			});
 	},
 	deleteRecord: function (recordId, extraParams) {
 		var thisInstance = this;
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(function () {
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(function () {
 			thisInstance._deleteRecord(recordId, extraParams);
 		});
 	},
@@ -1861,7 +1980,6 @@ Head.Class("Head_List_Js", {
 		if (thisInstance.totalNumOfRecords_performingAsyncAction) {
 			return;
 		}
-		currentEle.find('.showTotalCountIcon').addClass('hide');
 		if (totalNumberOfRecords === '') {
 			thisInstance.totalNumOfRecords_performingAsyncAction = true;
 			thisInstance.getPageCount().then(function (data) {
@@ -1897,15 +2015,15 @@ Head.Class("Head_List_Js", {
 		var listViewPageDiv = self.getListViewContainer();
 		listViewPageDiv.on('click', '.quickView', function (e) {
 			document.body.scrollTop = 0;
-	                document.documentElement.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
 			$("#table-content").find($('.activeview').removeClass('activeview'));
 			$(this).addClass('activeview');
 			var element = listViewPageDiv.find(e.currentTarget);
 			var app = element.data('app');
 			var row = element.closest('.listViewEntries');
 			var recordId = row.data('id');
-			self.showQuickPreviewForId(recordId, app);
-		});	
+			self.showQuickPreviewForId(recordId);
+		});
 	},
 	registerMoreRecentUpdatesClickEvent: function (container, recordId) {
 		container.find('.moreRecentUpdates').on('click', function () {
@@ -1919,24 +2037,22 @@ Head.Class("Head_List_Js", {
 			app.helper.registerTableAlignment();
 			var element = jQuery(e.currentTarget);
 			var nextRecordId = element.data('record');
-			var appName = element.data('app');
-			self.showQuickPreviewForId(nextRecordId, appName);
+			self.showQuickPreviewForId(nextRecordId);
 		});
 	},
-	
+
 	registerPreviousRecordClickEvent: function (container) {
 		var self = this;
 		container.find('#quickPreviewPreviousRecordButton').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
 			var prevRecordId = element.data('record');
-			var appName = element.data('app');
-			self.showQuickPreviewForId(prevRecordId, appName);
+			self.showQuickPreviewForId(prevRecordId);
 		});
 	},
-	showQuickPreviewForId: function (recordId, appName) {
+	showQuickPreviewForId: function (recordId) {
 		var self = this;
 		var vtigerInstance = Head_Index_Js.getInstance();
-		vtigerInstance.showQuickPreviewForId(recordId, self.getModuleName(), appName);
+		vtigerInstance.showQuickPreviewForId(recordId, self.getModuleName());
 	},
 	registerDynamicListHeaders: function () {
 		var self = this;
@@ -2076,21 +2192,21 @@ Head.Class("Head_List_Js", {
 			thisInstance.pageJumpOnSubmit(currentEle);
 		});
 
-		listViewContainer.on('click', '.page-link', function(e) {
+		listViewContainer.on('click', '.page-link', function (e) {
 			e.preventDefault();
-			if($(this).hasClass('previous-link')){
-			    current_page = parseInt($('#current_page_number').val());
-			    if(current_page == 1) return false;
-			    else req_page = current_page-1;
-			} else if($(this).hasClass('next-link')) {
-			    current_page = parseInt($('#current_page_number').val());
-			    last_page = parseInt($('#tl_no_of_pages').val());
-                            if(current_page == last_page) return false;
-                            else req_page = current_page+1;
-			} else if($(this).hasClass('disabled')) {
-			    return false;
+			if ($(this).hasClass('previous-link')) {
+				current_page = parseInt($('#current_page_number').val());
+				if (current_page == 1) return false;
+				else req_page = current_page - 1;
+			} else if ($(this).hasClass('next-link')) {
+				current_page = parseInt($('#current_page_number').val());
+				last_page = parseInt($('#tl_no_of_pages').val());
+				if (current_page == last_page) return false;
+				else req_page = current_page + 1;
+			} else if ($(this).hasClass('disabled')) {
+				return false;
 			} else {
-			    req_page = $(this).data('page');
+				req_page = $(this).data('page');
 			}
 
 			var urlParams = {};
@@ -2112,14 +2228,16 @@ Head.Class("Head_List_Js", {
 		params = jQuery.extend(params, this.getListSelectAllParams(false));
 
 		var params = jQuery.extend(params, callerParams);
-		app.request.post({'data': params}).then(
-				function (error, data) {
-					if (error == null) {
-						aDeferred.resolve(data);
-					} else {
-						aDeferred.reject(data);
-					}
+		app.request.post({
+			'data': params
+		}).then(
+			function (error, data) {
+				if (error == null) {
+					aDeferred.resolve(data);
+				} else {
+					aDeferred.reject(data);
 				}
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -2190,7 +2308,9 @@ Head.Class("Head_List_Js", {
 				self.addTagToList(newTagEle.clone(true));
 				self.addToExistingTagSelector(newTagEle.clone(true));
 			}
-			app.helper.showSuccessNotification({"message": ''});
+			app.helper.showSuccessNotification({
+				"message": ''
+			});
 		});
 
 		app.event.trigger('Request.MassTag.show', container, recordParams);
@@ -2200,7 +2320,9 @@ Head.Class("Head_List_Js", {
 		var tagElement = jQuery("#listViewTagContainer").find('[data-id="' + tagId + '"]');
 		var tagName = tagElement.find('.tagLabel').text();
 		var message = app.vtranslate('JS_REMOVE_MASS_TAG_WARNING', tagName);
-		app.helper.showConfirmationBox({'message': message}).then(function () {
+		app.helper.showConfirmationBox({
+			'message': message
+		}).then(function () {
 			var tagInstance = self.getComponentInstance('Head_Tag_Js');
 			var deleteParams = {};
 			var cvId = self.getCurrentCvId();
@@ -2222,7 +2344,9 @@ Head.Class("Head_List_Js", {
 			tagInstance.saveTag(deleteParams).then(function (data) {
 				self.clearList();
 				self.loadListViewRecords().then(function (e) {
-					app.helper.showSuccessNotification({"message": ''});
+					app.helper.showSuccessNotification({
+						"message": ''
+					});
 				});
 			});
 		})
@@ -2244,8 +2368,8 @@ Head.Class("Head_List_Js", {
 			}
 			e.preventDefault();
 			e.stopPropagation();
-//			window.location.href = url + '&' + $.param(postData);
-                        window.location.href = url;
+			//			window.location.href = url + '&' + $.param(postData);
+			window.location.href = url;
 
 		});
 	},
@@ -2260,8 +2384,11 @@ Head.Class("Head_List_Js", {
 		var self = this;
 		var recordSelectTrackerObj = self.getRecordSelectTrackerInstance();
 
-		if($('.listViewMassActions .dropdown-toggle').hasClass('btn-disabled')) {
-		    $('.listViewMassActions .listViewActionsContainer').css({'pointer-events':' none','cursor': 'not-allowed'});
+		if ($('.listViewMassActions .dropdown-toggle').hasClass('btn-disabled')) {
+			$('.listViewMassActions .listViewActionsContainer').css({
+				'pointer-events': ' none',
+				'cursor': 'not-allowed'
+			});
 		}
 
 		var selectedIds = recordSelectTrackerObj.getSelectedIds();
@@ -2275,12 +2402,12 @@ Head.Class("Head_List_Js", {
 
 	},
 	enableListViewActions: function () {
-                $('#table-content #listview-table #listview-actions').removeClass('disable-click');
+		$('#table-content #listview-table #listview-actions').removeClass('disable-click');
 		jQuery('.btn-group.listViewActionsContainer').find('button').removeAttr('disabled').removeClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('li').removeClass('hide');
 	},
 	disableListViewActions: function () {
-                $('#table-content #listview-table #listview-actions').addClass('disable-click');
+		$('#table-content #listview-table #listview-actions').addClass('disable-click');
 		jQuery('.btn-group.listViewActionsContainer').find('button').attr('disabled', "disabled").addClass('btn-disabled');
 		jQuery('.btn-group.listViewActionsContainer').find('.dropdown-toggle').removeAttr("disabled");
 		jQuery('.btn-group.listViewActionsContainer').find('li').addClass('hide');
@@ -2330,10 +2457,18 @@ Head.Class("Head_List_Js", {
 				var availFieldsListContainer = container.find('.avialFieldsListContainer');
 
 				//register ui events
-				app.helper.showVerticalScroll(availFieldsListContainer,
-						{setHeight: '200', advanced: {updateOnSelectorChange: 'true'}});
-				app.helper.showVerticalScroll(selectedFieldsListContainer,
-						{setHeight: '250', advanced: {updateOnSelectorChange: 'true'}});
+				app.helper.showVerticalScroll(availFieldsListContainer, {
+					setHeight: '200',
+					advanced: {
+						updateOnSelectorChange: 'true'
+					}
+				});
+				app.helper.showVerticalScroll(selectedFieldsListContainer, {
+					setHeight: '250',
+					advanced: {
+						updateOnSelectorChange: 'true'
+					}
+				});
 
 				selectedFieldsList.sortable({
 					start: function (e, ui) {
@@ -2377,7 +2512,9 @@ Head.Class("Head_List_Js", {
 				selectedFieldsList.find('li .removeField').live('click', ' ', function (e) {
 					var selectedFieldsEles = selectedFieldsList.find('.item');
 					if (selectedFieldsEles.length <= 1) {
-						app.helper.showErrorNotification({message: app.vtranslate('Atleast one field should be selected')});
+						app.helper.showErrorNotification({
+							message: app.vtranslate('Atleast one field should be selected')
+						});
 						return false;
 					}
 					var ele = jQuery(e.currentTarget);
@@ -2386,11 +2523,13 @@ Head.Class("Head_List_Js", {
 					targetFieldEle.removeClass('hide');
 					sourceFieldEle.remove();
 				});
-				
+
 				availFieldsList.find('.instafilta-section .item').live('click', '.item', function (e) {
 					var selectedFieldsEles = selectedFieldsList.find('.item');
 					if (selectedFieldsEles.length > 15) {
-						app.helper.showErrorNotification({message: app.vtranslate('JS_ADD_MAX_15_ITEMS')});
+						app.helper.showErrorNotification({
+							message: app.vtranslate('JS_ADD_MAX_15_ITEMS')
+						});
 						return false;
 					}
 					var sourceFieldEle = jQuery(e.currentTarget);
@@ -2405,44 +2544,53 @@ Head.Class("Head_List_Js", {
 				});
 
 				var configColumnsForm = $('.configColumnsForm');
-				$('.configColumnsForm').find('.modal-footer .cancelLink').live('click',' ',function (e) {
+				$('.configColumnsForm').find('.modal-footer .cancelLink').live('click', ' ', function (e) {
 					e.stopImmediatePropagation();
 				});
 
-				$('.configColumnsForm').find('.modal-footer .btn-primary').live('click',' ',function (e) {
+				$('.configColumnsForm').find('.modal-footer .btn-primary').live('click', ' ', function (e) {
 					var formData = jQuery('.configColumnsForm').serializeFormData();
-						var columnsList = [];
-						var selectedFieldEles = $('#selectedFieldsList').find('.item');
-						jQuery.each(selectedFieldEles, function (i, e) {
-							var ele = jQuery(e);
-							columnsList.push(ele.attr('data-cv-columnname'));
-						});
-						formData.source_module = app.module();
-						formData.columnslist = JSON.stringify(columnsList);
-						app.helper.showProgress();
-						app.request.post({data: formData}).then(function (err, res) {
-							app.helper.hideProgress();
-							if (err) {
-								app.helper.showErrorNotification({"message": err});
-								return false;
-							} else {
-								app.helper.showSuccessNotification({message: res.message});
-								app.helper.hideModal();
-								var appName = app.getAppName();
-								var url = res['listviewurl'];
-								window.location.href = url;
-							}
-						});
+					var columnsList = [];
+					var selectedFieldEles = $('#selectedFieldsList').find('.item');
+					jQuery.each(selectedFieldEles, function (i, e) {
+						var ele = jQuery(e);
+						columnsList.push(ele.attr('data-cv-columnname'));
+					});
+					formData.source_module = app.module();
+					formData.columnslist = JSON.stringify(columnsList);
+					app.helper.showProgress();
+					app.request.post({
+						data: formData
+					}).then(function (err, res) {
+						app.helper.hideProgress();
+						if (err) {
+							app.helper.showErrorNotification({
+								"message": err
+							});
+							return false;
+						} else {
+							app.helper.showSuccessNotification({
+								message: res.message
+							});
+							app.helper.hideModal();
+							var url = res['listviewurl'];
+							window.location.href = url;
+						}
+					});
 				});
-				
+
 				configColumnsForm.vtValidate(params);
 			}
 
 			app.helper.showProgress();
-			app.request.post({data: params}).then(function (err, res) {
+			app.request.post({
+				data: params
+			}).then(function (err, res) {
 				app.helper.hideProgress();
 				if (!err) {
-					app.helper.showModal(jQuery(res), {cb: callback});
+					app.helper.showModal(jQuery(res), {
+						cb: callback
+					});
 				}
 			});
 
@@ -2491,7 +2639,7 @@ Head.Class("Head_List_Js", {
 				vtUtils.applyFieldElementsView(searchRow);
 				self.filterClick = false;
 			}
-//			self.registerFloatingThead();
+			//			self.registerFloatingThead();
 		});
 	},
 	/*
@@ -2510,44 +2658,48 @@ Head.Class("Head_List_Js", {
 				'mode': 'updateCaseStatus'
 			}
 			app.helper.showProgress();
-			app.request.post({data: params}).then(
-					function (error, data) {
-						app.helper.hideProgress();
-						if (error === null) {
-							app.helper.showSuccessNotification({
-								'message': app.vtranslate('JS_CASE_ACCEPTED_SUCCESSFULLY')
-							});
-							window.location.href = data.url;
-						} else {
-							app.helper.showErrorNotification({message: app.vtranslate(error.message)});
-						}
+			app.request.post({
+				data: params
+			}).then(
+				function (error, data) {
+					app.helper.hideProgress();
+					if (error === null) {
+						app.helper.showSuccessNotification({
+							'message': app.vtranslate('JS_CASE_ACCEPTED_SUCCESSFULLY')
+						});
+						window.location.href = data.url;
+					} else {
+						app.helper.showErrorNotification({
+							message: app.vtranslate(error.message)
+						});
 					}
+				}
 			);
 			e.stopPropagation();
 		});
 	},
 
-	registerButtonClicks : function () {
-		$("#product_shopview").click( function() {
-                var site_url = jQuery('#joforce_site_url').val();
-                var module_name = $(this).data('modulename');
-                var pagenumber = $('#pageNumber').val();
-                window.location.href = site_url + module_name+"/view/Shopview?page=" + pagenumber;
-            });
-            $("#forecast-view").click( function() {
-                var site_url = jQuery('#joforce_site_url').val();
-                var cvid = $(this).data('cvid');
-                var module_name = $(this).data('modulename');
-                var pagenumber = $('#pageNumber').val();
-                window.location.href = site_url + module_name+"/view/Kanban/" + cvid + '?page=' + pagenumber;
-            });
+	registerButtonClicks: function () {
+		$("#product_shopview").click(function () {
+			var site_url = jQuery('#joforce_site_url').val();
+			var module_name = $(this).data('modulename');
+			var pagenumber = $('#pageNumber').val();
+			window.location.href = site_url + module_name + "/view/Shopview?page=" + pagenumber;
+		});
+		$("#forecast-view").click(function () {
+			var site_url = jQuery('#joforce_site_url').val();
+			var cvid = $(this).data('cvid');
+			var module_name = $(this).data('modulename');
+			var pagenumber = $('#pageNumber').val();
+			window.location.href = site_url + module_name + "/view/Kanban/" + cvid + '?page=' + pagenumber;
+		});
 
-            $("#backto-list-view").click( function() {
-                var site_url = jQuery('#joforce_site_url').val();
-                var cvid = $(this).data('cvid');
-                var module_name = $(this).data('modulename');
-                window.location.href = site_url + module_name+"/view/List/" + cvid;
-            });
+		$("#backto-list-view").click(function () {
+			var site_url = jQuery('#joforce_site_url').val();
+			var cvid = $(this).data('cvid');
+			var module_name = $(this).data('modulename');
+			window.location.href = site_url + module_name + "/view/List/" + cvid;
+		});
 	},
 
 	registerEvents: function () {
@@ -2580,8 +2732,8 @@ Head.Class("Head_List_Js", {
 
 		this.registerPostListLoadListener();
 		this.registerPostLoadListViewActions();
-		if($('.listViewActionsContainer .listViewMassActions .dropdown-toggle').is(":disabled")) {
-		    $('#table-content #listview-table #listview-actions').addClass('disable-click');
+		if ($('.listViewActionsContainer .listViewMassActions .dropdown-toggle').is(":disabled")) {
+			$('#table-content #listview-table #listview-actions').addClass('disable-click');
 		}
 		app.event.on('post.listViewMassEditSave', function () {
 			var urlParams = {};
@@ -2591,7 +2743,7 @@ Head.Class("Head_List_Js", {
 		this.registerEventToShowQuickPreview();
 		//floatTHead, some timeout so correct height can be caught for computations
 		setTimeout(function () {
-//			thisInstance.registerFloatingThead();
+			//			thisInstance.registerFloatingThead();
 		}, 10);
 
 		app.event.on('Head.Post.MenuToggle', function () {
@@ -2610,93 +2762,96 @@ Head.Class("Head_List_Js", {
 		var thisInstance = this;
 		var $table = jQuery('#listview-table');
 		listViewContentDiv.on('select2-selecting select2-close select2-removed',
-				'.listSearchContributor',
-				function () {
-					thisInstance.reflowList($table);
-				});
+			'.listSearchContributor',
+			function () {
+				thisInstance.reflowList($table);
+			});
 	},
 	registerDropdownPosition: function (container) {
 		if (typeof container === "undefined") {
 			container = "#page";
 		}
-		jQuery('.table-actions').on('click', '.dropdown', function (e) {
-			jQuery('.dropdown-menu.more-actions-right').hide();
-			var containerTarget = jQuery(this).closest(container);
-			var content = jQuery(this).closest(".dropdown");
-			var dropdown = jQuery(e.currentTarget);
-			if (dropdown.find('[data-toggle]').length <= 0) {
-				return;
-			}
-			var dropdown_menu = dropdown.find('.dropdown-menu');
+		/*		jQuery('.table-actions').on('click', '.dropdown', function (e) {
+					jQuery('.dropdown-menu.more-actions-right').hide();
+					jQuery('.dropdown-menu.more-actions-right').removeClass('show');
 
-			var dropdownStyle = dropdown_menu.find('li a');
-			dropdownStyle.css('padding', "0 6px", 'important');
+					var containerTarget = jQuery(this).closest(container);
+					var content = jQuery(this).closest(".dropdown");
+					var dropdown = jQuery(e.currentTarget);
+					if (dropdown.find('[data-toggle]').length <= 0) {
+						return;
+					}
+					var dropdown_menu = dropdown.find('.dropdown-menu');
 
-			var fixed_dropdown_menu = dropdown_menu.clone(true);
-			fixed_dropdown_menu.data('original-menu', dropdown_menu);
-			dropdown_menu.css('position', 'relative');
-			dropdown_menu.css('display', 'none');
-			var currtargetTop;
-			var currtargetLeft;
-			var dropdownBottom;
-			var ftop = 'auto';
-			var fbottom = 'auto';
+					var dropdownStyle = dropdown_menu.find('li a');
+					dropdownStyle.css('padding', "0 6px", 'important');
 
-			if (container === "#page") {
-				currtargetTop = dropdown.offset().top;// + dropdown.height();
-				currtargetLeft = dropdown.offset().left;
-				dropdownBottom = jQuery(window).height() - currtargetTop + dropdown.height();
+					var fixed_dropdown_menu = dropdown_menu.clone(true);
+					fixed_dropdown_menu.data('original-menu', dropdown_menu);
+					dropdown_menu.css('position', 'relative');
+					dropdown_menu.css('display', 'none');
+					var currtargetTop;
+					var currtargetLeft;
+					var dropdownBottom;
+					var ftop = 'auto';
+					var fbottom = 'auto';
 
-			}
-			var windowBottom = jQuery(window).height() - dropdown.offset().top;
-			if (windowBottom < 250) {
-				ftop = 'auto';
-				fbottom = dropdownBottom + 'px';
-			}
-			else {
-				ftop = currtargetTop + 'px';
-				fbottom = "auto";
-			}
-			fixed_dropdown_menu.css({
-				'display': 'block',
-				'position': 'absolute',
-				'top': ftop,
-				'left': currtargetLeft + 'px',
-				'bottom': fbottom
-			}).appendTo(containerTarget);
+					if (container === "#page") {
+						currtargetTop = dropdown.offset().top;// + dropdown.height();
+						currtargetLeft = dropdown.offset().left;
+						dropdownBottom = jQuery(window).height() - currtargetTop + dropdown.height();
 
-			$('#table-content').scroll(function () {
-				var tTop;
-				var cBottom = $('#table-content').height() - content.position().top;
-				var tBottom;
-				if (cBottom < 250) {
-					tTop = "auto";
-					tBottom = dropdown.height();
-				}
-				else {
-					tTop = dropdown.height();
-					tBottom = "auto";
-				}
-				if (content.hasClass('open')) {
+					}
+					var windowBottom = jQuery(window).height() - dropdown.offset().top;
+					if (windowBottom < 250) {
+						ftop = 'auto';
+						fbottom = dropdownBottom + 'px';
+					}
+					else {
+						ftop = currtargetTop + 'px';
+						fbottom = "auto";
+					}
+					console.log(fbottom, ftop, currtargetLeft);
 					fixed_dropdown_menu.css({
 						'display': 'block',
-						'top': tTop,
 						'position': 'absolute',
-						'bottom': tBottom,
-						'left': 0,
-						'z-index': 100
-					}).appendTo(content);
-				}
-				else {
-					dropdown_menu.css('display', 'none');
-				}
-			});
+						'top': ftop,
+						'left': currtargetLeft + 'px',
+						'bottom': fbottom
+					}).appendTo(containerTarget);
 
-			dropdown.on('hidden.bs.dropdown', function () {
-				dropdown_menu.removeClass('invisible');
-				fixed_dropdown_menu.remove();
-			});
-		});
+					$('#table-content').scroll(function () {
+						var tTop;
+						var cBottom = $('#table-content').height() - content.position().top;
+						var tBottom;
+						if (cBottom < 250) {
+							tTop = "auto";
+							tBottom = dropdown.height();
+						}
+						else {
+							tTop = dropdown.height();
+							tBottom = "auto";
+						}
+						if (content.hasClass('open')) {
+							fixed_dropdown_menu.css({
+								'display': 'block',
+								'top': tTop,
+								'position': 'absolute',
+								'bottom': tBottom,
+								'left': 0,
+								'z-index': 100
+							}).appendTo(content);
+						}
+						else {
+							dropdown_menu.css('display', 'none');
+						}
+					});
+
+					dropdown.on('hidden.bs.dropdown', function () {
+						dropdown_menu.removeClass('invisible');
+						fixed_dropdown_menu.remove();
+					});
+				});*/
 	},
 	getListViewContentHeight: function () {
 		var windowHeight = jQuery(window).height();
@@ -2732,7 +2887,7 @@ Head.Class("Head_List_Js", {
 			'width': width
 		});
 		tableContainer.perfectScrollbar('update');
-//		$table.floatThead('reflow');
+		//		$table.floatThead('reflow');
 	},
 	registerFloatingThead: function () {
 		return;
@@ -2777,55 +2932,46 @@ Head.Class("Head_List_Js", {
 		return count;
 	}
 });
-	
-$(document).ready( function () {
+
+$(document).ready(function () {
 	fixedtable();
-	
+
 	if (document.querySelector('.col-fixed-3') !== null) {
-            $('table').css("margin-left","450px");
-        }
-        else if (document.querySelector('.col-fixed-2') !== null){
-            $('table').css("margin-left","300px");
-        }
-		
-	function fixedtable(){
+		$('table').css("margin-left", "450px");
+	} else if (document.querySelector('.col-fixed-2') !== null) {
+		$('table').css("margin-left", "300px");
+	}
+
+	function fixedtable() {
 		var sw = $(window).width();
-                var tw = $('table.listview-table').width();
-                 $.fn.columnCount = function() {
-                   return $('th', $('.table-container .fixed-scroll-table #listview-table.listview-table').find('thead')).length;
-                };
-                var colctr = $('.table-container .fixed-scroll-table #listview-table.listview-table').columnCount();
-                var tc = ((colctr-1)/2)-2;
-                var value = tw/tc;
-                var av = 300/tc;
-                var addvalue = value+av;
-                if(sw < tw){
-                        $('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
-                }
-                else if(tc == 0){
-                        $('.fixed-scroll-table #listview-table.listview-table').addClass('listview-table-onerecords');
-                }
-                else if(tc == 1){
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '100%');
-                }
-                else if(tc == 2){
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '50%');
-                }
-                else if(tc == 3){
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '33.33%');
-                }
-                else if(tc == 4){
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '25%');
-                }
-                else if(tc == 5){
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '20%');
-                }
-                else if(tc == 6){
-               		$('.fixed-scroll-table #listview-table.listview-table').css("width","100%");
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '16.6%');
-                }
-                else{
-                        $('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
-                }
+		var tw = $('table.listview-table').width();
+		$.fn.columnCount = function () {
+			return $('th', $('.table-container .fixed-scroll-table #listview-table.listview-table').find('thead')).length;
+		};
+		var colctr = $('.table-container .fixed-scroll-table #listview-table.listview-table').columnCount();
+		var tc = ((colctr - 1) / 2) - 2;
+		var value = tw / tc;
+		var av = 300 / tc;
+		var addvalue = value + av;
+		if (sw < tw) {
+			$('.fixed-scroll-table #listview-table.listview-table').css("width", "100%");
+		} else if (tc == 0) {
+			$('.fixed-scroll-table #listview-table.listview-table').addClass('listview-table-onerecords');
+		} else if (tc == 1) {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '100%');
+		} else if (tc == 2) {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '50%');
+		} else if (tc == 3) {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '33.33%');
+		} else if (tc == 4) {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '25%');
+		} else if (tc == 5) {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '20%');
+		} else if (tc == 6) {
+			$('.fixed-scroll-table #listview-table.listview-table').css("width", "100%");
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', '16.6%');
+		} else {
+			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
+		}
 	}
 });

@@ -8,10 +8,9 @@
 *************************************************************************************}
 
 {strip}
-	<div class="container-fluid" id="importModules">
-		<div>
+	<div class="container-fluid mt0	card " id="importModules">
 			<div class="row">
-				<div id="modlib_modulemanager_import_div">
+				<div id="modlib_modulemanager_import_div" class="w-100 p-3">
 					{if $MODULEIMPORT_FAILED neq ''}
 						<div class="col-lg-2"></div>
 						<div class="col-lg-10">
@@ -31,10 +30,10 @@
 						</div>
 						<input type="hidden" name="view" value="List">
 					{else}
-						<div class="col-lg-12">
+						<div class="col-lg-12 card-header-new 	">
 							<div>
 								<h3>{vtranslate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</h3>
-							</div><hr>
+							</div>
 						</div>
 						<div class="container-fluid"><br>
 							<div class="col-lg-12">
@@ -101,9 +100,9 @@
 						<button class="btn btn-primary importModule" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><strong>{vtranslate('LBL_IMPORT_NOW', $QUALIFIED_MODULE)}</strong></button>
 					{/if}
 					&nbsp;&nbsp;
-					<a class="cancelLink btn btn-secondary" href="javascript:history.back()" type="reset">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink btn btn-danger" href="javascript:history.back()" type="">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 			</div>
-		</div>
+
 	</div>
 {/strip}
