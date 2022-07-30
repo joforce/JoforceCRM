@@ -30,15 +30,16 @@ class JoNotificationHelper
 
     public function Notification($request_data)
     {
+
 	$user_id['userid']            = $request_data['userid'];
 	$user_id['notificationenable']= $request_data['notificationenable'];
-        if($request_data['mode'] =="Read" || $request_data['mode'] =="ReadAll" || $request_data['action']=='list' || $request_data['notificationenable']){
+
+        if($request_data['mode'] =="Read" || $request_data['mode'] =="ReadAll" || $request_data['action']=='list'){
             $notificationstatus=self::notificationstatus($user_id);
             if($notificationstatus['notificationenable'] == 0){
                 return array('success' => false, 'message' => 'Notification is disabled!!! Please enable notification in your  profile.');
             }
         }
-        
         if($request_data['mode']=='Read'){
             $data =$this->Readnotification($request_data);
         }elseif($request_data['mode']=='ReadAll'){  
@@ -120,6 +121,7 @@ class JoNotificationHelper
     }  
 
     public function Notificationenable($request_data){
+
         $user_id = $request_data['userid'];       
         $global_notification_settings = $request_data['notificationenable'];
 
@@ -138,33 +140,34 @@ class JoNotificationHelper
             $global_settings = $row['global'];
             $notification_settings = unserialize(base64_decode($row['notificationlist']));
         }
+
         if($global_notification_settings == 1) {
             $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
             $result = $db->pquery($query, array($user_id));
             $rows = $db->num_rows($result);
+
             if($rows <= 0){
                 $query = "Insert into jo_notification_manager(id,global,notificationlist) values(?,?,?)";
                 $result = $db->pquery($query, array($user_id,$global_settings,base64_encode(serialize($notification_settings))));
                 $rows = $db->num_rows($result);
             }else{
                 $query = "Update jo_notification_manager set global=?,notificationlist=? where id = ?";
-                $result = $db->pquery($query, array($global_settings,base64_encode(serialize($notification_settings)),$user_id));
+
+                $result = $db->pquery($query, array($global_notification_settings,base64_encode(serialize($notification_settings)),$user_id));
 		$rows = 1;
             }
             if($rows >= 0) {
                 $message =  array("success" => "true","message" => "Enabled");
-                // $this->emitResponse('true', 'Settings are saved successfully.');
             } else {
                 $message =  array("success" => "false","message" => "Disabled");
-                // $this->emitResponse('false', 'Settings are not saved.');
             }
         }else{
 	    $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
             $result = $db->pquery($query, array($user_id));
             $rows = $db->num_rows($result);
             if($rows > 0){
-//                $query = "update  jo_notification_manager  set global =? where id = ?";
-  //            $result = $db->pquery($query, array(0,$user_id)); 
+               $query = "update  jo_notification_manager  set global =? where id = ?";
+              $result = $db->pquery($query, array(0,$user_id)); 
 }
 
             $message =  array("success" => "true","message" => "Disabled");
@@ -205,19 +208,12 @@ class JoNotificationHelper
     public function notificationstatus($user_id){
         global $adb;
         $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
-        $result = $adb->pquery($query, array($user_id['notificationenable']));
-	$num_no =$result->fields['id'];
-/*        $rows = $adb->num_rows($result);
-       if($rows <= 0){
-            $query = "select id,global,notificationlist from jo_notification_manager where id = ?";
-            $result = $adb->pquery($query, array(0));
-            $rows = $adb->num_rows($result);
-       }
-        for ($i=0; $i<$rows; $i++) {
-            $row = $adb->query_result_rowdata($result, $i);
-            $global_settings = $row['global'];
-            $notification_settings = unserialize(base64_decode($row['notificationlist']));
-        }  */
+        if(is_array($user_id)){
+            $user_id = $user_id['userid'];
+        }
+        $result = $adb->pquery($query, array($user_id));
+       $getnotifydetails=$adb->fetchByAssoc($result);
+	$num_no =$getnotifydetails['global'];
         return $num_no;
     }
 
@@ -252,3 +248,4 @@ class JoNotificationHelper
         return $recordModel->get('user_name');
     }
 }
+
