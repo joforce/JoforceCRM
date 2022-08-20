@@ -48,7 +48,7 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content"  class="table-container" style="">
+	<div id="table-content"  class="table-container {if $LISTVIEW_ENTRIES_COUNT <= '5'} list_view_table_height {/if}" style="">
 	<div class="table-toggle fixed-scroll-table">
 
 		<form id="dragDropUploadForm">

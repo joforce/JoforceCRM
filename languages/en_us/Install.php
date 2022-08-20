@@ -41,6 +41,7 @@ $languageStrings = array(
 	'LBL_INSTALL_PREREQUISITES' => 'Installation prerequisites',
 	'LBL_MORE_INFORMATION' => 'More Information',
 	'LBL_NEXT' => 'Next',
+	'LBL_SKIP' => 'Skip',
 	'LBL_ONE_LAST_THING' => 'One last thing...',
 	'LBL_PASSWORD_MISMATCH' => 'Please re-enter passwords.  The \"Password\" and \"Re-type password\" values do not match.',
 	'LBL_PASSWORD' => 'Password',

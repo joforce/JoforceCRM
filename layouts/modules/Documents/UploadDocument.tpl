@@ -49,9 +49,15 @@
 								<div class="dragdrop-dotted drag-drop-solid">
 									<span class="fa fa-folder document-panel-icon"></span>
 									<div style="margin-top: 3%;">
+									{if $PARENT_MODULE neq 'Documents' && $PARENT_MODULE neq ''}
+										<button onclick="Documents_Index_Js.uploadTo('U',{$PARENT_ID},'{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
+											<img style=" width: 10%; margin-top: 2px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins/images/JoForce.png">&nbsp;{vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_JOFORCE', 'Documents')})}
+										</button>
+										{else}
 										<button onclick="Documents_Index_Js.uploadTo('U','{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
 											<img style=" width: 10%; margin-top: 2px;margin-right: 4%;" title="Joforce" alt="Joforce" src="{$SITEURL}layouts/skins/images/JoForce.png">&nbsp;{vtranslate('LBL_TO_SERVICE', 'Documents', {vtranslate('LBL_JOFORCE', 'Documents')})}
 										</button>
+									{/if}
 									</div>
 									<div style="margin: 1% 0;">
 										<p>Click here to upload document</p>
@@ -63,9 +69,15 @@
 									<span class="fa fa-dropbox document-panel-icon"></span>&nbsp;&nbsp;&nbsp;
 									<span class="fa fa-ellipsis-h document-panel-icon"></span>
 									<div style="margin-top: 3%;">
+									{if $PARENT_MODULE neq 'Documents' && $PARENT_MODULE neq ''}
+										<button onclick="Documents_Index_Js.createDocument('E',{$PARENT_ID},'{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
+											<span style="font-weight: normal;font-size: 12px;" class="fa fa-external-link"></span>&nbsp;{vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', $MODULE)}
+										</button>
+										{else}
 										<button onclick="Documents_Index_Js.createDocument('E','{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
 											<span style="font-weight: normal;font-size: 12px;" class="fa fa-external-link"></span>&nbsp;{vtranslate('LBL_LINK_EXTERNAL_DOCUMENT', $MODULE)}
 										</button>
+									{/if}
 									</div>
 									<div style="margin-top: 1%;">
 										<p>Click here to link your document already on your server or existing online repository or file like Dropbox, Google Drive, Github</p>
@@ -75,9 +87,15 @@
 								<div class="dragdrop-dotted dragdrop-solid" style="border: 1px solid #eee;">
 									<span class="fa fa-pencil-square-o document-panel-icon"></span>&nbsp;&nbsp;&nbsp;
 									<div style="margin-top: 3%;">
+									{if $PARENT_MODULE neq 'Documents'  && $PARENT_MODULE neq ''}
+										<button onclick="Documents_Index_Js.createDocument('W',{$PARENT_ID},'{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
+											<span style="font-weight: normal;font-size: 12px;" class="fa fa-file-text"></span>&nbsp;{vtranslate('LBL_CREATE_NEW', $MODULE_NAME, {vtranslate('SINGLE_Documents', $MODULE_NAME)})}
+										</button>
+										{else}
 										<button onclick="Documents_Index_Js.createDocument('W','{$PARENT_MODULE}')" type="button" class="btn btn-default module-buttons">
 											<span style="font-weight: normal;font-size: 12px;" class="fa fa-file-text"></span>&nbsp;{vtranslate('LBL_CREATE_NEW', $MODULE_NAME, {vtranslate('SINGLE_Documents', $MODULE_NAME)})}
 										</button>
+									{/if}
 									</div>
 									<div style="margin-top: 1%;">
 										<p>Click here to link to existing online repository or file like Dropbox, Google Drive, Github</p>
@@ -88,7 +106,7 @@
 					</div>
 				</div>
 			</form>
-			<script type="text/javascript" src="{$SITEURL}layouts/modules/Documents/resources/Documents.js"><\/script>						
+			<script type="text/javascript" src="{$SITEURL}layouts/modules/Documents/resources/Documents.js"></script>						
 		</div>
 	</div>
 {/strip}

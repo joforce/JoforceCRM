@@ -190,7 +190,7 @@ class Install_Utils_Model {
 	$SysPreIns = false;
 	$preInstallConfig = array();
 	// Name => array( System Value, Recommended value, supported or not(true/false) );
-	$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '5.4.0', (version_compare(phpversion(), '5.4.0', '>=')));
+	$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '7.2.5 <= 7.4', (version_compare(phpversion(), '7.2.5', '>=')));
 	if($webServerName != 'nginx'){
 	    if(function_exists('apache_get_modules')){
 	    	$preInstallConfig['LBL_MOD_REWRITE'] = array(in_array('mod_rewrite', apache_get_modules()), true, (in_array('mod_rewrite', apache_get_modules()) == true));
@@ -215,7 +215,7 @@ class Install_Utils_Model {
 	$preInstallConfig['LBL_GD_LIBRARY'] = array((extension_loaded('gd') || $gnInstalled), true, (extension_loaded('gd') || $gnInstalled));
 	$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
 	if(
-		(version_compare(phpversion(), '5.4.0', '>=')) &&
+		(version_compare(phpversion(), '7.2.5', '>=')) &&
 		(in_array('mod_rewrite', apache_get_modules()) == true) &&
 		(function_exists('imap_open') == true) &&
 		(function_exists('gzinflate') == true) &&

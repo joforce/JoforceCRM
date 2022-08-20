@@ -104,7 +104,7 @@
 										{$INFO.1} 
 									{/if}
 								</td>
-								<td {if $INFO.2 eq false} class="no novalue">
+								<td {if $INFO.2 eq false} class="{if $CONFIG_NAME neq 'LBL_IMAP_SUPPORT' && $CONFIG_NAME neq 'LBL_ZLIB_SUPPORT' && $CONFIG_NAME neq 'LBL_OPEN_SSL' } no novalue {else} no-value {/if}">
 										{if $CONFIG_NAME eq 'LBL_MOD_REWRITE'}
 											<div class="dropdown" style="cursor:pointer;">
 												<div data-toggle="dropdown" aria-expanded="false" aria-hidden="true">{vtranslate('LBL_NO', 'Install')}</div>
@@ -149,7 +149,7 @@
 						{/foreach}
 					</table>
 
-					<h3 class="title {if $HT_PER eq 'false'} restrict {else if $SYSTEM_PREINSTALL_PARAMS['LBL_Success'][1] neq 1} restrict {else if $PHP_INI_CURRENT_SETTINGS['success'] eq 1} success-alert {else} danger-alert {/if}"><i class="fa fa-plus-square dropdown-plus p-1"></i>{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</h3>
+					<h3 class="title  {if $PHP_INI_CURRENT_SETTINGS['success'] eq 1} success-alert {else} danger-alert {/if}"><i class="fa fa-plus-square dropdown-plus p-1"></i>{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</h3>
 					{if $PHP_INI_CURRENT_SETTINGS}
 					<table class="content row config-table config-table-ini table table-responsive non-hover" >
 						<tr>
@@ -160,7 +160,7 @@
 								<tr>
 									<td>{$DIRECTIVE}</td>
 									<td>{$PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE]}</td>
-									<td {if $DIRECTIVE neq 'memory_limit'} {if $PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE] neq $VALUE} class="no novalue" {/if} {else if $PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE] gt $VALUE} class="no novalue" {/if}>
+									<td {if $DIRECTIVE neq 'memory_limit'} {if $PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE] neq $VALUE} class="no-value" {/if} {else if $PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE] gt $VALUE} class=" no-value" {/if}>
 										<div class="dropdown" style="cursor:pointer;">
 											<div data-toggle="dropdown" aria-expanded="false" aria-hidden="true">{$VALUE}</div>
 											<div class="dropdown-menu"><span>You can go to <b style="font-weight:bold !important;">{$PHP_INI_LOCATION}</b> and edit it and restart the server.</span></div>
@@ -189,7 +189,7 @@
 			<div class="row offset2">		
 				<div class="col-sm-12 ">
 					<div class="button-container joforce-install-btn">
-						<a href="{$SITE_URL}index.php?module=Install&view=Index"><input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK', 'Install')}"/></a>
+						<a href="{$SITE_URL}index.php?module=Install&view=Index"><input type="button" class="btn btn-large btn-default" value="{vtranslate('LBL_BACK', 'Install')}"/></a>						
 						<input type="button" class="btn btn-large btn-primary btn-next but" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4" {if $FAILED_FILE_PERMISSIONS} disabled {/if}/>
 					</div>
 				</div>

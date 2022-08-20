@@ -160,6 +160,7 @@ input[type="password"].inputElement {
 	border-top: 1px solid #ddd;
 	font-size: 10px;
 	padding-left: 20px;
+	text-align: center;
 }
 
 .app-footer img {
@@ -1586,7 +1587,8 @@ li.dropdown a.dropdown-toggle .profile-img img.user-image {
 .app-footer.Vendors.Edit.edit.Edit_potentials,
 .app-footer.PriceBooks.Edit.edit.Edit_potentials,
 .app-footer.Invoice,
-.app-footer.PriceBooks {
+.app-footer.PriceBooks,
+.app-footer.MailConverter {
 	position: inherit;
 }
 
@@ -3104,9 +3106,9 @@ form.recordEditView ul.nav-tabs li.active {
 	padding: 1px 22px;
 	/*border: 1px solid */
 	border-left: 0;
-	font-size: 20px;
+	font-size: 15px;
 	position: absolute;
-	top: 14px;
+	top: 8px !important;
 	right: 4px;
 }
 
@@ -5997,8 +5999,8 @@ input.listViewEntriesMainCheckBox.check {
 }
 
 .detailShowAllModal .currentTag {
-	height: 100px;
-	max-height: 100px;
+	height: 200px;
+	max-height: 200px;
 	overflow: hidden
 }
 
@@ -6117,7 +6119,8 @@ span.alertShow1:hover {
 }
 
 .tag i.activeToggleIcon {
-	font-size: 9px
+	font-size: 14px;
+	margin-left: 5px;
 }
 
 .tag.active {
@@ -6130,11 +6133,13 @@ span.alertShow1:hover {
 	color: black
 }
 
-.tag .editTag {
+.tag .editTag,
+.tag .deleteTag {
 	opacity: 0
 }
 
-.tag:hover .editTag {
+.tag:hover .editTag,
+.tag:hover .deleteTag {
 	opacity: 1
 }
 
@@ -6291,9 +6296,10 @@ span.alertShow1:hover {
 }
 
 .browse-file {
-	width: 5% !important;
+	width: 3% !important;
 	display: inline-block;
 	position: relative;
+	left: 111px;
 }
 
 .browse-file-input {
@@ -6323,7 +6329,7 @@ span.alertShow1:hover {
 .toEmailField .commale .emailModulesList {
 	border: solid 1px #ccc;
 	outline: none;
-	padding: 0px 42px;
+	padding: 0px 15px;
 }
 
 .MultiFile-applied {
@@ -7252,6 +7258,9 @@ input:-webkit-autofill:focus {
 
 /* normal laptop screen size 1600 x 900*/
 @media screen and (min-width:1400px) and (max-width:1699px) {
+	.quick-panel .modal-dialog.modelContainer.tags .modal-header {
+		right: -232px;
+	}
 
 	.details_view_detailview_header_block .mob_mr-top {
 		margin-left: 15px !important;
@@ -7683,10 +7692,7 @@ footer.app-footer.Potentials.Edit_potentials {
 }
 
 .detailViewPageDiv.Services footer.app-footer.Services,
-.app-footer.Accounts,
-.app-footer.Products,
 .app-footer.Potentials.kanbanview,
-.app-footer.HelpDesk.kanbanview,
 .app-footer.Roles,
 .app-footer.PDFMaker.showDetailViewByMode,
 .app-footer.Users,
@@ -7704,7 +7710,10 @@ footer.app-footer.Potentials.Edit_potentials {
 .detailViewPageDiv.SalesOrder .app-footer.SalesOrder,
 .detailViewPageDiv.Campaigns .app-footer.Campaigns,
 .detailViewPageDiv.Vendors .app-footer.Vendors,
-.detailViewPageDiv.Quotes .app-footer.Quotes {
+.detailViewPageDiv.Quotes .app-footer.Quotes,
+.detailViewPageDiv.Accounts .app-footer.Accounts,
+.detailViewPageDiv.Products .app-footer.Products,
+.detailViewPageDiv.HelpDesk .app-footer.HelpDesk.kanbanview {
 	position: absolute;
 }
 
@@ -7713,6 +7722,8 @@ footer.app-footer.Potentials.Edit_potentials {
 	overflow: inherit;
 }
 
+.app-footer.Products,
+.app-footer.Accounts,
 footer.app-footer.Services.Edit_potentials,
 .app-footer.Products.Edit_potentials,
 .app-footer.Contacts.Edit_potentials,
@@ -7740,6 +7751,7 @@ footer.app-footer.Potentials.kanbanview,
 .app-footer.Campaigns,
 .app-footer.Vendors,
 footer.app-footer.Services,
+.app-footer.HelpDesk.kanbanview,
 .app-footer.Quotes {
 	position: inherit;
 }
@@ -7935,7 +7947,6 @@ span.picklist-color.Closed.Lost {
 .app-footer.Contacts.settings,
 .app-footer.PortalUser,
 .app-footer.Settings\:AddressLookup,
-.app-footer.MailConverter,
 .app-footer.LanguageEditor,
 .modal-overlay-footer.clearfix.customrecordnumbering,
 .app-footer.Pipeline.create {
@@ -8046,4 +8057,15 @@ span.picklist-color.Closed.Lost {
 	padding: 10px;
 	font-weight: normal;
 	color: #909599 !important;
+}/* profile and product images */
+.white-background.m0.p0.ipad_white_background img {
+	object-fit: cover;
+	height: 90px;
+	width: 90px;
 }
+
+.table-content tr td:last-child {
+	z-index: 1;
+}
+
+/* end of profile and product images */

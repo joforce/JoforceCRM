@@ -142,7 +142,12 @@ class Head_Record_Model extends Head_Base_Model {
     public function getRecordActivityUrl() {
         global $site_URL;
         $module = $this->getModule();
-        return $site_URL . $this->getModuleName() . '/view/Activity/' . $this->getId();
+		 if($this->getModuleName()  == 'Events'){
+		 	return $site_URL . 'Calendar/view/Activity/' . $this->getId();
+		 }else{
+			return $site_URL . $this->getModuleName() . '/view/Activity/' . $this->getId();
+	 }
+        
     }
 
 	/**

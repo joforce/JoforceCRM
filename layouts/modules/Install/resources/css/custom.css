@@ -796,4 +796,6 @@ li.completed:nth-child(3)::after {
 
 li.select2-results-dept-0.select2-result.select2-result-selectable.select2-highlighted>.select2-result-label {
   color: white !important
+}.app-footer p{
+  text-align: center;
 }

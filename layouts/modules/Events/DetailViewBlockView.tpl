@@ -19,10 +19,12 @@
     {assign var="IS_HIDDEN" value=false}
     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 
-    <div>
-        <h4>{vtranslate('LBL_INVITE_USER_BLOCK',{$MODULE_NAME})}</h4>
+    <div class='detailhead' style="background: #f7f7f7;color: #264da2;padding: 10px 20px 10px 20px;-webkit-border-top-right-radius: 7px;-webkit-border-top-left-radius: 7px;">
+        <h4 class="textOverflowEllipsis maxWidth50">
+        <img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if}" src="{$SITEURL}{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
+					<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" src="{$SITEURL}{vimage_path('arrowdown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>&nbsp;
+        {vtranslate('LBL_INVITE_USER_BLOCK',{$MODULE_NAME})}</h4>
     </div>
-    <hr>
 
     <div class="blockData">
         <table class="table detailview-table no-border">

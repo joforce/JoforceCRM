@@ -8,6 +8,9 @@
 ************************************************************************************}
 
 {strip}
+	{if $Imap_map_check}
+	<div class="errorMessage"><div class="alert alert-danger">Imap Status : <strong>{$Imap_map_check}</strong></div></div>
+	{/if}
 	<div class="mailConverter card mt0">
 		<h4 class="card-header-new mail_Convertor_header">{vtranslate($MODULE, $QUALIFIED_MODULE)}</h4>
 		<hr>

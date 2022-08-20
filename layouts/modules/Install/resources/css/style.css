@@ -194,7 +194,8 @@ hr {
 
 .config-table tr td.no,
 p.no,
-span.no {
+span.no,
+.config-table tr td.no-value {
     color: red;
     font-weight: bold;
 }
@@ -415,6 +416,16 @@ font-size:20px;
 .install-language {
     margin-top: 30px;
 
+}
+
+@-moz-document url-prefix() {
+    .install_step_button {
+        left: -140px !important;
+    }
+}
+
+.install-preprocess-top .card-view {
+    overflow: hidden;
 }
 
 .install_step_button {
@@ -764,4 +775,11 @@ background-color: #ffffff !important;
     margin: 4px 2px;
 }
 
-/*new installtion process css end*/
+/*new installtion process css end*//* lap screen 1280 to 1399 */
+@media screen and (min-width: 1281px) and (max-width: 1399px) {
+    .install_step_button {
+        left: -112px;
+    }
+}
+
+/* end of lap screen 1280 to 1399 */

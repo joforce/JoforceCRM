@@ -80,28 +80,7 @@
 </div>
 <script type='text/javascript'>
 {literal}
-    $(document).ready(function()    {
-    
-        $('.show_licence').on('click', function()   {
-            $('.license').toggle();
-        })
-		$('#save_sale').click(function() {
-    $.ajax({
-		type: 'GET',
-        url: 'migration/configmigration.php',
-        success: function(data) { 
-			if(data == true){
-                alert('Add Joforce v1.5  to v3.0 Config.inc.php');
-			}
-			else {
-				window.location.href = 'migration'
-			}
-            },
-        error: function(xhr, ajaxOptions, thrownerror) { }
-					});
-});
 
-
-    });
 {/literal}
 </script>
+

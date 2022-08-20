@@ -11,6 +11,7 @@
 $languageStrings = array(
     // Basic Strings
 	'Calendar'=>'Calendar',
+	'LBL_INVITE_USERS'=>'Invite User',
 	'SINGLE_Calendar' => 'Task',
 	'SINGLE_Events' => 'Event',
 	'LBL_ADD_TASK' => 'Add Task',

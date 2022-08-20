@@ -16,14 +16,15 @@
 <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/lib/jo-icons/style.css' media="screen"/>
 <link type='text/css' rel='stylesheet' href='{$SITEURL}layouts/skins/custom.css' media="screen"/>
 
-<div class="container container-error-box">
+<div class="container-fluid container-error-box">
    <div class="ir-response-page">
 	<div class="row">
              <h1 class="page-error text-center ">404</h1>
 	
 	    <div class="row">  
-		<div class="col-md-8 offset-md-2 error-box"> 
-            <p class="error-msg">{vtranslate($MESSAGE)}<i class="joicon-smiley2 pl10" aria-hidden="true"></i></p>
+		<div class="col-md-12 offset-md-2 error-box"> 
+            <p class="error-msg mb-1">{vtranslate($MESSAGE)}  <i class="joicon-smiley2 pl10" aria-hidden="true"></i></p>
+            <h4>Oops! You're lost.</h4>
 		<a href='javascript:window.history.back();' class="homelink" >{vtranslate('LBL_GO_BACK')}</a> 
        	        </div>	
 	    </div>

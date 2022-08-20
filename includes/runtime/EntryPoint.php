@@ -26,6 +26,14 @@ vimport ('includes.runtime.LanguageHandler');
 vimport ('includes.runtime.Cache');
 vimport ('modlib.Head.Runtime');
 
+
+$site_url=explode("migration/",$_SERVER['REQUEST_URI']);
+ if (!isset($_GET['reload'])) {
+	 if($_SERVER['REQUEST_URI'] === $site_url[0].$site_url[1].'migration/') {
+		 header('Refresh:0');
+	 }
+	 
+}
 abstract class Head_EntryPoint {
 
 	/**

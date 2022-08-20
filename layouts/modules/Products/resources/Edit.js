@@ -9,14 +9,16 @@
  *************************************************************************************/
 
 Head_Edit_Js("Products_Edit_Js", {
-	getMessageForChildProductDeletionOrInActivation: function(params) {
+	getMessageForChildProductDeletionOrInActivation: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var message = '';
 		if (params['module'] == 'Products') {
 			params['action'] = 'Mass';
 			params['mode'] = 'isChildProduct';
 
-			app.request.post({data:params}).then(function(err, data) {
+			app.request.post({
+				data: params
+			}).then(function (err, data) {
 				var responseData = data.result;
 				for (var id in responseData) {
 					if (responseData[id] == true) {
@@ -30,8 +32,7 @@ Head_Edit_Js("Products_Edit_Js", {
 		}
 		return aDeferred.promise();
 	}
-},
-{
+}, {
 	baseCurrency: '',
 	baseCurrencyName: '',
 	//Container which stores the multi currency element
@@ -41,7 +42,7 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to get unit price
 	 */
-	getUnitPrice: function() {
+	getUnitPrice: function () {
 		if (this.unitPrice == false) {
 			this.unitPrice = jQuery('input.unitPrice', this.getForm());
 		}
@@ -50,7 +51,7 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to get more currencies container
 	 */
-	getMoreCurrenciesContainer: function() {
+	getMoreCurrenciesContainer: function () {
 		if (this.multiCurrencyContainer == false) {
 			this.multiCurrencyContainer = jQuery('.multiCurrencyEditUI');
 		}
@@ -59,13 +60,13 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to get current Element
 	 */
-	getCurrentElem: function(e) {
+	getCurrentElem: function (e) {
 		return jQuery(e.currentTarget);
 	},
 	/**
 	 * Function to return stripped unit price
 	 */
-	getDataBaseFormatUnitPrice: function() {
+	getDataBaseFormatUnitPrice: function () {
 		var field = this.getUnitPrice();
 		var container = jQuery('.multiCurrencyEditUI:visible');
 
@@ -90,7 +91,7 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to get more currencies UI
 	 */
-	getMoreCurrenciesUI: function() {
+	getMoreCurrenciesUI: function () {
 		var aDeferred = jQuery.Deferred();
 		var moduleName = this.getModuleName();
 		var baseCurrency = jQuery('input[name="base_currency"]').val();
@@ -108,15 +109,16 @@ Head_Edit_Js("Products_Edit_Js", {
 				'record': recordId
 			};
 
-			app.request.get({data: params}).then(
-				function(err, data) {
+			app.request.get({
+				data: params
+			}).then(
+				function (err, data) {
 					if (data) {
 						moreCurrenciesContainer.html(data);
 						aDeferred.resolve(data);
 					}
 				});
-		}
-		else {
+		} else {
 			aDeferred.resolve();
 		}
 		return aDeferred.promise();
@@ -124,19 +126,19 @@ Head_Edit_Js("Products_Edit_Js", {
 	/*
 	 * function to register events for more currencies link
 	 */
-	registerEventForMoreCurrencies: function() {
+	registerEventForMoreCurrencies: function () {
 		var self = this;
-		jQuery('#moreCurrencies').on('click', function(e) {
+		jQuery('#moreCurrencies').on('click', function (e) {
 			app.helper.showProgress();
-			self.getMoreCurrenciesUI().then(function(data) {
+			self.getMoreCurrenciesUI().then(function (data) {
 				app.helper.hideProgress();
 				var moreCurrenciesUi = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 				if (moreCurrenciesUi.length > 0) {
 					moreCurrenciesUi = moreCurrenciesUi.clone();
-					var callback = function(data) {
+					var callback = function (data) {
 						var form = data.find('#currencyContainer');
 						form.vtValidate({
-							submitHandler: function(form) {
+							submitHandler: function (form) {
 								self.saveCurrencies();
 								return false;
 							}
@@ -156,18 +158,20 @@ Head_Edit_Js("Products_Edit_Js", {
 					var form = '<form id="currencyContainer"></form>'
 					jQuery(form).insertAfter(moreCurrenciesUi.find('.modal-header'));
 					moreCurrenciesUi.find('form').html(contentInsideForm);
-					moreCurrenciesContainer.find('input[name^=curname]').each(function(index, element) {
+					moreCurrenciesContainer.find('input[name^=curname]').each(function (index, element) {
 						var dataValue = jQuery(element).val();
 						var dataId = jQuery(element).attr('id');
-						moreCurrenciesUi.find('#'+dataId).val(dataValue);
+						moreCurrenciesUi.find('#' + dataId).val(dataValue);
 					});
-					app.helper.showModal(moreCurrenciesUi, {cb: callback});
+					app.helper.showModal(moreCurrenciesUi, {
+						cb: callback
+					});
 
 				}
 			});
 		});
 	},
-	saveCurrencies: function() {
+	saveCurrencies: function () {
 		var thisInstance = this;
 		var errorMessage;
 		var form = jQuery('#currencyContainer');
@@ -175,22 +179,26 @@ Head_Edit_Js("Products_Edit_Js", {
 		var modalContainer = jQuery('.myModal');
 
 		var enabledBaseCurrency = modalContainer.find('.enableCurrency').filter(':checked');
-		if(enabledBaseCurrency.length < 1){
+		if (enabledBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT');
-			app.helper.showErrorNotification({message: errorMessage});
+			app.helper.showErrorNotification({
+				message: errorMessage
+			});
 			form.removeData('submit');
 			return;
 		}
-		enabledBaseCurrency.attr('checked',"checked");
+		enabledBaseCurrency.attr('checked', "checked");
 		modalContainer.find('.enableCurrency').filter(":not(:checked)").removeAttr('checked');
 		var selectedBaseCurrency = modalContainer.find('.baseCurrency').filter(':checked');
-		if(selectedBaseCurrency.length < 1){
+		if (selectedBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT');
-			app.helper.showErrorNotification({message: errorMessage});
+			app.helper.showErrorNotification({
+				message: errorMessage
+			});
 			form.removeData('submit');
 			return;
 		}
-		selectedBaseCurrency.attr('checked',"checked");
+		selectedBaseCurrency.attr('checked', "checked");
 		modalContainer.find('.baseCurrency').filter(":not(:checked)").removeAttr('checked');
 
 		var parentElem = selectedBaseCurrency.closest('tr');
@@ -207,7 +215,7 @@ Head_Edit_Js("Products_Edit_Js", {
 		var savedValuesOfMultiCurrency = modalContainer.find('.currencyContent').html();
 		var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer');
 		moreCurrenciesContainer.find('.currencyContent').html(savedValuesOfMultiCurrency);
-		modalContainer.find('input[name^=curname]').each(function(index, element) {
+		modalContainer.find('input[name^=curname]').each(function (index, element) {
 			var dataValue = jQuery(element).val();
 			var dataId = jQuery(element).attr('id');
 			moreCurrenciesContainer.find('.currencyContent').find('#' + dataId).val(dataValue);
@@ -215,7 +223,7 @@ Head_Edit_Js("Products_Edit_Js", {
 		app.helper.hideModal();
 	},
 
-	calculateConversionRate: function() {
+	calculateConversionRate: function () {
 		var container = jQuery('.multiCurrencyEditUI:visible');
 		var baseCurrencyRow = container.find('.baseCurrency').filter(':checked').closest('tr');
 		var baseCurrencyConvestationRate = baseCurrencyRow.find('.conversionRate');
@@ -225,7 +233,7 @@ Head_Edit_Js("Products_Edit_Js", {
 		}
 		var baseCurrencyRatePrevValue = baseCurrencyConvestationRate.val();
 
-		container.find('.conversionRate').each(function(key, domElement) {
+		container.find('.conversionRate').each(function (key, domElement) {
 			var element = jQuery(domElement);
 			if (!element.is(baseCurrencyConvestationRate)) {
 				var prevValue = element.val();
@@ -237,10 +245,10 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to register event for enabling currency on checkbox checked
 	 */
-	registerEventForEnableCurrency: function() {
+	registerEventForEnableCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change', '.enableCurrency', function(e) {
+		jQuery(container).on('change', '.enableCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentRow = elem.closest('tr');
 
@@ -261,12 +269,14 @@ Head_Edit_Js("Products_Edit_Js", {
 				if (baseCurrency.is(':checked')) {
 					var currencyName = jQuery('.currencyName', parentRow).text();
 					var errorMessage = app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY') + '"' + currencyName + '"';
-					app.helper.showErrorNotification({message: errorMessage});
+					app.helper.showErrorNotification({
+						message: errorMessage
+					});
 					elem.prop('checked', true);
 					return;
 				}
 				jQuery('input', parentRow).prop('disabled', true);
-				jQuery('input.enableCurrency',parentRow).removeAttr('disabled');
+				jQuery('input.enableCurrency', parentRow).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', 'disabled');
 			}
 		})
@@ -275,10 +285,10 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to register event for enabling base currency on radio button clicked
 	 */
-	registerEventForEnableBaseCurrency: function() {
+	registerEventForEnableBaseCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change', '.baseCurrency', function(e) {
+		jQuery(container).on('change', '.baseCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentElem = elem.closest('tr');
 			if (elem.is(':checked')) {
@@ -287,7 +297,7 @@ Head_Edit_Js("Products_Edit_Js", {
 				thisInstance.baseCurrency = convertedPrice;
 
 				var elementsList = jQuery('.enableCurrency', container);
-				jQuery.each(elementsList, function(index, element) {
+				jQuery.each(elementsList, function (index, element) {
 					var ele = jQuery(element);
 					var parentRow = ele.closest('tr');
 
@@ -309,10 +319,10 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to register event for reseting the currencies
 	 */
-	registerEventForResetCurrency: function() {
+	registerEventForResetCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('click', '.currencyReset', function(e) {
+		jQuery(container).on('click', '.currencyReset', function (e) {
 			var parentElem = thisInstance.getCurrentElem(e).closest('tr');
 			var unitPriceFieldData = thisInstance.getUnitPrice().data();
 			var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
@@ -329,10 +339,10 @@ Head_Edit_Js("Products_Edit_Js", {
 	 * Function to calculate base currency price value if unit
 	 * present on click of more currencies
 	 */
-	triggerForBaseCurrencyCalc: function() {
+	triggerForBaseCurrencyCalc: function () {
 		var multiCurrencyEditUI = this.getMoreCurrenciesContainer();
 		var baseCurrency = multiCurrencyEditUI.find('.enableCurrency');
-		jQuery.each(baseCurrency, function(key, val) {
+		jQuery.each(baseCurrency, function (key, val) {
 			if (jQuery(val).is(':checked')) {
 				var baseCurrencyRow = jQuery(val).closest('tr');
 				var unitPrice = jQuery('.unitPrice');
@@ -354,9 +364,9 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to register onchange event for unit price
 	 */
-	registerEventForUnitPrice: function() {
+	registerEventForUnitPrice: function () {
 		var unitPrice = this.getUnitPrice();
-		unitPrice.on('focusout', function() {
+		unitPrice.on('focusout', function () {
 			var oldValue = unitPrice.data('oldValue');
 			if (oldValue != unitPrice.val()) {
 				unitPrice.data('isPriceChanged', true);
@@ -364,12 +374,12 @@ Head_Edit_Js("Products_Edit_Js", {
 		})
 	},
 	issetInActivationMessage: false,
-	registerRecordPreSaveEvent: function(form) {
+	registerRecordPreSaveEvent: function (form) {
 		var self = this;
 		if (typeof form == 'undefined') {
 			form = this.getForm();
 		}
-		app.event.on(Head_Edit_Js.recordPresaveEvent, function(e, data) {
+		app.event.on(Head_Edit_Js.recordPresaveEvent, function (e, data) {
 			var isActiveEle = form.find('input[name="discontinued"]');
 			var recordId = jQuery('input[name="record"]').val();
 
@@ -385,18 +395,20 @@ Head_Edit_Js("Products_Edit_Js", {
 						'selected_ids': selectedIds
 					};
 
-					Products_Edit_Js.getMessageForChildProductDeletionOrInActivation(params).then(function(message) {
+					Products_Edit_Js.getMessageForChildProductDeletionOrInActivation(params).then(function (message) {
 						if (message != '') {
-							app.helper.showConfirmationBox({'message': message}).then(
-								function(data) {
+							app.helper.showConfirmationBox({
+								'message': message
+							}).then(
+								function (data) {
 									self.checkMoreCurrenciesUI(e, form);
 									self.issetInActivationMessage = true;
 								},
-								function(error, err) {
+								function (error, err) {
 									self.issetInActivationMessage = false;
 									form.removeData('submit');
 								}
-								);
+							);
 						} else {
 							self.checkMoreCurrenciesUI(e, form);
 							self.issetInActivationMessage = true;
@@ -410,13 +422,13 @@ Head_Edit_Js("Products_Edit_Js", {
 			}
 		})
 	},
-	checkMoreCurrenciesUI: function(e, form) {
+	checkMoreCurrenciesUI: function (e, form) {
 		var thisInstance = this;
 		var multiCurrencyContent = jQuery('#moreCurrenciesContainer').find('.currencyContent');
 		var unitPrice = thisInstance.getUnitPrice();
 		if ((multiCurrencyContent.length < 1) && (unitPrice.length > 0)) {
 			e.preventDefault();
-			thisInstance.getMoreCurrenciesUI().then(function(data) {
+			thisInstance.getMoreCurrenciesUI().then(function (data) {
 				thisInstance.preSaveConfigOfForm(form);
 				form.submit();
 			})
@@ -427,7 +439,7 @@ Head_Edit_Js("Products_Edit_Js", {
 	/**
 	 * Function to handle settings before save of record
 	 */
-	preSaveConfigOfForm: function(form) {
+	preSaveConfigOfForm: function (form) {
 		var unitPrice = this.getUnitPrice();
 		if (unitPrice.length > 0) {
 			var unitPriceValue = unitPrice.val();
@@ -436,26 +448,28 @@ Head_Edit_Js("Products_Edit_Js", {
 			form.find('#requstedUnitPrice').attr('name', baseCurrencyName).val(unitPriceValue);
 		}
 	},
-	registerTaxEvents : function(container) {
-		app.helper.showScroll(jQuery('.regionsList'), {'height':'100px'});
-		container.on('change','.taxes', function(e){
+	registerTaxEvents: function (container) {
+		app.helper.showScroll(jQuery('.regionsList'), {
+			'height': '100px'
+		});
+		container.on('change', '.taxes', function (e) {
 			var element = jQuery(e.currentTarget);
 			var taxIdSelector = element.data('taxName');
-			if(element.is(":checked")) {
-				jQuery('#'+taxIdSelector).removeClass('hide').addClass('show');
-			}else{
-				jQuery('#'+taxIdSelector).removeClass('show').addClass('hide');
+			if (element.is(":checked")) {
+				jQuery('#' + taxIdSelector).removeClass('hide').addClass('show');
+			} else {
+				jQuery('#' + taxIdSelector).removeClass('show').addClass('hide');
 			}
 		});
 	},
-        registerImageChangeEvent : function() {
-            
-        },
-	registerBasicEvents : function(container) {
-            this._super(container);
-            this.registerTaxEvents(container);
-            this.registerEventForMoreCurrencies();
-            this.registerEventForUnitPrice();
-            this.registerRecordPreSaveEvent();
+	registerImageChangeEvent: function () {
+
+	},
+	registerBasicEvents: function (container) {
+		this._super(container);
+		this.registerTaxEvents(container);
+		this.registerEventForMoreCurrencies();
+		this.registerEventForUnitPrice();
+		this.registerRecordPreSaveEvent();
 	},
 })

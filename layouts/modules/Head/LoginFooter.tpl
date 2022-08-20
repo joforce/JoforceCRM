@@ -12,7 +12,7 @@
 	<img class="pull-right" src='{$SITEURL}layouts/skins/images/JoForce-footer.png' width="30px" style="position:absolute;right: 0px;z-index: 1000;">
     </a>
     <p>
-        Copyright © Joforce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> open source projects.</a>
+        Copyright © Joforce. Thanks to <a class="joforce-link" href="https://joforce.com/credits" target="_blank"> Smackcoders</a>
     </p>
 </footer>
 </div>

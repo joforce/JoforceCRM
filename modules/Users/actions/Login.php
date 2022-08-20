@@ -62,11 +62,11 @@ class Users_Login_Action extends Head_Action_Controller {
                 	$isFirstUser = Users_CRMSetup::isFirstUser($systemSetUpModel);
 
 
-			header ('Location: index.php?module=Users&parent=Settings&view=SystemSetup');
+			header ('Location: index.php');
 
 			exit();
 		} else {
-			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=login');
+			header ('Location: index.php');
 			exit;
 		}
 	}

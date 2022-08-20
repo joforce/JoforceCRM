@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  ************************************************************************************/
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);ini_set('display_errors','Off');
 require_once('vendor/autoload.php');
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution

@@ -175,7 +175,7 @@ class Head_Detail_View extends Head_Index_View {
 					}
 				}
 				elseif($request->getModule() =='Services'){
-					if($values->linklabel !='Products'  &&  $values->linklabel !='Services' &&  $values->linklabel !='Leads' &&  $values->linklabel !='Accounts'  && $values->linklabel !='PBXManager' && $values->linklabel !='Potentials' &&  $values->linklabel !='PriceBooks'){
+					if($values->linklabel !='Products'  &&  $values->linklabel !='Services' &&  $values->linklabel !='Leads' &&  $values->linklabel !='Accounts'  && $values->linklabel !='PBXManager' && $values->linklabel !='Potentials' &&  $values->linklabel !='PriceBooks' && $values->linklabel !='Contacts'){
 						$total[$values->linklabel] = $getRelatedModules? $getRelatedModules : 0;
 					}
 				}

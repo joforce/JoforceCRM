@@ -48,7 +48,7 @@
 		{include file="ListViewActions.tpl"|vtemplate_path:$MODULE}
 	{/if}
 
-	<div id="table-content"  class="table-container mt10 {if $MODULE eq 'Calendar'} pt35 {/if} {if in_array($MODULE,array('EmailTemplates'))}ml10{/if}" style="overflow: auto;top:0px!important">
+	<div id="table-content"  class="table-container mt10 {if $LISTVIEW_ENTRIES_COUNT <= '5'} list_view_table_height {/if} {if $MODULE eq 'Calendar'} pt35 {/if} {if in_array($MODULE,array('EmailTemplates'))}ml10{/if}" style="overflow: auto;top:0px!important">
 	<div class="table-toggle fixed-scroll-table">
 
 	    <form name='list' id='listedit' action='' onsubmit="return false;">

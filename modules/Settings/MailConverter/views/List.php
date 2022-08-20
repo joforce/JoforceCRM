@@ -45,6 +45,12 @@ class Settings_MailConverter_List_View extends Settings_Head_Index_View {
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
 		$viewer->assign('CRON_RECORD_MODEL', Settings_CronTasks_Record_Model::getInstanceByName('MailScanner'));
+		$Imap_test = array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
+		if($Imap_test[0]==''){
+			$Imap_map_check="Please Install Imap then you will Create MailBox";
+			$viewer->assign('Imap_map_check', $Imap_map_check);
+		}
+		
 		$viewer->assign('RECORD_EXISTS', $recordExists);
 	
 		if ($scannerId) {

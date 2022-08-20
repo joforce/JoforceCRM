@@ -43,7 +43,7 @@
 			{/if}
 			<div class="list-content row">
 				<div class="col-sm-12 col-xs-12">
-					<div id="table-content" class="table-container {if in_array($MODULE,array('Groups','Webforms','CronTasks','Webhooks','Currency','Tags'))} table_container_align_left {/if}" style="padding-top:0px !important;overflow-x:auto;">
+					<div id="table-content" class="table-container {if in_array($MODULE,array('Groups','Webforms','CronTasks','Webhooks','Currency','Tags'))} {$MODULE} table_container_align_left {/if}" style="padding-top:0px !important;overflow-x:auto;">
 						<table id="listview-table" class="table listview-table">
 							{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 							{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}

@@ -167,6 +167,7 @@ class GraphQL
             			if($request_data['module'] == 'ModComments')	{
             				return $data['id'];
 			            }
+#echo'<pre>';print_r($data);die;
                         return $data['record']['id'];
                     }
                 ],

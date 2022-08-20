@@ -1476,94 +1476,330 @@ a.text-dark:focus {
 
 
 /* tags */
+.tag.tag_0 .editTag {
+	position: inherit;
+	z-index: 1;
+}
+
+.tag.tag_0 {
+	background: #d0d0d0;
+	border-left: 3px solid #555 !important;
+	color: #555;
+}
+
+.tag.tag_0 .activeToggleIcon,
+.tag.tag_0 .editTag,
+.tag.tag_0 .deleteTag {
+	color: #555;
+}
 
 .tag-blue,
 .tag_1 {
-	background-color: #467fcf !important;
-	color: #fff;
+	background-color: #f0d0d0 !important;
+	color: #f57a3a;
+	border-left: 3px solid #f48342 !important;
+}
+
+.tag-blue::after,
+.tag_1::after {
+	border-left: 10px solid #f0d0d0;
+}
+
+.tag_0::after {
+	border-left: 10px solid #d0d0d0;
+}
+
+.tag.tag_1 .activeToggleIcon,
+.tag.tag_1 .editTag,
+.tag.tag_1 .deleteTag {
+	color: #f48342;
 }
 
 .tag-indigo,
 .tag_2 {
-	background-color: #0162e8 !important;
-	color: #fff;
+	background-color: #ffc6db !important;
+	color: #f85a95;
+	border-left: 3px solid #f85a95 !important;
+}
+
+.tag_2::after {
+	border-left: 10px solid #ffc6db;
+}
+
+.tag.tag_2 .editTag,
+.tag.tag_2 .activeToggleIcon,
+.tag.tag_2 .deleteTag {
+	color: #f85a95;
 }
 
 .tag-purple,
 .tag_3 {
-	background-color: #8500ff !important;
-	color: #fff;
+	background-color: #d6b5f4 !important;
+	color: #8500ff;
+	border-left: 3px solid #8400ff !important;
+}
+
+.tag_3::after {
+	border-left: 10px solid #d6b5f4;
+}
+
+.tag.tag_3 .editTag,
+.tag.tag_3 .activeToggleIcon,
+.tag.tag_3 .deleteTag {
+	color: #8500ff;
 }
 
 .tag-pink,
 .tag_4 {
-	background-color: #ec82ef !important;
-	color: #fff;
+	background-color: #fee0ff !important;
+	color: #c430c8;
+	border-left: 3px solid #c430c8 !important;
+}
+
+.tag_4::after {
+	border-left: 10px solid #fee0ff;
+}
+
+.tag.tag_4 .editTag,
+.tag.tag_4 .activeToggleIcon,
+.tag.tag_4 .deleteTag {
+	color: #c430c8;
 }
 
 .tag-red,
 .tag_5 {
-	background-color: #ec2d38 !important;
-	color: #fff;
+	background-color: #fbabaf !important;
+	color: #ec2d38;
+	border-left: 3px solid #ec2d38 !important;
+}
+
+.tag_5::after {
+	border-left: 10px solid #fbabaf;
+}
+
+.tag.tag_5 .editTag,
+.tag.tag_5 .activeToggleIcon,
+.tag.tag_5 .deleteTag {
+	color: #ec2d38;
 }
 
 .tag-orange,
 .tag_6 {
-	background-color: #fd7e14 !important;
-	color: #fff;
+	background-color: #ffd9ba !important;
+	color: #fd7e14;
+	border-left: 3px solid #fd7e14 !important;
+}
+
+.tag_6::after {
+	border-left: 10px solid #ffd9ba;
+}
+
+.tag.tag_6 .editTag,
+.tag.tag_6 .activeToggleIcon,
+.tag.tag_6 .deleteTag {
+	color: #fd7e14;
 }
 
 .tag-yellow,
 .tag_7 {
-	background-color: #fdb901 !important;
+	background-color: #ffedbc !important;
+	border-left: 3px solid #fdb901 !important;
+	color: #fdb901;
+}
+
+.tag_7::after {
+	border-left: 10px solid #ffedbc;
+}
+
+.tag.tag_7 .editTag,
+.tag.tag_7 .activeToggleIcon,
+.tag.tag_7 .deleteTag {
+	color: #fdb901;
 }
 
 .tag-green,
 .tag_8 {
-	background-color: #0fa751 !important;
-	color: #fff;
+	background-color: #cbffe1 !important;
+	color: #0fa751;
+	border-left: 3px solid #0fa751 !important;
+}
+
+.tag_8::after {
+	border-left: 10px solid #cbffe1;
+}
+
+.tag.tag_8 .editTag,
+.tag.tag_8 .activeToggleIcon,
+.tag.tag_8 .deleteTag {
+	color: #0fa751;
 }
 
 .tag-teal,
 .tag_9 {
-	background-color: #00cccc !important;
-	color: #fff;
+	background-color: #bbffff !important;
+	color: #00cccc;
+	border-left: 3px solid #00cccc !important;
+}
+
+.tag_9::after {
+	border-left: 10px solid #bbffff;
+}
+
+.tag.tag_9 .editTag,
+.tag.tag_9 .activeToggleIcon,
+.tag.tag_9 .deleteTag {
+	color: #00cccc;
 }
 
 .tag-cyan,
 .tag_10 {
-	background-color: #00b9ff !important;
-	color: #fff;
+	background-color: #ace9ff !important;
+	color: #00b9ff;
+	border-left: 3px solid #00b9ff !important;
+}
+
+.tag_10::after {
+	border-left: 10px solid #ace9ff;
+}
+
+.tag.tag_10 .editTag,
+.tag.tag_10 .activeToggleIcon,
+.tag.tag_10 .deleteTag {
+	color: #00b9ff;
 }
 
 .tag-white,
 .tag_11 {
-	background-color: #fff !important;
+	background-color: rgb(151, 151, 151) !important;
+	color: #fff;
+	border-left: 3px solid rgb(151, 151, 151) !important;
+}
+
+.tag_11::after {
+	border-left: 10px solid rgb(151, 151, 151) !important;
+}
+
+.tag.tag_11 .activeToggleIcon,
+.tag.tag_11.editTag,
+.tag.tag_11 .deleteTag {
 	color: #fff;
 }
 
 .tag-gray,
 .tag_12 {
-	background-color: #868e96 !important;
-	color: #fff;
+	background-color: #e9e9e9 !important;
+	color: #868e96;
+	border-left: 3px solid #868e96 !important;
+}
+
+.tag_12::after {
+	border-left: 10px solid #e9e9e9;
+}
+
+.tag.tag_12 .activeToggleIcon,
+.tag.tag_12 .editTag,
+.tag.tag_12 .deleteTag {
+	color: #868e96;
 }
 
 .tag-gray-dark,
 .tag_13 {
-	background-color: #343a40 !important;
-	color: #fff;
+	background-color: #c5d7e9 !important;
+	color: #343a40;
+	border-left: 3px solid #343a40 !important;
+}
+
+.tag_13::after {
+	border-left: 10px solid #c5d7e9 !important;
+}
+
+.tag.tag_13 .activeToggleIcon,
+.tag.tag_13 .editTag,
+.tag.tag_13 .deleteTag {
+	color: #343a40;
 }
 
 .tag-azure,
 .tag_14 {
-	background-color: #17c1f4 !important;
-	color: #fff;
+	background-color: #a9deee !important;
+	color: #17c1f4;
+	border-left: 3px solid #17c1f4;
+}
+
+.tag_14::after {
+	border-left: 10px solid #a9deee;
+}
+
+.tag.tag_14 .activeToggleIcon,
+.tag.tag_14 .editTag,
+.tag.tag_14 .deleteTag {
+	color: #17c1f4;
 }
 
 .tag-lime,
 .tag_15 {
-	background-color: #7bd235 !important;
-	color: #fff;
+	background-color: #b6cfa1 !important;
+	color: #7bd235;
+	border-left: 3px solid #7bd235 !important;
+}
+
+.tag_15::after {
+	border-left: 10px solid #b6cfa1;
+}
+
+.tag.tag_15 .activeToggleIcon,
+.tag.tag_15 .editTag,
+.tag.tag_15 .deleteTag {
+	color: #7bd235;
+}
+
+.tag {
+	position: relative;
+}
+
+.currentTag.multiLevelTagList.form-control .tag .editTag,
+.currentTag.multiLevelTagList.form-control .tag .deleteTag,
+.currentTag.multiLevelTagList.form-control .tag .activeToggleIcon {
+	position: inherit;
+	right: 6px;
+	color: #a27100;
+}
+
+.currentTag.multiLevelTagList.form-control .tag::after {
+	border-bottom: 13px solid transparent;
+	border-top: 13px solid transparent;
+	background-color: white;
+	border-left: 10px solid #f7e3b5;
+}
+
+.currentTag.multiLevelTagList.form-control .tag {
+	padding: 5px;
+	background-color: #f7e3b5 !important;
+	color: #a27100;
+	border-left: 3px solid #a27100 !important;
+}
+
+/* .tag::before {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+	content: '';
+	height: 6px;
+	left: 10px;
+	position: absolute;
+	width: 6px;
+	top: 10px;
+} */
+
+.tag::after {
+	background: #ecf0fa;
+	border-bottom: 13px solid transparent;
+	/* border-left: 10px solid #eee; */
+	border-top: 15px solid transparent;
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .tag-primary {

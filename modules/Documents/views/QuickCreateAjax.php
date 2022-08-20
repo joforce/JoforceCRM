@@ -42,7 +42,7 @@ class Documents_QuickCreateAjax_View extends Head_IndexAjax_View {
 
 		$picklistDependencyDatasource = Head_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
-		$relationOperation = $request->get('operation');
+		$relationOperation = $request->get('relationOperation');
 		$fieldList = $moduleModel->getFields();
 		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
         foreach($requestFieldList as $requestFieldName => $requestFieldValue) {
@@ -76,7 +76,7 @@ class Documents_QuickCreateAjax_View extends Head_IndexAjax_View {
 
 		if ($relationOperation) {
 			$viewer->assign('RELATION_OPERATOR', $relationOperation);
-			$viewer->assign('PARENT_MODULE', $request->get('module'));
+			$viewer->assign('PARENT_MODULE', $request->get('sourceModule'));
 			$viewer->assign('PARENT_ID', $request->get('sourceRecord'));
 			if ($relationFieldName) {
 				$viewer->assign('RELATION_FIELD_NAME', $relationFieldName);

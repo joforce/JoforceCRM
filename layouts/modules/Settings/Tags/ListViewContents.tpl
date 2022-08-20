@@ -12,7 +12,7 @@
 {strip}
     {include file="ListViewContents.tpl"|vtemplate_path:'Settings:Head'}
 
-    <div id="editTagContainer" class="hide modal-dialog modelContainer">
+    <div id="editTagContainer" class="hide modal-dialog modelContainer tags">
         <input type="hidden" name="id" value="" />
         {assign var="HEADER_TITLE" value={vtranslate('LBL_EDIT_TAG', $QUALIFIED_MODULE)}}
         {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}

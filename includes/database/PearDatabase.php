@@ -851,13 +851,13 @@ class PearDatabase{
 
 		if($host == '') {
 		    $this->disconnect();
-		    $this->setDatabaseType($dbconfig['db_type']);
-	    	$this->setUserName($dbconfig['db_username']);
-		    $this->setUserPassword($dbconfig['db_password']);
-		    $this->setDatabaseHost( $dbconfig['db_hostname']);
-	    	$this->setDatabaseName($dbconfig['db_name']);
+		    $this->setDatabaseType($dbconfig['db_type']?? null) ;
+	    	$this->setUserName($dbconfig['db_username']?? null);
+		    $this->setUserPassword($dbconfig['db_password']?? null);
+		    $this->setDatabaseHost( $dbconfig['db_hostname']?? null);
+	    	$this->setDatabaseName($dbconfig['db_name']?? null);
 		    $this->dbOptions = $dbconfigoption;
-		    if($dbconfig['log_sql'])
+		    if($dbconfig['log_sql']?? null)
 	    		$this->enableSQLlog = ($dbconfig['log_sql'] == true);
 		} else {
 		    $this->disconnect();

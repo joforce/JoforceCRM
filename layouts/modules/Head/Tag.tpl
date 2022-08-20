@@ -9,7 +9,7 @@
  ************************************************************************************}
  
  <span class="tag tag_{$smarty.foreach.tagCounter.iteration} {if $ACTIVE eq true} active {/if}" title="{$TAG_MODEL->getName()}" data-type="{$TAG_MODEL->getType()}" data-id="{$TAG_MODEL->getId()}">
-    <i class="activeToggleIcon fa {if $ACTIVE eq true} fa-circle-o {else} fa-circle {/if}"></i>
+    <i class="activeToggleIcon fa {if $ACTIVE eq true} fa-tags {else} fa-tag {/if}"></i>
     <span class="tagLabel display-inline-block textOverflowEllipsis" title="{$TAG_MODEL->getName()}">{$TAG_MODEL->getName()}</span>
     {if !$NO_EDIT}
         <i class="editTag fa fa-pencil"></i>

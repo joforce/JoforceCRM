@@ -99,7 +99,7 @@
     </div>
     <div class="col-lg-3 col-md-5 listview-pagejump" id="listview-pagejump">
 	<input type="text" id="pageToJump" placeholder="Jump To" class="jumpToInput {$CLASS_VIEW_PAGING_INPUT} text-center"/>&nbsp;
-	<button type="button" id="pageToJumpSubmit" class="btn btn-primary-gradient {$CLASS_VIEW_PAGING_INPUT_SUBMIT} text-center">{'GO'}</button>
+	<button type="button" id="pageToJumpSubmit" class="btn btn-primary-gradient {$CLASS_VIEW_PAGING_INPUT_SUBMIT} text-center">{'go'}</button>
     </div>
   {/if}
 </div>

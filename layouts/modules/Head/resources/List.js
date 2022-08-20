@@ -2974,4 +2974,15 @@ $(document).ready(function () {
 			$('.fixed-scroll-table #listview-table.listview-table thead tr th:not(:first-child):not(:last-child):not(:nth-child(2))').css('width', addvalue);
 		}
 	}
+	$(".dropdown-toggle").click(function () {
+		var scrollTop = $(window).scrollTop();
+		var topOffset = $(".dropdown-menu").offset().top;
+		var relativeOffset = topOffset - scrollTop;
+		var windowHeight = $(window).height();
+		if (scrollTop > 100) {
+			$(".dropdown-menu").addClass("reverse");
+		} else {
+			$(".dropdown-menu").removeClass("reverse");
+		}
+	});
 });

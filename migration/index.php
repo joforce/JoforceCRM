@@ -1,5 +1,19 @@
 <?php
 chdir (dirname(__FILE__) . '/..');
+
+$site_url=explode("migration/",$_SERVER['REQUEST_URI']);
+if (!isset($_GET['reload'])) {
+	if($_SERVER['REQUEST_URI'] === $site_url[0].$site_url[1].'migration/') {
+		header('Refresh:0');
+	echo '<meta http-equiv=Refresh content="0;url=?reload=1">';
+	
+	}
+	elseif($_SERVER['REQUEST_URI'] === $site_url[0].$site_url[1].'migration/?reload=1') {
+		header('Refresh:0');
+	echo '<meta http-equiv=Refresh content="0;url=?reload=1">';
+	}
+}
+
 include_once('includes/utils/utils.php');
 include_once("modules/Emails/mail.php");
 include_once('includes/logging.php');
@@ -55,7 +69,7 @@ if($_POST['FinishMigration'] && $jo_current_version == '2.0') {
 		$SHARING_ATTRS = array('defaultOrgSharingPermission','related_module_share');
 		$privileges = array();
 		$i = 1;
-		
+		$adb->pquery("DROP TABLE IF EXISTS `jo_privileges`;");
 		$adb->pquery("CREATE TABLE `jo_privileges` (
 		`privilegesid` int(11) NOT NULL AUTO_INCREMENT,
 		`user_id` int(11) NOT NULL,
@@ -107,6 +121,7 @@ if($_POST['FinishMigration'] && $jo_current_version == '2.0') {
 			}
 		}
 		}
+		// $adb->pquery("DROP TABLE IF EXISTS `jo_extnstore_users`;");
 		$adb->pquery("CREATE TABLE `jo_extnstore_users` (`id` int(11) NOT NULL AUTO_INCREMENT,  `username` varchar(50) DEFAULT NULL,  `password` varchar(75) DEFAULT NULL,  `instanceurl` varchar(255) DEFAULT NULL,  `createdon` datetime DEFAULT NULL,  `deleted` int(1) NOT NULL DEFAULT '0',  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 		$adb->pquery("CREATE TABLE `jo_masqueradeuserdetails` (
   `record_id` int(11) NOT NULL,
@@ -188,24 +203,38 @@ $adb->pquery("UPDATE workflow_tasktypes SET templatepath = REPLACE(templatepath,
 $adb->pquery("UPDATE workflow_tasktypes SET templatepath = REPLACE(templatepath, 'VT', '');");
 $adb->pquery("UPDATE workflow_tasktypes SET classpath = REPLACE(classpath, 'com_jo_w', 'W');");
 $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
+$adb->pquery("INSERT INTO `jo_relatedlists` VALUES (201,7,2,'get_opportunities',10,'Potentials',0,'add,select',0,'','1:N')");
+$adb->pquery("update jo_relatedlists set label='Calendar' where related_tabid=9;");
+$adb->pquery("update jo_relatedlists set label='SalesOrder' where related_tabid=22;");
+$adb->pquery("update jo_relatedlists set label='PurchaseOrder' where related_tabid=21;");
+$adb->pquery("INSERT INTO `jo_settings_field` VALUES  (48,7,'Reports','fa fa-bar-chart','Reports','Track your organization sales performance, sales forecast, sales pipelines, calls, lead source etc., with the reports. Prepare your own customized reports for each CRM modules.','Reports/view/List',3,0,0);");
+$adb->pquery("INSERT INTO `jo_ws_referencetype` VALUES (34,'Contacts');");
+$adb->pquery("CREATE TABLE Tracker_table (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    User_Domain varchar(50) NOT NULL,
+    Started_Date DateTime NOT NULL,
+    PRIMARY KEY (id)
+    );");
 	//rename tables
-	$query = "show tables";
-        $result = $adb->pquery($query, array());
-        if($adb->num_rows($result) >= 1)
-        {
-                $log->debug("get old tables");
-                while($result_set = $adb->fetch_array($result))
-                {
-                        $prev_table = $result->fields[0];
-                        $new_table = str_replace('vtiger','jo',$result->fields[0]);
-                        $rename_query = "rename table $prev_table to $new_table";
-                        $adb->pquery($rename_query, array());
+	// $query = "show tables";
+    //     $result = $adb->pquery($query, array());
+    //     if($adb->num_rows($result) >= 1)
+    //     {
+    //             $log->debug("get old tables");
+    //             while($result_set = $adb->fetch_array($result))
+    //             {
+    //                     $prev_table = $result->fields[0];
+    //                     $new_table = str_replace('vtiger','jo',$result->fields[0]);
+    //                     $rename_query = "rename table $prev_table to $new_table";
+    //                     $adb->pquery($rename_query, array());
 
-                }
-                $log->debug("all tables were renamed vtiger_ to jo_");
-	}
+    //             }
+    //             $log->debug("all tables were renamed vtiger_ to jo_");
+	// }
 	//rename tables
-
+	$HeaderLocation = $_SERVER['REQUEST_URI'];
+	$site_migrate_url=explode('/migration',$HeaderLocation);
+	header("Location: $site_migrate_url[0]/index.php");
 	//Update tables
 	$config = array
 	(
@@ -596,69 +625,71 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 );
 ?>";
 
-	$myfile = fopen("storage/menu/default_module_apps.php", "w");
-        fwrite($myfile, $file_contents);
-        fclose($myfile);
+$myfile = fopen("storage/menu/default_module_apps.php", "w");
+fwrite($myfile, $file_contents);
+fclose($myfile);
 
-	//create htaccess file
-	crete_htacces_file();
-        session_unset();
-        session_destroy();
-        header ('Location: '.$site_URL.'index.php'); die();
+//create htaccess file
+crete_htacces_file();
+session_unset();
+session_destroy();
+header ('Location: '.$site_URL.'index.php'); die();
 }
 ?>
 <?php if(!$_POST['startMigration']){?>
 <html>
-    <head>
-		<title>Joforce CRM Setup</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script type="text/javascript" src="resources/js/jquery-min.js"></script>
-		<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="resources/css/mkCheckbox.css" rel="stylesheet">
-		<link href="resources/css/style.css" rel="stylesheet">
-    </head>
-    <body>
-		<div class="" style="display:flex;flex-direction:row">
+
+<head>
+	<title>Joforce CRM Setup</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="resources/js/jquery-min.js"></script>
+	<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="resources/css/mkCheckbox.css" rel="stylesheet">
+	<link href="resources/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="" style="display:flex;flex-direction:row">
 		<div>
-		<div class="gs-info"> 
-	 <div class="col-sm-12 text-center">
-  <div class="logo install-logo">
-  	<div class="logo"> <img src="resources/images/logo.png" alt="Logo"/> </div>
-  </div>
-</div>
-<div class="gs-wizard">
-        <ul class="gs-wizard-section">
-          <li class="completed">
-            <a href="index.php?module=Install&amp;view=Index">
-              <span class="wiz-circle"></span><span class="wiz-text">Install</span>
-            </a>
-          </li> 
+			<div class="gs-info">
+				<div class="col-sm-12 text-center">
+					<div class="logo install-logo">
+						<div class="logo"> <img src="resources/images/logo.png" alt="Logo" /> </div>
+					</div>
+				</div>
+				<div class="gs-wizard">
+					<ul class="gs-wizard-section">
+						<li class="completed">
+							<a href="index.php?module=Install&amp;view=Index">
+								<span class="wiz-circle"></span><span class="wiz-text">Install</span>
+							</a>
+						</li>
 
-          <li class="active">
-            <a href="index.php?module=Install&amp;view=Index&amp;mode=Step3">
-              <span class="wiz-circle"></span><span class="wiz-text">Backup Permission Check</span>
-            </a>
-          </li>
+						<li class="active">
+							<a href="index.php?module=Install&amp;view=Index&amp;mode=Step3">
+								<span class="wiz-circle"></span><span class="wiz-text">Backup Permission Check</span>
+							</a>
+						</li>
 
- <!--        <li class="disabled">
+						<!--        <li class="disabled">
             <a href="index.php?module=Install&amp;view=Index&amp;mode=Step4">
 
               <span class="wiz-circle"></span><span class="wiz-text">Installation Settings</span>
             </a>
           </li>   -->
 
-          <li class="disabled">
-            <a href="index.php?module=Install&amp;view=Index&amp;mode=Step5">
-              <span class="wiz-circle"></span><span class="wiz-text">Start Migration</span>
-            </a>
-          </li>
-        </ul>
-</div>
+						<li class="disabled">
+							<a href="index.php?module=Install&amp;view=Index&amp;mode=Step5">
+								<span class="wiz-circle"></span><span class="wiz-text">Start Migration</span>
+							</a>
+						</li>
+					</ul>
+				</div>
 
-	</div>		
+			</div>
 		</div>
 		<div class="container-fluid page-container">
-			
+
 			<div class="row-fluid">
 				<div class="span6">
 					<div class="logo">
@@ -671,7 +702,7 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row-fluid main-container">
 				<div class="span12 inner-container">
 					<div class="row-fluid">
@@ -682,17 +713,29 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 					<hr>
 					<div class="row-fluid">
 						<div class="span12">
-							<div style = 'margin-left: 20%'>
-                                <br> <br>
-									<strong> Warning: </strong>Please note that it is not possible to revert back to Joforce v3.0 after the upgrade to Joforce v1.5 <br>
-									So, it is important to take a backup of the Joforce v3.0 files and database before upgrading.</p><br>
+							<div style='margin-left: 20%'>
+								<br> <br>
+								<strong> Warning: </strong>Please note that it is not possible to revert back to Joforce
+								v3.1 after the upgrade to Joforce v1.5 <br>
+								So, it is important to take a backup of the Joforce v3.1 files and database before
+								upgrading.</p><br>
 								<form action="index.php" method="POST">
-									<div><input type="checkbox" id="checkBox1" name="checkBox1"/><div class="chkbox"></div> Backup of source folder </div><br>
-									<div><input type="checkbox" id="checkBox4" name="checkBox4"/><div class="chkbox"></div> Backup of database </div><br>
-									<div><input type="checkbox" id="checkBox2" name="checkBox1"/><div class="chkbox"></div> Replace config/config.inc.php file  from Joforce V1.5 to Joforce v3.0 </div><br>
-									<div><input type="checkbox" id="checkBox3" name="checkBox4"/><div class="chkbox"></div> Replace user_privileges folder files from Joforce V1.5 to Joforce v3.0 </div><br>
+									<div><input type="checkbox" id="checkBox1" name="checkBox1" />
+										<div class="chkbox"></div> Backup of source folder
+									</div><br>
+									<div><input type="checkbox" id="checkBox4" name="checkBox4" />
+										<div class="chkbox"></div> Backup of database
+									</div><br>
+									<div><input type="checkbox" id="checkBox2" name="checkBox1" />
+										<div class="chkbox"></div> Replace config/config.inc.php file from Joforce V1.5
+										to Joforce v3.1
+									</div><br>
+									<div><input type="checkbox" id="checkBox3" name="checkBox4" />
+										<div class="chkbox"></div> Replace user_privileges folder files from Joforce
+										V1.5 to Joforce v3.1
+									</div><br>
 
-		<!--							<div><input type="checkbox" id="checkBox2" name="checkBox2"/><div class="chkbox"></div> Copy the config.inc.php from root directory to <strong>config/</strong> folder and Change the following values in the <strong>config/config.inc.php file</strong> </div><br>
+									<!--							<div><input type="checkbox" id="checkBox2" name="checkBox2"/><div class="chkbox"></div> Copy the config.inc.php from root directory to <strong>config/</strong> folder and Change the following values in the <strong>config/config.inc.php file</strong> </div><br>
 									<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> Change the <strong>$site_URL</strong> </div><br>
                                                                         <div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> Change the <strong>$root_directory</strong></div><br>
 									<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> Change the <strong>include_once 'vtigerversion.php'</strong> to <strong>include_once 'version.php' </strong></div><br>
@@ -718,7 +761,8 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 
 
 									<div class="button-container">
-										<input type="submit" class="btn btn-large btn-primary" id="startMigration" name="startMigration" value="Next" />
+										<input type="submit" class="btn btn-large btn-primary" id="startMigration"
+											name="startMigration" value="Next" />
 									</div>
 								</form>
 							</div>
@@ -726,76 +770,99 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 					</div>
 				</div>
 			</div>
-	</div>
-			<script>
-				$(document).ready(function(){
+		</div>
+		<script>
+			$(document).ready(function () {
 
-                                        $('input[name="startMigration"]').click(function(){
-                                                if($("#checkBox1").is(':checked') == false  || $("#checkBox4").is(':checked') == false ){
-                                                        alert('Before starting migration, please take your database and source backup');
-                                                        return false;
-                                                }
-												else if( $("#checkBox2").is(':checked') == false || $("#checkBox3").is(':checked') == false){
-                                                        alert('Must Replace and Database name and file');
-                                                        return false;
-                                                }
+				$('input[name="startMigration"]').click(function () {
+					if ($("#checkBox1").is(':checked') == false || $("#checkBox4").is(':checked') == false) {
+						alert('Before starting migration, please take your database and source backup');
+						return false;
+					} else if ($("#checkBox2").is(':checked') == false || $("#checkBox3").is(':checked') ==
+						false) {
+						alert('Must Replace and Database name and file');
+						return false;
+					}
 					var ht = $('#htaccess').val();
-					if(ht == 'false') {
-                                                        alert('Please Create htaccess file in your Root Directory with writable access');
-                                                        return false;
+					if (ht == 'false') {
+						alert('Please Create htaccess file in your Root Directory with writable access');
+						return false;
 
 					}
-                                                return true;
-                                        });
-
+					return true;
 				});
-				
-			</script>
-    </body>
+
+				$('#checkBox2').click(function () {
+					if ($(this).is(':checked')) {
+						$.ajax({
+							type: 'GET',
+							url: 'configmigration.php',
+							success: function (data) {
+								if (data == true) {
+									
+									alert('Add Joforce v1.5  to v3.1 Config.inc.php');
+									window.location.reload();
+
+								}
+							},
+							error: function (xhr, ajaxOptions, thrownerror) {}
+						});
+						
+					} else if (!$(this).is(':checked')) {
+						return confirm("Must checked, this checkbox ");
+					}
+				});
+
+			});
+		</script>
+</body>
+
 </html>
 <?php }?>
 <?php if($_POST['startMigration']){?>
 <html>
-    <head>
-		<title>Joforce Crm Setup</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script type="text/javascript" src="resources/js/jquery-min.js"></script>
-		<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="resources/css/mkCheckbox.css" rel="stylesheet">
-		<link href="resources/css/style.css" rel="stylesheet">
-    </head>
-    <body>
+
+<head>
+	<title>Joforce Crm Setup</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="resources/js/jquery-min.js"></script>
+	<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="resources/css/mkCheckbox.css" rel="stylesheet">
+	<link href="resources/css/style.css" rel="stylesheet">
+</head>
+
+<body>
 	<div class="" style="display:flex;flex-direction:row">
 		<div>
-		<div class="gs-info"> 
-	 <div class="col-sm-12 text-center">
-  <div class="logo install-logo">
-  	<div class="logo"> <img src="resources/images/logo.png" alt="Logo"/> </div>
-  </div>
-</div>
-<div class="gs-wizard">
-        <ul class="gs-wizard-section">
-          <li class="completed">
-            <a href="index.php?module=Install&amp;view=Index">
-              <span class="wiz-circle"></span><span class="wiz-text">Install</span>
-            </a>
-          </li>    
+			<div class="gs-info">
+				<div class="col-sm-12 text-center">
+					<div class="logo install-logo">
+						<div class="logo"> <img src="resources/images/logo.png" alt="Logo" /> </div>
+					</div>
+				</div>
+				<div class="gs-wizard">
+					<ul class="gs-wizard-section">
+						<li class="completed">
+							<a href="index.php?module=Install&amp;view=Index">
+								<span class="wiz-circle"></span><span class="wiz-text">Install</span>
+							</a>
+						</li>
 
-          <li class="completed">
-            <a href="index.php?module=Install&amp;view=Index&amp;mode=Step3">
-              <span class="wiz-circle"></span><span class="wiz-text">Backup Permission Check</span>
-            </a>
-          </li>
+						<li class="completed">
+							<a href="index.php?module=Install&amp;view=Index&amp;mode=Step3">
+								<span class="wiz-circle"></span><span class="wiz-text">Backup Permission Check</span>
+							</a>
+						</li>
 
-          <li class="disabled">
-            <a href="index.php?module=Install&amp;view=Index&amp;mode=Step5">
-              <span class="wiz-circle"></span><span class="wiz-text">Start Migration</span>
-            </a>
-          </li>
-        </ul>
-</div>
+						<li class="disabled">
+							<a href="index.php?module=Install&amp;view=Index&amp;mode=Step5">
+								<span class="wiz-circle"></span><span class="wiz-text">Start Migration</span>
+							</a>
+						</li>
+					</ul>
+				</div>
 
-	</div>		
+			</div>
 		</div>
 		<div class="container-fluid page-container">
 			<div class="row-fluid">
@@ -820,28 +887,35 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 					<hr>
 					<div class="row-fluid">
 						<div class="span12">
-						<div id="progressIndicator" class="row main-container hide" style="padding-left:49px;">
-						<div class="inner-container">
-						<div class="inner-container">
-						<div class="row" style="text-align:center;">
-						<h3>Migration in progress...</h3><br>
-						<img src="install_loading.gif"/>
-						<h6>Please Wait.... </h6>
-						</div>
-						</div>
-						</div>
-						</div>
+							<div id="progressIndicator" class="row main-container hide" style="padding-left:49px;">
+								<div class="inner-container">
+									<div class="inner-container">
+										<div class="row" style="text-align:center;">
+											<h3>Migration in progress...</h3><br>
+											<img src="install_loading.gif" />
+											<h6>Please Wait.... </h6>
+										</div>
+									</div>
+								</div>
+							</div>
 
 
-							<div style = 'margin-left: 20%' class='cont'>
-                                				<form action="index.php" method="POST">
-										
-									
-								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div>  <strong>You agree that you’ve backed up the necessary details before making any changes.</strong> </div><br><br>
-								<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span><div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not responsible for any loss.</strong> </div><br>
+							<div style='margin-left: 20%' class='cont'>
+								<form action="index.php" method="POST">
+
+
+									<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span>
+										<div class="chkbox"></div> <strong>You agree that you’ve backed up the necessary
+											details before making any changes.</strong>
+									</div><br><br>
+									<div style="padding-left:49px;"><span style='color:green;font-size:12px;'>*</span>
+										<div class="chkbox"></div> <strong>We hope it doesn’t happen, but Joforce is not
+											responsible for any loss.</strong>
+									</div><br>
 									<br><br><br>
 									<div class="button-container">
-										<input type="submit" class="btn btn-large btn-primary" id="FinishMigration" name="FinishMigration" value="Start Migration" />
+										<input type="submit" class="btn btn-large btn-primary" id="FinishMigration"
+											name="FinishMigration" value="Start Migration" />
 									</div>
 								</form>
 							</div>
@@ -849,22 +923,23 @@ $adb->pquery("UPDATE workflowtasks SET task = REPLACE(task, 'VT', '');");
 					</div>
 				</div>
 			</div>
-</div>
-			<script>
-				$(document).ready(function(){
+		</div>
+		<script>
+			$(document).ready(function () {
 
-					$('input[name="FinishMigration"]').click(function(){
-                        var confirm_migration = confirm('Are you sure you want to start the migration ?');
-                        if(!confirm_migration)  {
+				$('input[name="FinishMigration"]').click(function () {
+					var confirm_migration = confirm('Are you sure you want to start the migration ?');
+					if (!confirm_migration) {
 
-							return false;
-						}
-				$('.cont').hide();
-			$('#progressIndicator').show();
-						return true;
-					});
-				});				
-			</script>
-    </body>
+						return false;
+					}
+					$('.cont').hide();
+					$('#progressIndicator').show();
+					return true;
+				});
+			});
+		</script>
+</body>
+
 </html>
 <?php } ?>

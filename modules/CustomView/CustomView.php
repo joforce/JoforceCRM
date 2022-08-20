@@ -16,20 +16,20 @@ require_once 'includes/Webservices/Utils.php';
 global $adv_filter_options,$mod_strings;
 
 $adv_filter_options = array(
-	"e" => "" . $mod_strings['equals'] . "",
-	"n" => "" . $mod_strings['not equal to'] . "",
-	"s" => "" . $mod_strings['starts with'] . "",
-	"ew" => "" . $mod_strings['ends with'] . "",
-	"c" => "" . $mod_strings['contains'] . "",
-	"k" => "" . $mod_strings['does not contain'] . "",
-	"l" => "" . $mod_strings['less than'] . "",
-	"g" => "" . $mod_strings['greater than'] . "",
-	"m" => "" . $mod_strings['less or equal'] . "",
-	"h" => "" . $mod_strings['greater or equal'] . "",
-	"b" => "" . $mod_strings['before'] . "",
-	"a" => "" . $mod_strings['after'] . "",
-	"bw" => "" . $mod_strings['between'] . "",
-);
+	"e" =>  $mod_strings['equals'] ?? null,
+	"n" =>  $mod_strings['not equal to'] ?? null,
+	"s" =>  $mod_strings['starts with'] ?? null,
+	"ew" =>  $mod_strings['ends with'] ?? null,
+	"c" =>  $mod_strings['contains'] ?? null,
+	"k" =>  $mod_strings['does not contain'] ?? null,
+	"l" =>  $mod_strings['less than'] ?? null,
+	"g" =>  $mod_strings['greater than'] ?? null,
+	"m" =>  $mod_strings['less or equal'] ?? null,
+	"h" =>  $mod_strings['greater or equal'] ?? null,
+	"b" =>  $mod_strings['before'] ?? null,
+	"a" =>  $mod_strings['after'] ?? null,
+	"bw" =>  $mod_strings['between'] ?? null,
+) ;
 
 class CustomView extends CRMEntity {
 

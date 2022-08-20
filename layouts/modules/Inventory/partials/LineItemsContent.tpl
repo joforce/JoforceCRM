@@ -244,7 +244,7 @@
 						</center>
 					</div>
 				</div>
-				<div style="width:150px;">
+				<div class="lbl_total_after_discount" >
 					<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
 				</div>
 			{/if}

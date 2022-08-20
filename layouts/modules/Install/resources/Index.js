@@ -327,4 +327,10 @@ jQuery(document).ready(function () {
 			$('.install_btn').attr('disabled', true); //disable input
 		}
 	});
+	$('.show_licence').on('click', function () {
+		$('.license').toggle();
+	})
+	$('#save_sale').click(function () {
+		window.location.href = 'migration';
+	});
 });

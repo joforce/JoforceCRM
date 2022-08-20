@@ -735,7 +735,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function saveentity($module)
+	function saveentity($module,$fileid = '')
 	{
 		global $current_user; //$adb added by raju for mass mailing
 		$insertion_mode = $this->mode;
@@ -826,7 +826,7 @@ class Users extends CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoEntityTable($table_name, $module)
+	function insertIntoEntityTable($table_name, $module,$fileid = '')
 	{
 		global $log;
 		$log->info("function insertIntoEntityTable " . $module . ' jo_table name ' . $table_name);
@@ -1099,7 +1099,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 * @param $file_details -- file details array:: Type array
 	 */
-	function uploadAndSaveFile($id, $module, $file_details)
+	function uploadAndSaveFile($id, $module, $file_details,$attachmentType = 'Attachment')
 	{
 		global $log;
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -1171,7 +1171,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function save($module_name)
+	function save($module_name,$fileid = '')
 	{
 		global $log, $adb;
 
@@ -1431,7 +1431,7 @@ class Users extends CRMEntity
 	 * @param $input_value -- Input value for the column taken from the User
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype)
+	function get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype='')
 	{
 		if (is_uitype($uitype, "_date_") && $fldvalue == '') {
 			return null;
