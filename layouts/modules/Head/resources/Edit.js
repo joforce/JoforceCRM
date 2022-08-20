@@ -136,6 +136,7 @@ Head_Index_Js("Head_Edit_Js",{
      * @returns {undefined}
      */
     registerValidation : function () {
+     if (typeof form == 'undefined') {
         var editViewForm = this.getForm();
         this.formValidatorInstance = editViewForm.vtValidate({
             submitHandler : function() {
@@ -153,6 +154,7 @@ Head_Index_Js("Head_Edit_Js",{
                 return true;
             }
         });
+     }
     },
     
     /**
