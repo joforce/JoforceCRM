@@ -12,7 +12,7 @@ $languageStrings = array(
     'Pipeline' => 'Pipeline',
     'LBL_RECORDS_PER_PAGE' => 'Records Per Page',
     'MINIMUM_AND_AMXIMUN' => 'Value should be in-between 100 - 1000. Otherwise, 100 will be saved, if it is less than 100. And 1000 will be saved, if it is greater than 1000.',
-    'PIPELINE_CONFIGURATION' => 'Configue module and picklist for making kanban view',
+    'PIPELINE_CONFIGURATION' => 'Configuration module and picklist for making kanban view',
     'KANBAN_SETTINGS' => 'Kanban View Settings',
     'NAMEFIELDS_INFO' => 'Main fields were included in default. You may add 3 fields additionally.'
 );

@@ -33,7 +33,7 @@
                 <br>
             </div>
 	<br>
-        <div class='modal-overlay-footer clearfix '>
+        <div class='modal-overlay-footer clearfix terms_and_conditions_footer '>
             <div class="row clearfix">
                 <div class='textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
                     <button type='submit' class='btn btn-primary saveButton saveTC hide' type="submit" >{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;

@@ -47,12 +47,27 @@ class Head_Detail_View extends Head_Index_View {
 	}
 
 	function preProcess(Head_Request $request, $display=true) {
-		global $current_user;
+		global $current_user,$module_table,$module_table_id;
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-
+		if($moduleName == 'Contacts'){
+                   $module_table = 'jo_contactdetails';
+                   $module_table_id = 'contactid'; 
+		}
+                elseif($moduleName == 'Accounts'){
+                    $module_table = 'jo_account';
+		    $module_table_id = 'accountid'; 
+                }
+                elseif($moduleName == 'Potentials'){
+        	    $module_table = 'jo_potential';
+		    $module_table_id = 'potentialid'; 
+                }
+                elseif($moduleName == 'Products'){
+        	    $module_table = 'jo_products';
+                    $module_table_id = 'productid'; 
+                }
 	        $pipeline_model = new Settings_Pipeline_Module_Model();
         	$pipeine_modules = $pipeline_model->getPipelineEnabledModules();
 	        $kanban_view = (in_array($moduleName, $pipeine_modules)) ? true : false;
@@ -128,7 +143,15 @@ class Head_Detail_View extends Head_Index_View {
 						$wtable='jo_purchaseorder';
 					}	
 					
-		 		 	$query = $adb->pquery("select total from jo_crmentityrel join {$wtable} on {$wid} = relcrmid where crmid = ? and relmodule = ?", array($recordId, $key));
+		 		 	if($moduleName === 'Products'){
+		 		 		$query = $adb->pquery("select total from {$wtable} INNER join jo_inventoryproductrel  ON jo_inventoryproductrel.id = {$wtable}.{$wid} INNER JOIN jo_products ON jo_products.productid = jo_inventoryproductrel.productid  LEFT JOIN {$wtable}cf ON {$wtable}cf.{$wid} = {$wtable}.{$wid} LEFT JOIN jo_pobillads ON jo_pobillads.pobilladdressid = {$wtable}.{$wid} LEFT JOIN jo_poshipads ON jo_poshipads.poshipaddressid = {$wtable}.{$wid}  WHERE jo_products.productid = ?", array($recordId));
+		 		 	}
+		 		 	elseif($moduleName === 'Services'){
+		 		 		$query = $adb->pquery("select total FROM {$wtable} INNER JOIN jo_inventoryproductrel ON jo_inventoryproductrel.id = {$wtable}.{$wid} INNER JOIN jo_service ON jo_service.serviceid = jo_inventoryproductrel.productid LEFT JOIN  {$wtable}cf ON {$wtable}cf.{$wid} = {$wtable}.{$wid} LEFT JOIN jo_pobillads ON jo_pobillads.pobilladdressid = {$wtable}.{$wid} LEFT JOIN jo_poshipads ON jo_poshipads.poshipaddressid = {$wtable}.{$wid}  WHERE jo_service.serviceid = ?", array($recordId));
+		 		 	}
+		 		 	else{
+		 		 	$query = $adb->pquery("select total from {$wtable},{$module_table} where {$wtable}.{$module_table_id} = {$module_table}.{$module_table_id} and {$wtable}.{$module_table_id} = ? ", array($recordId));
+					}
 						   
 				 	if($adb->num_rows($query) > 0){
 						$count=0;

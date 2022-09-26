@@ -81,6 +81,7 @@ var Settings_Picklist_Js = {
 					tokenSeparators: [","]
 				};
 				vtUtils.showSelect2ElementView(data.find('[name=newValue]'), select2params);
+				vtUtils.showSelect2ElementView(data.find('select.select2'));
 				Settings_Picklist_Js.registerColorPickerEvent(data);
 				Settings_Picklist_Js.registerAddItemSaveEvent(data);
 				Settings_Picklist_Js.regiserSelectRolesEvent(data);

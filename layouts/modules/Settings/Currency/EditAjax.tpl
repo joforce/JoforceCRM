@@ -67,7 +67,7 @@
                         <div class="form-group row">
                             <label class="col-form-label fieldLabel col-md-6 pl0 pr0">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
                             <div class="controls fieldValue col-md-6 pl0">
-                                <label class="checkbox">
+                                <label class="checkbox pl-0">
                                     <input type="hidden" name="currency_status" value="Inactive" />
                                     <input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 
                                     {if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />

@@ -66,7 +66,7 @@
     </div>
     <br><br>
     <div class="col-md-12">
-	<div  class="col-md-6 pull-left ">
+	<div  class="col-md-6 pull-left addresslookup_config_feilds">
 	    <h4  class="h4_Configure_Mapping" style="float:left;margin-right:30px">{vtranslate('LBL_CONFIGURE_MAPPING_FOR', $MODULE)}</h4>
 	    <select class="select2  pull-left" id="modulename" style="width:200px" onchange="location.href='{$SITEURL}AddressLookup/Settings/List?sourceModule='+this.value" name="modulename">
 		{foreach item=MODULE_NAME from=$ENABLED_MODULES}
@@ -76,7 +76,7 @@
 	</div>
 
 
-<div class="col-md-6 pull-left">
+<div class="col-md-6 pull-left addresslookup_config_feilds">
 <div class="onoffswitch1 pull-left ml30 mr10">
 	    <input type="checkbox" style="display:none;" name="isenabled" class="onoffswitch1-checkbox" id="myonoffswitch1" {if $ENABLE_CHECK eq 1}checked="yes"{/if} style="float: left; margin-top:0px;" value="1">
 	    <label class="onoffswitch1-label" for="myonoffswitch1">

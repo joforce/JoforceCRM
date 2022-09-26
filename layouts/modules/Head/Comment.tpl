@@ -72,7 +72,7 @@
 								    <span title="{$FILE_DETAIL['rawFileName']}" style="line-height:1.5em;">{$FILE_NAME}</span>&nbsp
 								</a>&nbsp;
 								<a name="downloadfile" href="{$FILE_DETAIL['url']}">
-								    <i title="{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}" class="pull-left hide fa fa-download alignMiddle"></i>
+								    <i title="{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}" class="pull-left hide fa fa-download alignMiddle mt-1"></i>
 								</a>
 							    </span>
 							</div>

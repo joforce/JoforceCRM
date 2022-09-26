@@ -30,7 +30,7 @@
 			{assign var=SELECTED_FIELD_MODEL_FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 			<div class="row conditionRow form-group">
 				<span class="col-lg-4">
-					<select name="fieldname" class="select2"  {if $SELECTED_FIELD_MODEL->isMandatory() || ($DISABLE_ROW eq 'true') } disabled="" {/if} >
+					<select name="fieldname" class="select2 w-100"  {if $SELECTED_FIELD_MODEL->isMandatory() || ($DISABLE_ROW eq 'true') } disabled="" {/if} >
 						<option value="none"></option>
 						{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -71,7 +71,7 @@
 				{/if}
 				<div class="row conditionRow form-group">
 					<span class="col-lg-4 col-9">
-						<select name="fieldname" class="select2" disabled="" >
+						<select name="fieldname" class="select2 w-100" disabled="" >
 							<option value="none"></option>
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}

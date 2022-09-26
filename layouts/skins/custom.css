@@ -3980,35 +3980,35 @@ table.listview-table thead tr.searchRow th:last-child .select2_search_div {
 }
 
 .pdfTabs #div1 {
-	width: 240px !important;
+	width: 220px !important;
 	float: left;
 	border-top: none;
 	border-bottom: solid 1px #ccc;
 }
 
 .pdfTabs #div2 {
-	width: 240px !important;
+	width: 220px !important;
 	float: left;
 	border-top: none;
 	border-bottom: solid 1px #ccc;
 }
 
 .pdfTabs #div3 {
-	width: 240px !important;
+	width: 220px !important;
 	float: left;
 	border-top: none;
 	border-bottom: solid 1px #ccc;
 }
 
 .pdfTabs #div4 {
-	width: 240px !important;
+	width: 220px !important;
 	float: left;
 	border-top: none;
 	border-bottom: solid 1px #ccc;
 }
 
 .pdfTabs #div5 {
-	width: 240px !important;
+	width: 220px !important;
 	float: left;
 	border-top: none;
 	border-bottom: solid 1px #ccc;
@@ -4762,8 +4762,13 @@ span.col-lg-7.col-md-7.module-breadcrumb.module-breadcrumb-List {
 	width: 100%;
 }
 
-.user_fieldLabel {
+.user_fieldLabel,
+.settingsPageDiv.content-area.clearfix.Users.full-width .user_fieldLabel {
 	left: -5px !important;
+}
+
+.settingsPageDiv.content-area.clearfix.Users .user_fieldLabel {
+	left: -25px !important
 }
 
 .details.col-xs-12.joforce-bg-prefer-detail {
@@ -4886,6 +4891,40 @@ i.fa.fa-file-pdf-o.mr10 {
 
 /* mac screen size resolution */
 @media screen and (min-width: 800px) and (max-width: 1280px) and (-webkit-min-device-pixel-ratio:0) {
+	.addreslookup .addresslookup_config_feilds {
+		padding: 0px;
+	}
+
+	button.btn.btn-default.sourceValues {
+		font-size: 13px !important;
+	}
+
+	.detailViewContainer .userPreferences .block {
+		width: 98%;
+		margin-left: 1% !important;
+	}
+
+	.inlineAjaxCancel .fa-close,
+	.inlineAjaxSave .fa-check {
+		margin-top: 4px;
+	}
+
+	.settingsPageDiv #search_display ul li {
+		display: inline-block;
+		width: 8% !important;
+	}
+
+	.joforce-bg-prefer {
+		width: 98.3% !important;
+		left: -17px !important;
+	}
+
+	.panel-width #detailView td.fieldValue {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
 	#editCustomRule.form-horizontal .col-form-label.fieldLabel {
 		left: 0px;
 	}
@@ -4942,7 +4981,7 @@ i.fa.fa-file-pdf-o.mr10 {
 	.col-lg-12.card-header-new.p0,
 	.editViewHeader.card-header-new.tax_index_setting {
 		width: 100%;
-		margin-left: 6px;
+		margin-left: 6px !important;
 	}
 
 	.row.card-header-new.picklist_dependancy_setting {
@@ -5173,7 +5212,7 @@ i.fa.fa-file-pdf-o.mr10 {
 
 	.input-group span.input-group-addon {
 		padding: 9px;
-		top: 12px;
+		top: 11px;
 	}
 
 	.select2-results .select2-result-label {
@@ -6094,9 +6133,11 @@ i.fa.fa-file-pdf-o.mr10 {
 	.joforce-bg {
 		padding-top: 110px !important;
 	}
+
 	.detail-view-header {
 		display: inherit !important;
 	}
+
 	ul.dropdown-menu.more-actions-right.dropdown-menu-right.show {
 		top: -5px !important;
 		right: 92px !important;
@@ -7810,16 +7851,22 @@ i.fa.fa-file-pdf-o.mr10 {
 
 /* mac screen only style accepted */
 @media (width:1280px) {
+	.workflow_content_area .mCustomScrollBox {
+		min-height: 400px;
+	}
 	.detailViewPageDiv.Leads #pipeline_stages.Leads li {
 		width: 12% !important;
 	}
+
 	.table-toggle.fixed-scroll-table td span {
 		font-size: 14px !important;
 	}
+
 	.commentContainer.commentsRelatedContainer.container-fluid.p0.ml35.mac_scrn_comments_section {
 		margin-left: 35px !important;
 		width: 96%;
 	}
+
 	#sidebar-more-menu-list .accordion .sidebar-more-menu-title i.dropdown-icon {
 		margin: 8px !important;
 	}
@@ -7941,7 +7988,7 @@ span.col-sm-12.col-md-12.card-header-new.row.lead_mapping_header_setting {
 
 .editContainer.card.m30.Report_page_edit_view {
 	min-height: 100%;
-	height: 65vh;
+	/* height: 65vh; */
 	overflow-y: scroll;
 }
 
@@ -8127,11 +8174,11 @@ input#md_related_list_custom_name:focus-visible {
 }
 
 #modulePickListValuesContainer .nav-tabs>li:first-child a {
-	padding: 16px 264px;
+	/* padding: 16px 264px; */
 }
 
 #modulePickListValuesContainer .nav-tabs>li:last-child a {
-	padding: 16px 199px;
+	/* padding: 16px 199px; */
 }
 
 #modulePickListValuesContainer .contents.tabbable .nav-tabs>li:hover a,
@@ -8193,7 +8240,7 @@ input#md_related_list_custom_name:focus-visible {
 .LayoutEditor_card_header .select2-chosen,
 .select2-choice>span:first-child,
 .LayoutEditor_card_header .select2-container .select2-choices .select2-search-field input {
-	padding: 5px 20px;
+	padding: 5px 10px;
 }
 
 .settingsmenu-starts.p0.col-lg-12.col-md-12.col-sm-12.col-xs-12.mt-0.ipad_pro_scr_layouteditorpage {
@@ -8218,7 +8265,7 @@ input#md_related_list_custom_name:focus-visible {
 
 .addModuleContainer h4.textOverflowEllipsis {
 	font-size: 15px;
-	margin-top: -12px;
+	margin-top: 5px;
 }
 
 .addModuleContainer h4.textOverflowEllipsis.SALES_quick_create_heading {
@@ -8298,7 +8345,7 @@ ul.nav.nav-pills.nav-wizard.nav-justified.pipe-stage li {
 }
 
 .users-menu-starts.Users .modal-overlay-footer {
-	position: fixed;
+	/* position: fixed; */
 }
 
 .currencyModalContainer .modal-header.Layout_editor_page {
@@ -8324,7 +8371,9 @@ ul.nav.nav-pills.nav-wizard.nav-justified.pipe-stage li {
 
 .pipe-stage li {
 	width: 14% !important;
-}/* dashboard Widget */
+}
+
+/* dashboard Widget */
 .dashboardWidget {
 	height: 312px !important;
 }
@@ -8385,8 +8434,18 @@ h1.page-error.text-center {
 	font-size: 80px;
 }
 
-/* end of 404 page style  *//* lap screen 1280 to 1399 */
+/* end of 404 page style  */
+/* lap screen 1280 to 1399 */
 @media screen and (min-width: 1281px) and (max-width: 1399px) {
+	.modal-header h4 {
+		font-size: 18px;
+	}
+
+	.modal-header button.close {
+		margin-left: 44px;
+		font-size: 20px !important;
+	}
+
 	.company-logo img {
 		margin: 12px 19px 19px 13px;
 	}
@@ -8604,7 +8663,7 @@ h1.page-error.text-center {
 	}
 
 	.settingsPageDiv #search_display ul li {
-		width: 11% !important;
+		width: 8% !important;
 	}
 }
 
@@ -8612,13 +8671,15 @@ h1.page-error.text-center {
 /* lap screen only 1366px */
 @media screen and (width: 1366px) {
 	.quick-panel .modal-header {
-   		right: -206px;
+		right: -206px !important;
 	}
-	.main-container-Calendar .quick-panel .modal-dialog .modal-content .modal-header span{
+
+	.main-container-Calendar .quick-panel .modal-dialog .modal-content .modal-header span {
 		margin-left: 0px;
 	}
 
 }
+
 /* end of lap screen only 1366px */
 ul.dropdown-menu.more-actions-right.dropdown-menu-right.reverse.show {
 	top: auto !important;
@@ -8644,19 +8705,129 @@ ul.dropdown-menu.more-actions-right.dropdown-menu-right.reverse.show {
 .main-container-Products .table-container .percentage-input-group input {
 	z-index: auto;
 }
-.main-container.clearfix.panel-width .form_trigger_element{
+
+.main-container.clearfix.panel-width .form_trigger_element {
 	min-width: auto;
 }
-.main-container.clearfix.panel-width .form-group .div_field{
+
+.main-container.clearfix.panel-width .form-group .div_field {
 	width: 100%;
 }
-.ms_scr_icon_clock,.setting_user_import .input-group-addon {
-   	top: 10px;
+
+.ms_scr_icon_clock,
+.setting_user_import .input-group-addon {
+	top: 10px;
 }
-.main-container.clearfix.panel-width .condition_group .Condition_add{
-	width: 300px!important;
-    margin-left: -19px;
+
+.main-container.clearfix.panel-width .condition_group .Condition_add {
+	width: 300px !important;
+	margin-left: -19px;
 }
-.main-container.clearfix.panel-width .condition_group{
+
+.main-container.clearfix.panel-width .condition_group {
 	min-width: 281px;
+}
+
+.workflow_content_area .tabbable {
+	/* min-height: 100%;
+	height: 100vh;
+	overflow: scroll; */
+}
+
+.workflow_content_area .mCustomScrollBox {
+	position: relative;
+	/* overflow: scroll; */
+	height: 50vh;
+	max-width: 100%;
+	min-height: 520px;
+	outline: 0;
+	direction: ltr;
+}
+
+.input-group .inputElement {
+	padding: 3px 35px !important;
+}
+
+.profilesEditView .ui-widget-content {
+	height: 14px;
+}
+
+form[name='addItemForm'] .modal-body {
+	overflow: scroll;
+}.main-container.panel-width .quick-panel.myModal.fade.show {
+	display: block !important;
+}
+
+.main-container .quick-panel.myModal.fade.show {
+	display: none !important;
+}.input-group input[type="text"].inputElement {
+	padding: 3px 38px !important;
+}
+
+.input-group #account_id_display {
+	padding: 3px 10px !important;
+}
+
+.referencefield-wrapper .input-group #account_id_display {
+	padding: 3px 38px !important;
+}
+
+#listedit td[title="Wait For Response"] .picklist-color {
+	background-color: #ffff9f;
+}
+
+
+.main-container.panel-width .quick-panel.myModal.fade.show {
+	display: block !important;
+}
+
+.main-container .quick-panel.myModal.fade.show {
+	display: none !important;
+}
+
+.searchRow .select2_search_div {
+	overflow: initial !important;
+}
+
+.modal-overlay-footer.clearfix.terms_and_conditions_footer {
+	bottom: -60px;
+}
+
+.googleaccount .google {
+	font-size: 35px;
+	color: #fd5344 !important;
+	border-right: solid 3px #ccc;
+	padding-right: 30px;
+}
+
+.googleaccount .siging {
+	font-size: 20px;
+	margin-top: 20px;
+	color: #000;
+	margin-left: 60px !important;
+}
+
+.setting_user_import .modal-header button.close {
+	background: transparent;
+}
+
+.taskTypeUi .select2-container,
+.report_edit .select2-container {
+	width: 100%;
+}
+.col-sm-12.col-xs-12.extensionContents{
+	margin-top: 80px;
+	padding: 30px;
+}
+.extensionContents .card-header-new{
+	margin-left: 20px;
+}
+.extensionContents .syncNow{
+	margin-left: 20px;
+}
+#detailviewhtml{
+	background: white;
+}
+#detailviewhtml .table-bordered{
+	margin-left: 0px;
 }

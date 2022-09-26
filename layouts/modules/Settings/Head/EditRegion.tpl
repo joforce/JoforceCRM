@@ -22,9 +22,9 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$TITLE}
                 <input type="hidden" name="taxRegionId" value="{$TAX_REGION_ID}" />
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="">
                         <div class="nameBlock row">
-                            <div class="col-lg-1"></div>
+                            
                             <div class="col-lg-5 ">
                                 <label class="">{vtranslate('LBL_REGION_NAME', $QUALIFIED_MODULE)}</label>
                             </div>

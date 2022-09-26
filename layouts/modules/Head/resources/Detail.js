@@ -191,6 +191,7 @@ Head.Class("Head_Detail_Js", {
 				if (isFormExists) {
 					thisInstance.transferOwnershipSave(form);
 				}
+				vtUtils.showSelect2ElementView(jQuery('#changeOwner').find('select.select2'));
 			}
 		);
 	},

@@ -7,7 +7,8 @@
 * All Rights Reserved.
 ************************************************************************************}
 <div class="col-sm-12 col-xs-12 extensionContents">
-    <div class="row">
+<div class="card">
+    <div class="row card-header-new">
         {if !$MODAL}
             <div class="col-sm-6 col-xs-6">
                 <h3 class="module-title pull-left"> {vtranslate($MODULE,$MODULE)} - {vtranslate('LBL_SYNC_LOG', $MODULE)} </h3>
@@ -29,7 +30,7 @@
         {if !$MODAL}
             <div class="col-sm-6 col-xs-6">
                 {if $IS_SYNC_READY}
-                    <button class="btn addButton btn-success syncNow" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-refresh"></span><strong>&nbsp; {vtranslate('LBL_SYNC_NOW', $MODULE)} </strong></button>
+                    <button class="btn addButton btn-success syncNow ml-3" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-refresh"></span><strong>&nbsp; {vtranslate('LBL_SYNC_NOW', $MODULE)} </strong></button>
                         {/if}
             </div>
         {/if}
@@ -109,6 +110,7 @@
             </tbody>
         </table>
         </div>
+    </div>
     </div>
     <div id="scroller_wrapper" class="bottom-fixed-scroll">
         <div id="scroller" class="scroller-div"></div>

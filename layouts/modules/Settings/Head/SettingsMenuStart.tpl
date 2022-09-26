@@ -51,7 +51,7 @@
     </script>
 {/if}
 <div class="main-container clearfix">
-<div id='overlayPageContent' class='fade modal overlayPageContent  {if in_array($MODULE, array('Workflows'))}content-area-new {else} content-area{/if} overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
+<div id='overlayPageContent' class='fade modal overlayPageContent  {if in_array($MODULE, array('Workflows'))}content-area-new workflow_content_area {else} content-area{/if} overlay-container-300' tabindex='-1' role='dialog' aria-hidden='true'>
         <div class="data setting_user_import">
         </div>
         <div class="modal-dialog">

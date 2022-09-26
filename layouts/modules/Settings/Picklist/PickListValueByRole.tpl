@@ -12,9 +12,9 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
 	<div class="row" style="margin-left:150px">
-        <div class="form-group">
+        <div class="form-group w-50">
             <div class="col-form-label col-lg-2 col-md-2">&nbsp;</div>
-            <div class="controls col-lg-4 col-md-4">
+            <div class="controls col-lg-10 col-md-10 ml-4">
                 <select class="select2 form-control" id="role2picklist" multiple name="role2picklist[]">
                     {foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
                         <option value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)} selected {/if}>

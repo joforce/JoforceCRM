@@ -28,10 +28,10 @@
                <div id="scrollContainer">
                   <div class="tabbable">
                      <div class="row form-group">
-                     <div class="col-sm-1 col-xs-1"></div>
+                     <div class="{if $TASK_TYPE_MODEL->get('tasktypename') eq 'UpdateFieldsTask' || $TASK_TYPE_MODEL->get('tasktypename') eq 'EmailTask' } col-sm-1 col-xs-1 {else} col-sm-2 col-xs-2 {/if}"></div>
                         <div class="col-sm-9 col-xs-9">
                             <div class="row">
-                                <div class="col-sm-2 col-xs-2">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
+                                <div class="col-sm-2 col-xs-2  mt-3 ">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
                                 <div class="col-sm-8 col-xs-8 col-10"><input name="summary" class="inputElement" data-rule-required="true" type="text" value="{$TASK_MODEL->get('summary')}" /></div>
                             </div>
                         </div>

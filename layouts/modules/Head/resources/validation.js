@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): JoForce.com
  *************************************************************************************/
-  $(document).ready(function(){
 jQuery.validator.addMethod("date", function (value, element, params) {
 	try {
 		if (value) {
@@ -1038,4 +1037,4 @@ function calculateValidationRules(form, params, meta) {
 
 
 
-}(jQuery));});
+}(jQuery));

@@ -45,7 +45,7 @@ hr {
 
 input[type="text"].inputElement,
 input[type="password"].inputElement {
-	padding: 3px 30px
+	padding: 3px 10px
 }
 
 #page {
@@ -3020,6 +3020,10 @@ form.recordEditView ul.nav-tabs li.active {
 	/* box-shadow: -8px 12px 18px 0 #dadee8; */
 }
 
+.recordEditView .editViewContents .fieldBlockContainer {
+	width: 100%;
+}
+
 .searchRow td input {
 	width: 200px !important;
 }
@@ -5194,6 +5198,10 @@ input.listViewEntriesMainCheckBox.check {
 	position: absolute;
 }
 
+.Contacts .fieldValue .input-group .date-icon {
+	top: 10px !important;
+}
+
 .fieldValue .input-group .new-date {
 	position: absolute;
 }
@@ -6945,7 +6953,7 @@ input:-webkit-autofill:focus {
 
 	.quick-panel .modal-header {
 		width: 45%;
-		right: -191px;
+		right: -191px !important;
 	}
 }
 
@@ -7695,7 +7703,6 @@ footer.app-footer.Potentials.Edit_potentials {
 .app-footer.Potentials.kanbanview,
 .app-footer.Roles,
 .app-footer.PDFMaker.showDetailViewByMode,
-.app-footer.Users,
 .content-area.Potentials footer.app-footer.Potentials.kanbanview,
 .detailViewPageDiv .app-footer.PurchaseOrder,
 .detailViewPageDiv .app-footer.Invoice,
@@ -7757,7 +7764,8 @@ footer.app-footer.Services,
 }
 
 .settingsPageDiv.PBXManager .modal-overlay-footer {
-	position: fixed;
+	position: absolute;
+	bottom: -80px;
 }
 
 .HelpDesk .pipe-stage {
@@ -8057,7 +8065,9 @@ span.picklist-color.Closed.Lost {
 	padding: 10px;
 	font-weight: normal;
 	color: #909599 !important;
-}/* profile and product images */
+}
+
+/* profile and product images */
 .white-background.m0.p0.ipad_white_background img {
 	object-fit: cover;
 	height: 90px;
@@ -8069,3 +8079,60 @@ span.picklist-color.Closed.Lost {
 }
 
 /* end of profile and product images */
+@media (min-width: 1281px) and (max-width: 1399px) {
+	.clearfix>.editViewPageDiv.viewContent.content-area.full-width>.col-sm-12.col-xs-12.pr0.pl0>.fc-overlay-modal.modal-content>.importview-content>form#importBasic>.modal-body>.breadcrumb.col-sm-12.col-xs-12.ms_sc_breadCrumb_view>ul.wizards.row>li.col-sm-4.col-xs-4.step>span.breadcrumb_line {
+		left: 158px;
+		width: 80%;
+	}
+
+	#browseCrm,
+	#selectEmailTemplate,
+	button,
+	.modal-footer button,
+	.cancelLink {
+		font-size: 13px !important;
+	}
+
+	.table .fieldLabel {
+		font-size: 13.5px !important;
+	}
+
+	body {
+		font-size: 13.5px;
+	}
+
+	.editViewBody.setting_group_editpage {
+		margin-left: 30px;
+	}
+
+	.ms_scr_calendar_edit_page_setting .inputElement.select2-container {
+		width: 200px !important;
+		min-width: 30px;
+	}
+
+	.current-filter-name {
+		font-size: 10px;
+	}
+}
+
+@media(width:1368px) {
+	.clearfix>.editViewPageDiv.viewContent.content-area.full-width>.col-sm-12.col-xs-12.pr0.pl0>.fc-overlay-modal.modal-content>.importview-content>form#importBasic>.modal-body>.breadcrumb.col-sm-12.col-xs-12.ms_sc_breadCrumb_view>ul.wizards.row>li.col-sm-4.col-xs-4.step>span.breadcrumb_line {
+		/* left: 158px; */
+		width: 84%;
+	}
+}
+
+@media(min-width:1401px) and (max-width:1525px) {
+	.clearfix>.editViewPageDiv.viewContent.content-area.full-width>.col-sm-12.col-xs-12.pr0.pl0>.fc-overlay-modal.modal-content>.importview-content>form#importBasic>.modal-body>.breadcrumb.col-sm-12.col-xs-12.ms_sc_breadCrumb_view>ul.wizards.row>li.col-sm-4.col-xs-4.step>span.breadcrumb_line {
+		left: 175px !important;
+		width: 86%;
+
+	}
+}
+
+@media(width:1400px) {
+	.clearfix>.editViewPageDiv.viewContent.content-area.full-width>.col-sm-12.col-xs-12.pr0.pl0>.fc-overlay-modal.modal-content>.importview-content>form#importBasic>.modal-body>.breadcrumb.col-sm-12.col-xs-12.ms_sc_breadCrumb_view>ul.wizards.row>li.col-sm-4.col-xs-4.step>span.breadcrumb_line {
+		left: 173px !important;
+		/* width: ; */
+	}
+}

@@ -25,7 +25,7 @@
     </div>
     <br>
     <div class="row ml20">
-        <div class="col-sm-2 col-xs-2">
+        <div class="col-sm-2 col-xs-2 pr-0">
             <div class="btn-group">
                 <button class="btn btn-default sourceValues" type="button">{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</button>
             </div>

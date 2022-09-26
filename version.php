@@ -8,9 +8,9 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$patch_version = '20220820'; // -ve timestamp before release, +ve timestamp after release.
+$patch_version = '20220926'; // -ve timestamp before release, +ve timestamp after release.
 $modified_database = '';
-$jo_current_version = '3.1';
+$jo_current_version = '3.2';
 $_SESSION['jo_version'] = $jo_current_version;
 
 ?>

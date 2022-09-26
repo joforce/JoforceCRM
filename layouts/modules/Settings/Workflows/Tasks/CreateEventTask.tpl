@@ -30,7 +30,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-xs-2">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
-                <div class="col-sm-5 col-xs-5">
+                <div class="col-sm-8 col-xs-8">
                     {assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('eventstatus')->getPickListValues()}
                     <select name="status" class="select2">
                         {foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
@@ -42,7 +42,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-xs-2">{vtranslate('LBL_TYPE',$QUALIFIED_MODULE)}</div>
-                <div class="col-sm-5 col-xs-5">
+                <div class="col-sm-8 col-xs-8">
                     {assign var=EVENTTYPE_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitytype')->getPickListValues()}
                     <select name="eventType" class="select2">
                         {foreach  from=$EVENTTYPE_PICKLIST_VALUES item=EVENTTYPE_PICKLIST_VALUE key=EVENTTYPE_PICKLIST_KEY}
@@ -54,7 +54,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-xs-2">{vtranslate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</div>
-                <div class="col-sm-5 col-xs-5">
+                <div class="col-sm-8 col-xs-8">
                     <select name="assigned_user_id" class="select2">
                         <option value="">{vtranslate('LBL_SELECT_OPTION','Head')}</option>
                         {foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}

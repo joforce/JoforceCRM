@@ -1173,17 +1173,9 @@ Head.Class('Head_Index_Js', {
 		var thisInstance = this;
 		container.off('click', '.relatedPopup');
 		container.on("click", '.relatedPopup', function (e) {
-			qc_container = thisInstance.getParentElement($(this).next('.createReferenceRecord'));
-			var referenceModuleName = thisInstance.getReferencedModuleName(container);
-			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="' + referenceModuleName + '"]');
-			if (quickCreateNode.length <= 0) {
-				var notificationOptions = {
-					'title': app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED')
-				}
-				app.helper.showAlertNotification(notificationOptions);
-			} else {
+			
 				thisInstance.openPopUp(e);
-			}
+			
 		});
 		container.on('change', '.referenceModulesList', function (e) {
 			var element = jQuery(e.currentTarget);

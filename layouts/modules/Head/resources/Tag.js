@@ -36,6 +36,7 @@ Head.Class("Head_Tag_Js",{},{
                 app.helper.hideProgress();
                 if(error == null) {
                     aDeferred.resolve(data);
+                    $(".main-container").removeClass('panel-width');
                 }else{
                     aDeferred.reject(error);
                 }

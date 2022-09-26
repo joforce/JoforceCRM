@@ -206,6 +206,7 @@ Head.Class("Head_List_Js", {
 						container.find('form').vtValidate({})
 					}
 				});
+			vtUtils.showSelect2ElementView($('#findDuplicate').find('select.select2'));
 			}
 		})
 	},

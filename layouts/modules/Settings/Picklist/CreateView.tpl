@@ -27,13 +27,13 @@
                 <div class="modal-body">
                 <div class="form-group row">
                         <div class="col-form-label col-sm-4 col-xs-6 pull-left">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
-                        <div class="controls col-sm-6 col-xs-6"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
+                        <div class="controls col-sm-7 col-xs-7"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
                     </div>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
                         <div class="form-group row">	
                             <div class="col-form-label col-sm-4 col-xs-6 pull-left">{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
-                            <div class="controls col-sm-6 col-xs-6">
-                                <select class="rolesList form-control" name="rolesSelected[]" multiple  data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+                            <div class="controls col-sm-7 col-xs-7">
+                                <select class="rolesList  form-control " id="roleselected" name="rolesSelected[]" multiple  data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
                                     <option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
                                     {foreach from=$ROLES_LIST item=ROLE}
                                         <option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')}</option>

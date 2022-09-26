@@ -72,7 +72,7 @@
                 <div class="">
                     {assign var=ROW_VAL value=1}
                     {foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
-                        <div class="row sortFieldRow" style="padding-bottom:10px;">
+                        <div class="row sortFieldRow report_edit" style="padding-bottom:10px;">
                             {include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
                             {assign var=ROW_VAL value=($ROW_VAL+1)}
                         </div>
@@ -80,7 +80,7 @@
                     {assign var=SELECTED_SORT_FEILDS_ARRAY value=$SELECTED_SORT_FIELDS}
                     {assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
                     {while $SELECTED_SORT_FIELDS_COUNT lt 3 }
-                        <div class="row sortFieldRow" style="padding-bottom:10px;">
+                        <div class="row sortFieldRow report_edit" style="padding-bottom:10px;">
                             {include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
                             {assign var=ROW_VAL value=($ROW_VAL+1)}
                             {assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
@@ -88,7 +88,7 @@
                     {/while}
                 </div>
             </div>
-            <div class="row block padding1per">
+            <div class="block padding1per">
                 <div class="padding1per"><strong>{vtranslate('LBL_CALCULATIONS',$MODULE)}</strong></div>
                 <div class="padding1per">
                     <table class="table table-bordered CalculationFields" width="100%">

@@ -574,7 +574,7 @@
 						{vtranslate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-sm-6">
-					<select class="" name="beforeBlockId">
+					<select class="w-100" name="beforeBlockId">
 							{foreach key=BLOCK_ID item=BLOCK_MODEL from=$ALL_BLOCK_LABELS}
 								<option value="{$BLOCK_ID}" data-label="{$BLOCK_MODEL->get('label')}">{vtranslate($BLOCK_MODEL->get('label'), $SELECTED_MODULE_NAME)}</option>
 							{/foreach}

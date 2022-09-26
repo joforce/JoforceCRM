@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <span>
+   
         <div class="col-lg-6">
             <select class="select2  selectedSortFields " name="selectstep2dropdown_{$ROW_VAL}">
                 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
@@ -34,7 +34,7 @@
                 {/foreach}
             </select>
         </div>
-    </span>
+
     <span class="col-lg-6">
         <div class="row">
             <span class="col-lg-6">

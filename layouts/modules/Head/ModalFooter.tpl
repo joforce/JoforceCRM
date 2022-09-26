@@ -18,7 +18,7 @@
             {else}
                 {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
             {/if}
-            <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary cancelLink" type="" name="saveButton" style="background-color:#0162e8!important;border-color:#0162e8!important;"  ><strong>{$BUTTON_LABEL}</strong></button>
+            <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-primary " type="" name="saveButton" style="background-color:#0162e8!important;border-color:#0162e8!important;"  ><strong>{$BUTTON_LABEL}</strong></button>
             <a href="#" class="cancelLink btn btn-danger" type="" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
              {if $BACK != 'false' || $BACK == '1'} 
                 <a class="btn back-button close" {if $BACK_ID neq null} id="{$BACK_ID}" {/if} onclick="{$BACK_URL}" data-dismiss="modal"><strong>Back</strong></a>

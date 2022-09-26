@@ -33,7 +33,7 @@
 				</div>
 			    </div>
 			    <div id="{$BLOCK_NAME}" class="panel-collapse collapse ulBlock {if $ACTIVE_BLOCK['block'] eq $BLOCK_NAME} in {/if}">
-				<ul class="list-group widgetContainer">
+				<ul class="list-group widgetContainer ramchandru">
 				    {foreach item=MENUITEM from=$BLOCK_MENU_ITEMS}
 					{assign var=MENU value= $MENUITEM->get('name')}
 					{assign var=MENU_LABEL value=$MENU}
@@ -56,7 +56,7 @@
 					    {assign var=MENU_URL value=$USER_MODEL->getPicklistDependencyViewUrl()}
 					{/if}
 					<li>
-					    <a data-name="{$MENU}" href="{$MENU_URL}" class="menuItemLabel {if $ACTIVE_BLOCK['menu'] eq $MENU} settingsgroup-menu-color {/if}">
+					    <a data-name="{$MENU}" href="{if $BLOCK_NAME=='LBL_LOGS'} {$SITEURL}PBXManager/view/List {else} {$MENU_URL} {/if}" class="menuItemLabel {if $ACTIVE_BLOCK['menu'] eq $MENU} settingsgroup-menu-color {/if}">
 						<i class="{$MENUITEM->get('iconpath')}"></i>
 						{vtranslate($MENU_LABEL,$QUALIFIED_MODULE)}
 					    </a>

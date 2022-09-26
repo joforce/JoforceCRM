@@ -9,7 +9,7 @@
 ************************************************************************************}
 <div class="modal-dialog">
     <div class="modal-content" id="add-language-modal">
-        <div class="modal-header col-md-12" style="min-height:53px">
+        <div class="modal-header col-md-12 languageEditor" style="min-height:53px">
 	    <strong class=" col-md-6 col-10">{vtranslate('LBL_ADD_LANGUAGE_MESSAGE', $QUALIFIED_MODULE)}</strong>
 	    <button type="button" class="close col-md-1 close_language_editor" aria-label="Close" data-dismiss="modal" style="color: inherit;">
 		<span aria-hidden="true" class="fa fa-close"></span>
@@ -20,17 +20,17 @@
 	    <form class="main-menu-modal-form" id="languageeditor" method="post" action="index.php" enctype="multipart/form-data" >
         	<div class="language-content">
 			<div style="margin-bottom:10px;" class="row">
-                       	<span class="col-md-6">{vtranslate('LBL_LANGUAGE_NAME', $QUALIFIED_MODULE)} :</span>
+                       	<span class="col-md-6 mt-3">{vtranslate('LBL_LANGUAGE_NAME', $QUALIFIED_MODULE)} :</span>
                         <input class="inputElement col-md-6" name="language-name" id="language-name" >
                     </div>
 
                     <div style="margin-bottom:10px;" class="row">
-                       	<span class="col-md-6">{vtranslate('LBL_LANGUAGE_CODE', $QUALIFIED_MODULE)} :</span>
+                       	<span class="col-md-6 mt-3">{vtranslate('LBL_LANGUAGE_CODE', $QUALIFIED_MODULE)} :</span>
                         <input class="inputElement col-md-6" name="language-code" id="language-code">
                     </div>
 		
 		    <div style="margin-bottom:10px;" class="row">
-                    	<span class="col-md-6">{vtranslate('LBL_COPY_FILES_FROM', $QUALIFIED_MODULE)} :</span>
+                    	<span class="col-md-6 mt-3">{vtranslate('LBL_COPY_FILES_FROM', $QUALIFIED_MODULE)} :</span>
                         <select class="select2 inputElement col-md-6" name="language-to-copy" value='' id="language-to-copy">
 			    <option value=''></option>
                             {foreach item=LANGUAGE key=code from=$LANGUAGES}

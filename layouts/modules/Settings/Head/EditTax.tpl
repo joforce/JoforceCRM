@@ -47,7 +47,7 @@
                             <div class="col-lg-5 pull-left mt20 col-6">
                                 <label class="">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
                             </div>
-                            <div class="col-lg-7 col-11">
+                            <div class="col-lg-7 col-11 pl-0">
                                 <input type="hidden" name="deleted" value="1" />
                                 <label style="display:flex;flex-direction:row;justify-content:center">
                                     {* <input type="checkbox" name="deleted" value="0" class="taxStatus" {if $TAX_RECORD_MODEL->isDeleted() eq 0 OR !$TAX_ID} checked {/if} /> *}
@@ -66,10 +66,10 @@
                             <div class="block taxCalculationBlock row">
                                  <!-- <div class="col-lg-1"></div> -->
                                  
-                                 <div class="{if button eq 'addChargeTax'}col-lg-5 pull-left mt20 ml20 col-6 {else} col-lg-5 pull-left mt20 col-6 {/if}">
+                                 <div class="{if $TAX_TYPE neq 1} col-lg-4 pull-left mt20  col-6 {else} col-lg-5 pull-left mt20 col-6  {/if}">
                                     <label class="">{vtranslate('LBL_TAX_CALCULATION', $QUALIFIED_MODULE)}</label>
                                 </div>
-                                <div class="col-lg-6" >
+                                <div class="{if $TAX_TYPE neq 1} col-lg-6 pl-3 {else} col-lg-6 {/if}" >
                                     <label class="span radio-group" id="simple"><input type="radio" name="method" class="input-medium" {if $TAX_RECORD_MODEL->getTaxMethod() eq 'Simple' OR !$TAX_ID}checked{/if} value="Simple" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_SIMPLE', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
                                     <label class="span radio-group" id="compound"><input type="radio" name="method" class="input-medium" {if $TAX_RECORD_MODEL->getTaxMethod() eq 'Compound'}checked{/if} value="Compound" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_COMPOUND', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
                                     {if $TAX_TYPE neq 1}
@@ -102,10 +102,10 @@
                                     
                         <div class="block taxTypeContainer row {if $TAX_RECORD_MODEL->getTaxMethod() eq 'Deducted'}hide{/if}">
                               <!-- <div class="col-lg-1"></div> -->
-                              <div class="col-lg-6 pull-right  mt20">
+                              <div class="col-lg-6 pull-right pr-5 mt20">
                                 <label class="">{vtranslate('LBL_TAX_TYPE', $QUALIFIED_MODULE)}</label>
                             </div>
-                            <div class="col-lg-6 ">
+                            <div class="col-lg-6 pl-2 ">
                                 <label class="span radio-group" id="fixed"><input type="radio" name="taxType" class="input-medium" {if $TAX_RECORD_MODEL->getTaxType() eq 'Fixed' OR !$TAX_ID}checked{/if} value="Fixed" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_FIXED', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
                                 <label class="span radio-group" id="variable"><input type="radio" name="taxType" class="input-medium" {if $TAX_RECORD_MODEL->getTaxType() eq 'Variable'}checked{/if} value="Variable" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_VARIABLE', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
                             </div>
@@ -117,7 +117,7 @@
                             <div class="col-lg-5 pull-right mt20">
                                 <label class="">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
-                            <div class="col-lg-7 ">
+                            <div class="col-lg-7 pl-0">
                                 <div class="input-group " style="min-height:30px;">
                                     <span class="input-group-addon new-icon-data">%</span>
                                     <input class="inputElement" type="text" name="percentage" placeholder="{vtranslate('LBL_ENTER_TAX_VALUE', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getTax()}" data-rule-required="true" data-rule-inventory_percentage="true" />

@@ -716,8 +716,8 @@ header ('Location: '.$site_URL.'index.php'); die();
 							<div style='margin-left: 20%'>
 								<br> <br>
 								<strong> Warning: </strong>Please note that it is not possible to revert back to Joforce
-								v3.1 after the upgrade to Joforce v1.5 <br>
-								So, it is important to take a backup of the Joforce v3.1 files and database before
+								v3.0 after the upgrade to Joforce v1.5 <br>
+								So, it is important to take a backup of the Joforce v3.0 files and database before
 								upgrading.</p><br>
 								<form action="index.php" method="POST">
 									<div><input type="checkbox" id="checkBox1" name="checkBox1" />
@@ -728,11 +728,11 @@ header ('Location: '.$site_URL.'index.php'); die();
 									</div><br>
 									<div><input type="checkbox" id="checkBox2" name="checkBox1" />
 										<div class="chkbox"></div> Replace config/config.inc.php file from Joforce V1.5
-										to Joforce v3.1
+										to Joforce v3.0
 									</div><br>
 									<div><input type="checkbox" id="checkBox3" name="checkBox4" />
 										<div class="chkbox"></div> Replace user_privileges folder files from Joforce
-										V1.5 to Joforce v3.1
+										V1.5 to Joforce v3.0
 									</div><br>
 
 									<!--							<div><input type="checkbox" id="checkBox2" name="checkBox2"/><div class="chkbox"></div> Copy the config.inc.php from root directory to <strong>config/</strong> folder and Change the following values in the <strong>config/config.inc.php file</strong> </div><br>
@@ -800,7 +800,7 @@ header ('Location: '.$site_URL.'index.php'); die();
 							success: function (data) {
 								if (data == true) {
 									
-									alert('Add Joforce v1.5  to v3.1 Config.inc.php');
+									alert('Add Joforce v1.5  to v3.0 Config.inc.php');
 									window.location.reload();
 
 								}

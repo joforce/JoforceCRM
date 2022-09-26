@@ -91,7 +91,7 @@
 				</select>
 			</div>
 			<div class="fieldUiHolder col-sm-4 col-xs-4 col-12">
-				<input type="text" class="inputElement" readonly="" name="fieldValue" value="" />
+				<input type="text" class="inputElement mt-0" readonly="" name="fieldValue" value="" />
 				<input type="hidden" name="valuetype" value="rawtext" />
 			</div>
 		</div>

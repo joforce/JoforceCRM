@@ -38,7 +38,7 @@
 			<div class="modal-body" style="margin-bottom:250px">
 				<div class="datacontent row">
 					<div class="col-lg-3"></div>
-					<div class="col-lg-12">
+					<div class="col-lg-12 pl-0 mt-4">
 						<div class="card card-body exportContents">
 							{if $SOURCE_MODULE eq 'Calendar'}
 								<br><div><b>{vtranslate('LBL_EXPORT_FORMAT',$MODULE)}</b></div><br>
@@ -54,7 +54,7 @@
 								</div>
 							{/if}
 
-							<br><div><b>{vtranslate('LBL_EXPORT_DATA',$MODULE)}</b></div><br>
+							<br><div class="pl-3" ><b>{vtranslate('LBL_EXPORT_DATA',$MODULE)}</b></div><br>
 							<div style="margin-left: 50px;">
 								<div>
 									<input type="radio" name="mode" value="ExportSelectedRecords" id="group1" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if} style="margin:2px 0 -4px" />

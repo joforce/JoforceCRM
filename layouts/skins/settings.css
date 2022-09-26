@@ -357,6 +357,9 @@ table.language-table tbody td.active-editable input.language-input {
 	padding-right: 40px;
 }
 
+.calsetting .table td:nth-child(2) {
+	padding-left: 30px;
+}
 
 .block .fieldValue .alert {
 	margin-left: 30px;
@@ -2659,7 +2662,7 @@ input#APIkey {
 }
 
 .scroll.address-lookup-table {
-	max-height: 400px;
+	/* max-height: 400px; */
 	height: auto;
 }
 
@@ -3253,7 +3256,11 @@ div[name="massEditContent"] .modal-body .form-group .fieldValue {
 	}
 
 	.quick-panel .modal-header {
-		right: -202px;
+		right: -232px !important;
+	}
+
+	.quick-panel .modal-header.languageEditor {
+		right: -232px;
 	}
 }
 

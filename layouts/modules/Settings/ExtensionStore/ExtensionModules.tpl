@@ -80,7 +80,7 @@
 								<div class="" style="text-align:center;">
 									<div class="">
 										{if !$EXTENSION->isHeadCompatible()}
-											<button class="moreDetails addButton" style="border: 2px solid white;padding: 15px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;background-color:rgba(231, 11, 51, 0.68);font-weight:bolder;color:white;border-radius:10px;" data-url="{$EXTENSION->get('Link')}" style="margin-right:5px;">{vtranslate('LBL_MORE_DETAILS', $QUALIFIED_MODULE)}</button>
+											<button class="moreDetails addButton" onclick="window.open('{$EXTENSION->get('Link')}','_blank')" style="border: 2px solid white;padding: 15px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;background-color:rgba(231, 11, 51, 0.68);font-weight:bolder;color:white;border-radius:10px;" data-url="{$EXTENSION->get('Link')}" style="margin-right:5px;">{vtranslate('LBL_MORE_DETAILS', $QUALIFIED_MODULE)}</button>
 											{if $EXTENSION->isAlreadyExists()}
 												{if ($EXTENSION->isUpgradable())}
 													<button class="btn btn-success btn-sm margin0px">
